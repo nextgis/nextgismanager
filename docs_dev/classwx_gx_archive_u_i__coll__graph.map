@@ -1,0 +1,10 @@
+<map id="wxGxArchiveUI" name="wxGxArchiveUI">
+<area shape="rect" id="node2" href="$classwx_gx_archive.html" title="The Archive GxObject. " alt="" coords="142,392,239,419"/>
+<area shape="rect" id="node3" href="$classwx_gx_archive_folder.html" title="The Archive Folder GxObject. " alt="" coords="124,315,257,341"/>
+<area shape="rect" id="node4" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="145,237,236,264"/>
+<area shape="rect" id="node5" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,160,152,187"/>
+<area shape="rect" id="node6" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,160,279,187"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="263,392,355,419"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="380,392,495,419"/>
+</map>

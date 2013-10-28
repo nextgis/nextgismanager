@@ -1,0 +1,7 @@
+<map id="wxClientTCPNetConnection" name="wxClientTCPNetConnection">
+<area shape="rect" id="node2" href="$classwx_g_i_s_net_client_connection.html" title="The network connection interface class. " alt="" coords="7,173,185,200"/>
+<area shape="rect" id="node3" href="$class_i_net_connection.html" title="The network connection interface class. " alt="" coords="230,83,340,109"/>
+<area shape="rect" id="node6" href="$classwx_net_reader_thread.html" title="The network connection reader thread. " alt="" coords="445,173,584,200"/>
+<area shape="rect" id="node8" href="$classwx_net_writer_thread.html" title="The network connection writer thread. " alt="" coords="219,173,351,200"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="91,5,301,32"/>
+</map>

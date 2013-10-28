@@ -1,0 +1,12 @@
+<map id="wxIdentifyTreeItemData" name="wxIdentifyTreeItemData">
+<area shape="rect" id="node3" href="$classwx_g_i_s_geometry.html" title="The OGRGeometry wrapper class. " alt="" coords="320,51,437,77"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="517,125,622,152"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,201,293,228"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="989,137,1139,164"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1304,227,1429,253"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="741,137,832,164"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,151,264,177"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="464,176,675,203"/>
+<area shape="rect" id="node13" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1015,328,1113,355"/>
+<area shape="rect" id="node14" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="743,328,831,355"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="wxGxDBConnections" name="wxGxDBConnections">
+<area shape="rect" id="node2" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="395,237,485,264"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="231,160,379,187"/>
+<area shape="rect" id="node9" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="241,237,369,264"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="259,83,352,109"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="403,160,505,187"/>
+<area shape="rect" id="node7" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="467,315,633,341"/>
+<area shape="rect" id="node8" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="256,315,355,341"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="5,237,216,264"/>
+</map>

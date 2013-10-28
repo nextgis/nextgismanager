@@ -1,0 +1,15 @@
+<map id="wxJSONValue::Item" name="wxJSONValue::Item">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a581149b30c5ac84138c69c5c48007d78" title="Returns informations about the object. " alt="" coords="196,259,351,285"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="442,56,587,83"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_value.html#ae55c86162238b4128a49aca03ede78a4" title="Set the type of the stored value. " alt="" coords="193,107,354,133"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="675,183,855,209"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="420,259,609,285"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="445,360,584,387"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a589b0f879dd3169ee2e7cf4fbed5fe8b" title="Return the array of keys of this JSON object. " alt="" coords="403,208,626,235"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="684,56,847,83"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="904,56,1101,83"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="1149,5,1347,32"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="1174,56,1322,83"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="1152,107,1344,133"/>
+<area shape="rect" id="node14" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="433,107,596,133"/>
+</map>

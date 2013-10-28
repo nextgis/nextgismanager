@@ -1,0 +1,48 @@
+<map id="wxJSONValue::GetType" name="wxJSONValue::GetType">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a75f708e017f3840a8c994f62051dc2a2" title="Return TRUE if the type of the value is wxJSONTYPE_NULL. " alt="" coords="239,5,385,32"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="480,537,632,564"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_value.html#a2872aee9886b348ac438e758d0f9bf18" title="Return TRUE if the type of the value stored is integer. " alt="" coords="243,56,381,83"/>
+<area shape="rect" id="node16" href="$classwx_j_s_o_n_value.html#a4861b38430300f1d589451f979745b64" title="Return TRUE if the type of the value stored is 16&#45;bit integer. " alt="" coords="235,664,389,691"/>
+<area shape="rect" id="node19" href="$classwx_j_s_o_n_value.html#a1cae31eb3519df0ab6c2afb2dbc418b9" title="Return TRUE if the type of the value stored is a unsigned int. " alt="" coords="239,157,385,184"/>
+<area shape="rect" id="node21" href="$classwx_j_s_o_n_value.html#ac64a98596a62906c0b4dfa0a40819a0f" title="Return TRUE if the type of the value stored is a unsigned short. " alt="" coords="231,208,393,235"/>
+<area shape="rect" id="node23" href="$classwx_j_s_o_n_value.html#ae82d2c1bbedc3e34ed392d43360200a4" title="Return TRUE if the stored value is an integer which fits in a long int. " alt="" coords="237,107,387,133"/>
+<area shape="rect" id="node25" href="$classwx_j_s_o_n_value.html#a0efce07ef6405aa33eca8bd938c6e9a1" title="Return TRUE if the stored value is an integer which fits in a unsigned long int. " alt="" coords="232,309,392,336"/>
+<area shape="rect" id="node27" href="$classwx_j_s_o_n_value.html#aaa7dcbee01ccbccbaaf55e489bef9248" title="Return TRUE if the type of the value stored is a boolean. " alt="" coords="237,411,387,437"/>
+<area shape="rect" id="node28" href="$classwx_j_s_o_n_value.html#a84a7b47ab5c32f87014a98aa239b02db" title="Return TRUE if the type of the value stored is a double. " alt="" coords="231,360,393,387"/>
+<area shape="rect" id="node30" href="$classwx_j_s_o_n_value.html#af70a963da46eaa2e80ff94255df9564d" title="Return TRUE if the type of the value stored is a wxString object. " alt="" coords="477,461,635,488"/>
+<area shape="rect" id="node32" href="$classwx_j_s_o_n_value.html#a78aac4d6e204802eeed63377c32bdc1d" title="Return TRUE if the type of the value stored is a pointer to a static C string. " alt="" coords="229,563,395,589"/>
+<area shape="rect" id="node33" href="$classwx_j_s_o_n_value.html#a379ac1a8d9ef32e2d674dd8e9e0aa924" title="Return TRUE if the type of the value stored is an array type. " alt="" coords="479,740,633,767"/>
+<area shape="rect" id="node34" href="$classwx_j_s_o_n_value.html#a2c6b7c0903809221d7eb43aff7257133" title="Return TRUE if the type of this value is a key/value map. " alt="" coords="475,791,637,817"/>
+<area shape="rect" id="node35" href="$classwx_j_s_o_n_value.html#ae8dad636f85bf05253295a44b49dc484" title="Return TRUE if the type of this value is a binary memory buffer. " alt="" coords="216,512,408,539"/>
+<area shape="rect" id="node38" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="736,192,899,219"/>
+<area shape="rect" id="node40" href="$classwx_j_s_o_n_value.html#aa8e56ed1cce96214b5c9151437391c32" title="Returns informations about the object. " alt="" coords="239,840,385,867"/>
+<area shape="rect" id="node41" href="$classwx_j_s_o_n_value.html#ae55c86162238b4128a49aca03ede78a4" title="Set the type of the stored value. " alt="" coords="231,943,393,969"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="981,639,1147,665"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="725,816,910,843"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="725,461,910,488"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="725,664,909,691"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_reader.html#a5caf37fc25e2460f089d025985510b25" title="Store the comment string in the value it refers to. " alt="" coords="713,512,921,539"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="707,613,927,640"/>
+<area shape="rect" id="node12" href="$classwx_client_t_c_p_net_connection.html#a22f483162d910baf7578a925de46cebb" title="Set Properties of plugin. " alt="" coords="727,294,908,335"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="1197,639,1352,665"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="979,563,1149,589"/>
+<area shape="rect" id="node14" href="$classwx_j_s_o_n_value.html#a9223209e7eea4dd4d668869b69560acb" title="Return the stored value as an integer. " alt="" coords="485,56,627,83"/>
+<area shape="rect" id="node15" href="$classwx_j_s_o_n_value.html#ac340d8b912983e0acbcfcb04bcd8ad99" title="Stores the value of this object in the provided argument. " alt="" coords="746,56,889,83"/>
+<area shape="rect" id="node17" href="$classwx_j_s_o_n_value.html#a1819ffbfb0118f101b00c5221ea14984" title="Returns the value as a short integer. " alt="" coords="476,689,636,716"/>
+<area shape="rect" id="node18" href="$classwx_j_s_o_n_value.html#a7793e2b8782f4cbc0240452b0421cc66" title="Converts an array of INTs to a memory buffer. " alt="" coords="704,715,931,741"/>
+<area shape="rect" id="node20" href="$classwx_j_s_o_n_value.html#a154b8956ebca83e3ecd503969cbef6b2" title="Return the stored value as a unsigned int. " alt="" coords="480,157,632,184"/>
+<area shape="rect" id="node22" href="$classwx_j_s_o_n_value.html#a49f3f0bf477f228efdac321954e2ce03" title="Returns the value as a unsigned short integer. " alt="" coords="471,208,641,235"/>
+<area shape="rect" id="node24" href="$classwx_j_s_o_n_value.html#a242c0d23e7f02cf52640e7c4d17bde6f" title="Returns the value as a long integer. " alt="" coords="477,107,635,133"/>
+<area shape="rect" id="node26" href="$classwx_j_s_o_n_value.html#a917861284ceb69c0675b73e7937cb3c0" title="Returns the value as a unsigned long integer. " alt="" coords="473,309,639,336"/>
+<area shape="rect" id="node29" href="$classwx_j_s_o_n_value.html#aabfbf017df18677aa74d90bb36c6bb14" title="Return the stored value as a double. " alt="" coords="471,360,641,387"/>
+<area shape="rect" id="node31" href="$classwx_j_s_o_n_value.html#a1683db15ee6b7bdff96b98f44950f5ce" title="Return this string value in the provided argument. " alt="" coords="736,360,899,387"/>
+<area shape="rect" id="node36" href="$classwx_j_s_o_n_value.html#affb2197fa6f7d4ed58f7a7f08a2f7659" title="Returns the value as a memory buffer. " alt="" coords="457,411,655,437"/>
+<area shape="rect" id="node37" href="$classwx_j_s_o_n_value.html#a8a2a49822290fff83d0408e7887fb355" title="Returns the value as a memory buffer. " alt="" coords="718,243,917,269"/>
+<area shape="rect" id="node39" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="991,192,1137,219"/>
+<area shape="rect" id="node42" href="$classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c" title="Append the specified value in the array. " alt="" coords="477,892,635,919"/>
+<area shape="rect" id="node44" href="$classwx_j_s_o_n_value.html#abf4d4e286a6339465e7b47efe48384e9" title="Clear the object value. " alt="" coords="485,943,627,969"/>
+<area shape="rect" id="node45" href="$classwx_j_s_o_n_value.html#af167cd46c230324f2571801bd231db19" title="Return the item at the specified index. " alt="" coords="487,1145,625,1172"/>
+<area shape="rect" id="node47" href="$classwx_j_s_o_n_value.html#aede1a6d59ba20b3f32c6bbb6e8c8ea99" title="Assign the specified value to this object replacing the old value. " alt="" coords="472,1044,640,1071"/>
+<area shape="rect" id="node43" href="$classwx_j_s_o_n_value.html#a3a72aff6716aeacf421bae0419248705" title="wxJSONValue::Append" alt="" coords="739,917,896,944"/>
+<area shape="rect" id="node46" href="$classwx_j_s_o_n_value.html#a8f0f5b8cc1f8fc41e431725c6f07bbe5" title="Return the item at the specified index. " alt="" coords="733,1145,901,1172"/>
+</map>

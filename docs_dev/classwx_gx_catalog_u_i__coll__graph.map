@@ -1,0 +1,9 @@
+<map id="wxGxCatalogUI" name="wxGxCatalogUI">
+<area shape="rect" id="node2" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="175,315,273,341"/>
+<area shape="rect" id="node3" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="14,237,143,264"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,160,152,187"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="168,237,379,264"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="298,315,389,341"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="415,315,529,341"/>
+</map>

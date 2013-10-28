@@ -1,0 +1,27 @@
+var classwx_g_i_s_search_server_dlg =
+[
+    [ "ID_SEARCHBT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3ab3052796722d0e12e902b79c96baf974", null ],
+    [ "ID_STOPBT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3a0a15817082068cdb1dc3a58127af6fc8", null ],
+    [ "ID_ACCEPT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3a0d094df79ea2a43de3cdbda970a2e2dd", null ],
+    [ "wxGISSearchServerDlg", "classwx_g_i_s_search_server_dlg.html#a1216b50a86215a3f546ad83ef22bf2ff", null ],
+    [ "~wxGISSearchServerDlg", "classwx_g_i_s_search_server_dlg.html#a03629033d9140c72312efedef0bf62fa", null ],
+    [ "AddServer", "classwx_g_i_s_search_server_dlg.html#a0eb4655f46b207188c7d454ac8f7f8af", null ],
+    [ "CreateControls", "classwx_g_i_s_search_server_dlg.html#abfc7e48eb19d4e8d4ed66da7af7506ab", null ],
+    [ "GetConnectionProperties", "classwx_g_i_s_search_server_dlg.html#a8cebd8eb8adafd570fa64b43b42311c0", null ],
+    [ "OnAccept", "classwx_g_i_s_search_server_dlg.html#a9bd2dc1a9601f77c444aefc2df3ed153", null ],
+    [ "OnAcceptUI", "classwx_g_i_s_search_server_dlg.html#a8a0fab503bc81d9801ea52f71a0f596f", null ],
+    [ "OnNetMsg", "classwx_g_i_s_search_server_dlg.html#a2869d01dcebd8f9c3608b68d680571f4", null ],
+    [ "OnSearch", "classwx_g_i_s_search_server_dlg.html#afc4b9a3b398013a0d1a8200dfe1cb19a", null ],
+    [ "OnSearchUI", "classwx_g_i_s_search_server_dlg.html#a7aafe4a1abca58372f36fc91a72fa65f", null ],
+    [ "OnStop", "classwx_g_i_s_search_server_dlg.html#a3c1f64624cada7bb40c77ae5248d16cf", null ],
+    [ "OnStopUI", "classwx_g_i_s_search_server_dlg.html#a00f1676feaee03c99373b781ee15a38c", null ],
+    [ "m_button_accept", "classwx_g_i_s_search_server_dlg.html#a62602264934b4e1d20a912a9477aba2c", null ],
+    [ "m_button_search", "classwx_g_i_s_search_server_dlg.html#af68db41ee810ff093d14744298a65f1d", null ],
+    [ "m_button_stop", "classwx_g_i_s_search_server_dlg.html#a28d6055abaffca4670f0bc3854220f26", null ],
+    [ "m_ImageList", "classwx_g_i_s_search_server_dlg.html#aaef5c92238295016bb695463bc915c23", null ],
+    [ "m_ipaddress", "classwx_g_i_s_search_server_dlg.html#ab6bcd38660df8bc91e791260d4d11e54", null ],
+    [ "m_listCtrl", "classwx_g_i_s_search_server_dlg.html#a2109cdd5df1155ccea08817b1aa10098", null ],
+    [ "m_nConnectionPointCookie", "classwx_g_i_s_search_server_dlg.html#a27243820b3c3dff53b1cd77096d997d5", null ],
+    [ "m_pConnProps", "classwx_g_i_s_search_server_dlg.html#ab63557b8702b99b234f67b57f5f4bb84", null ],
+    [ "m_pFactory", "classwx_g_i_s_search_server_dlg.html#af0aff3f4094c2f1454b144e6b2808c0b", null ]
+];

@@ -1,0 +1,5 @@
+<map id="wxGISRasterDataset" name="wxGISRasterDataset">
+<area shape="rect" id="node2" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="70,173,175,200"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="43,83,201,109"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="227,83,328,109"/>
+</map>

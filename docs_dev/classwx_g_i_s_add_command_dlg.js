@@ -1,0 +1,26 @@
+var classwx_g_i_s_add_command_dlg =
+[
+    [ "CATEGORYMAP", "classwx_g_i_s_add_command_dlg.html#abb2b9f4d5872ade4e671e8f5a236466f", null ],
+    [ "wxGISAddCommandDlg", "classwx_g_i_s_add_command_dlg.html#a24c8d1eb70cf68bddcb2ee2f35a0e85a", null ],
+    [ "~wxGISAddCommandDlg", "classwx_g_i_s_add_command_dlg.html#a18e1d0e37eeed89afa7efc0af66dfbf1", null ],
+    [ "EndModal", "classwx_g_i_s_add_command_dlg.html#ac4bfb5cdac80de4cf736d8530a0a2a2b", null ],
+    [ "FillIDArray", "classwx_g_i_s_add_command_dlg.html#a3bdedc6c9b1449dbd665bf41cb1cd872", null ],
+    [ "OnDoubleClickSash", "classwx_g_i_s_add_command_dlg.html#aee4e2da697ef80257597ccb87dbff9bd", null ],
+    [ "OnListboxSelect", "classwx_g_i_s_add_command_dlg.html#ae0b5e02da0fcde28e4ec70479fa72eeb", null ],
+    [ "OnListctrlActivated", "classwx_g_i_s_add_command_dlg.html#ab0188dbc9d4d9a9e61071384ec6dc8f6", null ],
+    [ "OnOk", "classwx_g_i_s_add_command_dlg.html#aa7605ebd73b1ca7d627244b066c0b7ba", null ],
+    [ "OnUpdateOKUI", "classwx_g_i_s_add_command_dlg.html#ae239dd539c20b98310168c102432080e", null ],
+    [ "SerializeDialogPos", "classwx_g_i_s_add_command_dlg.html#adfb0098d21f0cebf244f245d7cb2de63", null ],
+    [ "SplitterOnIdle", "classwx_g_i_s_add_command_dlg.html#a365480b47f7a00de740335e97314d16b", null ],
+    [ "m_CurSelection", "classwx_g_i_s_add_command_dlg.html#a05c6c312d4c8fe7eddb796430aba95ef", null ],
+    [ "m_IDArray", "classwx_g_i_s_add_command_dlg.html#add7a1c0f8415b9e3eba5b6a7b4c006eb", null ],
+    [ "m_ImageList", "classwx_g_i_s_add_command_dlg.html#a713dcb40a463dae41e34b6ea7029b6cd", null ],
+    [ "m_ListBox", "classwx_g_i_s_add_command_dlg.html#a10e84d447a2a6a878f1f137ddd63fff2", null ],
+    [ "m_ListCtrl", "classwx_g_i_s_add_command_dlg.html#ae22a8e683f8240ee5268e5d9cacc9319", null ],
+    [ "m_nSashPos", "classwx_g_i_s_add_command_dlg.html#abd6c39eb7e7b57254d3b06b66abe759e", null ],
+    [ "m_pGxApp", "classwx_g_i_s_add_command_dlg.html#a40ddf7d3536480c7062549c6dc418614", null ],
+    [ "m_sdbSizer", "classwx_g_i_s_add_command_dlg.html#a420c0858c8ad79072fe6900bd4d1f845", null ],
+    [ "m_sdbSizerCancel", "classwx_g_i_s_add_command_dlg.html#a5d0c5bd44a1cbe207589cda2a839ea25", null ],
+    [ "m_sdbSizerOK", "classwx_g_i_s_add_command_dlg.html#ab88c6c5b9a90000b22583111e0bf9901", null ],
+    [ "m_Splitter", "classwx_g_i_s_add_command_dlg.html#a5130c777662a8ff9418aae1b25ad3ad0", null ]
+];

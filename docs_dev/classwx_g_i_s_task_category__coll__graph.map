@@ -1,0 +1,15 @@
+<map id="wxGISTaskCategory" name="wxGISTaskCategory">
+<area shape="rect" id="node2" href="$classwx_g_i_s_task_base.html" title="The base task class. " alt="" coords="1186,44,1305,71"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_task_manager.html" title="Task Manager Server communicate class. " alt="" coords="1176,391,1315,417"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="133,101,344,128"/>
+<area shape="rect" id="node10" href="$class_i_net_connection.html" title="The network connection interface class. " alt="" coords="526,260,637,287"/>
+<area shape="rect" id="node6" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="171,489,307,516"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_network_service.html" title="A Server side Network Service. " alt="" coords="507,563,656,589"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="863,584,964,611"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_local_client_connection.html" title="The connection to communicate with local Task Manager Server. " alt="" coords="819,360,1008,387"/>
+<area shape="rect" id="node11" href="$classwx_net_reader_thread.html" title="The network connection reader thread. " alt="" coords="844,169,983,196"/>
+<area shape="rect" id="node13" href="$classwx_net_writer_thread.html" title="The network connection writer thread. " alt="" coords="847,305,979,332"/>
+<area shape="rect" id="node19" href="$classwx_msg_out_thread.html" title="A Server output message thread. " alt="" coords="177,543,300,569"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_local_network_service.html" title="A local network server. " alt="" coords="823,533,1003,560"/>
+<area shape="rect" id="node18" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="195,699,282,725"/>
+</map>

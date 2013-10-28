@@ -1,0 +1,9 @@
+<map id="wxJSONReader::AddWarning" name="wxJSONReader::AddWarning">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="517,101,683,128"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a40d5b9959258339765cfa6bf28ff0e4e" title="Skip a comment. " alt="" coords="255,189,457,216"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="263,37,449,64"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="264,88,448,115"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="246,139,466,165"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="733,133,888,160"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="515,164,685,191"/>
+</map>

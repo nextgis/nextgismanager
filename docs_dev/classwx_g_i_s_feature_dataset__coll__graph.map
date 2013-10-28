@@ -1,0 +1,10 @@
+<map id="wxGISFeatureDataset" name="wxGISFeatureDataset">
+<area shape="rect" id="node8" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1288,151,1413,177"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="741,83,832,109"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="517,49,622,76"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,107,293,133"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,5,264,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="464,100,675,127"/>
+<area shape="rect" id="node10" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1015,252,1113,279"/>
+<area shape="rect" id="node11" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="743,252,831,279"/>
+</map>

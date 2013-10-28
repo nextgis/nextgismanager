@@ -1,0 +1,8 @@
+<map id="INetConnection" name="INetConnection">
+<area shape="rect" id="node4" href="$classwx_g_i_s_local_client_connection.html" title="The connection to communicate with local Task Manager Server. " alt="" coords="5,155,195,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_net_client_connection.html" title="The network connection interface class. " alt="" coords="219,155,397,181"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_net_server_connection.html" title="The network server connection interface class. " alt="" coords="421,155,603,181"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="215,5,425,32"/>
+<area shape="rect" id="node6" href="$classwx_client_t_c_p_net_connection.html" title="The connection to communicate with server. " alt="" coords="215,229,396,256"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_local_server_connection.html" title="The network server connection interface class. " alt="" coords="420,229,612,256"/>
+</map>

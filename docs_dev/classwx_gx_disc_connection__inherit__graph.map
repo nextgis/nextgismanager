@@ -1,0 +1,7 @@
+<map id="wxGxDiscConnection" name="wxGxDiscConnection">
+<area shape="rect" id="node7" href="$classwx_gx_disc_connection_u_i.html" title="A Disc Connection GxObject. " alt="" coords="74,379,232,405"/>
+<area shape="rect" id="node2" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="108,229,199,256"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,155,152,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,80,125,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,155,279,181"/>
+</map>

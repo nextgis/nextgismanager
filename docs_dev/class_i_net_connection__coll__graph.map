@@ -1,0 +1,5 @@
+<map id="INetConnection" name="INetConnection">
+<area shape="rect" id="node4" href="$classwx_net_reader_thread.html" title="The network connection reader thread. " alt="" coords="300,173,439,200"/>
+<area shape="rect" id="node6" href="$classwx_net_writer_thread.html" title="The network connection writer thread. " alt="" coords="74,173,205,200"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="5,5,216,32"/>
+</map>

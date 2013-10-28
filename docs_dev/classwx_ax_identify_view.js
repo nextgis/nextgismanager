@@ -1,0 +1,25 @@
+var classwx_ax_identify_view =
+[
+    [ "_filltreedata", "structwx_ax_identify_view_1_1__filltreedata.html", "structwx_ax_identify_view_1_1__filltreedata" ],
+    [ "FILLTREEDATA", "classwx_ax_identify_view.html#af7c9862631fa8998f273837038f128b0", null ],
+    [ "ID_WXGISIDENTIFYVIEW", "classwx_ax_identify_view.html#a2e67fad76806bf6613aba5c88310b590a657c0ce698a5d77308f84e2b89e1784b", null ],
+    [ "wxAxIdentifyView", "classwx_ax_identify_view.html#a3a542d0200edafbeeb9767bbaca07cfa", null ],
+    [ "wxAxIdentifyView", "classwx_ax_identify_view.html#a63218254c1fd1f38c3ee5c7bc2126788", null ],
+    [ "~wxAxIdentifyView", "classwx_ax_identify_view.html#a93eee7c80d7ad3247ecddcf2180f9886", null ],
+    [ "Activate", "classwx_ax_identify_view.html#ad50ab6a734bce18b0a704d0ab2ae268f", null ],
+    [ "Create", "classwx_ax_identify_view.html#af6de4d094dc8fd8f3db3245601a75756", null ],
+    [ "Deactivate", "classwx_ax_identify_view.html#a47f44a352267c03fcc3aa61f5a6894f7", null ],
+    [ "FillTree", "classwx_ax_identify_view.html#a868648f391c13b88666043f40f4bcaac", null ],
+    [ "GetDrawSymbol", "classwx_ax_identify_view.html#ac79d6768a6a83889d2565c68c802c030", null ],
+    [ "GetViewIcon", "classwx_ax_identify_view.html#ac79446306c281dc235b4e0936e460248", null ],
+    [ "GetViewName", "classwx_ax_identify_view.html#a249ce4acb3f690e88c7fe69926ce754e", null ],
+    [ "Identify", "classwx_ax_identify_view.html#aeb5e89d4330641288a41c9e9efecad8a", null ],
+    [ "OnLeftDown", "classwx_ax_identify_view.html#abcd77d7e3688ca8aac56430d2e677a75", null ],
+    [ "OnMenu", "classwx_ax_identify_view.html#a20c0ce1f49dc03e14f346e8986fd80e0", null ],
+    [ "OnSelChanged", "classwx_ax_identify_view.html#a136932a0ff1d629d9d7b3b8bf93823d3", null ],
+    [ "Refresh", "classwx_ax_identify_view.html#a96ec0367c6825a21c13cf315f58a218c", null ],
+    [ "SetViewIcon", "classwx_ax_identify_view.html#a0ee8564a88b4a47eba28be6c350dbe31", null ],
+    [ "m_pApp", "classwx_ax_identify_view.html#a9d03e0e57f990e809975eefa66601933", null ],
+    [ "m_pMapView", "classwx_ax_identify_view.html#afd39a768613cbd9096a962b2f128b675", null ],
+    [ "m_sViewName", "classwx_ax_identify_view.html#a18a3af43cfc87c30d6de52f0e17913d5", null ]
+];

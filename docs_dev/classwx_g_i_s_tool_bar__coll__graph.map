@@ -1,0 +1,13 @@
+<map id="wxGISToolBar" name="wxGISToolBar">
+<area shape="rect" id="node3" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar class. " alt="" coords="183,83,321,109"/>
+<area shape="rect" id="node14" href="$class_i_application.html" title="IApplication" alt="" coords="651,133,740,160"/>
+<area shape="rect" id="node16" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="723,83,841,109"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="201,5,303,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_status_bar.html" title="wxGIS statusbar class. " alt="" coords="302,365,420,392"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_animation.html" title="The rotating globe animation class. " alt="" coords="302,275,420,301"/>
+<area shape="rect" id="node10" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="345,184,433,211"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_progressor.html" title="The progressor (gauge) class. " alt="" coords="445,275,568,301"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="612,275,767,301"/>
+<area shape="rect" id="node15" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="750,184,799,211"/>
+<area shape="rect" id="node17" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="559,184,671,211"/>
+</map>

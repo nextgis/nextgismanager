@@ -1,0 +1,15 @@
+<map id="IGxObjectEditUI" name="IGxObjectEditUI">
+<area shape="rect" id="node2" href="$classwx_gx_archive_folder_u_i.html" title="An archive folder GxObject. " alt="" coords="177,5,322,32"/>
+<area shape="rect" id="node3" href="$classwx_gx_archive_u_i.html" title="An archive GxObject. " alt="" coords="195,56,304,83"/>
+<area shape="rect" id="node4" href="$classwx_gx_catalog_u_i.html" title="The GxCatalogUI class. " alt="" coords="194,107,305,133"/>
+<area shape="rect" id="node5" href="$classwx_gx_disc_connection_u_i.html" title="A Disc Connection GxObject. " alt="" coords="170,157,329,184"/>
+<area shape="rect" id="node6" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="171,208,327,235"/>
+<area shape="rect" id="node7" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="205,259,293,285"/>
+<area shape="rect" id="node8" href="$classwx_gx_folder_u_i.html" title="A folder GxObject. " alt="" coords="198,309,301,336"/>
+<area shape="rect" id="node9" href="$classwx_gx_m_l_dataset_u_i.html" title="A markup language (kml, gml, etc.) dataset GxObject. " alt="" coords="184,360,315,387"/>
+<area shape="rect" id="node10" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="A kml layer GxObject. " alt="" coords="173,411,326,437"/>
+<area shape="rect" id="node11" href="$classwx_gx_prj_file_u_i.html" title="A proj file GxObject. " alt="" coords="197,461,301,488"/>
+<area shape="rect" id="node12" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="174,512,325,539"/>
+<area shape="rect" id="node13" href="$classwx_gx_table_dataset_u_i.html" title="wxGxTableDatasetUI" alt="" coords="178,563,321,589"/>
+<area shape="rect" id="node14" href="$classwx_gx_t_m_s_web_service_u_i.html" title="A TMS Web Service GxObjectUI. " alt="" coords="168,613,331,640"/>
+</map>

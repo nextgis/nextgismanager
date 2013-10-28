@@ -1,0 +1,5 @@
+<map id="IPropertyPage" name="IPropertyPage">
+<area shape="rect" id="node3" href="$classwx_g_i_s_catalog_general_property_page.html" title="The catalog application propeties. " alt="" coords="5,155,232,181"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_g_d_a_l_conf_property_page.html" title="The GDAL Configuration Options property page. " alt="" coords="257,155,457,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_misc_property_page.html" title="The miscellaneous property page. " alt="" coords="482,155,648,181"/>
+</map>

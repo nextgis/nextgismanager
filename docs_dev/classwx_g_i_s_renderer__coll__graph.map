@@ -1,0 +1,9 @@
+<map id="wxGISRenderer" name="wxGISRenderer">
+<area shape="rect" id="node3" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="849,171,941,197"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,248,293,275"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="527,304,633,331"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="475,56,685,83"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,363,264,389"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="529,376,631,403"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="168,413,259,440"/>
+</map>

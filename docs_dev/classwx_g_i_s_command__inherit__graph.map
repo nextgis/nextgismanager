@@ -1,0 +1,13 @@
+<map id="wxGISCommand" name="wxGISCommand">
+<area shape="rect" id="node3" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="358,31,407,57"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_carto_main_cmd.html" title="The carto main commands. " alt="" coords="309,81,456,108"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_catalog_main_cmd.html" title="The main catalog commands. " alt="" coords="303,132,462,159"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_catalog_views_cmd.html" title="wxGISCatalogViewsCmd" alt="" coords="299,183,466,209"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_common_cmd.html" title="wxGISCommonCmd" alt="" coords="313,233,452,260"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_create_new_cmd.html" title="The new commands for create various data types. " alt="" coords="307,284,458,311"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_new_menu.html" title="The new menu class. " alt="" coords="324,335,441,361"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_task_cmd.html" title="wxGISTaskCmd" alt="" coords="325,385,440,412"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_tool_bar_menu.html" title="wxGISToolBarMenu" alt="" coords="315,436,451,463"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_carto_frame_tool.html" title="The carto frame tools and commands. " alt="" coords="515,5,667,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_carto_main_tool.html" title="The carto main tool. " alt="" coords="519,56,662,83"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="wxAxIdentifyView::_filltreedata" name="wxAxIdentifyView::_filltreedata">
+<area shape="rect" id="node2" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="849,135,941,161"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="1100,203,1212,229"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="475,108,685,135"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,179,293,205"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="527,231,633,257"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,229,264,256"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="529,7,631,33"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="168,7,259,33"/>
+</map>

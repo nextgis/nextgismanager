@@ -1,0 +1,6 @@
+<map id="IViewDropTarget" name="IViewDropTarget">
+<area shape="rect" id="node2" href="$classwx_gx_content_view.html" title="The catalog content view class. " alt="" coords="23,80,151,107"/>
+<area shape="rect" id="node4" href="$classwx_gx_tab.html" title="A tab in tab view. " alt="" coords="175,80,251,107"/>
+<area shape="rect" id="node5" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="275,80,383,107"/>
+<area shape="rect" id="node3" href="$classwx_gx_dialog_content_view.html" title="The content view class on center of GxObjDialog. " alt="" coords="5,155,168,181"/>
+</map>

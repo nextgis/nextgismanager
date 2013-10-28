@@ -1,0 +1,12 @@
+<map id="wxGxDiscConnectionsUI" name="wxGxDiscConnectionsUI">
+<area shape="rect" id="node2" href="$classwx_gx_disc_connections.html" title="The Disc Connections GxRootObject. " alt="" coords="174,328,327,355"/>
+<area shape="rect" id="node3" href="$classwx_gx_j_s_o_n_connection_storage.html" title="The class support for storing and updating json file connections. " alt="" coords="5,237,203,264"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="30,160,177,187"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="57,83,151,109"/>
+<area shape="rect" id="node7" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="227,237,393,264"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="351,328,443,355"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_sort.html" title="A Interface class for GxObject sort order in GxObjectContainer. " alt="" coords="468,328,572,355"/>
+<area shape="rect" id="node10" href="$classwx_gx_auto_renamer.html" title="Begin Rename created object. " alt="" coords="597,328,731,355"/>
+<area shape="rect" id="node11" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="623,237,705,264"/>
+<area shape="rect" id="node12" href="$class_i_view.html" title="A View interface class. " alt="" coords="637,160,691,187"/>
+</map>

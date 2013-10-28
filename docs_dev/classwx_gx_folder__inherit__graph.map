@@ -1,0 +1,16 @@
+<map id="wxGxFolder" name="wxGxFolder">
+<area shape="rect" id="node6" href="$classwx_gx_archive_folder.html" title="The Archive Folder GxObject. " alt="" coords="643,56,776,83"/>
+<area shape="rect" id="node10" href="$classwx_gx_d_b_connections.html" title="The database connections root item. " alt="" coords="637,107,782,133"/>
+<area shape="rect" id="node12" href="$classwx_gx_disc_connection.html" title="A Disc Connection GxObject. " alt="" coords="636,157,783,184"/>
+<area shape="rect" id="node14" href="$classwx_gx_folder_u_i.html" title="A folder GxObject. " alt="" coords="658,208,761,235"/>
+<area shape="rect" id="node15" href="$classwx_gx_web_connections.html" title="The web services connections root item. " alt="" coords="632,259,787,285"/>
+<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="297,132,445,159"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="155,132,248,159"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="319,183,422,209"/>
+<area shape="rect" id="node7" href="$classwx_gx_archive.html" title="The Archive GxObject. " alt="" coords="870,5,967,32"/>
+<area shape="rect" id="node9" href="$classwx_gx_archive_folder_u_i.html" title="An archive folder GxObject. " alt="" coords="846,56,991,83"/>
+<area shape="rect" id="node8" href="$classwx_gx_archive_u_i.html" title="An archive GxObject. " alt="" coords="1051,5,1160,32"/>
+<area shape="rect" id="node11" href="$classwx_gx_d_b_connections_u_i.html" title="The database connections root item in user interface. " alt="" coords="840,107,997,133"/>
+<area shape="rect" id="node13" href="$classwx_gx_disc_connection_u_i.html" title="A Disc Connection GxObject. " alt="" coords="839,157,998,184"/>
+<area shape="rect" id="node16" href="$classwx_gx_web_connections_u_i.html" title="The web service connections root item in user interface. " alt="" coords="835,259,1002,285"/>
+</map>

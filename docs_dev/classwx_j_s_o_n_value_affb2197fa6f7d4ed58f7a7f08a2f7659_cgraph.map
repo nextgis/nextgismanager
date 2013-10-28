@@ -1,0 +1,5 @@
+<map id="wxJSONValue::AsMemoryBuff" name="wxJSONValue::AsMemoryBuff">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="705,5,885,32"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#ae8dad636f85bf05253295a44b49dc484" title="Return TRUE if the type of this value is a binary memory buffer. " alt="" coords="253,31,445,57"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="493,31,656,57"/>
+</map>

@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['addcomment',['AddComment',['../classwx_j_s_o_n_value.html#a2178b6fa0ca8bb4d7b29bd4251f09b35',1,'wxJSONValue::AddComment(const wxString &amp;str, int position=wxJSONVALUE_COMMENT_DEFAULT)'],['../classwx_j_s_o_n_value.html#a734b496d9027169832346bea126f9c5f',1,'wxJSONValue::AddComment(const wxArrayString &amp;comments, int position=wxJSONVALUE_COMMENT_DEFAULT)']]],
+  ['adderror',['AddError',['../classwx_j_s_o_n_reader.html#ab51d0f12485c585fc6cd8b86d909ac30',1,'wxJSONReader::AddError(const wxString &amp;descr)'],['../classwx_j_s_o_n_reader.html#af01a3c6fc2e9d4f1ef841bb3f74e622a',1,'wxJSONReader::AddError(const wxString &amp;fmt, const wxString &amp;str)'],['../classwx_j_s_o_n_reader.html#a378d0cf3ed3af594c421434284eb2be4',1,'wxJSONReader::AddError(const wxString &amp;fmt, wxChar ch)']]],
+  ['addwarning',['AddWarning',['../classwx_j_s_o_n_reader.html#a17ca424dc515b6f1cc400e0719479e2f',1,'wxJSONReader']]],
+  ['allocexclusive',['AllocExclusive',['../classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2',1,'wxJSONValue']]],
+  ['append',['Append',['../classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c',1,'wxJSONValue::Append(const wxJSONValue &amp;value)'],['../classwx_j_s_o_n_value.html#af4ad4863074c6bd96f8d9ca5167e5cd0',1,'wxJSONValue::Append(bool b)'],['../classwx_j_s_o_n_value.html#a3a72aff6716aeacf421bae0419248705',1,'wxJSONValue::Append(int i)'],['../classwx_j_s_o_n_value.html#a4809c5a5bbfd011a017bde8ef6c3cdf5',1,'wxJSONValue::Append(unsigned int ui)'],['../classwx_j_s_o_n_value.html#a40d3a578962c209aa8cb65f2b532ab6f',1,'wxJSONValue::Append(short int i)'],['../classwx_j_s_o_n_value.html#a6754c7eb89293798abaad3515c84d70c',1,'wxJSONValue::Append(long int l)'],['../classwx_j_s_o_n_value.html#aee3ea955c2c3d4df6b5172d4ff2427ab',1,'wxJSONValue::Append(double d)'],['../classwx_j_s_o_n_value.html#a6ce6dd139786a1bca331ecf7c87bf4bc',1,'wxJSONValue::Append(const wxChar *str)'],['../classwx_j_s_o_n_value.html#adb1c3e3a91ceb334244b00d7ff46656c',1,'wxJSONValue::Append(const wxString &amp;str)'],['../classwx_j_s_o_n_value.html#aee5f334dd8806bb91c4b4204a88e9469',1,'wxJSONValue::Append(const wxMemoryBuffer &amp;buff)'],['../classwx_j_s_o_n_value.html#a805e266c57de857b318dc2e59020a6d2',1,'wxJSONValue::Append(const void *buff, size_t len)']]],
+  ['appendues',['AppendUES',['../classwx_j_s_o_n_reader.html#a3acd7665d5c519f6d7488beceb90f048',1,'wxJSONReader']]],
+  ['apply',['Apply',['../classwx_g_i_s_catalog_general_property_page.html#ad9325cab78667f4a3ca87d730a36d718',1,'wxGISCatalogGeneralPropertyPage::Apply()'],['../class_i_property_page.html#afd948a0ada13ec3c0096354e24914b76',1,'IPropertyPage::Apply()'],['../classwx_g_i_s_misc_property_page.html#a05e3ce08c34a44f9458c3de6e4d13802',1,'wxGISMiscPropertyPage::Apply()'],['../classwx_g_i_s_g_d_a_l_conf_property_page.html#afeb2cd9ca0b57a95d053f29e1f6f99fa',1,'wxGISGDALConfPropertyPage::Apply()']]],
+  ['arraytomemorybuff',['ArrayToMemoryBuff',['../classwx_j_s_o_n_value.html#a7793e2b8782f4cbc0240452b0421cc66',1,'wxJSONValue']]],
+  ['asarray',['AsArray',['../classwx_j_s_o_n_value.html#a7f119169edbd8f0a2c7b552c53ba08f0',1,'wxJSONValue']]],
+  ['asbool',['AsBool',['../classwx_j_s_o_n_value.html#a215dd59ebc4e6ab0e75caa3421cc9ed6',1,'wxJSONValue']]],
+  ['ascstring',['AsCString',['../classwx_j_s_o_n_value.html#aee2b1ea5667255f1c157342cd4177862',1,'wxJSONValue']]],
+  ['asdouble',['AsDouble',['../classwx_j_s_o_n_value.html#aabfbf017df18677aa74d90bb36c6bb14',1,'wxJSONValue']]],
+  ['asint',['AsInt',['../classwx_j_s_o_n_value.html#a9223209e7eea4dd4d668869b69560acb',1,'wxJSONValue::AsInt() const '],['../classwx_j_s_o_n_value.html#ac340d8b912983e0acbcfcb04bcd8ad99',1,'wxJSONValue::AsInt(int &amp;i) const ']]],
+  ['aslong',['AsLong',['../classwx_j_s_o_n_value.html#a242c0d23e7f02cf52640e7c4d17bde6f',1,'wxJSONValue']]],
+  ['asmap',['AsMap',['../classwx_j_s_o_n_value.html#af4740508a910a5ac96ca8c81a01037e2',1,'wxJSONValue']]],
+  ['asmemorybuff',['AsMemoryBuff',['../classwx_j_s_o_n_value.html#affb2197fa6f7d4ed58f7a7f08a2f7659',1,'wxJSONValue::AsMemoryBuff() const '],['../classwx_j_s_o_n_value.html#a8a2a49822290fff83d0408e7887fb355',1,'wxJSONValue::AsMemoryBuff(wxMemoryBuffer &amp;buff) const ']]],
+  ['asshort',['AsShort',['../classwx_j_s_o_n_value.html#a1819ffbfb0118f101b00c5221ea14984',1,'wxJSONValue']]],
+  ['asstring',['AsString',['../classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250',1,'wxJSONValue::AsString() const '],['../classwx_j_s_o_n_value.html#a1683db15ee6b7bdff96b98f44950f5ce',1,'wxJSONValue::AsString(wxString &amp;str) const ']]],
+  ['asuint',['AsUInt',['../classwx_j_s_o_n_value.html#a154b8956ebca83e3ecd503969cbef6b2',1,'wxJSONValue']]],
+  ['asulong',['AsULong',['../classwx_j_s_o_n_value.html#a917861284ceb69c0675b73e7937cb3c0',1,'wxJSONValue']]],
+  ['asushort',['AsUShort',['../classwx_j_s_o_n_value.html#a49f3f0bf477f228efdac321954e2ce03',1,'wxJSONValue']]]
+];
