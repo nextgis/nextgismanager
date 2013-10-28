@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-11-20 04:24+0400\n"
+"Last-Translator: Bishop <polimax@mail.ru>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\display\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\display\n"
+
+#~ msgid "wxGISRasterDataset: Open failed! Path '%s'. GDAL error: %s"
+#~ msgstr "wxGISRasterDataset: Невозможно открыть! Путь '%s'. Ошибка GDAL: %s"
+
+#~ msgid "wxGISRasterDataset: Open failed! Path '%s'. Raster has no bands"
+#~ msgstr ""
+#~ "wxGISRasterDataset: Невозможно открыть! Путь '%s'. Нет каналов в растре"
+
+#, fuzzy
+#~ msgid "RasterIO failed! GDAL error: %s"
+#~ msgstr "wxGISRasterDataset: Невозможно открыть! Путь '%s'. Ошибка GDAL: %s"
+
+#~ msgid "Error open input file! OGR error: "
+#~ msgstr "Не возможно открыть входной файл! Ошибка OGR:"
+
+#~ msgid "Error create the output file '%s'! OGR error: "
+#~ msgstr "Не возможно создать выходной файл! Ошибка OGR: "
+
+#, fuzzy
+#~ msgid "wxGISTable: Open failed! Path '%s'. OGR error: %s"
+#~ msgstr "wxGISFeatureDataset: Невозможно открыть! Путь '%s'.Ошибка OGR: %s"
+
+#~ msgid "%d-%m-%Y"
+#~ msgstr "%d-%m-%Y"
+
+#~ msgid "%H:%M:%S"
+#~ msgstr "%H:%M:%S"
+
+#~ msgid "%d-%m-%Y %H:%M:%S"
+#~ msgstr "%d-%m-%Y %H:%M:%S"
+
+#~ msgid "The driver '%s' is not available! OGR error: "
+#~ msgstr "Драйвер '%s' не доступен! Ошибка OGR: "
+
+#~ msgid "Error create the output layer '%s'! OGR error: "
+#~ msgstr "Не удалось создать выходной слой '%s'! Ошибка OGR: "
+
+#~ msgid "%.6f"
+#~ msgstr "%.6f"
+
+#~ msgid ""
+#~ "wxGISPostGISDataset: Open failed! Host '%s', Database name '%s', Port='%"
+#~ "s'. OGR error: %s"
+#~ msgstr ""
+#~ "wxGISPostGISDataset: Невозможно открыть! Хост '%s', Имя базы данных '%s', "
+#~ "Порт='%s'. Ошибка OGR: %s"
+
+#~ msgid "Failed to allocate %d byte buffer to hold xml file."
+#~ msgstr "Невозможно создать  буфер размером %d для записи файла xml."
+
+#~ msgid "Failed to read %d bytes from xml file."
+#~ msgstr "Невозможно прочитать %d байт xml файла."
+
+#~ msgid "Error create destination file! OGR error: "
+#~ msgstr "Не возможно создать выходной файл! Ошибка OGR:"
+
+#~ msgid "Creation of output file '%s' failed"
+#~ msgstr "Не удалось создать выходной файл '%s'"

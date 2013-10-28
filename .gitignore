@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+#build directories
+build*
+
+#temporary removed
+include/wxgis/0*
+src/0*

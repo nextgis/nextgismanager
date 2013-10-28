@@ -1,0 +1,339 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:49+0400\n"
+"PO-Revision-Date: 2011-11-20 04:50+0400\n"
+"Last-Translator: Bishop (aka Barishnikov Dmitriy) <polimax@mail.ru>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\app\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\app\n"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:92
+#, c-format
+msgid ""
+"\n"
+"wxGIS [%s]\n"
+"Version: %s"
+msgstr ""
+"\n"
+"wxGIS [%s]\n"
+"Версия: %s"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:129
+#, c-format
+msgid ""
+"wxGIS [%s]\n"
+"\n"
+"Version: %s\n"
+"\n"
+"Build: %s\n"
+"\n"
+"(c) 2009-%d Dmitry Barishnikov (Bishop)\n"
+"\n"
+"http://wxgis.googlecode.com/"
+msgstr ""
+"wxGIS [%s]\n"
+"\n"
+"Версия: %s\n"
+"\n"
+"Сборка: %s\n"
+"\n"
+"(c) 2009-%d Дмитрий Барышников (Bishop)\n"
+"\n"
+"http://wxgis.googlecode.com/"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:130
+msgid "About application"
+msgstr "О программе"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:150
+#, c-format
+msgid ""
+"HOST '%s'\n"
+"\n"
+"OS desc - %s\n"
+"\n"
+"Free memory - %u Mb\n"
+"\n"
+"Libs:\n"
+"\n"
+"GDAL %s\n"
+"GEOS %s\n"
+"PROJ %s\n"
+"%s\n"
+"CAIRO %s"
+msgstr ""
+"Хост  '%s'\n"
+"\n"
+"ОС - %s\n"
+"\n"
+"Свободная память - %u Mb\n"
+"\n"
+"Библиотеки:\n"
+"\n"
+"GDAL %s\n"
+"GEOS %s\n"
+"PROJ %s\n"
+"%s\n"
+"CAIRO %s"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:151
+msgid ""
+"\n"
+"\n"
+"GDAL Drivers:\n"
+msgstr ""
+"\n"
+"\n"
+"Драйверы GDAL:\n"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:153
+msgid ""
+"\n"
+"OGR Drivers:\n"
+msgstr ""
+"\n"
+"Драйверы OGR:\n"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:155
+msgid ""
+"\n"
+"* - The drivers only compiled in GDAL lib and may not supported by wxGIS."
+msgstr ""
+"\n"
+"* - Драйверы только скомпилированы в библиотеке GDAL и могут не поддерживаться wxGIS."
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:156
+msgid "About system"
+msgstr "О системе"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:158
+msgid ""
+"Thanks GIS-LAB team for help in translating the interface, testing and searching for errors.\n"
+"Special thanks to Maxim Dubinin"
+msgstr "Спасибо команде ГИС-LAB за помощь в переводе интерфейса, тестировании и поиске ошибок.Отдельное спасибо Максиму Дубинину"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:158
+msgid "Thanks"
+msgstr "Благодарности"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:159
+msgid ""
+"This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"\n"
+"See the GNU General Public License for more details.\n"
+"You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>"
+msgstr "Эта программа является свободным программным обеспечением: вы можете распространять и/или модифицировать его в соответствии с условиями GNU General Public License, опубликованной Free Software Foundation, версии 3 Лицензии, либо (по вашему выбору) любой более поздней версии. Эта программа распространяется в надежде, что она будет полезной, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, даже без подразумеваемых гарантий КОММЕРЧЕСКОЙ ЦЕННОСТИ или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ. См. GNU General Public License для более подробной информации. Вы должны были получить копию GNU General Public License вместе с этой программой. Если нет, см. <http://www.gnu.org/licenses/>"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:159
+msgid "License"
+msgstr "Лицензия"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:164
+msgid "Close"
+msgstr "Закрыть"
+
+#: D:\work\Projects\wxGIS\include\wxgis\app/gisaboutdlg.h:67
+msgid "About"
+msgstr "О программе"
+
+#~ msgid "Crypt: Failed EVP_EncryptInit!"
+#~ msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
+
+#~ msgid "Crypt: Failed EVP_EncryptUpdate!"
+#~ msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
+
+#~ msgid "Decrypt: Failed EVP_DecryptInit!"
+#~ msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
+
+#~ msgid "Decrypt: Failed EVP_DecryptUpdate!"
+#~ msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
+
+#~ msgid "W"
+#~ msgstr "ЗД"
+
+#~ msgid "S"
+#~ msgstr "ЮШ"
+
+#~ msgid "E"
+#~ msgstr "ВД"
+
+#~ msgid "N"
+#~ msgstr "СШ"
+
+#~ msgid "wxGISAppWithLibs: Library %s loaded"
+#~ msgstr "wxGISAppWithLibs: Библиотека %s загружена"
+
+#~ msgid "wxGISAppWithLibs: Error loading library %s"
+#~ msgstr "wxGISAppWithLibs: Ошибка загрузки библиотеки %s"
+
+#~ msgid "wxGISInitializer: %s %s is initializing..."
+#~ msgstr "wxGISInitializer: %s %s инициализируется..."
+
+#~ msgid "wxGISInitializer: System dir is absent! Lookup path '%s'"
+#~ msgstr ""
+#~ "wxGISInitializer: Не удалось найти директорию системных настроек! "
+#~ "Путьпоиска '%s'"
+
+#~ msgid "wxGISInitializer: Failed to get log dir"
+#~ msgstr "wxGISInitializer: Не удалось получить директорию файлов журналов"
+
+#~ msgid "wxGISInitializer: Failed to open log file %s"
+#~ msgstr "wxGISInitializer: Не удалось открыть файл журнала %s"
+
+#~ msgid "HOST '%s': OS desc - %s, free memory - %u Mb"
+#~ msgstr "Хост  '%s': ОС - %s, свободная память - %u Mb"
+
+#~ msgid "wxGISInitializer: Log file: %s"
+#~ msgstr "wxGISInitializer: Файл журнала: %s"
+
+#~ msgid "wxGISInitializer: Initialize locale"
+#~ msgstr "wxGISInitializer: Инициализация локализации"
+
+#~ msgid "wxGISInitializer: Language is set to %s"
+#~ msgstr "wxGISInitializer: Выбран язык %s"
+
+#~ msgid "Stream Wait"
+#~ msgstr "Поток ожидания"
+
+#~ msgid "The execution communication is unavalible!"
+#~ msgstr "Команда недоступна!"
+
+#~ msgid "wxGISCore"
+#~ msgstr "wxGISCore"
+
+#~ msgid "%s: Can't create %s Thread!"
+#~ msgstr "%s: Не возможно создать поток %s!"
+
+#~ msgid "%s: Can't run %s Thread!"
+#~ msgstr "%s: Не возможно запустить поток %s!"
+
+#~ msgid "&Full Extent"
+#~ msgstr "&Полный охват"
+
+#~ msgid "&Previous Extent"
+#~ msgstr "П&редыдущий охват"
+
+#~ msgid "&Next Extent"
+#~ msgstr "&Следующий охват"
+
+#~ msgid "Geography"
+#~ msgstr "География"
+
+#~ msgid "[No category]"
+#~ msgstr "[Без категории]"
+
+#~ msgid "Full extent of the map"
+#~ msgstr "Полный охват карты"
+
+#~ msgid "Previous extent of the map"
+#~ msgstr "Предыдущий охват карты"
+
+#~ msgid "Next extent of the map"
+#~ msgstr "Следующий охват карты"
+
+#~ msgid "Full Extent"
+#~ msgstr "Полный охват"
+
+#~ msgid "Previous Extent"
+#~ msgstr "Предыдущий охват"
+
+#~ msgid "Next Extent"
+#~ msgstr "Следующий охват"
+
+#~ msgid "Zoom &In"
+#~ msgstr "&Увеличить"
+
+#~ msgid "Zoom &Out"
+#~ msgstr "У&меньшить"
+
+#~ msgid "&Pan"
+#~ msgstr "&Сдвинуть"
+
+#~ msgid "&Information"
+#~ msgstr "&Информация"
+
+#~ msgid "Zoom map in"
+#~ msgstr "Увеличить карту"
+
+#~ msgid "Zoom map out"
+#~ msgstr "Уменьшить карту"
+
+#~ msgid "Pan map"
+#~ msgstr "Сдвинуть карту"
+
+#~ msgid "Feature information"
+#~ msgstr "Информация об объекте"
+
+#~ msgid "Zoom In"
+#~ msgstr "Увеличить"
+
+#~ msgid "Zoom Out"
+#~ msgstr "Уменьшить"
+
+#~ msgid "Pan"
+#~ msgstr "Сдвинуть"
+
+#~ msgid "Information"
+#~ msgstr "Информация"
+
+#~ msgid "&Rotate"
+#~ msgstr "Пов&ернуть"
+
+#~ msgid "Cancel rotate"
+#~ msgstr "Отменить поворот"
+
+#~ msgid "Input rotate angle"
+#~ msgstr "Ввести угол поворота"
+
+#, fuzzy
+#~ msgid "Location:"
+#~ msgstr "Информация"
+
+#, fuzzy
+#~ msgid "<Top layer>"
+#~ msgstr "новый слой"
+
+#, fuzzy
+#~ msgid "Zoom"
+#~ msgstr "Увеличить"
+
+#~ msgid "Record:"
+#~ msgstr "Запись:"
+
+#~ msgid "of %u"
+#~ msgstr "из %u"
+
+#~ msgid "new map"
+#~ msgstr "новая карта"
+
+#~ msgid "wxGISFeatureLayer: Open failed! GDAL error: %s"
+#~ msgstr "wxGISFeatureLayer: Ошибка открытия! Ошибка GDAL: %s"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid "Done"
+#~ msgstr "Сделано"
+
+#~ msgid "AdviseRead failed! GDAL error: %s"
+#~ msgstr "AdviseRead не удалось! Ошибка GDAL: %s"
+
+#~ msgid "RasterIO failed! GDAL error: %s"
+#~ msgstr "RasterIO не удалось! Ошибка GDAL: %s"
+
+#~ msgid " [*]"
+#~ msgstr " [*]"
+
+#~ msgid "wxGISMapView: Can't run wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно запустить wxDrawingThread!"

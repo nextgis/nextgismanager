@@ -1,0 +1,439 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-12-28 13:33+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: Juhele <jan.helebrant@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\loc\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"PO-Revision-Date: \n"
+"X-Poedit-SearchPath-0: C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\include\\wxgis\n"
+
+#: D:\work\Projects\wxGIS\src\framework/addcommanddlg.cpp:69
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:67
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:683
+msgid "Command Name"
+msgstr "Název příkazu"
+
+#: D:\work\Projects\wxGIS\src\framework/addcommanddlg.cpp:70
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:68
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:684
+msgid "Description"
+msgstr "Popis"
+
+#: D:\work\Projects\wxGIS\src\framework/addcommanddlg.cpp:71
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:69
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:685
+msgid "KeyCode"
+msgstr "Klávesová zkratka"
+
+#: D:\work\Projects\wxGIS\src\framework/addcommanddlg.cpp:78
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:90
+#: D:\work\Projects\wxGIS\src\framework/keycodedlg.cpp:127
+msgid "OK"
+msgstr "ОК"
+
+#: D:\work\Projects\wxGIS\src\framework/addcommanddlg.cpp:80
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:92
+msgid "Cancel"
+msgstr "Storno"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:707
+msgid "Ready"
+msgstr "Připraven"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:790
+msgid "Get config failed!"
+msgstr "Získání konfigu selhalo!"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:790
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:797
+msgid "Error"
+msgstr "Chyba"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:797
+msgid "No Property Pages"
+msgstr "Žádné stránky vlastností"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:803
+msgid "Options"
+msgstr "Vlastnosti"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:852
+msgid "wxGISApplication: Failed to get log folder"
+msgstr "wxGISApplication: Chyba při získávání složky s výpisy (logy)"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:867
+#, c-format
+msgid "wxGISApplication: Failed to open log file %s"
+msgstr "wxGISApplication: Chyba při otvírání souboru výpisů %s"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:879
+#, c-format
+msgid "HOST '%s': OS desc - %s, free memory - %u Mb"
+msgstr "HOST '%s': OS popis - %s, volná paměť - %u Mb"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:880
+#, c-format
+msgid "wxGISApplication: %s %s is initializing..."
+msgstr "wxGISApplication: %s %s se spouští..."
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:881
+#, c-format
+msgid "wxGISApplication: Log file: %s"
+msgstr "wxGISApplication: Soubor výpisů: %s"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:891
+#, c-format
+msgid "wxGISCatalogApp: System folder is absent! Lookup path '%s'"
+msgstr "wxGISCatalogApp: Chybí systémová složka! Prohledávaná cesta '%s'"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:899
+msgid "wxGISApplication: Initialize locale"
+msgstr "wxGISApplication: Spouštím lokalizaci"
+
+#: D:\work\Projects\wxGIS\src\framework/application.cpp:914
+#, c-format
+msgid "wxGISApplication: Language is set to %s"
+msgstr "wxGISApplication: Jazyk nastaven na %s"
+
+#: D:\work\Projects\wxGIS\src\framework/applicationex.cpp:183
+msgid "wxGISApplicationEx: Start. Creating main application frame..."
+msgstr "wxGISApplicationEx: Start. Vytvářím hlavní okno aplikace..."
+
+#: D:\work\Projects\wxGIS\src\framework/applicationex.cpp:203
+msgid "wxGISApplicationEx: Creation complete"
+msgstr "wxGISApplicationEx: Vytváření hotovo"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:68
+msgid "E&xit"
+msgstr "K&onec"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:70
+msgid "&About..."
+msgstr "&О programu..."
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:72
+msgid "Customize..."
+msgstr "Přizpůsobit..."
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:74
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:173
+msgid "Separator"
+msgstr "Oddělovač"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:76
+msgid "StatusBar"
+msgstr "Stavová lišta"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:78
+msgid "Options..."
+msgstr "Vlastnosti..."
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:89
+msgid "File"
+msgstr "Soubor"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:91
+msgid "Help"
+msgstr "Nápověda"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:94
+msgid "View"
+msgstr "Zobrazit"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:96
+msgid "Tools"
+msgstr "Nástroje"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:99
+msgid "[No category]"
+msgstr "[Bez kategorie]"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:167
+msgid "Exit application"
+msgstr "Ukončit program"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:169
+msgid "About application"
+msgstr "O programu"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:171
+msgid "Customize application"
+msgstr "Přizpůsobit aplikaci"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:175
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:229
+msgid "Show/Hide Statusbar"
+msgstr "Zobrazit/skrýt stavovou lištu"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:177
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:231
+msgid "Application options"
+msgstr "Možnosti programu"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:223
+msgid "Exit"
+msgstr "Konec"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:225
+msgid "About"
+msgstr "О programu"
+
+#: D:\work\Projects\wxGIS\src\framework/command.cpp:227
+msgid "Customize"
+msgstr "Přizpůsobit"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:35
+msgid "New CommandBar"
+msgstr "Nová lišta nástrojů"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:47
+msgid "Name"
+msgstr "Název"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:54
+msgid "Caption"
+msgstr "Titulek"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:61
+msgid "Type"
+msgstr "Тyp"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:65
+msgid "Menu"
+msgstr "Меnu"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:65
+msgid "Context menu"
+msgstr "Kontextové menu"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:65
+msgid "ToolBar"
+msgstr "Panel nástrojů"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:71
+msgid "Left dockable"
+msgstr "Dokovatelný vlevo"
+
+#: D:\work\Projects\wxGIS\src\framework/createcbdlg.cpp:79
+msgid "Right dockable"
+msgstr "Dokovatelný vpravo"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:76
+msgid "Create toolbar/menu"
+msgstr "Vytvořit panel nástrojů/menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:79
+msgid "Delete toolbar/menu"
+msgstr "Smazat panel nástrojů/menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:82
+msgid "Add button"
+msgstr "Přidat tlačítko"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:85
+msgid "Remove button"
+msgstr "Odstranit tlačítko"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:88
+msgid "Move up"
+msgstr "Posunout výše"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:90
+msgid "Move down"
+msgstr "Posunout níž"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:102
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:693
+msgid "Set keycode"
+msgstr "Nastavit klávesovou zkratku"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:114
+msgid "Menubar"
+msgstr "Panel nabídek"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:116
+msgid "Context Menus"
+msgstr "Kontextová menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:118
+msgid "New Menus"
+msgstr "Nová menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:120
+msgid "ToolBars"
+msgstr "Panely nástrojů"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:129
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:381
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:533
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:578
+msgid "menu"
+msgstr "menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:147
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:401
+msgid "new menu"
+msgstr "nové menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:153
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:407
+msgid "context menu"
+msgstr "kontextové menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:161
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:438
+msgid "toolbar"
+msgstr "panel nástrojů"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:815
+msgid "ToolBars & Menues"
+msgstr "Panely nástrojů & Menu"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:816
+msgid "Commands"
+msgstr "Příkazy"
+
+#: D:\work\Projects\wxGIS\src\framework/customizedlg.cpp:821
+msgid "Close"
+msgstr "Zavřít"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:60
+msgid "Locale files folder path"
+msgstr "Cesta ke složce s lokalizací"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:77
+msgid "Language"
+msgstr "Jazyk"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:91
+msgid "wxGIS system files folder path"
+msgstr "Cesta ke složce se systémovými soubory wxGISu"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:107
+msgid "wxGIS log files folder path"
+msgstr "Cesta ke složce se soubory výpisů wxGISu"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:123
+msgid "Log debug GDAL messages"
+msgstr "Zapisovat debug GDAL zprávy"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:138
+msgid "To apply some changes on this page the application restart needed"
+msgstr "Aby se projevily některé změny na této stráce, je nutno restartovat program"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:224
+msgid "Choose a folder with locale files"
+msgstr "Zvolte složku s jazykovými soubory"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:242
+msgid "Choose a wxGIS system files folder path"
+msgstr "Zvolte složku se systémovými soubory wxGISu"
+
+#: D:\work\Projects\wxGIS\src\framework/propertypages.cpp:256
+msgid "Choose a wxGIS log files folder path"
+msgstr "Zvolte složku se soubory výpisů wxGISu"
+
+#: D:\work\Projects\wxGIS\src\framework/statusbar.cpp:147
+#: D:\work\Projects\wxGIS\src\framework/statusbar.cpp:187
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: D:\work\Projects\wxGIS\src\framework/toolbarmenu.cpp:82
+#: D:\work\Projects\wxGIS\src\framework/toolbarmenu.cpp:102
+#: D:\work\Projects\wxGIS\src\framework/toolbarmenu.cpp:122
+msgid "Toolbars"
+msgstr "Panely nástrojů"
+
+#: D:\work\Projects\wxGIS\src\framework/toolbarmenu.cpp:87
+msgid "[Menus]"
+msgstr "[Меnu]"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/addcommanddlg.h:70
+msgid "Add command"
+msgstr "Přidat příkaz"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:27
+msgid "Standard"
+msgstr "Standard"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:28
+msgid "Location"
+msgstr "Umístění"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:29
+msgid "Geography"
+msgstr "Geografie"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:39
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:72
+#: D:\work\Projects\wxGIS\include\wxgis\framework/commandbar.h:97
+msgid "No Caption"
+msgstr "Bez titulku"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/createcbdlg.h:69
+msgid "Create toolbar or menu"
+msgstr "Vytvořit panel nástrojů nebo menu"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/keycodedlg.h:72
+msgid "Enter key code"
+msgstr "Zadejte klávesovou zkratku"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:27
+msgid "&File"
+msgstr "&Soubor"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:28
+msgid "&Edit"
+msgstr "&Upravit"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:29
+msgid "&Go"
+msgstr "&Přejít"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:30
+msgid "&View"
+msgstr "&Zobrazit"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:31
+msgid "&Help"
+msgstr "&Nápověda"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:32
+msgid "&Windows"
+msgstr "&Okna"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/menubar.h:33
+msgid "&Tools"
+msgstr "&Nástroje"
+
+#: D:\work\Projects\wxGIS\include\wxgis\framework/propertypages.h:56
+msgid "Miscellaneous"
+msgstr "Různé"
+
+#~ msgid "wxGISApplication: Library %s loaded"
+#~ msgstr "wxGISApplication: Библиотека %s загружена"
+
+#~ msgid "wxGISApplication: Error loading library %s"
+#~ msgstr "wxGISApplication: Ошибка загрузки библиотеки %s"
+
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgid "Use my choice and do not show this dialog in future."
+#~ msgstr "Использовать выбор и больше не показывать этот диалог."
+
+#~ msgid "Progress..."
+#~ msgstr "Прогресс..."

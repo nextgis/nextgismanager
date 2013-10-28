@@ -1,0 +1,432 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-12-28 13:33+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: Juhele <jan.helebrant@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\loc\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"PO-Revision-Date: \n"
+"X-Poedit-SearchPath-0: C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\include\\wxgis\n"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:77
+msgid "&Export"
+msgstr "&Export"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:79
+msgid "Show/Hide &Toolbox pane"
+msgstr "Zobrazit/Skrýt panel &nástrojů"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:90
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:88
+msgid "Geoprocessing"
+msgstr "Geoprocessing"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:92
+msgid "View"
+msgstr "Zobrazit"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:94
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:90
+msgid "[No category]"
+msgstr "[Bez kategorie]"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:173
+msgid "Export item to another format"
+msgstr "Exportovat položku do jiného formátu"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:175
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:443
+msgid "Show/Hide Toolbox pane"
+msgstr "Zobrazit/Skrýt panel nástrojů"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:236
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:333
+msgid "Select output"
+msgstr "Zvoltr výstup"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:256
+msgid "Export"
+msgstr "Export"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:266
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:350
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:351
+msgid "Null IGxObjectFilter returned"
+msgstr "Vrácen nulový IGxObjectFilter "
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:274
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:359
+#, c-format
+msgid "%s %d objects (files)"
+msgstr "%s %d objektů (souborů)"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:274
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:359
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:365
+msgid "Process"
+msgstr "Zpracování"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:276
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:361
+msgid "Begin operation..."
+msgstr "Zahájit operaci..."
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:280
+msgid "The dataset is empty"
+msgstr "Dataset je prázdný"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:280
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:350
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:231
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:503
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:750
+msgid "Error"
+msgstr "Chyba"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:281
+msgid "Null wxGISDataset returned"
+msgstr "Vrácen nulový wxGISDataset"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:290
+msgid "Open dataset failed!"
+msgstr "Otevření datasetu selhalo!"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:365
+#, c-format
+msgid "%s %d object (file) from %d"
+msgstr "%s %d objekt (soubor) z %d"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:384
+#, c-format
+msgid "The %d dataset is empty"
+msgstr "Dataset %d je prázdný"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/geoprocessingcmd.cpp:441
+msgid "Export item"
+msgstr "Exportovat položku"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:115
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:349
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:500
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:752
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:839
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1001
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1242
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1383
+msgid "(optional)"
+msgstr "(volitelné)"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:152
+msgid "Select input object"
+msgstr "Vyberte vstupní objekt"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:177
+msgid "Select output object"
+msgstr "Vyberte výstupní objekt"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:226
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1071
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1300
+msgid "The value is required"
+msgstr "Je požadována hodnota"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:244
+msgid "The output object exists and will be overwritten!"
+msgstr "Výstupní objekt již existuje a bude přepsán!"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:253
+msgid "The input object doesn't exist"
+msgstr "Vstupní objekt neexistuje"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:414
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:583
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1302
+msgid "The input data are invalid"
+msgstr "Vstupní data jsou neplatná"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:710
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1275
+msgid "Change value list"
+msgstr "Změnit seznam hodnot"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:710
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:1275
+msgid "Value list"
+msgstr "Seznam hodnot"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:881
+msgid "Select Spatial Reference"
+msgstr "Vyberte prostorovou referenci"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:885
+msgid "Coordinate Systems"
+msgstr "Souřadnicové systémy"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gpcontrols.cpp:929
+msgid "Unsupported Spatial reference"
+msgstr "Nepodporovaná prostorová reference"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptaskexecdlg.cpp:77
+msgid "Expand"
+msgstr "Rozbalit"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptaskexecdlg.cpp:91
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:173
+msgid "Cancel"
+msgstr "Storno"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptaskexecdlg.cpp:212
+msgid "You mast stop task before closing dialog!"
+msgstr "Před zavřením dialogu musíte nejdříve ukončit úlohu!"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptaskexecdlg.cpp:212
+msgid "Warning"
+msgstr "Varování"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:231
+msgid "Wrong input tool!"
+msgstr "Nesprávný vstupní nástroj!"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:338
+msgid "Recent"
+msgstr "Nedávné"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:374
+#, c-format
+msgid "Executed list [%d]"
+msgstr "Seznam spouštění [%d]"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:376
+msgid "Executed list"
+msgstr "Seznam spouštění"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolbox.cpp:503
+#, c-format
+msgid ""
+"Error find %s tool!\n"
+"Cannnot continue."
+msgstr ""
+"Chyba hledání nástroje %s !\n"
+"Nemohu pokračovat."
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:47
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptoolbox.h:45
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptoolbox.h:120
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptoolbox.h:161
+msgid "Toolbox"
+msgstr "Sada nástrojů"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:91
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:153
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:173
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptoolbox.h:84
+msgid "Toolboxes"
+msgstr "Sady nástrojů"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:170
+msgid "OK"
+msgstr "OK"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:175
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:234
+msgid "Show Help"
+msgstr "Zobrazit nápovědu"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:234
+msgid "Hide Help"
+msgstr "Skrýt nápovědu"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptooldlg.cpp:306
+#, c-format
+msgid "(Field No %d)"
+msgstr "(Pole č. %d)"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:122
+msgid "Tool Execute View"
+msgstr "Zobrazení spuštění nástroje"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:127
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:244
+msgid "Priority"
+msgstr "Priorita"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:128
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:245
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptooldlg.h:51
+msgid "Tool name"
+msgstr "Název nástroje"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:129
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:246
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:72
+msgid "Start"
+msgstr "Spustit"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:130
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:247
+msgid "Finish"
+msgstr "Hotovo"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:131
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:248
+msgid "Done %"
+msgstr "Hotovo %"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:132
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:249
+msgid "Last message"
+msgstr "Poslední zpráva"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:286
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:289
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:537
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:540
+msgid "%d-%m-%Y %H:%M:%S"
+msgstr "%d-%m-%Y %H:%M:%S"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:290
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:541
+#, c-format
+msgid "%.1f%%"
+msgstr "%.1f%%"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:750
+msgid "Unsupported data!"
+msgstr "Nepodporovaná data!"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:68
+msgid "Show tool dialog"
+msgstr "Zobrazit dialog nástroje"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:70
+msgid "Show execution dialog"
+msgstr "Zobrazit dialog spuštění"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:74
+msgid "Stop"
+msgstr "Zastavit"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:203
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:303
+msgid "Show tool config dialog"
+msgstr "Zobrazit dialog nastavení nástroje"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:205
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:305
+msgid "Show task execution dialog"
+msgstr "Zobrazit dialog spuštění úlohy"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:207
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:307
+msgid "Start task"
+msgstr "Spustit úlohu"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:209
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:309
+msgid "Stop task"
+msgstr "Zastavit úlohu"
+
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptaskexecdlg.h:126
+msgid "Task"
+msgstr "Úloha"
+
+#: D:\work\Projects\wxGIS\include\wxgis\geoprocessingui/gptoolbox.h:207
+msgid "Tool"
+msgstr "Nástroj"
+
+#~ msgid "Please wait, working..."
+#~ msgstr "Дождитесь окончания процесса..."
+
+#~ msgid "While exporting some error occured!"
+#~ msgstr "В процессе выполнения возникли ошибки!"
+
+#~ msgid "Export successful (%s.%s)!"
+#~ msgstr "Экспорт завершен удачно (%s.%s)!"
+
+#~ msgid "wxGISToolbox"
+#~ msgstr "wxGISToolbox"
+
+#, fuzzy
+#~ msgid "Show/Hide toolbox pane"
+#~ msgstr "Показать/Скрыть панель задач"
+
+#~ msgid "Error reading dataset definition"
+#~ msgstr "Ошибка чтения определения набора данных"
+
+#~ msgid "Input spatial reference is not defined"
+#~ msgstr "Не задана исходная система координат"
+
+#~ msgid "_point"
+#~ msgstr "_точка"
+
+#~ msgid "/nContinue?"
+#~ msgstr "/nПродолжить?"
+
+#~ msgid "Question"
+#~ msgstr "Вопрос"
+
+#~ msgid "_polygon"
+#~ msgstr "_полигон"
+
+#~ msgid "_line"
+#~ msgstr "_линия"
+
+#~ msgid "_mpoint"
+#~ msgstr "_многоточка"
+
+#~ msgid "_mline"
+#~ msgstr "_полилиния"
+
+#~ msgid "_mpolygon"
+#~ msgstr "_полиполигон"
+
+#~ msgid "Error reading %d dataset definition"
+#~ msgstr "Ошибка чтения определения %d набора данных"
+
+#~ msgid "Exporting %s to %s"
+#~ msgstr "Экспорт %s в %s"
+
+#~ msgid "Error creating new dataset"
+#~ msgstr "Ошибка создания нового набора данных"
+
+#~ msgid "Error copying data to a new dataset"
+#~ msgstr "Ошибка копирования данных в новый набор"
+
+#~ msgid "Done"
+#~ msgstr "Завершено"
+
+#~ msgid "Favorites"
+#~ msgstr "Избранное"
+
+#~ msgid "Close when completed successfully"
+#~ msgstr "Закрыть после успешного завершения"
+
+#~ msgid "Tool %s"
+#~ msgstr "Инструмент %s"
+
+#~ msgid "Completed with errors!"
+#~ msgstr "Завершено с ошибками!"
+
+#~ msgid "Completed successfully!"
+#~ msgstr "Выполнение успешно завершено!"
+
+#~ msgid "Execution canceled by user"
+#~ msgstr "Выполнение прервано пользователем"
+
+#~ msgid "wxGxRootToolbox: The path is set to '%s'"
+#~ msgstr "wxGxRootToolbox: Путь установлен в '%s'"
+
+#~ msgid "Tasks pane"
+#~ msgstr "Панель задач"
+
+#~ msgid "Toolbox pane"
+#~ msgstr "Панель задач"

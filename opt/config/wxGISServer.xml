@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxGISServer>
+  <loc locale="en" path="d:\work\Projects\wxGIS\build\debug\locale"/>
+  <log path="d:\work\Projects\wxGIS\build\debug\log"/>
+  <libs>
+    <lib path="wxGISServerNetworkingd.dll" name="wxGISServerNetworking"/>
+    <lib path="wxGISServerAuthd.dll" name="wxGISServerAuth"/>
+    <lib path="D:\work\Projects\wxGISRemoteDB\build\debug\wxGISRemoteDBServerd.dll" name="wxGISRemoteDBServer"/>
+  </libs>
+  <network max_conn="5" server_name="bishop_server">
+    <plugin name="wxServerTCPNetworkPlugin" port="9976" adv_port="9977"/>
+  </network>
+  <auth>
+    <plugin name="wxGISXmlAuthPlugin">
+      <item user="user" pass="000700190034003A00240018000A0023"/>
+    </plugin>
+  </auth>
+</wxGISServer>

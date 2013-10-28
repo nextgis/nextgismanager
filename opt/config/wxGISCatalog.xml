@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxGISCatalog>
+  <lastpath path=""/>
+  <catalog ask_delete="yes"/>
+  <Commands>
+    <Command name="wxGISCommonCmd"/>
+    <Command name="wxGISCatalogMainCmd"/>
+    <Command name="wxGISCartoMainCmd"/>
+    <Command name="wxGISCartoMainTool"/>
+    <Command name="wxGISCatalogViewsCmd"/>
+    <Command name="wxGISGeoprocessingCmd"/>
+    <Command name="wxGISRemoteCmd"/>
+    <Command name="wxGISRemoteDBCmd"/>
+    <Command name="wxGISTaskCmd"/>
+    <Command name="wxGISCartoFrameTool"/>
+    <Command name="wxGISCreateNewCmd"/>
+  </Commands>
+  <Accelerators>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="13" flags="CTRL|" keycode="V"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="12" flags="CTRL|" keycode="X"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="11" flags="CTRL|" keycode="C"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="8" flags="NORMAL" keycode="WXK_F2"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="9" flags="NORMAL" keycode="WXK_F5"/>
+    <Entry cmd_name="wxGISCatalogViewsCmd" subtype="1" flags="CTRL|" keycode="A"/>
+    <Entry cmd_name="wxGISCommonCmd" subtype="0" flags="ALT|" keycode="X"/>
+  </Accelerators>
+  <Frame maxi="no" width="1434" height="674" xpos="98" ypos="51">
+    <statusbar shown="yes"/>
+    <Perspective data=""/>
+    <Views>
+      <TreeView/>
+      <TabView>
+        <View name="List" show_choices="f">
+          <Item class="wxGxNoView" name="NoView" priority="5" red="255" green="255" blue="230" bold="1" italic="0" size="12"/>
+          <Item class="wxGxContentView" name="ContentsView" priority="4" style="0" sort="1" sort_col="0" name_width="150" type_width="250"/>
+          <Item class="wxGxRemoteTableView" name="RemoteTableView" priority="3" style="0" sort="1" sort_col="0" cols_width="100|163|279|100|100|150|150|"/>
+          <Item class="wxGxToolExecuteView" name="ToolExecuteView" priority="2" sort="1" sort_col="0" cols_width="51|140|120|116|125|379|"/>
+          <Item class="wxGxMonTasksView" name="Monitoring tasks view" priority="1"/>
+        </View>
+        <View name="Preview" show_choices="t">
+          <Item class="wxGxNoView" name="NoView" priority="4" red="255" green="230" blue="255" bold="1" italic="0" size="12"/>
+          <Item class="wxGxTableView" name="TableView" priority="3"/>
+          <Item class="wxGxMapView" name="GeographicView" priority="2"/>
+          <Item class="wxGxMonTasksDetailView" name="Monitoring tasks detail view" priority="1"/>
+        </View>
+      </TabView>
+      <ToolboxView class="wxAxToolboxView" name="ToolboxView">
+        <wxGxToolExecuteView sort="0" sort_col="0" cols_width="99|150|100|174|165|350|"/>
+        <wxGxToolboxTreeView/>
+      </ToolboxView>
+      <IdentifyView class="wxAxIdentifyView" name="IdentifyView" width="246" height="305" split_mode="1" split_pos="133"/>      
+    </Views>
+    <Menues>
+      <menu name="MenuBar.File" caption="&amp;File">
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="1" name="&amp;Связь с папкой"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="2" name="&amp;Отсоединить папку"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="0" name="В&amp;ыход"/>
+      </menu>
+      <menu name="MenuBar.Edit" caption="&amp;Edit">
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="1" name="Выбрать все"/>
+      </menu>
+      <menu name="MenuBar.Go" caption="&amp;Go">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="0" name="&amp;Вверх на один уровень"/>
+      </menu>
+      <menu name="MenuBar.View" caption="&amp;View">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="4" name="Статусная строка"/>
+        <Item type="sep"/>
+        <Item type="menu" cmd_name="Application.ToolbarsMenu" name="Панели инструментов"/>
+      </menu>
+      <menu name="MenuBar.Help" caption="&amp;Help">
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="1" name="О &amp;программе"/>
+      </menu>
+      <menu name="wxGxCatalog.ContextMenu" caption="wxGxCatalog.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="1" name="&amp;Связь с папкой"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
+      </menu>
+      <menu name="wxGxDiscConnection.ContextMenu" caption="wxGxDiscConnection.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="2" name="&amp;Отсоединить папку"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxFolder.ContextMenu" caption="wxGxFolder.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxArchive.ContextMenu" caption="wxGxArchive.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+      </menu>
+      <menu name="wxGxArchiveFolder.ContextMenu" caption="wxGxArchiveFolder.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+      </menu>
+      <menu name="wxGxTableDataset.ContextMenu" caption="wxGxTableDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxFeatureDataset.ContextMenu" caption="wxGxFeatureDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="&amp;Экспорт"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxKMLSubDataset.ContextMenu" caption="wxGxKMLSubDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="&amp;Экспорт"/>
+      </menu>
+      <menu name="wxGxRasterDataset.ContextMenu" caption="wxGxRasterDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxPrjFile.ContextMenu" caption="wxGxPrjFile.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxSpatialReferencesFolder.ContextMenu" caption="wxGxSpatialReferencesFolder.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+      </menu>
+      <menu name="MenuBar.Windows" caption="&amp;Windows">
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="2" name="Show/Hide Tree panel"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="Show/Hide &amp;Toolbox panel"/>
+      </menu>
+      <menu name="wxGxRemoteServer.ContextMenu" caption="wxGxRemoteServer.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISRemoteCmd" subtype="1"/>
+        <Item type="cmd" cmd_name="wxGISRemoteCmd" subtype="2"/>
+      </menu>
+      <menu name="wxGxRemoteServers.ContextMenu" caption="wxGxRemoteServers.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+      </menu>
+      <menu name="wxGxRemoteServers.NewMenu" caption="wxGxRemoteServers.NewMenu">
+        <Item type="cmd" cmd_name="wxGISRemoteCmd" subtype="0" name="Create new connection"/>
+      </menu>
+      <menu name="wxRxMonitoringDatabases.ContextMenu" caption="wxRxMonitoringDatabases.ContextMenu"/>
+      <menu name="MenuBar.Tools" caption="&amp;Tools">
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
+      </menu>
+      <menu name="wxGxDiscConnection.NewMenu" caption="wxGxDiscConnection.NewMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
+      </menu>
+      <menu name="wxGxFolder.NewMenu" caption="wxGxFolder.NewMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
+      </menu>
+      <menu name="wxGxTaskObject.ContextMenu" caption="wxGxTaskObject.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="0" name="Показать диалог инструмента"/>
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="1" name="Показать диалог исполнения"/>
+      </menu>
+      <menu name="wxGxDBConnections.NewMenu" caption="wxGxDBConnections.NewMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
+        <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="0" name="Подлючение к &amp;удаленной базе"/>
+      </menu>
+      <menu name="wxGxDBConnections.ContextMenu" caption="wxGxDBConnections.ContextMenu">
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+      </menu>
+      <menu name="wxGxRemoteConnection.ContextMenu" caption="wxGxRemoteConnection.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxPostGISTableDataset.ContextMenu" caption="wxGxPostGISTableDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxPostGISFeatureDataset.ContextMenu" caption="wxGxPostGISFeatureDataset.ContextMenu">
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="&amp;Экспорт"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxSatDBMonDispTasks.ContextMenu" caption="wxGxSatDBMonDispTasks.ContextMenu">
+        <Item type="menu" cmd_name="Application.NewMenu" name="Новый"/>
+      </menu>
+      <menu name="wxGxSatDBMonDispTasks.NewMenu" caption="wxGxSatDBMonDispTasks.NewMenu">
+        <Item type="cmd" cmd_name="wxGISRemoteDBCmd" subtype="0" name="add task"/>
+      </menu>      
+    </Menues>
+    <MenuBar>
+      <menu name="MenuBar.File"/>
+      <menu name="MenuBar.Edit"/>
+      <menu name="MenuBar.View"/>
+      <menu name="MenuBar.Go"/>
+      <menu name="MenuBar.Tools"/>
+      <menu name="MenuBar.Windows"/>
+      <menu name="MenuBar.Help"/>
+    </MenuBar>
+    <ToolBars>
+      <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Standard" caption="Standard">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="5" name="Назад"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="6" name="Вперед"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="0" name="&amp;Вверх на один уровень"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="1" name="&amp;Связь с папкой"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="2" name="&amp;Отсоединить папку"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="0" name="Вид"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="Show/Hide &amp;Toolbox panel"/>
+      </toolbar>
+      <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Location" caption="Location">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="3" name="Путь"/>
+      </toolbar>
+      <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Geography" caption="Geography">
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="0" name="&amp;Увеличить"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="1" name="У&amp;меньшить"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="2" name="&amp;Сдвинуть"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="0" name="&amp;Полный охват"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="1" name="П&amp;редыдущий охват"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="2" name="&amp;Следующий охват"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="3" name="&amp;Информация"/>
+      </toolbar>
+      <toolbar size="16" LeftDockable="t" RightDockable="t" name="Application.Task" caption="Task">
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="1" name="Показать диалог исполнения"/>
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="0" name="Показать диалог инструмента"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="2" name="Начало"/>
+        <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="3" name="Остановить"/>
+      </toolbar>
+      <toolbar size="16" LeftDockable="t" RightDockable="t" name="Application.MapFrameTools" caption="Map Frame Tools">
+        <Item type="cmd" cmd_name="wxGISCartoFrameTool" subtype="0" name="По&amp;вернуть"/>
+        <Item type="cmd" cmd_name="wxGISCartoFrameTool" subtype="1" name="Отменить поворот"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCartoFrameTool" subtype="2" name="Ввести угол поворота"/>
+      </toolbar>
+    </ToolBars>
+  </Frame>
+  <PropertyPages>
+    <Page class="wxGISCatalogGeneralPropertyPage"/>
+    <Page class="wxGISMiscPropertyPage"/>
+  </PropertyPages>
+</wxGISCatalog>

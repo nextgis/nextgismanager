@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxGISMon>
+  <tasks exe_path="D:\work\projects\wxGISMon\build\Debug\wxgismon.exe">
+    <coordinates_setters/>
+  </tasks>
+  <modules>
+    <module name="QuickBird" class="wxGISQBMonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgisimagefindermon05d.dll"/>
+    <module name="WorldView-1" class="wxGISWV1MonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgisimagefindermon05d.dll"/>
+    <module name="WorldView-2" class="wxGISWV2MonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgisimagefindermon05d.dll"/>
+    <module name="Ikonos-2" class="wxGISIkoMonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgisgeofusemon05d.dll"/>
+    <module name="GeoEye-1" class="wxGISGE1MonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgisgeofusemon05d.dll"/> 
+    <module name="RapidEye" class="wxGISEFMonPlugin" lib="D:\work\projects\wxGISMon\lib\x86\wxgiseyefindmon05d.dll"/>
+  </modules>
+  <curl proxy="" headers="Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-ms-application, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-ms-xbap, application/vnd.ms-excel, application/msword, application/x-silverlight, application/vnd.ms-powerpoint, */*|Accept-Language: ru|UA-CPU: x86|Accept-Encoding: gzip, deflate|User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1) Gecko/20070309 Firefox/2.0.0.3|Connection: Keep-Alive" dns_cache_timeout="180" connect_timeout="30" timeout="1000"/>
+</wxGISMon>
+
+
+

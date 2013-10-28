@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxToolboxes>
+  <tools max_tasks="4" gp_exec="wxGISGeoprocess.exe">
+    <tool object="wxGISGPProjectVectorTool" name="vproj_single" count="0"/>
+    <tool object="wxGISGPExportTool" name="vexport_single" count="0"/>
+    <tool object="wxGISGPShapeToTextTool" name="shape_to_text" count="0"/>
+    <tool object="wxGISGPMeanByColumnTool" name="mean_by_col" count="0"/>
+    <tool object="wxGISGPGeomVerticesToPointsTool" name="gvert_to_pts" count="0"/>
+    <tool object="wxGISGPCreateOverviewsTool" name="create_ovr" count="0"/>
+    <tool object="wxGISGPOrthoCorrectTool" name="create_ortho" count="0"/>
+    <tool object="wxGISGPCompStatTool" name="comp_stats" count="0"/>
+  </tools>
+  <toolboxes>
+    <toolbox name="Data Management Tools">
+      <toolbox name="Raster">
+        <tool name="create_ortho"/>
+        <tool name="create_ovr"/>
+        <tool name="comp_stats"/>
+      </toolbox>
+      <toolbox name="Vector">
+        <tool name="vproj_single"/>
+        <tool name="shape_to_text"/>
+      </toolbox>
+    </toolbox>
+    <toolbox name="Conversion Tools">
+      <tool name="vexport_single"/>
+      <tool name="gvert_to_pts"/>
+      <tool name="mean_by_col"/>
+    </toolbox>
+  </toolboxes>
+</wxToolboxes>

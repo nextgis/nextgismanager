@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxCatalog>
+  <catalog open_last_path="yes" show_hidden="no" show_ext="yes">
+    <rootitems>
+      <rootitem name="wxGxRootToolbox" is_enabled="t"/>
+      <rootitem name="wxGxSpatialReferencesFolderUI" is_enabled="t"/>
+      <rootitem name="wxGxDiscConnectionsUI" is_enabled="t"/>
+      <rootitem name="wxGxDBConnectionsUI" is_enabled="t"/>
+      <rootitem name="wxGxMonitoringDatabasesUI" is_enabled="t"/>
+      <rootitem name="wxGxRemoteServersUI" is_enabled="t">      
+        <factory name="wxClientTCPNetFactoryUI" port="9976" adv_port="9977"/>
+      </rootitem>
+    </rootitems>
+    <objectfactories>
+      <objectfactory factory_name="wxGxArchiveFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxShapeFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxMapInfoFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxRasterFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxMLFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxFolderFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxFileFactoryUI" is_enabled="t" extensions="txt|log|nfo|asc|dat|"/>
+      <objectfactory factory_name="wxGxCSVFileFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxDBConnectionFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxPrjFactoryUI" is_enabled="t"/>
+    </objectfactories>
+  </catalog>
+</wxCatalog>
