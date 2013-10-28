@@ -12,9 +12,13 @@
 *.la
 *.a
 
-#build directories
+# build directories
 build*
 
-#temporary removed
+# temporary removed
 include/wxgis/0*
 src/0*
+
+# generated directories
+lib
+bin
