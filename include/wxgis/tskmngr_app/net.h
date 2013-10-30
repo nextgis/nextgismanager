@@ -44,7 +44,7 @@ public:
 /** \class wxGISLocalNetworkPlugin net.h
     \brief A Server side Network Plugin.
 */
-class wxGISLocalNetworkPlugin : public INetworkPlugin
+class wxGISLocalNetworkPlugin : public INetPlugin
 {
 	DECLARE_CLASS(wxGISLocalNetworkPlugin)
 
@@ -57,14 +57,14 @@ public:
 	virtual ~wxGISLocalNetworkPlugin(void);
     bool CreateListenSocket(void);
     //INetworkPlugin
-    virtual bool Start(INetworkService* pNetService, const wxXmlNode* pConfig);
+    virtual bool Start(INetService* pNetService, const wxXmlNode* pConfig);
     virtual bool Stop(void);   
     //events
     virtual void OnTCPServerEvent(wxSocketEvent& event);
 protected:
     int m_nPort;
     wxString m_sAddr;
-    INetworkService* m_pNetService;
+    INetService* m_pNetService;
     wxSocketServer* m_listeningSocket;
 
     DECLARE_EVENT_TABLE()

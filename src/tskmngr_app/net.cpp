@@ -39,7 +39,7 @@ wxGISLocalNetworkService::~wxGISLocalNetworkService()
 
 bool wxGISLocalNetworkService::Start()
 {
-    INetworkPlugin *pPlugin = new wxGISLocalNetworkPlugin();
+    INetPlugin *pPlugin = new wxGISLocalNetworkPlugin();
 	if(pPlugin && pPlugin->Start(this, NULL))
 	{
 		m_paNetworkPlugins.push_back( pPlugin );
@@ -83,7 +83,7 @@ wxGISLocalNetworkPlugin::~wxGISLocalNetworkPlugin(void)
 {
 }
 
-bool wxGISLocalNetworkPlugin::Start(INetworkService* pNetService, const wxXmlNode* pConfig)
+bool wxGISLocalNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* pConfig)
 {
     m_pNetService = pNetService;
     if(pConfig)
