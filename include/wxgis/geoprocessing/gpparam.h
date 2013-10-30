@@ -24,6 +24,7 @@
 #include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/geoprocessing/gpdomain.h"
 
+#include "wx/event.h"
 
 class WXDLLIMPEXP_GIS_GP wxGISGPParamEvent;
 
@@ -38,12 +39,16 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_GP, wxGPPARAM_DOMAIN_CLEAR, wxGISGPPara
 class WXDLLIMPEXP_GIS_GP wxGISGPParamEvent : public wxEvent
 {
 public:
-    wxGISGPParamEvent(const wxVariant &Value = wxNullVariant, const wxString &sName = wxEmptyString, int nId = 0, wxEventType eventType = wxGPPARAM_CHANGED) : wxEvent(nId, eventType), m_Value(Value), m_sName(sName)
+    wxGISGPParamEvent(int nId = wxID_ANY, wxEventType eventType = wxGPPARAM_CHANGED, const wxVariant &Value = wxNullVariant, const wxString &sName = wxEmptyString ) : wxEvent(nId, eventType)
 	{		
+		m_Value = Value;
+		m_sName = sName;
 	}
 
-    wxGISGPParamEvent(const wxGISGPParamEvent& event) : wxEvent(event), m_Value(event.m_Value), m_sName(event.m_sName)
+    wxGISGPParamEvent(const wxGISGPParamEvent& event) : wxEvent(event)
 	{
+		m_Value = event.m_Value;
+		m_sName = event.m_sName;
 	}
 
     wxVariant GetParamValue() const { return m_Value; }
@@ -62,12 +67,13 @@ private:
 
 typedef void (wxEvtHandler::*wxGISGPParamEventFunction)(wxGISGPParamEvent&);
 
-#define wxGISGPParamEventHandler(func) wxEVENT_HANDLER_CAST(wxGISGPParamEventFunction, func)
+#define wxGISGPParamEventHandler(func) \
+	wxEVENT_HANDLER_CAST(wxGISGPParamEventFunction, func)
 
-#define EVT_GPPARAM_CHANGED(func)  wx__DECLARE_EVT0(wxGPPARAM_CHANGED, wxGISGPParamEventFunction(func))
-#define EVT_GPPARAM_MSG_SET(func)  wx__DECLARE_EVT0(wxGPPARAM_MSG_SET, wxGISGPParamEventFunction(func))
-#define EVT_GPPARAM_DOMAIN_ADDVAL(func)  wx__DECLARE_EVT0(wxGPPARAM_DOMAIN_ADDVAL, wxGISGPParamEventFunction(func))
-#define EVT_GPPARAM_DOMAIN_CLEAR(func)  wx__DECLARE_EVT0(wxGPPARAM_DOMAIN_CLEAR, wxGISGPParamEventFunction(func))
+#define EVT_GPPARAM_CHANGED(func)  wx__DECLARE_EVT0(wxGPPARAM_CHANGED, wxGISGPParamEventHandler(func))
+#define EVT_GPPARAM_MSG_SET(func)  wx__DECLARE_EVT0(wxGPPARAM_MSG_SET, wxGISGPParamEventHandler(func))
+#define EVT_GPPARAM_DOMAIN_ADDVAL(func)  wx__DECLARE_EVT0(wxGPPARAM_DOMAIN_ADDVAL, wxGISGPParamEventHandler(func))
+#define EVT_GPPARAM_DOMAIN_CLEAR(func)  wx__DECLARE_EVT0(wxGPPARAM_DOMAIN_CLEAR, wxGISGPParamEventHandler(func))
 
 /** \class wxGISGPParameter gpparam.h
  *  \brief A Geoprocessing tools parameter class.

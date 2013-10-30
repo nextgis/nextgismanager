@@ -19,7 +19,6 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/geoprocessingui/gpcontrols.h"
-#include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/table.h"
@@ -51,8 +50,8 @@
 IMPLEMENT_ABSTRACT_CLASS(wxGISDTBase, wxPanel)
 
 BEGIN_EVENT_TABLE(wxGISDTBase, wxPanel)
-	EVT_GPPARAM_CHANGED(wxGISDTBase::OnParamChanged)
-	EVT_GPPARAM_MSG_SET(wxGISDTBase::OnParamMsgSet)
+	EVT_GPPARAM_MSG_SET( wxGISDTBase::OnParamMsgSet )
+	EVT_GPPARAM_CHANGED( wxGISDTBase::OnParamChanged )
 END_EVENT_TABLE()
 
 wxGISDTBase::wxGISDTBase(  const wxGISGPParameterArray &Params, int nParamIndex, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
@@ -372,7 +371,7 @@ void wxGISDTPath::OnPathChange(wxCommandEvent& event)
     m_pParam->SetValue(wxVariant(sData, wxT("path")));
 }
 
-void wxGISDTPath::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTPath::OnParamChanged(wxGISGPParamEvent& event)
 {    
     if(event.GetId() == m_nParamIndex)
     {
@@ -634,7 +633,7 @@ void wxGISDTDigit::OnDigitChange(wxCommandEvent& event)
     }
 }
 
-void wxGISDTDigit::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTDigit::OnParamChanged(wxGISGPParamEvent& event)
 {    
     if(event.GetId() == m_nParamIndex)
     {
@@ -823,12 +822,12 @@ void wxGISDTChoice::OnChoice(wxCommandEvent& event)
     }
 }
 
-void wxGISDTChoice::OnUpdateUI(wxUpdateUIEvent &event)
+void wxGISDTChoice::OnUpdateUI(wxUpdateUIEvent& event)
 {
 	Validate();
 }
 
-void wxGISDTChoice::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTChoice::OnParamChanged(wxGISGPParamEvent& event)
 {    
     if(event.GetId() == m_nParamIndex)
     {
@@ -884,7 +883,7 @@ wxGISDTFieldChoice::~wxGISDTFieldChoice()
 {
 }
 
-void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent& event)
 {
     if(event.GetId() == m_nParamIndex)
     {
@@ -1132,12 +1131,12 @@ void wxGISDTBool::OnSize(wxSizeEvent& event)
 	m_pCheckBox->SetLabel(sNewLabel);
 }
 
-void wxGISDTBool::OnUpdateUI(wxUpdateUIEvent &event)
+void wxGISDTBool::OnUpdateUI(wxUpdateUIEvent& event)
 {
 	Validate();
 }
 
-void wxGISDTBool::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTBool::OnParamChanged(wxGISGPParamEvent& event)
 {    
     if(event.GetId() == m_nParamIndex)
     {
@@ -1223,7 +1222,7 @@ void wxGISDTText::OnUpdateUI(wxUpdateUIEvent &event)
 	Validate();
 }
 
-void wxGISDTText::OnParamChanged(wxGISGPParamEvent &event)
+void wxGISDTText::OnParamChanged(wxGISGPParamEvent& event)
 {    
     if(event.GetId() == m_nParamIndex)
     {

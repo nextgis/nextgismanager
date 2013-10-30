@@ -179,7 +179,7 @@ void wxGISGPParameter::SetValue(const wxVariant &Val)
 {
     m_bHasBeenValidated = false;
     m_Value = Val;
-    wxGISGPParamEvent event(m_Value, m_Value.GetName(), m_nId, wxGPPARAM_CHANGED);
+    wxGISGPParamEvent event(m_nId, wxGPPARAM_CHANGED, m_Value, m_Value.GetName());
     PostEvent(event);
 }
 
@@ -217,7 +217,7 @@ void wxGISGPParameter::SetMessage(wxGISEnumGPMessageType nType, const wxString &
 {
     m_sMessage = sMsg;
     m_nMsgType = nType;
-    wxGISGPParamEvent event(m_Value, m_Value.GetName(), m_nId, wxGPPARAM_MSG_SET);
+    wxGISGPParamEvent event(m_nId, wxGPPARAM_MSG_SET, m_Value, m_Value.GetName());
     PostEvent(event);
 }
 
@@ -352,13 +352,13 @@ wxArrayString wxGISGPParameter::GetDependences(void) const
 
 void wxGISGPParameter::OnValueAdded(const wxVariant &Value, const wxString &sName)
 {
-    wxGISGPParamEvent event(Value, sName, m_nId, wxGPPARAM_DOMAIN_ADDVAL);
+    wxGISGPParamEvent event(m_nId, wxGPPARAM_DOMAIN_ADDVAL, Value, sName);
     PostEvent(event);
 }
 
 void wxGISGPParameter::OnCleared(void)
 {
-    wxGISGPParamEvent event(wxNullVariant, wxEmptyString, m_nId, wxGPPARAM_DOMAIN_CLEAR);
+    wxGISGPParamEvent event(m_nId, wxGPPARAM_DOMAIN_CLEAR, wxNullVariant, wxEmptyString);
     PostEvent(event);
 }
 

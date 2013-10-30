@@ -57,8 +57,8 @@ public:
 	virtual wxString GetCurrentMessage(void) const {return m_sCurrentMsg;};
     virtual void OnDelete();
 	//events
-    virtual void OnParamChanged(wxGISGPParamEvent &event) = 0;
-    virtual void OnParamMsgSet(wxGISGPParamEvent &event);
+	virtual void OnParamChanged(wxGISGPParamEvent& event) = 0;
+	virtual void OnParamMsgSet(wxGISGPParamEvent& event);
 protected:
     wxStaticBitmap* m_StateBitmap;
 	wxStaticText* m_sParamDisplayName;
@@ -92,9 +92,9 @@ public:
     virtual bool Validate(void);
     //events
     virtual void OnOpen(wxCommandEvent& event);
-	virtual void OnUpdateUI(wxUpdateUIEvent &event);
+	virtual void OnUpdateUI(wxUpdateUIEvent& event);
 	virtual void OnPathChange(wxCommandEvent& event);
-    virtual void OnParamChanged(wxGISGPParamEvent &event);
+    virtual void OnParamChanged(wxGISGPParamEvent& event);
 protected:
     wxTextCtrl* m_PathTextCtrl;
 	wxBitmapButton* m_bpButton;

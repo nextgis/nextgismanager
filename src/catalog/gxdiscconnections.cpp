@@ -137,9 +137,9 @@ void wxGxDiscConnections::CreateConnectionsStorage(void)
 {
     wxLogMessage(_("wxGxDiscConnections: Start scan folder connections"));
     wxArrayString arr;
-#ifdef __WXMSW__
+#if defined(__WINDOWS__)
 	arr = wxFSVolumeBase::GetVolumes(wxFS_VOL_MOUNTED, wxFS_VOL_REMOVABLE);//| wxFS_VOL_REMOTE
-#else
+#elif defined(__UNIX__)
     //linux paths
     wxStandardPaths stp;
     arr.Add(wxT("/"));
