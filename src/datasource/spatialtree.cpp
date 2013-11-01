@@ -99,7 +99,11 @@ wxGISSpatialTree::~wxGISSpatialTree(void)
 
 bool wxGISSpatialTree::Load(const wxGISSpatialReference &SpatRef, ITrackCancel* const pTrackCancel)
 {
-    wxMutexLocker lock(m_Mutex);    
+
+	if (m_bIsLoaded)
+		return true;
+
+	wxCriticalSectionLocker locker(m_CritSect);
     m_pTrackCancel = pTrackCancel;
     m_SpatialReference = SpatRef;
     
@@ -627,6 +631,7 @@ bool wxGISRTreeNode::Remove(long nFID)
                     delete this;
                     return true;
                 }
+				return false;
             }
         }
         else
@@ -639,6 +644,7 @@ bool wxGISRTreeNode::Remove(long nFID)
                     delete this;
                     return true;
                 }
+				return false;
             }
         }            
     }
@@ -674,15 +680,13 @@ wxGISRTree::wxGISRTree(wxGISFeatureDataset* pDSet, unsigned short nMaxChildItems
    	m_nMaxChildItems = nMaxChildItems;
 	m_nMinChildItems = nMinChildItems;
 
-    m_pRoot = new wxGISRTreeNode(m_nMinChildItems, m_nMaxChildItems);
-    m_pRoot->SetHasLeaves(true);
-
     wxASSERT(1 <= nMinChildItems && nMinChildItems <= nMaxChildItems / 2);
 }
 
 wxGISRTree::~wxGISRTree(void)
 {
-    wxDELETE(m_pRoot);
+	wxCriticalSectionLocker locker(m_CritSect);
+	wxDELETE(m_pRoot);
 }
 
 wxGISRTreeNode* wxGISRTree::ChooseSubtree(wxGISRTreeNode* pNode, const OGREnvelope &Env)
@@ -703,9 +707,14 @@ wxGISRTreeNode* wxGISRTree::ChooseSubtree(wxGISRTreeNode* pNode, const OGREnvelo
 
 void wxGISRTree::Insert(wxGISSpatialTreeData* pData)
 {
-    wxMutexLocker lock(m_Mutex);
+	wxCriticalSectionLocker locker(m_CritSect);
 
     wxGISRTreeNode* pNode = new wxGISRTreeNode(m_nMinChildItems, m_nMaxChildItems, pData );
+	if (!m_pRoot)
+	{
+		m_pRoot = new wxGISRTreeNode(m_nMinChildItems, m_nMaxChildItems);
+		m_pRoot->SetHasLeaves(true);
+	}
     InsertInternal(pNode, m_pRoot);
 }
 
@@ -835,27 +844,34 @@ wxGISRTreeNode* wxGISRTree::Split(wxGISRTreeNode* pNode)
 
 void wxGISRTree::Remove(long nFID)
 {
-    wxMutexLocker lock(m_Mutex);
+	wxCriticalSectionLocker locker(m_CritSect);
 
-    m_pRoot->Remove(nFID);
+	if (m_pRoot && m_pRoot->Remove(nFID))
+		m_pRoot = NULL;
 }
 
 bool wxGISRTree::HasFID(long nFID) const
 {
+	if (!m_pRoot)
+		return false;
     return m_pRoot->HasFID(nFID);
 }
 
 void wxGISRTree::RemoveAll()
 {
-    wxMutexLocker lock(m_Mutex);
-
+	wxCriticalSectionLocker locker(m_CritSect);
+	if (!m_pRoot)
+		return;
     // Delete all existing nodes
     m_pRoot->Delete();
 }
     
 wxGISSpatialTreeCursor wxGISRTree::Search(const OGREnvelope& env)
 {
-	wxMutexLocker lock(m_Mutex);
+	wxCriticalSectionLocker locker(m_CritSect);
+	if (!m_pRoot)
+		return wxNullSpatialTreeCursor;
+
     wxGISSpatialTreeCursor ret;
 
     if(env.IsInit())
@@ -984,7 +1000,7 @@ void wxGISQuadTree::Insert(wxGISSpatialTreeData* pData)
         return;
     if(!pData->GetGeometry().IsOk())
         return;
-	//wxMutexLocker lock(m_Mutex);
+	
     m_Envelope.Merge(pData->GetGeometry().GetEnvelope());
 	CPLQuadTreeInsert(m_pQuadTree, (void*)pData);
 	m_Cursor.push_back(pData);
@@ -1024,7 +1040,7 @@ void wxGISQuadTree::RemoveAll()
 
 wxGISSpatialTreeCursor wxGISQuadTree::Search(const OGREnvelope& Env)
 {
-	wxMutexLocker lock(m_Mutex);
+	wxCriticalSectionLocker locker(m_CritSect);
 
     bool bContains(false);
 	if(Env.IsInit())

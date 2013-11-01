@@ -95,7 +95,6 @@ wxGISFeatureLayer::wxGISFeatureLayer(const wxString &sName, wxGISDataset* pwxGIS
 
 wxGISFeatureLayer::~wxGISFeatureLayer(void)
 {
-
     if(m_nConnectionPointDSCookie != wxNOT_FOUND)
         m_pwxGISFeatureDataset->Unadvise(m_nConnectionPointDSCookie);
     wxDELETE(m_pSpatialTree);    
@@ -287,6 +286,7 @@ wxGISSpatialTreeCursor wxGISFeatureLayer::Idetify(const wxGISGeometry &Geom)
 
 void wxGISFeatureLayer::OnDSClosed(wxFeatureDSEvent& event)
 {
+	wxDELETE(m_pSpatialTree);
     wxMxMapViewEvent evt(wxMXMAP_LAYER_DS_CLOSED, GetCacheID());
     PostEvent(evt);
 }

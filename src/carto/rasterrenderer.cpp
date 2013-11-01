@@ -694,7 +694,7 @@ bool wxGISRasterRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const
 	if( nOutWidth > nWidth && nOutHeight > nHeight ) // not scale
 	{
 		//increase little in data
-		nWidth += 2; nHeight += 2;
+		//nWidth += 2; nHeight += 2;
 		if(nWidth > nXSize) nWidth = nXSize; 
 		if(nHeight > nYSize) nHeight = nYSize;
 

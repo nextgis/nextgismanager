@@ -51,6 +51,7 @@ protected:
     wxGISDisplay *m_pGISDisplay; 
 	OGREnvelope m_FullExtent;
 	bool m_bFullExtIsInit;
+	wxCriticalSection m_CritSect;
 };
 
 /** \class wxGISExtentStack map.h

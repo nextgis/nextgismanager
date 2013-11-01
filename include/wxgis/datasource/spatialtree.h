@@ -85,7 +85,7 @@ protected:
     short m_nPreloadItemCount;
 protected:
     bool m_bIsLoaded;
-   	wxMutex m_Mutex;
+   	wxCriticalSection m_CritSect;
     wxGISSpatialReference m_SpatialReference;
     ITrackCancel* m_pTrackCancel;
 };

@@ -41,6 +41,7 @@ wxGISMap::~wxGISMap(void)
 bool wxGISMap::AddLayer(wxGISLayer* pLayer)
 {
     wxCHECK_MSG(pLayer, false, wxT("Layer pointer is NULL"));
+	wxCriticalSectionLocker locker(m_CritSect);
 
     if(!m_SpatialReference.IsOk())
     {
@@ -85,7 +86,8 @@ bool wxGISMap::AddLayer(wxGISLayer* pLayer)
 
 void wxGISMap::Clear(void)
 {
-	for(size_t i = 0; i < m_paLayers.size(); ++i)
+	wxCriticalSectionLocker locker(m_CritSect);
+	for (size_t i = 0; i < m_paLayers.size(); ++i)
 		wxDELETE(m_paLayers[i]);
     m_paLayers.clear();
 
@@ -122,6 +124,7 @@ wxGISSpatialReference wxGISMap::GetSpatialReference(void) const
 
 wxGISLayer* const wxGISMap::GetLayer(size_t nIndex)
 {
+	wxCriticalSectionLocker locker(m_CritSect);
 	if(nIndex >= m_paLayers.size())
         return NULL;
 	return m_paLayers[nIndex];
