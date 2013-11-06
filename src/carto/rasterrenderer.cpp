@@ -578,6 +578,7 @@ wxGISRasterRenderer::wxGISRasterRenderer(wxGISLayer* pwxGISLayer) : wxGISRendere
 
 wxGISRasterRenderer::~wxGISRasterRenderer(void)
 {
+    wsDELETE(m_pwxGISRasterDataset);
 }
 
 bool wxGISRasterRenderer::CanRender(wxGISLayer* const pwxGISLayer) const
@@ -862,13 +863,14 @@ bool wxGISRasterRGBARenderer::CanRender(wxGISLayer* const pwxGISLayer) const
     {
         //check for more than 3 bands
         wxGISRasterDataset* pwxGISRasterDataset = wxDynamicCast(pwxGISLayer->GetDataset(), wxGISRasterDataset);
-        if(pwxGISRasterDataset)
+        if(NULL != pwxGISRasterDataset)
         {
             GDALDataset* poGDALDataset = pwxGISRasterDataset->GetRaster();
             if(poGDALDataset)
             {
                 return poGDALDataset->GetRasterCount() > 2;
             }
+            wsDELETE(pwxGISRasterDataset);
         }
     }
 	return false;
@@ -882,7 +884,7 @@ void wxGISRasterRGBARenderer::OnFillStats(void)
 	if(!poGDALDataset)
 		return;
 
-    for(size_t i = 1; i <= poGDALDataset->GetRasterCount(); ++i)
+    for(int i = 1; i <= poGDALDataset->GetRasterCount(); ++i)
     {
         GDALRasterBand* pBand = poGDALDataset->GetRasterBand(i);
         GDALColorInterp eColorInterpretation = pBand->GetColorInterpretation();
@@ -1084,7 +1086,7 @@ bool wxGISRasterRasterColormapRenderer::CanRender(wxGISLayer* const pwxGISLayer)
         //GPI_CMYK 	 Cyan, Magenta, Yellow and Black (in c1, c2, c3 and c4)
         //GPI_HLS 	 Hue, Lightness and Saturation (in c1, c2, and c3)
         wxGISRasterDataset* pwxGISRasterDataset = wxDynamicCast(pwxGISLayer->GetDataset(), wxGISRasterDataset);
-        if(pwxGISRasterDataset)
+        if(NULL != pwxGISRasterDataset)
         {
             GDALDataset* poGDALDataset = pwxGISRasterDataset->GetRaster();
             if(poGDALDataset)
@@ -1101,6 +1103,7 @@ bool wxGISRasterRasterColormapRenderer::CanRender(wxGISLayer* const pwxGISLayer)
                     }
                 }
             }
+            wsDELETE(pwxGISRasterDataset);
         }
     }
 	return false;
@@ -1145,7 +1148,7 @@ void wxGISRasterRasterColormapRenderer::OnFillColorTable(void)
     }
 
     const GDALColorEntry* pstColorEntry = 0;
-	for(size_t i = 0; i < pGDALColorTable->GetColorEntryCount(); ++i )
+	for(int i = 0; i < pGDALColorTable->GetColorEntryCount(); ++i )
     {
         if(m_bHasNoData && i == m_nNoDataIndex)
         {

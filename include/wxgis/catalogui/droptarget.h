@@ -26,8 +26,11 @@
 
 #ifdef wxUSE_DRAG_AND_DROP
 
-/** \class wxGISDropTarget droptarget.h
-    \brief A DropTarget for catalog items.
+/** @class wxGISDropTarget
+    
+	Add drag and drop capability for inherited windows.
+
+	@library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISDropTarget : public wxDropTarget

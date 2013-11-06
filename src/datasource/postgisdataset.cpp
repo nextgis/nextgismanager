@@ -429,7 +429,7 @@ bool wxGISPostgresFeatureDataset::CanDelete(void)
 {
     if(m_poDS)
     {
-        return m_poDS->TestCapability(ODsCDeleteLayer);
+        return m_poDS->TestCapability(ODsCDeleteLayer) == 0 ? false : true;
     }
     return false;
 }

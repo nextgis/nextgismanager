@@ -409,7 +409,7 @@ void wxGISRasterPropertyPage::FillGrid(void)
                     AppendProperty(pcpid,  new wxStringProperty(_("GCP Projection"), wxPG_LABEL, _("Undefined")) );
             }
 
-            for(size_t i = 0; i < poGDALDataset->GetGCPCount(); ++i )
+            for(int i = 0; i < poGDALDataset->GetGCPCount(); ++i )
             {
                 const GDAL_GCP *psGCP = poGDALDataset->GetGCPs( ) + i;
                 m_pg->AppendIn(pcpid, new wxLongStringProperty(wxString::Format(wxT("GCP[%03d]"), i + 1), wxPG_LABEL, wxString::Format(_("Id='%s', Info='%s', (%.6g,%.6g) -> (%.6g,%.6g,%.6g)"), wxString(psGCP->pszId, wxConvLocal), wxString(psGCP->pszInfo, wxConvLocal), psGCP->dfGCPPixel, psGCP->dfGCPLine, psGCP->dfGCPX, psGCP->dfGCPY, psGCP->dfGCPZ)) );

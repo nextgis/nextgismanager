@@ -22,6 +22,8 @@
 
 #include "wxgis/framework/framework.h"
 
+#define NO_CATEGORY wxString(_("[No category]"))
+
 class WXDLLIMPEXP_GIS_FRW wxGISApplicationBase;
 /** \enum wxGISEnumCommandKind
     \brief A command types.

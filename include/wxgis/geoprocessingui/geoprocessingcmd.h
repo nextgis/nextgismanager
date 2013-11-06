@@ -22,16 +22,18 @@
 #pragma once
 
 #include "wxgis/framework/command.h"
+#include "wxgis/catalogui/gxapplication.h"
+
 //#include "wxgis/datasource/featuredataset.h"
 
 /** @class wxGISGeoprocessingCmd
 
     The main geoprocessing commands: "Export", ...
 
-    @library{geoprocessingui}
+    @library{gpui}
 */
 
-/*
+
 class WXDLLIMPEXP_GIS_GPU wxGISGeoprocessingCmd :
     public wxGISCommand
 {
@@ -53,9 +55,15 @@ public:
 	virtual wxString GetTooltip(void);
 	virtual unsigned char GetCount(void);
 protected:
+	void ExportSingleVectorDataset(IGxDataset* const pGxDataset);
+	void ExportSingleRasterDataset(IGxDataset* const pGxDataset);
+	void ExportSingleTableDataset(IGxDataset* const pGxDataset);
+	void ExportMultipleVectorDatasets(wxVector<IGxDataset*> &paDatasets);
+	void ExportMultipleRasterDatasets(wxVector<IGxDataset*> &paDatasets);
+	void ExportMultipleTableDatasets(wxVector<IGxDataset*> &paDatasets);
+protected:
 	wxGISApplicationBase* m_pApp;
-/*    wxString m_sLastError;
-    wxWindow* m_pToolboxView;*//*
+	wxGxApplicationBase* m_pGxApp;
+	wxWindow* m_pToolboxView;
 	wxIcon m_IconGPMenu, m_IconToolView;
 };
-*/

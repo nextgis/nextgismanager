@@ -73,13 +73,13 @@ public:
     virtual wxArrayString GetFieldNames(void);
     //
     virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false);
-	/*    
-    virtual OGRErr SetFilter(wxGISQueryFilter* pQFilter);	
-    */
+    //virtual OGRErr SetFilter(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter);
     virtual OGRErr SetIgnoredFields(const wxArrayString &saIgnoredFields);
+
 	virtual OGRDataSource* const GetDataSourceRef(void) const {return m_poDS;};
     virtual OGRLayer* const GetLayerRef(int iLayer = 0) const {return m_poLayer;};
 	virtual OGRFeatureDefn* const GetDefinition(void);
+	virtual OGRFeatureDefn* const GetDefinition(void) const;
 protected:
     virtual void SetInternalValues(void);
 protected:

@@ -52,7 +52,7 @@ void wxGISDropTarget::OnLeave()
 
 bool wxGISDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames)
 {
-    return m_pOwner->OnDropFiles(x, y, filenames);
+	return m_pOwner->OnDropObjects(x, y, filenames);
 }
 
 // ----------------------------------------------------------------------------

@@ -447,37 +447,59 @@ void wxGISSimpleCollectiomSymbol::Draw(const wxGISGeometry &Geometry, int nLevel
     if(!Geometry.IsOk() ||!m_pDisplay)
         return;
 
-    OGRGeometry *pGeom = Geometry;
-	OGRGeometryCollection* pOGRGeometryCollection = (OGRGeometryCollection*)pGeom;
-	for(int i = 0; i < pOGRGeometryCollection->getNumGeometries(); ++i)
+    if (!Geometry.IsOk())
+        return;
+
+    switch (wkbFlatten(Geometry.GetType()))
     {
-        wxGISGeometry CollectionGeom(pOGRGeometryCollection->getGeometryRef(i), false);
-        switch(CollectionGeom.GetType())
+    case wkbMultiPoint:
+    case wkbPoint:
+        m_pMarkerSymbol->Draw(Geometry);
+        break;
+    case wkbMultiPolygon:
+    case wkbPolygon:
+        m_pFillSymbol->Draw(Geometry);
+        break;
+    case wkbMultiLineString:
+    case wkbLineString:
+        m_pLineSymbol->Draw(Geometry);
+        break;
+    case wkbGeometryCollection:
         {
-	        case wkbMultiPoint:
-	        case wkbPoint:
-                m_pMarkerSymbol->Draw(CollectionGeom);
-		        break;
-	        case wkbMultiPolygon:
-	        case wkbPolygon:
-                m_pFillSymbol->Draw(CollectionGeom);
-                break;
-	        case wkbMultiLineString:
-            case wkbLineString:
-                m_pLineSymbol->Draw(CollectionGeom);
-                break;
-	        case wkbGeometryCollection:
-                Draw(CollectionGeom);
-                break;
-	        case wkbLinearRing:
-	        case wkbUnknown:
-	        case wkbNone:
-	        default:
-		        break;
-        };
+            OGRGeometryCollection* pOGRGeometryCollection = (OGRGeometryCollection*)Geometry.operator OGRGeometry *();
+            for (int i = 0; i < pOGRGeometryCollection->getNumGeometries(); ++i)
+            {
+                wxGISGeometry CollectionGeom(pOGRGeometryCollection->getGeometryRef(i), false);
+                Draw(CollectionGeom, nLevel);
+            }
+        }
+        break;
+    case wkbLinearRing:
+    case wkbUnknown:
+    case wkbNone:
+    default:
+        break;
     }
 }
 
+void wxGISSimpleCollectiomSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
+{
+    wxGISSymbol::SetupDisplay(pDisplay);
+    if (NULL != m_pMarkerSymbol)
+    {
+        m_pMarkerSymbol->SetupDisplay(pDisplay);
+    }
+    
+    if (NULL != m_pLineSymbol)
+    {
+        m_pLineSymbol->SetupDisplay(pDisplay);
+    }
+    if (NULL != m_pFillSymbol)
+    {
+        m_pFillSymbol->SetupDisplay(pDisplay);
+    }
+
+}
 /*
 
 			{

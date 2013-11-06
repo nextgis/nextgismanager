@@ -214,7 +214,7 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 		case 10:
 			return wxString(_("Miscellaneous"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 
@@ -303,7 +303,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
-                return dynamic_cast<IGxObjectEditUI*>(pGxObject);
+                return  NULL != dynamic_cast<IGxObjectEditUI*>(pGxObject);
             }
 			return false;
         case 11://Copy
@@ -443,7 +443,7 @@ void wxGISCatalogMainCmd::OnClick(void)
     switch(m_subtype)
 	{
 		case 0:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 if(!pGxObject)
@@ -469,7 +469,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 		case 1://	1	Connect Folder
 		{
 			wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder to connect")));
-			if(pSel && pCat && dlg.ShowModal() == wxID_OK)
+			if (NULL != pSel && NULL != pCat && dlg.ShowModal() == wxID_OK)
 			{
                 wxGxCatalog* pGxCatalog = wxDynamicCast(pCat, wxGxCatalog);
                 if(pGxCatalog)
@@ -485,28 +485,34 @@ void wxGISCatalogMainCmd::OnClick(void)
 		}
 		case 2://	2	Disconnect Folder - duplicate Delete command 
 		{
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 wxGxDiscConnection* pGxDiscConnection = wxDynamicCast(pGxObject, wxGxDiscConnection);
-                if(pGxDiscConnection && pGxDiscConnection->Delete())
+				if (pGxDiscConnection && pGxDiscConnection->Delete())
+				{
                     return;
-                else
+				}
+				else
+				{
                     wxMessageBox(_("Cannot disconnect folder"), _("Error"), wxOK | wxICON_ERROR);
+				}
             }
 			return;
 		}
 		case 8:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
                 wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                if(pGxView && pGxObject)
+				if (pGxView && pGxObject)
+				{
                     pGxView->BeginRename(pGxObject->GetId());
+				}
             }
 			break;
         case 4:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 bool bAskToDelete(true);
 
@@ -554,7 +560,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case 5:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 long nSelId = wxNOT_FOUND;
                 if(pSel->CanUndo())
@@ -568,7 +574,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case 6:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 long nSelId = wxNOT_FOUND;
                 if(pSel->CanRedo())
@@ -582,7 +588,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return; 
         case 9:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
                 {
@@ -593,7 +599,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case 10:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
 				wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
                 IGxObjectEditUI* pGxObjectEdit = dynamic_cast<IGxObjectEditUI*>(pGxObject);
@@ -602,7 +608,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case 11://copy
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
 
@@ -637,7 +643,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
     		return;
         case 12://cut
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
 
@@ -674,7 +680,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
     		return;
         case 13://paste
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 IGxDropTarget* pTarget = dynamic_cast<IGxDropTarget*>(pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId()));
                 if(!pTarget)
@@ -709,7 +715,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case 7:
-            if(pSel && pCat)
+			if (NULL != pSel && NULL != pCat)
             {
                 //create folder
                 long nSelId = pSel->GetFirstSelectedObjectId();
@@ -746,8 +752,10 @@ bool wxGISCatalogMainCmd::OnCreate(wxGISApplicationBase* pApp)
         if(oConfig.IsOk())
             m_nPrevNextSelCount = oConfig.ReadInt(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/catalog/prev_next_sel_count")), 7);
     }
-    else
+	else
+	{
         m_nPrevNextSelCount = 7;
+	}
 
 	return true;
 }

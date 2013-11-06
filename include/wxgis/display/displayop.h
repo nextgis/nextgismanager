@@ -101,7 +101,7 @@ inline void TrimFeatureToBoundary(OGRRawPoint* pOGRRawPointsIn, int nPointCountI
 	unsigned int i1 = nPointCountIn - 1; // start with last point
 
 	// and compare to the first point initially.
-	for ( unsigned int i2 = 0; i2 < nPointCountIn; ++i2 )
+	for ( int i2 = 0; i2 < nPointCountIn; ++i2 )
 	{ // look at each edge of the polygon in turn
 		if ( IsInsideEnvelope( pOGRRawPointsIn[i2], nPos, Env ) ) // end point of edge is inside boundary
 		{

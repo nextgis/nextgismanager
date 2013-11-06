@@ -212,7 +212,7 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
     if( CPLStrnlen(poLayer->GetGeometryColumn(), 100) > 0 )
         AppendProperty(playid, new wxStringProperty(_("Geometry Column"), wxString::Format(wxT("Geometry Column_%d"), iLayer), wxString( poLayer->GetGeometryColumn(), wxConvLocal ))); 
 
-    OGRFeatureDefn *poDefn = poLayer->GetLayerDefn();
+    OGRFeatureDefn* const poDefn = poLayer->GetLayerDefn();
     if(poDefn)
     {
         wxPGProperty* pfieldsid = AppendProperty(playid, new wxPropertyCategory(wxString::Format(_("Layer #%d Fields (%d)"), iLayer + 1, poDefn->GetFieldCount())) );

@@ -327,7 +327,7 @@ void wxGISFeatureDetailsPanel::OnMenu(wxCommandEvent& event)
 
             //reset image
             item.SetImage(wxNOT_FOUND);
-            for(size_t i = 0; i < m_listCtrl->GetColumnCount(); ++i)
+            for(int i = 0; i < m_listCtrl->GetColumnCount(); ++i)
                 m_listCtrl->SetColumn(i, item);
 
             FIELDSORTDATA sortdata = {m_nSortAsc, m_currentSortCol, m_Feature};
@@ -894,8 +894,6 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
 				    return;
 
 			    wxGISSpatialTreeCursor Cursor = pFLayer->Idetify(GeometryBounds);
-			    //flash on map
-                wxGISSymbol* pSymbol = GetDrawSymbol(pFLayer->GetGeometryType());
 
                 wxGISSpatialTreeCursor::const_iterator iter;
                 for(iter = Cursor.begin(); iter != Cursor.end(); ++iter)
@@ -903,7 +901,13 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
                     wxGISSpatialTreeData *current = *iter;
                     if(current)
                     {
-                        m_pMapView->AddFlashGeometry(current->GetGeometry(), pSymbol);
+                        //flash on map
+                        wxGISGeometry Geom = current->GetGeometry();
+                        if (Geom.IsOk())
+                        {
+                            wxGISSymbol* pSymbol = GetDrawSymbol(Geom.GetType());
+                            m_pMapView->AddFlashGeometry(Geom, pSymbol);
+                        }
                     }
                 }
                 m_pMapView->StartFlashing();
@@ -988,7 +992,7 @@ void wxAxIdentifyView::OnSelChanged(wxTreeEvent& event)
 			return;
 		}
 
-        m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+        m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
         m_pMapView->StartFlashing();
         wxGISFeature Feature = pData->m_pDataset->GetFeatureByID(pData->m_nOID);
 		m_pFeatureDetailsPanel->FillPanel(Feature);
@@ -1004,9 +1008,9 @@ void wxAxIdentifyView::OnLeftDown(wxMouseEvent& event)
 	if(TreeItemId.IsOk() && ((nFlags & wxTREE_HITTEST_ONITEMLABEL) || (nFlags & wxTREE_HITTEST_ONITEMICON)))
 	{
         wxIdentifyTreeItemData* pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(TreeItemId);
-        if(pData && pData->m_Geometry.IsOk())
+        if(NULL != pData && pData->m_Geometry.IsOk())
         {
-            m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+            m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
             m_pMapView->StartFlashing();
         }
     }
@@ -1023,16 +1027,20 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 	{
 	case ID_WGMENU_FLASH:
 	{
-		if(pData->m_Geometry.IsOk())
-		    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+        if (pData->m_Geometry.IsOk())
+        {
+            m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
+        }
 		else
 		{
             wxTreeItemIdValue cookie;
 			for ( wxTreeItemId item = m_pTreeCtrl->GetFirstChild(TreeItemId, cookie); item.IsOk(); item = m_pTreeCtrl->GetNextChild(TreeItemId, cookie) )
 			{
 				pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(item);
-				if(pData)
-                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+                if (pData)
+                {
+                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
+                }
 			}
 		}
         m_pMapView->StartFlashing();
@@ -1043,7 +1051,7 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
         wxGISGeometryArray Arr;
 		if(pData->m_Geometry.IsOk())
         {
-		    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+            m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
             Arr.Add(pData->m_Geometry);
         }
 		else
@@ -1054,7 +1062,7 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 				pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(item);
 				if(pData)
                 {
-                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
                     Arr.Add(pData->m_Geometry);
                 }
 			}
@@ -1081,7 +1089,7 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 
 		if(pData->m_Geometry.IsOk())
         {
-		    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+            m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
             Arr.Add(pData->m_Geometry);
         }
 		else
@@ -1092,7 +1100,7 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 				pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(item);
 				if(pData)
                 {
-                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_pDataset->GetGeometryType()));
+                    m_pMapView->AddFlashGeometry(pData->m_Geometry, GetDrawSymbol(pData->m_Geometry.GetType()));
                     Arr.Add(pData->m_Geometry);
                 }
 			}

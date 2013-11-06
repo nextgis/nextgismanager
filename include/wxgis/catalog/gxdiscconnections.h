@@ -60,7 +60,6 @@ protected:
     virtual wxGxObject* CreateChildGxObject(const wxJSONValue& GxObjConfValue);
     virtual int GetStorageVersion(void) const {return 2;};
 protected:
-	bool m_bIsChildrenLoaded;
     wxString m_sUserConfigDir;
     wxFileSystemWatcher *m_pWatcher;
     wxCriticalSection m_oCritSect;

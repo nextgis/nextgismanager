@@ -92,7 +92,7 @@ wxString wxGISCatalogViewsCmd::GetCategory(void)
 		case 1:
 			return wxString(_("Edit"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 
@@ -113,7 +113,7 @@ bool wxGISCatalogViewsCmd::GetChecked(void)
 
 bool wxGISCatalogViewsCmd::GetEnabled(void)
 {
-    if(!m_pTreeView)
+    if(NULL == m_pTreeView)
 	{
         m_pTreeView = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxGxTreeView));
 	}
@@ -133,7 +133,7 @@ bool wxGISCatalogViewsCmd::GetEnabled(void)
     switch(m_subtype)
 	{
 		case 2:
-            return m_pTreeView != NULL;
+            return NULL != m_pTreeView;
 		case 0:
 		case 1:
             for(size_t i = 0; i < m_anContentsWinIDs.GetCount(); ++i)

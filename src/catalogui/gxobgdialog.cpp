@@ -196,6 +196,11 @@ void wxTreeViewComboPopup::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hPare
 	if(NULL == pContainer)
 		return;
 
+    if (m_TreeMap[pGxObject->GetId()].IsOk())
+    {
+        return;
+    }
+
 	IGxObjectUI* pObjUI =  dynamic_cast<IGxObjectUI*>(pGxObject);
 	wxIcon icon;
 	if(pObjUI != NULL)
@@ -1001,7 +1006,7 @@ wxString wxGxObjectDialog::GetName(void) const
 			if(!sExt.IsEmpty())
                 FileName.SetExt(sExt);
 		}
-		return FileName.GetName();
+		return FileName.GetFullName();
 	}
 	else
 	{

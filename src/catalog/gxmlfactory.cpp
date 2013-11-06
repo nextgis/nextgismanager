@@ -32,10 +32,10 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxMLFactory, wxObject)
 
 wxGxMLFactory::wxGxMLFactory(void)
 {
-    m_bHasKMLDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("KML");
-    m_bHasLIBKMLDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("LIBKML");
-    m_bHasDXFDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
-    m_bHasGMLDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
+    m_bHasKMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("KML");
+    m_bHasLIBKMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("LIBKML");
+    m_bHasDXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
+    m_bHasGMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
 }
 
 wxGxMLFactory::~wxGxMLFactory(void)

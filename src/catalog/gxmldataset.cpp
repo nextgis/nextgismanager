@@ -75,19 +75,18 @@ wxGISDataset* const wxGxMLDataset::GetDatasetFast(void)
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISFeatureDatasetCached* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDatasetCached);
 
-    if(pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
+    if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {
         if(!pwxGISFeatureDataset->Open(0, 0, bCache, pTrackCancel))
         {
-            pwxGISFeatureDataset->Release();
+            wsDELETE(pwxGISFeatureDataset);
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
@@ -96,9 +95,10 @@ wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const p
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISFeatureDataset);
 	}
 
-	return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 bool wxGxMLDataset::HasChildren()
@@ -133,6 +133,7 @@ void wxGxMLDataset::LoadChildren(void)
             wxGISDataset* pwxGISFeatureSuDataset = m_pwxGISDataset->GetSubset(i);
             new wxGxMLSubDataset((wxGISEnumVectorDatasetType)GetSubType(), pwxGISFeatureSuDataset, wxStaticCast(this, wxGxObject), pwxGISFeatureSuDataset->GetName(), wxGxObjectContainer::GetPath());
 	    }
+        wsDELETE(pDSet);
     }
 	m_bIsChildrenLoaded = true;
 }
@@ -144,8 +145,7 @@ IMPLEMENT_CLASS(wxGxMLSubDataset, wxGxFeatureDataset)
 
 wxGxMLSubDataset::wxGxMLSubDataset(wxGISEnumVectorDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(nType, oParent, soName, soPath)
 {
-	m_pwxGISDataset = pwxGISDataset;
-    m_pwxGISDataset->Reference();
+    wsSET(m_pwxGISDataset, pwxGISDataset);
 
     m_sPath += "?name=";
     m_sPath += soName.mb_str(wxConvUTF8);

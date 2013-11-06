@@ -28,6 +28,7 @@
 #define wgDELETE(p,func) if(p != NULL) {p->func; delete p; p = NULL;}
 #define wsDELETE(p) if(p != NULL) {p->Release(); p = NULL;}
 #define wsSET(mp, p) if(p != NULL) {mp = p; mp->Reference();}else{mp = NULL;}
+#define wsGET(p) if(p != NULL){p->Reference(); return p;} else{return NULL;}
 #define RtlZeroMemory(Destination,Length) memset((Destination),0,(Length))
 
 #define __YEAR__ ((((__DATE__ [7] - '0') * 10 + (__DATE__ [8] - '0')) * 10 \

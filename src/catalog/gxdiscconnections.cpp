@@ -34,7 +34,7 @@ BEGIN_EVENT_TABLE(wxGxDiscConnections, wxGxJSONConnectionStorage)
     EVT_FSWATCHER(wxID_ANY, wxGxJSONConnectionStorage::OnFileSystemEvent)
 END_EVENT_TABLE()
 
-wxGxDiscConnections::wxGxDiscConnections(void) : wxGxJSONConnectionStorage(), m_bIsChildrenLoaded(false)
+wxGxDiscConnections::wxGxDiscConnections(void) : wxGxJSONConnectionStorage()
 {
     m_sName = wxString(_("Folder connections"));
 }

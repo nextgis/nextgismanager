@@ -123,7 +123,7 @@ bool wxGISFeatureRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* cons
 	if(!stDrawBounds.IsInit())
 		return false;
 
-    bool bAllFeatures = stDrawBounds.Contains(stFeatureDatasetExtent);
+    bool bAllFeatures = stDrawBounds.Contains(stFeatureDatasetExtent) == 0 ? false : true;
 	//if(!stFeatureDatasetExtent.Contains(stDrawBounds))
 	//	stDrawBounds = stFeatureDatasetExtent;
 

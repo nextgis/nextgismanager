@@ -753,7 +753,7 @@ void wxGxLocationComboBox::Deactivate(void)
 	wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk() && m_pApp)
 	{
-        int nMaxCount = oConfig.ReadInt(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/location_combo/paths_count")), 10);
+        size_t nMaxCount = oConfig.ReadInt(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/location_combo/paths_count")), 10);
         wxXmlNode *pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/location_combo")));
         if(!pNode)
             pNode = oConfig.CreateConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/location_combo")));

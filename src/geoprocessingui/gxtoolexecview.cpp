@@ -191,7 +191,7 @@ void wxGISToolExecuteView::Serialize(wxXmlNode* pRootNode, bool bStore)
 	{
         //store col width
         wxString sCols;
-        for(size_t i = 0; i < GetColumnCount(); ++i)
+        for(int i = 0; i < GetColumnCount(); ++i)
         {
             sCols += wxString::Format(wxT("%d"), GetColumnWidth(i));
             sCols += wxT("|");
@@ -610,7 +610,7 @@ bool wxGISToolExecuteView::OnDropObjects(wxCoord x, wxCoord y, long nParentPoint
     //1. Read all items to map sortig using priority, but not adding moving items
     m_bDropping = true;
     std::map<long, IGxTask*> ItemsMap;
-    for(size_t i = 0; i < GetItemCount(); ++i)
+    for(int i = 0; i < GetItemCount(); ++i)
     {
         long nTaskId = GetItemData(i);
         if(TaskIds.Index(nTaskId) == wxNOT_FOUND)

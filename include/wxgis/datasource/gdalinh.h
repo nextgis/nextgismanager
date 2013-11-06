@@ -86,7 +86,7 @@ public:
     bool operator == (const wxGISSpatialReferenceRefData& data) const
     {
         wxCHECK_MSG(m_poSRS && data.m_poSRS, false, wxT("m_poSRS or data.m_poSRS is null"));
-        return m_poSRS->IsSame( data.m_poSRS);
+        return m_poSRS->IsSame( data.m_poSRS) == 0 ? false : true;
     }
 
     virtual void Validate()

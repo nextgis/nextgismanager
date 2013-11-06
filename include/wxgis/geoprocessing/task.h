@@ -158,7 +158,7 @@ protected:
 
     The task is class which controls executing geoprocessing operation (tool). The tasks add to the quere. Then user start executing the task, the task state changes to the quered and task is waiting for the task manager tool. The task really starts it state changes to the working.
 
-    @library{wxgisgp}
+    @library{gp}
 */
 
 class WXDLLIMPEXP_GIS_GP wxGISTask : 

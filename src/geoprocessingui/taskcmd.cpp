@@ -108,7 +108,7 @@ wxString wxGISTaskCmd::GetCategory(void)
 		case 3:
 			return wxString(_("Geoprocessing"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 

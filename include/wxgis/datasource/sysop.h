@@ -32,6 +32,7 @@ WXDLLIMPEXP_GIS_DS bool RenameFile(const CPLString &sOldPath, const CPLString &s
 WXDLLIMPEXP_GIS_DS bool CopyFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCance = NULL);
 WXDLLIMPEXP_GIS_DS bool MoveFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS wxFontEncoding GetEncodingFromCpg(const CPLString &sPath);
+WXDLLIMPEXP_GIS_DS wxFontEncoding ToFontEncoding(const CPLString &soCodePage);
 //WXDLLIMPEXP_GIS_DS CPLString GetEncodingName(wxFontEncoding eEncoding);
 WXDLLIMPEXP_GIS_DS wxString ClearExt(const wxString &sPath);
 WXDLLIMPEXP_GIS_DS bool IsFileHidden(const CPLString &sPath);

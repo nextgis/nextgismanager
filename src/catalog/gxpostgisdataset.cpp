@@ -46,8 +46,7 @@ wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
         m_pwxGISDataset = m_pwxGISRemoteConn->GetSubset(m_sFullyQualifiedName);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 void wxGxPostGISTableDataset::FillMetadata(bool bForce)
@@ -98,8 +97,7 @@ wxGISDataset* const wxGxPostGISFeatureDataset::GetDatasetFast(void)
         m_pwxGISDataset = m_pwxGISRemoteConn->GetSubset(m_sFullyQualifiedName);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 void wxGxPostGISFeatureDataset::FillMetadata(bool bForce)

@@ -175,9 +175,10 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
             wxGISLayer* const pLayer = GetLayer(i);
             if(pLayer)
             {
-                wxGISDataset* const pDSet = pLayer->GetDataset();
-                if(pDSet && !pDSet->IsCached() && !pDSet->IsCaching())
+                wxGISDataset* pDSet = pLayer->GetDataset();
+                if(NULL != pDSet && !pDSet->IsCached() && !pDSet->IsCaching())
                 {
+                    wsDELETE(pDSet);
                     bIsCached = false;
                     break;
                 }
@@ -194,10 +195,11 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
             wxGISLayer* const pLayer = GetLayer(i);
             if(pLayer)
             {
-                wxGISDataset* const pDSet = pLayer->GetDataset();
-                if(pDSet && pDSet->IsCaching())
+                wxGISDataset* pDSet = pLayer->GetDataset();
+                if(NULL != pDSet && pDSet->IsCaching())
                 {
                     pDSet->StopCaching();
+                    wsDELETE(pDSet);
                 }
             }
         }
@@ -243,9 +245,9 @@ wxGISLayer* wxGxMapView::GetLayerFromDataset(wxGxDataset* const pGxDataset)
 		}
 		break;
 	default:
-        wsDELETE(pwxGISDataset);
 		break;
 	}
+    wsDELETE(pwxGISDataset);
     return pLayer;
 }
 

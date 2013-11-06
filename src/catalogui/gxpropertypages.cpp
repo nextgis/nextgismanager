@@ -133,7 +133,7 @@ void wxGISCatalogGeneralPropertyPage::Apply(void)
     m_pCatalog->SetOpenLastPath(bOpenLast);
 
     //update object factories
-    for(size_t i = 0; i < m_pFactoryItems->GetItemCount(); ++i)
+    for(int i = 0; i < m_pFactoryItems->GetItemCount(); ++i)
     {
         if(m_pFactoryItems->IsItemChanged(i))
         {
@@ -150,7 +150,7 @@ void wxGISCatalogGeneralPropertyPage::Apply(void)
     }
 
     //update root items
-    for(size_t i = 0; i < m_pRootItems->GetItemCount(); ++i)
+    for(int i = 0; i < m_pRootItems->GetItemCount(); ++i)
     {
         if(m_pRootItems->IsItemChanged(i))
         {

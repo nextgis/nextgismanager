@@ -81,7 +81,7 @@ bool wxGISSpatialReference::IsSame(const wxGISSpatialReference& SpatialReference
 {
     if(!SpatialReference.IsOk() || !IsOk())
         return false;
-    return ((wxGISSpatialReferenceRefData *)m_refData)->m_poSRS->IsSame(SpatialReference);
+    return ((wxGISSpatialReferenceRefData *)m_refData)->m_poSRS->IsSame(SpatialReference) == 0 ? false : true;
 }
 
 //-----------------------------------------------------------------------------
@@ -260,7 +260,7 @@ wxString wxGISFeature::GetFieldAsString(int nField)
 		{
 			int nCount(0);
 			const double* pDblLst = GetFieldAsDoubleList(nField, &nCount);
-			for(size_t i = 0; i < nCount; ++i)
+			for(int i = 0; i < nCount; ++i)
 			{
 				sOut += wxString::Format(wxT("%.12f;"), pDblLst[i]);
 			}
@@ -270,7 +270,7 @@ wxString wxGISFeature::GetFieldAsString(int nField)
 		{
 			int nCount(0);
 			const int* pIntLst = GetFieldAsIntegerList(nField, &nCount);
-			for(size_t i = 0; i < nCount; ++i)
+			for(int i = 0; i < nCount; ++i)
 			{
 				sOut += wxString::Format(wxT("%.d;"), pIntLst[i]);
 			}
@@ -572,7 +572,7 @@ wxGISGeometry wxGISGeometry::UnionCascaded() const
 bool wxGISGeometry::Intersects(const wxGISGeometry &Geom) const
 {
     wxCHECK_MSG(((wxGISGeometryRefData *)m_refData)->m_poGeom && Geom.IsOk(), false, wxT("OGRGeometry pointer is null"));
-    return bool( ((wxGISGeometryRefData *)m_refData)->m_poGeom->Intersects(Geom) );
+    return ((wxGISGeometryRefData *)m_refData)->m_poGeom->Intersects(Geom) == 0 ? false : true;
 }
 
 wxGISGeometry wxGISGeometry::Buffer(double dfBuff, int nQuadSegs) const

@@ -122,7 +122,7 @@ enum wxGISEnumGPParameterDataType
 
     An abstract class - base for all geoprocessing task classes
 
-    @library{wxgisgp}
+    @library{gp}
 */
 
 class IGxTask

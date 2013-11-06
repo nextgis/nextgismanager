@@ -68,7 +68,7 @@ wxString wxGISRasterCmd::GetCategory(void)
 		case 0:	
 			return wxString(_("Raster"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 

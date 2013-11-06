@@ -85,13 +85,13 @@ void wxGxTableDatasetUI::EditProperties(wxWindow *parent)
 wxGISDataset* const wxGxTableDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
     wxGISDataset* const pOut = wxGxTableDataset::GetDataset(bCached, pTrackCancel);
-    if(!pOut)
+    if(NULL == pOut)
     {
         const char* err = CPLGetLastErrorMsg();
 		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
         wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
     }
-    return pOut;
+    wsGET(pOut);
 }
 
 bool wxGxTableDatasetUI::Invoke(wxWindow* pParentWnd)
@@ -145,6 +145,8 @@ void wxGxFeatureDatasetUI::EditProperties(wxWindow *parent)
             pDset->Open();
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+
+        wsDELETE(pDset);
 	}
 
     //PropertySheetDialog.LayoutDialog();
@@ -157,13 +159,13 @@ void wxGxFeatureDatasetUI::EditProperties(wxWindow *parent)
 wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
     wxGISDataset* const pOut = wxGxFeatureDataset::GetDataset(bCached, pTrackCancel);
-    if(!pOut)
+    if(NULL == pOut)
     {
         const char* err = CPLGetLastErrorMsg();
 		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
         wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
     }
-    return pOut;
+    wsGET(pOut);
 }
 
 bool wxGxFeatureDatasetUI::Invoke(wxWindow* pParentWnd)
@@ -210,12 +212,14 @@ void wxGxRasterDatasetUI::EditProperties(wxWindow *parent)
     wxGISRasterPropertyPage* RasterPropertyPage = new wxGISRasterPropertyPage(this, pParentWnd);
     PropertySheetDialog.GetBookCtrl()->AddPage(RasterPropertyPage, RasterPropertyPage->GetPageName());
 	wxGISRasterDataset* pDset = wxDynamicCast(GetDataset(), wxGISRasterDataset);
-	if(pDset)
+	if(NULL != pDset)
 	{
         if(!pDset->IsOpened())
             pDset->Open(true);
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+
+        wsDELETE(pDset);
 	}
 
     //TODO: Additional page for virtual raster VRTSourcedDataset with sources files
@@ -236,12 +240,12 @@ bool wxGxRasterDatasetUI::Invoke(wxWindow* pParentWnd)
 wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
     wxGISDataset* const pOut = wxGxRasterDataset::GetDataset(bCached, pTrackCancel);
-    if(!pOut)
+    if(NULL == pOut)
     {
         const char* err = CPLGetLastErrorMsg();
 		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
         wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
     }
-    return pOut;
+    wsGET(pOut);
 }
 

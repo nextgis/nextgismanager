@@ -108,7 +108,7 @@ wxString wxGISCartoMainCmd::GetCategory(void)
 		case 2:
 			return wxString(_("Geography"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 
@@ -337,7 +337,7 @@ wxString wxGISCartoMainTool::GetCategory(void)
 		case 3:
 			return wxString(_("Geography"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 
@@ -738,7 +738,7 @@ wxString wxGISCartoFrameTool::GetCategory(void)
 		case 2:
 			return wxString(_("View"));
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 

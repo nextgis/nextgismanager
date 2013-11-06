@@ -3,7 +3,7 @@
  * Purpose:  wxAxToolboxView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010 Bishop
+*   Copyright (C) 2009-2011,2013 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-/*
+
 #include "wxgis/geoprocessingui/gptoolboxview.h"
 #include "wxgis/geoprocessingui/gptoolbox.h"
 #include "wxgis/framework/droptarget.h"
@@ -48,12 +48,16 @@ bool wxAxToolboxView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
     return wxAuiNotebook::Create(parent, id, pos, size, wxAUI_NB_BOTTOM | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
 }
 
-bool wxAxToolboxView::Activate(IFrameApplication* application, wxXmlNode* pConf)
+bool wxAxToolboxView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
 {
-	if(!wxGxView::Activate(application, pConf))
+	if (!wxGxView::Activate(pApplication, pConf))
 		return false;
 
-    m_pApp = application;
+	m_pApp = wxDynamicCast(pApplication, wxGISApplicationBase);
+	if (!m_pApp)
+	{
+		return false;
+	}
 
     //get config xml
     wxXmlNode *pTaskExecConf(NULL), *pToolboxTreeConf(NULL);
@@ -82,10 +86,10 @@ bool wxAxToolboxView::Activate(IFrameApplication* application, wxXmlNode* pConf)
     wxGetOsVersion(&nOSMajorVer);
     m_pGxToolboxView = new wxGxToolboxTreeView(this, TREECTRLID, wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_NONE | wxTR_EDIT_LABELS | (nOSMajorVer > 5 ? wxTR_NO_LINES : 0));
     AddPage(m_pGxToolboxView, m_pGxToolboxView->GetViewName(), true, m_pGxToolboxView->GetViewIcon());
-    m_pGxToolboxView->Activate(application, pToolboxTreeConf);
-    m_pApp->RegisterChildWindow(m_pGxToolboxView);
+    m_pGxToolboxView->Activate(pApplication, pToolboxTreeConf);
+    m_pApp->RegisterChildWindow(m_pGxToolboxView->GetId());
 
-
+	/*
     wxGxToolExecute* pGxToolExecute(NULL);
     IGxObjectContainer* pRootContainer = dynamic_cast<IGxObjectContainer*>(m_pGxApplication->GetCatalog());
     if(pRootContainer)
@@ -114,34 +118,26 @@ bool wxAxToolboxView::Activate(IFrameApplication* application, wxXmlNode* pConf)
         m_pGxToolExecuteView->SetGxToolExecute(pGxToolExecute);
         m_pApp->RegisterChildWindow(m_pGxToolExecuteView);
     }
-
+	*/
 	return true;
 }
 
 void wxAxToolboxView::Deactivate(void)
 {
+	/*
     m_pGxToolExecuteView->Deactivate();
     m_pApp->UnRegisterChildWindow(m_pGxToolExecuteView);
-
-    m_pGxToolboxView->Deactivate();
-    m_pApp->UnRegisterChildWindow(m_pGxToolboxView);
+	*/
+	if (m_pGxToolboxView)
+	{
+		m_pGxToolboxView->Deactivate();
+		m_pApp->UnRegisterChildWindow(m_pGxToolboxView->GetId());
+	}
 }
 
-wxWindow* wxAxToolboxView::GetCurrentWnd(void)
-{
-	//int nSelTab = GetSelection();
-	//wxASSERT(nSelTab >= 0 && nSelTab < m_Tabs.size());
-
-	//wxGxTab* pCurrTab = m_Tabs[nSelTab];
-	//if(pCurrTab)
-	//	return pCurrTab->GetCurrentWindow();
-	return NULL;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////
+//-------------------------------------------------------------------
 // wxGxToolsExecView
-////////////////////////////////////////////////////////////////////////////////////////////
+//-------------------------------------------------------------------
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxToolboxTreeView, wxGxTreeView)
 
@@ -151,7 +147,7 @@ wxGxToolboxTreeView::wxGxToolboxTreeView(void) : wxGxTreeView()
 
 wxGxToolboxTreeView::wxGxToolboxTreeView(wxWindow* parent, wxWindowID id, long style) : wxGxTreeView(parent, id, style)
 {
-    SetDropTarget(new wxGISDropTarget(static_cast<IViewDropTarget*>(this)));
+	SetDropTarget(new wxGISDropTarget(static_cast<IViewDropTarget*>(this)));
     m_sViewName = wxString(_("Toolboxes"));
 }
 
@@ -159,54 +155,54 @@ wxGxToolboxTreeView::~wxGxToolboxTreeView(void)
 {
 }
 
-bool wxGxToolboxTreeView::Activate(IFrameApplication* application, wxXmlNode* pConf)
+bool wxGxToolboxTreeView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
 {
-	if(!wxGxView::Activate(application, pConf))
+	if (!wxGxView::Activate(pApplication, pConf))
 		return false;
 
-    m_pCatalog = dynamic_cast<wxGxCatalogUI*>(m_pGxApplication->GetCatalog());
-	//delete
-    m_pDeleteCmd = application->GetCommand(wxT("wxGISCatalogMainCmd"), 4);
-	//new
-	m_pNewMenu = dynamic_cast<wxGISNewMenu*>(application->GetCommandBar(NEWMENUNAME));
-
-	if(m_pCatalog)
+	m_pApp = dynamic_cast<wxGISApplicationBase*>(pApplication);
+	wxGxApplicationBase* pGxApp = dynamic_cast<wxGxApplicationBase*>(pApplication);
+	if (NULL == pGxApp)
 	{
-		IGxObject* pGxToolboxes = m_pCatalog->SearchChild(wxString(_("Toolboxes")));
-		AddRoot(dynamic_cast<IGxObject*>(pGxToolboxes));
-
-		m_pConnectionPointCatalog = dynamic_cast<wxGISConnectionPointContainer*>( m_pCatalog );
-		if(m_pConnectionPointCatalog != NULL)
-			m_ConnectionPointCatalogCookie = m_pConnectionPointCatalog->Advise(this);
-
-		m_pSelection = m_pCatalog->GetSelection();
-		//m_pConnectionPointSelection = dynamic_cast<wxGISConnectionPointContainer*>( m_pSelection );
-		//if(m_pConnectionPointSelection != NULL)
-		//	m_ConnectionPointSelectionCookie = m_pConnectionPointSelection->Advise(this);
+		return false;
 	}
+	m_pSelection = pGxApp->GetGxSelection();
+	//m_pConnectionPointSelection = dynamic_cast<wxGISConnectionPointContainer*>( m_pSelection );
+	//if(m_pConnectionPointSelection != NULL)
+	//	m_ConnectionPointSelectionCookie = m_pConnectionPointSelection->Advise(this);
+
+	//delete
+	m_pDeleteCmd = m_pApp->GetCommand(wxT("wxGISCatalogMainCmd"), 4);
+	//new
+	m_pNewMenu = dynamic_cast<wxGISNewMenu*>(m_pApp->GetCommandBar(NEWMENUNAME));
+
+	if (NULL == GetGxCatalog())
+		return false;
+	m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+
+	//TODO: wxDynamicCast(pGxCatalog->GetRootItemByType(wxCLASSINFO(wxGxDiscConnections)), wxGxDiscConnections);
+	wxGxObject* pGxToolboxes = m_pCatalog->FindGxObject(wxString(_("Toolboxes")));
+	AddRoot(pGxToolboxes);
+
+	m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
 
 	return true;
-};
+}
 
 void wxGxToolboxTreeView::UpdateGxSelection(void)
 {
-    wxTreeItemId TreeItemId = GetSelection();
-    m_pSelection->Clear(GetId());
-    //if(TreeItemId.IsOk())
+	wxTreeItemId TreeItemId = GetSelection();
+	m_pSelection->Clear(GetId());
+	//if(TreeItemId.IsOk())
     //{
     //    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(TreeItemId);
     //    if(pData != NULL)
 	   //     m_pSelection->Select(pData->m_pObject, true, GetId());
     //}
-	if(	m_pNewMenu )
+	if (m_pNewMenu)
+	{
 		m_pNewMenu->Update(m_pSelection);
+	}
 }
 
-void wxGxToolboxTreeView::AddTreeItem(IGxObject* pGxObject, wxTreeItemId hParent)
-{
-    wxGxToolExecute* pGxToolExecute = dynamic_cast<wxGxToolExecute*>(pGxObject);
-    if(pGxToolExecute)
-        return;
-    wxGxTreeView::AddTreeItem(pGxObject, hParent);
-}
-*/
+

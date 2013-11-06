@@ -45,6 +45,7 @@ wxGISGridTable::wxGISGridTable(wxGISDataset* pGISDataset)
 
 wxGISGridTable::~wxGISGridTable()
 {
+    wsDELETE(m_pGISDataset);
 }
 
 int wxGISGridTable::GetNumberCols()
@@ -99,7 +100,7 @@ wxString wxGISGridTable::GetRowLabelValue(int row)
 
 wxGISTable* wxGISGridTable::GetDataset() const
 {
-    return m_pGISDataset;
+    wsGET(m_pGISDataset);
 }
 
 bool wxGISGridTable::IsEmptyCell(int row, int col)

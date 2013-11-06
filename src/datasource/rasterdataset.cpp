@@ -443,7 +443,7 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
 
     //nodata check
     m_paNoData = new double[m_nBandCount];
-    for(size_t nBand = 0; nBand < m_nBandCount; ++nBand)
+    for(int nBand = 0; nBand < m_nBandCount; ++nBand)
     {
         GDALRasterBand* pBand;
         if(m_poMainDataset)
@@ -577,16 +577,18 @@ bool wxGISRasterDataset::FixSAGARaster(const CPLString &szDestPath, const CPLStr
     if(psXMLRoot)
     {
         CPLXMLNode *pNode = psXMLRoot->psNext;//SAGA_METADATA
-        bRet = CPLSetXMLValue(pNode, "SOURCE.FILE", CPLFormFilename(szDestPath, CPLGetFilename(szDestName), "sgrd"));
-        if(bRet)
-            bRet = CPLSerializeXMLTreeToFile(psXMLRoot, sMGRDFileName);
+        bRet = CPLSetXMLValue(pNode, "SOURCE.FILE", CPLFormFilename(szDestPath, CPLGetFilename(szDestName), "sgrd")) == 0 ? false : true;
+        if (bRet)
+        {
+            bRet = CPLSerializeXMLTreeToFile(psXMLRoot, sMGRDFileName) == 0 ? false : true;
+        }
         CPLDestroyXMLNode( psXMLRoot );
     }
 
     CPLString sSGRDFileName(CPLFormFilename(szDestPath, szDestName, "sgrd"));
     char** papszNameValues = CSLLoad(sSGRDFileName);
     papszNameValues[0] = (char*)CPLSPrintf("NAME\t= %s", szDestName.c_str() );
-    bRet = CSLSave(papszNameValues, sSGRDFileName);
+    bRet = CSLSave(papszNameValues, sSGRDFileName) == 0 ? false : true;
 
     CSLDestroy(papszNameValues);
 
@@ -678,5 +680,5 @@ bool wxGISRasterDataset::WriteWorldFile(wxGISEnumWldExtType eType)
         wxLogError(_("GetGeoTransform failed! GDAL error: %s"), wxString(pszerr, wxConvUTF8).c_str());
 		return false;
     }
-	return GDALWriteWorldFile(m_sPath, sNewExt, adfGeoTransform);
+	return GDALWriteWorldFile(m_sPath, sNewExt, adfGeoTransform) == 0 ? false : true;
 }

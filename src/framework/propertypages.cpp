@@ -380,16 +380,16 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     //Generic Options
     wxPGProperty* prop = AppendProperty( new wxPropertyCategory(_("Generic Options")) );        
 
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("CPL_DEBUG")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_DEBUG", "OFF" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_DEBUG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_DEBUG", "OFF")) == 0 ? false : true));
     AppendProperty(prop,  new wxFileProperty(wxString(wxT("CPL_LOG")), wxPG_LABEL, wxString(CPLGetConfigOption( "CPL_LOG", "" ), wxConvUTF8)));
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("CPL_LOG_ERRORS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_LOG_ERRORS", "OFF" ) )));
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("CPL_TIMESTAMP")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_TIMESTAMP", "OFF" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_LOG_ERRORS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_LOG_ERRORS", "OFF")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_TIMESTAMP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_TIMESTAMP", "OFF")) == 0 ? false : true));
     AppendProperty(prop,  new wxIntProperty(wxString(wxT("CPL_MAX_ERROR_REPORTS")), wxPG_LABEL, atoi(CPLGetConfigOption( "CPL_MAX_ERROR_REPORTS", "1000" )) ));
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("CPL_ACCUM_ERROR_MSG")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_ACCUM_ERROR_MSG", "ON" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_ACCUM_ERROR_MSG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_ACCUM_ERROR_MSG", "ON")) == 0 ? false : true));
     AppendProperty(prop,  new wxDirProperty(wxString(wxT("CPL_TMPDIR")), wxPG_LABEL, wxString(CPLGetConfigOption( "CPL_TMPDIR", "" ), wxConvUTF8)));
     AppendProperty(prop,  new wxDirProperty(wxString(wxT("GDAL_DATA")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_DATA", "" ), wxConvUTF8)));
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("GDAL_DISABLE_CPLLOCALEC")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_DISABLE_CPLLOCALEC", "NO" ) )));
-    AppendProperty(prop,  new wxBoolProperty(wxString(wxT("GDAL_FILENAME_IS_UTF8")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_FILENAME_IS_UTF8", "ON" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_DISABLE_CPLLOCALEC")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_DISABLE_CPLLOCALEC", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FILENAME_IS_UTF8")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_FILENAME_IS_UTF8", "ON")) == 0 ? false : true));
     AppendProperty(prop,  new wxDirProperty(wxString(wxT("GEOTIFF_CSV")), wxPG_LABEL, wxString(CPLGetConfigOption( "GEOTIFF_CSV", "" ), wxConvUTF8)));
 
     //web options
@@ -397,24 +397,24 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(prop, new wxStringProperty(wxString(wxT("CPL_VSIL_CURL_ALLOWED_EXTENSIONS")), wxPG_LABEL, wxString(CPLGetConfigOption( "CPL_VSIL_CURL_ALLOWED_EXTENSIONS", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_PROXY")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_PROXY", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_PROXYUSERPWD")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_PROXYUSERPWD", "" ), wxConvUTF8)));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_GZIP")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_CURL_GZIP", "ON" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_VERBOSE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_CURL_VERBOSE", "OFF" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_GZIP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_GZIP", "ON")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_VERBOSE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_VERBOSE", "OFF")) == 0 ? false : true));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("CPL_VSIL_CURL_MAX_RANGES")), wxPG_LABEL, atoi(CPLGetConfigOption( "CPL_VSIL_CURL_MAX_RANGES", "250" ))));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_VSIL_CURL_SLOW_GET_SIZE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CPL_CURL_VERBOSE", "ON" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_VSIL_CURL_SLOW_GET_SIZE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_VERBOSE", "ON")) == 0 ? false : true));
 
     //GDAL Options
     prop = AppendProperty(new wxPropertyCategory(_("GDAL Options")) );
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_DISABLE_READDIR_ON_OPEN")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_DISABLE_READDIR_ON_OPEN", "NO" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_DISABLE_READDIR_ON_OPEN")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_DISABLE_READDIR_ON_OPEN", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_CACHEMAX")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_CACHEMAX", "41943040" ))));
 
     wxArrayString saParams = wxStringTokenize(wxString(CPLGetConfigOption( "GDAL_SKIP", "" ), wxConvUTF8), wxT(" "), wxTOKEN_RET_EMPTY);
     AppendProperty(prop, new wxArrayStringProperty(wxString(wxT("GDAL_SKIP")), wxPG_LABEL, saParams));
 
     AppendProperty(prop, new wxDirProperty(wxString(wxT("GDAL_DRIVER_PATH")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_DRIVER_PATH", "" ), wxConvUTF8)));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FORCE_CACHING")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_FORCE_CACHING", "OFF" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_VALIDATE_CREATION_OPTIONS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_VALIDATE_CREATION_OPTIONS", "YES" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_IGNORE_AXIS_ORIENTATION")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_IGNORE_AXIS_ORIENTATION", "FALSE" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_USE_SOURCE_OVERVIEWS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_USE_SOURCE_OVERVIEWS", "OFF" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FORCE_CACHING")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_FORCE_CACHING", "OFF")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_VALIDATE_CREATION_OPTIONS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_VALIDATE_CREATION_OPTIONS", "YES")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_IGNORE_AXIS_ORIENTATION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_IGNORE_AXIS_ORIENTATION", "FALSE")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_USE_SOURCE_OVERVIEWS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_USE_SOURCE_OVERVIEWS", "OFF")) == 0 ? false : true));
 
     //PAM/AUX
     wxString sCurrentVal(CPLGetConfigOption( "GDAL_PAM_MODE", "PAM" ), wxConvUTF8);
@@ -422,36 +422,36 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     chs.Add(wxT("PAM"), 1);
     chs.Add(wxT("AUX"), 2);
     AppendProperty(prop, new wxEnumProperty(wxString(wxT("GDAL_PAM_MODE")), wxPG_LABEL, chs, chs.GetValue(chs.Index(sCurrentVal))));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("ESRI_XML_PAM")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "ESRI_XML_PAM", "YES" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("ESRI_XML_PAM")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("ESRI_XML_PAM", "YES")) == 0 ? false : true));
 
     AppendProperty(prop, new wxDirProperty(wxString(wxT("GDAL_PAM_PROXY_DIR")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_PAM_PROXY_DIR", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_MAX_DATASET_POOL_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_MAX_DATASET_POOL_SIZE", "100" ))));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_SWATH_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_SWATH_SIZE", "10000000" ))));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_MAX_BAND_COUNT")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_MAX_BAND_COUNT", "-1" ))));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_USE_SSE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_USE_SSE", "YES" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("USE_RRD")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "USE_RRD", "NO" ) )));        
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_USE_SSE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_USE_SSE", "YES")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("USE_RRD")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("USE_RRD", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_NUM_THREADS")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_NUM_THREADS", wxString::Format(wxT("%d"), wxThread::GetCPUCount()).c_str() ))));
     AppendProperty(prop, new wxDirProperty(wxString(wxT("TMPDIR")), wxPG_LABEL, wxString(CPLGetConfigOption( "TMPDIR", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxDirProperty(wxString(wxT("TEMP")), wxPG_LABEL, wxString(CPLGetConfigOption( "TEMP", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("VSI_CACHE_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption( "VSI_CACHE_SIZE", "25000000" ))));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("VSI_CACHE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "VSI_CACHE", "FALSE" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_OPENGIS_SCHEMAS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_OPENGIS_SCHEMAS", "OFF" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("VSI_CACHE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("VSI_CACHE", "FALSE")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_OPENGIS_SCHEMAS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_OPENGIS_SCHEMAS", "OFF")) == 0 ? false : true));
 
     //TIFF driver
     wxPGProperty* sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GeoTIFF driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_IGNORE_READ_ERRORS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_IGNORE_READ_ERRORS", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_IGNORE_READ_ERRORS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_IGNORE_READ_ERRORS", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("GDAL_TIFF_OVR_BLOCKSIZE")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_TIFF_OVR_BLOCKSIZE", "128" ))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("CONVERT_YCBCR_TO_RGB")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CONVERT_YCBCR_TO_RGB", "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("CONVERT_YCBCR_TO_RGB")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CONVERT_YCBCR_TO_RGB", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxFloatProperty(wxString(wxT("GTIFF_ALPHA")), wxPG_LABEL, atof(CPLGetConfigOption( "GTIFF_ALPHA", "2" ))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DONT_WRITE_BLOCKS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_DONT_WRITE_BLOCKS", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DIRECT_IO")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_DIRECT_IO", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_TIFF_INTERNAL_MASK")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_TIFF_INTERNAL_MASK", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_TIFF_INTERNAL_MASK_TO_8BIT")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_TIFF_INTERNAL_MASK_TO_8BIT", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("TIFF_USE_OVR")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "TIFF_USE_OVR", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_POINT_GEO_IGNORE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_POINT_GEO_IGNORE", "FALSE" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_FORCE_STRIP_CHOP")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_FORCE_STRIP_CHOP", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_REPORT_COMPD_CS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_REPORT_COMPD_CS", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ENABLE_TIFF_SPLIT")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_ENABLE_TIFF_SPLIT", "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DONT_WRITE_BLOCKS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_DONT_WRITE_BLOCKS", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DIRECT_IO")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_DIRECT_IO", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_TIFF_INTERNAL_MASK")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_TIFF_INTERNAL_MASK", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_TIFF_INTERNAL_MASK_TO_8BIT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_TIFF_INTERNAL_MASK_TO_8BIT", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("TIFF_USE_OVR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("TIFF_USE_OVR", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_POINT_GEO_IGNORE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_POINT_GEO_IGNORE", "FALSE")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_FORCE_STRIP_CHOP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_FORCE_STRIP_CHOP", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_REPORT_COMPD_CS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_REPORT_COMPD_CS", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ENABLE_TIFF_SPLIT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_ENABLE_TIFF_SPLIT", "YES")) == 0 ? false : true));
 
     sCurrentVal = wxString(CPLGetConfigOption( "GDAL_TIFF_ENDIANNESS", "NATIVE" ), wxConvUTF8);
     wxPGChoices chs1;
@@ -460,7 +460,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     chs1.Add(wxT("BIG"), 3);
     chs1.Add(wxT("INVERTED"), 4);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GDAL_TIFF_ENDIANNESS")), wxPG_LABEL, chs1, chs1.GetValue(chs1.Index(sCurrentVal))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DELETE_ON_ERROR")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_DELETE_ON_ERROR", "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_DELETE_ON_ERROR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_DELETE_ON_ERROR", "YES")) == 0 ? false : true));
 
     //JPEG/LZW/PACKBITS/DEFLATE/CCITTRLE/CCITTFAX3/CCITTFAX4/NONE
     sCurrentVal = wxString(CPLGetConfigOption( "COMPRESS_OVERVIEW", "JPEG" ), wxConvUTF8);
@@ -512,43 +512,43 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     chs6.Add(wxT("DEFAULT"), 1);
     chs6.Add(wxT("BROKEN"), 2);    
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GTIFF_LINEAR_UNITS")), wxPG_LABEL, chs6, chs6.GetValue(chs6.Index(sCurrentVal))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_ESRI_CITATION")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GTIFF_ESRI_CITATION", "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_ESRI_CITATION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_ESRI_CITATION", "YES")) == 0 ? false : true));
 
     //HFA driver
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("HFA driver options")));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("HFA_USE_RRD")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "HFA_USE_RRD", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("USE_SPILL")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "USE_SPILL",  "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("HFA_USE_RRD")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("HFA_USE_RRD", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("USE_SPILL")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("USE_SPILL", "NO")) == 0 ? false : true));
 
     //JPEG driver
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("JPEG driver options"))  );
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("JPEG_QUALITY_OVERVIEW")), wxPG_LABEL, atoi(CPLGetConfigOption( "JPEG_QUALITY_OVERVIEW", "75" ))));    
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("JPEG_WRITE_RGB")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "JPEG_WRITE_RGB",  "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_JPEG_TO_RGB")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_JPEG_TO_RGB",  "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("JPEG_WRITE_RGB")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("JPEG_WRITE_RGB", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_JPEG_TO_RGB")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_JPEG_TO_RGB", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("JPEGMEM")), wxPG_LABEL, atoi(CPLGetConfigOption( "JPEGMEM", "524288000" ))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DUMP_JP2_BOXES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "DUMP_JP2_BOXES",  "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_JP2K_ALT_OFFSETVECTOR_ORDER")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_JP2K_ALT_OFFSETVECTOR_ORDER",  "FALSE" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DUMP_JP2_BOXES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("DUMP_JP2_BOXES", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_JP2K_ALT_OFFSETVECTOR_ORDER")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_JP2K_ALT_OFFSETVECTOR_ORDER", "FALSE")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("IDA_COLOR_FILE")), wxPG_LABEL, wxString(CPLGetConfigOption( "IDA_COLOR_FILE", "" ), wxConvUTF8)));
     m_pg->SetPropertyAttribute(wxT("IDA_COLOR_FILE"), wxPG_FILE_WILDCARD, "Color table (*.clr)|*.clr" );
 
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ONE_BIG_READ")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_ONE_BIG_READ",  "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ONE_BIG_READ")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_ONE_BIG_READ", "NO")) == 0 ? false : true));
     
     //GRIB driver
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GRIB driver options"))  );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GRIB_NORMALIZE_UNITS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GRIB_NORMALIZE_UNITS",  "OFF" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GRIB_NORMALIZE_UNITS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GRIB_NORMALIZE_UNITS", "OFF")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("Other GDAL options"))  );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("VRT_ALLOW_MEM_DRIVER")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "VRT_ALLOW_MEM_DRIVER",  "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OZI_APPROX_GEOTRANSFORM")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OZI_APPROX_GEOTRANSFORM",  "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("VRT_ALLOW_MEM_DRIVER")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("VRT_ALLOW_MEM_DRIVER", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OZI_APPROX_GEOTRANSFORM")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OZI_APPROX_GEOTRANSFORM", "NO")) == 0 ? false : true));
 
     //OGR Options
     prop = AppendProperty( new wxPropertyCategory(_("OGR Options")) );
     double dfStep = atof(CPLGetConfigOption("OGR_ARC_STEPSIZE","4")) / 180 * PI;
     AppendProperty(prop, new wxFloatProperty(wxString(wxT("OGR_ARC_STEPSIZE")), wxPG_LABEL, dfStep));
     AppendProperty(prop, new wxFloatProperty(wxString(wxT("OGR_ARC_MINLENGTH")), wxPG_LABEL, atof( CPLGetConfigOption("OGR_ARC_MINLENGTH","0") )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FIX_ESRI_WKT")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GDAL_FIX_ESRI_WKT",  "NO" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OSR_USE_ETMERC")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OSR_USE_ETMERC",  "FALSE" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OSR_USE_CT_GRAMMAR")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OSR_USE_CT_GRAMMAR",  "TRUE" ) )));    
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OVERRIDE_PROJ_DATUM_WITH_TOWGS84")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OVERRIDE_PROJ_DATUM_WITH_TOWGS84",  "YES" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FIX_ESRI_WKT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_FIX_ESRI_WKT", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OSR_USE_ETMERC")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OSR_USE_ETMERC", "FALSE")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OSR_USE_CT_GRAMMAR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OSR_USE_CT_GRAMMAR", "TRUE")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OVERRIDE_PROJ_DATUM_WITH_TOWGS84")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OVERRIDE_PROJ_DATUM_WITH_TOWGS84", "YES")) == 0 ? false : true));
 
 
 #if (defined(WIN32) || defined(WIN32CE)) && !defined(__MINGW32__)
@@ -569,11 +569,11 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
 #  define PROJLIBNAME      "libproj.so"
 #endif
     AppendProperty(prop, new wxStringProperty(wxString(wxT("PROJSO")), wxPG_LABEL, wxString(CPLGetConfigOption( "PROJSO", PROJLIBNAME ), wxConvUTF8)));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("USE_PROJ_480_FEATURES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "USE_PROJ_480_FEATURES",  "YES" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("USE_PROJ_480_FEATURES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("USE_PROJ_480_FEATURES", "YES")) == 0 ? false : true));
     AppendProperty(prop, new wxFloatProperty(wxString(wxT("CENTER_LONG")), wxPG_LABEL, atof( CPLGetConfigOption("CENTER_LONG","0.0") )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CHECK_WITH_INVERT_PROJ")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "CHECK_WITH_INVERT_PROJ",  "NO" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("CHECK_WITH_INVERT_PROJ")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CHECK_WITH_INVERT_PROJ", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxFloatProperty(wxString(wxT("THRESHOLD")), wxPG_LABEL, atof( CPLGetConfigOption("THRESHOLD","1000.0") )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_SETFIELD_NUMERIC_WARNING")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_SETFIELD_NUMERIC_WARNING",  "NO" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_SETFIELD_NUMERIC_WARNING")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_SETFIELD_NUMERIC_WARNING", "NO")) == 0 ? false : true));
 
     //SKIP/ONLY_CCW/DEFAULT
     sCurrentVal = wxString(CPLGetConfigOption( "OGR_ORGANIZE_POLYGONS", "DEFAULT" ), wxConvUTF8);
@@ -582,31 +582,31 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     chs7.Add(wxT("ONLY_CCW"), 2);    
     chs7.Add(wxT("DEFAULT"), 3);    
     AppendProperty(prop, new wxEnumProperty(wxString(wxT("OGR_ORGANIZE_POLYGONS")), wxPG_LABEL, chs7, chs7.GetValue(chs7.Index(sCurrentVal))));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_ENABLE_PARTIAL_REPROJECTION")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_ENABLE_PARTIAL_REPROJECTION",  "NO" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_FORCE_ASCII")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_FORCE_ASCII",  "YES" ) )));   
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_ENABLE_PARTIAL_REPROJECTION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_ENABLE_PARTIAL_REPROJECTION", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_FORCE_ASCII")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_FORCE_ASCII", "YES")) == 0 ? false : true));
     saParams = wxStringTokenize(wxString(CPLGetConfigOption( "OGR_SKIP", "" ), wxConvUTF8), wxT(" "), wxTOKEN_RET_EMPTY);
     AppendProperty(prop, new wxArrayStringProperty(wxString(wxT("OGR_SKIP")), wxPG_LABEL, saParams));
     AppendProperty(prop, new wxDirProperty(wxString(wxT("OGR_DRIVER_PATH")), wxPG_LABEL, wxString(CPLGetConfigOption( "OGR_DRIVER_PATH", "" ), wxConvUTF8)));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GEOMETRY_AS_COLLECTION")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GEOMETRY_AS_COLLECTION",  "NO" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("ATTRIBUTES_SKIP")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "ATTRIBUTES_SKIP",  "NO" ) )));
-    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GEOJSON_FLATTEN_GEOCOUCH")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GEOJSON_FLATTEN_GEOCOUCH",  "TRUE" ) )));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GEOMETRY_AS_COLLECTION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GEOMETRY_AS_COLLECTION", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("ATTRIBUTES_SKIP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("ATTRIBUTES_SKIP", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GEOJSON_FLATTEN_GEOCOUCH")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GEOJSON_FLATTEN_GEOCOUCH", "TRUE")) == 0 ? false : true));
 
     //OGR Options
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("DXF driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_INLINE_BLOCKS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "DXF_INLINE_BLOCKS",  "TRUE" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_HEADER_ONLY")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "DXF_HEADER_ONLY",  "FALSE" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_INLINE_BLOCKS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("DXF_INLINE_BLOCKS", "TRUE")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_HEADER_ONLY")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("DXF_HEADER_ONLY", "FALSE")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("DXF_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "DXF_ENCODING", "" ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_WRITE_HATCH")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "DXF_WRITE_HATCH",  "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_MERGE_BLOCK_GEOMETRIES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "DXF_MERGE_BLOCK_GEOMETRIES",  "TRUE" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_WRITE_HATCH")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("DXF_WRITE_HATCH", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("DXF_MERGE_BLOCK_GEOMETRIES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("DXF_MERGE_BLOCK_GEOMETRIES", "TRUE")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GML driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GMLJP2OVERRIDE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GMLJP2OVERRIDE", "OFF" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_FACE_HOLE_NEGATIVE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_FACE_HOLE_NEGATIVE", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GMLJP2OVERRIDE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GMLJP2OVERRIDE", "OFF")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_FACE_HOLE_NEGATIVE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_FACE_HOLE_NEGATIVE", "NO")) == 0 ? false : true));
     //AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GMLJP2OVERRIDE")), wxPG_LABEL, wxString(CPLGetConfigOption( "GMLJP2OVERRIDE", "r" ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_GET_SECONDARY_GEOM")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_GET_SECONDARY_GEOM", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_GET_SECONDARY_GEOM")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_GET_SECONDARY_GEOM", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GML_FIELDTYPES")), wxPG_LABEL, wxString(CPLGetConfigOption( "GML_FIELDTYPES", "" ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_GML_ID")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_EXPOSE_GML_ID", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_FID")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_EXPOSE_FID", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_GML_ID")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_EXPOSE_GML_ID", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_FID")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_EXPOSE_FID", "NO")) == 0 ? false : true));
     //STANDARD/SEQUENTIAL_LAYERS/INTERLEAVED_LAYERS    
     sCurrentVal = wxString(CPLGetConfigOption( "GML_READ_MODE", "STANDARD" ), wxConvUTF8);
     wxPGChoices chs8;
@@ -614,8 +614,8 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     chs8.Add(wxT("SEQUENTIAL_LAYERS"), 2);    
     chs8.Add(wxT("INTERLEAVED_LAYERS"), 3);    
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GML_READ_MODE")), wxPG_LABEL, chs8, chs8.GetValue(chs8.Index(sCurrentVal))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_INVERT_AXIS_ORDER_IF_LAT_LONG")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_INVERT_AXIS_ORDER_IF_LAT_LONG", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_CONSIDER_EPSG_AS_URN")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_CONSIDER_EPSG_AS_URN", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_INVERT_AXIS_ORDER_IF_LAT_LONG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_INVERT_AXIS_ORDER_IF_LAT_LONG", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_CONSIDER_EPSG_AS_URN")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_CONSIDER_EPSG_AS_URN", "NO")) == 0 ? false : true));
 
     //EXPAT/XERCES
     sCurrentVal = wxString(CPLGetConfigOption( "GML_PARSER", "EXPAT" ), wxConvUTF8);
@@ -634,23 +634,23 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GML_SKIP_RESOLVE_ELEMS")), wxPG_LABEL, chs10, chs10.GetValue(chs10.Index(sCurrentVal))));
 
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GML_GFS_TEMPLATE")), wxPG_LABEL, wxString(CPLGetConfigOption( "GML_GFS_TEMPLATE", NULL ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_HUGE_TEMPFILE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_HUGE_TEMPFILE", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_DOWNLOAD_WFS_SCHEMA")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_DOWNLOAD_WFS_SCHEMA", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_USE_OLD_FID_FORMAT")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_USE_OLD_FID_FORMAT", "FALSE" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_FETCH_ALL_GEOMETRIES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GML_FETCH_ALL_GEOMETRIES", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_HUGE_TEMPFILE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_HUGE_TEMPFILE", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_DOWNLOAD_WFS_SCHEMA")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_DOWNLOAD_WFS_SCHEMA", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_USE_OLD_FID_FORMAT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_USE_OLD_FID_FORMAT", "FALSE")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_FETCH_ALL_GEOMETRIES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_FETCH_ALL_GEOMETRIES", "NO")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GPX driver options")) );
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("GPX_N_MAX_LINKS")), wxPG_LABEL, atoi(CPLGetConfigOption( "GPX_N_MAX_LINKS", "2" ))));    
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_ELE_AS_25D")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GPX_ELE_AS_25D", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_SHORT_NAMES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GPX_SHORT_NAMES", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_USE_EXTENSIONS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "GPX_USE_EXTENSIONS", "FALSE" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_ELE_AS_25D")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_ELE_AS_25D", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_SHORT_NAMES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_SHORT_NAMES", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_USE_EXTENSIONS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_USE_EXTENSIONS", "FALSE")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("KML driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("KML_DEBUG")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "KML_DEBUG", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_USE_DOC.KML")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_USE_DOC.KML", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_READ_GROUND_OVERLAY")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_READ_GROUND_OVERLAY", "yes" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_RESOLVE_STYLE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_RESOLVE_STYLE", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_EXTERNAL_STYLE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_EXTERNAL_STYLE", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("KML_DEBUG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("KML_DEBUG", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_USE_DOC.KML")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_USE_DOC.KML", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_READ_GROUND_OVERLAY")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_READ_GROUND_OVERLAY", "yes")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_RESOLVE_STYLE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_RESOLVE_STYLE", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_EXTERNAL_STYLE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_EXTERNAL_STYLE", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_NAME_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_NAME_FIELD", "Name" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_DESCRIPTION_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_DESCRIPTION_FIELD", "description" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_TIMESTAMP_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_TIMESTAMP_FIELD", "timestamp" ), wxConvUTF8)));
@@ -662,8 +662,8 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_VISIBILITY_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_VISIBILITY_FIELD", "visibility" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_DRAWORDER_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_DRAWORDER_FIELD", "drawOrder" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("LIBKML_ICON_FIELD")), wxPG_LABEL, wxString(CPLGetConfigOption( "LIBKML_ICON_FIELD", "icon" ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_LAUNDER_FIELD_NAMES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_LAUNDER_FIELD_NAMES", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_WRAPDATELINE")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "LIBKML_WRAPDATELINE", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_LAUNDER_FIELD_NAMES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_LAUNDER_FIELD_NAMES", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("LIBKML_WRAPDATELINE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("LIBKML_WRAPDATELINE", "NO")) == 0 ? false : true));
 
 
     //normal/highlight
@@ -674,24 +674,24 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("LIBKML_STYLEMAP_KEY")), wxPG_LABEL, chs11, chs11.GetValue(chs11.Index(sCurrentVal))));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("PG driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_LIST_ALL_TABLES", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_LIST_ALL_TABLES", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("PGCLIENTENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "PGCLIENTENCODING", NULL ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_POSTGIS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_USE_POSTGIS", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_SKIP_VIEWS")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_SKIP_VIEWS", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_GEOGRAPHY")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_USE_GEOGRAPHY", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_PG_RETRIEVE_FID")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_PG_RETRIEVE_FID", "TRUE" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_POSTGIS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_USE_POSTGIS", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_SKIP_VIEWS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_SKIP_VIEWS", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_GEOGRAPHY")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_USE_GEOGRAPHY", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_PG_RETRIEVE_FID")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_PG_RETRIEVE_FID", "TRUE")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("PGSQL_OGR_FID")), wxPG_LABEL, wxString(CPLGetConfigOption( "PGSQL_OGR_FID", "ogc_fid" ), wxConvUTF8)));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_BASE64")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_USE_BASE64", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_COPY")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_USE_COPY", "NO" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_TEXT")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "PG_USE_TEXT", "NO" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_BASE64")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_USE_BASE64", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_COPY")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_USE_COPY", "NO")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("PG_USE_TEXT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("PG_USE_TEXT", "NO")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("WFS driver options")) );
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_PAGING_ALLOWED")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_PAGING_ALLOWED", "OFF" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_PAGING_ALLOWED")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_WFS_PAGING_ALLOWED", "OFF")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_WFS_PAGE_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_WFS_PAGE_SIZE", "100" ))));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_WFS_BASE_START_INDEX")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_WFS_BASE_START_INDEX", "0" ))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN", "TRUE" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_FIX_MAXFEATURES")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_FIX_MAXFEATURES", "YES" ) )));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_USE_STREAMING")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_USE_STREAMING", "YES" ) )));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN", "TRUE")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_FIX_MAXFEATURES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_WFS_FIX_MAXFEATURES", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_USE_STREAMING")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_USE_STREAMING", "YES" ) ) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("Other OGR options")) );
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("SHAPE_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "SHAPE_ENCODING", "" ), wxConvUTF8)));

@@ -49,6 +49,8 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxEmptyString;};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
+    //
+    virtual void Stop(void);
 protected:
     //events
     void OnTimer( wxTimerEvent & event);

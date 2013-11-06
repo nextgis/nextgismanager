@@ -72,11 +72,12 @@ void wxGxMLDatasetUI::EditProperties(wxWindow *parent)
     wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
     PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
 
-	wxGISDataset* const pDset = GetDatasetFast();
-    if(pDset && pDset->GetType() == enumGISFeatureDataset)
+	wxGISDataset* pDset = GetDatasetFast();
+    if(NULL != pDset && pDset->GetType() == enumGISFeatureDataset)
 	{
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+        wsDELETE(pDset);
 	}
 
     //PropertySheetDialog.LayoutDialog();
@@ -112,23 +113,18 @@ wxThread::ExitCode wxGxMLDatasetUI::Entry()
         for(size_t i = 0; i < pDSet->GetSubsetsCount(); ++i)
         {
             wxGISDataset* pwxGISFeatureSuDataset = m_pwxGISDataset->GetSubset(i);
-            wxGxMLSubDatasetUI* pGxMLSubDatasetUI = new wxGxMLSubDatasetUI((wxGISEnumVectorDatasetType)GetSubType(), pwxGISFeatureSuDataset, wxStaticCast(this, wxGxObject), pwxGISFeatureSuDataset->GetName(), wxGxObjectContainer::GetPath(), m_LargeSubIcon, m_SmallSubIcon);
+            wxString sSubsetName = pwxGISFeatureSuDataset->GetName();
+            wxGxMLSubDatasetUI* pGxMLSubDatasetUI = new wxGxMLSubDatasetUI((wxGISEnumVectorDatasetType)GetSubType(), pwxGISFeatureSuDataset, wxStaticCast(this, wxGxObject), sSubsetName, wxGxObjectContainer::GetPath(), m_LargeSubIcon, m_SmallSubIcon);
             wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pGxMLSubDatasetUI->GetId());
 	    }
+
+        wsDELETE(pDSet);
     }
-    wxThread::Sleep(300);
     if(m_nPendUId != wxNOT_FOUND && pCat)
     {
         pCat->RemovePending(m_nPendUId);
         m_nPendUId = wxNOT_FOUND;
     }
-    else
-    {
-        //TODO: if err - message
-        //wxMessageBox(trackcancel.GetLastMessage(), _("Error"), wxOK | wxICON_ERROR);
-    }
-
-    //wxThread::Sleep(150);
 
     
     //wxGIS_GXCATALOG_EVENT(ObjectChanged);
@@ -160,18 +156,20 @@ wxGISDataset* const wxGxMLDatasetUI::GetDataset(bool bCache, ITrackCancel* const
     {
         if(!pwxGISFeatureDataset->Open(0, 0, bCache, pTrackCancel))
         {
-            pwxGISFeatureDataset->Release();
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
-			if(pTrackCancel)
+            if (pTrackCancel)
+            {
 				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            wsDELETE(pwxGISFeatureDataset);
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
 	}
 
-	return m_pwxGISDataset;
+	wsGET( m_pwxGISDataset );
 }
 
 //--------------------------------------------------------------
@@ -212,10 +210,12 @@ void wxGxMLSubDatasetUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
 
 	wxGISDataset* pDSet = GetDatasetFast();
-	if(pDSet)
+	if(NULL != pDSet)
 	{
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDSet->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+
+        wsDELETE(pDSet);
 	}
 
     //PropertySheetDialog.LayoutDialog();

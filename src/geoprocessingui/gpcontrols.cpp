@@ -902,54 +902,49 @@ void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent& event)
             wxGISTable* pDSet = wxDynamicCast(pGxDSet->GetDataset(false), wxGISTable);
             if(pDSet)
             {
-                OGRLayer* pLayer = pDSet->GetLayerRef();
-                if(pLayer)
+                OGRFeatureDefn* const pDef = pDSet->GetDefinition();
                 {
-                    OGRFeatureDefn* pDef = pLayer->GetLayerDefn();
-                    if(pDef)
+                    wxGISGPValueDomain* poGPValueDomain = wxDynamicCast(m_pParam->GetDomain(),wxGISGPValueDomain);
+                    if(poGPValueDomain)
                     {
-                        wxGISGPValueDomain* poGPValueDomain = wxDynamicCast(m_pParam->GetDomain(),wxGISGPValueDomain);
-                        if(poGPValueDomain)
+                        poGPValueDomain->Clear();
+                    }
+                    else
+                    {
+                        poGPValueDomain = new wxGISGPValueDomain(); 
+                        m_pParam->SetDomain(poGPValueDomain);
+                    }
+                    for(int i = 0; i <  pDef->GetFieldCount(); ++i)
+                    {
+                        OGRFieldDefn* pFDef = pDef->GetFieldDefn(i);
+                        if(pFDef)
                         {
-                            poGPValueDomain->Clear();
-                        }
-                        else
-                        {
-                            poGPValueDomain = new wxGISGPValueDomain(); 
-                            m_pParam->SetDomain(poGPValueDomain);
-                        }
-                        for(int i = 0; i <  pDef->GetFieldCount(); ++i)
-                        {
-                            OGRFieldDefn* pFDef = pDef->GetFieldDefn(i);
-                            if(pFDef)
+                            OGRFieldType eType = pFDef->GetType();
+                            if( (eType == OFTInteger && m_pParam->GetDataType() == enumGISGPParamDTFieldIntegerChoice) ||
+                                (eType == OFTReal && m_pParam->GetDataType() == enumGISGPParamDTFieldRealChoice) ||
+                                (eType == OFTDate && m_pParam->GetDataType() == enumGISGPParamDTFieldDateChoice) ||
+                                (eType == OFTString && m_pParam->GetDataType() == enumGISGPParamDTFieldStringChoice) ||
+                                (eType == OFTTime && m_pParam->GetDataType() == enumGISGPParamDTFieldTimeChoice) ||
+                                (eType == OFTDateTime && m_pParam->GetDataType() == enumGISGPParamDTFieldDateTimeChoice) ||
+                                (eType == OFTBinary && m_pParam->GetDataType() == enumGISGPParamDTFieldBinaryChoice) ||
+                                m_pParam->GetDataType() == enumGISGPParamDTFieldAnyChoice)
                             {
-                                OGRFieldType eType = pFDef->GetType();
-                                if( (eType == OFTInteger && m_pParam->GetDataType() == enumGISGPParamDTFieldIntegerChoice) ||
-                                    (eType == OFTReal && m_pParam->GetDataType() == enumGISGPParamDTFieldRealChoice) ||
-                                    (eType == OFTDate && m_pParam->GetDataType() == enumGISGPParamDTFieldDateChoice) ||
-                                    (eType == OFTString && m_pParam->GetDataType() == enumGISGPParamDTFieldStringChoice) ||
-                                    (eType == OFTTime && m_pParam->GetDataType() == enumGISGPParamDTFieldTimeChoice) ||
-                                    (eType == OFTDateTime && m_pParam->GetDataType() == enumGISGPParamDTFieldDateTimeChoice) ||
-                                    (eType == OFTBinary && m_pParam->GetDataType() == enumGISGPParamDTFieldBinaryChoice) ||
-                                    m_pParam->GetDataType() == enumGISGPParamDTFieldAnyChoice)
-                                {
-                                    poGPValueDomain->AddValue(i, wxString(pFDef->GetNameRef(), wxConvUTF8));
-                                }
+                                poGPValueDomain->AddValue(i, wxString(pFDef->GetNameRef(), wxConvUTF8));
                             }
                         }
-                        if(poGPValueDomain->GetCount() > 0)
-                        {
-                            m_pParam->SetSelDomainValue(0);
-                            //wxString sVal = poGPValueDomain->GetValue(0).GetString();
-                            //if(sVal.IsEmpty())
-                            //{
-                            //    m_pParam->SetValid(false);
-                            //}
-                            //else
-                            //{
-                            //    m_pParam->SetValue(wxVariant(sVal, wxT("string")));
-                            //}
-                        }
+                    }
+                    if(poGPValueDomain->GetCount() > 0)
+                    {
+                        m_pParam->SetSelDomainValue(0);
+                        //wxString sVal = poGPValueDomain->GetValue(0).GetString();
+                        //if(sVal.IsEmpty())
+                        //{
+                        //    m_pParam->SetValid(false);
+                        //}
+                        //else
+                        //{
+                        //    m_pParam->SetValue(wxVariant(sVal, wxT("string")));
+                        //}
                     }
                 }
             }

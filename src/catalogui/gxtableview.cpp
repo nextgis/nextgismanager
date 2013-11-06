@@ -129,9 +129,10 @@ void wxGxTableView::OnSelectionChanged(wxGxSelectionEvent& event)
         if(pTable)
         {
             wxGISTable* pDs = pTable->GetDataset();
-            if(pDs && pDs->IsCaching())
+            if(NULL != pDs && pDs->IsCaching())
             {
                 pDs->StopCaching();
+                wsDELETE(pDs)
             }
         }
         return;

@@ -160,6 +160,7 @@ public:
     wxGISSimpleCollectiomSymbol(const wxGISColor& Color, wxGISSimpleMarkerSymbol* pMarkerSymbol, wxGISSimpleLineSymbol* pLineSymbol, wxGISSimpleFillSymbol* pFillSymbol);
     virtual ~wxGISSimpleCollectiomSymbol();
     virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0);
+    virtual void SetupDisplay(wxGISDisplay* const pDisplay);
 protected:
     wxGISSimpleMarkerSymbol* m_pMarkerSymbol;
     wxGISSimpleLineSymbol* m_pLineSymbol;

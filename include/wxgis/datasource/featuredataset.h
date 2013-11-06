@@ -55,9 +55,6 @@ public:
     virtual OGRwkbGeometryType GetGeometryType(void) const;
     virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false);
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);
-    /*
-    virtual OGRErr SetFilter(wxGISQueryFilter* pQFilter);
-    */
 	//wxGISTable
     virtual char **GetFileList();
 protected:

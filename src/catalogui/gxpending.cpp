@@ -46,10 +46,15 @@ wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon>
 
 wxGxPendingUI::~wxGxPendingUI(void)
 {
-    m_timer.Stop();
-    wxCriticalSectionLocker locker(m_CritSect);
+    Stop();
 }
 
+void wxGxPendingUI::Stop(void)
+{
+    m_timer.Stop();
+    wxCriticalSectionLocker locker(m_CritSect);
+
+}
 
 wxIcon wxGxPendingUI::GetLargeImage(void)
 {

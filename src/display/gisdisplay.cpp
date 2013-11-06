@@ -51,6 +51,8 @@ wxGISDisplay::wxGISDisplay(void)
 	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
 	m_saLayerCaches.push_back(layercachedata);
 
+    m_nLastCacheID = 0;
+
 	m_dCacheCenterX = m_nMax_X / 2;
 	m_dCacheCenterY = m_nMax_Y / 2;
 
@@ -80,6 +82,8 @@ wxGISDisplay::~wxGISDisplay(void)
 
 void wxGISDisplay::Clear()
 {
+    wxCHECK_RET(m_saLayerCaches.size() - m_nLastCacheID == 2, wxT("Draw caches inconsistent"));
+
     if(m_saLayerCaches.size() > 2)
     {
 	    for(size_t i = 1; i <= m_nLastCacheID; ++i)
@@ -87,7 +91,7 @@ void wxGISDisplay::Clear()
 		    cairo_destroy(m_saLayerCaches[i].pCairoContext);
 		    cairo_surface_destroy(m_saLayerCaches[i].pCairoSurface);
 	    }
-        m_saLayerCaches.erase(m_saLayerCaches.begin() + 1, m_saLayerCaches.begin() + m_nLastCacheID);
+        m_saLayerCaches.erase(m_saLayerCaches.begin() + 1, m_saLayerCaches.end() - 1);
     }
 
 	//default map bounds

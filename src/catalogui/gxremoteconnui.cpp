@@ -155,7 +155,7 @@ bool wxGxRemoteConnectionUI::CreateAndRunCheckThread(void)
 wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
 {
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
-    if(pDSet)
+    if(NULL != pDSet)
     {        
         if(!pDSet->Open())
         {
@@ -350,6 +350,7 @@ void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
             pDset->Open(true);
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+        wsDELETE(pDset);
 	}
 
     //TODO: Additional page for virtual raster VRTSourcedDataset with sources files

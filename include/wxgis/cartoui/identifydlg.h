@@ -49,7 +49,7 @@
 #include <wx/valgen.h>
 #include <wx/imaglist.h>
 
-/** @class wxIdentifyTreeItemData identifydlg.h
+/** @class wxIdentifyTreeItemData
  
     The identify tree item data
 
@@ -82,9 +82,9 @@ typedef struct _fieldsortdata
     wxGISFeature Feature;
 } FIELDSORTDATA, *LPFIELDSORTDATA;
 
-/** @class wxGISFeatureDetailsPanel identifydlg.h
+/** @class wxGISFeatureDetailsPanel
  
-    The wxGISFeatureDetailsPanel class show OGRFeature fields and values
+    The wxGISFeatureDetailsPanel class show feature fields and values
 
     @library{cartoui}
  */
@@ -143,9 +143,9 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** @class wxGISIdentifyDlg identifydlg.h
+/** @class wxGISIdentifyDlg
 
-    The wxGISIdentifyDlg class is dialog/dock window with the results of identify
+    The wxGISIdentifyDlg class is dialog/panel window with the results of identify
 
     @library{cartoui}
  */
@@ -205,9 +205,9 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** @class wxAxToolboxView gptoolboxview.h
+/** @class wxAxIdentifyView
 
-    The wxAxToolboxView show tool window with tabs(tools tree, tool exec view & etc.)
+    The wxAxIdentifyView dock window with identify results incide wxGISCatalog, wxGISMap...
 
     @library{cartoui}
 */

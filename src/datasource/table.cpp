@@ -66,10 +66,20 @@ wxString wxGISTable::GetName(void) const
     if(!m_poLayer)
         return wxEmptyString;
 
-    wxString sOut = GetConvName(m_poLayer->GetLayerDefn()->GetName(), false);
-	if(sOut.IsEmpty())
+    OGRFeatureDefn* const pDef = GetDefinition();
+    wxString sOut;
+    if (NULL != pDef)
+    {
+        sOut = GetConvName(pDef->GetName(), false);
+        if (sOut.IsEmpty())
+        {
+            sOut = GetConvName(CPLGetBasename(m_sPath), false);
+        }
+    }
+    else
+    {
         sOut = GetConvName(CPLGetBasename(m_sPath), false);
-
+    }
     return sOut;
 }
 
@@ -335,9 +345,16 @@ OGRErr wxGISTable::StoreFeature(wxGISFeature &Feature)
 
 wxGISFeature wxGISTable::CreateFeature(void)
 {
-    if(!m_poLayer)
+    if (NULL == m_poLayer)
+    {
         return wxGISFeature();
-	OGRFeature* poFeature = OGRFeature::CreateFeature( m_poLayer->GetLayerDefn() );
+    }
+    OGRFeature* poFeature = OGRFeature::CreateFeature( GetDefinition() );
+    if (NULL == poFeature)
+    {
+        return wxGISFeature();
+    }
+
     wxGISFeature Feature( poFeature, m_Encoding );
 	return Feature;
 }
@@ -466,10 +483,21 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
     return oOutCursor;
 }
 
+OGRFeatureDefn* const wxGISTable::GetDefinition(void) const
+{
+    if (m_poLayer)
+    {
+        return m_poLayer->GetLayerDefn();
+    }
+    return NULL;
+}
+
 OGRFeatureDefn* const wxGISTable::GetDefinition(void)
 {
-    if(	m_poLayer )
+    if (m_poLayer)
+    {
         return m_poLayer->GetLayerDefn();
+    }
     return NULL;
 }
 
@@ -479,7 +507,7 @@ wxArrayString wxGISTable::GetFieldNames()
     OGRFeatureDefn * const pDef = GetDefinition();
     if(pDef)
     {
-        for(size_t i = 0; i < pDef->GetFieldCount(); ++i)
+        for(int i = 0; i < pDef->GetFieldCount(); ++i)
         {
             saFields.Add(wxString(pDef->GetFieldDefn(i)->GetNameRef(), wxConvUTF8));
         }

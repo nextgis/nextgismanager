@@ -125,6 +125,7 @@ void wxGxPostGISFeatureDatasetUI::EditProperties(wxWindow *parent)
 	{
 		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+        wsDELETE(pDset);
 	}
 
     //PropertySheetDialog.LayoutDialog();

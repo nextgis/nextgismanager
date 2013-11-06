@@ -135,7 +135,7 @@ wxString wxGISCommonCmd::GetCategory(void)
 			return wxString(_("Tools"));
 		case 3:	
 		default:
-			return wxString(_("[No category]"));
+			return NO_CATEGORY;
 	}
 }
 

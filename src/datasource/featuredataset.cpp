@@ -225,8 +225,8 @@ void wxGISFeatureDataset::SetInternalValues()
         return;
     }
 
-    OGRFeatureDefn *pDef = m_poLayer->GetLayerDefn();
-    if(pDef)
+    OGRFeatureDefn* const pDef = GetDefinition();
+    if(NULL != pDef)
     {
         m_eGeomType = pDef->GetGeomType();
     }
@@ -509,7 +509,7 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(const wxString & sSubsetName)
 
 void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
 {
-    if(IsCached())
+    if (m_bIsCached)
         return;
 
     m_omFeatures.clear();
@@ -615,6 +615,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
         m_stExtent.MinY -= 1;
     }
 
+    m_bIsCached = true;
     
     if(!m_pSpatialTree)
     {

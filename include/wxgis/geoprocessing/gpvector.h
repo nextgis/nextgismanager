@@ -23,18 +23,36 @@
 
 #include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/core/core.h"
-#include "wxgis/datasource/dataset.h"
+#include "wxgis/datasource/featuredataset.h"
 #include "wxgis/core/format.h"
 #include "wxgis/catalog/gxfilters.h"
 
-/** \fn bool CopyRows(wxGISFeatureDatasetSPtr pSrcDataSet, wxGISFeatureDatasetSPtr pDstDataSet, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL); 
-  *  \brief Copy rows from one format (file) to another.
-  *  \return True if success, false otherwise
+class wxGISConfigOptionReset
+{
+public:
+    wxGISConfigOptionReset(CPLString sName, CPLString sSetValue, CPLString sResetValue)
+    {
+        m_sName = sName;
+        m_sSetValue = sSetValue;
+        m_sResetValue = sResetValue;
+        CPLSetConfigOption(m_sName, m_sSetValue);
+    }
+    ~wxGISConfigOptionReset()
+    {
+        CPLSetConfigOption(m_sName, m_sResetValue);
+    }
+protected:
+    CPLString m_sName, m_sSetValue, m_sResetValue;
+};
+
+/** 
+    Copy rows from one format (file) to another.
+  
+    @return True if success, false otherwise
 */
-/*bool WXDLLIMPEXP_GIS_GP CopyRows(wxGISFeatureDatasetSPtr pSrcDataSet, wxGISFeatureDatasetSPtr pDstDataSet, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL); 
-bool WXDLLIMPEXP_GIS_GP ExportFormat(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, OGRFeatureDefn *pDef, OGRSpatialReference* pNewSpaRef, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL);
-bool WXDLLIMPEXP_GIS_GP ExportFormat(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL);
-bool WXDLLIMPEXP_GIS_GP Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, OGRSpatialReference* pNewSpaRef, ITrackCancel* pTrackCancel);
+WXDLLIMPEXP_GIS_GP bool CopyRows(wxFeatureCursor &cursor, const wxGISSpatialReference &oSpatialRef, wxGISFeatureDataset* const pDstDataSet, const wxFontEncoding &oEncoding, ITrackCancel* const pTrackCancel = NULL);
+
+/*bool WXDLLIMPEXP_GIS_GP Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, OGRSpatialReference* pNewSpaRef, ITrackCancel* pTrackCancel);
 OGRGeometry WXDLLIMPEXP_GIS_GP *Intersection(OGRGeometry* pFeatureGeom, OGRPolygon* pRgn, OGREnvelope* pRgnEnv);
 /** \fn OGRGeometry *CheckRgnAndTransform(OGRGeometry* pFeatureGeom, OGRPolygon* pRgn1, OGRPolygon* pRgn2, OGREnvelope* pRgnEnv1, OGREnvelope* pRgnEnv2, OGRCoordinateTransformation *poCT);
   *  \brief Check if geometry intersects the Spatial Referense limits, cut it by this limits and reproject or return NULL geometry.
@@ -44,11 +62,42 @@ OGRGeometry WXDLLIMPEXP_GIS_GP *Intersection(OGRGeometry* pFeatureGeom, OGRPolyg
 bool WXDLLIMPEXP_GIS_GP GeometryVerticesToPoints(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL);
 bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFeatureDatasetSPtr pDSet, OGRCoordinateTransformation *poCT, long &nFidCounter, ITrackCancel* pTrackCancel);
 */
-/** \fn wxGISDataset *CreateDataset(const CPLString &sPath, wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, wxGISSpatialReference oSpatialRef = wxNullSpatialReference, OGRwkbGeometryType eGType = wkbUnknown, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL)
-  *  \brief Create new Vector table or feature class.
-  *  \return The pointer on created dataset
+WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISFeatureDataset* const pDSet , const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
+
+WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxFeatureCursor &cursor, const CPLString &sPath, const wxString &sName, const wxString &sSrsName, wxGxObjectFilter* const pFilter, const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
+
+/** 
+    Create new table or feature class.
+
+    @param sPath
+        Path in file system
+    
+    @param sName
+        The new table or feature class name
+
+    @param pFilter
+        The new table or feature class type
+
+    @param poFields
+        The new table or feature class fields
+
+    @param oSpatialRef
+         The feature class spatial reference. For table should be wxNullSpatialReference
+
+    @param papszDataSourceOptions
+        The datasource create options. Send to GDAL create functions
+
+    @param papszLayerOptions
+        The layer create options. Send to GDAL create functions
+
+    @param pTrackCancel
+        The ITrackCancel pointer or NULL
+
+    @return The pointer on created dataset
+
+    @library {gp}
   */	
-wxGISDataset WXDLLIMPEXP_GIS_GP *CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, wxGISSpatialReference oSpatialRef = wxNullSpatialReference, OGRwkbGeometryType eGType = wkbUnknown, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL); 
+WXDLLIMPEXP_GIS_GP wxGISDataset *CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL); 
 
 /** \fn bool GeometryVerticesToTextFile(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, const CPLString &osFrmt, bool bSwapXY = false, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL)
   *  \brief Write shape coordinates to text file.

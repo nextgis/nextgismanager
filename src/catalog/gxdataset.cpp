@@ -52,8 +52,10 @@ void wxGxDataset::FillMetadata(bool bForce)
     m_bIsMetadataFilled = true;
 
     wxGISDataset* pDSet = GetDatasetFast();
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return;
+    }
 
     VSIStatBufL BufL;
     wxULongLong nSize(0);
@@ -92,27 +94,39 @@ bool wxGxDataset::CanDelete(void)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
-    return pDSet->CanDelete();
+    }
+    bool bRet = pDSet->CanDelete();
+    wsDELETE(pDSet);
+    return bRet;
 }
 
 bool wxGxDataset::CanRename(void)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
-    return pDSet->CanRename();
+    }
+    bool bRet = pDSet->CanRename();
+    wsDELETE(pDSet);
+    return bRet;
 }
 
 bool wxGxDataset::CanCopy(const CPLString &szDestPath)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
-    return pDSet->CanCopy(szDestPath);
+    }
+    bool bRet = pDSet->CanCopy(szDestPath);
+    wsDELETE(pDSet);
+    return bRet;
 }
 
 bool wxGxDataset::CanMove(const CPLString &szDestPath) 
@@ -124,8 +138,10 @@ bool wxGxDataset::Delete(void)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
+    }
 
     bool bRet = pDSet->Delete();
     wsDELETE(pDSet);
@@ -143,11 +159,15 @@ bool wxGxDataset::Rename(const wxString &sNewName)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
+    }
 
-	if(pDSet->IsOpened())
+    if (pDSet->IsOpened())
+    {
 		pDSet->Close();
+    }
 
     bool bRet = pDSet->Rename(sNewName);
     wsDELETE(pDSet);
@@ -169,10 +189,12 @@ bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCa
 
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
     {
-        if(pTrackCancel)
+        if (pTrackCancel)
+        {
             pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+        }
         return false;
     }
 
@@ -194,15 +216,19 @@ bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCa
 
 bool wxGxDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    if(pTrackCancel)
+    if (pTrackCancel)
+    {
 		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+    }
 
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if(NULL == pDSet)
     {
-        if(pTrackCancel)
+        if (pTrackCancel)
+        {
             pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+        }
         return false;
     }
 
@@ -254,8 +280,10 @@ void wxGxDatasetContainer::FillMetadata(bool bForce)
     m_bIsMetadataFilled = true;
 
     wxGISDataset* pDSet = GetDatasetFast();
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return;
+    }
 
     VSIStatBufL BufL;
     wxULongLong nSize(0);
@@ -314,8 +342,10 @@ bool wxGxDatasetContainer::Delete(void)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
+    }
 
     bool bRet = pDSet->Delete();
     wsDELETE(pDSet);
@@ -333,11 +363,15 @@ bool wxGxDatasetContainer::Rename(const wxString &sNewName)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if (NULL == pDSet)
+    {
         return false;
+    }
 
-	if(pDSet->IsOpened())
+    if (pDSet->IsOpened())
+    {
 		pDSet->Close();
+    }
 
     bool bRet = pDSet->Rename(sNewName);
     wsDELETE(pDSet);
@@ -354,15 +388,19 @@ bool wxGxDatasetContainer::Rename(const wxString &sNewName)
 
 bool wxGxDatasetContainer::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    if(pTrackCancel)
+    if (pTrackCancel)
+    {
         pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+    }
 
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if(NULL == pDSet)
     {
-        if(pTrackCancel)
+        if (pTrackCancel)
+        {
             pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+        }
         return false;
     }
 
@@ -389,7 +427,7 @@ bool wxGxDatasetContainer::Move(const CPLString &szDestPath, ITrackCancel* const
 
 	wxGISDataset* pDSet = GetDatasetFast();
     
-    if(!pDSet)
+    if(NULL == pDSet)
     {
         if(pTrackCancel)
             pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
@@ -446,8 +484,7 @@ wxGISDataset* const wxGxTableDataset::GetDatasetFast(void)
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
@@ -455,10 +492,11 @@ wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* cons
     wxGISTable* pwxGISTable(NULL);
 	pwxGISTable = wxDynamicCast(GetDatasetFast(), wxGISTable);
 
-    if(pwxGISTable && !pwxGISTable->IsOpened())
+    if(NULL != pwxGISTable && !pwxGISTable->IsOpened())
     {
         if(!pwxGISTable->Open(0, 0, bCache, pTrackCancel))
         {
+            wsDELETE(pwxGISTable);
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
@@ -467,9 +505,10 @@ wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* cons
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISTable);
 	}
 
-	return m_pwxGISDataset;
+	wsGET(m_pwxGISDataset);
 }
 
 //--------------------------------------------------------------
@@ -496,22 +535,30 @@ wxGISDataset* const wxGxFeatureDataset::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-        wxGISFeatureDataset* pDSet = new wxGISFeatureDataset(m_sPath, m_type);
+        wxGISFeatureDataset* pDSet = NULL;
+        if (m_type == enumVecMapinfoMif || m_type == enumVecDXF)
+        {
+            pDSet = new wxGISFeatureDatasetCached(m_sPath, m_type);
+        }
+        else
+        {
+            pDSet = new wxGISFeatureDataset(m_sPath, m_type);
+        }
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 wxGISDataset* const wxGxFeatureDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);
 
-    if(pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
+    if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {
         if(!pwxGISFeatureDataset->Open(0, 0, bCache, pTrackCancel))
         {
+            wsDELETE(pwxGISFeatureDataset);
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
@@ -520,9 +567,10 @@ wxGISDataset* const wxGxFeatureDataset::GetDataset(bool bCache, ITrackCancel* co
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISFeatureDataset);
 	}
 
-	return m_pwxGISDataset;
+	wsGET(m_pwxGISDataset);
 
        // //TODO: Spatial Index
        // if(!pwxGISFeatureDataset->HasSpatialIndex())
@@ -619,6 +667,7 @@ wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* con
     {
         if(!pwxGISRasterDataset->Open(true))
         {
+            wsDELETE(pwxGISRasterDataset);
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
@@ -627,8 +676,9 @@ wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* con
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISRasterDataset);
 	}
 
-	return m_pwxGISDataset;
+	wsGET(m_pwxGISDataset);
 }
 

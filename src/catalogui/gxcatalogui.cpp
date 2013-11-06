@@ -90,6 +90,15 @@ void wxGxCatalogUI::RemovePending(long nPendingId)
         return;
     wxGxPendingUI *pPend = wxDynamicCast(GetRegisterObject(nPendingId), wxGxPendingUI);
     wxCHECK_RET(pPend, wxT("The Pending GxObject is not exist"));
+    pPend->Stop();
+    if (wxIsMainThread())//if main thread
+    {
+        wxMilliSleep(500);
+    }
+    else
+    {
+        wxThread::Sleep(500); //time to sort items in tree
+    }
     pPend->Destroy();
 }
 

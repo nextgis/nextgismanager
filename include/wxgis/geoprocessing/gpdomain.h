@@ -29,7 +29,7 @@
 
     An abstract class. Each class whish need listen of values domain changes should inherited it
 
-    @library{wxgisgp}
+    @library{gp}
 */
 
 class IGISGPDomainParent
@@ -56,7 +56,7 @@ public:
 
     The domain storing variant values
 
-    @library{wxgisgp}
+    @library{gp}
 */
 
 class WXDLLIMPEXP_GIS_GP wxGISGPValueDomain :
@@ -102,22 +102,108 @@ public:
 	virtual int GetPosByValue(const wxVariant &oVal) const;
 };
 
+inline bool WXDLLIMPEXP_GIS_GP IsFileDataset(wxGISEnumDatasetType eDSType, long SubType)
+{
+	switch (eDSType)
+	{
+	case enumGISAny:
+		return false;
+	case enumGISFeatureDataset:
+		{
+			wxGISEnumVectorDatasetType eSubType = (wxGISEnumVectorDatasetType)SubType;
+			switch (eSubType)
+			{
+			case enumVecESRIShapefile:
+			case enumVecMapinfoTab:
+			case enumVecMapinfoMif:
+			case enumVecKML:
+			case enumVecKMZ:
+			case enumVecDXF:
+				return true;
+			case emumVecPostGIS:
+				return false;
+			case enumVecGML:
+			case enumVecGeoJSON:
+				return true;
+			case enumVecWFS:
+			case enumVecMem:
+			case emumVecMAX:
+			case enumVecUnknown:
+			default:
+				return false;
+			}
+		}
+		break;
+	case enumGISTableDataset:
+		{
+			wxGISEnumTableDatasetType eSubType = (wxGISEnumTableDatasetType)SubType;
+			switch (eSubType)
+			{
+			case enumTableUnknown:
+                return false;
+            case enumTableDBF:
+                return true;
+            case enumTablePostgres:
+                return false;
+            case enumTableQueryResult:
+                return false;
+            case enumTableMapinfoTab:
+            case enumTableMapinfoMif:
+            case enumTableCSV:
+                return true;
+            default:
+                return false;
+			}
+		}
+		break;
+    case enumGISRasterDataset:
+        {
+            wxGISEnumRasterDatasetType eSubType = (wxGISEnumRasterDatasetType)SubType;
+            switch (eSubType)
+            {
+            case enumRasterUnknown:
+                return false;
+            case enumRasterBmp:
+            case enumRasterTiff:
+            case enumRasterTil:
+            case enumRasterImg:
+            case enumRasterJpeg:
+            case enumRasterPng:
+            case enumRasterGif:
+            case enumRasterSAGA:
+            case enumRasterVRT:
+                return true;
+            case enumRasterWMS:
+            case enumRasterWMSTMS:
+                return false;
+            default:
+                return false;
+            }
+        }
+		break;
+	case enumGISContainer:
+	default:
+		return false;
+	}
+}
+
 inline void WXDLLIMPEXP_GIS_GP AddAllVectorFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    for(size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+    for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+    {
         pDomain->AddFilter(new wxGxFeatureDatasetFilter(wxGISEnumVectorDatasetType(i)));
+    }
 }
 
 inline void WXDLLIMPEXP_GIS_GP AddAllVectorFileFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecESRIShapefile));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecMapinfoTab));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecMapinfoMif));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecKML));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecKMZ));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecDXF));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecGML));
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecGeoJSON));
+    for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+    {
+        if (IsFileDataset(enumGISFeatureDataset, wxGISEnumVectorDatasetType(i)))
+        {
+            pDomain->AddFilter(new wxGxFeatureDatasetFilter(wxGISEnumVectorDatasetType(i)));
+        }
+    }
 }
 
 inline void WXDLLIMPEXP_GIS_GP AddAllVectorDBFilters(wxGISGPGxObjectDomain* pDomain)
@@ -125,13 +211,14 @@ inline void WXDLLIMPEXP_GIS_GP AddAllVectorDBFilters(wxGISGPGxObjectDomain* pDom
     pDomain->AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS));
 }
 
-/*
+
 inline void WXDLLIMPEXP_GIS_GP AddAllRasterFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    for(size_t i = enumRasterUnknown + 1; i < enumRasterMAX; i++)
-        pDomain->AddFilter(new wxGxRasterFilter(wxGISEnumRasterDatasetType(i)));
+//    for(size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
+//        pDomain->AddFilter(new wxGxRasterFilter(wxGISEnumRasterDatasetType(i)));
 }
-*/
+
+
 /** \class wxGISGPStringDomain gpdomain.h
     \brief The domain storing strings
 */

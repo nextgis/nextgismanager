@@ -282,8 +282,10 @@ void wxGxContentView::Serialize(wxXmlNode* pRootNode, bool bStore)
         {
             //store values
             m_anWidth.Clear();
-            for(size_t i = 0; i < GetColumnCount(); ++i)
+            for (int i = 0; i < GetColumnCount(); ++i)
+            {
                 m_anWidth.Add( GetColumnWidth(i) );
+            }
     #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
             m_anOrder = GetColumnsOrder();
     #endif
@@ -589,8 +591,10 @@ void wxGxContentView::SetColumnImage(int col, int image)
 
     //reset image
     item.SetImage(wxNOT_FOUND);
-    for(size_t i = 0; i < GetColumnCount(); ++i)
+    for (int i = 0; i < GetColumnCount(); ++i)
+    {
         SetColumn(i, item);
+    }
 
     item.SetImage(image);
     SetColumn(col, item);
@@ -625,8 +629,10 @@ void wxGxContentView::SetStyle(wxGISEnumContentsViewStyle style)
     {
         //store values
         m_anWidth.Clear();
-        for(size_t i = 0; i < GetColumnCount(); ++i)
+        for (int i = 0; i < GetColumnCount(); ++i)
+        {
             m_anWidth.Add( GetColumnWidth(i) );
+        }
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
         m_anOrder = GetColumnsOrder();
 #endif

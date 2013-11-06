@@ -681,6 +681,8 @@ wxGISRTree::wxGISRTree(wxGISFeatureDataset* pDSet, unsigned short nMaxChildItems
 	m_nMinChildItems = nMinChildItems;
 
     wxASSERT(1 <= nMinChildItems && nMinChildItems <= nMaxChildItems / 2);
+
+    m_pRoot = NULL;
 }
 
 wxGISRTree::~wxGISRTree(void)

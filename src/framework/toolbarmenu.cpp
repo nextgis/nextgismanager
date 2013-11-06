@@ -43,8 +43,10 @@ void wxGISToolBarMenu::Update(void)
 {
 
 	//cleare contents
-	for(size_t i = 0; i < m_delitems.size(); ++i)
+    for (size_t i = 0; i < m_delitems.size(); ++i)
+    {
 		Destroy(m_delitems[i]);
+    }
 	m_delitems.clear();
 
 
@@ -55,8 +57,8 @@ void wxGISToolBarMenu::Update(void)
 		if(pCmdBar->GetType() == enumGISCBToolbar)
 		{
 			wxWindow* pWnd = dynamic_cast<wxWindow*>(pCmdBar);
-			bool bIsShown = pWnd->IsShownOnScreen();
-			//sort!!!
+			bool bIsShown = pWnd->IsShown();
+			//TODO: sort!!!
 			wxMenuItem* pItem = Prepend(ID_TOOLBARCMD + i, pCmdBar->GetCaption(), wxT(""), wxITEM_CHECK);
 			pItem->Check(bIsShown);
 			m_delitems.push_back(pItem);
@@ -64,8 +66,10 @@ void wxGISToolBarMenu::Update(void)
 	}
 	m_delitems.push_back(AppendSeparator());
 	wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), 2);
-	if(pCmd)
+    if (NULL != pCmd)
+    {
 		m_delitems.push_back(Append(pCmd->GetID(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
+    }
 }
 
 void wxGISToolBarMenu::OnCommand(wxCommandEvent& event)
