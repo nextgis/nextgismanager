@@ -50,7 +50,7 @@ protected:
   
     @return True if success, false otherwise
 */
-WXDLLIMPEXP_GIS_GP bool CopyRows(wxFeatureCursor &cursor, const wxGISSpatialReference &oSpatialRef, wxGISFeatureDataset* const pDstDataSet, const wxFontEncoding &oEncoding, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, ITrackCancel* const pTrackCancel = NULL);
 
 /*bool WXDLLIMPEXP_GIS_GP Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, OGRSpatialReference* pNewSpaRef, ITrackCancel* pTrackCancel);
 OGRGeometry WXDLLIMPEXP_GIS_GP *Intersection(OGRGeometry* pFeatureGeom, OGRPolygon* pRgn, OGREnvelope* pRgnEnv);
@@ -62,9 +62,9 @@ OGRGeometry WXDLLIMPEXP_GIS_GP *Intersection(OGRGeometry* pFeatureGeom, OGRPolyg
 bool WXDLLIMPEXP_GIS_GP GeometryVerticesToPoints(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL);
 bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFeatureDatasetSPtr pDSet, OGRCoordinateTransformation *poCT, long &nFidCounter, ITrackCancel* pTrackCancel);
 */
-WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISFeatureDataset* const pDSet , const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
 
-WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxFeatureCursor &cursor, const CPLString &sPath, const wxString &sName, const wxString &sSrsName, wxGxObjectFilter* const pFilter, const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
 
 /** 
     Create new table or feature class.

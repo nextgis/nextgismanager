@@ -36,6 +36,7 @@ wxGxMLFactory::wxGxMLFactory(void)
     m_bHasLIBKMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("LIBKML");
     m_bHasDXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
     m_bHasGMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
+    m_bHasJsonDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GeoJSON");
 }
 
 wxGxMLFactory::~wxGxMLFactory(void)
@@ -68,6 +69,11 @@ bool wxGxMLFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArray
         else if(wxGISEQUAL(szExt, "gml") && m_bHasGMLDriver)
         {
             pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGML);
+            pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
+        }
+        else if ( (wxGISEQUAL(szExt, "geojson") || wxGISEQUAL(szExt, "json")) && m_bHasJsonDriver)
+        {
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGeoJSON);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
 

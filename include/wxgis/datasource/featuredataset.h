@@ -53,7 +53,8 @@ public:
     virtual void SetCached(bool bCached);
 	virtual OGREnvelope GetEnvelope(void);
     virtual OGRwkbGeometryType GetGeometryType(void) const;
-    virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false);
+    virtual OGRErr SetFilter(const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter);
+    virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);
 	//wxGISTable
     virtual char **GetFileList();

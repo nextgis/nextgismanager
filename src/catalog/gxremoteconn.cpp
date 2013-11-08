@@ -300,7 +300,7 @@ void wxGxRemoteConnection::LoadChildren(void)
             smSchema[sScheme].Add(sName);
     }
 
-    wxDELETE(pInfoScheme);
+    wsDELETE(pInfoScheme);
 
     for(std::map<wxString, wxArrayString>::const_iterator IT = smSchema.begin(); IT != smSchema.end(); ++IT)
     {
@@ -400,7 +400,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
                     m_saTables.RemoveAt(nIndex);
                 }
             }
-            wxDELETE( pTableList );
+            wsDELETE( pTableList );
         }
     }
 
@@ -427,7 +427,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
                     m_saTables.RemoveAt(nIndex);
                 }
             }
-            wxDELETE( pTableList );
+            wsDELETE( pTableList );
         }
     }
         
@@ -453,7 +453,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
                     m_saTables.RemoveAt(nIndex);
                 }
             }
-            wxDELETE( pTableList );
+            wsDELETE( pTableList );
         }
     }
 

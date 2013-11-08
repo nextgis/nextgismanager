@@ -20,6 +20,7 @@
  ****************************************************************************/
 
 #include "wxgis/datasource/cursor.h"
+#include "wxgis/datasource/table.h"
 
 //----------------------------------------------------------------------------
 // wxFeatureCursor
@@ -27,9 +28,9 @@
 
 IMPLEMENT_CLASS(wxFeatureCursor, wxObject);
 
-wxFeatureCursor::wxFeatureCursor(void)
+wxFeatureCursor::wxFeatureCursor(wxGISTable* pFeatureDataSet)
 {
-    m_refData = new wxFeatureCursorRefData();
+    m_refData = new wxFeatureCursorRefData(pFeatureDataSet);
 }
 
 wxFeatureCursor::~wxFeatureCursor()
@@ -38,7 +39,7 @@ wxFeatureCursor::~wxFeatureCursor()
 
 wxObjectRefData *wxFeatureCursor::CreateRefData() const
 {
-    return new wxFeatureCursorRefData();
+    return new wxFeatureCursorRefData(NULL);
 }
 
 wxObjectRefData *wxFeatureCursor::CloneRefData(const wxObjectRefData *data) const
@@ -93,3 +94,45 @@ size_t wxFeatureCursor::GetCount() const
 {
     return ((wxFeatureCursorRefData *)m_refData)->m_olFeatures.size();
 }
+
+wxGISTable* wxFeatureCursor::GetDataset() const
+{
+    return ((wxFeatureCursorRefData *)m_refData)->GetDataset();
+}
+
+//----------------------------------------------------------------------------
+// wxFeatureCursorRefData
+//----------------------------------------------------------------------------
+
+wxFeatureCursorRefData::wxFeatureCursorRefData(wxGISTable* pFeatureDataSet) : wxObjectRefData()
+{
+    wsSET(m_pFeatureDataSet, pFeatureDataSet);
+}
+
+wxFeatureCursorRefData::~wxFeatureCursorRefData()
+{
+    m_olFeatures.clear();
+    wsDELETE(m_pFeatureDataSet);
+}
+
+bool wxFeatureCursorRefData::operator == (const wxFeatureCursorRefData& data) const
+{
+    return m_olFeatures == data.m_olFeatures && m_pFeatureDataSet == data.m_pFeatureDataSet;
+}
+
+wxFeatureCursorRefData::wxFeatureCursorRefData(const wxFeatureCursorRefData& data) : wxObjectRefData()
+{
+    m_olFeatures = data.m_olFeatures;
+    m_pFeatureDataSet = data.m_pFeatureDataSet;
+}
+
+std::list<wxGISFeature>::const_iterator wxFeatureCursorRefData::Begin(void) const
+{
+    return m_olFeatures.begin();
+}
+
+wxGISTable* wxFeatureCursorRefData::GetDataset() const
+{
+    wsGET(m_pFeatureDataSet);
+}
+

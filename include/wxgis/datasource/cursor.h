@@ -20,10 +20,11 @@
  ****************************************************************************/
 #pragma once
 
-
 #include "wxgis/datasource/gdalinh.h"
 
 #include <list>
+
+class wxGISTable;
 
 /** \class wxFeatureCursor cursor.h
     \brief The class represents an array of OGRFeatures, received by some selection.
@@ -33,7 +34,7 @@ class WXDLLIMPEXP_GIS_DS wxFeatureCursor : public wxObject
 {
     DECLARE_CLASS(wxFeatureCursor)
 public:
-	wxFeatureCursor(void);
+    wxFeatureCursor(wxGISTable* pFeatureDataSet);
 	virtual ~wxFeatureCursor(void);
 
     bool IsOk() const;
@@ -47,6 +48,7 @@ public:
 	virtual void Clear(void);
 	virtual wxGISFeature Next(void);
 	virtual size_t GetCount(void) const;
+    virtual wxGISTable* GetDataset() const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
@@ -63,32 +65,14 @@ class  wxFeatureCursorRefData : public wxObjectRefData
 {
     friend class wxFeatureCursor;
 public:
-    wxFeatureCursorRefData( void ) : wxObjectRefData()
-    {
-    }
+    wxFeatureCursorRefData(wxGISTable* pFeatureDataSet);
+    virtual ~wxFeatureCursorRefData();    
+    bool operator == (const wxFeatureCursorRefData& data) const;
+    wxFeatureCursorRefData(const wxFeatureCursorRefData& data);
 
-    virtual ~wxFeatureCursorRefData()
-    {
-        m_olFeatures.clear();
-    }
-    
-    bool operator == (const wxFeatureCursorRefData& data) const
-    {
-        return m_olFeatures == data.m_olFeatures;
-    }
-
-    wxFeatureCursorRefData( const wxFeatureCursorRefData& data )
-        : wxObjectRefData()
-    {
-        m_olFeatures = data.m_olFeatures;
-    }
-
-    std::list<wxGISFeature>::const_iterator Begin(void) const
-    {
-        return m_olFeatures.begin();
-    }
-
-
+    std::list<wxGISFeature>::const_iterator Begin(void) const;
+    wxGISTable* GetDataset() const;
 protected:
 	std::list<wxGISFeature> m_olFeatures;
+    wxGISTable* m_pFeatureDataSet;
 };

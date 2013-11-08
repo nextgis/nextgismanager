@@ -245,7 +245,7 @@ void wxGxContentView::InitColumns(void)
     {
         InsertColumn(0, _("Name"),	wxLIST_FORMAT_LEFT, 150);
         InsertColumn(1, _("Type"),  wxLIST_FORMAT_LEFT, 250);
-        InsertColumn(2, _("Size"),  wxLIST_FORMAT_LEFT, 80);
+        InsertColumn(2, _("Size"), wxLIST_FORMAT_RIGHT, 80);
         InsertColumn(3, _("Modification date"),  wxLIST_FORMAT_LEFT, 80);
         //InsertColumn(4, _("Geometry type"),  wxLIST_FORMAT_LEFT, 100);
     }

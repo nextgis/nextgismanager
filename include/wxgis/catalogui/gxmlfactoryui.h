@@ -42,5 +42,6 @@ protected:
     wxIcon m_LargeKMZIcon, m_SmallKMZIcon;
     wxIcon m_LargeGMLIcon, m_SmallGMLIcon;
     wxIcon m_LargeSubKMLIcon, m_SmallSubKMLIcon;
+    wxIcon m_LargeJsonIcon, m_SmallJsonIcon;
 };
 

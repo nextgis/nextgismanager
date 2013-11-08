@@ -404,7 +404,8 @@ void wxGISGeoprocessingCmd::ExportSingleVectorDataset(IGxDataset* const pGxDatas
         }
 
 
-        wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd, wxPD_APP_MODAL | wxPD_AUTO_HIDE | wxPD_SMOOTH | wxPD_CAN_ABORT | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME);
+        wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd, wxPD_APP_MODAL | wxPD_CAN_ABORT | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME);
+        ProgressDlg.SetAddPercentToMessage(true);
 
         wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);
         wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
@@ -428,7 +429,7 @@ void wxGISGeoprocessingCmd::ExportSingleVectorDataset(IGxDataset* const pGxDatas
 			}
 		}
 
-        if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullQueryFilter, NULL, NULL, static_cast<ITrackCancel*>(&ProgressDlg)))
+        if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, static_cast<ITrackCancel*>(&ProgressDlg)))
 		{
             wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
             wxLogError(ProgressDlg.GetLastMessage());

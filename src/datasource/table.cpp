@@ -428,11 +428,32 @@ wxGISFeature wxGISTable::Next(void)
     return wxGISFeature(pFeature, m_Encoding);
 }
 
-wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst)
+wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
 {
-    wxFeatureCursor oOutCursor;
+    wxFeatureCursor oOutCursor(this);
     if(	!m_poLayer )
 		return oOutCursor;
+
+    IProgressor* pProgressor(NULL);
+    if (pTrackCancel)
+    {
+        pProgressor = pTrackCancel->GetProgressor();
+    }
+
+    int nCounter(0);
+    int nRange = 100;
+    if (NULL != pProgressor)
+    {
+        if (bOnlyFirst)
+        {
+            nRange = 1;            
+        }
+        else
+        {
+            nRange = GetFeatureCount(false, pTrackCancel);
+        }
+        pProgressor->SetRange(nRange);
+    }
 
 	OGRErr eErr;
     if(QFilter.GetWhereClause().IsEmpty())
@@ -442,6 +463,25 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
 		OGRFeature* pFeature = NULL;
         while((pFeature = m_poLayer->GetNextFeature()) != NULL)
 		{
+            if (pTrackCancel && !pTrackCancel->Continue())
+            {
+                wxString sErr(_("Interrupted by user"));
+                CPLString sFullErr(sErr.mb_str());
+                CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
+
+                if (pTrackCancel)
+                {
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                }
+                oOutCursor.Reset();
+                return oOutCursor;
+            }
+
+
+            if (NULL != pProgressor)
+            {
+               pProgressor->SetValue(nCounter++);
+            }
 			oOutCursor.Add(wxGISFeature(pFeature, m_Encoding));
 			if(bOnlyFirst)
 				break;
@@ -467,6 +507,26 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
 		OGRFeature* poFeature = NULL;
 		while((poFeature = m_poLayer->GetNextFeature()) != NULL )
 		{
+            if (pTrackCancel && !pTrackCancel->Continue())
+            {
+                wxString sErr(_("Interrupted by user"));
+                CPLString sFullErr(sErr.mb_str());
+                CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
+
+                if (pTrackCancel)
+                {
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                }
+                oOutCursor.Reset();
+                m_poLayer->SetAttributeFilter(NULL);
+                return oOutCursor;
+            }
+
+            if (NULL != pProgressor)
+            {
+                pProgressor->SetValue(nCounter++);
+            }
+
 			oOutCursor.Add(wxGISFeature(poFeature, m_Encoding));
 			if(bOnlyFirst)
 				break;
@@ -516,32 +576,31 @@ wxArrayString wxGISTable::GetFieldNames()
     return saFields;
 }
 
-/*
-OGRErr wxGISTable::SetFilter(wxGISQueryFilter* pQFilter)
+
+OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
 {
-    if(	!m_poLayer )
+    if (NULL == m_poLayer)
+    {
 		return OGRERR_FAILURE;
+    }
 
 	OGRErr eErr;
-	wxString sNewFilter;
-    if(pQFilter)
-	{
-        eErr = m_poLayer->SetAttributeFilter(pQFilter->GetWhereClause().mb_str());
-		sNewFilter = pQFilter->GetWhereClause();
-	}
-    else
+    if (QFilter.GetWhereClause().IsEmpty())
+    {
         eErr = m_poLayer->SetAttributeFilter(NULL);
-
-    if(eErr != OGRERR_NONE)
+        m_nFeatureCount = wxNOT_FOUND;
+        GetFeatureCount(true);
         return eErr;
-
-	m_sCurrentFilter = sNewFilter;
-    UnloadFeatures();
-	LoadFeatures(NULL);
-	Reset();
-    return eErr;
+    }
+    else
+	{
+        eErr = m_poLayer->SetAttributeFilter(QFilter.GetWhereClause().mb_str(wxConvUTF8));
+        m_nFeatureCount = wxNOT_FOUND;
+        GetFeatureCount(true);
+        return eErr;
+	}
 }
-*/
+
 
 OGRErr wxGISTable::SetIgnoredFields(const wxArrayString &saIgnoredFields)
 {

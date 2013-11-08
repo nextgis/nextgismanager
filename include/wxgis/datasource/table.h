@@ -72,8 +72,8 @@ public:
     virtual bool HasFID(void) const {return m_bHasFID;};
     virtual wxArrayString GetFieldNames(void);
     //
-    virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false);
-    //virtual OGRErr SetFilter(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter);
+    virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
+    virtual OGRErr SetFilter(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter);
     virtual OGRErr SetIgnoredFields(const wxArrayString &saIgnoredFields);
 
 	virtual OGRDataSource* const GetDataSourceRef(void) const {return m_poDS;};

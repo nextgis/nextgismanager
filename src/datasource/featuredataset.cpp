@@ -337,7 +337,7 @@ OGRwkbGeometryType wxGISFeatureDataset::GetGeometryType(void) const
     return m_eGeomType;
 }
 
-wxFeatureCursor wxGISFeatureDataset::Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst)
+wxFeatureCursor wxGISFeatureDataset::Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
 {
     if(SpaFilter.GetGeometry().IsOk())
 	{
@@ -348,7 +348,7 @@ wxFeatureCursor wxGISFeatureDataset::Search(const wxGISSpatialFilter &SpaFilter,
         m_poLayer->SetSpatialFilter(NULL);
     }
 
-    wxFeatureCursor oOutCursor = wxGISTable::Search(SpaFilter, bOnlyFirst);
+    wxFeatureCursor oOutCursor = wxGISTable::Search(SpaFilter, bOnlyFirst, pTrackCancel);
     m_poLayer->SetSpatialFilter(NULL);
     return oOutCursor;
 }
@@ -419,29 +419,24 @@ OGRErr wxGISFeatureDataset::SetFeature(const wxGISFeature &Feature)
     return ret;
 }
 
-/*
-OGRErr wxGISFeatureDataset::SetFilter(wxGISQueryFilter* pQFilter)
+
+OGRErr wxGISFeatureDataset::SetFilter(const wxGISSpatialFilter &SpaFilter)
 {
-    if(	!m_poLayer )
+    if(NULL == m_poLayer)
 		return OGRERR_FAILURE;
 
-	wxGISSpatialFilter* pSpaFil = dynamic_cast<wxGISSpatialFilter*>(pQFilter);
-	if(pSpaFil)
+    if (SpaFilter.GetGeometry().IsOk())
 	{
-		OGRGeometrySPtr pGeom = pSpaFil->GetGeometry();
-        m_poLayer->SetSpatialFilter(pGeom.get());
+        m_poLayer->SetSpatialFilter(SpaFilter.GetGeometry());
 	}
-	else
+    else
+    {
         m_poLayer->SetSpatialFilter(NULL);
+    }
 
-	if( wxGISTable::SetFilter(pQFilter) == OGRERR_NONE )
-	{
-		LoadGeometry();
-		return OGRERR_NONE;
-	}
-    return OGRERR_FAILURE;
+    return wxGISTable::SetFilter(SpaFilter);
 }
-*/
+
 
 void wxGISFeatureDataset::SetCached(bool bCached)
 {

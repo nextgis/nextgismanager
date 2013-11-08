@@ -239,7 +239,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement, co
             wxLogError(_("ExecuteSQL failed! GDAL error: %s"), wxString(err, wxConvUTF8).c_str());
         }
     }
-	return pDataset;
+	wsGET(pDataset);
 }
 
 wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxGISSpatialFilter &SpatialFilter, const wxString &sDialect)
@@ -263,7 +263,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxGISSpatialFilter &Spat
             wxLogError(_("ExecuteSQL failed! GDAL error: %s"), wxString(err, wxConvUTF8).c_str());
         }
 	}
-	return pDataset;
+	wsGET( pDataset );
 }
 
 bool wxGISPostgresDataSource::Open(int bUpdate)

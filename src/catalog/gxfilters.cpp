@@ -269,7 +269,7 @@ wxString wxGxFeatureDatasetFilter::GetName(void) const
 	case enumVecGML:
 	    return wxString(_("GML file (*.gml)"));
 	case enumVecGeoJSON:
-	    return wxString(_("GeoJSON file (*.json)"));
+	    return wxString(_("GeoJSON file (*.geojson)"));
 	case enumVecWFS:
 	    return wxString(_("WFS"));
 	case enumVecMem:
@@ -302,7 +302,7 @@ wxString wxGxFeatureDatasetFilter::GetExt(void) const
 	case enumVecGML:
 	    return wxString(wxT("gml"));
 	case enumVecGeoJSON:
-	    return wxString(wxT("json"));
+	    return wxString(wxT("geojson"));
     default:
         return wxEmptyString;
     }

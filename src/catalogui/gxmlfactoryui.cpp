@@ -33,6 +33,8 @@
 #include "../../art/gml_dset_48.xpm"
 #include "../../art/kml_subdset_16.xpm"
 #include "../../art/kml_subdset_48.xpm"
+#include "../../art/json_dset_16.xpm"
+#include "../../art/json_dset_48.xpm"
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxMLFactoryUI, wxGxMLFactory)
 
@@ -48,6 +50,8 @@ wxGxMLFactoryUI::wxGxMLFactoryUI(void) : wxGxMLFactory()
     m_LargeGMLIcon = wxIcon(gml_dset_48_xpm);
     m_LargeSubKMLIcon = wxIcon(kml_subdset_48_xpm);
     m_SmallSubKMLIcon = wxIcon(kml_subdset_16_xpm);
+    m_SmallJsonIcon = wxIcon(json_dset_16_xpm);
+    m_LargeJsonIcon = wxIcon(json_dset_48_xpm);
 
 }
 
@@ -86,6 +90,11 @@ wxGxObject* wxGxMLFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &so
 	    wxGxFeatureDatasetUI* pDataset = new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeDXFIcon, m_SmallDXFIcon);
         return wxStaticCast(pDataset, wxGxObject);
         }
+    case enumVecGeoJSON:
+    {
+        wxGxFeatureDatasetUI* pDataset = new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeJsonIcon, m_SmallJsonIcon);
+        return wxStaticCast(pDataset, wxGxObject);
+    }
     default:
         break;
     }

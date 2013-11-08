@@ -26,11 +26,15 @@
 
 IMPLEMENT_CLASS(wxGISProgressDlg, wxProgressDialog)
 
-wxGISProgressDlg::wxGISProgressDlg( const wxString &title, const wxString &message, int  maximum, wxWindow *  parent, int style ) : wxProgressDialog(title, message, maximum, parent, style), ITrackCancel()
+wxGISProgressDlg::wxGISProgressDlg( const wxString &title, const wxString &message, int  maximum, wxWindow *  parent, int style ) : wxProgressDialog(title, message, 100, parent, style), ITrackCancel()
 {
 	m_sLastMessage = message;
 	m_nValue = 0;
 	m_pProgressor = this;
+    m_nRange = maximum;
+    m_dfStep = 1;
+    m_nPrevValue = wxNOT_FOUND;
+    m_bAddPercentToMessage = false;
 }
 
 wxGISProgressDlg::~wxGISProgressDlg(void)
@@ -44,12 +48,14 @@ bool wxGISProgressDlg::ShowProgress(bool bShow)
 
 void wxGISProgressDlg::SetRange(int range)
 {
-	wxProgressDialog::SetRange(range/* + 1*/);
+    m_nRange = range;
+    m_dfStep = range * 0.01; //1%
+	//wxProgressDialog::SetRange(range);
 }
 
 int wxGISProgressDlg::GetRange(void) const
 {
-	return wxProgressDialog::GetRange()/* - 1*/;
+	return wxProgressDialog::GetRange();
 }
 
 int wxGISProgressDlg::GetValue(void) const
@@ -59,18 +65,35 @@ int wxGISProgressDlg::GetValue(void) const
 
 void wxGISProgressDlg::Play(void)
 {
-	m_bIsCanceled = !wxProgressDialog::Pulse(m_sLastMessage);
+    m_bIsCanceled = !wxProgressDialog::Pulse();// m_sLastMessage);
 }
 
 void wxGISProgressDlg::Stop(void)
 {
-	m_bIsCanceled = !wxProgressDialog::Update(m_nValue, m_sLastMessage);
+    m_bIsCanceled = !wxProgressDialog::Update(wxNOT_FOUND);// , m_sLastMessage);
 }
 
 void wxGISProgressDlg::SetValue(int value)
 {
 	m_nValue = value;
-	m_bIsCanceled = !wxProgressDialog::Update(m_nValue, m_sLastMessage);
+    int nNewVal = float(value) / m_dfStep;
+
+    if (m_nPrevValue == nNewVal)
+        return;
+    m_nPrevValue = nNewVal;
+
+    if (nNewVal > 99 && !HasFlag(wxPD_AUTO_HIDE))
+        return;
+        
+    if (m_bAddPercentToMessage)
+    {
+        m_bIsCanceled = !wxProgressDialog::Update(nNewVal, m_sLastMessage + wxString::Format(_(" - %d%% done"), nNewVal));
+    }
+    else
+    {
+        m_bIsCanceled = !wxProgressDialog::Update(nNewVal, m_sLastMessage);
+    }
+    Fit();
 }
 
 void wxGISProgressDlg::Cancel(void)
@@ -92,5 +115,11 @@ void wxGISProgressDlg::Reset(void)
 void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType nType)
 {
 	m_sLastMessage = sMessage;
-	m_bIsCanceled = !wxProgressDialog::Update(m_nValue, m_sLastMessage);
+	//m_bIsCanceled = !wxProgressDialog::Update(wxNOT_FOUND, m_sLastMessage);
 }
+
+void wxGISProgressDlg::SetAddPercentToMessage(bool bAdd)
+{
+    m_bAddPercentToMessage = bAdd;
+}
+

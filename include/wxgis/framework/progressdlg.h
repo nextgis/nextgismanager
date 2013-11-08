@@ -51,7 +51,12 @@ public:
 	virtual void Reset(void);
 	virtual void PutMessage(const wxString &sMessage, size_t nIndex = wxNOT_FOUND, wxGISEnumMessageType nType = enumGISMessageUnk);
     virtual wxString GetLastMessage(void) const {return m_sLastMessage;};
+    //
+    virtual void SetAddPercentToMessage(bool bAdd = false);
 protected:
 	int m_nValue;
 	wxString m_sLastMessage;
+    float m_dfStep;
+    int m_nRange, m_nPrevValue;
+    bool m_bAddPercentToMessage;
 };

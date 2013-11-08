@@ -139,14 +139,18 @@ long wxGISFeature::GetFID(void) const
     return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFID();
 }
 
-wxDateTime wxGISFeature::GetFieldAsDateTime(const wxString &sFieldName)
+wxDateTime wxGISFeature::GetFieldAsDateTime(const wxString &sFieldName) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxInvalidDateTime, wxT("The OGRFeature pointer is null"));
     int nIndex = GetFieldIndex(sFieldName);
     if(nIndex == -1)
         return wxInvalidDateTime;
+    return GetFieldAsDateTime(nIndex);
+}
+
+wxDateTime wxGISFeature::GetFieldAsDateTime(int nIndex) const
+{
 	int year, mon, day, hour, min, sec, flag;
-	if(GetFieldAsDateTime(nIndex, &year, &mon, &day, &hour, &min, &sec, &flag) == TRUE)
+    if (GetFieldAsDateTime(nIndex, &year, &mon, &day, &hour, &min, &sec, &flag) == TRUE)
     {
         wxDateTime dt(day, wxDateTime::Month(mon - 1), year, hour, min, sec);
         return dt;
@@ -154,55 +158,82 @@ wxDateTime wxGISFeature::GetFieldAsDateTime(const wxString &sFieldName)
     return wxInvalidDateTime;
 }
 
-int wxGISFeature::GetFieldAsDateTime (int i, int *pnYear, int *pnMonth, int *pnDay, int *pnHour, int *pnMinute, int *pnSecond, int *pnTZFlag)
+int wxGISFeature::GetFieldAsDateTime(int nIndex, int *pnYear, int *pnMonth, int *pnDay, int *pnHour, int *pnMinute, int *pnSecond, int *pnTZFlag) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, FALSE, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDateTime(i, pnYear, pnMonth, pnDay, pnHour, pnMinute, pnSecond, pnTZFlag);
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDateTime(nIndex, pnYear, pnMonth, pnDay, pnHour, pnMinute, pnSecond, pnTZFlag);
 }
 
-double wxGISFeature::GetFieldAsDouble (int i)
+double wxGISFeature::GetFieldAsDouble(int nIndex) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDouble(i);
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDouble(nIndex);
 }
 
-double wxGISFeature::GetFieldAsDouble (const wxString &sFieldName)
+double wxGISFeature::GetFieldAsDouble (const wxString &sFieldName) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
     int nIndex = GetFieldIndex(sFieldName);
     if(nIndex == -1)
         return 0;
     return GetFieldAsDouble(nIndex);
 }
 
-const int * wxGISFeature::GetFieldAsIntegerList (int i, int *pnCount)
+wxArrayInt wxGISFeature::GetFieldAsIntegerList(int nIndex) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, NULL, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsIntegerList(i, pnCount);
+    wxArrayInt ret;
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, ret, wxT("The OGRFeature pointer is null"));
+    int nCount = 0;
+    const int* paInts = ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsIntegerList(nIndex, &nCount);
+    for (int i = 0; i < nCount; ++i)
+    {
+        ret.Add(paInts[i]);
+    }
+    return ret;
 }
 
-const double * wxGISFeature::GetFieldAsDoubleList (int i, int *pnCount)
+wxArrayDouble wxGISFeature::GetFieldAsDoubleList(int nIndex) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, NULL, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDoubleList(i, pnCount);
+    wxArrayDouble ret;
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, ret, wxT("The OGRFeature pointer is null"));
+    int nCount = 0;
+    const double* paDoubles = ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsDoubleList(nIndex, &nCount);
+    for (int i = 0; i < nCount; ++i)
+    {
+        ret.Add(paDoubles[i]);
+    }
+    return ret;
 }
 
-char ** wxGISFeature::GetFieldAsStringList (int i) const
+wxArrayString wxGISFeature::GetFieldAsStringList(int nIndex) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, NULL, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsStringList(i);
+    wxArrayString ret;
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, ret, wxT("The OGRFeature pointer is null"));
+
+    char** papszLinkList = ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsStringList(nIndex);
+    for (int i = 0; papszLinkList[i] != NULL; ++i)
+    {
+        ret.Add(EncodeString(papszLinkList[i], ((wxGISFeatureRefData *)m_refData)->m_oEncoding));
+    }
+
+    return ret;
 }
 
-wxString wxGISFeature::GetFieldAsString(const wxString &sFieldName)
+
+wxString wxGISFeature::GetFieldAsString(const wxString &sFieldName) const
 {
-    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxEmptyString, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
     if(nField == -1)
         return wxEmptyString;
     return GetFieldAsString(nField);
 }
 
-wxString wxGISFeature::GetFieldAsString(int nField)
+const char* wxGISFeature::GetFieldAsChar(int nField) const
+{
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, NULL, wxT("The OGRFeature pointer is null"));
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsString(nField);
+}
+
+wxString wxGISFeature::GetFieldAsString(int nField) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxEmptyString, wxT("The OGRFeature pointer is null"));
 
@@ -214,131 +245,113 @@ wxString wxGISFeature::GetFieldAsString(int nField)
 	{
 	case OFTDate:
 		{
-			int year, mon, day, hour, min, sec, flag;
-			if(GetFieldAsDateTime(nField, &year, &mon, &day, &hour, &min, &sec, &flag) == TRUE)
+            wxDateTime dt = GetFieldAsDateTime(nField);
+            if(dt.IsValid())
             {
-			    wxDateTime dt(day, wxDateTime::Month(mon - 1), year, hour, min, sec);
-                if(dt.IsValid())
-				    sOut = dt.FormatDate();//.Format(_("%d-%m-%Y"));
+				sOut = dt.FormatDate();//.Format(_("%d-%m-%Y"));
             }
-            if(sOut == wxEmptyString)
+
+            if (sOut == wxEmptyString)
+            {
                 sOut = wxT("<NULL>");
+            }
 		}
         break;
 	case OFTTime:
 		{
-			int year, mon, day, hour, min, sec, flag;
-			if(GetFieldAsDateTime(nField, &year, &mon, &day, &hour, &min, &sec, &flag) == TRUE)
+            wxDateTime dt = GetFieldAsDateTime(nField);
+            if (dt.IsValid())
             {
-			    wxDateTime dt(day, wxDateTime::Month(mon - 1), year, hour, min, sec);
-                if(dt.IsValid())
-				    sOut = dt.FormatTime();//.Format(_("%H:%M:%S"));
+				sOut = dt.FormatTime();//.Format(_("%H:%M:%S"));
             }
-            if(sOut == wxEmptyString)
+
+            if (sOut == wxEmptyString)
+            {
                 sOut = wxT("<NULL>");
-		}
+            }
+        }
         break;
 	case OFTDateTime:
 		{
-			int year, mon, day, hour, min, sec, flag;
-			if(GetFieldAsDateTime(nField, &year, &mon, &day, &hour, &min, &sec, &flag) == TRUE)
+            wxDateTime dt = GetFieldAsDateTime(nField);
+            if (dt.IsValid())
             {
-			    wxDateTime dt(day, wxDateTime::Month(mon - 1), year, hour, min, sec);
-                if(dt.IsValid())
-                    sOut = dt.Format();//.Format(_("%d-%m-%Y %H:%M:%S"));
+                sOut = dt.Format();//.Format(_("%d-%m-%Y %H:%M:%S"));
             }
-            if(sOut == wxEmptyString)
+
+            if (sOut == wxEmptyString)
+            {
                 sOut = wxT("<NULL>");
-		}
+            }
+        }
         break;
-	case OFTReal:
+    case OFTReal:
 		sOut = wxString::Format(wxT("%.12f"), GetFieldAsDouble(nField));
-        if(sOut == wxEmptyString)
-            sOut = wxT("<NULL>");
+        break;
+    case OFTInteger:
+		sOut = wxString::Format(wxT("%d"), GetFieldAsInteger(nField));
         break;
 	case OFTRealList:
 		{
-			int nCount(0);
-			const double* pDblLst = GetFieldAsDoubleList(nField, &nCount);
-			for(int i = 0; i < nCount; ++i)
+			wxArrayDouble DblLst = GetFieldAsDoubleList(nField);
+            for (size_t i = 0; i < DblLst.GetCount(); ++i)
 			{
-				sOut += wxString::Format(wxT("%.12f;"), pDblLst[i]);
+                sOut += wxString::Format(wxT("%.12f;"), DblLst[i]);
 			}
 		}
 		break;
 	case OFTIntegerList:
 		{
-			int nCount(0);
-			const int* pIntLst = GetFieldAsIntegerList(nField, &nCount);
-			for(int i = 0; i < nCount; ++i)
+			wxArrayInt IntLst = GetFieldAsIntegerList(nField);
+            for (size_t i = 0; i < IntLst.GetCount(); ++i)
 			{
-				sOut += wxString::Format(wxT("%.d;"), pIntLst[i]);
+                sOut += wxString::Format(wxT("%.d;"), IntLst[i]);
 			}
 		}
 		break;
 	case OFTStringList:
 		{
-			char** papszLinkList = GetFieldAsStringList(nField);
-			for(int i = 0; papszLinkList[i] != NULL; ++i )
+			wxArrayString StringLst = GetFieldAsStringList(nField);
+            for (size_t i = 0; i < StringLst.GetCount(); ++i)
 			{
-                if(((wxGISFeatureRefData *)m_refData)->m_oEncoding <= wxFONTENCODING_DEFAULT)
-                {
-                    sOut = wxString(papszLinkList[i], wxConvLocal);
-                }
-                else if(((wxGISFeatureRefData *)m_refData)->m_oEncoding == wxFONTENCODING_UTF8)
-                    sOut = wxString(papszLinkList[i], wxConvUTF8);
-                else
-                {
-                    sOut = wxString(papszLinkList[i], wxCSConv(((wxGISFeatureRefData *)m_refData)->m_oEncoding));
-                    if(sOut.IsEmpty())
-                        sOut = wxString(papszLinkList[i], wxConvLocal);
-                }
-				sOut += wxString(wxT(";"));
+                sOut.Append(StringLst[i]);
+                sOut.Append(wxT(";"));
 			}
 		}
 		break;
 	default:
         {
-            CPLString pszStringData( ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsString(nField) );
-            if(!pszStringData.empty())
-            {
-                if(((wxGISFeatureRefData *)m_refData)->m_oEncoding <= wxFONTENCODING_DEFAULT)
-                {
-                    sOut = wxString(pszStringData, wxConvLocal);
-                }
-                else if(((wxGISFeatureRefData *)m_refData)->m_oEncoding == wxFONTENCODING_UTF8)
-                    sOut = wxString(pszStringData, wxConvUTF8);
-                else
-                {
-                    sOut = wxString(pszStringData, wxCSConv(((wxGISFeatureRefData *)m_refData)->m_oEncoding));
-                    if(sOut.IsEmpty())
-                        sOut = wxString(pszStringData, wxConvLocal);
-                }
-            }
+            const char* pszStringData( ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsString(nField) );
+            sOut = EncodeString(pszStringData, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
         }
 	}
 	return sOut;
 }
 
-void wxGISFeature::SetField (int i, int nValue)
+void wxGISFeature::SetField(int nIndex, int nValue)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(i, nValue);
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, nValue);
 }
 
-void wxGISFeature::SetField (int i, double dfValue)
+void wxGISFeature::SetField(int nIndex, double dfValue)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(i, dfValue);
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, dfValue);
 }
 
-void wxGISFeature::SetField (int i, const wxString &sValue)
+void wxGISFeature::SetField(int nIndex, const wxString &sValue)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
-    CPLString szData(sValue.mb_str(wxCSConv(((wxGISFeatureRefData *)m_refData)->m_oEncoding)));
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(i, szData);
+    const char* szData = EncodeString(sValue, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, szData);
 }
 
+void wxGISFeature::SetField(int nIndex, const char* pszStr)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, pszStr);
+}
 //void wxGISFeature::SetField (int i, const wxArrayInt &anValues)
 //{
 //}
@@ -347,18 +360,23 @@ void wxGISFeature::SetField (int i, const wxString &sValue)
 //{
 //}
 
-void wxGISFeature::SetField (int i, const wxArrayString &asValues)
+void wxGISFeature::SetField(int nIndex, char **papszValues)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, papszValues);
+}
 
+void wxGISFeature::SetField(int nIndex, const wxArrayString &asValues)
+{
     char **papszValues = NULL;
     for(size_t j = 0; j < asValues.GetCount(); ++j)
     {
-        CPLString szData(asValues[j].mb_str(wxCSConv(((wxGISFeatureRefData *)m_refData)->m_oEncoding)));
+        const char* szData = EncodeString(asValues[j], ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
         papszValues = CSLAddString(papszValues, szData);
     }
 
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(i, papszValues);
+    SetField(nIndex, papszValues);
+
     CSLDestroy( papszValues );
 }
 
@@ -370,15 +388,19 @@ void wxGISFeature::SetField (const wxString &sFieldName, const wxArrayString &as
     SetField(nField, asValues);
 }
 
-void wxGISFeature::SetField (int i, int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nTZFlag)
+void wxGISFeature::SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nTZFlag)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(i, nYear, nMonth, nDay, nHour, nMinute, nSecond, nTZFlag);
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, nYear, nMonth, nDay, nHour, nMinute, nSecond, nTZFlag);
+}
+
+void wxGISFeature::SetField(int nIndex, const wxDateTime &dt)
+{
+    SetField(nIndex, dt.GetYear(), dt.GetMonth() + 1, dt.GetDay(), dt.GetHour(), dt.GetMinute(), dt.GetSecond());
 }
 
 void wxGISFeature::SetField (const wxString &sFieldName, int nValue)
 {
-    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
     if(nField == -1)
         return;
@@ -387,7 +409,6 @@ void wxGISFeature::SetField (const wxString &sFieldName, int nValue)
 
 void wxGISFeature::SetField (const wxString &sFieldName, double dfValue)
 {
-    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
     if(nField == -1)
         return;
@@ -396,7 +417,6 @@ void wxGISFeature::SetField (const wxString &sFieldName, double dfValue)
 
 void wxGISFeature::SetField (const wxString &sFieldName, const wxString &sValue)
 {
-    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
     if(nField == -1)
         return;
@@ -405,11 +425,56 @@ void wxGISFeature::SetField (const wxString &sFieldName, const wxString &sValue)
 
 void wxGISFeature::SetField (const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nTZFlag)
 {
-    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
     if(nField == -1)
         return;
     SetField(nField, nYear, nMonth, nDay, nHour, nMinute, nSecond, nTZFlag);
+}
+
+void wxGISFeature::SetField(const wxString &sFieldName, const wxArrayInt &anValues)
+{
+    int nField = GetFieldIndex(sFieldName);
+    if (nField == -1)
+        return;
+    SetField(nField, anValues);
+}
+
+void wxGISFeature::SetField(const wxString &sFieldName, const wxArrayDouble &adfValues)
+{
+    int nField = GetFieldIndex(sFieldName);
+    if (nField == -1)
+        return;
+    SetField(nField, adfValues);
+}
+
+void wxGISFeature::SetField(int nIndex, const wxArrayInt &anValues)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+
+    int *panValues = new int[anValues.GetCount()];
+    for (size_t j = 0; j < anValues.GetCount(); ++j)
+    {
+        panValues[j] = anValues[j];
+    }
+
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, anValues.GetCount(), panValues);
+
+    wxDELETE(panValues);
+}
+
+void wxGISFeature::SetField(int nIndex, const wxArrayDouble &adfValues)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+
+    double *padfValues = new double[adfValues.GetCount()];
+    for (size_t j = 0; j < adfValues.GetCount(); ++j)
+    {
+        padfValues[j] = adfValues[j];
+    }
+
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, adfValues.GetCount(), padfValues);
+
+    wxDELETE(padfValues);
 }
 
 OGRErr wxGISFeature::SetGeometry(OGRGeometry* pGeom)
@@ -430,7 +495,13 @@ wxGISGeometry wxGISFeature::GetGeometry(void) const
     return wxGISGeometry(((wxGISFeatureRefData *)m_refData)->m_poFeature->GetGeometryRef(), false);
 }
 
-int wxGISFeature::GetFieldAsInteger(const wxString &sFieldName)
+void wxGISFeature::SetStyleString(const wxString &sStyle)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetStyleString(sStyle.mb_str(wxConvUTF8));
+}
+
+int wxGISFeature::GetFieldAsInteger(const wxString &sFieldName) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
     int nField = GetFieldIndex(sFieldName);
@@ -439,17 +510,17 @@ int wxGISFeature::GetFieldAsInteger(const wxString &sFieldName)
     return GetFieldAsInteger(nField);
 }
 
-int wxGISFeature::GetFieldAsInteger(int i)
+int wxGISFeature::GetFieldAsInteger(int nIndex) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsInteger(i);
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsInteger(nIndex);
 }
 
-int wxGISFeature::GetFieldIndex(const wxString &sFieldName)
+int wxGISFeature::GetFieldIndex(const wxString &sFieldName) const
 {
     //TODO: check for russian field name encoding
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, -1, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldIndex(sFieldName.mb_str());
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldIndex(sFieldName.mb_str(wxConvUTF8));
 }
 
 wxString wxGISFeature::GetFieldName(int nIndex) const

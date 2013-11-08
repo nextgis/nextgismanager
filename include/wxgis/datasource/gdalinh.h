@@ -138,41 +138,143 @@ public:
     operator OGRFeature*() const;
 
     //get
-    wxString GetFieldAsString(int nField);
+    const char* GetFieldAsChar(int nField) const;
     wxString GetFieldAsString(int nField) const;
-    wxString GetFieldAsString(const wxString &sFieldName);
-    int GetFieldAsDateTime (int i, int *pnYear, int *pnMonth, int *pnDay, int *pnHour, int *pnMinute, int *pnSecond, int *pnTZFlag);
-    wxDateTime GetFieldAsDateTime(const wxString &sFieldName);
-    double GetFieldAsDouble (int i);
-    double GetFieldAsDouble (const wxString &sFieldName);
-    const double * GetFieldAsDoubleList (int i, int *pnCount);
-    const int * GetFieldAsIntegerList (int i, int *pnCount);
-    char ** GetFieldAsStringList (int i) const;
+    wxString GetFieldAsString(const wxString &sFieldName) const;
+    wxDateTime GetFieldAsDateTime(int nField) const;
+    wxDateTime GetFieldAsDateTime(const wxString &sFieldName) const;
+    double GetFieldAsDouble(int nField) const;
+    double GetFieldAsDouble (const wxString &sFieldName) const;
+    wxArrayString GetFieldAsStringList(int nField) const;
+    wxArrayString GetFieldAsStringList(const wxString &sFieldName) const;
+    wxArrayDouble GetFieldAsDoubleList(int nIndex) const;
+    wxArrayDouble GetFieldAsDoubleList(const wxString &sFieldName) const;
+    wxArrayInt GetFieldAsIntegerList(int nIndex) const;
+    wxArrayInt GetFieldAsIntegerList(const wxString &sFieldName) const;
     wxGISGeometry GetGeometry(void) const;
-    int GetFieldAsInteger(const wxString &sFieldName);
-    int GetFieldAsInteger(int i);
-    int GetFieldIndex(const wxString &sFieldName);
+    int GetFieldAsInteger(int nIndex) const;
+    int GetFieldAsInteger(const wxString &sFieldName) const;
+
+    int GetFieldIndex(const wxString &sFieldName) const;
     wxString GetFieldName(int nIndex) const;
     int GetFieldCount(void) const;
     long GetFID(void) const;
     //set
     OGRErr SetFID(long nFID);
-    void SetField (int i, int nValue);
-    void SetField (int i, double dfValue); 
-    void SetField (int i, const wxString &sValue);
-    //void SetField (int i, const wxArrayInt &anValues);
-    //void SetField (int i, int nCount, wxArrayDouble &adfValues); 
-    void SetField (int i, const wxArrayString &asValues);
-    void SetField (int i, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
-    void SetField (const wxString &sFieldName, int nValue);
-    void SetField (const wxString &sFieldName, double dfValue); 
-    void SetField (const wxString &sFieldName, const wxString &sValue);
-    //void SetField (const wxString &sFieldName, const wxArrayInt &anValues);
-    //void SetField (const wxString &sFieldName, int nCount, wxArrayDouble &adfValues); 
-    void SetField (const wxString &sFieldName, const wxArrayString &asValues);
-    void SetField (const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
-    OGRErr SetGeometry(OGRGeometry* pGeom);
+    void SetField(int nIndex, int nValue);
+    void SetField(int nIndex, double dfValue);
+    void SetField(int nIndex, const wxString &sValue);
+    void SetField(int nIndex, const char* pszStr);
+    void SetField (int nIndex, const wxArrayInt &anValues);
+    void SetField (int nIndex, const wxArrayDouble &adfValues); 
+    void SetField(int nIndex, const wxArrayString &asValues);
+    void SetField(int nIndex, const wxDateTime &dt);
+    void SetField(const wxString &sFieldName, int nValue);
+    void SetField(const wxString &sFieldName, double dfValue); 
+    void SetField(const wxString &sFieldName, const wxString &sValue);
+    void SetField (const wxString &sFieldName, const wxArrayInt &anValues);
+    void SetField (const wxString &sFieldName, const wxArrayDouble &adfValues); 
+    void SetField(const wxString &sFieldName, const wxArrayString &asValues);
     OGRErr SetGeometry(const wxGISGeometry &Geom);
+    void SetStyleString(const wxString &sStyle);
+protected:
+    inline wxString EncodeString(const char* psz, wxFontEncoding oEncoding) const
+    {
+        if (strlen(psz) > 0)
+        {
+            if (oEncoding <= wxFONTENCODING_DEFAULT)
+            {
+                return wxString(psz, wxConvLocal);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF8)
+            {
+                return wxString(psz, wxConvUTF8);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF7)
+            {
+                return wxString(psz, wxConvUTF7);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF16)
+            {
+                return wxString(psz, wxMBConvUTF16());
+            }
+            else if (oEncoding == wxFONTENCODING_UTF32)
+            {
+                return wxString(psz, wxMBConvUTF32());
+            }
+            else if (oEncoding == wxFONTENCODING_ISO8859_1)
+            {
+                return wxString(psz, wxConvISO8859_1);
+            }
+            else if (wxLocale::GetSystemEncoding() == oEncoding)
+            {
+                return wxString(psz, wxConvLocal);
+            }
+            else
+            {
+                wxString sOut = wxString(psz, wxCSConv(oEncoding));
+                if (sOut.IsEmpty())
+                {
+                    sOut = wxString(psz, wxConvLocal);
+                }
+                return sOut;
+            }
+        }
+        return wxEmptyString;
+    };
+
+    inline const char* EncodeString(const wxString &sStr, wxFontEncoding oEncoding) const
+    {
+        if (!sStr.IsEmpty())
+        {
+            if (oEncoding <= wxFONTENCODING_DEFAULT)
+            {
+                return sStr.mb_str(wxConvLocal);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF8)
+            {
+                return sStr.mb_str(wxConvUTF8);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF7)
+            {
+                return sStr.mb_str(wxConvUTF7);
+            }
+            else if (oEncoding == wxFONTENCODING_UTF16)
+            {
+                return sStr.mb_str(wxMBConvUTF16());
+            }
+            else if (oEncoding == wxFONTENCODING_UTF32)
+            {
+                return sStr.mb_str(wxMBConvUTF32());
+            }
+            else if (oEncoding == wxFONTENCODING_ISO8859_1)
+            {
+                return sStr.mb_str(wxConvISO8859_1);
+            }
+            else if (wxLocale::GetSystemEncoding() == oEncoding)
+            {
+                return sStr.mb_str(wxConvLocal);
+            }
+            else
+            {
+                const char* pszOut = sStr.mb_str(wxCSConv(oEncoding));
+                if (strlen(pszOut) == 0)
+                {
+                    pszOut = sStr.mb_str(wxConvLocal);
+                }
+                return pszOut;
+            }
+        }
+        return NULL;
+    };
+
+
+
+    int GetFieldAsDateTime(int nIndex, int *pnYear, int *pnMonth, int *pnDay, int *pnHour, int *pnMinute, int *pnSecond, int *pnTZFlag) const;
+    void SetField(int nIndex, char **papszValues);
+    void SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
+    void SetField(const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
+    OGRErr SetGeometry(OGRGeometry* pGeom);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;    

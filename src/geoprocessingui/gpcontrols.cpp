@@ -186,7 +186,7 @@ void wxGISDTPath::OnOpen(wxCommandEvent& event)
         wxGISAppConfig oConfig = GetConfig();
         if(oConfig.IsOk())
         {
-            wxString sPath = oConfig.Read(enumGISHKCU, wxT("wxGISObjDialog/lastpath/") + m_pParam->GetName() + wxT("/path"), wxEmptyString);
+            wxString sPath = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/") + m_pParam->GetName() + wxT("/path"), wxEmptyString);
             if(!sPath.IsEmpty())
                 dlg.SetStartingLocation(sPath);
         }
