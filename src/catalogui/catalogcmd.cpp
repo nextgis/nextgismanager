@@ -31,6 +31,8 @@
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/framework/dataobject.h"
 #include "wxgis/catalogui/gxlocationcombobox.h"
+#include "wxgis/net/mail/email.h"
+
 //
 //#include "wxgis/framework/progressor.h"
 
@@ -50,11 +52,15 @@
 #include "../../art/edit_cut.xpm"
 #include "../../art/edit_paste.xpm"
 
+#include "../../art/email.xpm"
+
 #include <wx/dirdlg.h>
 #include <wx/file.h>
 #include <wx/richmsgdlg.h>
 #include <wx/clipbrd.h>
 #include <wx/dataobj.h>
+#include <wx/mimetype.h>
+#include <wx/uri.h>
 
 //	0	Up One Level
 //	1	Connect Folder
@@ -70,7 +76,8 @@
 //  11  Copy
 //  12  Cut
 //  13  Paste
-//  14  ?
+//  14  send to email
+//  15  ?
 
 //-----------------------------------------------------------------------------------
 // wxGISCatalogMainCmd
@@ -148,6 +155,10 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 			if(!m_PasteIcon.IsOk())
 				m_PasteIcon = wxIcon(edit_paste_xpm);
 			return m_PasteIcon;
+		case 14:
+            if (!m_EmailIcon.IsOk())
+                m_EmailIcon = wxIcon(email_xpm);
+            return m_EmailIcon;
 		case 3:
 		default:
 			return wxNullIcon;
@@ -186,6 +197,8 @@ wxString wxGISCatalogMainCmd::GetCaption(void)
 			return wxString(_("Cut"));
 		case 13:
 			return wxString(_("Paste"));
+		case 14:
+			return wxString(_("e-mail to..."));
 		default:
 			return wxEmptyString;
 	}
@@ -213,6 +226,8 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 			return wxString(_("Edit"));
 		case 10:
 			return wxString(_("Miscellaneous"));
+		case 14:
+			return wxString(_("Send to"));
 		default:
 			return NO_CATEGORY;
 	}
@@ -364,6 +379,14 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
             }
         }
              return false;
+        case 14://e-mail
+            if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                return pGxObject != NULL;
+            }
+            return false;
+
 		default:
 			return false;
 	}
@@ -391,7 +414,8 @@ wxGISEnumCommandKind wxGISCatalogMainCmd::GetKind(void)
 		case 11://copy
 		case 12://cut
 		case 13://paste
-		default:
+        case 14://e-mail
+        default:
 			return enumGISCommandNormal;
 	}
 }
@@ -428,7 +452,9 @@ wxString wxGISCatalogMainCmd::GetMessage(void)
 			return wxString(_("Cut item(s)"));
 		case 13:
 			return wxString(_("Paste item(s)"));
-		default:
+        case 14:
+            return wxString(_("Send item(s) by e-mail"));
+        default:
 			return wxEmptyString;
 	}
 }
@@ -736,6 +762,57 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
             }
             return;
+        case 14:
+            if (NULL != pSel && NULL != pCat)
+            {
+
+                wxMailMessage msg(_("Send: geodata archive"), _("This e-mail include geodata in archive : \r\n--------------------------------------------\r\nCreated by NextGIS Manager"), wxEmptyString, wxT("D:\\work\\projects\\art\\png\\web_connections_48.png"));
+                wxEmail email;
+
+                email.Send(msg);
+
+/*                wxString sCmd(wxT("-compose subject="));//mailto:?
+                sCmd.Append(_("Send: geodata archive"));//file count?
+                sCmd.Append(wxT(",body="));
+                sCmd.Append(_("This e-mail include geodata in archive:"));
+                //sCmd.Append(wxT("\n--------------------------------------------\n"));
+                //sCmd.Append(_("Created by NextGIS Manager"));
+                //sCmd.Append(wxT("&attach="));
+                //sCmd.Append(wxT("D:/work/projects/art/png/web_connections_48.png"));
+                sCmd.Append(wxT(",attachment="));
+                sCmd.Append(wxT("'file:///D:/work/projects/art/png/web_connections_48.png'"));
+                //sCmd.Append(wxT("'file:///D:\\work\\projects\\art\\png\\web_connections_48.png'"));
+                //wxURI oURL(sCmd);
+                //sCmd = oURL.BuildURI();
+
+                //add to archive and send by e-mail
+                // Version 1
+                //QDesktopServices::openUrl(QUrl("mailto:?subject=File from our app.&attach=" + fileName));
+
+                // Version 2
+                //QDesktopServices::openUrl(QUrl("mailto:?subject=File from our app.&attachment=" + fileName));
+
+                wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromExtension(_T(".eml"));
+                if (!ft) 
+                {
+                    wxMessageBox(wxString::Format(_("Impossible to determine the file type for extension %s.\nPlease edit your MIME types."), wxT(".eml")), _("Error"), wxICON_ERROR | wxOK );
+                    return;
+                }
+
+                wxString cmd;
+                bool bOk = ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(sCmd, wxEmptyString));
+
+                wxArrayString s1, s3;
+                ft->GetAllCommands(&s1, &s3, wxFileType::MessageParameters(sCmd, wxEmptyString));
+                wxDELETE( ft );
+
+                if (bOk)
+                {
+                    wxExecute(cmd, wxEXEC_ASYNC);
+                }
+                */
+                return;
+            }
         case 3:
 		default:
 			return;
@@ -819,6 +896,8 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 			return wxString(_("Cut selected item(s)"));
 		case 13:
 			return wxString(_("Paste selected item(s)"));
+		case 14:
+			return wxString(_("Send selected item(s) by e-mail"));
 		default:
 			return wxEmptyString;
 	}
@@ -826,7 +905,7 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 
 unsigned char wxGISCatalogMainCmd::GetCount(void)
 {
-	return 14;
+	return 15;
 }
 
 IToolBarControl* wxGISCatalogMainCmd::GetControl(void)
@@ -966,3 +1045,4 @@ void wxGISCatalogMainCmd::OnDropDownCommand(int nID)
 		}
     }
 }
+

@@ -21,6 +21,8 @@
 #pragma once
 
 #include "wxgis/net/net.h"
+#include "wxgisdefs.h"
+
 #include "wxgis/core/json/jsonval.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
@@ -30,11 +32,13 @@
 #define WXNETVER 3
 
 
-/** \class wxNetMessage message.h
-    \brief A network message class.
+/** @class wxNetMessage
 
-	Used in messaging between server and client
+    A network message class. Used in messaging between server and client
+
+    @library{net}
 */
+
 
 class WXDLLIMPEXP_GIS_NET wxNetMessage : public wxObject
 {
@@ -75,8 +79,11 @@ protected:
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 };
 
-/** \class wxGISConfigRefData config.h
-    \brief The reference data class for wxGISConfig
+/** @class wxNetMessageRefData
+    
+    The reference data class for wxNetMessage
+
+    @library{net}
 */
 
 class  wxNetMessageRefData : public wxObjectRefData
@@ -104,3 +111,35 @@ protected:
     wxString m_sMessage;
     long m_nId;
 };
+
+#ifdef wxGIS_USE_EMAIL
+/** @class wxMailMessage
+
+    The e-mail message
+
+    @library{net}
+*/
+
+class WXDLLIMPEXP_GIS_NET wxMailMessage
+{
+public:
+    wxMailMessage(const wxString& subject, const wxString& body, const wxString& from = wxEmptyString, const wxString& attachment = wxEmptyString, const wxString& attachmentTitle = wxEmptyString);
+    wxMailMessage(void);
+
+    //// Accessors
+
+    void AddAttachment(const wxString& attach, const wxString& title = wxEmptyString);
+
+    void SetSubject(const wxString& subject);
+    void SetBody(const wxString& body);
+    void SetFrom(const wxString& from);
+
+public:
+    wxString       m_from;             //The From: email address (optional)
+    wxString       m_subject;          //The Subject of the message
+    wxString       m_body;             //The Body of the message
+    wxArrayString  m_attachments;      //Files to attach to the email
+    wxArrayString  m_attachmentTitles; //Titles to use for the email file attachments
+};
+
+#endif //wxGIS_USE_EMAIL

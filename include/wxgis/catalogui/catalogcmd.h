@@ -65,5 +65,6 @@ private:
     wxIcon m_IconFolderNew, m_IconEdit, m_IconViewRefresh, m_IconProps;
     wxIcon m_LargeFolderIcon, m_SmallFolderIcon;
     wxIcon m_CopyIcon, m_CutIcon, m_PasteIcon;
+    wxIcon m_EmailIcon;
     short m_nPrevNextSelCount;
 };

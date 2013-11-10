@@ -1,9 +1,9 @@
 /******************************************************************************
- * Project:  wxGIS (GIS Catalog)
+ * Project:  wxGIS
  * Purpose:  base header.
- * Author:   Bishop (aka Barishnikov Dmitriy), polimax@mail.ru
+ * Author:   Baryshnikov Dmitry (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2013 Baryshnikov Dmitry
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -48,3 +48,5 @@
 #cmakedefine wxGIS_USE_CURL
 
 #cmakedefine wxGIS_USE_POSTGRES
+
+#cmakedefine wxGIS_USE_EMAIL

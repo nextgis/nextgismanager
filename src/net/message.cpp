@@ -222,3 +222,48 @@ void wxNetMessageRefData::SetId(long nId)
     m_Val[wxT("id")] = nId;
     m_nId = nId;
 }
+
+#ifdef wxGIS_USE_EMAIL
+
+//-----------------------------------------------------------------------------
+// wxMailMessage
+//-----------------------------------------------------------------------------
+
+wxMailMessage::wxMailMessage(const wxString& subject, const wxString& body, const wxString& from, const wxString& attachment, const wxString& attachmentTitle)
+{
+    m_subject = subject;
+    m_body = body;
+    m_from = from;
+    if (!attachment.IsEmpty())
+    {
+        m_attachments.Add(attachment);
+        m_attachmentTitles.Add(attachmentTitle);
+    }
+}
+
+wxMailMessage::wxMailMessage(void)
+{
+}
+
+void wxMailMessage::AddAttachment(const wxString& attach, const wxString& title)
+{
+    m_attachments.Add(attach); 
+    m_attachmentTitles.Add(title);
+}
+
+void wxMailMessage::SetSubject(const wxString& subject)
+{ 
+    m_subject = subject; 
+}
+
+void wxMailMessage::SetBody(const wxString& body) 
+{ 
+    m_body = body; 
+}
+
+void wxMailMessage::SetFrom(const wxString& from) 
+{ 
+    m_from = from; 
+}
+
+#endif //wxGIS_USE_EMAIL

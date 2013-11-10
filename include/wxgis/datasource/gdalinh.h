@@ -175,6 +175,8 @@ public:
     void SetField (const wxString &sFieldName, const wxArrayInt &anValues);
     void SetField (const wxString &sFieldName, const wxArrayDouble &adfValues); 
     void SetField(const wxString &sFieldName, const wxArrayString &asValues);
+    void SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
+    void SetField(const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
     OGRErr SetGeometry(const wxGISGeometry &Geom);
     void SetStyleString(const wxString &sStyle);
 protected:
@@ -272,8 +274,6 @@ protected:
 
     int GetFieldAsDateTime(int nIndex, int *pnYear, int *pnMonth, int *pnDay, int *pnHour, int *pnMinute, int *pnSecond, int *pnTZFlag) const;
     void SetField(int nIndex, char **papszValues);
-    void SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
-    void SetField(const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
     OGRErr SetGeometry(OGRGeometry* pGeom);
 protected:
     virtual wxObjectRefData *CreateRefData() const;

@@ -70,6 +70,19 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/curl.cpp
 )
 
+option(wxGIS_USE_EMAIL "Set ON to build with e-mail support" OFF)
+if(wxGIS_USE_EMAIL)
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
+    ${LIB_HEADERS}/mail/email.h
+    ${LIB_HEADERS}/mail/smapi.h
+)
+
+set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
+    ${LIB_SOURCES}/mail/email.cpp
+    ${LIB_SOURCES}/mail/smapi.cpp
+)
+endif(wxGIS_USE_EMAIL)
+
 add_definitions(-DWXMAKINGDLL_GIS_NET -DwxUSE_GUI=0)
 set(WXGISNET_LIB_NAME ${LIB_NAME} PARENT_SCOPE)
 

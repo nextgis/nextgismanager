@@ -21,6 +21,7 @@
 
 #include "wxgis/geoprocessing/gpvector.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/catalog/catop.h"
 
 #include <wx/fontmap.h>
 #include <wx/encconv.h>
@@ -380,11 +381,17 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         
         CPLString szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_point"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        IGxObjectEdit *pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
+
 
         OGRFeatureDefn *pNewDef = pDef->Clone();
         pNewDef->SetGeomType( wkbPoint );
@@ -410,11 +417,17 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_polygon"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
+
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbPolygon);
@@ -440,12 +453,17 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_line"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
-        
+
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbLineString);
         if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_line")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
@@ -470,10 +488,15 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_mpoint"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
 
         pNewDef = pDef->Clone();
@@ -500,10 +523,15 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_mline"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
 
         pNewDef = pDef->Clone();
@@ -530,10 +558,15 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         szBaseName = (char*)CPLFormFilename(sPath, wxString(sName + wxString(_("_mpolygon"))).mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
 
         pNewDef = pDef->Clone();
@@ -552,10 +585,15 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         CPLString szBaseName = (char*)CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
         wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-        IGxObjectEdit* pObjEd = dynamic_cast<IGxObjectEdit*>(pObj);
-        if (NULL != pObjEd)
+        if (!OverWriteGxObject(pObj, pTrackCancel))
         {
-            pObjEd->Delete();
+            wxString sErr(_("Overwrite failed"));
+            CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str());
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
         }
 
         if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
@@ -1315,7 +1353,12 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         return NULL;
     }
 
-    CPLString szFullPath = CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), pFilter->GetExt().mb_str(wxConvUTF8));
+    CPLString szFullPath = sPath;
+    if (!sName.IsEmpty())
+    {
+        szFullPath  = CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), pFilter->GetExt().mb_str(wxConvUTF8));
+    }
+
     OGRDataSource *poDS = poDriver->CreateDataSource(szFullPath, papszDataSourceOptions);
     if(poDS == NULL)
     {
