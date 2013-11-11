@@ -107,8 +107,24 @@ wxGISDataset* wxGISPostgresDataSource::GetSubset(const wxString &sTableName)
 {
     if(m_poDS)
     {
-	    OGRLayer* poLayer = m_poDS->GetLayerByName(sTableName.mb_str(wxConvUTF8));
-		return GetDatasetFromOGRLayer(0, m_sPath, poLayer);//TODO: !!!delete layer is on index basis. Maybe deleted wrong layer
+        CPLString sCmpName;
+        wxString woPublicStr;
+        if (sTableName.StartsWith(wxT("public."), &woPublicStr))
+        {
+            sCmpName = CPLString(woPublicStr.mb_str(wxConvUTF8));
+        }
+        else
+        {
+            sCmpName = CPLString(sTableName.mb_str(wxConvUTF8));
+        }
+        for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+        {
+            OGRLayer* poLayer = m_poDS->GetLayer(i);
+            if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
+            {
+                return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
+            }
+        }
     }
     return NULL;
 }
@@ -321,7 +337,7 @@ PGresult *wxGISPostgresDataSource::OGRPG_PQexec(PGconn *conn, const char *query,
         hResult = PQexecParams(conn, query, 0, NULL, NULL, NULL, NULL, 0);
 #endif
 
-#ifdef DEBUG
+#ifdef _DEBUG
     const char* pszRetCode = "UNKNOWN";
     char szNTuples[32];
     szNTuples[0] = '\0';
@@ -361,14 +377,6 @@ PGresult *wxGISPostgresDataSource::OGRPG_PQexec(PGconn *conn, const char *query,
 #endif
 
     return hResult;
-}
-
-bool wxGISPostgresDataSource::Delete(int iLayer, ITrackCancel* const pTrackCancel)
-{
-    if(m_bPathPresent)
-        return wxGISDataset::Delete(iLayer, pTrackCancel);
-    else
-        return false;
 }
 
 bool wxGISPostgresDataSource::Rename(const wxString &sNewName)
@@ -434,7 +442,7 @@ bool wxGISPostgresFeatureDataset::CanDelete(void)
     return false;
 }
 
-bool wxGISPostgresFeatureDataset::Delete(int iLayer, ITrackCancel* const pTrackCancel)
+bool wxGISPostgresFeatureDataset::Delete(ITrackCancel* const pTrackCancel)
 {
     if(m_poDS)
     {

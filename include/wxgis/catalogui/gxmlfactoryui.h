@@ -43,5 +43,6 @@ protected:
     wxIcon m_LargeGMLIcon, m_SmallGMLIcon;
     wxIcon m_LargeSubKMLIcon, m_SmallSubKMLIcon;
     wxIcon m_LargeJsonIcon, m_SmallJsonIcon;
+    wxIcon m_LargeSXFIcon, m_SmallSXFIcon, m_LargeSubSXFIcon, m_SmallSubSXFIcon;
 };
 

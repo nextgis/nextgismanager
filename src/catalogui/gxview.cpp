@@ -103,7 +103,9 @@ void wxGxView::SetViewIcon(wxIcon Icon)
 
 int GxObjectCompareFunction(wxGxObject* const pObject1, wxGxObject* const pObject2, long sortData)
 {
-    wxCHECK_MSG(pObject1 && pObject2, -1, wxT("some inpit pointers (pObject1 or pObject2) is null"));
+    if (!(pObject1 && pObject2))
+        return -1;
+
 	IGxObjectSort* pGxObjectSort1 = dynamic_cast<IGxObjectSort*>(pObject1);
     IGxObjectSort* pGxObjectSort2 = dynamic_cast<IGxObjectSort*>(pObject2);
     if(pGxObjectSort1 && !pGxObjectSort2)

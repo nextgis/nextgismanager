@@ -204,15 +204,14 @@ void wxGISTable::SetInternalValues(void)
             case enumVecESRIShapefile:
                 m_nCurrentFID = 0;
             case enumVecDXF:
+            default:
                 {
                     wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
-                    if(FEnc != wxFONTENCODING_DEFAULT)
+                    if (FEnc != wxFONTENCODING_DEFAULT)
                         m_Encoding = FEnc;
+                    else
+                        m_Encoding = wxLocale::GetSystemEncoding();
                 }
-                break;
-            default:
-                m_Encoding = wxLocale::GetSystemEncoding();
-                break;
             }
         }
         else if(m_nType == enumGISTableDataset)
@@ -220,6 +219,8 @@ void wxGISTable::SetInternalValues(void)
             wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
             if(FEnc != wxFONTENCODING_DEFAULT)
                 m_Encoding = FEnc;
+            else
+                m_Encoding = wxLocale::GetSystemEncoding();
         }
     }
 

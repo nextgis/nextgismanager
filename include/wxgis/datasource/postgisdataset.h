@@ -55,7 +55,6 @@ public:
     bool PGExecuteSQL(const wxString &sStatement);
     //wxGISDataset* PGExecuteSQL( const wxString &sStatement, bool bMultipleCommandAllowed = FALSE );
     //wxGISDataset
-	virtual bool Delete(int iLayer = 0, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
@@ -91,7 +90,7 @@ public:
 	virtual ~wxGISPostgresFeatureDataset(void);
     //wxGISDataset
     virtual bool CanDelete(void);
-    virtual bool Delete(int iLayer = 0, ITrackCancel* const pTrackCancel = NULL);
+    virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
 protected:
     int m_iLayer;
 };

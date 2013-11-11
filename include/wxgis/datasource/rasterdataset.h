@@ -43,7 +43,6 @@ public:
 	virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
-    virtual bool Delete(int iLayer = 0, ITrackCancel* const pTrackCancel = NULL);
     virtual char **GetFileList();
     // wxGISRasterDataset
 	virtual bool Open(bool bReadOnly);

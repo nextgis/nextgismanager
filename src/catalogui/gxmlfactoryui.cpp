@@ -35,6 +35,10 @@
 #include "../../art/kml_subdset_48.xpm"
 #include "../../art/json_dset_16.xpm"
 #include "../../art/json_dset_48.xpm"
+#include "../../art/sxf_dset_16.xpm"
+#include "../../art/sxf_dset_48.xpm"
+#include "../../art/sxf_subdset_16.xpm"
+#include "../../art/sxf_subdset_48.xpm"
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxMLFactoryUI, wxGxMLFactory)
 
@@ -52,6 +56,10 @@ wxGxMLFactoryUI::wxGxMLFactoryUI(void) : wxGxMLFactory()
     m_SmallSubKMLIcon = wxIcon(kml_subdset_16_xpm);
     m_SmallJsonIcon = wxIcon(json_dset_16_xpm);
     m_LargeJsonIcon = wxIcon(json_dset_48_xpm);
+    m_LargeSXFIcon = wxIcon(sxf_dset_48_xpm); 
+    m_SmallSXFIcon = wxIcon(sxf_dset_16_xpm); 
+    m_LargeSubSXFIcon = wxIcon(sxf_subdset_48_xpm); 
+    m_SmallSubSXFIcon = wxIcon(sxf_subdset_16_xpm);
 
 }
 
@@ -83,6 +91,11 @@ wxGxObject* wxGxMLFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &so
     case enumVecGML:
         {
 	    wxGxMLDatasetUI* pDataset = new wxGxMLDatasetUI(type, pParent, soName, szPath, m_LargeGMLIcon, m_SmallGMLIcon, m_LargeGMLIcon, m_SmallGMLIcon);
+        return wxStaticCast(pDataset, wxGxObject);
+        }
+    case enumVecSXF:
+        {
+        wxGxMLDatasetUI* pDataset = new wxGxMLDatasetUI(type, pParent, soName, szPath, m_LargeSXFIcon, m_SmallSXFIcon, m_LargeSubSXFIcon, m_SmallSubSXFIcon);
         return wxStaticCast(pDataset, wxGxObject);
         }
     case enumVecDXF:

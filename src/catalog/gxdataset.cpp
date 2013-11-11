@@ -51,6 +51,10 @@ void wxGxDataset::FillMetadata(bool bForce)
         return;
     m_bIsMetadataFilled = true;
 
+    //return for subdatasets
+    if (m_sPath.find('?') != wxNOT_FOUND)
+        return;
+
     wxGISDataset* pDSet = GetDatasetFast();
     if (NULL == pDSet)
     {
@@ -462,9 +466,9 @@ void wxGxDatasetContainer::SetPath(const CPLString &soPath)
 
 IMPLEMENT_CLASS(wxGxTableDataset, wxGxDataset)
 
-wxGxTableDataset::wxGxTableDataset(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
+wxGxTableDataset::wxGxTableDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
 {
-	m_type = nType;  
+    m_eType = eType;
 }
 
 wxGxTableDataset::~wxGxTableDataset(void)
@@ -480,7 +484,7 @@ wxGISDataset* const wxGxTableDataset::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-        wxGISTable* pDSet = new wxGISTable(m_sPath, m_type);
+        wxGISTable* pDSet = new wxGISTable(m_sPath, m_eType);
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
@@ -517,9 +521,9 @@ wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* cons
 
 IMPLEMENT_CLASS(wxGxFeatureDataset, wxGxDataset)
 
-wxGxFeatureDataset::wxGxFeatureDataset(wxGISEnumVectorDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
+wxGxFeatureDataset::wxGxFeatureDataset(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
 {
-	m_type = nType;  
+	m_eType = eType;  
 }
 
 wxGxFeatureDataset::~wxGxFeatureDataset(void)
@@ -536,13 +540,13 @@ wxGISDataset* const wxGxFeatureDataset::GetDatasetFast(void)
  	if(m_pwxGISDataset == NULL)
     {
         wxGISFeatureDataset* pDSet = NULL;
-        if (m_type == enumVecMapinfoMif || m_type == enumVecDXF)
+        if (m_eType == enumVecMapinfoMif || m_eType == enumVecDXF)
         {
-            pDSet = new wxGISFeatureDatasetCached(m_sPath, m_type);
+            pDSet = new wxGISFeatureDatasetCached(m_sPath, m_eType);
         }
         else
         {
-            pDSet = new wxGISFeatureDataset(m_sPath, m_type);
+            pDSet = new wxGISFeatureDataset(m_sPath, m_eType);
         }
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
@@ -632,9 +636,9 @@ wxGISDataset* const wxGxFeatureDataset::GetDataset(bool bCache, ITrackCancel* co
 
 IMPLEMENT_CLASS(wxGxRasterDataset, wxGxDataset)
 
-wxGxRasterDataset::wxGxRasterDataset(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
+wxGxRasterDataset::wxGxRasterDataset(wxGISEnumRasterDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
 {
-	m_type = nType;
+	m_eType = eType;
 }
 
 wxGxRasterDataset::~wxGxRasterDataset(void)
@@ -650,7 +654,7 @@ wxGISDataset* const wxGxRasterDataset::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-        wxGISRasterDataset* pDSet = new wxGISRasterDataset(m_sPath, m_type);
+        wxGISRasterDataset* pDSet = new wxGISRasterDataset(m_sPath, m_eType);
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }

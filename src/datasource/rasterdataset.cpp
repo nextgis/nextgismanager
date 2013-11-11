@@ -80,13 +80,6 @@ void wxGISRasterDataset::Close(void)
     wxGISDataset::Close();
 }
 
-bool wxGISRasterDataset::Delete(int iLayer, ITrackCancel* const pTrackCancel)
-{
-    wxCHECK_MSG(iLayer == 0, false, wxT("Deleting sublayer of raster without layers") );
-	
-    return wxGISDataset::Delete(iLayer, pTrackCancel);
-}
-
 char **wxGISRasterDataset::GetFileList()
 {
     char **papszFileList = NULL;

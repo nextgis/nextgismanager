@@ -167,7 +167,9 @@ void wxGISVectorPropertyPage::FillGrid(void)
         }
         wxPGProperty* pdssid = AppendProperty(pid, new wxStringProperty(_("DataSource"), wxT("DataSource_det"), wxString(pDataSource->GetName(), wxConvUTF8) ));  
         AppendProperty(pdssid, new wxIntProperty(_("Layer Count"), wxPG_LABEL, pDataSource->GetLayerCount()) );  
-        AppendProperty(pdssid, new wxStringProperty(_("Create DataSource"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateLayer) == TRUE ? _("true") : _("false")) );  
+        AppendProperty(pdssid, new wxStringProperty(_("Create Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateLayer) == TRUE ? _("true") : _("false")) ); 
+        AppendProperty(pdssid, new wxStringProperty(_("Delete Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCDeleteLayer) == TRUE ? _("true") : _("false")));
+        AppendProperty(pdssid, new wxStringProperty(_("Create Geom Field After Create Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateGeomFieldAfterCreateLayer) == TRUE ? _("true") : _("false")));
     }
 
     if(pDataSource)
@@ -242,18 +244,22 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
     }
     //TestCapability 
     wxPGProperty* pcapid = AppendProperty(playid, new wxPropertyCategory(wxString::Format(_("Layer #%d Capability"), iLayer + 1)) );
-    AppendProperty(pcapid, new wxStringProperty(_("Random Read"), wxString::Format(wxT("Random Read_%d"), iLayer), poLayer->TestCapability(OLCRandomRead) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Sequential Write"), wxString::Format(wxT("Sequential Write_%d"), iLayer), poLayer->TestCapability(OLCSequentialWrite) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Random Write"), wxString::Format(wxT("Random Write_%d"), iLayer), poLayer->TestCapability(OLCRandomWrite) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Fast Spatial Filter"), wxString::Format(wxT("Fast Spatial Filter_%d"), iLayer), poLayer->TestCapability(OLCFastSpatialFilter) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Fast Feature Count"), wxString::Format(wxT("Fast Feature Count_%d"), iLayer), poLayer->TestCapability(OLCFastFeatureCount) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Fast Get Extent"), wxString::Format(wxT("Fast Get Extent_%d"), iLayer), poLayer->TestCapability(OLCFastGetExtent) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Fast Set Next By Index"), wxString::Format(wxT("Fast Set Next By Index_%d"), iLayer), poLayer->TestCapability(OLCFastSetNextByIndex) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Create Field"), wxString::Format(wxT("Create Field_%d"), iLayer), poLayer->TestCapability(OLCCreateField) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Delete Feature"), wxString::Format(wxT("Delete Feature_%d"), iLayer), poLayer->TestCapability(OLCDeleteFeature) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Strings As UTF8"), wxString::Format(wxT("Strings As UTF8_%d"), iLayer), poLayer->TestCapability(OLCStringsAsUTF8) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Transactions"), wxString::Format(wxT("Transactions_%d"), iLayer), poLayer->TestCapability(OLCTransactions) == TRUE ? _("true") : _("false")) );  
-    AppendProperty(pcapid, new wxStringProperty(_("Ignore Fields"), wxString::Format(wxT("Ignore Fields_%d"), iLayer), poLayer->TestCapability(OLCIgnoreFields) == TRUE ? _("true") : _("false")) ); 
+    AppendProperty(pcapid, new wxStringProperty(_("Random Read"), wxString::Format(wxT("Random Read_%d"), iLayer), poLayer->TestCapability(OLCRandomRead) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Sequential Write"), wxString::Format(wxT("Sequential Write_%d"), iLayer), poLayer->TestCapability(OLCSequentialWrite) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Random Write"), wxString::Format(wxT("Random Write_%d"), iLayer), poLayer->TestCapability(OLCRandomWrite) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Fast Spatial Filter"), wxString::Format(wxT("Fast Spatial Filter_%d"), iLayer), poLayer->TestCapability(OLCFastSpatialFilter) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Fast Feature Count"), wxString::Format(wxT("Fast Feature Count_%d"), iLayer), poLayer->TestCapability(OLCFastFeatureCount) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Fast Get Extent"), wxString::Format(wxT("Fast Get Extent_%d"), iLayer), poLayer->TestCapability(OLCFastGetExtent) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Fast Set Next By Index"), wxString::Format(wxT("Fast Set Next By Index_%d"), iLayer), poLayer->TestCapability(OLCFastSetNextByIndex) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Create Field"), wxString::Format(wxT("Create Field_%d"), iLayer), poLayer->TestCapability(OLCCreateField) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Delete Field"), wxString::Format(wxT("Delete Field_%d"), iLayer), poLayer->TestCapability(OLCDeleteField) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Reorder Fields"), wxString::Format(wxT("Reorder Fields_%d"), iLayer), poLayer->TestCapability(OLCReorderFields) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Alter Field Definition"), wxString::Format(wxT("Alter Field Definition_%d"), iLayer), poLayer->TestCapability(OLCAlterFieldDefn) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Create Geometry Field"), wxString::Format(wxT("Create Geometry Field_%d"), iLayer), poLayer->TestCapability(OLCCreateGeomField) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Delete Feature"), wxString::Format(wxT("Delete Feature_%d"), iLayer), poLayer->TestCapability(OLCDeleteFeature) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Strings As UTF8"), wxString::Format(wxT("Strings As UTF8_%d"), iLayer), poLayer->TestCapability(OLCStringsAsUTF8) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Transactions"), wxString::Format(wxT("Transactions_%d"), iLayer), poLayer->TestCapability(OLCTransactions) == TRUE ? _("true") : _("false")));
+    AppendProperty(pcapid, new wxStringProperty(_("Ignore Fields"), wxString::Format(wxT("Ignore Fields_%d"), iLayer), poLayer->TestCapability(OLCIgnoreFields) == TRUE ? _("true") : _("false")));
 
     OGREnvelope Extent;
     OGRErr eErr = poLayer->GetExtent(&Extent);

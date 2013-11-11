@@ -237,6 +237,7 @@ void wxGxRemoteConnection::Refresh(void)
 
 void wxGxRemoteConnection::LoadChildren(void)
 {
+    //TODO: start update thread which look for changes
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if (NULL == pDSet)
     {
@@ -284,7 +285,7 @@ void wxGxRemoteConnection::LoadChildren(void)
         if(!bLoadSystemTablesAndSchemes && (sName.IsSameAs("raster_overviews") || sName.IsSameAs("spatial_ref_sys")))
             continue;
 
-        //looj for postgis special tables oly in public
+        //loop for postgis special tables only in public
         if(sScheme.IsSameAs(wxT("public")))
         {
             if(sName.IsSameAs(wxT("geometry_columns")))

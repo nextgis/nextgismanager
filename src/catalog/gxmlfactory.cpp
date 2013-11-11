@@ -27,6 +27,9 @@
 //---------------------------------------------------------------------------
 // wxGxMLFactory
 //---------------------------------------------------------------------------
+static const char *ml_add_exts[] = {
+    "rsc", "sda", "shd", "sit", "sit.ini", "sse", NULL
+};
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxMLFactory, wxObject)
 
@@ -37,6 +40,7 @@ wxGxMLFactory::wxGxMLFactory(void)
     m_bHasDXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
     m_bHasGMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
     m_bHasJsonDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GeoJSON");
+    m_bHasSXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("SXF");
 }
 
 wxGxMLFactory::~wxGxMLFactory(void)
@@ -76,6 +80,21 @@ bool wxGxMLFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArray
             pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGeoJSON);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
+        else if (wxGISEQUAL(szExt, "sxf") && m_bHasSXFDriver)
+        {
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecSXF);
+            pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
+        }
+
+        for (int j = 0; ml_add_exts[j] != NULL; ++j)
+        {
+            if (wxGISEQUAL(szExt, ml_add_exts[j]))
+            {
+                pFileNames = CSLRemoveStrings(pFileNames, i, 1, NULL);
+                break;
+            }
+        }
+
 
 		if(pGxObj != NULL)
         {
@@ -96,25 +115,22 @@ wxGxObject* wxGxMLFactory::GetGxObject(wxGxObject* pParent, const wxString &soNa
     }
 #endif //CHECK_DUBLES
 
-    if(type == enumVecKML)
+    switch (type)
+    {
+    case enumVecKML:
+    case enumVecKMZ:
+    case enumVecSXF:
+    case enumVecGML:
     {
         wxGxMLDataset* pDataset = new wxGxMLDataset(type, pParent, soName, szPath);
         return wxStaticCast(pDataset, wxGxObject);
     }
-    else if(type == enumVecKMZ)
+
+    default:
     {
-        wxGxMLDataset* pDataset = new wxGxMLDataset(type, pParent, soName, szPath);
-        return wxStaticCast(pDataset, wxGxObject);
+               wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(type, pParent, soName, szPath);
+               return wxStaticCast(pDataset, wxGxObject);
     }
-    else if(type == enumVecGML)
-    {
-        wxGxMLDataset* pDataset = new wxGxMLDataset(type, pParent, soName, szPath);
-        return wxStaticCast(pDataset, wxGxObject);
-    }
-    else
-    {
-	    wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(type, pParent, soName, szPath);
-        return wxStaticCast(pDataset, wxGxObject);
-    }
+    };
     return NULL;
 }

@@ -145,7 +145,7 @@ bool wxGISDataset::CanMove(const CPLString &szDestPath)
 }
 
 
-bool wxGISDataset::Delete(int iLayer, ITrackCancel* const pTrackCancel)
+bool wxGISDataset::Delete(ITrackCancel* const pTrackCancel)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 

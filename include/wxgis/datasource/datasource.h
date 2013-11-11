@@ -55,6 +55,7 @@ enum wxGISEnumVectorDatasetType
     enumVecGeoJSON,
     enumVecWFS,
     enumVecMem,
+    enumVecSXF,
     emumVecMAX
 };
 

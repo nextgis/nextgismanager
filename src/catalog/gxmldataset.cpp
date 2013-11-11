@@ -46,6 +46,8 @@ wxString wxGxMLDataset::GetCategory(void) const
     case enumVecKML:
     case enumVecKMZ:
         return wxString(_("KML Dataset"));
+    case enumVecSXF:
+        return wxString(_("SXF Dataset"));
     case enumVecGML:
         return wxString(_("GML Dataset"));
  	default:
@@ -158,7 +160,18 @@ wxGxMLSubDataset::~wxGxMLSubDataset(void)
 
 wxString wxGxMLSubDataset::GetCategory(void) const
 {
+    switch (m_eType)
+    {
+    case enumVecSXF:
+        return wxString(_("SXF Feature class"));
+    case enumVecGML:
+        return wxString(_("GML Feature class"));
+    case enumVecKML:
+    case enumVecKMZ:
 	return wxString(_("KML Feature class"));
+    default:
+        return wxEmptyString;
+    }
 }
 
 

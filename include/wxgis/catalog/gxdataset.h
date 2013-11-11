@@ -115,19 +115,19 @@ class WXDLLIMPEXP_GIS_CLT wxGxTableDataset :
 {
     DECLARE_CLASS(wxGxTableDataset)
 public:
-	wxGxTableDataset(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxTableDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxTableDataset(void);
 	//wGxObject
 	virtual wxString GetCategory(void) const;
 	//wxGxDataset
 	virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
 	virtual wxGISEnumDatasetType GetType(void) const {return enumGISTableDataset;};
-    virtual int GetSubType(void) const {return m_type;};
+    virtual int GetSubType(void) const { return m_eType; };
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
-	wxGISEnumTableDatasetType m_type;
+    wxGISEnumTableDatasetType m_eType;
 };
 
 /** \class wxGxFeatureDataset gxdataset.h
@@ -139,18 +139,18 @@ class WXDLLIMPEXP_GIS_CLT wxGxFeatureDataset :
 {
     DECLARE_CLASS(wxGxFeatureDataset)
 public:
-	wxGxFeatureDataset(wxGISEnumVectorDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxFeatureDataset(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxFeatureDataset(void);
 	//wGxObject
 	virtual wxString GetCategory(void) const;
 	//wxGxDataset
 	virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
 	virtual wxGISEnumDatasetType GetType(void) const {return enumGISFeatureDataset;};
-    virtual int GetSubType(void) const {return m_type;};
+    virtual int GetSubType(void) const {return m_eType;};
 protected:
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
-	wxGISEnumVectorDatasetType m_type;
+	wxGISEnumVectorDatasetType m_eType;
 };
 
 /** \class wxGxRasterDataset gxdataset.h
@@ -162,16 +162,16 @@ class WXDLLIMPEXP_GIS_CLT wxGxRasterDataset :
 {
     DECLARE_CLASS(wxGxRasterDataset)
 public:
-	wxGxRasterDataset(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxRasterDataset(wxGISEnumRasterDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRasterDataset(void);
 	//wGxObject
 	virtual wxString GetCategory(void) const;
 	//wxGxDataset
 	virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
 	virtual wxGISEnumDatasetType GetType(void) const {return enumGISRasterDataset;};
-    virtual int GetSubType(void) const {return m_type;};
+    virtual int GetSubType(void) const {return m_eType;};
 protected:
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
-    wxGISEnumRasterDatasetType m_type;
+    wxGISEnumRasterDatasetType m_eType;
 };

@@ -244,6 +244,7 @@ void BilinearInterpolation(void *pInputData, int nInputXSize, int nInputYSize, d
                     pRasterRenderer->FillPixel(pOutputData, &dfR, &dfG, &dfB, &dfA);
                 }
                 break;
+            case enumGISRasterRenderTypeGreyScale:
             case enumGISRasterRenderTypeRGBA:
 			    switch(nBandCount)
 			    {
@@ -635,13 +636,13 @@ bool wxGISRasterRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const
 	}
 
 	//width & height of extent
-	double dOutWidth = stDrawBounds.MaxX - stDrawBounds.MinX;
-	double dOutHeight = stDrawBounds.MaxY - stDrawBounds.MinY;
+    double dOutWidth = stDrawBounds.MaxX - stDrawBounds.MinX;
+    double dOutHeight = stDrawBounds.MaxY - stDrawBounds.MinY;
 
 	//get width & height in pixels of draw area
 	pDisplay->World2DCDist(&dOutWidth, &dOutHeight, false);
-	if(dOutWidth < 0) dOutWidth *= -1;
-	if(dOutHeight < 0) dOutHeight *= -1;
+    dOutWidth = std::abs(dOutWidth);
+    dOutHeight = std::abs(dOutHeight);
 
 	//round float pixel to int using ceil
 	int nOutWidth = ceil(dOutWidth);
@@ -663,6 +664,16 @@ bool wxGISRasterRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const
     {
 		GDALApplyGeoTransform( adfReverseGeoTransform, stDrawBounds.MinX, stDrawBounds.MinY, &stPixelBounds.MinX, &stPixelBounds.MaxY );
 		GDALApplyGeoTransform( adfReverseGeoTransform, stDrawBounds.MaxX, stDrawBounds.MaxY, &stPixelBounds.MaxX, &stPixelBounds.MinY );
+    }
+
+    if (stPixelBounds.MaxX < stPixelBounds.MinX)
+    {
+        wxSwap(stPixelBounds.MaxX, stPixelBounds.MinX);
+    }
+
+    if (stPixelBounds.MaxY < stPixelBounds.MinY)
+    {
+        wxSwap(stPixelBounds.MaxY, stPixelBounds.MinY);
     }
 
 	//get width & height in pixels of raster area

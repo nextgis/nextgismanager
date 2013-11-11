@@ -47,7 +47,7 @@ public:
 	virtual bool IsCaching(void) const;    
     virtual wxGISDataset* GetSubset(size_t nIndex);
 	virtual const wxGISSpatialReference GetSpatialReference(void);
-	virtual bool Delete(int iLayer = 0, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    

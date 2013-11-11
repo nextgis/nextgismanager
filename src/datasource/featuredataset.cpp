@@ -69,6 +69,7 @@ wxGISDataset* wxGISFeatureDataset::GetSubset(const wxString & sSubsetName)
     if(m_poDS)
     {
         CPLString szSubsetName(sSubsetName.mb_str(wxConvUTF8));
+        //TODO: get layers by index and comapre names - create wxGISFeatureSubDataset with index to delete by index
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {
@@ -152,6 +153,10 @@ char **wxGISFeatureDataset::GetFileList()
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))
             papszFileList = CSLAddString( papszFileList, szPath );
         break;
+    case enumVecSXF:
+        szPath = (char*)CPLResetExtension(m_sPath, "rsc");
+        if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+            papszFileList = CSLAddString( papszFileList, szPath );
     case enumVecDXF:
         szPath = (char*)CPLResetExtension(m_sPath, "dxf.xml");
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))
@@ -487,6 +492,7 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(const wxString & sSubsetName)
     if(m_poDS)
     {
         CPLString szSubsetName(sSubsetName.mb_str(wxConvUTF8));
+        //TODO: get layers by index and comapre names - create wxGISFeatureSubDataset with index to delete by index
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {

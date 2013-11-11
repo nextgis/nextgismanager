@@ -44,4 +44,5 @@ protected:
     bool m_bHasDXFDriver;
     bool m_bHasGMLDriver;
     bool m_bHasJsonDriver;
+    bool m_bHasSXFDriver;
 };
