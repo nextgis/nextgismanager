@@ -55,8 +55,7 @@ wxGISDataset* wxGISFeatureDataset::GetSubset(size_t nIndex)
         if(poLayer)
         {
             m_poDS->Reference();
-			CPLString szPath;
-			szPath.Printf("%s?index=%d", m_sPath.c_str(), nIndex);
+            CPLString szPath(CPLFormFilename(m_sPath, poLayer->GetName(), ""));
 			wxGISFeatureDataset* pDataSet = new wxGISFeatureDataset(szPath, m_nSubType, poLayer, m_poDS);
             return wxStaticCast(pDataSet, wxGISDataset);
         }
@@ -74,8 +73,7 @@ wxGISDataset* wxGISFeatureDataset::GetSubset(const wxString & sSubsetName)
         if(poLayer)
         {
             m_poDS->Reference();
-			CPLString szPath;
-            szPath.Printf("%s?name=%s", m_sPath.c_str(), szSubsetName.c_str());
+            CPLString szPath(CPLFormFilename(m_sPath, szSubsetName, ""));
 			wxGISFeatureDataset* pDataSet = new wxGISFeatureDataset(szPath, m_nSubType, poLayer, m_poDS);
             return static_cast<wxGISDataset*>(pDataSet);
         }
@@ -477,9 +475,8 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(size_t nIndex)
         if(poLayer)
         {
             m_poDS->Reference();
-			CPLString szPath;
-			szPath.Printf("%s?index=%d", m_sPath.c_str(), nIndex);
-			wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
+            CPLString szPath(CPLFormFilename(m_sPath, poLayer->GetName(), ""));
+            wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
             //pDataSet->SetInternalValues();//SetEncoding(m_Encoding);
             return wxStaticCast(pDataSet, wxGISDataset);
         }
@@ -497,9 +494,8 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(const wxString & sSubsetName)
         if(poLayer)
         {
             m_poDS->Reference();
-			CPLString szPath;
-            szPath.Printf("%s?name=%s", m_sPath.c_str(), szSubsetName.c_str());
-			wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
+            CPLString szPath(CPLFormFilename(m_sPath, szSubsetName, ""));
+            wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
             //pDataSet->SetInternalValues();//SetEncoding(m_Encoding);
             return static_cast<wxGISDataset*>(pDataSet);
         }

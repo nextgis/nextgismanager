@@ -149,8 +149,7 @@ wxGxMLSubDataset::wxGxMLSubDataset(wxGISEnumVectorDatasetType nType, wxGISDatase
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 
-    m_sPath += "?name=";
-    m_sPath += soName.mb_str(wxConvUTF8);
+    m_sPath = CPLString(CPLFormFilename(soPath, soName.mb_str(wxConvUTF8), ""));
 }
 
 wxGxMLSubDataset::~wxGxMLSubDataset(void)

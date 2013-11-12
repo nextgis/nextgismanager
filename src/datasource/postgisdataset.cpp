@@ -205,6 +205,21 @@ wxString wxGISPostgresDataSource::GetName(void) const
 //    return NULL;
 //}
 
+bool wxGISPostgresDataSource::CreateSchema(const wxString &sSchemaName)
+{
+    return PGExecuteSQL(wxString::Format(wxT("CREATE SCHEMA \"%s\";"), sSchemaName.c_str()));
+}
+
+bool wxGISPostgresDataSource::DeleteSchema(const wxString &sSchemaName)
+{
+    return PGExecuteSQL(wxString::Format(wxT("DROP SCHEMA \"%s\" CASCADE;"), sSchemaName.c_str()));
+}
+
+bool wxGISPostgresDataSource::RenameSchema(const wxString &sSchemaName, const wxString &sSchemaNewName)
+{
+    return PGExecuteSQL(wxString::Format(wxT("ALTER SCHEMA \"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sSchemaNewName.c_str()));
+}
+
 bool wxGISPostgresDataSource::PGExecuteSQL(const wxString &sStatement)
 {
     OGRPGDataSource* pDS = dynamic_cast<OGRPGDataSource*>(m_poDS);
@@ -225,7 +240,7 @@ bool wxGISPostgresDataSource::PGExecuteSQL(const wxString &sStatement)
     if( status == PGRES_NONFATAL_ERROR || status == PGRES_FATAL_ERROR )
     {
         CPLError( CE_Failure, CPLE_AppDefined, "%s", PQerrorMessage( hPGConn ) );
-        wxLogError(wxT("wxGISPostgresDataSource: %s"), PQerrorMessage( hPGConn ));
+        wxLogError(wxT("wxGISPostgresDataSource: %s"), wxString(PQerrorMessage(hPGConn), wxCSConv(m_Encoding)));
     }
 
     OGRPGClearResult( hResult );

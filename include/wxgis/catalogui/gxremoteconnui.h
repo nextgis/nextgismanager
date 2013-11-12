@@ -22,6 +22,7 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/catalogui/gxview.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -34,7 +35,8 @@ class WXDLLIMPEXP_GIS_CLU wxGxRemoteConnectionUI :
 	public IGxObjectUI,
     public IGxObjectEditUI,
     public IGxObjectWizard,
-    public wxThreadHelper
+    public wxThreadHelper,
+    public wxGxAutoRenamer
 {
     DECLARE_CLASS(wxGxRemoteConnectionUI)
     enum
@@ -59,7 +61,7 @@ public:
     void OnThreadFinished(wxThreadEvent& event);
 protected:
     //wxGxRemoteConnection
-    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const wxArrayString &saTables, bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource *pwxGISRemoteConn);
+    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn);
     virtual wxThread::ExitCode Entry();    
     bool CreateAndRunCheckThread(void);
 protected:
@@ -88,7 +90,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
         EXIT_EVENT = wxID_HIGHEST+1
     };
 public:
-	wxGxRemoteDBSchemaUI(const wxArrayString &saTables, bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon, const wxIcon &LargeIconFeatureClass = wxNullIcon, const wxIcon &SmallIconFeatureClass = wxNullIcon, const wxIcon &LargeIconTable = wxNullIcon, const wxIcon &SmallIconTable = wxNullIcon);
+	wxGxRemoteDBSchemaUI(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon, const wxIcon &LargeIconFeatureClass = wxNullIcon, const wxIcon &SmallIconFeatureClass = wxNullIcon, const wxIcon &LargeIconTable = wxNullIcon, const wxIcon &SmallIconTable = wxNullIcon);
 	virtual ~wxGxRemoteDBSchemaUI(void);
     //wxGxObjectContainer
     virtual bool HasChildren(void);

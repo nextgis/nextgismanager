@@ -34,13 +34,20 @@
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxRemoteConnection, wxGxObjectContainer)
 
-wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+BEGIN_EVENT_TABLE(wxGxRemoteConnection, wxGxObjectContainer)
+EVT_TIMER(TIMER_ID, wxGxRemoteConnection::OnTimer)
+END_EVENT_TABLE()
+
+
+wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), m_timer(this, TIMER_ID)
 {
     m_pwxGISDataset = NULL;
+    m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
 }
 
 wxGxRemoteConnection::~wxGxRemoteConnection(void)
 {
+    m_timer.Stop();
     Disconnect();
     wsDELETE(m_pwxGISDataset);
 }
@@ -200,6 +207,9 @@ bool wxGxRemoteConnection::Connect(void)
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
     }
     wsDELETE(pDSet);
+
+    m_timer.Start(950, false);
+
     return bRes;
 }
 
@@ -209,6 +219,7 @@ bool wxGxRemoteConnection::Disconnect(void)
     {
         return true;
     }
+    m_timer.Stop();
     wxGISDataset* pDSet = GetDatasetFast();
     if(NULL != pDSet)
     {
@@ -217,6 +228,8 @@ bool wxGxRemoteConnection::Disconnect(void)
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
     }
     wsDELETE(pDSet);
+    m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
+
     return true;
 }
 
@@ -237,85 +250,194 @@ void wxGxRemoteConnection::Refresh(void)
 
 void wxGxRemoteConnection::LoadChildren(void)
 {
-    //TODO: start update thread which look for changes
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if (NULL == pDSet)
     {
         return;
     }
 
-    //list all tables include ones which we don't have access
-    //SELECT * FROM pg_catalog.pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname NOT LIKE 'information_schema' AND schemaname NOT LIKE 'layer'
-    
-    //previous sql statement
-    //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT LIKE 'pg_%' AND table_schema NOT LIKE 'information_schema'
-    wxGISTableCached* pInfoScheme = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema')"), wxT("PG")), wxGISTableCached);
+    wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
 
-    if(NULL == pInfoScheme)
+    if (NULL != pInfoSchema)
     {
-        wsDELETE(pDSet);
+        m_saSchemas = FillSchemaNames(pInfoSchema);
+        wsDELETE(pInfoSchema);
+
+        pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"), wxT("PG")), wxGISTableCached);
+
+        wxFeatureCursor Cursor = pInfoSchema->Search();
+        wxGISFeature Feature;
+        while ((Feature = Cursor.Next()).IsOk())
+        {
+            wxString sName = Feature.GetFieldAsString(0);
+            if (sName.IsSameAs(wxT("geometry_columns")))
+                m_bHasGeom = true;
+            else if (sName.IsSameAs(wxT("geography_columns")))
+                m_bHasGeog = true;
+            else if (sName.IsSameAs(wxT("raster_columns")))
+                m_bHasRaster = true;
+        }
+
+        for (size_t i = 0; i < m_saSchemas.size(); ++i)
+        {
+            GetNewRemoteDBSchema(m_saSchemas[i], pDSet);
+        }
+    }
+    wsDELETE(pDSet);
+}
+
+
+wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn)
+{
+    CPLString szPath(CPLFormFilename(GetPath(), sName.mb_str(wxConvUTF8), ""));
+    return new wxGxRemoteDBSchema(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, szPath);
+}
+
+void wxGxRemoteConnection::OnTimer(wxTimerEvent & event)
+{
+    if (!IsConnected())
+    {
         return;
     }
 
-    bool bLoadSystemTablesAndSchemes = false;
-    wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    if(pGxCatalog)
+    wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    if (NULL == pDSet)
     {
-        wxGxDBConnectionFactory* const pDBConnectionFactory = wxDynamicCast(pGxCatalog->GetObjectFactoryByName(_("DataBase connections")), wxGxDBConnectionFactory);
-        if(pDBConnectionFactory)
-        {
-            bLoadSystemTablesAndSchemes = pDBConnectionFactory->GetLoadSystemTablesAndShemes();
-        }
+        return;
     }
+    //SELECT * FROM pg_catalog.pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname NOT LIKE 'information_schema' AND schemaname NOT LIKE 'layer'
 
-    bool bHasGeom(false), bHasGeog(false), bHasRaster(false);
-    std::map<wxString, wxArrayString> smSchema;
+    //previous sql statement
+    //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT LIKE 'pg_%' AND table_schema NOT LIKE 'information_schema'
+    //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema')"), wxT("PG"))
+    wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
 
-    wxFeatureCursor Cursor = pInfoScheme->Search();
-    wxGISFeature Feature;
-    while( (Feature = Cursor.Next()).IsOk() )
+    if (NULL != pInfoSchema)
     {
-        wxString sScheme = Feature.GetFieldAsString(0);
-        if(!bLoadSystemTablesAndSchemes)
+        wxArrayString saCurrentSchemas = FillSchemaNames(pInfoSchema);
+        wsDELETE(pInfoSchema);
+
+        //delete 
+        for (size_t i = 0; i < m_saSchemas.GetCount(); i++)
         {
-            if(sScheme.IsSameAs(wxT("topology")))//TODO: add more schemes
-                continue;
+            if (saCurrentSchemas.Index(m_saSchemas[i]) == wxNOT_FOUND)
+            {
+                DeleteSchema(m_saSchemas[i]);
+                m_saSchemas.RemoveAt(i);
+                i--;
+            }
         }
-        wxString sName = Feature.GetFieldAsString(1);
-        if(!bLoadSystemTablesAndSchemes && (sName.IsSameAs("raster_overviews") || sName.IsSameAs("spatial_ref_sys")))
-            continue;
 
-        //loop for postgis special tables only in public
-        if(sScheme.IsSameAs(wxT("public")))
+        //add new
+        for (size_t i = 0; i < saCurrentSchemas.GetCount(); i++)
         {
-            if(sName.IsSameAs(wxT("geometry_columns")))
-                bHasGeom = true;
-            else if(sName.IsSameAs(wxT("geography_columns")))
-                bHasGeog = true;
-            else if(sName.IsSameAs(wxT("raster_columns")))
-                bHasRaster = true;
-            else
-                smSchema[sScheme].Add(sName);
+            if (m_saSchemas.Index(saCurrentSchemas[i]) == wxNOT_FOUND)
+            {
+                wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], pDSet);
+                m_saSchemas.Add(saCurrentSchemas[i]);
+                //refresh
+                wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+            }
         }
-        else
-            smSchema[sScheme].Add(sName);
-    }
-
-    wsDELETE(pInfoScheme);
-
-    for(std::map<wxString, wxArrayString>::const_iterator IT = smSchema.begin(); IT != smSchema.end(); ++IT)
-    {
-        GetNewRemoteDBSchema(IT->first, IT->second, bHasGeom, bHasGeog, bHasRaster, pDSet);
     }
 
     wsDELETE(pDSet);
 }
 
-
-wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &sName, const wxArrayString &saTables, bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource *pwxGISRemoteConn)
+void wxGxRemoteConnection::DeleteSchema(const wxString& sSchemaName)
 {
-    return new wxGxRemoteDBSchema(saTables, bHasGeom, bHasGeog, bHasRaster, pwxGISRemoteConn, this, sName, "");
+    wxGxObjectList::iterator iter;
+    for (iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+    {
+        wxGxObject *current = *iter;
+        if (NULL != current && current->GetName().IsSameAs(sSchemaName))
+        {
+            DestroyChild(current);
+            break;
+        }
+    }
+
 }
+
+wxArrayString wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchema)
+{
+    bool bLoadSystemTablesAndSchemas = false;
+    wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+    if (pGxCatalog)
+    {
+        wxGxDBConnectionFactory* const pDBConnectionFactory = wxDynamicCast(pGxCatalog->GetObjectFactoryByName(_("DataBase connections")), wxGxDBConnectionFactory);
+        if (pDBConnectionFactory)
+        {
+            bLoadSystemTablesAndSchemas = pDBConnectionFactory->GetLoadSystemTablesAndShemes();
+        }
+    }
+
+    wxFeatureCursor Cursor = pInfoSchema->Search();
+    wxArrayString saCurrentSchemas;
+    wxGISFeature Feature;
+    while ((Feature = Cursor.Next()).IsOk())
+    {
+        wxString sSchema = Feature.GetFieldAsString(0);
+        if (!bLoadSystemTablesAndSchemas)
+        {
+            if (sSchema.IsSameAs(wxT("topology")))//TODO: add more schemas
+            {
+                continue;
+            }
+            if (sSchema.StartsWith(wxT("pg_")))
+            {
+                continue;
+            }
+        }
+        saCurrentSchemas.Add(sSchema);
+
+    }
+
+    return saCurrentSchemas;
+}
+
+bool wxGxRemoteConnection::CanCreate(long nDataType, long DataSubtype)
+{
+    if (nDataType != enumGISContainer)
+        return false;
+    if (DataSubtype != enumContGDBFolder)
+        return false;
+    return true;
+}
+
+bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
+{
+    wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    if (NULL == pDSet)
+    {
+        return false;
+    }
+
+    return pDSet->CreateSchema(sSchemaName);
+}
+
+wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd, int nCounter)
+{
+    wxString sResultName;
+    if (nCounter > 0)
+    {
+        sResultName = sSchemaName + wxString::Format(wxT("%s(%d)"), sAdd.c_str(), nCounter);
+    }
+    else
+    {
+        sResultName = sSchemaName;
+    }
+
+    if (m_saSchemas.Index(sResultName) != wxNOT_FOUND)
+    {
+        return CheckUniqSchemaName(sSchemaName, sAdd, nCounter + 1);
+    }
+    else
+    {
+        return sResultName;
+    }
+}
+
 
 //--------------------------------------------------------------
 //class wxGxRemoteDBSchema
@@ -323,11 +445,10 @@ wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &s
 
 IMPLEMENT_CLASS(wxGxRemoteDBSchema, wxGxObjectContainer)
 
-wxGxRemoteDBSchema::wxGxRemoteDBSchema(const wxArrayString &saTables, bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_bChildrenLoaded = false;
-    m_saTables = saTables;
     m_bHasGeom = bHasGeom;
     m_bHasGeog = bHasGeog;
     m_bHasRaster = bHasRaster;
@@ -352,32 +473,41 @@ void wxGxRemoteDBSchema::Refresh(void)
     wxGxObject::Refresh();
 }
 
+bool wxGxRemoteDBSchema::CanDelete(void)
+{ 
+    return m_pwxGISRemoteConn != NULL;
+}
+
+bool wxGxRemoteDBSchema::CanRename(void)
+{ 
+    return m_pwxGISRemoteConn != NULL;
+}
 
 bool wxGxRemoteDBSchema::Delete(void)
 {
-    return false;
+    return m_pwxGISRemoteConn->DeleteSchema(m_sName);
 }
 
 bool wxGxRemoteDBSchema::Rename(const wxString &sNewName)
 {
-    return false;
+    return m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName);
 }
 
 void wxGxRemoteDBSchema::LoadChildren(void)
 {
-    wxCriticalSectionLocker locker(m_CritSect);
+/*    wxCriticalSectionLocker locker(m_CritSect);
     if(m_bChildrenLoaded)
         return;
     wxCHECK_RET(m_pwxGISRemoteConn, wxT("wxGISRemoteConnection pointer is NULL"));
 
-    bool bLoadSystemTablesAndSchemes = false;
+    bool bLoadSystemTablesAndSchemas = false;
     wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
     if(pGxCatalog)
     {
         wxGxDBConnectionFactory* const pDBConnectionFactory = wxDynamicCast(pGxCatalog->GetObjectFactoryByName(_("DataBase connections")), wxGxDBConnectionFactory);
         if(pDBConnectionFactory)
         {
-            bLoadSystemTablesAndSchemes = pDBConnectionFactory->GetLoadSystemTablesAndShemes();
+            bLoadSystemTablesAndSchemas = pDBConnectionFactory->GetLoadSystemTablesAndShemes();
         }
     }
 
@@ -462,12 +592,15 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     for(size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
         AddTable(m_saTables[i], enumGISTableDataset);
-    }
+    }*/
 }
 
 
 void wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
 {
+    if (sTableName.IsEmpty())
+        return;
+
     switch(eType)
     {
     case enumGISFeatureDataset:
@@ -511,6 +644,47 @@ void wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGISEnumDat
             }
         }*/
 }
+
+/*
+std::map<wxString, wxArrayString> smSchema;
+wxString sName = Feature.GetFieldAsString(1);
+if (!bLoadSystemTablesAndSchemes && (sName.IsSameAs("raster_overviews") || sName.IsSameAs("spatial_ref_sys")))
+continue;
+
+if (smSchema[sScheme].Index(wxEmptyString) == wxNOT_FOUND)
+{
+    smSchema[sScheme].Add(wxEmptyString);
+}
+
+//loop for postgis special tables only in public
+if (sScheme.IsSameAs(wxT("public")))
+{
+    if (sName.IsSameAs(wxT("geometry_columns")))
+        bHasGeom = true;
+    else if (sName.IsSameAs(wxT("geography_columns")))
+        bHasGeog = true;
+    else if (sName.IsSameAs(wxT("raster_columns")))
+        bHasRaster = true;
+    else
+    {
+        smSchema[sSchema].Add(sName);
+    }
+}
+else
+{
+    smSchema[sSchema].Add(sName);
+}
+    }
+
+    wsDELETE(pInfoSchema);
+
+    for (std::map<wxString, wxArrayString>::const_iterator IT = smSchema.begin(); IT != smSchema.end(); ++IT)
+    {
+        GetNewRemoteDBSchema(IT->first, IT->second, bHasGeom, bHasGeog, bHasRaster, pDSet);
+    }
+
+    wsDELETE(pDSet);
+*/
 
 #endif //wxGIS_USE_POSTGRES
 

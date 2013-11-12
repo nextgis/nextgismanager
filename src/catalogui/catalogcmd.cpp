@@ -69,7 +69,7 @@
 //  4   Delete Item
 //  5   Back
 //  6   Forward
-//  7   Create Folder
+//  7   Create Folder - need in object dialog
 //	8	Rename
 //	9	Refresh
 //  10  Properties
@@ -756,7 +756,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 pGxFolder->BeginRenameOnAdd(pGxView, sFolderPath);
                 if(!CreateDir(sFolderPath))
                 {
-                    wxMessageBox(_("Create folder error!"), _("Error"), wxICON_ERROR | wxOK );
+                    wxMessageBox(_("Create folder failed!"), _("Error"), wxICON_ERROR | wxOK );
                     pGxFolder->BeginRenameOnAdd(NULL, "");
                     return;
                 }

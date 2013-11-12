@@ -50,9 +50,5 @@ public:
 private:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
-	wxIcon m_IconCreateRemoteConn, m_IconCreateWebConn;
-	wxIcon m_LargeConnIcon, m_SmallConnIcon;
-	wxIcon m_LargeDisconnIcon, m_SmallDisconnIcon;
-    wxIcon m_LargeIconFeatureClass, m_SmallIconFeatureClass;
-    wxIcon m_LargeIconTable, m_SmallIconTable;
+    wxIcon m_IconCreateRemoteConn, m_IconCreateWebConn, m_IconCreateSchema;
 };

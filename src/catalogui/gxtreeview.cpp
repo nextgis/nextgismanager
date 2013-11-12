@@ -181,8 +181,8 @@ void wxGxTreeViewBase::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
         SetItemTextColour(NewTreeItem, pGxObjectAttr->GetColor());                    
     }
 
-    //SortChildren(hParent);
-	wxTreeCtrl::Refresh();
+    SortChildren(hParent);
+	//wxTreeCtrl::Refresh();
 }
 
 bool wxGxTreeViewBase::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
@@ -834,6 +834,7 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 	{
 		if (!pGxObjectWizard->Invoke(this))
 		{
+            Expand(item);
 			return;
 		}
 	}

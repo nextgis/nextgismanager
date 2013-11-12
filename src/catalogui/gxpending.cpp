@@ -25,6 +25,8 @@
 //---------------------------------------------------------------------
 // wxGxPendingUI
 //---------------------------------------------------------------------
+#define UPDATE_TIMER 150
+#define DESTROY_COUNTDOW 7
 
 IMPLEMENT_CLASS(wxGxPendingUI, wxGxObject)
 
@@ -34,6 +36,9 @@ END_EVENT_TABLE()
 
 wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon> *pImageListLarge, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObject(oParent, soName, soPath), m_timer(this, TIMER_ID)
 {
+    m_bFinal = false;
+    m_nFinalCountDown = 0;
+
     m_nCurrentImage = 0;
     m_pImageListSmall = pImageListSmall;
     m_pImageListLarge = pImageListLarge;
@@ -41,7 +46,7 @@ wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon>
         m_nImageCount = MIN(m_pImageListSmall->size(), m_pImageListLarge->size());
     else
         m_nImageCount = 0;
-    m_timer.Start(150);    
+    m_timer.Start(UPDATE_TIMER);
 }
 
 wxGxPendingUI::~wxGxPendingUI(void)
@@ -52,8 +57,15 @@ wxGxPendingUI::~wxGxPendingUI(void)
 void wxGxPendingUI::Stop(void)
 {
     m_timer.Stop();
-    wxCriticalSectionLocker locker(m_CritSect);
+}
 
+void wxGxPendingUI::StopAndDestroy(void)
+{
+    m_bFinal = true;
+    m_nFinalCountDown = 0;
+
+    //Stop();
+    //wxPostEvent(this, wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED));
 }
 
 wxIcon wxGxPendingUI::GetLargeImage(void)
@@ -82,12 +94,23 @@ wxIcon wxGxPendingUI::GetSmallImage(void)
 
 void wxGxPendingUI::OnTimer( wxTimerEvent& event )
 {
-    wxCriticalSectionLocker locker(m_CritSect);
-    m_sName = wxString(_("Waiting...")) + wxString::Format(_(" (%d sec)"), m_sw.Time() / 1000); //sec.
+    if (m_bFinal)
+    {
+        if (++m_nFinalCountDown == DESTROY_COUNTDOW)
+        {
+            m_timer.Stop();
+            Destroy();
+        }
+    }
+    else
+    {
+        wxCriticalSectionLocker locker(m_CritSect);
+        m_sName = wxString(_("Waiting...")) + wxString::Format(_(" (%d sec)"), m_sw.Time() / 1000); //sec.
 
-    m_nCurrentImage++;
-    if(m_nCurrentImage >= m_nImageCount)
-        m_nCurrentImage = 0;
-    wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        m_nCurrentImage++;
+        if(m_nCurrentImage >= m_nImageCount)
+            m_nCurrentImage = 0;
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+    }
 }
 

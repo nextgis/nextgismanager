@@ -51,6 +51,7 @@ public:
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
     //
     virtual void Stop(void);
+    virtual void StopAndDestroy(void);
 protected:
     //events
     void OnTimer( wxTimerEvent & event);
@@ -62,6 +63,8 @@ protected:
     wxVector<wxIcon> *m_pImageListSmall;
     short m_nImageCount;
     wxCriticalSection m_CritSect;
+    unsigned char m_nFinalCountDown;
+    bool m_bFinal;
 private:
     DECLARE_EVENT_TABLE()
 };
