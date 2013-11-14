@@ -22,6 +22,8 @@
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/table.h"
+#include "wxgis/framework/dataobject.h"
+#include "wxgis/catalogui/droptarget.h"
 
 /*
 #include "wxgis/geoprocessing/gpdomain.h"
@@ -40,6 +42,8 @@
 #include "../../art/add_to_list.xpm"
 #include "../../art/querysql.xpm"
 */
+#include <wx/clipbrd.h>
+
 #include "../../art/state.xpm"
 #include "../../art/open.xpm"
 
@@ -157,8 +161,11 @@ wxGISDTPath::wxGISDTPath(  const wxGISGPParameterArray &Params, int nParamIndex,
 	bPathSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_PathTextCtrl = new wxTextCtrl( this, ID_PATHCTRL, GetParameter()->GetValue(), wxDefaultPosition, wxDefaultSize, wxTE_CHARWRAP );
-    //m_PathTextCtrl->SetDropTarget(new wxFileDropTarget());
-	bPathSizer->Add( m_PathTextCtrl, 1, wxALL|wxEXPAND, 5 );
+    m_PathTextCtrl->DragAcceptFiles(true);
+    m_PathTextCtrl->SetDropTarget(new wxGISDropTarget(static_cast<IViewDropTarget*>(this)));
+
+    //m_PathTextCtrl->Connect(wxEVT_DROP_FILES, wxDropFilesEventHandler(wxGISSelectTemplatePage::OnDropFiles), NULL, this);
+    bPathSizer->Add(m_PathTextCtrl, 1, wxALL | wxEXPAND, 5);
 
 	m_bpButton = new wxBitmapButton( this, wxID_OPEN, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bPathSizer->Add( m_bpButton, 0, wxALL, 5 );
@@ -380,6 +387,32 @@ void wxGISDTPath::OnParamChanged(wxGISGPParamEvent& event)
     }
 }
 
+
+wxDragResult wxGISDTPath::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
+{
+    return def;
+}
+
+bool wxGISDTPath::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects)
+{
+    if (GxObjects.GetCount() > 0)
+    {
+        m_PathTextCtrl->ChangeValue(GxObjects[0]);
+    }
+
+    return true;
+}
+
+void wxGISDTPath::OnLeave()
+{
+}
+
+bool wxGISDTPath::CanPaste()
+{
+    wxClipboardLocker lockClip;
+    return wxTheClipboard->IsSupported(wxDF_FILENAME) | wxTheClipboard->IsSupported(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+    //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML
+}
 
 //----------------------------------------------------------------------------
 // Class wxGISDTFolderPath

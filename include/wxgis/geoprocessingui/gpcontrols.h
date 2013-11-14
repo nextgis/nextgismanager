@@ -78,7 +78,9 @@ private:
 /** \class wxGISDTPath gpcontrols.h
     \brief The tool dialog control for catalog path value representation.
 */
-class WXDLLIMPEXP_GIS_GPU wxGISDTPath : public wxGISDTBase
+class WXDLLIMPEXP_GIS_GPU wxGISDTPath : 
+    public wxGISDTBase,
+    public IViewDropTarget
 {
     DECLARE_CLASS(wxGISDTPath)
     enum
@@ -95,6 +97,11 @@ public:
 	virtual void OnUpdateUI(wxUpdateUIEvent& event);
 	virtual void OnPathChange(wxCommandEvent& event);
     virtual void OnParamChanged(wxGISGPParamEvent& event);
+    //IGxDropTarget
+    virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def);
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects);
+    virtual void OnLeave();
+    virtual bool CanPaste(void);
 protected:
     wxTextCtrl* m_PathTextCtrl;
 	wxBitmapButton* m_bpButton;
