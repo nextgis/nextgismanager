@@ -914,3 +914,174 @@ wxGISFeature wxGISTableCached::GetFeatureByID(long nFID)
     }
 	return ret;
 }
+
+
+wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
+{
+    wxFeatureCursor oOutCursor(this);
+
+    IProgressor* pProgressor(NULL);
+    if (pTrackCancel)
+    {
+        pProgressor = pTrackCancel->GetProgressor();
+    }
+
+    int nCounter(0);
+    int nRange = 100;
+    if (NULL != pProgressor)
+    {
+        if (bOnlyFirst)
+        {
+            nRange = 1;
+        }
+        else
+        {
+            nRange = GetFeatureCount(false, pTrackCancel);
+        }
+        pProgressor->SetRange(nRange);
+    }
+
+    OGRErr eErr;
+    if (QFilter.GetWhereClause().IsEmpty())
+    {
+        for (std::map<long, wxGISFeature>::iterator it = m_omFeatures.begin(); it != m_omFeatures.end(); ++it)
+        {
+            if (pTrackCancel && !pTrackCancel->Continue())
+            {
+                wxString sErr(_("Interrupted by user"));
+                CPLString sFullErr(sErr.mb_str());
+                CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
+
+                if (pTrackCancel)
+                {
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                }
+                oOutCursor.Reset();
+                return oOutCursor;
+            }
+
+
+            if (NULL != pProgressor)
+            {
+                pProgressor->SetValue(nCounter++);
+            }
+            oOutCursor.Add(it->second);
+            if (bOnlyFirst)
+                break;
+        }
+
+        oOutCursor.Reset();
+        return oOutCursor;
+    }
+    else
+    {
+        if (!m_poLayer)
+            return oOutCursor;
+        wxString sFilter = QFilter.GetWhereClause();
+        //if(!m_sCurrentFilter.IsEmpty() && !sFilter.IsEmpty())
+        //{
+        //	//combain two clauses
+        //	sFilter.Prepend(wxT("(") + m_sCurrentFilter + wxT(") AND ("));
+        //	sFilter.Append(wxT(")"));
+        //}
+        eErr = m_poLayer->SetAttributeFilter(sFilter.mb_str());
+        if (eErr != OGRERR_NONE)
+            return oOutCursor;
+        //create and fill cursor
+        m_poLayer->ResetReading();
+        OGRFeature* poFeature = NULL;
+        while ((poFeature = m_poLayer->GetNextFeature()) != NULL)
+        {
+            if (pTrackCancel && !pTrackCancel->Continue())
+            {
+                wxString sErr(_("Interrupted by user"));
+                CPLString sFullErr(sErr.mb_str());
+                CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
+
+                if (pTrackCancel)
+                {
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                }
+                oOutCursor.Reset();
+                m_poLayer->SetAttributeFilter(NULL);
+                return oOutCursor;
+            }
+
+            if (NULL != pProgressor)
+            {
+                pProgressor->SetValue(nCounter++);
+            }
+
+            oOutCursor.Add(wxGISFeature(poFeature, m_Encoding));
+            if (bOnlyFirst)
+                break;
+        }
+
+        oOutCursor.Reset();
+
+        //set full selection back
+        m_poLayer->SetAttributeFilter(NULL);
+
+        return oOutCursor;
+    }
+
+    return oOutCursor;
+}
+//--------------------------------------------------------------------------------
+// wxGISTableQuery
+//--------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISTableQuery, wxGISTableCached)
+
+wxGISTableQuery::wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTableCached(sPath, nSubType, poLayer, poDS)
+{
+    CacheInt();
+    if (m_poDS)
+    {
+        m_poDS->ReleaseResultSet(m_poLayer);
+        m_poLayer = NULL;
+        if (m_poDS->Dereference() <= 0)
+            OGRDataSource::DestroyDataSource(m_poDS);
+        m_poDS = NULL;
+    }
+}
+
+wxGISTableQuery::~wxGISTableQuery()
+{
+}
+
+
+void wxGISTableQuery::CacheInt()
+{
+    if (!m_poLayer)
+        return;
+    m_bIsCaching = true;
+    m_poLayer->ResetReading();
+
+    //loading
+    m_nCurrentFID = 1;
+
+    OGRFeature *poFeature;
+    while ((poFeature = m_poLayer->GetNextFeature()) != NULL)
+    {
+
+        long nFID;
+        if (poFeature && !m_bHasFID)
+        {
+            nFID = m_nCurrentFID;
+            poFeature->SetFID(nFID);
+        }
+        else
+            nFID = poFeature->GetFID();
+
+        //store features in array for speed
+        m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding);
+        m_nCurrentFID++;
+
+    }
+
+
+    m_nFeatureCount = m_omFeatures.size();
+    m_bIsCaching = false;
+    m_bIsCached = true;
+}

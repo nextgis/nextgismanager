@@ -124,7 +124,26 @@ public:
 	virtual OGRErr DeleteFeature(long nFID);    
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
     virtual OGRErr SetFeature(const wxGISFeature &Feature);  
+    virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
 protected:
     std::map<long, wxGISFeature> m_omFeatures;
     bool m_bIsCaching;
+};
+
+/** @class wxGISTableQuery
+
+    The query result table class
+
+    @library {datasource}
+*/
+
+class WXDLLIMPEXP_GIS_DS wxGISTableQuery :
+    public wxGISTableCached
+{
+    DECLARE_CLASS(wxGISTableQuery)
+public:
+    wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+    virtual ~wxGISTableQuery(void);
+protected:
+    virtual void CacheInt();
 };
