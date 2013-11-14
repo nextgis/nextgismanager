@@ -31,12 +31,13 @@ IMPLEMENT_CLASS(wxGxPostGISTableDataset, wxGxTableDataset)
 
 wxGxPostGISTableDataset::wxGxPostGISTableDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTableDataset(enumTablePostgres, oParent, soName, soPath)
 {
-    m_pwxGISRemoteConn = pwxGISRemoteConn;
+    wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = sSchema + wxT(".") + soName;
 }
 
 wxGxPostGISTableDataset::~wxGxPostGISTableDataset(void)
 {
+    wsDELETE(m_pwxGISRemoteConn);
 }
 
 wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
@@ -82,12 +83,13 @@ IMPLEMENT_CLASS(wxGxPostGISFeatureDataset, wxGxFeatureDataset)
 
 wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(emumVecPostGIS, oParent, soName, soPath)
 {
-    m_pwxGISRemoteConn = pwxGISRemoteConn;
+    wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = sSchema + wxT(".") + soName;
 }
 
 wxGxPostGISFeatureDataset::~wxGxPostGISFeatureDataset(void)
 {
+    wsDELETE(m_pwxGISRemoteConn);
 }
 
 wxGISDataset* const wxGxPostGISFeatureDataset::GetDatasetFast(void)

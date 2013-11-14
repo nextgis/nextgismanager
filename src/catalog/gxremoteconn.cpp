@@ -35,7 +35,7 @@
 IMPLEMENT_CLASS(wxGxRemoteConnection, wxGxObjectContainer)
 
 BEGIN_EVENT_TABLE(wxGxRemoteConnection, wxGxObjectContainer)
-EVT_TIMER(TIMER_ID, wxGxRemoteConnection::OnTimer)
+    EVT_TIMER(TIMER_ID, wxGxRemoteConnection::OnTimer)
 END_EVENT_TABLE()
 
 
@@ -208,7 +208,7 @@ bool wxGxRemoteConnection::Connect(void)
     }
     wsDELETE(pDSet);
 
-    m_timer.Start(950, false);
+    m_timer.Start(950, true);
 
     return bRes;
 }
@@ -278,19 +278,20 @@ void wxGxRemoteConnection::LoadChildren(void)
                 m_bHasRaster = true;
         }
 
+
         for (size_t i = 0; i < m_saSchemas.size(); ++i)
         {
-            GetNewRemoteDBSchema(m_saSchemas[i], pDSet);
+            CPLString szPath(CPLFormFilename(GetPath(), m_saSchemas[i].mb_str(wxConvUTF8), ""));
+            GetNewRemoteDBSchema(m_saSchemas[i], szPath, pDSet);
         }
     }
     wsDELETE(pDSet);
 }
 
 
-wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn)
+wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
 {
-    CPLString szPath(CPLFormFilename(GetPath(), sName.mb_str(wxConvUTF8), ""));
-    return new wxGxRemoteDBSchema(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, szPath);
+    return new wxGxRemoteDBSchema(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, soPath);
 }
 
 void wxGxRemoteConnection::OnTimer(wxTimerEvent & event)
@@ -333,7 +334,8 @@ void wxGxRemoteConnection::OnTimer(wxTimerEvent & event)
         {
             if (m_saSchemas.Index(saCurrentSchemas[i]) == wxNOT_FOUND)
             {
-                wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], pDSet);
+                CPLString szPath(CPLFormFilename(GetPath(), saCurrentSchemas[i].mb_str(wxConvUTF8), ""));
+                wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], szPath, pDSet);
                 m_saSchemas.Add(saCurrentSchemas[i]);
                 //refresh
                 wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
@@ -342,6 +344,9 @@ void wxGxRemoteConnection::OnTimer(wxTimerEvent & event)
     }
 
     wsDELETE(pDSet);
+
+    m_timer.Start(950, true);
+
 }
 
 void wxGxRemoteConnection::DeleteSchema(const wxString& sSchemaName)
@@ -445,6 +450,10 @@ wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, 
 
 IMPLEMENT_CLASS(wxGxRemoteDBSchema, wxGxObjectContainer)
 
+BEGIN_EVENT_TABLE(wxGxRemoteDBSchema, wxGxObjectContainer)
+    EVT_TIMER(TIMER_ID, wxGxRemoteDBSchema::OnTimer)
+END_EVENT_TABLE()
+
 wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
@@ -493,23 +502,59 @@ bool wxGxRemoteDBSchema::Rename(const wxString &sNewName)
     return m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName);
 }
 
-void wxGxRemoteDBSchema::LoadChildren(void)
+wxArrayString wxGxRemoteDBSchema::FillTableNames()
 {
-/*    wxCriticalSectionLocker locker(m_CritSect);
-    if(m_bChildrenLoaded)
-        return;
-    wxCHECK_RET(m_pwxGISRemoteConn, wxT("wxGISRemoteConnection pointer is NULL"));
-
+    wxArrayString saTables;
     bool bLoadSystemTablesAndSchemas = false;
     wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    if(pGxCatalog)
+    if (pGxCatalog)
     {
         wxGxDBConnectionFactory* const pDBConnectionFactory = wxDynamicCast(pGxCatalog->GetObjectFactoryByName(_("DataBase connections")), wxGxDBConnectionFactory);
-        if(pDBConnectionFactory)
+        if (pDBConnectionFactory)
         {
             bLoadSystemTablesAndSchemas = pDBConnectionFactory->GetLoadSystemTablesAndShemes();
         }
     }
+
+    //get all tables list
+    //SELECT table_name FROM information_schema.tables WHERE table_schema LIKE 'public';
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(wxString::Format(wxT("SELECT table_name FROM information_schema.tables WHERE table_schema LIKE '%s'"), GetName().c_str()), wxT("PG")), wxGISTableCached);
+    if (NULL != pTableList)
+    {
+        wxFeatureCursor Cursor = pTableList->Search();
+        wxGISFeature Feature;
+        while ((Feature = Cursor.Next()).IsOk())
+        {
+            wxString sTable = Feature.GetFieldAsString(0);
+            //check system tables
+            if (m_sName.IsSameAs(wxT("public")) && !bLoadSystemTablesAndSchemas)
+            {
+                if (sTable.IsSameAs(wxT("geometry_columns")))
+                    continue;
+                else if (sTable.IsSameAs(wxT("geography_columns")))
+                    continue;
+                else if (sTable.IsSameAs(wxT("raster_columns")))
+                    continue;
+                else if (sTable.IsSameAs(wxT("spatial_ref_sys")))
+                    continue;
+                else if (sTable.IsSameAs(wxT("raster_overviews")))
+                    continue;
+            }
+            saTables.Add(sTable);
+        }
+        wsDELETE(pTableList);
+    }
+    return saTables;
+}
+
+void wxGxRemoteDBSchema::LoadChildren(void)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+    if(m_bChildrenLoaded)
+        return;
+    wxCHECK_RET(m_pwxGISRemoteConn, wxT("wxGISRemoteConnection pointer is NULL"));
+
+    m_saTables = FillTableNames();
 
     //get geometry and geography
     if(m_bHasGeom)
@@ -536,7 +581,9 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     }
 
     m_bChildrenLoaded = true;
-    if(m_saTables.IsEmpty())
+    m_timer.Start(950, true);
+
+    if (m_saTables.IsEmpty())
         return;
     
     if(m_bHasGeog)
@@ -562,7 +609,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
         }
     }
         
-    if(m_saTables.IsEmpty())
+    if (m_saTables.IsEmpty())
         return;
 
     if(m_bHasRaster)
@@ -589,32 +636,181 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     }
 
     
-    for(size_t i = 0; i < m_saTables.GetCount(); ++i)
+    for (size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
         AddTable(m_saTables[i], enumGISTableDataset);
-    }*/
+    }
+}
+
+void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
+{
+
+    wxArrayString saCurrentTables = FillTableNames();
+    
+    //delete 
+    for (size_t i = 0; i < m_saTables.GetCount(); ++i)
+    {
+        if (saCurrentTables.Index(m_saTables[i]) == wxNOT_FOUND)
+        {
+            DeleteTable(m_saTables[i]);
+            m_saTables.RemoveAt(i);
+            i--;
+        }
+    }
+
+    //get geometry and geography
+    if (m_bHasGeom)
+    {
+        //remove table name from tables list
+        wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(wxString::Format(wxT("SELECT f_table_name FROM public.geometry_columns WHERE f_table_schema LIKE '%s'"), GetName().c_str()), wxT("PG")), wxGISTableCached);
+
+        if (NULL != pTableList)
+        {
+            wxFeatureCursor Cursor = pTableList->Search();
+            wxGISFeature Feature;
+            while ((Feature = Cursor.Next()).IsOk())
+            {
+                wxString sTable = Feature.GetFieldAsString(0);
+                int nIndex = m_saTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                    continue;
+                nIndex = saCurrentTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                {
+                    wxGxObject* pObj = AddTable(sTable, enumGISFeatureDataset);
+                    {
+                        saCurrentTables.RemoveAt(nIndex);
+                        m_saTables.Add(sTable);
+                        //refresh
+                        wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+                    }
+                }
+            }
+            wsDELETE(pTableList);
+        }
+    }
+
+    m_timer.Start(950, true);
+
+    if (saCurrentTables.IsEmpty())
+        return;
+
+    if (m_bHasGeog)
+    {
+        //remove table name from tables list
+        wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(wxString::Format(wxT("SELECT f_table_name FROM public.geography_columns WHERE f_table_schema LIKE '%s'"), GetName().c_str()), wxT("PG")), wxGISTableCached);
+
+        if (NULL != pTableList)
+        {
+            wxFeatureCursor Cursor = pTableList->Search();
+            wxGISFeature Feature;
+            while ((Feature = Cursor.Next()).IsOk())
+            {
+                wxString sTable = Feature.GetFieldAsString(0);
+                int nIndex = m_saTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                    continue;
+                nIndex = saCurrentTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                {
+                    wxGxObject* pObj = AddTable(sTable, enumGISFeatureDataset);
+                    {
+                        saCurrentTables.RemoveAt(nIndex);
+                        m_saTables.Add(sTable);
+                        //refresh
+                        wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+                    }
+                }
+            }
+            wsDELETE(pTableList);
+        }
+    }
+
+    if (saCurrentTables.IsEmpty())
+        return;
+
+    if (m_bHasRaster)
+    {
+        //remove table name from tables list
+        wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(wxString::Format(wxT("SELECT r_table_name FROM puyblic.raster_columns WHERE r_table_schema LIKE '%s'"), GetName().c_str()), wxT("PG")), wxGISTableCached);
+
+        if (NULL != pTableList)
+        {
+            wxFeatureCursor Cursor = pTableList->Search();
+            wxGISFeature Feature;
+            while ((Feature = Cursor.Next()).IsOk())
+            {
+                wxString sTable = Feature.GetFieldAsString(0);
+                int nIndex = m_saTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                    continue;
+                nIndex = saCurrentTables.Index(sTable);
+                if (nIndex != wxNOT_FOUND)
+                {
+                    wxGxObject* pObj = AddTable(sTable, enumGISRasterDataset);
+                    {
+                        saCurrentTables.RemoveAt(nIndex);
+                        m_saTables.Add(sTable);
+                        //refresh
+                        wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+                    }
+
+                }
+            }
+            wsDELETE(pTableList);
+        }
+    }
+
+    //add new
+    for (size_t i = 0; i < saCurrentTables.GetCount(); i++)
+    {
+        if (m_saTables.Index(saCurrentTables[i]) == wxNOT_FOUND)
+        {
+            wxGxObject* pObj = AddTable(saCurrentTables[i], enumGISTableDataset);
+            if (NULL != pObj)
+            {
+                m_saTables.Add(saCurrentTables[i]);
+                //refresh
+                wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+            }
+        }
+    }
+}
+
+void wxGxRemoteDBSchema::DeleteTable(const wxString& sSchemaName)
+{
+    wxGxObjectList::iterator iter;
+    for (iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+    {
+        wxGxObject *current = *iter;
+        if (NULL != current && current->GetName().IsSameAs(sSchemaName))
+        {
+            DestroyChild(current);
+            break;
+        }
+    }
+
 }
 
 
-void wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
+wxGxObject* wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
 {
     if (sTableName.IsEmpty())
-        return;
+        return NULL;
 
     switch(eType)
     {
     case enumGISFeatureDataset:
-        m_pwxGISRemoteConn->Reference();
-        new wxGxPostGISFeatureDataset(GetName(), m_pwxGISRemoteConn, this, sTableName, "");
-        break;
+        return new wxGxPostGISFeatureDataset(GetName(), m_pwxGISRemoteConn, this, sTableName, "");
     case enumGISRasterDataset:
-        break;
+        return NULL;
     case enumGISTableDataset:
     default:
-        m_pwxGISRemoteConn->Reference();
-        new wxGxPostGISTableDataset(GetName(), m_pwxGISRemoteConn, this, sTableName, "");
-        break;
+        return new wxGxPostGISTableDataset(GetName(), m_pwxGISRemoteConn, this, sTableName, "");
     };
+
+    return NULL;
+
     /*
 //TODO: check inherits
             CPLString osCommand;
@@ -644,47 +840,6 @@ void wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGISEnumDat
             }
         }*/
 }
-
-/*
-std::map<wxString, wxArrayString> smSchema;
-wxString sName = Feature.GetFieldAsString(1);
-if (!bLoadSystemTablesAndSchemes && (sName.IsSameAs("raster_overviews") || sName.IsSameAs("spatial_ref_sys")))
-continue;
-
-if (smSchema[sScheme].Index(wxEmptyString) == wxNOT_FOUND)
-{
-    smSchema[sScheme].Add(wxEmptyString);
-}
-
-//loop for postgis special tables only in public
-if (sScheme.IsSameAs(wxT("public")))
-{
-    if (sName.IsSameAs(wxT("geometry_columns")))
-        bHasGeom = true;
-    else if (sName.IsSameAs(wxT("geography_columns")))
-        bHasGeog = true;
-    else if (sName.IsSameAs(wxT("raster_columns")))
-        bHasRaster = true;
-    else
-    {
-        smSchema[sSchema].Add(sName);
-    }
-}
-else
-{
-    smSchema[sSchema].Add(sName);
-}
-    }
-
-    wsDELETE(pInfoSchema);
-
-    for (std::map<wxString, wxArrayString>::const_iterator IT = smSchema.begin(); IT != smSchema.end(); ++IT)
-    {
-        GetNewRemoteDBSchema(IT->first, IT->second, bHasGeom, bHasGeog, bHasRaster, pDSet);
-    }
-
-    wsDELETE(pDSet);
-*/
 
 #endif //wxGIS_USE_POSTGRES
 

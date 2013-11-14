@@ -61,7 +61,7 @@ public:
     void OnThreadFinished(wxThreadEvent& event);
 protected:
     //wxGxRemoteConnection
-    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn);
+    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
     virtual wxThread::ExitCode Entry();    
     bool CreateAndRunCheckThread(void);
 protected:
@@ -82,7 +82,8 @@ private:
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
     public wxGxRemoteDBSchema,
 	public IGxObjectUI,
-    public IGxObjectEditUI
+    public IGxObjectEditUI/*,
+    public IGxDropTarget*/
 {
     DECLARE_CLASS(wxGxRemoteDBSchemaUI)
     enum
@@ -103,7 +104,7 @@ public:
 	virtual void EditProperties(wxWindow *parent);
 protected:
     //wxGxRemoteDBSchema
-    virtual void AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
+    virtual wxGxObject* AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
 protected:
     wxIcon m_oLargeIcon, m_oSmallIcon;
     wxIcon m_oLargeIconFeatureClass, m_oSmallIconFeatureClass;

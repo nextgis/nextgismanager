@@ -189,7 +189,7 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
 
 }
 
-wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn)
+wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
 {
     if(!m_oLargeIconFeatureClass.IsOk())
         m_oLargeIconFeatureClass = wxIcon(pg_vec_48_xpm);
@@ -203,9 +203,8 @@ wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString 
         m_oLargeIconSchema = wxIcon(dbschema_48_xpm);
     if(!m_oSmallIconSchema.IsOk())
         m_oSmallIconSchema = wxIcon(dbschema_16_xpm);
-    CPLString szPath(CPLFormFilename(GetPath(), sName.mb_str(wxConvUTF8), ""));
 
-    return wxStaticCast(new wxGxRemoteDBSchemaUI(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, szPath, m_oLargeIconSchema, m_oSmallIconSchema, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass, m_oLargeIconTable, m_oSmallIconTable), wxGxRemoteDBSchema);
+    return wxStaticCast(new wxGxRemoteDBSchemaUI(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, soPath, m_oLargeIconSchema, m_oSmallIconSchema, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass, m_oLargeIconTable, m_oSmallIconTable), wxGxRemoteDBSchema);
 }
 
 //--------------------------------------------------------------
@@ -265,24 +264,20 @@ bool wxGxRemoteDBSchemaUI::HasChildren(void)
     return wxGxObjectContainer::HasChildren(); 
 }
 
-void wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
+wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
 {
     if (sTableName.IsEmpty())
-        return;
+        return NULL;
 
     switch (eType)
     {
     case enumGISFeatureDataset:
-        m_pwxGISRemoteConn->Reference();
-        new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
-        break;
+        return new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
     case enumGISRasterDataset:
-        break;
+        return NULL;
     case enumGISTableDataset:
     default:
-        m_pwxGISRemoteConn->Reference();
-        new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconTable, m_oSmallIconTable);
-        break;
+        return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconTable, m_oSmallIconTable);
     };
 }
 

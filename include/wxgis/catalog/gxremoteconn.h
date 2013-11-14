@@ -74,7 +74,7 @@ public:
 protected:
 	//wxGxRemoteConnection
 	virtual void LoadChildren(void);
-    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, wxGISPostgresDataSource *pwxGISRemoteConn);
+    virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
     wxArrayString FillSchemaNames(wxGISTableCached* pInfoSchema);
@@ -101,6 +101,10 @@ class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :
     public IGxObjectEdit
 {
     DECLARE_CLASS(wxGxRemoteDBSchema)
+    enum
+    {
+        TIMER_ID = 1018
+    };
 public:
 	wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteDBSchema(void);
@@ -124,12 +128,21 @@ public:
 protected:
     //wxGxRemoteDBSchema
     virtual void LoadChildren(void);
-    virtual void AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
+    virtual wxArrayString FillTableNames(void);
+    virtual wxGxObject* AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
+    virtual void DeleteTable(const wxString& sSchemaName);
+protected:
+    //events
+    virtual void OnTimer(wxTimerEvent & event);
 protected:
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
     bool m_bChildrenLoaded;
     wxCriticalSection m_CritSect;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
+    wxArrayString m_saTables;
+    wxTimer m_timer;
+private:
+    DECLARE_EVENT_TABLE()
 };
 
 #endif //wxGIS_USE_POSTGRES
