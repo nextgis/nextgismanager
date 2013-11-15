@@ -42,6 +42,8 @@ wxGxDataset::wxGxDataset(wxGxObject *oParent, const wxString &soName, const CPLS
 
 wxGxDataset::~wxGxDataset()
 {
+    if (NULL != m_pwxGISDataset)
+        m_pwxGISDataset->Close();
     wsDELETE(m_pwxGISDataset);
 }
 
@@ -274,6 +276,8 @@ wxGxDatasetContainer::wxGxDatasetContainer(wxGxObject *oParent, const wxString &
 
 wxGxDatasetContainer::~wxGxDatasetContainer()
 {
+    if (NULL != m_pwxGISDataset)
+        m_pwxGISDataset->Close();
     wsDELETE(m_pwxGISDataset);
 }
 
@@ -658,8 +662,7 @@ wxGISDataset* const wxGxRasterDataset::GetDatasetFast(void)
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
-    m_pwxGISDataset->Reference();
-    return m_pwxGISDataset;
+    wsGET(m_pwxGISDataset);
 }
 
 wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)

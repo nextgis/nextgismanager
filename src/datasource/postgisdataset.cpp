@@ -84,6 +84,10 @@ void wxGISPostgresDataSource::Close(void)
     if(m_poDS && m_poDS->Dereference() <= 0)
         OGRDataSource::DestroyDataSource( m_poDS );
 	m_poDS = NULL;
+    if (m_poDS4SQL && m_poDS4SQL->Dereference() <= 0)
+        OGRDataSource::DestroyDataSource(m_poDS4SQL);
+    m_poDS4SQL = NULL;
+    
 }
 
 size_t wxGISPostgresDataSource::GetSubsetsCount(void) const
@@ -133,31 +137,22 @@ wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(int iLayer, const 
 {
 	wxCHECK_MSG(poLayer, NULL, wxT("Input layer pointer is null"));
 	//check the layer type
-try{
     wxGISDataset* pDataset(NULL);
     CPLString szGeomColumn(poLayer->GetGeometryColumn());
 	if(!szGeomColumn.empty())
 	{
-		m_poDS->Reference();
         wxGISPostgresFeatureDataset* pFeatureDataset = new wxGISPostgresFeatureDataset(iLayer, sPath, poLayer, m_poDS);
 		pFeatureDataset->SetEncoding(m_Encoding);
         pDataset = static_cast<wxGISDataset*>(pFeatureDataset);
 	}
 	else
 	{
-		m_poDS->Reference();
         wxGISTable* pTable = new wxGISTable(sPath, enumTablePostgres, poLayer, m_poDS);
 		pTable->SetEncoding(m_Encoding);
         pDataset = static_cast<wxGISDataset*>(pTable);
 	}
-    if(pDataset)
-        pDataset->Reference();
-	return pDataset;
-}
-catch(...)
-{
-    return NULL;
-}
+    
+    wsGET(pDataset);
 }
 
 wxString wxGISPostgresDataSource::GetName(void) const
@@ -217,20 +212,24 @@ bool wxGISPostgresDataSource::DeleteSchema(const wxString &sSchemaName)
 
 bool wxGISPostgresDataSource::RenameSchema(const wxString &sSchemaName, const wxString &sSchemaNewName)
 {
+    if (sSchemaName == sSchemaNewName)
+    {
+        return true;
+    }
     return PGExecuteSQL(wxString::Format(wxT("ALTER SCHEMA \"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sSchemaNewName.c_str()));
 }
 
 bool wxGISPostgresDataSource::PGExecuteSQL(const wxString &sStatement)
 {
-    OGRPGDataSource* pDS = dynamic_cast<OGRPGDataSource*>(m_poDS);
+	wxCriticalSectionLocker locker(m_CritSect);
+    OGRPGDataSource* pDS = dynamic_cast<OGRPGDataSource*>(m_poDS4SQL);
     if(!pDS)
         return false;
 
     CPLErrorReset();
     PGconn* hPGConn = pDS->GetPGConn();
 
-    PGresult    *hResult;           
-    hResult =  OGRPG_PQexec( hPGConn, sStatement.mb_str(wxConvUTF8), TRUE );
+    PGresult    *hResult = OGRPG_PQexec( hPGConn, sStatement.mb_str(wxConvUTF8), TRUE );
     ExecStatusType status = PQresultStatus(hResult);
     if (status == PGRES_COMMAND_OK)
     {
@@ -251,15 +250,14 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement, co
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 	wxGISDataset* pDataset(NULL);
-    if(m_poDS)
+    if (m_poDS4SQL)
 	{
         CPLString szStatement(sStatement.mb_str(wxConvUTF8));
-		OGRLayer * poLayer = m_poDS->ExecuteSQL(szStatement, NULL, sDialect.mb_str(wxConvUTF8));
+        OGRLayer * poLayer = m_poDS4SQL->ExecuteSQL(szStatement, NULL, sDialect.mb_str(wxConvUTF8));
 		if(	poLayer )
 		{
             poLayer->ResetReading();
-			m_poDS->Reference();
-            wxGISTableQuery* pTable = new wxGISTableQuery(szStatement, enumTableQueryResult, poLayer, m_poDS);
+            wxGISTableQuery* pTable = new wxGISTableQuery(szStatement, enumTableQueryResult, poLayer, m_poDS4SQL);
 			pTable->SetEncoding(m_Encoding);
             pDataset = static_cast<wxGISDataset*>(pTable);
 		}
@@ -276,14 +274,13 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxGISSpatialFilter &Spat
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 	wxGISDataset* pDataset(NULL);
-    if(m_poDS)
+    if (m_poDS4SQL)
 	{
         CPLString szStatement(SpatialFilter.GetWhereClause().mb_str(wxConvUTF8));
-		OGRLayer * poLayer = m_poDS->ExecuteSQL(szStatement, SpatialFilter.GetGeometry(), sDialect.mb_str(wxConvUTF8));
+        OGRLayer * poLayer = m_poDS4SQL->ExecuteSQL(szStatement, SpatialFilter.GetGeometry(), sDialect.mb_str(wxConvUTF8));
 		if(	poLayer )
 		{
-			m_poDS->Reference();
-            wxGISTableCached* pTable = new wxGISTableCached(szStatement, enumTableQueryResult, poLayer, m_poDS);
+            wxGISTableCached* pTable = new wxGISTableCached(szStatement, enumTableQueryResult, poLayer, m_poDS4SQL);
 			pTable->SetEncoding(m_Encoding);
             pDataset = static_cast<wxGISDataset*>(pTable);
 		}
@@ -330,6 +327,11 @@ bool wxGISPostgresDataSource::Open(int bUpdate)
 	}
 	wxString sPath = wxString::Format(wxT("host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
 	m_sPath = CPLString(sPath.mb_str(wxConvUTF8));
+
+    //open second connection 
+    m_poDS4SQL = OGRSFDriverRegistrar::Open(sConnStr.mb_str(wxConvUTF8), bUpdate);//
+
+
 	m_bIsOpened = true;
 
     wxLogVerbose(_("Connect succeeded! Host='%s' dbname='%s' port='%s' user='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());

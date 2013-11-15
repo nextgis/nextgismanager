@@ -467,6 +467,8 @@ void wxGxTreeViewBase::OnObjectDeleted(wxGxCatalogEvent& event)
         {
 		    Delete(TreeItemId);
         }
+
+        UpdateGxSelection();
     }
 	m_TreeMap.erase(event.GetObjectID());
 }

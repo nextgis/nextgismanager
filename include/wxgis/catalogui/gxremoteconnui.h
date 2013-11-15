@@ -35,14 +35,9 @@ class WXDLLIMPEXP_GIS_CLU wxGxRemoteConnectionUI :
 	public IGxObjectUI,
     public IGxObjectEditUI,
     public IGxObjectWizard,
-    public wxThreadHelper,
     public wxGxAutoRenamer
 {
     DECLARE_CLASS(wxGxRemoteConnectionUI)
-    enum
-    {
-        EXIT_EVENT = wxID_HIGHEST+1
-    };
 public:
 	wxGxRemoteConnectionUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIconConn = wxNullIcon, const wxIcon &SmallIconConn = wxNullIcon, const wxIcon &LargeIconDisconn = wxNullIcon, const wxIcon &SmallIconDisconn = wxNullIcon);
 	virtual ~wxGxRemoteConnectionUI(void);
@@ -57,13 +52,12 @@ public:
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
-    //events
-    void OnThreadFinished(wxThreadEvent& event);
 protected:
     //wxGxRemoteConnection
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
-    virtual wxThread::ExitCode Entry();    
-    bool CreateAndRunCheckThread(void);
+    virtual wxThread::ExitCode Entry();
+    //events
+    virtual void OnThreadFinished(wxThreadEvent& event);
 protected:
     wxIcon m_oLargeIconConn, m_oSmallIconConn;
     wxIcon m_oLargeIconDisconn, m_oSmallIconDisconn;
@@ -71,8 +65,6 @@ protected:
     wxIcon m_oLargeIconTable, m_oSmallIconTable;
     wxIcon m_oLargeIconSchema, m_oSmallIconSchema;
     long m_PendingId;
-private:
-    DECLARE_EVENT_TABLE()
 };
 
 /** \class wxGxRemoteDBSchemaUI gxfileui.h
@@ -82,8 +74,8 @@ private:
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
     public wxGxRemoteDBSchema,
 	public IGxObjectUI,
-    public IGxObjectEditUI/*,
-    public IGxDropTarget*/
+    public IGxObjectEditUI,
+    public IGxDropTarget
 {
     DECLARE_CLASS(wxGxRemoteDBSchemaUI)
     enum
@@ -102,13 +94,21 @@ public:
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxRemoteDBSchema.NewMenu"));};
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
+    //IGxDropTarget
+    virtual wxDragResult CanDrop(wxDragResult def);
+    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
+    //events
+    void OnThreadFinished(wxThreadEvent& event);
 protected:
     //wxGxRemoteDBSchema
     virtual wxGxObject* AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
+    virtual wxThread::ExitCode Entry();
+    virtual bool CreateAndRunThread(void);
 protected:
     wxIcon m_oLargeIcon, m_oSmallIcon;
     wxIcon m_oLargeIconFeatureClass, m_oSmallIconFeatureClass;
     wxIcon m_oLargeIconTable, m_oSmallIconTable;
+    long m_PendingId;
 };
 
 #endif // wxGIS_USE_POSTGRES

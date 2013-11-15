@@ -47,8 +47,15 @@ void wxGxSelection::Select( long nObjectId,  bool appendToExistingSelection, lon
 	//}
     m_currentInitiator = nInitiator;
 
-    if(!appendToExistingSelection)
+    if (!appendToExistingSelection)
+    {
 	    Clear(nInitiator);
+    }
+    else
+    {
+        if (m_SelectionMap[nInitiator].Index(nObjectId) != wxNOT_FOUND)
+            return;
+    }
 
 	m_SelectionMap[nInitiator].Add( nObjectId );
 

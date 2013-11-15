@@ -690,10 +690,13 @@ void wxGxContentView::OnBeginLabelEdit(wxListEvent& event)
 		event.Veto();
 		return;
 	}
+
+    //event.Skip();
 }
 
 void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
 {
+    //event.Skip();
     if ( event.GetLabel().IsEmpty() )
     {
         event.Veto();
@@ -714,14 +717,21 @@ void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
 		event.Veto();
 		return;
 	}
-	if(!pObjEdit->Rename(event.GetLabel()))
+	if(pObjEdit->Rename(event.GetLabel()))
 	{
+    	m_pCatalog->ObjectChanged(pGxObject->GetId());
+	}
+    else
+    {
 		event.Veto();
 		wxMessageBox(_("Rename failed!"), _("Error"), wxICON_ERROR | wxOK );
-		return;
-	}
 
-	m_pCatalog->ObjectChanged(pGxObject->GetId());
+        SORTDATA sortdata = { m_bSortAsc, m_currentSortCol };
+        SortItems(GxObjectCVCompareFunction, (long)&sortdata);
+        SetColumnImage(m_currentSortCol, m_bSortAsc ? 0 : 1);
+
+		return;
+    }
 }
 
 void wxGxContentView::OnObjectAdded(wxGxCatalogEvent& event)
@@ -739,14 +749,16 @@ void wxGxContentView::OnObjectAdded(wxGxCatalogEvent& event)
         {
 		    if(AddObject(pGxObject))
             {
-                SORTDATA sortdata = {m_bSortAsc, m_currentSortCol};
-	            SortItems(GxObjectCVCompareFunction, (long)&sortdata);
-	            SetColumnImage(m_currentSortCol, m_bSortAsc ? 0 : 1);
-
                 wxGxAutoRenamer* pGxAutoRenamer = dynamic_cast<wxGxAutoRenamer*>(pGxObject->GetParent());
                 if(pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetPath()))
                 {
                     BeginRename(pGxObject->GetId());
+                }
+                else
+                {
+                    SORTDATA sortdata = { m_bSortAsc, m_currentSortCol };
+                    SortItems(GxObjectCVCompareFunction, (long)&sortdata);
+                    SetColumnImage(m_currentSortCol, m_bSortAsc ? 0 : 1);
                 }
             }
         }
@@ -822,22 +834,33 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
 
 		wxString sType = pGxObject->GetCategory();
 
-		if(i < GetItemCount())
-		{
-            bItemsHaveChanges = true;
-			SetItem(i, 0, sName, pos);
-            if(m_current_style == enumGISCVReport)
-	        {
+        if (GetItemText(i, 0) != sName)
+        {
+		    SetItem(i, 0, sName, pos);
+            if (m_currentSortCol == 0)
+            {
+                bItemsHaveChanges = true;
+            }
+        }
+
+        if(m_current_style == enumGISCVReport)
+	    {
+            if (GetItemText(i, 1) != sType)
+            {
 		        SetItem(i, 1, sType);
-                wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
-                if(pDSet)
+                if (m_currentSortCol == 1)
                 {
-                    pDSet->FillMetadata();
-                    SetItem(i, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
-                    SetItem(i, 3, pDSet->GetModificationDate().Format()); 
+                    bItemsHaveChanges = true;
                 }
-	        }
-		}
+            }
+            wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
+            if(pDSet)
+            {
+                pDSet->FillMetadata();
+                SetItem(i, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
+                SetItem(i, 3, pDSet->GetModificationDate().Format()); 
+            }
+	    }
 	}
 
     if(bItemsHaveChanges)
@@ -1059,20 +1082,24 @@ void wxGxContentView::OnChar(wxKeyEvent& event)
 void wxGxContentView::BeginRename(long nObjectID)
 {
 	long nItem;
+    LPITEMDATA pItemData = NULL;
 	for(nItem = 0; nItem < GetItemCount(); ++nItem)
 	{
-		LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItem);
+        pItemData = (LPITEMDATA)GetItemData(nItem);
 		if(pItemData == NULL)
 			continue;
 		if(pItemData->nObjectID == nObjectID)
         {
             SetItemState(nItem, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            m_pSelection->Select(nObjectID, true, NOTFIRESELID);
+            //m_pSelection->Select(nObjectID, true, NOTFIRESELID);
 			break;
         }
     }
-	if(nItem < GetItemCount())
+
+    if (NULL != pItemData)
+    {
 		EditLabel(nItem);
+    }
 }
 
 int wxGxContentView::GetIconPos(wxIcon icon_small, wxIcon icon_large)

@@ -35,19 +35,19 @@
 IMPLEMENT_CLASS(wxGxRemoteConnection, wxGxObjectContainer)
 
 BEGIN_EVENT_TABLE(wxGxRemoteConnection, wxGxObjectContainer)
-    EVT_TIMER(TIMER_ID, wxGxRemoteConnection::OnTimer)
+    EVT_THREAD(wxID_ANY, wxGxRemoteConnection::OnThreadFinished)
 END_EVENT_TABLE()
 
 
-wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), m_timer(this, TIMER_ID)
+wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper()
 {
     m_pwxGISDataset = NULL;
     m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
+    m_bChildrenLoaded = false;
 }
 
 wxGxRemoteConnection::~wxGxRemoteConnection(void)
 {
-    m_timer.Stop();
     Disconnect();
     wsDELETE(m_pwxGISDataset);
 }
@@ -208,7 +208,8 @@ bool wxGxRemoteConnection::Connect(void)
     }
     wsDELETE(pDSet);
 
-    m_timer.Start(950, true);
+
+    CreateAndRunThread();
 
     return bRes;
 }
@@ -219,7 +220,13 @@ bool wxGxRemoteConnection::Disconnect(void)
     {
         return true;
     }
-    m_timer.Stop();
+
+    if (GetThread() && GetThread()->IsRunning())
+    {
+        GetThread()->Wait();
+    }
+
+
     wxGISDataset* pDSet = GetDatasetFast();
     if(NULL != pDSet)
     {
@@ -229,6 +236,7 @@ bool wxGxRemoteConnection::Disconnect(void)
     }
     wsDELETE(pDSet);
     m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
+    m_bChildrenLoaded = false;
 
     return true;
 }
@@ -284,6 +292,7 @@ void wxGxRemoteConnection::LoadChildren(void)
             CPLString szPath(CPLFormFilename(GetPath(), m_saSchemas[i].mb_str(wxConvUTF8), ""));
             GetNewRemoteDBSchema(m_saSchemas[i], szPath, pDSet);
         }
+        m_bChildrenLoaded = true;
     }
     wsDELETE(pDSet);
 }
@@ -294,58 +303,98 @@ wxGxRemoteDBSchema* wxGxRemoteConnection::GetNewRemoteDBSchema(const wxString &s
     return new wxGxRemoteDBSchema(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, soPath);
 }
 
-void wxGxRemoteConnection::OnTimer(wxTimerEvent & event)
+bool wxGxRemoteConnection::CreateAndRunThread(void)
 {
-    if (!IsConnected())
+    if (GetThread() && GetThread()->IsRunning())
+        return true;
+
+    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
     {
-        return;
+        wxLogError(_("Could not create the thread!"));
+        return false;
     }
 
+    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(_("Could not run the thread!"));
+        return false;
+    }
+    return true;
+}
+
+
+wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
+{
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if (NULL == pDSet)
     {
-        return;
+        wxThreadEvent event(wxEVT_THREAD, EXIT_EVENT);
+        wxQueueEvent(this, event.Clone());
+        return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
     }
-    //SELECT * FROM pg_catalog.pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname NOT LIKE 'information_schema' AND schemaname NOT LIKE 'layer'
 
-    //previous sql statement
-    //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT LIKE 'pg_%' AND table_schema NOT LIKE 'information_schema'
-    //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema')"), wxT("PG"))
-    wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
-
-    if (NULL != pInfoSchema)
+    while (!GetThread()->TestDestroy())
     {
-        wxArrayString saCurrentSchemas = FillSchemaNames(pInfoSchema);
-        wsDELETE(pInfoSchema);
+        //SELECT * FROM pg_catalog.pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname NOT LIKE 'information_schema' AND schemaname NOT LIKE 'layer'
 
-        //delete 
-        for (size_t i = 0; i < m_saSchemas.GetCount(); i++)
+        //previous sql statement
+        //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT LIKE 'pg_%' AND table_schema NOT LIKE 'information_schema'
+        //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema')"), wxT("PG"))
+        wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
+
+        if (NULL != pInfoSchema)
         {
-            if (saCurrentSchemas.Index(m_saSchemas[i]) == wxNOT_FOUND)
+            wxArrayString saCurrentSchemas = FillSchemaNames(pInfoSchema);
+            wsDELETE(pInfoSchema);
+
+            //delete 
+            for (size_t i = 0; i < m_saSchemas.GetCount(); i++)
             {
-                DeleteSchema(m_saSchemas[i]);
-                m_saSchemas.RemoveAt(i);
-                i--;
+                if (saCurrentSchemas.Index(m_saSchemas[i]) == wxNOT_FOUND)
+                {
+                    DeleteSchema(m_saSchemas[i]);
+                    m_saSchemas.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            //add new
+            for (size_t i = 0; i < saCurrentSchemas.GetCount(); i++)
+            {
+                if (m_saSchemas.Index(saCurrentSchemas[i]) == wxNOT_FOUND)
+                {
+                    CPLString szPath(CPLFormFilename(GetPath(), saCurrentSchemas[i].mb_str(wxConvUTF8), ""));
+                    wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], szPath, pDSet);
+                    m_saSchemas.Add(saCurrentSchemas[i]);
+                    //refresh
+                    wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+                }
             }
         }
 
-        //add new
-        for (size_t i = 0; i < saCurrentSchemas.GetCount(); i++)
-        {
-            if (m_saSchemas.Index(saCurrentSchemas[i]) == wxNOT_FOUND)
-            {
-                CPLString szPath(CPLFormFilename(GetPath(), saCurrentSchemas[i].mb_str(wxConvUTF8), ""));
-                wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], szPath, pDSet);
-                m_saSchemas.Add(saCurrentSchemas[i]);
-                //refresh
-                wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
-            }
-        }
+
+        wxThread::Sleep(950);
     }
 
     wsDELETE(pDSet);
 
-    m_timer.Start(950, true);
+    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+}
+
+wxThread::ExitCode wxGxRemoteConnection::Entry()
+{
+    if (!IsConnected())
+    {
+        wxThreadEvent event(wxEVT_THREAD, EXIT_EVENT);
+        wxQueueEvent(this, event.Clone());
+        return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
+    }
+
+    return CheckChanges();
+}
+
+void wxGxRemoteConnection::OnThreadFinished(wxThreadEvent& event)
+{
 
 }
 
@@ -361,7 +410,6 @@ void wxGxRemoteConnection::DeleteSchema(const wxString& sSchemaName)
             break;
         }
     }
-
 }
 
 wxArrayString wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchema)
@@ -451,10 +499,10 @@ wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, 
 IMPLEMENT_CLASS(wxGxRemoteDBSchema, wxGxObjectContainer)
 
 BEGIN_EVENT_TABLE(wxGxRemoteDBSchema, wxGxObjectContainer)
-    EVT_TIMER(TIMER_ID, wxGxRemoteDBSchema::OnTimer)
+    EVT_THREAD(wxID_ANY, wxGxRemoteDBSchema::OnThreadFinished)
 END_EVENT_TABLE()
 
-wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper()
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_bChildrenLoaded = false;
@@ -471,6 +519,9 @@ wxGxRemoteDBSchema::~wxGxRemoteDBSchema(void)
 bool wxGxRemoteDBSchema::HasChildren(void)
 {
     LoadChildren();
+
+    CreateAndRunThread();
+
     return wxGxObjectContainer::HasChildren(); 
 }
 
@@ -480,6 +531,23 @@ void wxGxRemoteDBSchema::Refresh(void)
     m_bChildrenLoaded = false;
     LoadChildren();
     wxGxObject::Refresh();
+}
+
+bool wxGxRemoteDBSchema::CanCreate(long nDataType, long DataSubtype)
+{
+    if (nDataType == enumGISFeatureDataset)
+    {
+        return DataSubtype == emumVecPostGIS;
+    }
+    if (nDataType == enumGISTableDataset)
+    {
+        return DataSubtype == enumTablePostgres;
+    }
+    if (nDataType == enumGISRasterDataset)
+    {
+        return false;
+    }
+    return false;
 }
 
 bool wxGxRemoteDBSchema::CanDelete(void)
@@ -500,6 +568,26 @@ bool wxGxRemoteDBSchema::Delete(void)
 bool wxGxRemoteDBSchema::Rename(const wxString &sNewName)
 {
     return m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName);
+}
+
+bool wxGxRemoteDBSchema::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{ 
+    return false; 
+}
+
+bool wxGxRemoteDBSchema::CanCopy(const CPLString &szDestPath)
+{ 
+    return true; 
+}
+
+bool wxGxRemoteDBSchema::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{ 
+    return false; 
+}
+
+bool wxGxRemoteDBSchema::CanMove(const CPLString &szDestPath)
+{ 
+    return true; 
 }
 
 wxArrayString wxGxRemoteDBSchema::FillTableNames()
@@ -555,6 +643,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     wxCHECK_RET(m_pwxGISRemoteConn, wxT("wxGISRemoteConnection pointer is NULL"));
 
     m_saTables = FillTableNames();
+    wxArrayString saLoaded;
 
     //get geometry and geography
     if(m_bHasGeom)
@@ -570,10 +659,11 @@ void wxGxRemoteDBSchema::LoadChildren(void)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
-                if(nIndex != wxNOT_FOUND)
+                int nIndex2 = saLoaded.Index(sTable);
+                if(nIndex != wxNOT_FOUND && nIndex2 == wxNOT_FOUND)
                 {
                     AddTable(sTable, enumGISFeatureDataset);
-                    m_saTables.RemoveAt(nIndex);
+                    saLoaded.Add(sTable);
                 }
             }
             wsDELETE( pTableList );
@@ -581,7 +671,6 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     }
 
     m_bChildrenLoaded = true;
-    m_timer.Start(950, true);
 
     if (m_saTables.IsEmpty())
         return;
@@ -599,10 +688,11 @@ void wxGxRemoteDBSchema::LoadChildren(void)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
-                if(nIndex != wxNOT_FOUND)
+                int nIndex2 = saLoaded.Index(sTable);
+                if (nIndex != wxNOT_FOUND && nIndex2 == wxNOT_FOUND)
                 {
                     AddTable(sTable, enumGISFeatureDataset);
-                    m_saTables.RemoveAt(nIndex);
+                    saLoaded.Add(sTable);
                 }
             }
             wsDELETE( pTableList );
@@ -625,10 +715,11 @@ void wxGxRemoteDBSchema::LoadChildren(void)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
-                if(nIndex != wxNOT_FOUND)
+                int nIndex2 = saLoaded.Index(sTable);
+                if (nIndex != wxNOT_FOUND && nIndex2 == wxNOT_FOUND)
                 {
                     AddTable(sTable, enumGISRasterDataset);
-                    m_saTables.RemoveAt(nIndex);
+                    saLoaded.Add(sTable);
                 }
             }
             wsDELETE( pTableList );
@@ -638,15 +729,18 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     
     for (size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
-        AddTable(m_saTables[i], enumGISTableDataset);
+        int nIndex2 = saLoaded.Index(m_saTables[i]);
+        if (nIndex2 == wxNOT_FOUND)
+        {
+            AddTable(m_saTables[i], enumGISTableDataset);
+        }
     }
 }
 
-void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
+void wxGxRemoteDBSchema::CheckChanges()
 {
-
     wxArrayString saCurrentTables = FillTableNames();
-    
+
     //delete 
     for (size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
@@ -672,14 +766,18 @@ void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
+                int nCurrentIndex = saCurrentTables.Index(sTable);
                 if (nIndex != wxNOT_FOUND)
+                {
+                    if (nCurrentIndex != wxNOT_FOUND)
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                     continue;
-                nIndex = saCurrentTables.Index(sTable);
-                if (nIndex != wxNOT_FOUND)
+                }
+                if (nCurrentIndex != wxNOT_FOUND)
                 {
                     wxGxObject* pObj = AddTable(sTable, enumGISFeatureDataset);
                     {
-                        saCurrentTables.RemoveAt(nIndex);
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                         m_saTables.Add(sTable);
                         //refresh
                         wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
@@ -689,8 +787,6 @@ void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
             wsDELETE(pTableList);
         }
     }
-
-    m_timer.Start(950, true);
 
     if (saCurrentTables.IsEmpty())
         return;
@@ -708,14 +804,18 @@ void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
+                int nCurrentIndex = saCurrentTables.Index(sTable);
                 if (nIndex != wxNOT_FOUND)
+                {
+                    if (nCurrentIndex != wxNOT_FOUND)
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                     continue;
-                nIndex = saCurrentTables.Index(sTable);
-                if (nIndex != wxNOT_FOUND)
+                }
+                if (nCurrentIndex != wxNOT_FOUND)
                 {
                     wxGxObject* pObj = AddTable(sTable, enumGISFeatureDataset);
                     {
-                        saCurrentTables.RemoveAt(nIndex);
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                         m_saTables.Add(sTable);
                         //refresh
                         wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
@@ -742,14 +842,18 @@ void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
             {
                 wxString sTable = Feature.GetFieldAsString(0);
                 int nIndex = m_saTables.Index(sTable);
+                int nCurrentIndex = saCurrentTables.Index(sTable);
                 if (nIndex != wxNOT_FOUND)
+                {
+                    if (nCurrentIndex != wxNOT_FOUND)
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                     continue;
-                nIndex = saCurrentTables.Index(sTable);
-                if (nIndex != wxNOT_FOUND)
+                }
+                if (nCurrentIndex != wxNOT_FOUND)
                 {
                     wxGxObject* pObj = AddTable(sTable, enumGISRasterDataset);
                     {
-                        saCurrentTables.RemoveAt(nIndex);
+                        saCurrentTables.RemoveAt(nCurrentIndex);
                         m_saTables.Add(sTable);
                         //refresh
                         wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
@@ -775,6 +879,47 @@ void wxGxRemoteDBSchema::OnTimer(wxTimerEvent & event)
             }
         }
     }
+}
+
+bool wxGxRemoteDBSchema::CreateAndRunThread(void)
+{
+    if (!GetThread())
+    {
+        if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+        {
+            wxLogError(_("Could not create the thread!"));
+            return false;
+        }
+    }
+
+    if (GetThread()->IsRunning())
+        return true;
+
+    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(_("Could not run the thread!"));
+        return false;
+    }
+
+    return true;
+}
+
+void wxGxRemoteDBSchema::OnThreadFinished(wxThreadEvent& event)
+{
+
+}
+
+
+wxThread::ExitCode wxGxRemoteDBSchema::Entry()
+{
+    while (!GetThread()->TestDestroy())
+    {
+        CheckChanges();
+
+        wxThread::Sleep(950);
+    }
+
+    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
 }
 
 void wxGxRemoteDBSchema::DeleteTable(const wxString& sSchemaName)

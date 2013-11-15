@@ -64,17 +64,12 @@ class wxGISSpatialReferenceRefData : public wxObjectRefData
 public:
     wxGISSpatialReferenceRefData(OGRSpatialReference *poSRS = NULL)
     {
-        m_poSRS = poSRS;
-        if( m_poSRS )
-            m_poSRS->Reference();
+        wsSET(m_poSRS, poSRS);
     }
 
     virtual ~wxGISSpatialReferenceRefData(void)
     {        
-        if(m_poSRS)
-        {
-            m_poSRS->Release();
-        }
+        wsDELETE(m_poSRS);
     }
 
     wxGISSpatialReferenceRefData( const wxGISSpatialReferenceRefData& data )

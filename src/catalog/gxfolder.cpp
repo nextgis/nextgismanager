@@ -91,6 +91,11 @@ void wxGxFolder::LoadChildren(void)
 	m_bIsChildrenLoaded = true;
 }
 
+bool wxGxFolder::CanDelete(void)
+{ 
+    return true; 
+}
+
 bool wxGxFolder::Delete(void)
 {
  	if(DeleteDir(m_sPath))
@@ -104,6 +109,11 @@ bool wxGxFolder::Delete(void)
         return false;
     }
 	return false;
+}
+
+bool wxGxFolder::CanRename(void)
+{ 
+    return true;
 }
 
 bool wxGxFolder::Rename(const wxString &sNewName)
@@ -138,10 +148,15 @@ bool wxGxFolder::HasChildren(void)
     return wxGxObjectContainer::HasChildren();
 }
 
+bool wxGxFolder::CanCopy(const CPLString &szDestPath)
+{ 
+    return true; 
+}
+
 bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
 
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
@@ -150,7 +165,7 @@ bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCan
     if(!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
 		wxLogError(sErr);
         if(pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -158,6 +173,11 @@ bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCan
     } 
 
     return true;
+}
+
+bool wxGxFolder::CanMove(const CPLString &szDestPath)
+{ 
+    return CanCopy(szDestPath) & CanDelete(); 
 }
 
 bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -180,4 +200,9 @@ bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCan
     } 
 
     return true;
+}
+
+bool wxGxFolder::AreChildrenViewable(void) const 
+{ 
+    return true; 
 }

@@ -38,12 +38,9 @@ class wxGxRemoteDBSchema;
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
 	public wxGxObjectContainer,
     public IGxObjectEdit,
-    public IGxRemoteConnection
+    public IGxRemoteConnection,
+    public wxThreadHelper
 {
-    enum
-    {
-        TIMER_ID = 1017
-    };
     DECLARE_CLASS(wxGxRemoteConnection)
 public:
 	wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
@@ -72,6 +69,12 @@ public:
     bool CreateSchema(const wxString& sSchemaName);
     wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0);
 protected:
+    enum
+    {
+        EXIT_EVENT = wxID_HIGHEST + 1,
+        LOADED_EVENT
+    };
+protected:
 	//wxGxRemoteConnection
 	virtual void LoadChildren(void);
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
@@ -79,15 +82,17 @@ protected:
     virtual wxGISDataset* const GetDatasetFast(void);
     wxArrayString FillSchemaNames(wxGISTableCached* pInfoSchema);
     void DeleteSchema(const wxString& sSchemaName);
-protected:
+    virtual wxThread::ExitCode Entry();
+    virtual bool CreateAndRunThread(void);
+    virtual wxThread::ExitCode CheckChanges();
     //events
-    virtual void OnTimer(wxTimerEvent & event);
+    virtual void OnThreadFinished(wxThreadEvent& event);
 protected:
     wxGISDataset* m_pwxGISDataset;
     bool m_bIsConnected;
     wxArrayString m_saSchemas;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
-    wxTimer m_timer;
+    bool m_bChildrenLoaded;
 private:
     DECLARE_EVENT_TABLE()
 };
@@ -98,13 +103,10 @@ private:
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :	
 	public wxGxObjectContainer,
-    public IGxObjectEdit
+    public IGxObjectEdit,
+    public wxThreadHelper
 {
     DECLARE_CLASS(wxGxRemoteDBSchema)
-    enum
-    {
-        TIMER_ID = 1018
-    };
 public:
 	wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteDBSchema(void);
@@ -114,33 +116,40 @@ public:
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const {return true;};
 	virtual bool HasChildren(void);
+    virtual bool CanCreate(long nDataType, long DataSubtype);
     //IGxObjectEdit
 	virtual bool Delete(void);
 	virtual bool CanDelete(void);
 	virtual bool Rename(const wxString& NewName);
     virtual bool CanRename(void);
-	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel){return false;};
-    //TODO: check posibility to release copy and move db schema
-	virtual bool CanCopy(const CPLString &szDestPath){return false;};//The table schema cannot be copied 
-	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel){return false;};
-	virtual bool CanMove(const CPLString &szDestPath){return false;};//The table schema cannot be moved
-
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
+protected:
+    enum
+    {
+        EXIT_EVENT = wxID_HIGHEST + 1,
+        LOADED_EVENT
+    };
 protected:
     //wxGxRemoteDBSchema
     virtual void LoadChildren(void);
     virtual wxArrayString FillTableNames(void);
     virtual wxGxObject* AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType);
     virtual void DeleteTable(const wxString& sSchemaName);
-protected:
+
+    virtual bool CreateAndRunThread(void);
+    virtual void CheckChanges();
+    virtual wxThread::ExitCode Entry();
     //events
-    virtual void OnTimer(wxTimerEvent & event);
+    virtual void OnThreadFinished(wxThreadEvent& event);
 protected:
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
     bool m_bChildrenLoaded;
     wxCriticalSection m_CritSect;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
     wxArrayString m_saTables;
-    wxTimer m_timer;
 private:
     DECLARE_EVENT_TABLE()
 };

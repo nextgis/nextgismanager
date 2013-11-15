@@ -23,6 +23,12 @@
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/catop.h"
 
+#include "wxgisdefs.h"
+
+#ifdef wxGIS_USE_POSTGRES
+#include "wxgis/datasource/postgisdataset.h"
+#endif // wxGIS_USE_POSTGRES
+
 #include <wx/fontmap.h>
 #include <wx/encconv.h>
 
@@ -1328,7 +1334,7 @@ bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFea
 wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, ITrackCancel* const pTrackCancel)
 {
 
-    bool bIsFilerValid = pFilter && (pFilter->IsKindOf(wxCLASSINFO(wxGxFeatureDatasetFilter)) || pFilter->IsKindOf(wxCLASSINFO(wxGxTableDatasetFilter)));
+    bool bIsFilerValid = pFilter && (pFilter->GetType() == enumGISFeatureDataset || pFilter->GetType() == enumGISTableDataset);
     if(!bIsFilerValid)
     {
         CPLError( CE_Failure, CPLE_FileIO, "Input data is invalid: unsuported filter" );
@@ -1359,7 +1365,38 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         szFullPath  = CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), pFilter->GetExt().mb_str(wxConvUTF8));
     }
 
-    OGRDataSource *poDS = poDriver->CreateDataSource(szFullPath, papszDataSourceOptions);
+    OGRDataSource *poDS = NULL;
+    if ((pFilter->GetType() == enumGISFeatureDataset && pFilter->GetSubType() == emumVecPostGIS) || (pFilter->GetType() == enumGISTableDataset && pFilter->GetSubType() == enumTablePostgres))
+    {
+#ifdef wxGIS_USE_POSTGRES
+
+        CPLString sDSPath = CPLGetPath(sPath);
+
+        wxGISPostgresDataSource* pDataSource = new wxGISPostgresDataSource(sDSPath);
+        if (!pDataSource->Open(TRUE))
+        {
+            wxString sErr = wxString::Format(_("Datasource open failed! OGR error: "), pFilter->GetDriver().c_str());
+            CPLString sFullErr(sErr.mb_str());
+            sFullErr += CPLGetLastErrorMsg();
+            CPLError(CE_Failure, CPLE_FileIO, sFullErr);
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(wxString(sFullErr, wxConvLocal), wxNOT_FOUND, enumGISMessageErr);
+            }
+            return NULL;
+        }
+        //get dataset from path
+        poDS = pDataSource->GetDataSourceRef();
+        poDS->Reference();
+
+        wxDELETE(pDataSource);
+#endif // wxGIS_USE_POSTGRES
+    }
+    else
+    {
+        poDS = poDriver->CreateDataSource(szFullPath, papszDataSourceOptions);
+    }
+
     if(poDS == NULL)
     {
         wxString sErr = wxString::Format(_("Error create the output file '%s'! OGR error: "), wxString(sPath, wxConvUTF8).c_str());
@@ -1393,16 +1430,20 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     {
         if(pFilter->GetSubType() == enumVecKMZ)
 		    szName = Transliterate(CPLString(sNewName.mb_str()).c_str());
-	    else if(pFilter->GetSubType() == enumVecKML)
-		    szName = CPLString(sNewName.mb_str(wxConvUTF8));//wxCSConv(wxT("cp-866"))));
+        else if (pFilter->GetSubType() == enumVecKML)
+            szName = CPLString(sNewName.mb_str(wxConvUTF8));//wxCSConv(wxT("cp-866"))));
+        else if (pFilter->GetSubType() == emumVecPostGIS)
+            szName = CPLGetFilename(sPath) + CPLString(".") + CPLString(sNewName.mb_str(wxConvUTF8));
         else
-            szName = CPLString(sNewName.mb_str());
+            szName = CPLString(sNewName.mb_str(wxConvUTF8));
     }
     else
     {
-        szName = CPLString(sNewName.mb_str());
+        if (pFilter->GetSubType() == enumTablePostgres)
+            szName = CPLGetFilename(sPath) + CPLString(".") + CPLString(sNewName.mb_str(wxConvUTF8));
+        else
+            szName = CPLString(sNewName.mb_str(wxConvUTF8));
     }
-
 
     //set systyme encoding for layer if no default set
     wxFontEncoding oEncoding;

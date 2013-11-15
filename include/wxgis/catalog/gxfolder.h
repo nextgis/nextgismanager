@@ -42,15 +42,15 @@ public:
 	virtual void Refresh(void);
 	//IGxObjectEdit
 	virtual bool Delete(void);
-	virtual bool CanDelete(void){return true;};
+	virtual bool CanDelete(void);
 	virtual bool Rename(const wxString &sNewName);
-	virtual bool CanRename(void){return true;};
+	virtual bool CanRename(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanCopy(const CPLString &szDestPath){return true;};
+	virtual bool CanCopy(const CPLString &szDestPath);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanMove(const CPLString &szDestPath){return CanCopy(szDestPath) & CanDelete();};
+	virtual bool CanMove(const CPLString &szDestPath);
 	//wxGxObjectContainer
-	virtual bool AreChildrenViewable(void) const {return true;};
+	virtual bool AreChildrenViewable(void) const;
 	virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);
 protected:

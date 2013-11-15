@@ -348,6 +348,11 @@ void wxGISGeoprocessingCmd::ExportSingleVectorDataset(IGxDataset* const pGxDatas
         }
     }
 
+    if (eSubType != emumVecPostGIS)
+    {
+        dlg.AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS), false);
+    }
+
 	dlg.SetButtonCaption(_("Export"));
 	dlg.SetOverwritePrompt(true);
 

@@ -573,7 +573,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                             wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
                             if(i == pSel->GetCount() - 1)
                             {
-                                wxMessageBox(wxString::Format(_("Delete '%s'failed"), sGxObjectName.c_str()), _("Error"), wxOK | wxICON_ERROR, pWnd);
+                                wxMessageBox(wxString::Format(_("Delete '%s' failed"), sGxObjectName.c_str()), _("Error"), wxOK | wxICON_ERROR, pWnd);
                                 return;
                             }
 

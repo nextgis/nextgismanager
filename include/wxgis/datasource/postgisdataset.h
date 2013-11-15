@@ -63,6 +63,8 @@ public:
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     virtual char **GetFileList(); 
+    //
+    virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
 protected:    
     inline void OGRPGClearResult( PGresult*& hResult )
     {
@@ -76,6 +78,7 @@ protected:
 	wxGISDataset* GetDatasetFromOGRLayer(int iLayer, const CPLString &sPath, OGRLayer* poLayer);
 protected:
 	OGRDataSource *m_poDS;
+	OGRDataSource *m_poDS4SQL;
     wxString m_sName, m_sPass, m_sPort, m_sAddres, m_sDBName;
 	bool m_bIsBinaryCursor, m_bPathPresent;
     wxFontEncoding m_Encoding;

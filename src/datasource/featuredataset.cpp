@@ -54,7 +54,6 @@ wxGISDataset* wxGISFeatureDataset::GetSubset(size_t nIndex)
 	    OGRLayer* poLayer = m_poDS->GetLayer(nIndex);
         if(poLayer)
         {
-            m_poDS->Reference();
             CPLString szPath(CPLFormFilename(m_sPath, poLayer->GetName(), ""));
 			wxGISFeatureDataset* pDataSet = new wxGISFeatureDataset(szPath, m_nSubType, poLayer, m_poDS);
             return wxStaticCast(pDataSet, wxGISDataset);
@@ -72,7 +71,6 @@ wxGISDataset* wxGISFeatureDataset::GetSubset(const wxString & sSubsetName)
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {
-            m_poDS->Reference();
             CPLString szPath(CPLFormFilename(m_sPath, szSubsetName, ""));
 			wxGISFeatureDataset* pDataSet = new wxGISFeatureDataset(szPath, m_nSubType, poLayer, m_poDS);
             return static_cast<wxGISDataset*>(pDataSet);
@@ -189,6 +187,8 @@ const wxGISSpatialReference wxGISFeatureDataset::GetSpatialReference(void)
 
 	if(m_SpatialReference.IsOk())
 		return m_SpatialReference;
+
+    wxCriticalSectionLocker locker(m_CritSect);
 
 	OGRSpatialReference* pSpaRef = m_poLayer->GetSpatialRef();
 	if(!pSpaRef)
@@ -474,7 +474,6 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(size_t nIndex)
 	    OGRLayer* poLayer = m_poDS->GetLayer(nIndex);
         if(poLayer)
         {
-            m_poDS->Reference();
             CPLString szPath(CPLFormFilename(m_sPath, poLayer->GetName(), ""));
             wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
             //pDataSet->SetInternalValues();//SetEncoding(m_Encoding);

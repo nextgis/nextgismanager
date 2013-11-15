@@ -33,7 +33,7 @@ IMPLEMENT_CLASS(wxGISTable, wxGISDataset)
 
 wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISDataset(sPath)
 {
-	m_poDS = poDS;
+	wsSET(m_poDS, poDS);
 	m_poLayer = poLayer;
     m_nType = enumGISTableDataset;
     m_nSubType = nSubType;
@@ -146,7 +146,6 @@ wxGISDataset* wxGISTable::GetSubset(size_t nIndex)
 	    OGRLayer* poLayer = m_poDS->GetLayer(nIndex);
         if(poLayer)
         {
-            m_poDS->Reference();
 			CPLString szPath;
 			szPath.Printf("%s#%d", m_sPath.c_str(), nIndex);
 			wxGISTable* pDataSet = new wxGISTable(szPath, m_nSubType, poLayer, m_poDS);
@@ -165,7 +164,6 @@ wxGISDataset* wxGISTable::GetSubset(const wxString & sSubsetName)
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {
-            m_poDS->Reference();
 			CPLString szPath;
 			szPath.Printf("%s#%s", m_sPath.c_str(), szSubsetName.c_str());
 			wxGISTable* pDataSet = new wxGISTable(szPath, m_nSubType, poLayer, m_poDS);

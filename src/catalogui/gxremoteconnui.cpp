@@ -54,11 +54,7 @@
 
 IMPLEMENT_CLASS(wxGxRemoteConnectionUI, wxGxRemoteConnection)
 
-BEGIN_EVENT_TABLE(wxGxRemoteConnectionUI, wxGxRemoteConnection)
-    EVT_THREAD(EXIT_EVENT, wxGxRemoteConnectionUI::OnThreadFinished)
-END_EVENT_TABLE()
-
-wxGxRemoteConnectionUI::wxGxRemoteConnectionUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnection(oParent, soName, soPath), wxThreadHelper(), wxGxAutoRenamer()
+wxGxRemoteConnectionUI::wxGxRemoteConnectionUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnection(oParent, soName, soPath), wxGxAutoRenamer()
 {
     m_oLargeIconConn = LargeIconConn;
     m_oSmallIconConn = SmallIconConn;
@@ -123,32 +119,11 @@ bool wxGxRemoteConnectionUI::Connect(void)
         //pCat->ObjectRefreshed(GetId());
     }
     //start thread to load schemes
-    if(!CreateAndRunCheckThread())
+    if (!CreateAndRunThread())
         return false;
     return bRes;
 }
 
-bool wxGxRemoteConnectionUI::CreateAndRunCheckThread(void)
-{
-    if(!GetThread())
-    {
-        if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
-        {
-            wxLogError(_("Could not create the thread!"));
-            return false;
-        }
-    }
-
-    if(GetThread()->IsRunning())
-        return true;
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
-}
 
 //thread to load remote DB tables
 //before exit we assume that no tables exist
@@ -166,27 +141,31 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
     }
     wsDELETE(pDSet);
 
-    LoadChildren();
+    if (!m_bChildrenLoaded)
+    {
+        LoadChildren(); // first load children
+        wxThreadEvent event(wxEVT_THREAD, LOADED_EVENT);
+        wxQueueEvent( this, event.Clone() );
+    }
 
-    wxThreadEvent event( wxEVT_THREAD, EXIT_EVENT );
-    wxQueueEvent( this, event.Clone() );
+    wxThread::Sleep(5000);
 
-    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+    return CheckChanges();
 }
 
 void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
 {
-    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-    if(pCat)
+    if (event.GetId() == LOADED_EVENT) //call after the LoadChildren exited
     {
-        pCat->RemovePending(m_PendingId);
-        m_PendingId = wxNOT_FOUND;
-        pCat->ObjectRefreshed(GetId());
-        pCat->ObjectChanged(GetId());
-    }
-
-    m_timer.Start(950, false);
-
+        wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+        if (pCat && m_PendingId != wxNOT_FOUND)
+        {
+            pCat->RemovePending(m_PendingId);
+            m_PendingId = wxNOT_FOUND;
+            pCat->ObjectRefreshed(GetId());
+            pCat->ObjectChanged(GetId());
+        }
+    }//else do nothing
 }
 
 wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
@@ -221,6 +200,8 @@ wxGxRemoteDBSchemaUI::wxGxRemoteDBSchemaUI(bool bHasGeom, bool bHasGeog, bool bH
     m_oSmallIconFeatureClass = SmallIconFeatureClass;
     m_oLargeIconTable = LargeIconTable;
     m_oSmallIconTable = SmallIconTable;
+
+    m_PendingId = wxNOT_FOUND;
 }
 
 wxGxRemoteDBSchemaUI::~wxGxRemoteDBSchemaUI(void)
@@ -247,20 +228,8 @@ bool wxGxRemoteDBSchemaUI::HasChildren(void)
     if(m_bChildrenLoaded)
         return wxGxObjectContainer::HasChildren(); 
 
-    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-    long  nPendingId = wxNOT_FOUND;
-    if(pCat)
-    {
-        nPendingId = pCat->AddPending(GetId());
-    }
+    CreateAndRunThread();
 
-    LoadChildren();
-
-    if(pCat)
-    {
-        pCat->RemovePending(nPendingId);
-    }
-    
     return wxGxObjectContainer::HasChildren(); 
 }
 
@@ -279,6 +248,146 @@ wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxG
     default:
         return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconTable, m_oSmallIconTable);
     };
+}
+
+wxDragResult wxGxRemoteDBSchemaUI::CanDrop(wxDragResult def)
+{
+    return def;
+}
+
+bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
+{
+
+//    wxVector<IGxDataset*> paDatasets;
+//    for (size_t i = 0; i < pSel->GetCount(); ++i)
+//    {
+//        wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+//        if (NULL != pGxObject)
+//        {
+//            if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+//            {
+//                wxBusyCursor wait;
+//                wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+//                if (!pCont->HasChildren())
+//                    continue;
+//                const wxGxObjectList lObj = pCont->GetChildren();
+//                for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+//                {
+//                    IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
+//                    if (NULL != pGxDSet)
+//                    {
+//                        paDatasets.push_back(pGxDSet);
+//                    }
+//                }
+//            }
+//            else if (NULL != pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+//            {
+//                paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+//            }
+//        }
+//    }
+//
+//    //2. GxObject progress
+//    if (paDatasets[0]->GetType() == enumGISRasterDataset)
+//    {
+//        if (paDatasets.size() == 1)
+//        {
+//            ExportSingleRasterDataset(paDatasets[0]);
+//        }
+//        else if (paDatasets.size() > 1)
+//        {
+//            ExportMultipleRasterDatasets(paDatasets);
+//        }
+//    }
+//    else if (paDatasets[0]->GetType() == enumGISFeatureDataset)
+//    {
+//        if (paDatasets.size() == 1)
+//        {
+//            ExportSingleVectorDataset(paDatasets[0]);
+//        }
+//        else if (paDatasets.size() > 1)
+//        {
+//            ExportMultipleVectorDatasets(paDatasets);
+//        }
+//    }
+//    else if (paDatasets[0]->GetType() == enumGISTableDataset)
+//    {
+//        if (paDatasets.size() == 1)
+//        {
+//            ExportSingleTableDataset(paDatasets[0]);
+//        }
+//        else if (paDatasets.size() > 1)
+//        {
+//            ExportMultipleTableDatasets(paDatasets);
+//        }
+//    }
+//}
+return false;
+}
+
+bool wxGxRemoteDBSchemaUI::CreateAndRunThread(void)
+{
+    if (!GetThread())
+    {
+        if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+        {
+            wxLogError(_("Could not create the thread!"));
+            return false;
+        }
+    }
+
+    if (GetThread()->IsRunning())
+        return true;
+
+    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+    if (pCat)
+    {
+        m_PendingId = pCat->AddPending(GetId());
+    }
+
+    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(_("Could not run the thread!"));
+        return false;
+    }
+
+    return true;
+}
+
+wxThread::ExitCode wxGxRemoteDBSchemaUI::Entry()
+{
+    if (!m_bChildrenLoaded)
+    {
+        LoadChildren();
+        wxThreadEvent event(wxEVT_THREAD, LOADED_EVENT);
+        wxQueueEvent(this, event.Clone());
+    }
+
+    wxThread::Sleep(5000);
+
+    while (!GetThread()->TestDestroy())
+    {
+        CheckChanges();
+
+        wxThread::Sleep(950);
+    }
+
+    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+}
+
+void wxGxRemoteDBSchemaUI::OnThreadFinished(wxThreadEvent& event)
+{
+    if (event.GetId() == LOADED_EVENT)
+    {
+        wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+        if (pCat)
+        {
+            pCat->RemovePending(m_PendingId);
+            m_PendingId = wxNOT_FOUND;
+            pCat->ObjectRefreshed(GetId());
+            pCat->ObjectChanged(GetId());
+        }
+    }
 }
 
 #endif //wxGIS_USE_POSTGRES
