@@ -129,6 +129,20 @@ wxGISDataset* wxGISPostgresDataSource::GetSubset(const wxString &sTableName)
                 return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
             }
         }
+
+        //try to OpenTable
+        OGRLayer* poLayer = m_poDS->GetLayerByName(sCmpName);
+        if (NULL != poLayer)
+        {
+            for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+            {
+                OGRLayer* poLayer = m_poDS->GetLayer(i);
+                if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
+                {
+                    return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
+                }
+            }
+        }
     }
     return NULL;
 }
