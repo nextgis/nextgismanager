@@ -240,15 +240,17 @@ wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxG
     if (sTableName.IsEmpty())
         return NULL;
 
+    CPLString szPath(CPLFormFilename(GetPath(), sTableName.mb_str(wxConvUTF8), ""));
+
     switch (eType)
     {
     case enumGISFeatureDataset:
-        return new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
+        return new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
     case enumGISRasterDataset:
         return NULL;
     case enumGISTableDataset:
     default:
-        return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, "", m_oLargeIconTable, m_oSmallIconTable);
+        return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
     };
 }
 

@@ -174,7 +174,7 @@ bool wxGxDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 bool wxGxDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-	if(pObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)))
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
 		return true;
 	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
 	if(!pGxDataset)
@@ -234,8 +234,8 @@ bool wxGxFeatureDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 bool wxGxFeatureDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-	if(pObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)))
-		return true;
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
 	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
 	if(!pGxDataset)
 		return false;
@@ -371,9 +371,6 @@ bool wxGxFolderFilter::CanChooseObject( wxGxObject* const pObject )
 bool wxGxFolderFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-	//IGxObjectContainer* pContainer = dynamic_cast<IGxObjectContainer*>(pObject);
-	//if(pContainer)
-	//	return true;
     if(pObject->GetCategory() == wxString(wxT("Root")))
         return true;
     if(!pObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
@@ -542,9 +539,8 @@ bool wxGxTextFilter::CanChooseObject( wxGxObject* const pObject )
 bool wxGxTextFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-	wxGxObjectContainer* pContainer = wxDynamicCast(pObject, wxGxObjectContainer);
-	if(pContainer)
-		return true;
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
 	wxGxTextFile* poGxTextFile = wxDynamicCast(pObject, wxGxTextFile);
 	if(!poGxTextFile)
 		return false;
@@ -597,9 +593,8 @@ bool wxGxTableDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 bool wxGxTableDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-	wxGxObjectContainer* pContainer = wxDynamicCast(pObject, wxGxObjectContainer);
-	if(pContainer)
-		return true;
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
 	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
 	if(!pGxDataset)
 		return false;

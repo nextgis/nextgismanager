@@ -33,7 +33,8 @@
 
 class WXDLLIMPEXP_GIS_CLT wxGxDiscConnections :
 	public wxGxJSONConnectionStorage,
-    public IGxRootObjectProperties
+    public IGxRootObjectProperties,
+    public IGxObjectNoFilter
 {
    DECLARE_DYNAMIC_CLASS(wxGxDiscConnections)
 public:

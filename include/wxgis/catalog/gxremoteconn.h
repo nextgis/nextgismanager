@@ -39,7 +39,8 @@ class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
 	public wxGxObjectContainer,
     public IGxObjectEdit,
     public IGxRemoteConnection,
-    public wxThreadHelper
+    public wxThreadHelper,
+    public IGxObjectNoFilter
 {
     DECLARE_CLASS(wxGxRemoteConnection)
 public:
@@ -104,7 +105,8 @@ private:
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :	
 	public wxGxObjectContainer,
     public IGxObjectEdit,
-    public wxThreadHelper
+    public wxThreadHelper,
+    public IGxObjectNoFilter
 {
     DECLARE_CLASS(wxGxRemoteDBSchema)
 public:

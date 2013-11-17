@@ -29,7 +29,8 @@
 
 class WXDLLIMPEXP_GIS_CLT wxGxFolder :
 	public wxGxObjectContainer,
-	public IGxObjectEdit
+	public IGxObjectEdit,
+    public IGxObjectNoFilter
 {
     DECLARE_CLASS(wxGxFolder)
 public:

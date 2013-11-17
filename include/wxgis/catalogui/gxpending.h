@@ -32,7 +32,8 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxPendingUI :
     public wxGxObject,
-    public IGxObjectUI
+    public IGxObjectUI,
+    public IGxObjectNoFilter
 {
     DECLARE_CLASS(wxGxPendingUI)
     enum
