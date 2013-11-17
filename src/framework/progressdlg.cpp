@@ -112,14 +112,33 @@ void wxGISProgressDlg::Reset(void)
 	wxProgressDialog::Resume();
 }
 
-void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType nType)
+void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
 {
-	m_sLastMessage = sMessage;
+    if (eType == enumGISMessageErr || eType == enumGISMessageWarning)
+    {
+        MESSAGE msg = { eType, sMessage };
+        m_saWarnings.push_back(msg);
+    }
+
+    if (sMessage.Len() > 255)
+        m_sLastMessage = sMessage.Left(255) + wxT("...");
+    else
+        m_sLastMessage = sMessage;
 	//m_bIsCanceled = !wxProgressDialog::Update(wxNOT_FOUND, m_sLastMessage);
 }
 
 void wxGISProgressDlg::SetAddPercentToMessage(bool bAdd)
 {
     m_bAddPercentToMessage = bAdd;
+}
+
+size_t wxGISProgressDlg::GetWarningCount() const
+{
+    return m_saWarnings.size();
+}
+
+const wxVector<MESSAGE>& wxGISProgressDlg::GetWarnings() const
+{
+    return m_saWarnings;
 }
 

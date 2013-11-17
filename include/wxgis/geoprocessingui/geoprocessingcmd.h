@@ -55,13 +55,6 @@ public:
 	virtual wxString GetTooltip(void);
 	virtual unsigned char GetCount(void);
 protected:
-	void ExportSingleVectorDataset(IGxDataset* const pGxDataset);
-	void ExportSingleRasterDataset(IGxDataset* const pGxDataset);
-	void ExportSingleTableDataset(IGxDataset* const pGxDataset);
-	void ExportMultipleVectorDatasets(wxVector<IGxDataset*> &paDatasets);
-	void ExportMultipleRasterDatasets(wxVector<IGxDataset*> &paDatasets);
-	void ExportMultipleTableDatasets(wxVector<IGxDataset*> &paDatasets);
-protected:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
 	wxWindow* m_pToolboxView;

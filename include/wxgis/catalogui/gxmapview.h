@@ -49,7 +49,7 @@ public:
     virtual ~wxGxTrackCancel(void)
     {
     }
-	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType nType)
+	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
     {
     	if(m_pStatusBar && !sMessage.IsEmpty())
         {

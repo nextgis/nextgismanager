@@ -518,11 +518,11 @@ void wxGISTask::NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val)
         {
             wxString sMsg = val[wxT("msg")].AsString();
             wxDateTime dtm = GetDateValue(val, wxT("date"), wxDateTime::Now());
-            wxGISEnumMessageType nType = (wxGISEnumMessageType)val[wxT("type")].AsLong();
+            wxGISEnumMessageType eType = (wxGISEnumMessageType)val[wxT("type")].AsLong();
             long nMsgId = val[wxT("msg_id")].AsLong();
             //if(nType != enumGISMessageUnk)
             //{
-                AddMessage(new wxGISTaskMessage(nMsgId, sMsg, nType, dtm));
+                AddMessage(new wxGISTaskMessage(nMsgId, sMsg, eType, dtm));
             //}
         }
         break;

@@ -146,6 +146,18 @@ if(wxGIS_BUILD_CATALOG)
    
 endif(wxGIS_BUILD_CATALOG)
 
+#CMAKE_DEPENDENT_OPTION(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" ON "wxGIS_BUILD_DESKTOP OR wxGIS_BUILD_CATALOG" ON)
+option(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" OFF)
+if(wxGIS_BUILD_GEOPROCESSING)
+    #geoprocessing
+    set(WXGISGEOPROCESSING_LIB_NAME "")
+    mark_as_advanced(WXGISGEOPROCESSING_LIB_NAME)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/geoprocessing/)
+    
+    set(wxGIS_HAVE_GEOPROCESSING ON)
+    mark_as_advanced(wxGIS_HAVE_GEOPROCESSING)
+endif(wxGIS_BUILD_GEOPROCESSING)
+
 option(wxGIS_BUILD_DESKTOP "Set ON to build desktop version" ON)
 if(wxGIS_BUILD_DESKTOP)
     #display
@@ -192,18 +204,6 @@ if(wxGIS_BUILD_DESKTOP)
 endif(wxGIS_BUILD_DESKTOP)
 
 INCLUDE(CMakeDependentOption)
-
-#CMAKE_DEPENDENT_OPTION(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" ON "wxGIS_BUILD_DESKTOP OR wxGIS_BUILD_CATALOG" ON)
-option(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" OFF)
-if(wxGIS_BUILD_GEOPROCESSING)
-    #geoprocessing
-    set(WXGISGEOPROCESSING_LIB_NAME "")
-    mark_as_advanced(WXGISGEOPROCESSING_LIB_NAME)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/geoprocessing/)
-    
-    set(wxGIS_HAVE_GEOPROCESSING ON)
-    mark_as_advanced(wxGIS_HAVE_GEOPROCESSING)
-endif(wxGIS_BUILD_GEOPROCESSING)
 
 #CMAKE_DEPENDENT_OPTION(wxGIS_BUILD_GEOPROCESSINGUI "Set ON to build geoprocessing UI" ON "wxGIS_BUILD_DESKTOP" ON)
 option(wxGIS_BUILD_GEOPROCESSINGUI "Set ON to build geoprocessing UI" OFF)

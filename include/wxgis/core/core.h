@@ -115,6 +115,12 @@ enum wxGISEnumMessageType
     enumGISMessageReceive
 };
 
+typedef struct _message
+{ 
+    wxGISEnumMessageType eType;
+    wxString sMessage;
+} MESSAGE;
+
 /** \class IProgressor core.h
     \brief A progressor interface class.
 
@@ -197,7 +203,7 @@ public:
 	virtual void Reset(void){m_bIsCanceled = false;};
 	virtual IProgressor* const GetProgressor(void){return m_pProgressor;};
 	virtual void SetProgressor(IProgressor* pProgressor){m_pProgressor = pProgressor; };
-	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType nType){};
+	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType){};
     virtual wxString GetLastMessage(void){return wxEmptyString;};
 protected:
 	bool m_bIsCanceled;

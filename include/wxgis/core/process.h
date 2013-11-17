@@ -65,7 +65,7 @@ protected:
     void DestroyReadThread(void);
     virtual long Execute(void) = 0;
     virtual void UpdatePercent(const wxString &sPercentData);
-    virtual void AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData) = 0;
+    virtual void AddInfo(wxGISEnumMessageType eType, const wxString &sInfoData) = 0;
 protected:
     IGISProcessParent* m_pParent;
     wxCriticalSection m_ExitLock;

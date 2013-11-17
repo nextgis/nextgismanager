@@ -170,9 +170,9 @@ EVP_CIPHER_CTX* CreateCTX(GByte* pabyKey, GByte* pabyIV, bool bDecrypt)
 
 	bool bResult;
 	if(bDecrypt)
-	    bResult = EVP_EncryptInit(pstCTX, cipher, pabyKey, pabyIV);
+	    bResult = EVP_EncryptInit(pstCTX, cipher, pabyKey, pabyIV) == TRUE;
     else
-	    bResult = EVP_DecryptInit(pstCTX, cipher, pabyKey, pabyIV);
+	    bResult = EVP_DecryptInit(pstCTX, cipher, pabyKey, pabyIV) == TRUE;
 	if(!bResult)
 		return NULL;
 	return pstCTX;
@@ -197,7 +197,7 @@ bool Crypt(const wxString &sText, wxString &sCryptText)
 	int outlen;
 	unsigned char outbuf[BUFSIZE];
 
-	bool bResult = EVP_EncryptUpdate(ctx, outbuf, &outlen, (const unsigned char*)pszText.data(), pszText.length() * sizeof(pszText[0]) + 1);
+	bool bResult = EVP_EncryptUpdate(ctx, outbuf, &outlen, (const unsigned char*)pszText.data(), pszText.length() * sizeof(pszText[0]) + 1) == TRUE;
 
 	if(!bResult)
 	{
@@ -208,7 +208,7 @@ bool Crypt(const wxString &sText, wxString &sCryptText)
 	}
 
 	int nLen = outlen;
-	bResult = EVP_EncryptFinal(ctx, &outbuf[outlen], &outlen);
+	bResult = EVP_EncryptFinal(ctx, &outbuf[outlen], &outlen) == TRUE;
 	nLen += outlen;
 
 	CPLString pszOutput(CPLBinaryToHex(nLen, outbuf));
@@ -243,7 +243,7 @@ bool Decrypt(const wxString &sText, wxString &sDecryptText)
 	int outlen;
 	unsigned char outbuf[BUFSIZE];
 
-	bool bResult = EVP_DecryptUpdate(ctx, outbuf, &outlen, pabyText, nTextBytes);
+	bool bResult = EVP_DecryptUpdate(ctx, outbuf, &outlen, pabyText, nTextBytes) == TRUE;
 	if(!bResult)
 	{
 		wxLogError(_("Decrypt: Failed EVP_DecryptUpdate!"));
@@ -254,7 +254,7 @@ bool Decrypt(const wxString &sText, wxString &sDecryptText)
 	}
 
 	int nLen = outlen;
-	bResult = EVP_DecryptFinal(ctx, &outbuf[outlen], &outlen);
+	bResult = EVP_DecryptFinal(ctx, &outbuf[outlen], &outlen) == TRUE;
 	nLen += outlen;
 	outbuf[nLen] = 0;
 

@@ -160,7 +160,7 @@ void wxGISProgressor::OnSetValue(wxCommandEvent &event)
         wxGauge::Pulse();
         break;
     case SHOW_ID:
-        wxGauge::Show(event.GetInt());
+        wxGauge::Show(event.GetInt() == TRUE);
         break;
     case RANGE_ID:
         wxGauge::SetRange(event.GetInt());

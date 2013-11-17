@@ -49,14 +49,17 @@ public:
 	virtual void Cancel(void);
 	virtual bool Continue(void);
 	virtual void Reset(void);
-	virtual void PutMessage(const wxString &sMessage, size_t nIndex = wxNOT_FOUND, wxGISEnumMessageType nType = enumGISMessageUnk);
+	virtual void PutMessage(const wxString &sMessage, size_t nIndex = wxNOT_FOUND, wxGISEnumMessageType eType = enumGISMessageUnk);
     virtual wxString GetLastMessage(void) const {return m_sLastMessage;};
     //
     virtual void SetAddPercentToMessage(bool bAdd = false);
+    virtual size_t GetWarningCount() const;
+    virtual const wxVector<MESSAGE>& GetWarnings() const;
 protected:
 	int m_nValue;
 	wxString m_sLastMessage;
     float m_dfStep;
     int m_nRange, m_nPrevValue;
     bool m_bAddPercentToMessage;
+    wxVector<MESSAGE> m_saWarnings;
 };

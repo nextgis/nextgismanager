@@ -20,8 +20,10 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/gxremoteconnui.h"
+#include "wxgisdefs.h"
 
 #include "wxgis/catalogui/gxcatalogui.h"
+#include "wxgis/catalogui/processing.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -257,72 +259,98 @@ wxDragResult wxGxRemoteDBSchemaUI::CanDrop(wxDragResult def)
 
 bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
 {
+#ifdef wxGIS_HAVE_GEOPROCESSING
 
-//    wxVector<IGxDataset*> paDatasets;
-//    for (size_t i = 0; i < pSel->GetCount(); ++i)
-//    {
-//        wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
-//        if (NULL != pGxObject)
-//        {
-//            if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
-//            {
-//                wxBusyCursor wait;
-//                wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-//                if (!pCont->HasChildren())
-//                    continue;
-//                const wxGxObjectList lObj = pCont->GetChildren();
-//                for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
-//                {
-//                    IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
-//                    if (NULL != pGxDSet)
-//                    {
-//                        paDatasets.push_back(pGxDSet);
-//                    }
-//                }
-//            }
-//            else if (NULL != pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
-//            {
-//                paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
-//            }
-//        }
-//    }
-//
-//    //2. GxObject progress
-//    if (paDatasets[0]->GetType() == enumGISRasterDataset)
-//    {
-//        if (paDatasets.size() == 1)
-//        {
-//            ExportSingleRasterDataset(paDatasets[0]);
-//        }
-//        else if (paDatasets.size() > 1)
-//        {
-//            ExportMultipleRasterDatasets(paDatasets);
-//        }
-//    }
-//    else if (paDatasets[0]->GetType() == enumGISFeatureDataset)
-//    {
-//        if (paDatasets.size() == 1)
-//        {
-//            ExportSingleVectorDataset(paDatasets[0]);
-//        }
-//        else if (paDatasets.size() > 1)
-//        {
-//            ExportMultipleVectorDatasets(paDatasets);
-//        }
-//    }
-//    else if (paDatasets[0]->GetType() == enumGISTableDataset)
-//    {
-//        if (paDatasets.size() == 1)
-//        {
-//            ExportSingleTableDataset(paDatasets[0]);
-//        }
-//        else if (paDatasets.size() > 1)
-//        {
-//            ExportMultipleTableDatasets(paDatasets);
-//        }
-//    }
-//}
-return false;
+    //1. fill the IGxDataset* array
+    wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }
+
+
+
+    wxVector<EXPORTED_DATASET> paDatasets;
+
+    for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+    {
+        wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
+        if (NULL != pGxObject)
+        {
+            if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+            {
+                wxBusyCursor wait;
+                wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+                if (!pCont->HasChildren())
+                    continue;
+                const wxGxObjectList lObj = pCont->GetChildren();
+                for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+                {
+                    wxGxObject *pGxObject = *it;
+                    IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(pGxObject);
+                    if (NULL != pGxDSet)
+                    {
+                        wxString sName = CheckUniqTableName(pGxObject->GetBaseName());
+                        EXPORTED_DATASET data = { pGxObject->GetBaseName(), pGxDSet };
+                        paDatasets.push_back(data);
+                    }
+                }
+            }
+            else if (NULL != pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+            {
+                IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(pGxObject);
+                if (NULL != pGxDSet)
+                {
+                    wxString sName = CheckUniqTableName(pGxObject->GetBaseName(), wxT("_"));
+                    EXPORTED_DATASET data = { sName, pGxDSet };
+                    paDatasets.push_back(data);
+                }
+            }
+        }
+    }
+
+    wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
+    //2. GxObject progress
+    if (paDatasets[0].pDSet->GetType() == enumGISRasterDataset)
+    {
+        wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
+        if (paDatasets.size() == 1)
+        {
+            ExportSingleRasterDataset(pWnd, GetPath(), paDatasets[0].sName, pFilter, paDatasets[0].pDSet);
+        }
+        else if (paDatasets.size() > 1)
+        {
+            ExportMultipleRasterDatasets(pWnd, GetPath(), pFilter, paDatasets);
+        }
+    }
+    else if (paDatasets[0].pDSet->GetType() == enumGISFeatureDataset)
+    {
+        wxGxObjectFilter* pFilter = new wxGxFeatureDatasetFilter(emumVecPostGIS);
+        if (paDatasets.size() == 1)
+        {
+            ExportSingleVectorDataset(pWnd, GetPath(), paDatasets[0].sName, pFilter, paDatasets[0].pDSet);
+        }
+        else if (paDatasets.size() > 1)
+        {
+            ExportMultipleVectorDatasets(pWnd, GetPath(), pFilter, paDatasets);
+        }
+    }
+    else if (paDatasets[0].pDSet->GetType() == enumGISTableDataset)
+    {
+        wxGxObjectFilter* pFilter = new wxGxTableDatasetFilter(enumTablePostgres);
+        if (paDatasets.size() == 1)
+        {
+            ExportSingleTableDataset(pWnd, GetPath(), paDatasets[0].sName, pFilter, paDatasets[0].pDSet);
+        }
+        else if (paDatasets.size() > 1)
+        {
+            ExportMultipleTableDatasets(pWnd, GetPath(), pFilter, paDatasets);
+        }
+    }
+
+#endif // wxGIS_HAVE_GEOPROCESSING
+
+    return true;
 }
 
 bool wxGxRemoteDBSchemaUI::CreateAndRunThread(void)

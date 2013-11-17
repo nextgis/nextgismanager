@@ -128,7 +128,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxdbconnfactoryui.h
     ${LIB_HEADERS}/gxwebconnectionsui.h
     ${LIB_HEADERS}/gxwebconnfactoryui.h
-    ${LIB_HEADERS}/droptarget.h
+    ${LIB_HEADERS}/droptarget.h #think about move to other lib
+    ${LIB_HEADERS}/processing.h #think about move to other lib
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -181,7 +182,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/remoteconndlg.cpp
     ${LIB_SOURCES}/gxremoteconnui.cpp
     ${LIB_SOURCES}/gxpostgisdatasetui.cpp
-    ${LIB_SOURCES}/droptarget.cpp
+    ${LIB_SOURCES}/droptarget.cpp #think about move to other lib
+    ${LIB_SOURCES}/processing.cpp #think about move to other lib
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)
@@ -207,6 +209,6 @@ if(UNIX)
     endif(GTK2_FOUND)
 endif(UNIX)
 
-target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISFRAMEWORK_LIB_NAME} ${WXGISDATASOURCE_LIB_NAME} ${WXGISCATALOG_LIB_NAME} ${WXGISCARTO_LIB_NAME} ${WXGISNET_LIB_NAME})
+target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISFRAMEWORK_LIB_NAME} ${WXGISDATASOURCE_LIB_NAME} ${WXGISCATALOG_LIB_NAME} ${WXGISCARTO_LIB_NAME} ${WXGISNET_LIB_NAME} ${WXGISGEOPROCESSING_LIB_NAME})
 
 include(installlib)

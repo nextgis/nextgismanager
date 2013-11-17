@@ -65,6 +65,7 @@ digraph Dependencies
     
     wxGISCatalogUI -> wxGISCatalog;
     wxGISCatalogUI -> wxGISCartoUI;
+    wxGISCatalogUI -> wxGISGeoprocessing;
     
     wxGISGeoprocessingUI -> wxGISGeoprocessing;
     wxGISGeoprocessingUI -> wxGISCatalogUI;

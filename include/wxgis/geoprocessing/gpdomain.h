@@ -102,7 +102,7 @@ public:
 	virtual int GetPosByValue(const wxVariant &oVal) const;
 };
 
-inline bool WXDLLIMPEXP_GIS_GP IsFileDataset(wxGISEnumDatasetType eDSType, long SubType)
+WXDLLIMPEXP_GIS_GP inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long SubType)
 {
 	switch (eDSType)
 	{
@@ -187,7 +187,7 @@ inline bool WXDLLIMPEXP_GIS_GP IsFileDataset(wxGISEnumDatasetType eDSType, long 
 	}
 }
 
-inline void WXDLLIMPEXP_GIS_GP AddAllVectorFilters(wxGISGPGxObjectDomain* pDomain)
+WXDLLIMPEXP_GIS_GP inline void AddAllVectorFilters(wxGISGPGxObjectDomain* pDomain)
 {
     for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
     {
@@ -195,7 +195,7 @@ inline void WXDLLIMPEXP_GIS_GP AddAllVectorFilters(wxGISGPGxObjectDomain* pDomai
     }
 }
 
-inline void WXDLLIMPEXP_GIS_GP AddAllVectorFileFilters(wxGISGPGxObjectDomain* pDomain)
+WXDLLIMPEXP_GIS_GP inline void AddAllVectorFileFilters(wxGISGPGxObjectDomain* pDomain)
 {
     for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
     {
@@ -206,13 +206,13 @@ inline void WXDLLIMPEXP_GIS_GP AddAllVectorFileFilters(wxGISGPGxObjectDomain* pD
     }
 }
 
-inline void WXDLLIMPEXP_GIS_GP AddAllVectorDBFilters(wxGISGPGxObjectDomain* pDomain)
+WXDLLIMPEXP_GIS_GP inline void AddAllVectorDBFilters(wxGISGPGxObjectDomain* pDomain)
 {
     pDomain->AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS));
 }
 
 
-inline void WXDLLIMPEXP_GIS_GP AddAllRasterFilters(wxGISGPGxObjectDomain* pDomain)
+WXDLLIMPEXP_GIS_GP inline void AddAllRasterFilters(wxGISGPGxObjectDomain* pDomain)
 {
 //    for(size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
 //        pDomain->AddFilter(new wxGxRasterFilter(wxGISEnumRasterDatasetType(i)));

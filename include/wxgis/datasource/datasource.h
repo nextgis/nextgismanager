@@ -76,6 +76,7 @@ enum wxGISEnumRasterDatasetType
     enumRasterVRT,
     enumRasterWMS,
     enumRasterWMSTMS,
+    enumRasterPostGIS,
     enumRasterMAX
 };
 

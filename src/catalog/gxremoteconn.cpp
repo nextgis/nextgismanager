@@ -469,7 +469,7 @@ bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
     return pDSet->CreateSchema(sSchemaName);
 }
 
-wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd, int nCounter)
+wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd, int nCounter) const
 {
     wxString sResultName;
     if (nCounter > 0)
@@ -984,6 +984,36 @@ wxGxObject* wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGIS
                 }
             }
         }*/
+}
+
+wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, const wxString& sAdd, int nCounter) const 
+{
+    wxString sResultName;
+    if (nCounter > 0)
+    {
+        sResultName = sTableName + wxString::Format(wxT("%s(%d)"), sAdd.c_str(), nCounter);
+    }
+    else
+    {
+        sResultName = sTableName;
+    }
+
+    //make PG compatible
+    for (int i = 0; i < sResultName.size(); ++i)
+    {
+        sResultName[i] = (char)tolower(sResultName[i]);
+        if (sResultName[i] == '\'' || sResultName[i] == '-' || sResultName[i] == '#')
+            sResultName[i] = '_';
+    }
+
+    if (m_saTables.Index(sResultName) != wxNOT_FOUND)
+    {
+        return CheckUniqTableName(sTableName, sAdd, nCounter + 1);
+    }
+    else
+    {
+        return sResultName;
+    }
 }
 
 #endif //wxGIS_USE_POSTGRES

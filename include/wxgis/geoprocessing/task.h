@@ -33,19 +33,19 @@
 class WXDLLIMPEXP_GIS_GP wxGISTaskMessage
 {
 public:
-    wxGISTaskMessage(long nId = wxNOT_FOUND, const wxString &sMsg = wxEmptyString, wxGISEnumMessageType nType = enumGISMessageUnk, const wxDateTime &dt = wxDateTime::Now())
+    wxGISTaskMessage(long nId = wxNOT_FOUND, const wxString &sMsg = wxEmptyString, wxGISEnumMessageType eType = enumGISMessageUnk, const wxDateTime &dt = wxDateTime::Now())
     {
         m_nId = nId;
         m_sMessage = sMsg;
         m_dt = dt;
-        m_nType = nType;
+        m_eType = eType;
     }
 
     wxGISTaskMessage(const wxGISTaskMessage& Msg)
     {
         m_sMessage = Msg.m_sMessage;
         m_dt = Msg.m_dt;
-        m_nType = Msg.m_nType;
+        m_eType = Msg.m_eType;
         m_nId = Msg.m_nId;
     }
 
@@ -53,13 +53,13 @@ public:
     {
         m_sMessage = Msg.m_sMessage;
         m_dt = Msg.m_dt;
-        m_nType = Msg.m_nType;
+        m_eType = Msg.m_eType;
         m_nId = Msg.m_nId;
     }
 
     wxString m_sMessage;
     wxDateTime m_dt;
-    wxGISEnumMessageType m_nType;
+    wxGISEnumMessageType m_eType;
     long m_nId;
 };
 

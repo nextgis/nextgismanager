@@ -67,7 +67,7 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxRemoteConnection
     bool CreateSchema(const wxString& sSchemaName);
-    wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0);
+    wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 protected:
     enum
     {
@@ -126,6 +126,7 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
+    wxString CheckUniqTableName(const wxString& sTableName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 protected:
     enum
     {
