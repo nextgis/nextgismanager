@@ -46,8 +46,9 @@ class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
 public:
 	wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteConnection(void);
-	//wxGxObject
-	virtual wxString GetCategory(void) const {return wxString(_("Database Connection"));};
+    //wxGxObject
+    virtual bool Destroy(void);
+    virtual wxString GetCategory(void) const { return wxString(_("Database Connection")); };
     virtual void Refresh(void);
     //IGxRemoteConnection
 	virtual bool Connect(void);
@@ -113,7 +114,8 @@ public:
 	wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteDBSchema(void);
 	//wxGxObject
-	virtual wxString GetCategory(void){return wxString(_("Remote Database Schema"));};
+    virtual bool Destroy();
+    virtual wxString GetCategory(void) const { return wxString(_("Remote Database Schema")); };
     virtual void Refresh(void);
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const {return true;};

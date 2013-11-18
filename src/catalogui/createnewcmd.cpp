@@ -191,19 +191,19 @@ void wxGISCreateNewCmd::OnClick(void)
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
-                wxGxFolderUI* pGxFolderUI = wxDynamicCast(pGxObject, wxGxFolderUI);
-                if (NULL != pGxFolderUI)
+                wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
+                if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
-                    CPLString pszConnFolder = pGxFolderUI->GetPath();
+                    CPLString pszConnFolder = pGxObject->GetPath();
                     CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).mb_str(wxConvUTF8));
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    pGxFolderUI->BeginRenameOnAdd(pGxView, pszConnName);
+                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
 
 					wxGISRemoteConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
-                        pGxFolderUI->BeginRenameOnAdd(NULL, "");
+                        pGxAR->BeginRenameOnAdd(NULL, "");
                     }
                 }
             }

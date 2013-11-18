@@ -33,7 +33,7 @@
 
 IMPLEMENT_CLASS(wxGISPostgresDataSource, wxGISDataset)
 
-wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort, const wxString &sAddres, const wxString &sDBName, bool bIsBinaryCursor) : wxGISDataset(""), m_poDS(NULL)
+wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort, const wxString &sAddres, const wxString &sDBName, bool bIsBinaryCursor) : wxGISDataset("")
 {
     m_bPathPresent = false;
 	m_bIsOpened = false;
@@ -46,15 +46,21 @@ wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wx
     m_sDBName = sDBName;
 	m_bIsBinaryCursor = bIsBinaryCursor;
 
+    m_poDS4SQL = NULL;
+    m_poDS = NULL;
+
     m_Encoding = wxFONTENCODING_UTF8;
 }
 
-wxGISPostgresDataSource::wxGISPostgresDataSource(const CPLString &szPath) : wxGISDataset(szPath), m_poDS(NULL)
+wxGISPostgresDataSource::wxGISPostgresDataSource(const CPLString &szPath) : wxGISDataset(szPath)
 {
     m_bPathPresent = true;
 	m_bIsOpened = false;
 	m_nType = enumGISContainer;
 	m_nSubType = enumContRemoteDBConnection;
+
+    m_poDS4SQL = NULL;
+    m_poDS = NULL;
 
 	wxXmlDocument doc(wxString(szPath,  wxConvUTF8));
 	if(doc.IsOk())

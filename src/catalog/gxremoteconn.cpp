@@ -39,7 +39,7 @@ BEGIN_EVENT_TABLE(wxGxRemoteConnection, wxGxObjectContainer)
 END_EVENT_TABLE()
 
 
-wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper()
+wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper(wxTHREAD_DETACHED)
 {
     m_pwxGISDataset = NULL;
     m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
@@ -48,9 +48,15 @@ wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &
 
 wxGxRemoteConnection::~wxGxRemoteConnection(void)
 {
-    Disconnect();
     wsDELETE(m_pwxGISDataset);
 }
+
+bool wxGxRemoteConnection::Destroy(void)
+{
+    Disconnect();
+    return wxGxObjectContainer::Destroy();
+}
+
 
 //bool wxGxRemoteConnection::HasChildren()
 //{
@@ -94,27 +100,25 @@ bool wxGxRemoteConnection::Delete(void)
 
 bool wxGxRemoteConnection::Rename(const wxString &sNewName)
 {
-	wxGISDataset* pDSet = GetDatasetFast();
-    
-    if (NULL == pDSet)
-    {
-        return false;
-    }
+    CPLString szDirPath = CPLGetPath(m_sPath);
+    CPLString szName = CPLGetBasename(m_sPath);
+    CPLString szNewName(ClearExt(sNewName).mb_str(wxConvUTF8));
+    CPLString szNewPath(CPLFormFilename(szDirPath, szNewName, GetExtension(m_sPath, szName)));
 
-    if (pDSet->IsOpened())
-    {
-		pDSet->Close();
-    }
 
-    bool bRet = pDSet->Rename(sNewName);
-    wsDELETE(pDSet);
-
-	if( !bRet )
+    if (!RenameFile(m_sPath, szNewPath))
 	{
 		const char* err = CPLGetLastErrorMsg();
 		wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
 		return false;
 	}	
+    else
+    {
+        m_sPath = szNewPath;
+        m_sName = sNewName;
+        //change event
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+    }
     return true;
 }
 
@@ -223,7 +227,7 @@ bool wxGxRemoteConnection::Disconnect(void)
 
     if (GetThread() && GetThread()->IsRunning())
     {
-        GetThread()->Wait();
+        GetThread()->Delete();// Wait();
     }
 
 
@@ -308,7 +312,7 @@ bool wxGxRemoteConnection::CreateAndRunThread(void)
     if (GetThread() && GetThread()->IsRunning())
         return true;
 
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+    if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
     {
         wxLogError(_("Could not create the thread!"));
         return false;
@@ -502,7 +506,7 @@ BEGIN_EVENT_TABLE(wxGxRemoteDBSchema, wxGxObjectContainer)
     EVT_THREAD(wxID_ANY, wxGxRemoteDBSchema::OnThreadFinished)
 END_EVENT_TABLE()
 
-wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper()
+wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper(wxTHREAD_DETACHED)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_bChildrenLoaded = false;
@@ -514,6 +518,16 @@ wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRa
 wxGxRemoteDBSchema::~wxGxRemoteDBSchema(void)
 {
     wsDELETE(m_pwxGISRemoteConn);
+}
+
+bool wxGxRemoteDBSchema::Destroy()
+{
+    if (GetThread() && GetThread()->IsRunning())
+    {
+        GetThread()->Delete();// Wait();
+    }
+
+    return wxGxObjectContainer::Destroy();
 }
 
 bool wxGxRemoteDBSchema::HasChildren(void)
@@ -885,7 +899,7 @@ bool wxGxRemoteDBSchema::CreateAndRunThread(void)
 {
     if (!GetThread())
     {
-        if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+        if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
         {
             wxLogError(_("Could not create the thread!"));
             return false;
