@@ -27,7 +27,7 @@
 wxGISCreateCommandBarDlg::wxGISCreateCommandBarDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	//this->SetSizeHints( wxDefaultSize, wxSize( -1,162 ) );
-	this->SetSizeHints( wxSize( 246,280 ), wxSize( -1,280 ) );
+	//this->SetSizeHints( wxSize( 246,280 ), wxSize( -1,280 ) );
 
 	srand ( time(NULL) );
 	int random_number = (rand() % 512); 

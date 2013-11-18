@@ -24,6 +24,7 @@
 #include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxfilters.h"
+#include "wxgis/datasource/sysop.h"
 
 /** @class IGISGPDomainParent
 
@@ -101,91 +102,6 @@ public:
 	virtual void AddFilter(wxGxObjectFilter* pFilter);
 	virtual int GetPosByValue(const wxVariant &oVal) const;
 };
-
-WXDLLIMPEXP_GIS_GP inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long SubType)
-{
-	switch (eDSType)
-	{
-	case enumGISAny:
-		return false;
-	case enumGISFeatureDataset:
-		{
-			wxGISEnumVectorDatasetType eSubType = (wxGISEnumVectorDatasetType)SubType;
-			switch (eSubType)
-			{
-			case enumVecESRIShapefile:
-			case enumVecMapinfoTab:
-			case enumVecMapinfoMif:
-			case enumVecKML:
-			case enumVecKMZ:
-			case enumVecDXF:
-				return true;
-			case emumVecPostGIS:
-				return false;
-			case enumVecGML:
-			case enumVecGeoJSON:
-				return true;
-			case enumVecWFS:
-			case enumVecMem:
-			case emumVecMAX:
-			case enumVecUnknown:
-			default:
-				return false;
-			}
-		}
-		break;
-	case enumGISTableDataset:
-		{
-			wxGISEnumTableDatasetType eSubType = (wxGISEnumTableDatasetType)SubType;
-			switch (eSubType)
-			{
-			case enumTableUnknown:
-                return false;
-            case enumTableDBF:
-                return true;
-            case enumTablePostgres:
-                return false;
-            case enumTableQueryResult:
-                return false;
-            case enumTableMapinfoTab:
-            case enumTableMapinfoMif:
-            case enumTableCSV:
-                return true;
-            default:
-                return false;
-			}
-		}
-		break;
-    case enumGISRasterDataset:
-        {
-            wxGISEnumRasterDatasetType eSubType = (wxGISEnumRasterDatasetType)SubType;
-            switch (eSubType)
-            {
-            case enumRasterUnknown:
-                return false;
-            case enumRasterBmp:
-            case enumRasterTiff:
-            case enumRasterTil:
-            case enumRasterImg:
-            case enumRasterJpeg:
-            case enumRasterPng:
-            case enumRasterGif:
-            case enumRasterSAGA:
-            case enumRasterVRT:
-                return true;
-            case enumRasterWMS:
-            case enumRasterWMSTMS:
-                return false;
-            default:
-                return false;
-            }
-        }
-		break;
-	case enumGISContainer:
-	default:
-		return false;
-	}
-}
 
 WXDLLIMPEXP_GIS_GP inline void AddAllVectorFilters(wxGISGPGxObjectDomain* pDomain)
 {

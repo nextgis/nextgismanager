@@ -116,7 +116,7 @@ END_EVENT_TABLE()
 wxKeyCodeDlg::wxKeyCodeDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	SetIcon(wxIcon(character_map_xpm));
-	this->SetSizeHints( wxSize( 260,70 ), wxSize( -1,70 ) );
+	//this->SetSizeHints( wxSize( 260,70 ), wxSize( -1,70 ) );
 	
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxHORIZONTAL );

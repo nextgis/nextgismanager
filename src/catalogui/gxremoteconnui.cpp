@@ -270,8 +270,6 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
         return false;
     }
 
-
-
     wxVector<EXPORTED_DATASET> paDatasets;
 
     for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)

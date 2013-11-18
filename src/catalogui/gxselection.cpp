@@ -329,6 +329,11 @@ wxGxSelection* const wxGxApplicationBase::GetGxSelection(void)
     return m_pSelection;
 }
 
+wxGxSelection* const wxGxApplicationBase::GetGxSelection(void) const
+{
+    return m_pSelection;
+}
+
 void wxGxApplicationBase::SetLocation(const wxString &sPath)
 {
     wxCHECK_RET(GetGxCatalog(), wxT("The catalog object is null"));

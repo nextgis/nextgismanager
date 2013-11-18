@@ -273,6 +273,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement, co
             poLayer->ResetReading();
             wxGISTableQuery* pTable = new wxGISTableQuery(szStatement, enumTableQueryResult, poLayer, m_poDS4SQL);
 			pTable->SetEncoding(m_Encoding);
+            pTable->Cache();
             pDataset = static_cast<wxGISDataset*>(pTable);
 		}
         else

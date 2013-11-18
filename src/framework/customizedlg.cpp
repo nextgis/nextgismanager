@@ -866,8 +866,8 @@ void wxGISCommandPanel::OnSetKeyCode(wxCommandEvent& event)
 wxGISCustomizeDlg::wxGISCustomizeDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	m_pApp = dynamic_cast<wxGISApplicationEx*>(parent);
-	this->SetSizeHints( wxSize( 540,400 ), wxDefaultSize );
-	if(!m_pApp)
+	//this->SetSizeHints( wxSize( 540,400 ), wxDefaultSize );
+	if(NULL == m_pApp)
 		return;
 
 	wxBoxSizer* bSizerMain = new wxBoxSizer( wxVERTICAL );

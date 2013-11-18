@@ -65,6 +65,7 @@ public:
     virtual char **GetFileList(); 
     //
     virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
+    virtual wxFontEncoding GetEncoding() const { return m_Encoding; };
 protected:    
     inline void OGRPGClearResult( PGresult*& hResult )
     {

@@ -142,6 +142,6 @@ public:
     virtual void BeginRename(long nObjectID = wxNOT_FOUND);
 protected:
     wxTreeItemId m_HighLightItemId;
-
+private:
     DECLARE_EVENT_TABLE()
 };

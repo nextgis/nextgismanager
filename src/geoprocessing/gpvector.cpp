@@ -1389,7 +1389,16 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         poDS = pDataSource->GetDataSourceRef();
         poDS->Reference();
 
+        wxFontEncoding eEnc = pDataSource->GetEncoding();
+        wxString sEnc = wxFontMapperBase::GetEncodingName(eEnc);
+
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", sEnc.mb_str());
+
         wxDELETE(pDataSource);
+
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "LAUNDER", "NO");
+
+
 #endif // wxGIS_USE_POSTGRES
     }
     else

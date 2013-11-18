@@ -3,7 +3,7 @@
  * Purpose:  wxGxObjectDialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Bishop
+*   Copyright (C) 2009-2013 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -419,7 +419,7 @@ END_EVENT_TABLE()
 
 wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style ), wxGISApplicationBase(), wxGxApplicationBase()
 {
-	this->SetSizeHints( wxSize( 400,300 ), wxDefaultSize );
+	//this->SetSizeHints( wxSize( 400,300 ), wxDefaultSize );
 
     m_pDropDownCommand = NULL;
     m_bAllowMultiSelect = false;
@@ -819,7 +819,7 @@ void wxGxObjectDialog::OnOK(wxCommandEvent& event)
         int nPos = m_WildcardCombo->GetCurrentSelection();
 
         wxGxSelection* pSel = m_pwxGxContentView->GetSelectedObjects();
-        if(!pSel)
+        if(NULL == pSel)
             return;
         long nSelID = pSel->GetFirstSelectedObjectId();
 		wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(nSelID);
@@ -905,8 +905,10 @@ void wxGxObjectDialog::OnOK(wxCommandEvent& event)
             {
 		        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 				wxGISAppConfig oConfig = GetConfig();
-				if(pGxObject && oConfig.IsOk())
+                if (pGxObject && oConfig.IsOk())
+                {
 					oConfig.Write(enumGISHKCU, GetAppName() + wxString(wxT("/lastpath/path")), pGxObject->GetFullName());
+                }
             }
         }
 
@@ -999,7 +1001,7 @@ wxString wxGxObjectDialog::GetName(void) const
         FileName.SetEmptyExt();
 
 		wxGxObjectFilter* pFilter = GetCurrentFilter();
-		if(pFilter)
+		if(NULL != pFilter)
 		{
 			wxString sExt;
 			sExt = pFilter->GetExt();
@@ -1025,7 +1027,7 @@ wxString wxGxObjectDialog::GetName(void) const
 wxString wxGxObjectDialog::GetFullName(void) const
 {
     wxGxObject* pObj = GetLocation();
-    if(!pObj)
+    if(NULL == pObj)
         return wxEmptyString;
 
     wxString sPath = pObj->GetFullName();
@@ -1040,11 +1042,10 @@ wxString wxGxObjectDialog::GetFullName(void) const
 CPLString wxGxObjectDialog::GetPath(void) const
 {
     wxGxObject* pObj = GetLocation();
-    if(pObj)
-    {
-        return pObj->GetPath();
-    }
-    return CPLString();
+    if (NULL == pObj)
+        return CPLString();
+
+    return pObj->GetPath();
 }
 
 wxGxObject* const wxGxObjectDialog::GetLocation(void) const

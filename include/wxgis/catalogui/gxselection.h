@@ -46,8 +46,8 @@ public:
 	virtual void Clear(long nInitiator);
     virtual size_t GetCount(void);
     virtual size_t GetCount(long nInitiator);
-	virtual long GetSelectedObjectId(size_t nIndex);
-	virtual long GetSelectedObjectId(long nInitiator, size_t nIndex);
+    virtual long GetSelectedObjectId(size_t nIndex);
+    virtual long GetSelectedObjectId(long nInitiator, size_t nIndex);
     virtual long GetLastSelectedObjectId(void);
     virtual long GetFirstSelectedObjectId(void);
 	virtual void SetInitiator(long nInitiator);
@@ -59,9 +59,9 @@ public:
 	virtual void RemoveDo(long nObjectId);
     virtual void Reset();
     virtual size_t GetDoSize();
-    virtual int GetDoPos(void){return m_nPos;};
+    virtual int GetDoPos(void) const { return m_nPos; };
     virtual long GetDoId(size_t nIndex);
-    virtual wxArrayLong GetDoArray(void){return m_DoArray;};
+    virtual wxArrayLong GetDoArray(void) const { return m_DoArray; };
 protected:
 	wxArrayLong m_DoArray;
 	int m_nPos;
@@ -83,6 +83,7 @@ public:
     wxGxApplicationBase(void);
 	virtual ~wxGxApplicationBase(void);
     wxGxSelection* const GetGxSelection(void);
+    wxGxSelection* const GetGxSelection(void) const;
     virtual void SetLocation(const wxString &sPath);
     virtual void Undo(int nPos);
     virtual void Redo(int nPos);

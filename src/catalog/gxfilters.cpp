@@ -23,6 +23,9 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/catalog/gxfolder.h"
 #include "wxgis/catalog/gxfile.h"
+#include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/datasource/sysop.h"
+
 /*#include "wxgis/catalog/gxspatreffolder.h"
 */
 
@@ -49,6 +52,12 @@ bool wxGxObjectFilter::CanChooseObject( wxGxObject* const pObject )
 }
 
 bool wxGxObjectFilter::CanDisplayObject( wxGxObject* const pObject )
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+	return true;
+}
+
+bool wxGxObjectFilter::CanStoreToObject(wxGxObject* const pObject)
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
 	return true;
@@ -140,6 +149,60 @@ wxString wxGxPrjFileFilter::GetExt(void)) const
 }
 */
 
+
+//------------------------------------------------------------
+// wxGxRemoteDBSchemaFilter
+//------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxRemoteDBSchemaFilter, wxGxObjectFilter)
+
+wxGxRemoteDBSchemaFilter::wxGxRemoteDBSchemaFilter(void)
+{
+}
+
+wxGxRemoteDBSchemaFilter::~wxGxRemoteDBSchemaFilter(void)
+{
+}
+
+bool wxGxRemoteDBSchemaFilter::CanChooseObject(wxGxObject* const pObject)
+{
+#ifdef wxGIS_USE_POSTGRES
+    wxGxRemoteDBSchema* pContainer2 = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+    if (pContainer2)
+        return true;
+#endif // wxGIS_USE_POSTGRES
+    return false;
+}
+
+bool wxGxRemoteDBSchemaFilter::CanDisplayObject(wxGxObject* const pObject)
+{
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
+#ifdef wxGIS_USE_POSTGRES
+    wxGxRemoteConnection* pContainer1 = dynamic_cast<wxGxRemoteConnection*>(pObject);
+    if (pContainer1)
+        return true;
+    wxGxRemoteDBSchema* pContainer2 = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+    if (pContainer2)
+        return true;
+#endif // wxGIS_USE_POSTGRES
+    return false;
+}
+
+bool wxGxRemoteDBSchemaFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+#ifdef wxGIS_USE_POSTGRES
+    wxGxRemoteConnection* pContainer1 = dynamic_cast<wxGxRemoteConnection*>(pObject);
+    if (pContainer1)
+        return true;
+#endif // wxGIS_USE_POSTGRES
+    return false;
+}
+
+wxString wxGxRemoteDBSchemaFilter::GetName(void) const
+{
+    return wxString(_("Database schema"));
+}
+
 //------------------------------------------------------------
 // wxGxDatasetFilter
 //------------------------------------------------------------
@@ -185,6 +248,26 @@ bool wxGxDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 		if(pGxDataset->GetSubType() != GetSubType())
 			return false;
     return true;
+}
+
+bool wxGxDatasetFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (IsFileDataset(m_nType, GetSubType()))
+    {
+        wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+        if (pContainer)
+            return true;
+    }
+    else
+    {
+#ifdef wxGIS_USE_POSTGRES
+        wxGxRemoteDBSchema* pContainer = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+        if (pContainer)
+            return true;
+#endif // wxGIS_USE_POSTGRES
+    }
+    return false;
 }
 
 wxString wxGxDatasetFilter::GetName(void) const
@@ -246,6 +329,26 @@ bool wxGxFeatureDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
     if(pGxDataset->GetSubType() != GetSubType())
 		return false;
     return true;
+}
+
+bool wxGxFeatureDatasetFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (IsFileDataset(enumGISFeatureDataset, GetSubType()))
+    {
+        wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+        if (pContainer)
+            return true;
+    }
+    else
+    {
+#ifdef wxGIS_USE_POSTGRES
+        wxGxRemoteDBSchema* pContainer = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+        if (pContainer)
+            return true;
+#endif // wxGIS_USE_POSTGRES
+    }
+    return false;
 }
 
 wxString wxGxFeatureDatasetFilter::GetName(void) const
@@ -379,7 +482,19 @@ bool wxGxFolderFilter::CanDisplayObject( wxGxObject* const pObject )
         return true;
     if(pObject->GetCategory() == wxString(_("Folder connection")))
         return true;
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
     return false;
+}
+
+bool wxGxFolderFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+    if (pContainer)
+        return true;
+    return false;
+
 }
 
 wxString wxGxFolderFilter::GetName(void) const
@@ -549,6 +664,16 @@ bool wxGxTextFilter::CanDisplayObject( wxGxObject* const pObject )
 	return false;
 }
 
+bool wxGxTextFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+    if (pContainer)
+        return true;
+    return false;
+
+}
+
 wxString wxGxTextFilter::GetName(void) const
 {
 	return m_soName;
@@ -605,6 +730,26 @@ bool wxGxTableDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
     if(pGxDataset->GetSubType() != GetSubType())
 		return false;
     return true;
+}
+
+bool wxGxTableDatasetFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (IsFileDataset(enumGISFeatureDataset, GetSubType()))
+    {
+        wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+        if (pContainer)
+            return true;
+    }
+    else
+    {
+#ifdef wxGIS_USE_POSTGRES
+        wxGxRemoteDBSchema* pContainer = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+        if (pContainer)
+            return true;
+#endif // wxGIS_USE_POSTGRES
+    }
+    return false;
 }
 
 wxString wxGxTableDatasetFilter::GetName(void) const

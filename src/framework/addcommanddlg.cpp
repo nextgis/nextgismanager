@@ -40,7 +40,7 @@ wxGISAddCommandDlg::wxGISAddCommandDlg( wxGISApplication* pGxApp, wxWindow* pare
     m_nSashPos = 150;
     SerializeDialogPos(false);
 
-	this->SetSizeHints( wxSize( 540,400 ), wxDefaultSize );
+	//this->SetSizeHints( wxSize( 540,400 ), wxDefaultSize );
 	wxBoxSizer* bSizer5 = new wxBoxSizer( wxVERTICAL );
 
 	m_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxNO_BORDER );

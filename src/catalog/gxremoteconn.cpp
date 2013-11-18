@@ -1004,7 +1004,7 @@ wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, cons
     //make PG compatible
     for (int i = 0; i < sResultName.size(); ++i)
     {
-        sResultName[i] = (char)tolower(sResultName[i]);
+        sResultName[i] = wxTolower(sResultName[i]);
         if (sResultName[i] == '\'' || sResultName[i] == '-' || sResultName[i] == '#')
             sResultName[i] = '_';
     }

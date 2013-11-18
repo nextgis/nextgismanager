@@ -3,7 +3,7 @@
  * Purpose:  wxGxObjectDialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2013 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -52,8 +52,11 @@
 
 #define OBJDLG_NAME wxT("wxGISObjDialog")
 
-/** \class wxGxToolBarArt gxobjdialog.h
-    \brief The class to make buttons on GxObjDialog more native.
+/** @class wxGxToolBarArt
+
+    The class to make toolbar buttons (delete, up, create folder, etc.) on GxObjDialog more native.
+
+    @library {catalogui}
 */
 
 class wxGxToolBarArt : public wxAuiDefaultToolBarArt
@@ -66,8 +69,11 @@ public:
 	}
 };
 
-/** \class wxTreeViewComboPopup gxobjdialog.h
-    \brief The tree view class on top of GxObjDialog.
+/** @class wxTreeViewComboPopup
+    
+    The tree view class on top of GxObjDialog - tree in popup.
+
+    @library {catalogui}
 */
 class wxTreeViewComboPopup : 
     public wxGxTreeViewBase,
@@ -110,8 +116,11 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGxDialogContentView gxobjdialog.h
-    \brief The content view class on center of GxObjDialog.
+/** @class wxGxDialogContentView
+    
+    The content view class on center of GxObjDialog.
+
+    @library {catalogui}
 */
 #define OBJDLGLISTCTRLID	1012 //wxGxObjectDialog contents view
 
@@ -141,8 +150,11 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGxObjectDialog gxobjdialog.h
-    \brief The GxObjDialog class.
+/** @class wxGxObjectDialog
+
+    The dialog to open or save different objects (feature classes, raster, folders and etc.). This is like the file open/save dialog in OS, but works with wxGxObjects tree.
+
+    @library {catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxObjectDialog :
@@ -152,7 +164,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxObjectDialog :
 {
     DECLARE_CLASS(wxGxObjectDialog)
 public:
-	wxGxObjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Open"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,338 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+    wxGxObjectDialog(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Open"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGxObjectDialog();
 //wxGISApplicationBase
     virtual wxString GetAppName(void) const {return wxString(OBJDLG_NAME);};
@@ -222,7 +234,7 @@ protected:
 	wxStaticText* m_staticText6;
 	wxComboBox* m_WildcardCombo;
 	wxButton* m_CancelButton;
-
+private:
     DECLARE_EVENT_TABLE()
 };
 

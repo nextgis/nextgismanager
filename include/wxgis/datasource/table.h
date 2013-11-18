@@ -144,6 +144,5 @@ class WXDLLIMPEXP_GIS_DS wxGISTableQuery :
 public:
     wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
     virtual ~wxGISTableQuery(void);
-protected:
-    virtual void CacheInt();
+    virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
 };

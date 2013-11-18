@@ -3,7 +3,7 @@
  * Purpose:  wxGxContainerDialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2013 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,14 +41,21 @@
 #include "wxgis/catalogui/gxtreeview.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/version.h"
-/*
+#include "wxgis/catalog/gxfilters.h"
+#include "wxgis/framework/accelerator.h"
+
+
 #define CONTDLG_NAME wxT("wxGISContDialog") 
 
-//////////////////////////////////////////////////////////////////////////////
-// wxTreeContainerView
-//////////////////////////////////////////////////////////////////////////////
+/** @class wxTreeContainerView
 
-class wxTreeContainerView : public wxGxTreeView
+    The class to show GxObjjects tree and select items in it. Usually the tree included containers to select.
+
+    @library {catalogui}
+*/
+
+class wxTreeContainerView : 
+    public wxGxTreeView
 {
     DECLARE_DYNAMIC_CLASS(wxTreeContainerView)
 public:
@@ -56,68 +63,68 @@ public:
     wxTreeContainerView(wxWindow* parent, wxWindowID id = TREECTRLID, long style = wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxTR_NO_LINES | wxTR_SINGLE | wxTR_EDIT_LABELS);// | wxTR_HIDE_ROOT
     virtual ~wxTreeContainerView(void);
 //wxGxTreeViewBase
-    virtual void AddTreeItem(IGxObject* pGxObject, wxTreeItemId hParent);
+    virtual void AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent);
 //wxTreeContainerView
-	virtual void AddShowFilter(IGxObjectFilter* pFilter);
+    virtual void AddShowFilter(wxGxObjectFilter* pFilter);
 	virtual void RemoveAllShowFilters(void);
-    virtual bool CanChooseObject( IGxObject* pObject );
 //events
-    //virtual void OnSelChanged(wxTreeEvent& event);
     virtual void OnItemRightClick(wxTreeEvent& event){};
     virtual void OnBeginDrag(wxTreeEvent& event){};
-    virtual void OnActivated(wxTreeEvent& event){};
-
+    //virtual void OnActivated(wxTreeEvent& event){};
+    virtual bool CanChooseObject( wxGxObject* pObject );
 protected:
-	OBJECTFILTERS m_ShowFilterArray;
-
-    DECLARE_EVENT_TABLE()
+    wxGxObjectFiltersArray m_ShowFilter;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-//// wxGxContainerDialog
-////////////////////////////////////////////////////////////////////////////////
+/** @class wxGxContainerDialog
+
+    The dialog to select the contaniers (folders and etc.).
+
+    @library {catalogui}
+*/
 
 class WXDLLIMPEXP_GIS_CLU wxGxContainerDialog : 
     public wxDialog,
-    public IGxApplication,
-    public wxGISApplicationBase
+    public wxGISApplicationBase,
+    public wxGxApplicationBase
 {
     DECLARE_CLASS(wxGxContainerDialog)
-enum
-{
-    ID_CREATE = wxID_HIGHEST + 4001
-};
+    enum
+    {
+        ID_CREATE = wxID_HIGHEST + 4001
+    };
 public:
-	wxGxContainerDialog( wxWindow* parent, IGxCatalog* pExternalCatalog = NULL, wxWindowID id = wxID_ANY, const wxString& title = _("Open"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,338 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+	wxGxContainerDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Open"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,338 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 	virtual ~wxGxContainerDialog();	
-
-//IGxApplication
-    virtual IGxCatalog* const GetCatalog(void){return static_cast<IGxCatalog*>(m_pCatalog);};
 //wxGISApplicationBase
     virtual wxString GetAppName(void) const{return wxString(CONTDLG_NAME);};
-    virtual wxString GetAppVersionString(void) const{return wxString(wxGIS_VERSION_NUM_DOT_STRING_T);};
-//wxDialog
+    virtual wxString GetAppDisplayName(void) const { return wxString(_("NextGIS Container Dialog")); };
+    virtual wxString GetAppDisplayNameShort(void) const { return wxString(_("Container Dialog")); };
+    //wxDialog
     int ShowModal(void);
 //wxGxContainerDialog
-	virtual void SetButtonCaption(wxString sOkBtLabel);
-	virtual void SetStartingLocation(wxString sStartPath);
-	virtual void SetDescriptionText(wxString sText);
+	virtual void SetButtonCaption(const wxString &sOkBtLabel);
+    virtual void SetStartingLocation(const wxString &sStartPath);
+    virtual void SetDescriptionText(const wxString &sText);
     virtual void ShowCreateButton(bool bShow = false);
     virtual void ShowExportFormats(bool bShow = false);
 	virtual void SetAllFilters(bool bAllFilters);
-	virtual void AddFilter(IGxObjectFilter* pFilter, bool bDefault = false);
-    virtual void SetOwnsFilter(bool bOwnFilter){m_bOwnFilter = bOwnFilter;};
+    virtual void AddFilter(wxGxObjectFilter* pFilter, bool bDefault = false);
+    virtual void SetOwnsFilter(bool bOwnFilter){ m_bOwnFilter = bOwnFilter; };
     virtual void SetOwnsShowFilter(bool bOwnFilter){m_bOwnShowFilter = bOwnFilter;};
 	virtual void RemoveAllFilters(void);
-	virtual void AddShowFilter(IGxObjectFilter* pFilter);
+    virtual void AddShowFilter(wxGxObjectFilter* pFilter);
 	virtual void RemoveAllShowFilters(void);
-    virtual GxObjectArray* GetSelectedObjects(void){return &m_ObjectArray;}
-    virtual wxString GetPath(void);
-    virtual CPLString GetInternalPath(void);
-    virtual IGxObjectFilter* GetCurrentFilter(void);
+    const wxGxObjectList& GetChildren() const { return m_ObjectList; };
+    virtual wxString GetName(void) const;
+    virtual wxString GetFullName(void) const;
+    virtual CPLString GetPath(void) const;
+    virtual wxGxObject* const GetLocation(void) const;
+    virtual wxGxObjectFilter* GetCurrentFilter(void) const;
+    virtual size_t GetCurrentFilterId(void) const;
 protected:
 // events
-	virtual void OnFilerSelect(wxCommandEvent& event);
+    virtual void OnFilterSelect(wxCommandEvent& event);
     virtual void OnOK(wxCommandEvent& event);
     virtual void OnOKUI(wxUpdateUIEvent& event);
     virtual void OnCreate(wxCommandEvent& event);
@@ -125,21 +132,21 @@ protected:
     virtual void OnCommand(wxCommandEvent& event);
 	virtual void OnCommandUI(wxUpdateUIEvent& event);
     virtual void Command(wxGISCommand* pCmd);
+protected:
 //wxGxContainerDialog
-    virtual long GetLocation(void);
 	virtual void OnInit();
     virtual void SerializeFramePos(bool bSave);
 protected:
   	wxGxCatalogUI* m_pCatalog;
-  	IGxCatalog* m_pExternalCatalog;
+    wxGISAcceleratorTable* m_pGISAcceleratorTable;
     wxTreeContainerView* m_pTree;
 	wxString m_sOkBtLabel;
 	wxString m_sStartPath;
     bool m_bShowCreateButton, m_bAllFilters, m_bShowExportFormats;
-	OBJECTFILTERS m_FilterArray;
-	OBJECTFILTERS m_paShowFilter;
+    wxGxObjectFiltersArray m_FilterArray;
+    wxGxObjectFiltersArray m_paShowFilter;
 	size_t m_nDefaultFilter;
-    GxObjectArray m_ObjectArray;
+    wxGxObjectList m_ObjectList;
     int m_nRetCode;
     bool m_bOwnFilter, m_bOwnShowFilter;
 
@@ -152,8 +159,6 @@ protected:
 	wxButton* m_CancelButton;
 	wxButton* m_CreateButton;
 	wxButton* m_OkButton;
-
+private:
     DECLARE_EVENT_TABLE()
 };
-
-*/

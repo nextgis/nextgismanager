@@ -71,7 +71,7 @@ wxGISRemoteConnDlg::wxGISRemoteConnDlg( CPLString pszConnPath, wxWindow* parent,
 		}
 	}
 
-    this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
+    //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
 	
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 	

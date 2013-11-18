@@ -24,8 +24,11 @@
 #include "wxgis/datasource/datasource.h"
 #include "wxgis/catalog/gxobject.h"
 
-/** \class wxGxObjectFilter gxfilters.h
- *  \brief The base class GxObject Filters.
+/** @class wxGxObjectFilter
+   
+    The base class GxObject Filters.
+
+    @library {catalog}
  */
 class WXDLLIMPEXP_GIS_CLT wxGxObjectFilter : public wxObject
 {
@@ -35,6 +38,7 @@ public:
 	virtual ~wxGxObjectFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
+	virtual bool CanStoreToObject( wxGxObject* const pObject );
 	virtual wxGISEnumSaveObjectResults CanSaveObject( wxGxObject* const pLocation, const wxString &sName );
 	virtual wxString GetName(void) const;
     virtual wxString GetExt(void) const;
@@ -43,12 +47,13 @@ public:
     virtual wxGISEnumDatasetType GetType(void) const;
 };
 
-//typedef wxVector<wxGxObjectFilter*> wxGxObjectFiltersArray;
 WX_DEFINE_USER_EXPORTED_ARRAY(wxGxObjectFilter*, wxGxObjectFiltersArray, class WXDLLIMPEXP_GIS_CLT);
-//WX_DECLARE_USER_EXPORTED_BASEARRAY(wxGxObjectFilter *, wxGxObjectFiltersArray, WXDLLIMPEXP_GIS_CLT);
 
-/** \class wxGxPrjFileFilter gxfilters.h
- *  \brief The Spatial reference GxObject Filters.
+/** @class wxGxPrjFileFilter
+ 
+    The Spatial reference GxObject Filters.
+
+    @library {catalog}
  */
 /*
 class WXDLLIMPEXP_GIS_CLT wxGxPrjFileFilter : public wxGxObjectFilter
@@ -64,8 +69,30 @@ public:
 };
 */
 
-/** \class wxGxDatasetFilter gxfilters.h
- *  \brief The Dataset GxObject Filters.
+/** @class wxGxRemoteDBFilter
+
+    The database (postgis, mysql, etc.) schema GxObject Filters.
+    
+    @library {catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchemaFilter : public wxGxObjectFilter
+{
+    DECLARE_CLASS(wxGxRemoteDBSchemaFilter)
+public:
+    wxGxRemoteDBSchemaFilter(void);
+    virtual ~wxGxRemoteDBSchemaFilter(void);
+    virtual bool CanChooseObject(wxGxObject* const pObject);
+    virtual bool CanDisplayObject(wxGxObject* const pObject);
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
+};
+
+/** @class wxGxDatasetFilter
+
+    The Dataset GxObject Filters.
+
+    @library {catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDatasetFilter : public wxGxObjectFilter
@@ -76,7 +103,8 @@ public:
 	virtual ~wxGxDatasetFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
-	virtual wxString GetName(void) const;
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
     virtual wxGISEnumDatasetType GetType(void) const{return m_nType;};
     virtual int GetSubType(void) const{return m_nSubType;};
 protected:
@@ -84,9 +112,12 @@ protected:
 	int m_nSubType;
 };
 
-/** \class wxGxFeatureDatasetFilter gxfilters.h
- *  \brief The FeatureDataset GxObject Filters.
- */
+/** @class wxGxFeatureDatasetFilter
+
+    The FeatureDataset GxObject Filters.
+
+    @library {catalog}
+*/
 
 class WXDLLIMPEXP_GIS_CLT wxGxFeatureDatasetFilter : public wxGxObjectFilter
 {
@@ -96,7 +127,8 @@ public:
 	virtual ~wxGxFeatureDatasetFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
-	virtual wxString GetName(void) const;
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
     virtual wxString GetExt(void) const;
     virtual wxString GetDriver(void) const;
     virtual int GetSubType(void) const;
@@ -105,8 +137,11 @@ protected:
     wxGISEnumVectorDatasetType m_nSubType;
 };
 
-/** \class wxGxFolderFilter gxfilters.h
- *  \brief The Folder GxObject Filters.
+/** @class wxGxFolderFilter 
+
+    The Folder GxObject Filters.
+
+    @library {catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFolderFilter : public wxGxObjectFilter
@@ -117,13 +152,17 @@ public:
 	virtual ~wxGxFolderFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
-	virtual wxString GetName(void) const;
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
 };
-/*
-//------------------------------------------------------------
-// wxGxRasterFilter
-//------------------------------------------------------------
 
+/** @class wxGxRasterFilter
+
+    The raster GxObject Filters.
+
+    @library {catalog}
+*/
+/*
 class WXDLLIMPEXP_GIS_CLT wxGxRasterFilter : public wxGxObjectFilter
 {
 public:
@@ -141,8 +180,11 @@ protected:
 };
 
 
-/** \class wxGxTextFilter gxfilters.h
- *  \brief The Text file GxObject Filters.
+/** @class wxGxTextFilter
+
+    The Text file GxObject Filters.
+
+    @library {catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTextFilter : public wxGxObjectFilter
@@ -153,7 +195,8 @@ public:
 	virtual ~wxGxTextFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
-	virtual wxString GetName(void) const;
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
     virtual wxString GetExt(void) const;
 protected:
     wxString m_soName;
@@ -161,8 +204,11 @@ protected:
 };
 
 
-/** \class wxGxTableDatasetFilter gxfilters.h
- *  \brief The TableDataset GxObject Filters.
+/** @class wxGxTableDatasetFilter
+
+    The TableDataset GxObject Filters.
+
+    @library {catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTableDatasetFilter : public wxGxObjectFilter
@@ -173,7 +219,8 @@ public:
 	virtual ~wxGxTableDatasetFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
-	virtual wxString GetName(void) const;
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
     virtual wxString GetExt(void) const;
     virtual wxString GetDriver(void) const;
     virtual int GetSubType(void) const;

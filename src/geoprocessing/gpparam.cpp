@@ -298,7 +298,7 @@ bool wxGISGPParameter::SetFromString(wxString &sParam)
     switch(m_DataType)
     {
     case enumGISGPParamDTBool:
-        m_Value = wxVariant((bool)wxAtoi(sParam) == TRUE);
+        m_Value = wxVariant((bool)(wxAtoi(sParam) == TRUE));
         break;        
 	case enumGISGPParamDTInteger:
 		m_Value = wxVariant(wxAtoi(sParam));

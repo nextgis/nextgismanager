@@ -1033,15 +1033,6 @@ IMPLEMENT_CLASS(wxGISTableQuery, wxGISTableCached)
 
 wxGISTableQuery::wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTableCached(sPath, nSubType, poLayer, poDS)
 {
-    CacheInt();
-    if (m_poDS)
-    {
-        m_poDS->ReleaseResultSet(m_poLayer);
-        m_poLayer = NULL;
-        if (m_poDS->Dereference() <= 0)
-            OGRDataSource::DestroyDataSource(m_poDS);
-        m_poDS = NULL;
-    }
 }
 
 wxGISTableQuery::~wxGISTableQuery()
@@ -1049,7 +1040,7 @@ wxGISTableQuery::~wxGISTableQuery()
 }
 
 
-void wxGISTableQuery::CacheInt()
+void wxGISTableQuery::Cache(ITrackCancel* const pTrackCancel)
 {
     if (!m_poLayer)
         return;
@@ -1082,4 +1073,13 @@ void wxGISTableQuery::CacheInt()
     m_nFeatureCount = m_omFeatures.size();
     m_bIsCaching = false;
     m_bIsCached = true;
+
+    if (m_poDS)
+    {
+        m_poDS->ReleaseResultSet(m_poLayer);
+        m_poLayer = NULL;
+        if (m_poDS->Dereference() <= 0)
+            OGRDataSource::DestroyDataSource(m_poDS);
+        m_poDS = NULL;
+    }
 }
