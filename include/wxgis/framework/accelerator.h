@@ -39,7 +39,7 @@ public:
 	virtual void Store(void);
 protected:
 	int GetKeyCode(wxString sKeyCode);
-	WXDWORD GetFlags(wxString sFlags);
+    wxDword GetFlags(wxString sFlags);
 private:
 	wxVector<wxAcceleratorEntry> m_AccelEntryArray;
 	bool bHasChanges;

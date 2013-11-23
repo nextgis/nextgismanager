@@ -24,7 +24,8 @@
 
 bool OverWriteGxObject(wxGxObject* const pGxObject, ITrackCancel* const pTrackCancel)
 {
-    wxCHECK_MSG(pGxObject, true, wxT("The GxObject pointer is NULL"));
+    if (NULL == pGxObject)
+        return true;
 
     IGxObjectEdit* pGxDstObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObject);
     if(pGxDstObjectEdit)

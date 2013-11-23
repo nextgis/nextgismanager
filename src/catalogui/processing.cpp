@@ -435,8 +435,9 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
 {
     wxCHECK_RET(pFilter && pGxDataset, wxT("The input pointer is NULL"));
 
-    wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd, wxPD_APP_MODAL | wxPD_CAN_ABORT | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME);
+    wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd);
     ProgressDlg.SetAddPercentToMessage(true);
+    ProgressDlg.ShowProgress(true);
 
     wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);
     wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
@@ -477,7 +478,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
             else if (msgs[i].eType == enumGISMessageWarning)
                 extMsg += _("Warning") + wxT(": ");
             extMsg += msgs[i].sMessage;
-            extMsg += wxT("\n");
+            extMsg += wxT("\n\n");
         }
         dlg.SetExtendedMessage(extMsg);
         dlg.ShowModal();
@@ -500,8 +501,9 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 {
     wxCHECK_RET(pWnd && pFilter && paDatasets.size() > 1, wxT("The input pointer is NULL or datasets array is empty"));
 
-    wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd, wxPD_APP_MODAL | wxPD_CAN_ABORT | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME);
-    ProgressDlg.SetAddPercentToMessage(true);
+    wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd);
+    ProgressDlg.SetAddPercentToMessage(false);
+    ProgressDlg.ShowProgress(true);
 
     for (size_t i = 0; i < paDatasets.size(); ++i)
     {
@@ -551,7 +553,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
             else if (msgs[i].eType == enumGISMessageWarning)
                 extMsg += _("Warning") + wxT(": ");
             extMsg += msgs[i].sMessage;
-            extMsg += wxT("\n");
+            extMsg += wxT("\n\n");
         }
         dlg.SetExtendedMessage(extMsg);
         dlg.ShowModal();

@@ -335,14 +335,6 @@
 #define PIDEG 0.017453292519943295769236907684886
 #define DEGPI 57.295779513082320876798155633941
 
-//#ifndef _DEBUG
-//   #define WXGISPORTABLE
-//#endif
-
-#ifndef WXDWORD
-    #define WXDWORD unsigned long
-#endif
-
 /*
    MSVC up to 6.0 needs to be explicitly told to export template instantiations
    used by the DLL clients, use this macro to do it like this:

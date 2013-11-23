@@ -390,17 +390,34 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(prop,  new wxDirProperty(wxString(wxT("GDAL_DATA")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_DATA", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_DISABLE_CPLLOCALEC")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_DISABLE_CPLLOCALEC", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FILENAME_IS_UTF8")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_FILENAME_IS_UTF8", "ON")) == 0 ? false : true));
-    AppendProperty(prop,  new wxDirProperty(wxString(wxT("GEOTIFF_CSV")), wxPG_LABEL, wxString(CPLGetConfigOption( "GEOTIFF_CSV", "" ), wxConvUTF8)));
+    
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("CPL_VSIL_ZIP_ALLOWED_EXTENSIONS")), wxPG_LABEL, wxString(CPLGetConfigOption("CPL_VSIL_ZIP_ALLOWED_EXTENSIONS", ""), wxConvUTF8)));
+#ifdef WIN32
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_API_PROXY_SERVER")), wxPG_LABEL, wxString(CPLGetConfigOption("GDAL_API_PROXY_SERVER", ""), wxConvUTF8)));
+#else
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_API_PROXY_SERVER")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_API_PROXY_SERVER", "NO")) == 0 ? false : true));
+#endif
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_API_PROXY")), wxPG_LABEL, wxString(CPLGetConfigOption("GDAL_API_PROXY", ""), wxConvUTF8)));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_API_PROXY_LINE_CACHING")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_API_PROXY_LINE_CACHING", "YES")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_API_PROXY_FORCE_APPROX")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_API_PROXY_FORCE_APPROX", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxBoolProperty(wxString(wxT("QGIS_HACK")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("QGIS_HACK", "NO")) == 0 ? false : true));
 
     //web options
     prop = AppendProperty(new wxPropertyCategory(_("Web options")));
     AppendProperty(prop, new wxStringProperty(wxString(wxT("CPL_VSIL_CURL_ALLOWED_EXTENSIONS")), wxPG_LABEL, wxString(CPLGetConfigOption( "CPL_VSIL_CURL_ALLOWED_EXTENSIONS", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_PROXY")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_PROXY", "" ), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_PROXY_AUTH")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_PROXY_AUTH", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_PROXYUSERPWD")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_PROXYUSERPWD", "" ), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_USERPWD")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_USERPWD", "" ), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_UNSAFESSL")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_HTTP_UNSAFESSL", "" ), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_USERAGENT")), wxPG_LABEL, wxString(CPLGetConfigOption("GDAL_HTTP_USERAGENT", ""), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_HTTP_TIMEOUT")), wxPG_LABEL, wxString(CPLGetConfigOption("GDAL_HTTP_TIMEOUT", ""), wxConvUTF8)));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_GZIP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_GZIP", "ON")) == 0 ? false : true));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_CURL_VERBOSE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_VERBOSE", "OFF")) == 0 ? false : true));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("CPL_VSIL_CURL_MAX_RANGES")), wxPG_LABEL, atoi(CPLGetConfigOption( "CPL_VSIL_CURL_MAX_RANGES", "250" ))));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_VSIL_CURL_SLOW_GET_SIZE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_CURL_VERBOSE", "ON")) == 0 ? false : true));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GOA2_CLIENT_ID")), wxPG_LABEL, wxString(CPLGetConfigOption("GOA2_CLIENT_ID", ""), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("GOA2_CLIENT_SECRET")), wxPG_LABEL, wxString(CPLGetConfigOption("GOA2_CLIENT_SECRET", ""), wxConvUTF8)));
 
     //GDAL Options
     prop = AppendProperty(new wxPropertyCategory(_("GDAL Options")) );
@@ -430,6 +447,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_MAX_BAND_COUNT")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_MAX_BAND_COUNT", "-1" ))));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_USE_SSE")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_USE_SSE", "YES")) == 0 ? false : true));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("USE_RRD")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("USE_RRD", "NO")) == 0 ? false : true));
+    AppendProperty(prop, new wxDirProperty(wxString(wxT("GEOTIFF_CSV")), wxPG_LABEL, wxString(CPLGetConfigOption("GEOTIFF_CSV", ""), wxConvUTF8)));
     AppendProperty(prop, new wxIntProperty(wxString(wxT("GDAL_NUM_THREADS")), wxPG_LABEL, atoi(CPLGetConfigOption( "GDAL_NUM_THREADS", wxString::Format(wxT("%d"), wxThread::GetCPUCount()).c_str() ))));
     AppendProperty(prop, new wxDirProperty(wxString(wxT("TMPDIR")), wxPG_LABEL, wxString(CPLGetConfigOption( "TMPDIR", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxDirProperty(wxString(wxT("TEMP")), wxPG_LABEL, wxString(CPLGetConfigOption( "TEMP", "" ), wxConvUTF8)));
@@ -452,6 +470,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_FORCE_STRIP_CHOP")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_FORCE_STRIP_CHOP", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_REPORT_COMPD_CS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_REPORT_COMPD_CS", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ENABLE_TIFF_SPLIT")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_ENABLE_TIFF_SPLIT", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("GEOTIFF_CSV")), wxPG_LABEL, wxString(CPLGetConfigOption("GEOTIFF_CSV", ""), wxConvUTF8)));
 
     sCurrentVal = wxString(CPLGetConfigOption( "GDAL_TIFF_ENDIANNESS", "NATIVE" ), wxConvUTF8);
     wxPGChoices chs1;
@@ -693,11 +712,20 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_FIX_MAXFEATURES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_WFS_FIX_MAXFEATURES", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_WFS_USE_STREAMING")), wxPG_LABEL, CSLTestBoolean( CPLGetConfigOption( "OGR_WFS_USE_STREAMING", "YES" ) ) == 0 ? false : true));
 
+    sub_prop = AppendProperty(prop, new wxPropertyCategory(_("OSM driver options")));
+    AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("OSM_CONFIG_FILE")), wxPG_LABEL, wxString(CPLGetConfigOption("OSM_CONFIG_FILE", ""), wxConvUTF8)));
+    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OSM_MAX_TMPFILE_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption("OSM_MAX_TMPFILE_SIZE", "100"))));
+    
+    sub_prop = AppendProperty(prop, new wxPropertyCategory(_("SQLite options")));
+    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_SQLITE_CACHE")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_SQLITE_CACHE", "0" ))));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SQLITE_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true)); 
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_SQLITE_LIST_VIRTUAL_OGR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_SQLITE_LIST_VIRTUAL_OGR", "YES")) == 0 ? false : true));
+
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("Other OGR options")) );
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("SHAPE_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "SHAPE_ENCODING", "" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_VRT_MAX_OPENED")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_VRT_MAX_OPENED", "100" ))));
-    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_SQLITE_CACHE")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_SQLITE_CACHE", "0" ))));
-
+    AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("RSC_FILENAME")), wxPG_LABEL, wxString(CPLGetConfigOption("RSC_FILENAME", ""), wxConvUTF8)));
+    
     m_pg->SetPropertyAttributeAll(wxPG_BOOL_USE_CHECKBOX, true);
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );

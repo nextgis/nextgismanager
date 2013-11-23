@@ -61,7 +61,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISStatusBar :	public wxStatusBar
     };
 public:
     wxGISStatusBar();
-	wxGISStatusBar(wxWindow *parent, wxWindowID id, long style = wxST_SIZEGRIP, const wxString& name = wxT("statusBar"), WXDWORD panelsstyle = enumGISStatusMain | enumGISStatusProgress | enumGISStatusAnimation | enumGISStatusPosition | enumGISStatusClock);
+	wxGISStatusBar(wxWindow *parent, wxWindowID id, long style = wxST_SIZEGRIP, const wxString& name = wxT("statusBar"), wxDword panelsstyle = enumGISStatusMain | enumGISStatusProgress | enumGISStatusAnimation | enumGISStatusPosition | enumGISStatusClock);
 	~wxGISStatusBar(void);
 //methods
      /** \fn virtual void SetMessage(const wxString& text, int i = 0)
@@ -102,16 +102,16 @@ public:
 		return NULL;
 	};
 
-    /** \fn virtual WXDWORD GetPanes(void)
+    /** \fn virtual wxDword GetPanes(void)
      *  \brief Get the status bar style (the combination of wxGISEnumStatusBarPanes)
      *  \return The status bar style
      */
-    WXDWORD GetPanels(void) const {return m_Panels;};
-    /** \fn virtual void SetPanes(WXDWORD Panes)
+    wxDword GetPanels(void) const { return m_Panels; };
+    /** \fn virtual void SetPanes(wxDword Panes)
      *  \brief Set the panel style (the combination of wxGISEnumStatusBarPanes)
      *  \param Panes The status bar style
      */
-    void SetPanels(WXDWORD Panels){m_Panels = Panels;};
+    void SetPanels(wxDword Panels){ m_Panels = Panels; };
 	//events
 	void OnSize(wxSizeEvent &event);
 	void OnRightDown(wxMouseEvent& event);
@@ -130,7 +130,7 @@ protected:
 	int m_MsgPos, m_AniPos, m_ProgressPos, m_PositionPos, m_ClockPos, m_PagePositionPos, m_SizePos, m_CapsLockPos, m_NumLockPos, m_ScrollLockPos;
 	wxGISApplicationBase* m_pApp;
 protected:
-	WXDWORD m_Panels;    /*!< a status bar style (the combination of wxGISEnumStatusBarPanes)*/
+    wxDword m_Panels;    /*!< a status bar style (the combination of wxGISEnumStatusBarPanes)*/
 private:
 
 	DECLARE_EVENT_TABLE()

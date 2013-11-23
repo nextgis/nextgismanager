@@ -23,8 +23,11 @@
 #include "wxgis/framework/framework.h"
 #include "wx/gauge.h"
 
-/** \class wxGISProgressor progressor.h
-    \brief The progressor (gauge) class.
+/** @class wxGISProgressor
+
+    The progressor (gauge) class.
+
+    @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISProgressor : 
 	public wxGauge,

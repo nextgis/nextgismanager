@@ -618,7 +618,7 @@ void wxGISTask::ChangeTask()
     val[wxT("id")] = m_nId;
     val[wxT("state")] = m_nState;
     val[wxT("done")] = m_dfDone;
-    val[wxT("vol")] = wxUint64(m_nVolume.GetValue());;
+    val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
     val[wxT("beg")] = SetDateValue(m_dtBeg);
     val[wxT("end")] = SetDateValue(m_dtEstEnd);
     m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHighest, val, _("Task changed"), wxNOT_FOUND);

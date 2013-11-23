@@ -50,7 +50,7 @@ wxGISAcceleratorTable::wxGISAcceleratorTable(wxGISApplicationBase* pApp) : bHasC
 			if(pCmd)
 			{
 				wxString sFlags = child->GetAttribute(wxT("flags"), wxT("NORMAL"));
-				WXDWORD Flags = GetFlags(sFlags);
+                wxDword Flags = GetFlags(sFlags);
 				wxString sKey = child->GetAttribute(wxT("keycode"), wxT("A"));
 				int nKey = GetKeyCode(sKey);
 				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetID()));
@@ -69,7 +69,7 @@ wxGISAcceleratorTable::wxGISAcceleratorTable(wxGISApplicationBase* pApp) : bHasC
 			if(pCmd)
 			{
 				wxString sFlags = child->GetAttribute(wxT("flags"), wxT("NORMAL"));
-				WXDWORD Flags = GetFlags(sFlags);
+                wxDword Flags = GetFlags(sFlags);
 				wxString sKey = child->GetAttribute(wxT("keycode"), wxT("A"));
 				int nKey = GetKeyCode(sKey);
 				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetID()));
@@ -343,9 +343,9 @@ int wxGISAcceleratorTable::GetKeyCode(wxString sKeyCode)
 	return Key; 
 }
 
-WXDWORD wxGISAcceleratorTable::GetFlags(wxString sFlags)
+wxDword wxGISAcceleratorTable::GetFlags(wxString sFlags)
 {
-	WXDWORD Flags(0);
+    wxDword Flags(0);
 	wxStringTokenizer tkz(sFlags, wxString(wxT("|")), wxTOKEN_RET_EMPTY );
 	while ( tkz.HasMoreTokens() )
 	{

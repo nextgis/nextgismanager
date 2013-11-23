@@ -115,7 +115,7 @@ protected:
 	wxTimer m_timer;
 	ITrackCancel *m_pTrackCancel;
 	IProgressor *m_pAni;
-	WXDWORD m_nDrawingState;
+    wxDword m_nDrawingState;
 	double m_nFactor;
 	wxPoint m_StartMouseLocation;
 	wxPoint m_FrameCenter;

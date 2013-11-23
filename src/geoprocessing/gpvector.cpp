@@ -226,7 +226,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         OGRErr eErr = pDstDataSet->StoreFeature(newFeature);
         if(eErr != OGRERR_NONE)
         {
-            wxString sErr(_("Error create feature!\nOGR error: "));
+            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%d\nOGR error: "), Feature.GetFID());
             CPLString sFullErr(sErr.mb_str(wxConvUTF8));
             sFullErr += CPLGetLastErrorMsg();
             CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
@@ -272,7 +272,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     {
         if (SpaFilter.GetWhereClause().IsEmpty())
         {
-            pTrackCancel->PutMessage(wxString::Format(_("Start copy records from '%s' to '%s'"), pSrsDataSet->GetName(), sName), wxNOT_FOUND, enumGISMessageNorm);
+            pTrackCancel->PutMessage(wxString::Format(_("Start copy records from '%s' to '%s'"), pSrsDataSet->GetName().c_str(), sName.c_str()), wxNOT_FOUND, enumGISMessageNorm);
         }
         else
         {
@@ -318,7 +318,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
     if (pTrackCancel)
     {
-        pTrackCancel->PutMessage(wxString::Format(_("Exporting %s to %s"), pSrsDataSet->GetName().c_str(), sName.c_str() + wxT(".") + sExt), wxNOT_FOUND, enumGISMessageTitle);
+        pTrackCancel->PutMessage(wxString::Format(_("Exporting %s to %s"), pSrsDataSet->GetName().c_str(), wxString(sName + wxT(".") + sExt).c_str()), wxNOT_FOUND, enumGISMessageTitle);
     }
 
 
@@ -1375,13 +1375,13 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         wxGISPostgresDataSource* pDataSource = new wxGISPostgresDataSource(sDSPath);
         if (!pDataSource->Open(TRUE))
         {
-            wxString sErr = wxString::Format(_("Datasource open failed! OGR error: "), pFilter->GetDriver().c_str());
+            wxString sErr(_("Datasource open failed! OGR error: "));
             CPLString sFullErr(sErr.mb_str());
             sFullErr += CPLGetLastErrorMsg();
             CPLError(CE_Failure, CPLE_FileIO, sFullErr);
             if (pTrackCancel)
             {
-                pTrackCancel->PutMessage(wxString(sFullErr, wxConvLocal), wxNOT_FOUND, enumGISMessageErr);
+                pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
             }
             return NULL;
         }
@@ -1429,7 +1429,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     sNewName.Replace(wxT("."), wxT("_"));
     sNewName.Replace(wxT(" "), wxT("_"));
     sNewName.Replace(wxT("&"), wxT("_"));
-    sNewName.Truncate(27);
+    //sNewName.Truncate(27);
 
 	if(wxIsdigit(sNewName.GetChar(0)))
 		sNewName.Prepend(_("Layer_"));

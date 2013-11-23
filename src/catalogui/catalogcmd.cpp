@@ -561,6 +561,8 @@ void wxGISCatalogMainCmd::OnClick(void)
                         return;
                 }
 
+                wxBusyCursor wait;
+
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
                 {
 					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));

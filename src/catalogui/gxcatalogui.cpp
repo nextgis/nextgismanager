@@ -105,7 +105,8 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     wxString sTitle = wxString::Format(_("%s %d objects (files)"), bMove == true ? _("Move") : _("Copy"), GxObjectPaths.GetCount());
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
 
-    wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd, wxPD_APP_MODAL | wxPD_AUTO_HIDE | wxPD_SMOOTH | wxPD_CAN_ABORT | wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_REMAINING_TIME);
+    wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd);
+    ProgressDlg.ShowProgress(true);
 
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {

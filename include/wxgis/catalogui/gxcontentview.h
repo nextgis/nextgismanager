@@ -114,6 +114,7 @@ public:
 protected:
     int GetIconPos(wxIcon icon_small, wxIcon icon_large);
     virtual void InitColumns(void);
+    virtual void SelectItem(int nChar = WXK_DOWN, bool bShift = false);
 protected:
 	bool m_bSortAsc;
 	short m_currentSortCol;
@@ -136,6 +137,7 @@ protected:
     wxCriticalSection m_CritSect;
     wxCriticalSection m_CritSectCont;
     long m_HighLightItem;
+    int m_bPrevChar;
 private:
     DECLARE_EVENT_TABLE()
 };

@@ -37,7 +37,7 @@ wxGISStatusBar::wxGISStatusBar() : wxStatusBar()
 {
 }
 
-wxGISStatusBar::wxGISStatusBar(wxWindow *parent, wxWindowID id, long style, const wxString& name, WXDWORD panelsstyle) : wxStatusBar(parent, id, style, name), m_timer(this, TIMER_ID), m_pAni(NULL), m_pProgressBar(NULL)
+wxGISStatusBar::wxGISStatusBar(wxWindow *parent, wxWindowID id, long style, const wxString& name, wxDword panelsstyle) : wxStatusBar(parent, id, style, name), m_timer(this, TIMER_ID), m_pAni(NULL), m_pProgressBar(NULL)
 {
     m_MsgPos = wxNOT_FOUND;
     m_AniPos = wxNOT_FOUND;

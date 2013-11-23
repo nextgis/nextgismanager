@@ -21,30 +21,41 @@
 #pragma once
 
 #include "wxgis/framework/framework.h"
+#include "wxgis/core/core.h"
 
-#include <wx/progdlg.h>
+#include <wx/intl.h>
+
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/sizer.h>
+#include <wx/button.h>
+#include <wx/dialog.h>
 
 /** \class wxGISProgressDlg progressdlg.h
     \brief The dialog showing progress and some buttons.
 */
 class WXDLLIMPEXP_GIS_FRW wxGISProgressDlg : 
-	public wxProgressDialog,
+	public wxDialog,
 	public ITrackCancel,
 	public IProgressor
 {
     DECLARE_CLASS(wxGISProgressDlg)
 public:
-	wxGISProgressDlg( const wxString &title, const wxString &message, int  maximum = 100, wxWindow *  parent = NULL, int style = wxPD_AUTO_HIDE|wxPD_APP_MODAL );
+    wxGISProgressDlg(const wxString &title, const wxString &message, int  maximum = 100, wxWindow *  parent = NULL, int style = wxCAPTION );
 	virtual ~wxGISProgressDlg(void);
 	//IProgressor
-    virtual bool ShowProgress(bool);
+    virtual bool ShowProgress(bool bShow = true);
     virtual void SetRange(int range);
     virtual int GetRange(void) const ;
     virtual void SetValue(int value);
     virtual int GetValue(void) const;
     virtual void Play(void);
     virtual void Stop(void);
-	virtual void SetYield(bool bYield = false){};
+	virtual void SetYield(bool bYield = false);
 	//ITrackCancel
 	virtual void Cancel(void);
 	virtual bool Continue(void);
@@ -55,11 +66,20 @@ public:
     virtual void SetAddPercentToMessage(bool bAdd = false);
     virtual size_t GetWarningCount() const;
     virtual const wxVector<MESSAGE>& GetWarnings() const;
+    //events
+    virtual void OnCancel(wxCommandEvent& event);
 protected:
-	int m_nValue;
+    wxButton* m_sdbSizerCancel;
+    wxStdDialogButtonSizer* m_sdbSizer;
+    wxStaticText* m_staticElapsedText;
+    IProgressor *m_pProgressBar;
+    wxStaticText* m_staticText;
+protected:
 	wxString m_sLastMessage;
-    float m_dfStep;
-    int m_nRange, m_nPrevValue;
     bool m_bAddPercentToMessage;
     wxVector<MESSAGE> m_saWarnings;
+    wxDateTime m_dtStart;
+    int m_nPrevDone;
+private:
+    DECLARE_EVENT_TABLE()
 };

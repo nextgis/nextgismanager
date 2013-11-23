@@ -1021,58 +1021,112 @@ void wxGxContentView::SelectAll(void)
         SetItemState(item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 }
 
+void wxGxContentView::SelectItem(int nChar, bool bShift)
+{
+    long nSelItemMax = nChar == WXK_DOWN ? GetItemCount() - 1 : 0;
+    long nSelItemNext = nChar == WXK_DOWN ? 0 : GetItemCount() - 1;
+    long nSelItemNextAdd = nChar == WXK_DOWN ? 1 : -1;
+    long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+    if (bShift)
+    {   
+        if (nSelItem == wxNOT_FOUND && m_HighLightItem == wxNOT_FOUND)
+        {
+            SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        }
+
+        bool bSwitchDirection = false;
+            
+        if (m_bPrevChar == WXK_UP || m_bPrevChar == WXK_DOWN)
+        {
+            bSwitchDirection = m_bPrevChar != nChar;
+        }
+             
+        if (bSwitchDirection)
+        {
+            nSelItemNextAdd = 0;
+        }
+        m_bPrevChar = nChar;
+
+        long nSelItemNextNorm;
+        if (m_HighLightItem == wxNOT_FOUND)
+        {
+            nSelItemNextNorm = nSelItem + nSelItemNextAdd;
+        }
+        else
+        {
+            nSelItemNextNorm = m_HighLightItem + nSelItemNextAdd;
+        }
+        m_HighLightItem = nSelItemNextNorm;
+                
+        if (nSelItemNextNorm == -1 || nSelItemNextNorm == GetItemCount())
+            return;
+
+        int nMask = GetItemState(nSelItemNextNorm, wxLIST_STATE_SELECTED);
+        if (nMask == wxLIST_STATE_SELECTED)
+        {
+            SetItemState(nSelItemNextNorm, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
+        }
+        else
+        {
+            SetItemState(nSelItemNextNorm, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        }
+    }
+    else
+    {
+        if (nSelItem == wxNOT_FOUND)
+        {
+            SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        }
+        else
+        {
+
+            if (m_HighLightItem != wxNOT_FOUND)
+            {
+                for (long item = 0; item < GetItemCount(); ++item)
+                    SetItemState(item, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
+                nSelItem = m_HighLightItem;
+                m_HighLightItem = wxNOT_FOUND;
+            }
+
+            SetItemState(nSelItem, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
+            if (nSelItem == nSelItemMax)
+            {
+                SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+            }
+            else
+            {
+                SetItemState(nSelItem + nSelItemNextAdd, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+            }
+        }
+    }
+}
+
 void wxGxContentView::OnChar(wxKeyEvent& event)
 {
 	if(event.GetModifiers() & wxMOD_ALT)
 		return;
 	if(event.GetModifiers() & wxMOD_CONTROL)
 		return;
-	if(event.GetModifiers() & wxMOD_SHIFT)
-		return;
     switch(event.GetKeyCode())
     {
     case WXK_DELETE:
     case WXK_NUMPAD_DELETE:
-        if(m_pDeleteCmd)
-            m_pDeleteCmd->OnClick();
-        break;
-    case WXK_UP:
+        if (event.GetModifiers() & wxMOD_SHIFT)
         {
-            long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-            if(nSelItem == wxNOT_FOUND)
-                SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            else 
-            {
-                SetItemState(nSelItem, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
-                if(nSelItem == 0)
-                {             
-                    SetItemState(GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-                }
-                else
-                {
-                    SetItemState(nSelItem - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-                }
-            }            
+            //TODO: complete delete
         }
-        break;
-    case WXK_DOWN:
+        else
         {
-            long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-            if(nSelItem == wxNOT_FOUND)
-                SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            else
+            if (NULL != m_pDeleteCmd)
             {
-                SetItemState(nSelItem, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
-                if(nSelItem == GetItemCount() - 1)
-                {             
-                    SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-                }
-                else
-                {
-                    SetItemState(nSelItem + 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-                }
+                //TODO: delete to trash can
+                m_pDeleteCmd->OnClick();
             }
         }
+        break;
+    case WXK_UP:
+    case WXK_DOWN:
+        SelectItem(event.GetKeyCode(), event.GetModifiers() & wxMOD_SHIFT);
         break;
     default:
         break;
