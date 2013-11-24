@@ -33,6 +33,7 @@ wxGxPostGISTableDataset::wxGxPostGISTableDataset(const wxString &sSchema, wxGISP
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = sSchema + wxT(".") + soName;
+    m_sSchemaName = sSchema;
 }
 
 wxGxPostGISTableDataset::~wxGxPostGISTableDataset(void)
@@ -52,6 +53,57 @@ wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
 
 void wxGxPostGISTableDataset::FillMetadata(bool bForce)
 {
+    if (m_bIsMetadataFilled && !bForce)
+        return;
+    m_bIsMetadataFilled = true;
+
+    wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
+    m_pwxGISRemoteConn->ExecuteSQL(sStatement);
+
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(sStatement, wxT("PG")), wxGISTableCached);
+    if (NULL != pTableList)
+    {
+        wxFeatureCursor Cursor = pTableList->Search(wxGISNullQueryFilter, true);
+        wxGISFeature Feature = Cursor.Next();
+        if (Feature.IsOk())
+        {
+            m_nSize = Feature.GetFieldAsInteger(0);
+        }
+    }
+}
+
+bool wxGxPostGISTableDataset::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pwxGISRemoteConn != NULL;
+}
+
+bool wxGxPostGISTableDataset::CanCopy(const CPLString &szDestPath)
+{
+    //TODO: not support yet
+    return false;
+}
+
+bool wxGxPostGISTableDataset::CanMove(const CPLString &szDestPath)
+{
+    //TODO: check permissions
+    //TODO: not support yet
+    return false;
+}
+
+bool wxGxPostGISTableDataset::Rename(const wxString &sNewName)
+{
+    return m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName);
+}
+
+bool wxGxPostGISTableDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxPostGISTableDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
 }
 
 //-----------------------------------------------------------------------------------
@@ -85,6 +137,7 @@ wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wx
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = sSchema + wxT(".") + soName;
+    m_sSchemaName = sSchema;
 }
 
 wxGxPostGISFeatureDataset::~wxGxPostGISFeatureDataset(void)
@@ -106,6 +159,58 @@ wxGISDataset* const wxGxPostGISFeatureDataset::GetDatasetFast(void)
 
 void wxGxPostGISFeatureDataset::FillMetadata(bool bForce)
 {
+    if (m_bIsMetadataFilled && !bForce)
+        return;
+    m_bIsMetadataFilled = true;
+
+    wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
+    m_pwxGISRemoteConn->ExecuteSQL(sStatement);
+
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(sStatement, wxT("PG")), wxGISTableCached);
+    if (NULL != pTableList)
+    {
+        wxFeatureCursor Cursor = pTableList->Search(wxGISNullQueryFilter, true);
+        wxGISFeature Feature = Cursor.Next();
+        if (Feature.IsOk())
+        {
+            m_nSize = Feature.GetFieldAsInteger(0);
+        }
+    }
+}
+
+
+bool wxGxPostGISFeatureDataset::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pwxGISRemoteConn != NULL;
+}
+
+bool wxGxPostGISFeatureDataset::CanCopy(const CPLString &szDestPath)
+{
+    //TODO: not support yet
+    return false;
+}
+
+bool wxGxPostGISFeatureDataset::CanMove(const CPLString &szDestPath)
+{
+    //TODO: check permissions
+    //TODO: not support yet
+    return false;
+}
+
+bool wxGxPostGISFeatureDataset::Rename(const wxString &sNewName)
+{
+    return m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName);
+}
+
+bool wxGxPostGISFeatureDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxPostGISFeatureDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
 }
 
 #endif //wxGIS_USE_POSTGRES

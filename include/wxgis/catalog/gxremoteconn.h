@@ -31,6 +31,8 @@
 
 class wxGxRemoteDBSchema;
 
+WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, wxGISDBShemaMap);
+
 /** \class wxGxRemoteConnection gxremoteconn.h
     \brief A Remote Connection GxObject.
 */
@@ -82,8 +84,9 @@ protected:
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
-    wxArrayString FillSchemaNames(wxGISTableCached* pInfoSchema);
+    wxGISDBShemaMap FillSchemaNames(wxGISTableCached* pInfoSchema);
     void DeleteSchema(const wxString& sSchemaName);
+    void RenameSchema(const wxString& sSchemaName, const wxString& sNewSchemaName);
     virtual wxThread::ExitCode Entry();
     virtual bool CreateAndRunThread(void);
     virtual wxThread::ExitCode CheckChanges();
@@ -92,7 +95,7 @@ protected:
 protected:
     wxGISDataset* m_pwxGISDataset;
     bool m_bIsConnected;
-    wxArrayString m_saSchemas;
+    wxGISDBShemaMap m_saSchemas;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
     bool m_bChildrenLoaded;
 private:

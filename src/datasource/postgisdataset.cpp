@@ -239,6 +239,21 @@ bool wxGISPostgresDataSource::RenameSchema(const wxString &sSchemaName, const wx
     return PGExecuteSQL(wxString::Format(wxT("ALTER SCHEMA \"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sSchemaNewName.c_str()));
 }
 
+bool wxGISPostgresDataSource::RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName)
+{
+    if (sTableName == sTableNewName)
+    {
+        return true;
+    }
+    wxString sResultName = wxGISPostgresDataSource::NormalizeTableName(sTableNewName);
+    return PGExecuteSQL(wxString::Format(wxT("ALTER TABLE %s.\"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
+}
+
+bool wxGISPostgresDataSource::MoveTable(const wxString &sTableName, const wxString &sSchemaName, const wxString &sSchemaNewName)
+{
+    return false;
+}
+
 bool wxGISPostgresDataSource::PGExecuteSQL(const wxString &sStatement)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
@@ -449,6 +464,26 @@ char **wxGISPostgresDataSource::GetFileList()
     return NULL;
 }
 
+wxString wxGISPostgresDataSource::NormalizeTableName(const wxString &sSrcName)
+{
+    wxString sResultName = sSrcName;
+
+    //make PG compatible
+    for (int i = 0; i < sResultName.size(); ++i)
+    {
+        sResultName[i] = wxTolower(sResultName[i]);
+        if (sResultName[i] == '\'' || sResultName[i] == '-' || sResultName[i] == '#' || sResultName[i] == '(')
+            sResultName[i] = '_';
+        else if (sResultName[i] == ')')
+        {
+            sResultName.Remove(i);
+            i--;
+        }
+    }
+    return sResultName;
+}
+
+
 //---------------------------------------
 // wxGISPostgresFeatureDataset
 //---------------------------------------
@@ -472,7 +507,8 @@ wxGISPostgresFeatureDataset::~wxGISPostgresFeatureDataset(void)
 
 bool wxGISPostgresFeatureDataset::CanDelete(void)
 {
-    if(m_poDS)
+    //TODO: check permissions
+    if (m_poDS)
     {
         return m_poDS->TestCapability(ODsCDeleteLayer) == 0 ? false : true;
     }

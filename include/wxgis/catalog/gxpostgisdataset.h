@@ -43,10 +43,18 @@ public:
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Table"));};
     //wxGxDataset
     virtual void FillMetadata(bool bForce);
+    //IGxDatasetEdit
+    virtual bool CanRename(void);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool Rename(const wxString &sNewName);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
+    wxString m_sSchemaName;
     wxString m_sFullyQualifiedName;
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
 };
@@ -66,10 +74,18 @@ public:
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Feature Dataset"));};
     //wxGxDataset
     virtual void FillMetadata(bool bForce);
+    //IGxDatasetEdit
+    virtual bool CanRename(void);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool Rename(const wxString &sNewName);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
+    wxString m_sSchemaName;
     wxString m_sFullyQualifiedName;
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
 };

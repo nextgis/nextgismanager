@@ -268,7 +268,7 @@ void wxGxRemoteConnection::LoadChildren(void)
         return;
     }
 
-    wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
+    wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname,oid FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
 
     if (NULL != pInfoSchema)
     {
@@ -291,10 +291,10 @@ void wxGxRemoteConnection::LoadChildren(void)
         }
 
 
-        for (size_t i = 0; i < m_saSchemas.size(); ++i)
+        for (wxGISDBShemaMap::const_iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
         {
-            CPLString szPath(CPLFormFilename(GetPath(), m_saSchemas[i].mb_str(wxConvUTF8), ""));
-            GetNewRemoteDBSchema(m_saSchemas[i], szPath, pDSet);
+            CPLString szPath(CPLFormFilename(GetPath(), it->second.mb_str(wxConvUTF8), ""));
+            GetNewRemoteDBSchema(it->second, szPath, pDSet);
         }
         m_bChildrenLoaded = true;
     }
@@ -344,32 +344,39 @@ wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
         //previous sql statement
         //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT LIKE 'pg_%' AND table_schema NOT LIKE 'information_schema'
         //SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog', 'information_schema')"), wxT("PG"))
-        wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
+        wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname,oid FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
 
         if (NULL != pInfoSchema)
         {
-            wxArrayString saCurrentSchemas = FillSchemaNames(pInfoSchema);
+            wxGISDBShemaMap saCurrentSchemas = FillSchemaNames(pInfoSchema);
             wsDELETE(pInfoSchema);
 
-            //delete 
-            for (size_t i = 0; i < m_saSchemas.GetCount(); i++)
+             
+            for (wxGISDBShemaMap::iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
             {
-                if (saCurrentSchemas.Index(m_saSchemas[i]) == wxNOT_FOUND)
+                wxGISDBShemaMap::iterator cit = saCurrentSchemas.find(it->first);
+                if (cit == saCurrentSchemas.end())//delete
                 {
-                    DeleteSchema(m_saSchemas[i]);
-                    m_saSchemas.RemoveAt(i);
-                    i--;
+                    DeleteSchema(it->second);
+                    m_saSchemas.erase(it);
+                    it = m_saSchemas.begin();
+                }
+                else if (cit->second != it->second)//rename
+                {
+                    RenameSchema(it->second, cit->second);
+                    it->second = cit->second;
                 }
             }
 
             //add new
-            for (size_t i = 0; i < saCurrentSchemas.GetCount(); i++)
+            for (wxGISDBShemaMap::iterator it = saCurrentSchemas.begin(); it != saCurrentSchemas.end(); ++it)
             {
-                if (m_saSchemas.Index(saCurrentSchemas[i]) == wxNOT_FOUND)
+                wxGISDBShemaMap::iterator cit = m_saSchemas.find(it->first);
+                if (cit == saCurrentSchemas.end())
                 {
-                    CPLString szPath(CPLFormFilename(GetPath(), saCurrentSchemas[i].mb_str(wxConvUTF8), ""));
-                    wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(saCurrentSchemas[i], szPath, pDSet);
-                    m_saSchemas.Add(saCurrentSchemas[i]);
+                    CPLString szPath(CPLFormFilename(GetPath(), it->second.mb_str(wxConvUTF8), ""));
+                    wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(it->second, szPath, pDSet);
+                    m_saSchemas[it->first] = it->second;
                     //refresh
                     wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
                 }
@@ -416,7 +423,22 @@ void wxGxRemoteConnection::DeleteSchema(const wxString& sSchemaName)
     }
 }
 
-wxArrayString wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchema)
+void wxGxRemoteConnection::RenameSchema(const wxString& sSchemaName, const wxString& sNewSchemaName)
+{
+    wxGxObjectList::iterator iter;
+    for (iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+    {
+        wxGxObject *current = *iter;
+        if (NULL != current && current->GetName().IsSameAs(sSchemaName))
+        {
+            current->SetName(sNewSchemaName);
+            wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
+            break;
+        }
+    }
+}
+
+wxGISDBShemaMap wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchema)
 {
     bool bLoadSystemTablesAndSchemas = false;
     wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
@@ -430,11 +452,12 @@ wxArrayString wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchem
     }
 
     wxFeatureCursor Cursor = pInfoSchema->Search();
-    wxArrayString saCurrentSchemas;
+    wxGISDBShemaMap saCurrentSchemas;
     wxGISFeature Feature;
     while ((Feature = Cursor.Next()).IsOk())
     {
         wxString sSchema = Feature.GetFieldAsString(0);
+        int nOID = Feature.GetFieldAsInteger(1);
         if (!bLoadSystemTablesAndSchemas)
         {
             if (sSchema.IsSameAs(wxT("topology")))//TODO: add more schemas
@@ -446,8 +469,7 @@ wxArrayString wxGxRemoteConnection::FillSchemaNames(wxGISTableCached* pInfoSchem
                 continue;
             }
         }
-        saCurrentSchemas.Add(sSchema);
-
+        saCurrentSchemas[nOID] = sSchema;
     }
 
     return saCurrentSchemas;
@@ -485,14 +507,14 @@ wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, 
         sResultName = sSchemaName;
     }
 
-    if (m_saSchemas.Index(sResultName) != wxNOT_FOUND)
+    for (wxGISDBShemaMap::const_iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
     {
-        return CheckUniqSchemaName(sSchemaName, sAdd, nCounter + 1);
+        if (it->second == sResultName)
+        {
+            return CheckUniqSchemaName(sSchemaName, sAdd, nCounter + 1);
+        }
     }
-    else
-    {
-        return sResultName;
-    }
+    return sResultName;
 }
 
 
@@ -566,11 +588,13 @@ bool wxGxRemoteDBSchema::CanCreate(long nDataType, long DataSubtype)
 
 bool wxGxRemoteDBSchema::CanDelete(void)
 { 
+    //TODO: check permissions
     return m_pwxGISRemoteConn != NULL;
 }
 
 bool wxGxRemoteDBSchema::CanRename(void)
 { 
+    //TODO: check permissions
     return m_pwxGISRemoteConn != NULL;
 }
 
@@ -591,7 +615,7 @@ bool wxGxRemoteDBSchema::Copy(const CPLString &szDestPath, ITrackCancel* const p
 
 bool wxGxRemoteDBSchema::CanCopy(const CPLString &szDestPath)
 { 
-    return true; 
+    return false;
 }
 
 bool wxGxRemoteDBSchema::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -601,7 +625,7 @@ bool wxGxRemoteDBSchema::Move(const CPLString &szDestPath, ITrackCancel* const p
 
 bool wxGxRemoteDBSchema::CanMove(const CPLString &szDestPath)
 { 
-    return true; 
+    return false;
 }
 
 wxArrayString wxGxRemoteDBSchema::FillTableNames()
@@ -1008,7 +1032,7 @@ wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, cons
     wxString sResultName;
     if (nCounter > 0)
     {
-        sResultName = sTableName + wxString::Format(wxT("%s(%d)"), sAdd.c_str(), nCounter);
+        sResultName = sTableName + wxString::Format(wxT("%s%d"), sAdd.c_str(), nCounter);
     }
     else
     {
@@ -1016,12 +1040,7 @@ wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, cons
     }
 
     //make PG compatible
-    for (int i = 0; i < sResultName.size(); ++i)
-    {
-        sResultName[i] = wxTolower(sResultName[i]);
-        if (sResultName[i] == '\'' || sResultName[i] == '-' || sResultName[i] == '#')
-            sResultName[i] = '_';
-    }
+    sResultName = wxGISPostgresDataSource::NormalizeTableName(sResultName);
 
     if (m_saTables.Index(sResultName) != wxNOT_FOUND)
     {

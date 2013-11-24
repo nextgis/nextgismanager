@@ -53,10 +53,6 @@ void wxGxDataset::FillMetadata(bool bForce)
         return;
     m_bIsMetadataFilled = true;
 
-    //return for subdatasets
-    if (m_sPath.find('?') != wxNOT_FOUND)
-        return;
-
     wxGISDataset* pDSet = GetDatasetFast();
     if (NULL == pDSet)
     {
@@ -187,7 +183,7 @@ bool wxGxDataset::Rename(const wxString &sNewName)
     return true;
 }
 
-
+//TODO: Current copy support only file system not DB - add DB support
 bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
@@ -220,6 +216,7 @@ bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCa
     return true;
 }
 
+//TODO: Current move support only file system not DB - add DB support
 bool wxGxDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if (pTrackCancel)

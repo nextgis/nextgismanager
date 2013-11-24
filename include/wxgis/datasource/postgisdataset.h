@@ -56,6 +56,8 @@ public:
     bool CreateSchema(const wxString &sSchemaName);
     bool DeleteSchema(const wxString &sSchemaName);
     bool RenameSchema(const wxString &sSchemaName, const wxString &sSchemaNewName);
+    bool RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName);
+    bool MoveTable(const wxString &sTableName, const wxString &sSchemaName, const wxString &sSchemaNewName);
     //wxGISDataset* PGExecuteSQL( const wxString &sStatement, bool bMultipleCommandAllowed = FALSE );
     //wxGISDataset
 	virtual bool Rename(const wxString &sNewName);
@@ -66,6 +68,7 @@ public:
     //
     virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
     virtual wxFontEncoding GetEncoding() const { return m_Encoding; };
+    static wxString NormalizeTableName(const wxString &sSrcName);
 protected:    
     inline void OGRPGClearResult( PGresult*& hResult )
     {
