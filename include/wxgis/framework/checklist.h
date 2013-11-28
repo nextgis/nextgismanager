@@ -24,8 +24,11 @@
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
 
-/** \class wxGISCheckList framework.h
-    \brief A List View with check box
+/** @class wxGISCheckList
+
+    A List View with check boxes
+
+    @library {framework}
  */
 class WXDLLIMPEXP_GIS_FRW wxGISCheckList : public wxListView
 {
@@ -37,6 +40,7 @@ public:
     long GetItemData(long item) const;
     bool IsItemChanged(long item);
     int GetItemCheckState(long item);
+    void SetItemCheckState(long item, int nState);
     //events
     void OnLeftDown(wxMouseEvent& event);
 
@@ -48,7 +52,7 @@ public:
     }ITEM_DATA, *LPITEM_DATA;
 protected:
     wxImageList m_CheckImageList;
-
+private:
     DECLARE_EVENT_TABLE()
 };
 

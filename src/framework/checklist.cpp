@@ -104,4 +104,11 @@ int wxGISCheckList::GetItemCheckState(long item)
     return pdata->nCheckState;
 }
 
+void wxGISCheckList::SetItemCheckState(long item, int nState)
+{
+    LPITEM_DATA pdata = (LPITEM_DATA)wxListView::GetItemData(item);
+    pdata->nCheckState = nState;
+    bool bCheck = pdata->nCheckState != 0;
+    SetItemImage(item, bCheck == true ? 1 : 0, bCheck == true ? 1 : 0);
+}
 

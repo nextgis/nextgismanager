@@ -763,7 +763,7 @@ void wxGxObjectDialog::OnItemSelected(wxListEvent& event)
 		return;
 
 	wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
-    bool bIsDataset = pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset));
+    bool bIsDataset = pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)) || m_FilterArray[m_WildcardCombo->GetCurrentSelection()]->CanChooseObject(pGxObject);
     bool bIsObjContainer = pGxObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer));
     if(!bIsDataset && bIsObjContainer)
     {
@@ -823,15 +823,16 @@ void wxGxObjectDialog::OnOK(wxCommandEvent& event)
             return;
         long nSelID = pSel->GetFirstSelectedObjectId();
 		wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(nSelID);
-        if(pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)))
-        {
-            GetGxSelection()->Select(nSelID, false, wxGxSelection::INIT_ALL);
-            return;
-        }
 
         //fill out data
         if(m_bIsSaveDlg)
         {
+            if(pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)))
+            {
+                GetGxSelection()->Select(nSelID, false, wxGxSelection::INIT_ALL);
+                return;
+            }
+
             if(nPos != m_FilterArray.GetCount())
             {
                 wxGISEnumSaveObjectResults Result = m_FilterArray[nPos]->CanSaveObject(GetLocation(), GetName());
@@ -850,7 +851,13 @@ void wxGxObjectDialog::OnOK(wxCommandEvent& event)
         }
         else
         {
-            for(size_t i = 0; i < pSel->GetCount(); ++i)
+            if (pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)) && !m_FilterArray[nPos]->CanChooseObject(pGxObject))
+            {
+                GetGxSelection()->Select(nSelID, false, wxGxSelection::INIT_ALL);
+                return;
+            }
+
+            for (size_t i = 0; i < pSel->GetCount(); ++i)
             {
 				wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pSel->GetSelectedObjectId(i));
                 if(nPos == m_FilterArray.GetCount())

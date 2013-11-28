@@ -822,17 +822,22 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
 
     if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
     {
-        wxString sCharset(wxT("cp-866"));
-        wxGISAppConfig oConfig = GetConfig();
-        if (oConfig.IsOk())
-            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
-
-
         wxGxDataset* pGxDS = wxDynamicCast(pGxObject, wxGxDataset);
         if (NULL == pGxDS)
         {
             return false;
         }
+
+        
+        if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
+        {
+            return false;
+        }
+
+        wxString sCharset(wxT("cp-866"));
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
 
         wxString sName = pGxDS->GetName();
         saPaths.Add(sName);
