@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxDiscConnections class.
+ * Purpose:  wxGxDBConnections class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Bishop
+*   Copyright (C) 2011,2013 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -18,52 +18,64 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-
 #pragma once
-
+/*
 #include "wxgis/catalog/catalog.h"
-#include "wxgis/catalog/gxobject.h"
-#include "wxgis/catalog/gxmlconnstor.h"
+#include "wxgis/catalog/gxfolder.h"
+#include "wxgis/catalog/gxcatalog.h"
 
-#define CONNCONF wxT("conn.json")
+#include <wx/event.h>
+#include <wx/fswatcher.h>
 
-/** \class wxGxDiscConnections gxdiscconnections.h
-    \brief The Disc Connections GxRootObject.
+#if wxVERSION_NUMBER <= 2903// && !defined EVT_FSWATCHER(winid, func)
+#define EVT_FSWATCHER(winid, func) \
+    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
+#endif
+
+
+/** \class wxGxDBConnections gxdbconnections.h
+    \brief The database connections root item.
+
+	This root item can held connections (*.xconn) and folders items
 */
-
-class WXDLLIMPEXP_GIS_CLT wxGxDiscConnections :
-	public wxGxJSONConnectionStorage,
-    public IGxRootObjectProperties,
-    public IGxObjectNoFilter
+/*
+class WXDLLIMPEXP_GIS_CLT wxGxDBConnections :
+	public wxGxFolder,
+    public IGxRootObjectProperties
 {
-   DECLARE_DYNAMIC_CLASS(wxGxDiscConnections)
+   DECLARE_DYNAMIC_CLASS(wxGxDBConnections)
 public:
-	wxGxDiscConnections(void);
-	virtual ~wxGxDiscConnections(void);
+	wxGxDBConnections(void);
+	virtual ~wxGxDBConnections(void);
 	//wxGxObject
     virtual bool Create(wxGxObject *oParent = NULL, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	virtual wxString GetCategory(void) const {return wxString(_("Database connections folder"));};
     virtual bool Destroy(void);
-    virtual wxString GetBaseName(void) const {return GetName();};
-    virtual wxString GetFullName(void) const {return wxEmptyString;};
-	virtual wxString GetCategory(void) const {return wxString(_("Folder connections"));};
-	virtual void Refresh(void);
+    virtual void Refresh(void);
 	//wxGxObjectContainer
-	virtual bool AreChildrenViewable(void) const {return true;};
+    virtual bool CanCreate(long nDataType, long DataSubtype);     
+    //wxGxObjectContainer
+    virtual bool AreChildrenViewable(void) const {return true;};
     //IGxRootObjectProperties
     virtual void Init(wxXmlNode* const pConfigNode);
     virtual void Serialize(wxXmlNode* const pConfigNode);
-    virtual bool ConnectFolder(const wxString &sPath);
-    virtual bool DisconnectFolder(int nStoreId);
+//events
+    virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
+#ifdef __WXGTK__
+    virtual void OnObjectAdded(wxGxCatalogEvent& event);
+#endif
 protected:
-    //wxGxXMLConnectionStorage
-    virtual bool IsObjectExist(wxGxObject* const pObj, const wxJSONValue& GxObjConfValue);
-    virtual void CreateConnectionsStorage(void);
-    virtual wxGxObject* CreateChildGxObject(const wxJSONValue& GxObjConfValue);
-    virtual int GetStorageVersion(void) const {return 2;};
+    virtual void StartWatcher(void);
+	virtual void LoadChildren(void);
+    virtual bool IsPathWatched(const wxString& sPath);
 protected:
-    wxString m_sUserConfigDir;
+    wxString m_sInternalPath;
     wxFileSystemWatcher *m_pWatcher;
-    wxCriticalSection m_oCritSect;
+    wxGxCatalog* m_pCatalog;
+#ifdef __WXGTK__
+    long m_ConnectionPointCatalogCookie;
+#endif
 private:
     DECLARE_EVENT_TABLE()
 };
+*/

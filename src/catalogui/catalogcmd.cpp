@@ -32,6 +32,7 @@
 #include "wxgis/framework/dataobject.h"
 #include "wxgis/catalogui/gxlocationcombobox.h"
 #include "wxgis/net/mail/email.h"
+#include "wxgis/catalog/gxdataset.h"
 
 //
 //#include "wxgis/framework/progressor.h"
@@ -767,58 +768,149 @@ void wxGISCatalogMainCmd::OnClick(void)
         case 14:
             if (NULL != pSel && NULL != pCat)
             {
+                //create temp zip
+                CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("email"), "zip");
+                void* hZIP = CPLCreateZip(szZipFileName, NULL);
 
-                wxMailMessage msg(_("Send: geodata archive"), _("This e-mail include geodata in archive : \r\n--------------------------------------------\r\nCreated by NextGIS Manager"), wxEmptyString, wxT("D:\\work\\projects\\art\\png\\web_connections_48.png"));
+                if (!hZIP) 
+                {
+                    wxMessageBox(_("Create zip failed!"), _("Error"), wxICON_ERROR | wxOK );
+                    CPLError(CE_Failure, CPLE_NoWriteAccess, "ERROR creating %s", szZipFileName);
+                    return;
+                }
+
+
+                //load files to zip
+                wxArrayString saPaths;
+                for (size_t i = 0; i < pSel->GetCount(); ++i)
+                {
+                    wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+                    AddGxObjectToZip(saPaths, hZIP, pGxObject);
+                }
+
+                CPLCloseZip(hZIP);
+
+                wxString sContents(_("This e-mail include spatial data in archive : \r\n"));
+                for (size_t i = 0; i < saPaths.GetCount(); ++i)
+                {
+                    sContents += saPaths[i];
+                    sContents.Append(wxT("\r\n"));
+                }
+                sContents.Append(wxT("--------------------------------------------\r\n"));
+                sContents.Append(_("Created by NextGIS Manager"));
+                //send zip via e-mail
+                wxString sArchiveName = wxDateTime::Now().Format(wxT("spatial_data_%Y%m%d.zip"));
+                wxMailMessage msg(_("Send: spatial data archive"), sContents, wxEmptyString, wxString(szZipFileName, wxConvUTF8), sArchiveName);
                 wxEmail email;
 
                 email.Send(msg);
 
-/*                wxString sCmd(wxT("-compose subject="));//mailto:?
-                sCmd.Append(_("Send: geodata archive"));//file count?
-                sCmd.Append(wxT(",body="));
-                sCmd.Append(_("This e-mail include geodata in archive:"));
-                //sCmd.Append(wxT("\n--------------------------------------------\n"));
-                //sCmd.Append(_("Created by NextGIS Manager"));
-                //sCmd.Append(wxT("&attach="));
-                //sCmd.Append(wxT("D:/work/projects/art/png/web_connections_48.png"));
-                sCmd.Append(wxT(",attachment="));
-                sCmd.Append(wxT("'file:///D:/work/projects/art/png/web_connections_48.png'"));
-                //sCmd.Append(wxT("'file:///D:\\work\\projects\\art\\png\\web_connections_48.png'"));
-                //wxURI oURL(sCmd);
-                //sCmd = oURL.BuildURI();
-
-                //add to archive and send by e-mail
-                // Version 1
-                //QDesktopServices::openUrl(QUrl("mailto:?subject=File from our app.&attach=" + fileName));
-
-                // Version 2
-                //QDesktopServices::openUrl(QUrl("mailto:?subject=File from our app.&attachment=" + fileName));
-
-                wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromExtension(_T(".eml"));
-                if (!ft) 
-                {
-                    wxMessageBox(wxString::Format(_("Impossible to determine the file type for extension %s.\nPlease edit your MIME types."), wxT(".eml")), _("Error"), wxICON_ERROR | wxOK );
-                    return;
-                }
-
-                wxString cmd;
-                bool bOk = ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(sCmd, wxEmptyString));
-
-                wxArrayString s1, s3;
-                ft->GetAllCommands(&s1, &s3, wxFileType::MessageParameters(sCmd, wxEmptyString));
-                wxDELETE( ft );
-
-                if (bOk)
-                {
-                    wxExecute(cmd, wxEXEC_ASYNC);
-                }
-                */
                 return;
             }
         case 3:
 		default:
 			return;
 	}
+}
+
+bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath)
+{
+    if (NULL == pGxObject)
+    {
+        return false;
+    }
+
+    if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+    {
+        wxString sCharset(wxT("cp-866"));
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+
+
+        wxGxDataset* pGxDS = wxDynamicCast(pGxObject, wxGxDataset);
+        if (NULL == pGxDS)
+        {
+            return false;
+        }
+
+        wxString sName = pGxDS->GetName();
+        saPaths.Add(sName);
+
+        wxGISDataset* pDS = pGxDS->GetDataset(false);
+        if (NULL == pDS)
+        {
+            return false;
+        }
+
+        VSILFILE *fp;
+        size_t nBufferSize = 1024 * 1024;
+        GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+        size_t nBytesRead;
+        
+        char** papszFileList = pDS->GetFileList();
+        papszFileList = CSLAddString(papszFileList, pDS->GetPath());
+        for (int i = 0; papszFileList[i] != NULL; ++i)
+        {
+            int nRet = 0;
+
+            CPLString szName;
+            if (szPath.empty())
+            {
+                szName = CPLGetFilename(papszFileList[i]);
+            }
+            else
+            {
+                szName += szPath;
+                szName += "/";
+                szName += CPLGetFilename(papszFileList[i]);
+            }
+
+            szName = CPLString(wxString(szName, wxConvUTF8).mb_str(wxCSConv(sCharset)));
+
+            fp = VSIFOpenL(papszFileList[i], "rb");
+            if (fp == NULL)
+                continue;
+
+            if (CPLCreateFileInZip(hZIP, szName, NULL) == CE_None)
+            {
+                do {
+                    nBytesRead = VSIFReadL(pabyBuffer, 1, nBufferSize, fp);
+                    if (long(nBytesRead) < 0)
+                        nRet = -1;
+
+                    if (nRet == 0 && CPLWriteFileInZip(hZIP, pabyBuffer, nBytesRead) != CE_None)
+                        nRet = -1;
+                } while (nRet == 0 && nBytesRead == nBufferSize);
+
+            }
+                
+            //    CPLError(CE_Failure, CPLE_FileIO, "ERROR adding %s to zip", szName);
+            CPLCloseFileInZip(hZIP);
+            VSIFCloseL(fp);
+        }
+
+        CPLFree(pabyBuffer);
+        CSLDestroy(papszFileList);
+    }
+    else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+    {
+        CPLString szNewPath;
+        if (szPath.empty())
+            szNewPath = CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+        else
+            szNewPath = szPath + "/" + CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+        wxGxObjectContainer* pCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
+        if (pCont && pCont->HasChildren())
+        {
+            const wxGxObjectList lObj = pCont->GetChildren();
+            for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+            {
+                AddGxObjectToZip(saPaths, hZIP, *it, szNewPath);
+            }
+        }
+    }
+    return true;
 }
 
 bool wxGISCatalogMainCmd::OnCreate(wxGISApplicationBase* pApp)

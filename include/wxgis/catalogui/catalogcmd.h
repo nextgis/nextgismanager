@@ -58,7 +58,9 @@ public:
     //IDropDownCommand
    	virtual wxMenu* GetDropDownMenu(void);
     virtual void OnDropDownCommand(int nID);
-private:
+protected:
+    bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath = "");
+protected:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
 	wxIcon m_IconFolderUp, m_IconFolderConn, m_IconFolderConnDel, m_IconDel, m_IconGoPrev, m_IconGoNext;

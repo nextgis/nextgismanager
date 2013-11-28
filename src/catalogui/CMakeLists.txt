@@ -130,6 +130,9 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxwebconnfactoryui.h
     ${LIB_HEADERS}/droptarget.h #think about move to other lib
     ${LIB_HEADERS}/processing.h #think about move to other lib
+    ${LIB_HEADERS}/gxshellconnui.h
+    ${LIB_HEADERS}/gxshellconnectionsui.h
+    ${LIB_HEADERS}/gxshellconnfactoryui.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -184,6 +187,9 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxpostgisdatasetui.cpp
     ${LIB_SOURCES}/droptarget.cpp #think about move to other lib
     ${LIB_SOURCES}/processing.cpp #think about move to other lib
+    ${LIB_SOURCES}/gxshellconnui.cpp
+    ${LIB_SOURCES}/gxshellconnectionsui.cpp
+    ${LIB_SOURCES}/gxshellconnfactoryui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)

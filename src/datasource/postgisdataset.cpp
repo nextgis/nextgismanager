@@ -246,7 +246,11 @@ bool wxGISPostgresDataSource::RenameTable(const wxString &sSchemaName, const wxS
         return true;
     }
     wxString sResultName = wxGISPostgresDataSource::NormalizeTableName(sTableNewName);
-    return PGExecuteSQL(wxString::Format(wxT("ALTER TABLE %s.\"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
+    bool bRes = PGExecuteSQL(wxString::Format(wxT("ALTER TABLE %s.\"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
+    //try to rename index. Assume that the index created by gdal and geometry field name was not changed from wkb_geometry
+    //TODO: find index and rename it to gdal look like
+    PGExecuteSQL(wxString::Format(wxT("ALTER INDEX %s.\"%s_wkb_geometry_geom_idx\" RENAME TO \"%s_wkb_geometry_geom_idx\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
+    return bRes;
 }
 
 bool wxGISPostgresDataSource::MoveTable(const wxString &sTableName, const wxString &sSchemaName, const wxString &sSchemaNewName)

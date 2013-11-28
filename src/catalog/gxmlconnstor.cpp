@@ -19,7 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "wxgis/catalog/gxxmlconnstor.h"
+#include "wxgis/catalog/gxmlconnstor.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/core/format.h"
 

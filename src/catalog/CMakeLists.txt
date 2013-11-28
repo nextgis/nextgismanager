@@ -83,7 +83,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxrasterfactory.h
     ${LIB_HEADERS}/gxshapefactory.h
     ${LIB_HEADERS}/gxspatreffolder.h
-    ${LIB_HEADERS}/gxxmlconnstor.h
+    ${LIB_HEADERS}/gxmlconnstor.h
     ${LIB_HEADERS}/gxpostgisdataset.h
     ${LIB_HEADERS}/gxdbconnections.h
     ${LIB_HEADERS}/gxdbconnfactory.h    
@@ -91,6 +91,9 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxwebconnfactory.h
     ${LIB_HEADERS}/gxremoteconn.h
     ${LIB_HEADERS}/gxobjectfactory.h
+    ${LIB_HEADERS}/gxshellconnections.h
+    ${LIB_HEADERS}/gxshellconnfactory.h 
+    ${LIB_HEADERS}/gxshellconn.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -116,7 +119,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxrasterfactory.cpp
     ${LIB_SOURCES}/gxshapefactory.cpp
     ${LIB_SOURCES}/gxspatreffolder.cpp    
-    ${LIB_SOURCES}/gxxmlconnstor.cpp    
+    ${LIB_SOURCES}/gxmlconnstor.cpp    
     ${LIB_SOURCES}/gxpostgisdataset.cpp
     ${LIB_SOURCES}/gxdbconnections.cpp
     ${LIB_SOURCES}/gxdbconnfactory.cpp    
@@ -124,6 +127,9 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxwebconnfactory.cpp
     ${LIB_SOURCES}/gxremoteconn.cpp
     ${LIB_SOURCES}/gxobjectfactory.cpp
+    ${LIB_SOURCES}/gxshellconnections.cpp
+    ${LIB_SOURCES}/gxshellconnfactory.cpp 
+    ${LIB_SOURCES}/gxshellconn.cpp
 )
 
 add_definitions(-DwxUSE_GUI=0 -DWXMAKINGDLL_GIS_CLT)
