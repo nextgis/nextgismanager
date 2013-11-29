@@ -463,8 +463,24 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
 
     if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, static_cast<ITrackCancel*>(&ProgressDlg)))
     {
-        wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-        wxLogError(ProgressDlg.GetLastMessage());
+        wxMessageDialog dlg(pWnd, _("During export there were several errors."), _("Error"), wxOK | wxCENTRE | wxICON_ERROR);
+        wxString extMsg;
+        const wxVector<MESSAGE>& msgs = ProgressDlg.GetWarnings();
+        for (size_t i = 0; i < msgs.size(); ++i)
+        {
+            if (msgs[i].sMessage.IsEmpty())
+                continue;
+            if (msgs[i].eType == enumGISMessageErr)
+                extMsg += _("Error") + wxT(": ");
+            else if (msgs[i].eType == enumGISMessageWarning)
+                extMsg += _("Warning") + wxT(": ");
+            extMsg += msgs[i].sMessage;
+            extMsg += wxT("\n\n");
+        }
+        dlg.SetExtendedMessage(extMsg);
+        dlg.ShowModal();
+
+        wxLogError(extMsg);
     }
     else if (ProgressDlg.GetWarningCount() > 0)
     {

@@ -1376,7 +1376,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         if (!pDataSource->Open(TRUE))
         {
             wxString sErr(_("Datasource open failed! OGR error: "));
-            CPLString sFullErr(sErr.mb_str());
+            CPLString sFullErr(sErr.mb_str(wxConvUTF8));
             sFullErr += CPLGetLastErrorMsg();
             CPLError(CE_Failure, CPLE_FileIO, sFullErr);
             if (pTrackCancel)
@@ -1493,7 +1493,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         {
             wxString sErr(_("DXF layer does not support arbitrary field creation."));
             wxLogWarning(sErr);
-            CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str()));
+            CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str(wxConvUTF8)));
             if (pTrackCancel)
             {
                 pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageWarning);
@@ -1505,10 +1505,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
             {
                 OGRFieldDefn *pField = poFields->GetFieldDefn(i);
                 OGRFieldDefn oFieldDefn(pField);
+                oFieldDefn.SetName(Transliterate(pField->GetNameRef()));
                 if (pFilter->GetSubType() == enumVecKML || pFilter->GetSubType() == enumVecKMZ)
                 {
-                    wxString sFieldName(pField->GetNameRef(), wxConvLocal);
-                    oFieldDefn.SetName(sFieldName.mb_str(wxConvUTF8));
                     OGRFieldType nType = pField->GetType();
                     if (OFTString == nType)
                     {
@@ -1534,12 +1533,12 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                 if (poLayerDest->CreateField(&oFieldDefn) != OGRERR_NONE)
                 {
                     wxString sErr = wxString::Format(_("Error create the output layer '%s'! OGR error: "), sNewName.c_str());
-                    CPLString sFullErr(sErr.mb_str());
+                    CPLString sFullErr(sErr.mb_str(wxConvUTF8));
                     sFullErr += CPLGetLastErrorMsg();
                     CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
                     if (pTrackCancel)
                     {
-                        pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                        pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
                     }
                     return NULL;
                 }
@@ -1569,7 +1568,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                 pField->SetType(OFTString);
                 wxString sErr(_("Unsupported type for dbf file - OFTTime. Change to OFTString."));
                 wxLogWarning(sErr);
-                CPLError( CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str()) );
+                CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str(wxConvUTF8)));
                 if(pTrackCancel)
                     pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageWarning);
             }
@@ -1577,11 +1576,11 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 	        if( poLayerDest->CreateField( pField ) != OGRERR_NONE )
 	        {
                 wxString sErr = wxString::Format(_("Error create the output layer '%s'! OGR error: "), sNewName.c_str());
-                CPLString sFullErr(sErr.mb_str());
+                CPLString sFullErr(sErr.mb_str(wxConvUTF8));
                 sFullErr += CPLGetLastErrorMsg();
                 CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
                 if(pTrackCancel)
-                    pTrackCancel->PutMessage(wxString(sFullErr, wxConvLocal), wxNOT_FOUND, enumGISMessageErr);
+                    pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
                 CPLSetConfigOption("SHAPE_ENCODING", CPL_ENC_ASCII);
                 return NULL;
             }
