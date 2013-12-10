@@ -62,6 +62,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/formatmenu.h
     ${LIB_HEADERS}/identifydlg.h
     ${LIB_HEADERS}/mapview.h
+    ${LIB_HEADERS}/mapbitmap.h
     ${LIB_HEADERS}/mxeventui.h
     ${LIB_HEADERS}/rasterdatasetcmd.h
     ${LIB_HEADERS}/sqlquerydialog.h
@@ -73,6 +74,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/formatmenu.cpp
     ${LIB_SOURCES}/identifydlg.cpp
     ${LIB_SOURCES}/mapview.cpp
+    ${LIB_SOURCES}/mapbitmap.cpp
     ${LIB_SOURCES}/mxeventui.cpp
     ${LIB_SOURCES}/rasterdatasetcmd.cpp
     ${LIB_SOURCES}/sqlquerydialog.cpp

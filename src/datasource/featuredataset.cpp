@@ -576,7 +576,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
         {
             if(m_stExtent.IsInit())
             {
-                m_stExtent.Merge(CurrEnv);
+                m_stExtent.Merge(CurrEnv); //TODO: check
             }
             else
             {

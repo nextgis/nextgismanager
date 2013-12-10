@@ -62,50 +62,12 @@ class wxGISSpatialReferenceRefData : public wxObjectRefData
 {
     friend class wxGISSpatialReference;
 public:
-    wxGISSpatialReferenceRefData(OGRSpatialReference *poSRS = NULL)
-    {
-        wsSET(m_poSRS, poSRS);
-    }
-
-    virtual ~wxGISSpatialReferenceRefData(void)
-    {        
-        wsDELETE(m_poSRS);
-    }
-
-    wxGISSpatialReferenceRefData( const wxGISSpatialReferenceRefData& data )
-        : wxObjectRefData()
-    {
-        m_poSRS = data.m_poSRS;
-    }
-
-    bool operator == (const wxGISSpatialReferenceRefData& data) const
-    {
-        wxCHECK_MSG(m_poSRS && data.m_poSRS, false, wxT("m_poSRS or data.m_poSRS is null"));
-        return m_poSRS->IsSame( data.m_poSRS) == 0 ? false : true;
-    }
-
-    virtual void Validate()
-    {
-        if(!m_poSRS)
-        {
-            m_bIsValid = false;
-            return;
-        }
-
-        if(m_poSRS->Validate() != OGRERR_CORRUPT_DATA) 
-            m_bIsValid = true;
-        else
-        {
-            m_poSRS->morphFromESRI();
-            if(m_poSRS->Validate() != OGRERR_CORRUPT_DATA)
-                m_bIsValid = true;
-            else
-                m_bIsValid = false;
-        }
-    }
-
-    virtual bool IsValid(void) const {return m_bIsValid;};
-
+    wxGISSpatialReferenceRefData(OGRSpatialReference *poSRS = NULL);
+    virtual ~wxGISSpatialReferenceRefData(void);
+    wxGISSpatialReferenceRefData(const wxGISSpatialReferenceRefData& data);
+    bool operator == (const wxGISSpatialReferenceRefData& data) const;
+    virtual void Validate();
+    virtual bool IsValid(void) const;
 protected:
 	OGRSpatialReference *m_poSRS;
     bool m_bIsValid;

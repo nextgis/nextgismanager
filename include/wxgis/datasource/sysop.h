@@ -109,6 +109,99 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
     }
 }
 
+WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType, long SubType)
+{
+    switch (eDSType)
+    {
+    case enumGISAny:
+        return wxEmptyString;
+    case enumGISFeatureDataset:
+    {
+        wxGISEnumVectorDatasetType eSubType = (wxGISEnumVectorDatasetType)SubType;
+        switch (eSubType)
+        {
+        case enumVecESRIShapefile:
+            return wxString(wxT("ESRI Shapefile"));
+        case enumVecMapinfoTab:
+        case enumVecMapinfoMif:
+            return wxString(wxT("MapInfo File"));
+        case enumVecKML:
+        case enumVecKMZ:
+            return wxString(wxT("LIBKML"));
+        case enumVecDXF:
+            return wxString(wxT("DXF"));
+        case emumVecPostGIS:
+            return wxString(wxT("PostgreSQL"));
+        case enumVecGML:
+            return wxString(wxT("GML"));
+        case enumVecWFS:
+            return wxString(wxT("WFS"));
+        case enumVecMem:
+            return wxString(wxT("Memory"));
+        case enumVecGeoJSON:
+            return wxString(wxT("GeoJSON"));
+        }
+    }
+    break;
+    case enumGISTableDataset:
+    {
+        wxGISEnumTableDatasetType eSubType = (wxGISEnumTableDatasetType)SubType;
+        switch (eSubType)
+        {
+        case enumTableDBF:
+            return wxString(wxT("ESRI Shapefile"));
+        case enumTableMapinfoTab:
+        case enumTableMapinfoMif:
+            return wxString(wxT("MapInfo File"));
+        case enumTableCSV:
+            return wxString(wxT("CSV"));
+        case enumTablePostgres:
+            return wxString(wxT("PostgreSQL"));
+        case enumTableUnknown:
+        case enumTableQueryResult:
+            return wxEmptyString;
+        }
+    }
+    break;
+    case enumGISRasterDataset:
+    {
+        wxGISEnumRasterDatasetType eSubType = (wxGISEnumRasterDatasetType)SubType;
+        switch (eSubType)
+        {
+        case enumRasterBmp:
+            return wxString(wxT("BMP"));
+        case enumRasterTiff:
+            return wxString(wxT("GTiff"));
+        case enumRasterJpeg:
+            return wxString(wxT("JPEG"));
+        case enumRasterImg:
+            return wxString(wxT("HFA"));
+        case enumRasterPng:
+            return wxString(wxT("PNG"));
+        case enumRasterGif:
+            return wxString(wxT("GIF"));
+        case enumRasterSAGA:
+            return wxString(wxT("SAGA"));
+        case enumRasterTil:
+            return wxString(wxT("TIL"));
+        case enumRasterVRT:
+            return wxString(wxT("VRT"));
+        case enumRasterWMS:
+        case enumRasterWMSTMS:
+            return wxString(wxT("WMS"));
+        case enumRasterPostGIS:
+            return wxString(wxT("PostGISRaster"));
+        }
+    }
+    break;
+    case enumGISContainer:
+    default:
+        return wxEmptyString;
+    }
+    return wxEmptyString;
+}
+
+
 WXDLLIMPEXP_GIS_DS bool DeleteDir(const CPLString &sPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool MoveDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool CopyDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, ITrackCancel* const pTrackCancel = NULL);

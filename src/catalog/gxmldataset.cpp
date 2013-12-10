@@ -61,7 +61,7 @@ wxGISEnumDatasetType wxGxMLDataset::GetType(void) const
     {
     case enumVecKML:
     case enumVecKMZ:
-        return enumGISContainer;
+    case enumVecSXF:
     case enumVecGML:
         return enumGISContainer;
  	default:
@@ -73,16 +73,33 @@ wxGISDataset* const wxGxMLDataset::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-        wxGISFeatureDatasetCached* pDSet = new wxGISFeatureDatasetCached(m_sPath, m_eType);
-        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
-        m_pwxGISDataset->Reference();
+        switch (GetSubType())
+        {
+        case enumVecKML:
+        case enumVecKMZ:
+        case enumVecGML:
+        {
+            wxGISFeatureDatasetCached* pDSet = new wxGISFeatureDatasetCached(m_sPath, m_eType);
+            m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+            m_pwxGISDataset->Reference();
+            break;
+        }
+        case enumVecSXF:
+        default:
+        {
+            wxGISFeatureDataset* pDSet = new wxGISFeatureDataset(m_sPath, m_eType);
+            m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+            m_pwxGISDataset->Reference();
+            break;
+        }
+        }
     }
     wsGET(m_pwxGISDataset);
 }
 
 wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
-    wxGISFeatureDatasetCached* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDatasetCached);
+    wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);
 
     if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {

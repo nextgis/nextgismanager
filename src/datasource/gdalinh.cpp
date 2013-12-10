@@ -85,6 +85,57 @@ bool wxGISSpatialReference::IsSame(const wxGISSpatialReference& SpatialReference
 }
 
 //-----------------------------------------------------------------------------
+// wxGISSpatialReferenceRefData
+//-----------------------------------------------------------------------------
+wxGISSpatialReferenceRefData::wxGISSpatialReferenceRefData(OGRSpatialReference *poSRS)
+{
+    wsSET(m_poSRS, poSRS);
+}
+
+wxGISSpatialReferenceRefData::~wxGISSpatialReferenceRefData(void)
+{
+    wsDELETE(m_poSRS);
+}
+
+wxGISSpatialReferenceRefData::wxGISSpatialReferenceRefData(const wxGISSpatialReferenceRefData& data) : wxObjectRefData()
+{
+    m_poSRS = data.m_poSRS;
+}
+
+bool wxGISSpatialReferenceRefData::operator == (const wxGISSpatialReferenceRefData& data) const
+{
+    wxCHECK_MSG(m_poSRS && data.m_poSRS, false, wxT("m_poSRS or data.m_poSRS is null"));
+    return m_poSRS->IsSame(data.m_poSRS) == 0 ? false : true;
+}
+
+void wxGISSpatialReferenceRefData::Validate()
+{
+    if (!m_poSRS)
+    {
+        m_bIsValid = false;
+        return;
+    }
+
+    OGRErr eErr = m_poSRS->Validate();
+    if (eErr != OGRERR_CORRUPT_DATA)
+        m_bIsValid = true;
+    else
+    {
+        m_poSRS->morphFromESRI();
+        eErr = m_poSRS->Validate();
+        if (eErr != OGRERR_UNSUPPORTED_SRS)
+            m_bIsValid = true;
+        else
+            m_bIsValid = false;
+    }
+}
+
+bool wxGISSpatialReferenceRefData::IsValid(void) const 
+{ 
+    return m_bIsValid; 
+}
+
+//-----------------------------------------------------------------------------
 // wxGISFeature
 //-----------------------------------------------------------------------------
 #include <wx/arrimpl.cpp> // This is a magic incantation which must be done!

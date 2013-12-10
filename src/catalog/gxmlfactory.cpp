@@ -40,6 +40,8 @@ wxGxMLFactory::wxGxMLFactory(void)
     m_bHasDXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
     m_bHasGMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
     m_bHasJsonDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GeoJSON");
+
+    CPLSetConfigOption("SXF_LAYER_FULLNAME", "YES");
     m_bHasSXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("SXF");
 }
 

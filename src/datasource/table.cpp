@@ -235,7 +235,8 @@ int wxGISTable::GetFIDColumn(void)
     OGRFeatureDefn* pDefn = GetDefinition();
     if(pDefn)   
     {
-        return pDefn->GetFieldIndex(m_poLayer->GetFIDColumn());
+        CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
+        return pDefn->GetFieldIndex(szFIDCOLName);
     }
     return wxNOT_FOUND;
 }

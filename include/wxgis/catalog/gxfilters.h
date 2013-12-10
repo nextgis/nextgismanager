@@ -156,25 +156,26 @@ public:
     virtual wxString GetName(void) const;
 };
 
-/** @class wxGxRasterFilter
+/** @class wxGxRasterDatasetFilter
 
     The raster GxObject Filters.
 
     @library {catalog}
 */
-/*
-class WXDLLIMPEXP_GIS_CLT wxGxRasterFilter : public wxGxObjectFilter
+
+class WXDLLIMPEXP_GIS_CLT wxGxRasterDatasetFilter : public wxGxObjectFilter
 {
 public:
-	wxGxRasterFilter(wxGISEnumRasterDatasetType nSubType);
-	virtual ~wxGxRasterFilter(void);
-	virtual bool CanChooseObject( IGxObject* pObject );
-	virtual bool CanDisplayObject( IGxObject* pObject );
-	virtual wxString GetName(void);
-    virtual wxString GetExt(void);
-    virtual wxString GetDriver(void);
-    virtual int GetSubType(void);
-    virtual wxGISEnumDatasetType GetType(void){return enumGISRasterDataset;};
+    wxGxRasterDatasetFilter(wxGISEnumRasterDatasetType nSubType);
+    virtual ~wxGxRasterDatasetFilter(void);
+    virtual bool CanChooseObject(wxGxObject* const pObject);
+    virtual bool CanDisplayObject(wxGxObject* const pObject);
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
+    virtual wxString GetExt(void) const;
+    virtual wxString GetDriver(void) const;
+    virtual int GetSubType(void) const;
+    virtual wxGISEnumDatasetType GetType(void) const { return enumGISRasterDataset; };
 protected:
     wxGISEnumRasterDatasetType m_nSubType;
 };

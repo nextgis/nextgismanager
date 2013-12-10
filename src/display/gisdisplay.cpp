@@ -173,6 +173,19 @@ void wxGISDisplay::Output(cairo_surface_t *pSurface, wxDC* pDC)
 #endif
 }
 
+bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
+{
+    cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
+    cairo_paint(m_cr_tmp);
+
+    unsigned char *pData = cairo_image_surface_get_data(m_surface_tmp);
+    int nWidth = cairo_image_surface_get_width(m_surface_tmp);
+    int nHeight = cairo_image_surface_get_height(m_surface_tmp);
+
+    CPLErr eErr = pGDALDataset->RasterIO(GF_Write, 0, 0, nWidth, nHeight, pData, nWidth, nHeight, GDT_Byte, 3, NULL, 3, nWidth*3, 1);
+    return eErr == CE_None;
+}
+
 void wxGISDisplay::ZoomingDraw(const wxRect& rc, wxDC* pDC)
 {
 	wxCriticalSectionLocker locker(m_CritSect);

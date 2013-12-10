@@ -413,31 +413,7 @@ wxString wxGxFeatureDatasetFilter::GetExt(void) const
 
 wxString wxGxFeatureDatasetFilter::GetDriver(void) const
 {
-    switch(m_nSubType)
-    {
-    case enumVecESRIShapefile:
-	    return wxString(wxT("ESRI Shapefile"));
-    case enumVecMapinfoTab:
-    case enumVecMapinfoMif:
-	    return wxString(wxT("MapInfo File"));
-    case enumVecKML:
-    case enumVecKMZ:
-	    return wxString(wxT("LIBKML"));
-    case enumVecDXF:
-	    return wxString(wxT("DXF"));
-	case emumVecPostGIS:
-	    return wxString(wxT("PostgreSQL"));
-	case enumVecGML:
-	    return wxString(wxT("GML"));
-	case enumVecWFS:
-	    return wxString(wxT("WFS"));
-	case enumVecMem:
-	    return wxString(wxT("Memory"));
-	case enumVecGeoJSON:
-	    return wxString(wxT("GeoJSON"));
-    default:
-        return wxEmptyString;
-    }
+    return GetDriverByType(GetType(), m_nSubType);
 }
 
 int wxGxFeatureDatasetFilter::GetSubType(void) const
@@ -503,126 +479,143 @@ wxString wxGxFolderFilter::GetName(void) const
 }
 
 //------------------------------------------------------------
-// wxGxRasterFilter
+// wxGxRasterDatasetFilter
 //------------------------------------------------------------
-/*
-wxGxRasterFilter::wxGxRasterFilter(wxGISEnumRasterDatasetType nSubType)
+
+wxGxRasterDatasetFilter::wxGxRasterDatasetFilter(wxGISEnumRasterDatasetType nSubType)
 {
     m_nSubType = nSubType;
 }
 
-wxGxRasterFilter::~wxGxRasterFilter(void)
+wxGxRasterDatasetFilter::~wxGxRasterDatasetFilter(void)
 {
 }
 
-bool wxGxRasterFilter::CanChooseObject( IGxObject* pObject )
+bool wxGxRasterDatasetFilter::CanChooseObject(wxGxObject* const pObject)
 {
-	IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pObject);
-	if(!pGxDataset)
-		return false;
-    if(pGxDataset->GetType() != GetType())
-		return false;
-    if(pGxDataset->GetSubType() != GetSubType())
-		return false;
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
+    if (!pGxDataset)
+        return false;
+    if (pGxDataset->GetType() != GetType())
+        return false;
+    if (GetSubType() == enumRasterUnknown)
+        return true;
+    if (pGxDataset->GetSubType() != GetSubType())
+        return false;
     return true;
 }
 
-bool wxGxRasterFilter::CanDisplayObject( IGxObject* pObject )
+bool wxGxRasterDatasetFilter::CanDisplayObject(wxGxObject* const pObject)
 {
-	IGxObjectContainer* pContainer = dynamic_cast<IGxObjectContainer*>(pObject);
-	if(pContainer)
-		return true;
-	IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pObject);
-	if(!pGxDataset)
-		return false;
-    if(pGxDataset->GetType() != GetType())
-		return false;
-    if(pGxDataset->GetSubType() != GetSubType())
-		return false;
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
+    wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
+    if (!pGxDataset)
+        return false;
+    if (pGxDataset->GetType() != GetType())
+        return false;
+    if (GetSubType() == enumRasterUnknown)
+        return true;
+    if (pGxDataset->GetSubType() != GetSubType())
+        return false;
     return true;
 }
 
-wxString wxGxRasterFilter::GetName(void)
+bool wxGxRasterDatasetFilter::CanStoreToObject(wxGxObject* const pObject)
 {
-    switch(m_nSubType)
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (IsFileDataset(enumGISRasterDataset, GetSubType()))
+    {
+        wxGxFolder* pContainer = dynamic_cast<wxGxFolder*>(pObject);
+        if (pContainer)
+            return true;
+    }
+    else
+    {
+#ifdef wxGIS_USE_POSTGRES
+        wxGxRemoteDBSchema* pContainer = dynamic_cast<wxGxRemoteDBSchema*>(pObject);
+        if (pContainer)
+            return true;
+#endif // wxGIS_USE_POSTGRES
+    }
+    return false;
+}
+
+wxString wxGxRasterDatasetFilter::GetName(void) const
+{
+    switch (m_nSubType)
     {
     case enumRasterBmp:
-	    return wxString(_("Windows Device Independent Bitmap (*.bmp)"));
+        return wxString(_("Windows Device Independent Bitmap (*.bmp)"));
     case enumRasterTiff:
-	    return wxString(_("GeoTIFF (*.tif, *.tiff)"));
+        return wxString(_("GeoTIFF (*.tif, *.tiff)"));
     case enumRasterJpeg:
-	    return wxString(_("JPEG image (*.jpeg, *.jfif, *.jpg, *.jpe)"));
+        return wxString(_("JPEG image (*.jpeg, *.jfif, *.jpg, *.jpe)"));
     case enumRasterImg:
-	    return wxString(_("Erdas IMAGINE image (*.img)"));
+        return wxString(_("Erdas IMAGINE image (*.img)"));
     case enumRasterPng:
-	    return wxString(_("Portable Network Graphics (*.png)"));
+        return wxString(_("Portable Network Graphics (*.png)"));
     case enumRasterGif:
-	    return wxString(_("Graphics Interchange Format (*.gif)"));
+        return wxString(_("Graphics Interchange Format (*.gif)"));
     case enumRasterSAGA:
-	    return wxString(_("SAGA GIS Binary Grid (*.sdat)"));
+        return wxString(_("SAGA GIS Binary Grid (*.sdat)"));
     case enumRasterTil:
-	    return wxString(_("EarthWatch raster (*.til)"));
-	default:
-		return wxEmptyString;
+        return wxString(_("EarthWatch raster (*.til)"));
+    case enumRasterVRT:
+        return wxString(_("Virtual raster (*.vrt)"));
+    case enumRasterWMS:
+        return wxString(_("Web map service"));
+    case enumRasterWMSTMS:
+        return wxString(_("Tile map service"));
+    case enumRasterPostGIS:
+        return wxString(_("PostGIS raster"));
+    default:
+        return wxString(_("Any rasters (*.*)"));
     }
 }
 
-wxString wxGxRasterFilter::GetExt(void)
+wxString wxGxRasterDatasetFilter::GetExt(void) const
 {
-    switch(m_nSubType)
+    switch (m_nSubType)
     {
     case enumRasterBmp:
-	    return wxString(wxT("bmp"));
+        return wxString(wxT("bmp"));
     case enumRasterTiff:
-	    return wxString(wxT("tif"));
+        return wxString(wxT("tif"));
     case enumRasterJpeg:
-	    return wxString(wxT("jpg"));
+        return wxString(wxT("jpg"));
     case enumRasterImg:
-	    return wxString(wxT("img"));
+        return wxString(wxT("img"));
     case enumRasterPng:
-	    return wxString(wxT("png"));
+        return wxString(wxT("png"));
     case enumRasterGif:
-	    return wxString(wxT("gif"));
+        return wxString(wxT("gif"));
     case enumRasterSAGA:
-	    return wxString(wxT("sdat"));
+        return wxString(wxT("sdat"));
     case enumRasterTil:
-	    return wxString(wxT("til"));
- 	default:
-		return wxEmptyString;
-   }
-}
-
-wxString wxGxRasterFilter::GetDriver(void)
-{
-    switch(m_nSubType)
-    {
-    case enumRasterBmp:
-        return wxString(wxT("BMP"));
-    case enumRasterTiff:
-	    return wxString(wxT("GTiff"));
-    case enumRasterJpeg:
-	    return wxString(wxT("JPEG"));
-    case enumRasterImg:
-	    return wxString(wxT("HFA"));
-    case enumRasterPng:
-	    return wxString(wxT("PNG"));
-    case enumRasterGif:
-	    return wxString(wxT("GIF"));
-    case enumRasterSAGA:
-	    return wxString(wxT("SAGA"));
-    case enumRasterTil:
-	    return wxString(wxT("TIL"));
-	default:
-		return wxEmptyString;
+        return wxString(wxT("til"));
+    case enumRasterVRT:
+        return wxString(wxT("vrt"));
+    case enumRasterWMS:
+    case enumRasterWMSTMS:
+    case enumRasterPostGIS:
+        return wxEmptyString;
+    default:
+        return wxEmptyString;
     }
 }
 
-int wxGxRasterFilter::GetSubType(void)
+wxString wxGxRasterDatasetFilter::GetDriver(void) const
+{
+    return GetDriverByType(GetType(), m_nSubType);
+}
+
+int wxGxRasterDatasetFilter::GetSubType(void) const
 {
     return m_nSubType;
 }
-
-*/
 
 //------------------------------------------------------------
 // wxGxTextFilter
@@ -792,21 +785,7 @@ wxString wxGxTableDatasetFilter::GetExt(void) const
 
 wxString wxGxTableDatasetFilter::GetDriver(void) const
 {
-    switch(m_nSubType)
-    {
-    case enumTableDBF:
-	    return wxString(wxT("ESRI Shapefile"));
-    case enumTableMapinfoTab:
-    case enumTableMapinfoMif:
-	    return wxString(wxT("MapInfo File"));
-    case enumTableCSV:
-	    return wxString(wxT("CSV"));
-    case enumTablePostgres:
-	    return wxString(wxT("PostgreSQL"));
-	//case emumVecPostGIS:
-    default:
-        return wxEmptyString;
-    }
+    return GetDriverByType(GetType(), m_nSubType);
 }
 
 int wxGxTableDatasetFilter::GetSubType(void) const

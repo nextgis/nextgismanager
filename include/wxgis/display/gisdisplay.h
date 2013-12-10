@@ -23,6 +23,7 @@
 #include "wxgis/display/color.h"
 
 #include "ogrsf_frmts.h"
+#include "gdal_priv.h"
 
 #include <cairo.h>
 
@@ -78,6 +79,7 @@ public:
 	//
 	virtual void OnEraseBackground(void); //Fill #0 cache of background color
 	virtual void Output(wxDC* pDC);
+    virtual bool Output(GDALDataset *pGDALDataset);
 	//Styles
     virtual void SetColor(const wxGISColor &Color);
 	virtual void SetLineCap(cairo_line_cap_t line_cap = CAIRO_LINE_CAP_BUTT);

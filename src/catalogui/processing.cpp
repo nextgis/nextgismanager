@@ -427,7 +427,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
 
 void ExportMultipleDatasetsSelectWithParams(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets)
 {
-    //TODO:
+    //TODO: Add set parameter dialog?
     ExportMultipleDatasetsSelect(pWnd, paDatasets);
 }
 

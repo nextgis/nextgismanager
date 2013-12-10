@@ -150,7 +150,7 @@ bool wxGxMLDatasetUI::CreateAndRunCheckThread(void)
 
 wxGISDataset* const wxGxMLDatasetUI::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
-    wxGISFeatureDatasetCached* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDatasetCached);
+    wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);
 
     if(pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {

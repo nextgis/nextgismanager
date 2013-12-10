@@ -375,6 +375,8 @@ bool wxGxDatasetContainer::Rename(const wxString &sNewName)
 
     if (pDSet->IsOpened())
     {
+        //close all subsets
+        DestroyChildren();
 		pDSet->Close();
     }
 
