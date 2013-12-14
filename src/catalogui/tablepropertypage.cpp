@@ -207,8 +207,9 @@ void wxGISTablePropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStri
 
 	AppendProperty(playid, new wxIntProperty(_("Feature count"), wxPG_LABEL, m_pDataset->GetFeatureCount() ));  
 
-    if( CPLStrnlen(poLayer->GetFIDColumn(), 100) > 0 )
-        AppendProperty(playid, new wxStringProperty(_("FID Column"), wxPG_LABEL, wxString( poLayer->GetFIDColumn(), wxConvLocal ))); 
+    wxString sFidCol = m_pDataset->GetFIDColumn();
+    if (!sFidCol.IsEmpty())
+        AppendProperty(playid, new wxStringProperty(_("FID Column"), wxPG_LABEL, sFidCol));
 
     OGRFeatureDefn* const poDefn = poLayer->GetLayerDefn();
     if(poDefn)

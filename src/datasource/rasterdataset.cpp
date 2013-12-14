@@ -535,7 +535,7 @@ bool wxGISRasterDataset::Copy(const CPLString &szDestPath, ITrackCancel* const p
         CPLString szNewDestFileName(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileName)));	//CPLString szNewDestFileName = GetUniqPath(papszFileList[i], szDestPath, szFileName);
         papszFileCopiedList = CSLAddString(papszFileCopiedList, szNewDestFileName);
         szCopyFileName = szNewDestFileName;
-        if(!CopyFile(szNewDestFileName, papszFileList[i], pTrackCancel))
+        if(!CopyFile(papszFileList[i], szNewDestFileName, pTrackCancel))
 		{
             // Try to put the ones we moved back.
             for( --i; i >= 0; i-- )

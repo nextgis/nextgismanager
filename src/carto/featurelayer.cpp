@@ -428,6 +428,16 @@ void wxGISFeatureLayer::SetRenderer(wxGISRenderer* pRenderer)
     m_pFeatureRenderer = wxStaticCast(pRenderer, wxGISFeatureRenderer);
 }
 
+bool wxGISFeatureLayer::IsLoading() const
+{
+    if (NULL != m_pSpatialTree)
+    {
+        return m_pSpatialTree->IsLoading();
+    }
+    
+    return false;
+}
+
 /*
 void wxGISFeatureLayer::LoadGeometry(void)
 {

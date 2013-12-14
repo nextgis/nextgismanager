@@ -65,7 +65,7 @@ public:
     virtual wxGISFeature Next(void);
     virtual wxGISFeature GetFeatureByID(long nFID);
     virtual wxGISFeature GetFeature(long nIndex);
-    virtual int GetFIDColumn(void);
+    virtual wxString GetFIDColumn(void) const;
     //
     virtual wxFontEncoding GetEncoding(void) const;
     virtual void SetEncoding(const wxFontEncoding &oEncoding);

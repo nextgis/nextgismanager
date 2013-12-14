@@ -199,6 +199,9 @@ void wxGISTable::SetInternalValues(void)
                 m_nCurrentFID = 1;//TODO: check if kml FID starts with 1
                 m_Encoding = wxFONTENCODING_UTF8;
                 break;
+            case emumVecPostGIS://TODO: check encoding
+                m_Encoding = wxFONTENCODING_UTF8;
+                break;
             case enumVecESRIShapefile:
                 m_nCurrentFID = 0;
             case enumVecDXF:
@@ -227,18 +230,20 @@ void wxGISTable::SetInternalValues(void)
         m_nFeatureCount = m_poLayer->GetFeatureCount(0);
     }
 
-    m_bHasFID = GetFIDColumn() != wxNOT_FOUND;
+    m_bHasFID = !GetFIDColumn().IsEmpty();
 }
 
-int wxGISTable::GetFIDColumn(void)
+wxString wxGISTable::GetFIDColumn(void) const
 {
     OGRFeatureDefn* pDefn = GetDefinition();
     if(pDefn)   
     {
-        CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
-        return pDefn->GetFieldIndex(szFIDCOLName);
+        CPLString szFIDCOLName = m_poLayer->GetFIDColumn(); 
+        return wxString(szFIDCOLName, wxConvUTF8);
+        //int nFIDColIndex = pDefn->GetFieldIndex(szFIDCOLName);
+        //return nFIDColIndex;
     }
-    return wxNOT_FOUND;
+    return wxEmptyString;
 }
 
 void wxGISTable::Cache(ITrackCancel* pTrackCancel)

@@ -92,7 +92,7 @@ protected:
 
 /** @fn wxGISSpatialTree* CreateSpatialTree(void)
     
-    Global function to create spatial tree. The caller ned to delete returned pointer themselthes.
+    Global function to create spatial tree. The caller need to delete returned pointer themselthes.
 
     @library{datasource}
  */

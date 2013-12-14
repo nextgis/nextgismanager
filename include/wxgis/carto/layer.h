@@ -57,6 +57,7 @@ public:
 	virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
     virtual void SetDisplay(wxGISDisplay *pDisplay) { m_pDisplay = pDisplay; };
     virtual wxGISDataset* GetDataset() {wsGET(m_pwxGISDataset);};
+    virtual bool IsLoading() const;
 protected:
     wxGISDataset* m_pwxGISDataset;
     wxGISSpatialReference m_SpatialReference;

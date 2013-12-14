@@ -182,7 +182,7 @@ bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
     int nWidth = cairo_image_surface_get_width(m_surface_tmp);
     int nHeight = cairo_image_surface_get_height(m_surface_tmp);
 
-    CPLErr eErr = pGDALDataset->RasterIO(GF_Write, 0, 0, nWidth, nHeight, pData, nWidth, nHeight, GDT_Byte, 3, NULL, 3, nWidth*3, 1);
+    CPLErr eErr = pGDALDataset->RasterIO(GF_Write, 0, 0, nWidth, nHeight, pData, nWidth, nHeight, GDT_Byte, 4, NULL, 4, nWidth*4, 1);
     return eErr == CE_None;
 }
 
@@ -863,4 +863,7 @@ void wxGISDisplay::SetRotate(double dAngleRad)
 	SetAllCachesDerty(true);
 }
 
-
+wxCriticalSection &wxGISDisplay::GetLock()
+{
+    return m_CritSect;
+}

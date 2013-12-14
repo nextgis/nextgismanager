@@ -20,10 +20,9 @@
 ****************************************************************************/
 #include "wxgis/cartoui/mapbitmap.h"
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/datasource/sysop.h"
 #include "wxgis/display/displayop.h"
 #include "wxgis/catalog/gxfilters.h"
-
-#define UNITS_IN_INCH 2.54
 
 //-----------------------------------------------
 // wxGISMapView
@@ -54,7 +53,7 @@ void wxGISMapBitmap::SetTrackCancel(ITrackCancel* pTrackCancel)
 	m_pTrackCancel->Reset();
 }
 
-bool wxGISMapBitmap::SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatasetType eType, char **papszOptions)
+bool wxGISMapBitmap::SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatasetType eType, char **papszOptions, bool bAddMetadata)
 {
 	if(m_pTrackCancel)
 		m_pTrackCancel->Reset();
@@ -66,8 +65,13 @@ bool wxGISMapBitmap::SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatase
 		if(m_pTrackCancel && !m_pTrackCancel->Continue())
 			break;
 		wxGISLayer* pLayer = m_paLayers[i];
-   		if(!pLayer)
+   		if(NULL == pLayer)
 			continue; //not layer
+
+        while (pLayer->IsLoading())
+        {
+            wxSleep(1);
+        }
 
 		if(!pLayer->GetVisible())
 			continue; //not visible
@@ -88,34 +92,54 @@ bool wxGISMapBitmap::SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatase
             }
 		}
 	}
-    //wxGxRasterDatasetFilter filter(eType);
-    GDALDataset *poDstDS;
+    GDALDataset *poDstDS, *poDstDSOut;
     char *pszSRS_WKT = NULL;
     double adfGeoTransform[6] = { 0, 1, 0, 0, 0, 1 };
 
-    GDALDriver* poDriver = (GDALDriver*)GDALGetDriverByName("");//filter.GetDriver().mb_str()
+    GDALDriver* poDriver = (GDALDriver*)GDALGetDriverByName("MEM");
     if (poDriver == NULL)
         return false;
-    poDstDS = poDriver->Create(szPath, m_nWidth, m_nHeight, 3, GDT_Byte, papszOptions);
+    poDstDS = poDriver->Create(szPath, m_nWidth, m_nHeight, 4, GDT_Byte, papszOptions);
 
-    m_SpatialReference->exportToWkt(&pszSRS_WKT);
-    poDstDS->SetProjection(pszSRS_WKT);
-    CPLFree(pszSRS_WKT);
+    //MEM:::DATAPOINTER = 342343408, PIXELS = 100, LINES = 100, BANDS = 3, DATATYPE = Byte,
+    //    PIXELOFFSET = 3, LINEOFFSET = 300, BANDOFFSET = 1
 
-    double dfX(0), dfY(m_nHeight);
-    m_pGISDisplay->DC2World(&dfX, &dfY);
-    adfGeoTransform[0] = dfX;
-    adfGeoTransform[3] = dfY;
+    if (!m_pGISDisplay->Output(poDstDS))
+        return false;
 
-    double dfW(1), dfH(1);
-    m_pGISDisplay->DC2WorldDist(&dfW, &dfH);
-    adfGeoTransform[1] = dfW;
-    adfGeoTransform[5] = dfH;
+    if (bAddMetadata)
+    {
+        m_SpatialReference->exportToWkt(&pszSRS_WKT);
+        poDstDS->SetProjection(pszSRS_WKT);
+        CPLFree(pszSRS_WKT);
 
-    poDstDS->SetGeoTransform(adfGeoTransform);
+        double dfX(0), dfY(m_nHeight);
+        m_pGISDisplay->DC2World(&dfX, &dfY);
+        adfGeoTransform[0] = dfX;
+        adfGeoTransform[3] = dfY;
+
+        double dfW(1), dfH(1);
+        m_pGISDisplay->DC2WorldDist(&dfW, &dfH);
+        adfGeoTransform[1] = dfW;
+        adfGeoTransform[5] = dfH;
+
+        poDstDS->SetGeoTransform(adfGeoTransform);
+    }
+
+    GDALDriver* poDriverOut = (GDALDriver*)GDALGetDriverByName(GetDriverByType(enumGISRasterDataset, eType));
+    if (poDriverOut == NULL)
+    {
+        GDALClose((GDALDatasetH)poDstDS);
+        return false;
+    }
+
+    poDstDSOut = poDriverOut->CreateCopy(szPath, poDstDS, FALSE, papszOptions, NULL, NULL);
+
 
     GDALClose((GDALDatasetH)poDstDS);
+    GDALClose((GDALDatasetH)poDstDSOut);
 
+    return true;
 }
 
 void wxGISMapBitmap::SetSpatialReference(const wxGISSpatialReference &SpatialReference)

@@ -141,6 +141,7 @@ void wxGISSimpleLineSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
     if(!m_pDisplay->CanDraw(Env))
         return;
 
+    wxCriticalSectionLocker lock(m_pDisplay->GetLock());
 	if(!m_pDisplay->CheckDrawAsPoint(Env, m_dfWidth))
     {
         OGRGeometry *pGeom = Geometry;
@@ -262,6 +263,8 @@ void wxGISSimpleFillSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
     if(!m_pDisplay->CanDraw(Env))
         return;
 
+    wxCriticalSectionLocker lock(m_pDisplay->GetLock());
+
 	if(!m_pDisplay->CheckDrawAsPoint(Env, m_pLineSymbol->GetWidth()))
     {
         OGRGeometry *pGeom = Geometry;
@@ -364,6 +367,7 @@ void wxGISSimpleMarkerSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
         return;
     }
 
+    wxCriticalSectionLocker lock(m_pDisplay->GetLock());
 
     OGRPoint* pPoint = (OGRPoint*)pGeom;
 	if(m_dfOutlineSize)
@@ -419,30 +423,30 @@ double wxGISSimpleMarkerSymbol::GetOutlineSize() const
 }
 
 //-------------------------------------------------------------------------------
-// wxGISSimpleCollectiomSymbol
+// wxGISSimpleCollectionSymbol
 //-------------------------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGISSimpleCollectiomSymbol, wxGISSymbol)
+IMPLEMENT_CLASS(wxGISSimpleCollectionSymbol, wxGISSymbol)
 
-wxGISSimpleCollectiomSymbol::wxGISSimpleCollectiomSymbol() : wxGISSymbol()
+wxGISSimpleCollectionSymbol::wxGISSimpleCollectionSymbol() : wxGISSymbol()
 {
     m_pMarkerSymbol = NULL;
     m_pLineSymbol = NULL;
     m_pFillSymbol = NULL;
 }
 
-wxGISSimpleCollectiomSymbol::wxGISSimpleCollectiomSymbol(const wxGISColor& Color, wxGISSimpleMarkerSymbol* pMarkerSymbol, wxGISSimpleLineSymbol* pLineSymbol, wxGISSimpleFillSymbol* pFillSymbol) : wxGISSymbol(Color)
+wxGISSimpleCollectionSymbol::wxGISSimpleCollectionSymbol(const wxGISColor& Color, wxGISSimpleMarkerSymbol* pMarkerSymbol, wxGISSimpleLineSymbol* pLineSymbol, wxGISSimpleFillSymbol* pFillSymbol) : wxGISSymbol(Color)
 {
     m_pMarkerSymbol = pMarkerSymbol;
     m_pLineSymbol = pLineSymbol;
     m_pFillSymbol = pFillSymbol;
 }
 
-wxGISSimpleCollectiomSymbol::~wxGISSimpleCollectiomSymbol()
+wxGISSimpleCollectionSymbol::~wxGISSimpleCollectionSymbol()
 {
 }
 
-void wxGISSimpleCollectiomSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
+void wxGISSimpleCollectionSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
 {
     if(!Geometry.IsOk() ||!m_pDisplay)
         return;
@@ -482,7 +486,7 @@ void wxGISSimpleCollectiomSymbol::Draw(const wxGISGeometry &Geometry, int nLevel
     }
 }
 
-void wxGISSimpleCollectiomSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
+void wxGISSimpleCollectionSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
 {
     wxGISSymbol::SetupDisplay(pDisplay);
     if (NULL != m_pMarkerSymbol)

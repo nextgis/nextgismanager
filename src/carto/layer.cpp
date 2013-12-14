@@ -74,6 +74,11 @@ bool wxGISLayer::IsValid(void) const
 	return true;
 }
 
+bool wxGISLayer::IsLoading() const
+{
+    return false;
+}
+
 void wxGISLayer::SetRenderer(wxGISRenderer* pRenderer)
 {
     //Delete previous renderer

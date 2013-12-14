@@ -43,6 +43,7 @@ public:
 	virtual wxGISEnumDatasetType GetType(void) const {return enumGISFeatureDataset;};
     virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
     virtual void SetRenderer(wxGISRenderer* pRenderer);
+    virtual bool IsLoading() const;
 //wxGISFeatureLayer
 	virtual wxGISSpatialTreeCursor Idetify(const wxGISGeometry &Geom); 
     virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env = OGREnvelope());

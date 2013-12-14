@@ -79,7 +79,7 @@ bool wxGxFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCance
 
 	CPLString szFileName = CPLGetBasename(m_sPath);
 	CPLString szNewDestFileName = GetUniqPath(m_sPath, szDestPath, szFileName);
-    return CopyFile(szNewDestFileName, m_sPath, pTrackCancel);
+    return CopyFile(m_sPath, szNewDestFileName, pTrackCancel);
 }
 
 bool wxGxFile::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -89,7 +89,7 @@ bool wxGxFile::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCance
 
 	CPLString szFileName = CPLGetBasename(m_sPath);
 	CPLString szNewDestFileName = GetUniqPath(m_sPath, szDestPath, szFileName);
-    return MoveFile(szNewDestFileName, m_sPath, pTrackCancel);
+    return MoveFile(m_sPath, szNewDestFileName, pTrackCancel);
 }
 
 //--------------------------------------------------------------

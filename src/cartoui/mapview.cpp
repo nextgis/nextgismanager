@@ -33,7 +33,7 @@
 #define TM_REFRESH 1700//3700
 #define TM_ZOOMING 250
 #define TM_WHEELING 300
-#define UNITS_IN_INCH 2.54
+#define INCH_TO_CM 2.54
 #define TM_DEFAULT_FLASH_PERIOD 400
 #define TM_LAYER_UPDATE_REFRESH 950
 
@@ -519,8 +519,8 @@ double wxGISMapView::GetScaleRatio(OGREnvelope& Bounds, wxDC& dc)
 
 	wxRect rc = m_pGISDisplay->GetDeviceFrame();
 	wxSize ppi = dc.GetPPI();
-	double screen_w = (double)rc.GetWidth() / ppi.GetWidth() * UNITS_IN_INCH;
-	double screen_h = (double)rc.GetHeight() / ppi.GetHeight() * UNITS_IN_INCH;
+    double screen_w = (double)rc.GetWidth() / ppi.GetWidth() * INCH_TO_CM;
+    double screen_h = (double)rc.GetHeight() / ppi.GetHeight() * INCH_TO_CM;
 	double w_w = fabs(Bounds.MaxX - Bounds.MinX);
 	double w_h = fabs(Bounds.MaxY - Bounds.MinY);
 

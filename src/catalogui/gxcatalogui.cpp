@@ -107,6 +107,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
 
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd);
     ProgressDlg.ShowProgress(true);
+    wxGxCatalogBase* pCatalog = GetGxCatalog();
 
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {
@@ -116,7 +117,6 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
         if(!ProgressDlg.Continue())
             break;
 
-        wxGxCatalogBase* pCatalog = GetGxCatalog();
         wxGxObject* pGxObj = pCatalog->FindGxObject(GxObjectPaths[i]);
         IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);
         if(pGxObjectEdit)

@@ -111,6 +111,7 @@ public:
 	    cairo_surface_t *pCairoSurface;
 	    cairo_t *pCairoContext;
     } LAYERCACHEDATA;
+    virtual wxCriticalSection &GetLock();
 protected:
 	virtual void Output(cairo_surface_t *pSurface, wxDC* pDC);
 	virtual cairo_t* CreateContext(wxDC* dc);
@@ -145,5 +146,4 @@ protected:
 	//temp cairo for output double buffering
 	cairo_surface_t *m_surface_tmp;
 	cairo_t *m_cr_tmp;
-	//OGRGeometrySPtr m_pCutGeom;
 };

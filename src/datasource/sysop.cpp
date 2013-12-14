@@ -625,7 +625,7 @@ CPLString Transliterate(const char* str)
     return sOut;
 }
 
-bool CopyFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCancel)
+bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCancel)
 {
     if(wxGISEQUAL(sDestPath, sSrcPath))
         return true;
@@ -722,7 +722,7 @@ bool CopyFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCance
     return nRet == 0;
 }
 
-bool MoveFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCancel)
+bool MoveFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCancel)
 {
     if(wxGISEQUAL(sDestPath, sSrcPath))
         return true;
@@ -742,7 +742,7 @@ bool MoveFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCance
     else
     {
         //if in different discs - copy/move
-        bool bRes = CopyFile(sDestPath, sSrcPath, pTrackCancel);
+        bool bRes = CopyFile(sSrcPath, sDestPath, pTrackCancel);
         if(bRes)
             DeleteFile(sSrcPath);
         return bRes;

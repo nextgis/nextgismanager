@@ -149,16 +149,16 @@ protected:
 };
 
 
-/** \class wxGISSimpleCollectiomSymbol sumbol.h
+/** \class wxGISSimpleCollectionSymbol sumbol.h
     \brief The class for simple geometry collecton symbols
 */
-class WXDLLIMPEXP_GIS_DSP wxGISSimpleCollectiomSymbol : public wxGISSymbol
+class WXDLLIMPEXP_GIS_DSP wxGISSimpleCollectionSymbol : public wxGISSymbol
 {
-    DECLARE_CLASS(wxGISSimpleCollectiomSymbol)
+    DECLARE_CLASS(wxGISSimpleCollectionSymbol)
 public:
-    wxGISSimpleCollectiomSymbol();
-    wxGISSimpleCollectiomSymbol(const wxGISColor& Color, wxGISSimpleMarkerSymbol* pMarkerSymbol, wxGISSimpleLineSymbol* pLineSymbol, wxGISSimpleFillSymbol* pFillSymbol);
-    virtual ~wxGISSimpleCollectiomSymbol();
+    wxGISSimpleCollectionSymbol();
+    wxGISSimpleCollectionSymbol(const wxGISColor& Color, wxGISSimpleMarkerSymbol* pMarkerSymbol, wxGISSimpleLineSymbol* pLineSymbol, wxGISSimpleFillSymbol* pFillSymbol);
+    virtual ~wxGISSimpleCollectionSymbol();
     virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0);
     virtual void SetupDisplay(wxGISDisplay* const pDisplay);
 protected:

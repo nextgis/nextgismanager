@@ -67,7 +67,7 @@ wxGISFeatureRenderer::wxGISFeatureRenderer(wxGISLayer* pwxGISLayer) : wxGISRende
 	case wkbGeometryCollection:
         {
             wxGISSimpleLineSymbol *pLineSymbol = new wxGISSimpleLineSymbol(wxGISColor(0,0,0,255), 0.5);
-            wxGISSimpleCollectiomSymbol *pCollectionSymbol = new wxGISSimpleCollectiomSymbol(wxGISColor(0,0,0,0), new wxGISSimpleMarkerSymbol(wxGISColor::MakeRandom(), 4), pLineSymbol, new wxGISSimpleFillSymbol(wxGISColor::MakeRandom(), pLineSymbol));
+            wxGISSimpleCollectionSymbol *pCollectionSymbol = new wxGISSimpleCollectionSymbol(wxGISColor(0,0,0,0), new wxGISSimpleMarkerSymbol(wxGISColor::MakeRandom(), 4), pLineSymbol, new wxGISSimpleFillSymbol(wxGISColor::MakeRandom(), pLineSymbol));
             pSymbol = wxStaticCast(pCollectionSymbol, wxGISSymbol);
         }
         break;

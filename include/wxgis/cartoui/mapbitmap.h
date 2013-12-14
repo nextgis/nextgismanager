@@ -52,7 +52,7 @@ public:
     virtual double GetRotate(void) const;
     virtual void DrawGeometry(const wxGISGeometry &Geometry, wxGISSymbol* const pSymbol);
     //
-    virtual bool SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatasetType eType, char **papszOptions);
+    virtual bool SaveAsBitmap(const CPLString &szPath, wxGISEnumRasterDatasetType eType, char **papszOptions, bool bAddMetadata = true);
 protected:
 	ITrackCancel *m_pTrackCancel;
 	double m_nFactor;

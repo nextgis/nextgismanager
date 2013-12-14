@@ -242,12 +242,12 @@ bool wxGISDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackC
     {
 		CPLString szNewDestFileName(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileName)));
         papszMovedFileList = CSLAddString(papszMovedFileList, szNewDestFileName);
-        if(!MoveFile(szNewDestFileName, papszFileList[i], pTrackCancel))
+        if(!MoveFile(papszFileList[i], szNewDestFileName, pTrackCancel))
 		{
             // Try to put the ones we moved back.
             pTrackCancel->Reset();
             for( --i; i >= 0; i-- )
-                MoveFile( papszFileList[i], papszMovedFileList[i]);
+                MoveFile( papszMovedFileList[i], papszFileList[i] );
 
 			CSLDestroy( papszFileList );
 			CSLDestroy( papszMovedFileList );
@@ -288,7 +288,7 @@ bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
         CPLString szNewDestFileName(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileName)));
         papszFileCopiedList = CSLAddString(papszFileCopiedList, szNewDestFileName);
         szCopyFileName = szNewDestFileName;
-        if(!CopyFile(szNewDestFileName, papszFileList[i], pTrackCancel))
+        if(!CopyFile(papszFileList[i], szNewDestFileName, pTrackCancel))
 		{
             // Try to put the ones we moved back.
             for( --i; i >= 0; i-- )

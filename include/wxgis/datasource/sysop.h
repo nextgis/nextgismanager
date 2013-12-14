@@ -208,8 +208,8 @@ WXDLLIMPEXP_GIS_DS bool CopyDir(const CPLString &sPathFrom, const CPLString &sPa
 WXDLLIMPEXP_GIS_DS bool CreateDir(const CPLString &sPath, long mode = 0777, ITrackCancel* const pTrackCancel = NULL); 
 WXDLLIMPEXP_GIS_DS bool DeleteFile(const CPLString &sPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool RenameFile(const CPLString &sOldPath, const CPLString &sNewPath, ITrackCancel* const pTrackCancel = NULL);
-WXDLLIMPEXP_GIS_DS bool CopyFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCance = NULL);
-WXDLLIMPEXP_GIS_DS bool MoveFile(const CPLString &sDestPath, const CPLString &sSrcPath, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_DS bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCance = NULL);
+WXDLLIMPEXP_GIS_DS bool MoveFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS wxFontEncoding GetEncodingFromCpg(const CPLString &sPath);
 WXDLLIMPEXP_GIS_DS wxFontEncoding ToFontEncoding(const CPLString &soCodePage);
 //WXDLLIMPEXP_GIS_DS CPLString GetEncodingName(wxFontEncoding eEncoding);

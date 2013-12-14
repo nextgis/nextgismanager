@@ -209,8 +209,10 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
     
 	AppendProperty(playid, new wxIntProperty(_("Feature count"), wxString::Format(wxT("Feature count_%d"), iLayer), poLayer->GetFeatureCount() ));  
 
-    if( CPLStrnlen(poLayer->GetFIDColumn(), 100) > 0 )
-        AppendProperty(playid, new wxStringProperty(_("FID Column"), wxString::Format(wxT("FID Column_%d"), iLayer), wxString( poLayer->GetFIDColumn(), wxConvLocal ))); 
+    wxString sFidCol = m_pDataset->GetFIDColumn();
+    if (!sFidCol.IsEmpty())
+        AppendProperty(playid, new wxStringProperty(_("FID Column"), wxString::Format(wxT("FID Column_%d"), iLayer), sFidCol));
+
     if( CPLStrnlen(poLayer->GetGeometryColumn(), 100) > 0 )
         AppendProperty(playid, new wxStringProperty(_("Geometry Column"), wxString::Format(wxT("Geometry Column_%d"), iLayer), wxString( poLayer->GetGeometryColumn(), wxConvLocal ))); 
 
