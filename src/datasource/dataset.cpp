@@ -278,7 +278,6 @@ bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
         return false;
     }
 
-    CPLString szCopyFileName;	
     CPLString szFileName = CPLGetBasename(GetUniqPath(m_sPath, szDestPath, CPLGetBasename(m_sPath)));
 
     char** papszFileCopiedList = NULL;
@@ -287,7 +286,6 @@ bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
     {
         CPLString szNewDestFileName(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileName)));
         papszFileCopiedList = CSLAddString(papszFileCopiedList, szNewDestFileName);
-        szCopyFileName = szNewDestFileName;
         if(!CopyFile(papszFileList[i], szNewDestFileName, pTrackCancel))
 		{
             // Try to put the ones we moved back.

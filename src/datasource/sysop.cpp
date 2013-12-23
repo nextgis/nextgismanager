@@ -732,13 +732,13 @@ bool MoveFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCance
         //if in same directory - make copy
         return RenameFile(sSrcPath, sDestPath, pTrackCancel);
     }
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     else if(!EQUALN(sDestPath,"/vsi",4) && EQUALN(sDestPath, sSrcPath, 3))
     {
         //if in same disc - copy/rename
         return RenameFile(sSrcPath, sDestPath, pTrackCancel);
     }
-#endif
+#endif //TODO: UNIX RenameFile add support too
     else
     {
         //if in different discs - copy/move
