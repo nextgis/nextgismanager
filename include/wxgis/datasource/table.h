@@ -134,7 +134,7 @@ protected:
 
     The query result table class
 
-    @library {datasource}
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISTableQuery :

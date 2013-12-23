@@ -22,3 +22,5 @@ src/0*
 # generated directories
 lib
 bin
+
+include/wxgisdefs.h

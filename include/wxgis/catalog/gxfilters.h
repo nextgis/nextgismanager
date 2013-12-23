@@ -28,7 +28,7 @@
    
     The base class GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 class WXDLLIMPEXP_GIS_CLT wxGxObjectFilter : public wxObject
 {
@@ -53,7 +53,7 @@ WX_DEFINE_USER_EXPORTED_ARRAY(wxGxObjectFilter*, wxGxObjectFiltersArray, class W
  
     The Spatial reference GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 /*
 class WXDLLIMPEXP_GIS_CLT wxGxPrjFileFilter : public wxGxObjectFilter
@@ -73,7 +73,7 @@ public:
 
     The database (postgis, mysql, etc.) schema GxObject Filters.
     
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchemaFilter : public wxGxObjectFilter
@@ -92,7 +92,7 @@ public:
 
     The Dataset GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDatasetFilter : public wxGxObjectFilter
@@ -116,7 +116,7 @@ protected:
 
     The FeatureDataset GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFeatureDatasetFilter : public wxGxObjectFilter
@@ -141,7 +141,7 @@ protected:
 
     The Folder GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFolderFilter : public wxGxObjectFilter
@@ -160,7 +160,7 @@ public:
 
     The raster GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRasterDatasetFilter : public wxGxObjectFilter
@@ -185,7 +185,7 @@ protected:
 
     The Text file GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTextFilter : public wxGxObjectFilter
@@ -209,7 +209,7 @@ protected:
 
     The TableDataset GxObject Filters.
 
-    @library {catalog}
+    @library{catalog}
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTableDatasetFilter : public wxGxObjectFilter

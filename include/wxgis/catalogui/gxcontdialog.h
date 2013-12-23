@@ -51,7 +51,7 @@
 
     The class to show GxObjjects tree and select items in it. Usually the tree included containers to select.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class wxTreeContainerView : 
@@ -80,7 +80,7 @@ protected:
 
     The dialog to select the contaniers (folders and etc.).
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxContainerDialog : 

@@ -28,7 +28,7 @@
 
     A List View with check boxes
 
-    @library {framework}
+    @library{framework}
  */
 class WXDLLIMPEXP_GIS_FRW wxGISCheckList : public wxListView
 {

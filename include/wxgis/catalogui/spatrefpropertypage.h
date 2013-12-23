@@ -40,9 +40,9 @@ class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage :
 
 public:
     wxGISSpatialReferencePropertyPage(void);
-    wxGISSpatialReferencePropertyPage(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
+    wxGISSpatialReferencePropertyPage(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
 	~wxGISSpatialReferencePropertyPage();
-    virtual bool Create(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
+    virtual bool Create(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
     virtual wxString GetPageName(void) const {return wxString(_("Spatial Reference"));};
 protected:
     void FillUndefined(void);

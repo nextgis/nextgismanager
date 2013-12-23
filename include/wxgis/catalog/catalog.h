@@ -103,7 +103,7 @@ public:
 
     A Interface class indicates show object on all views (e.g. Open/Save dialog).
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class IGxObjectNoFilter

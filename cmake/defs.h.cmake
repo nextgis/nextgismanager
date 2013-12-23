@@ -50,3 +50,5 @@
 #cmakedefine wxGIS_USE_POSTGRES
 
 #cmakedefine wxGIS_USE_EMAIL
+
+#cmakedefine wxGIS_HAVE_FREECHART

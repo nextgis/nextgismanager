@@ -221,6 +221,8 @@ void wxGxRasterDatasetUI::EditProperties(wxWindow *parent)
 
         wsDELETE(pDset);
 	}
+    wxGISRasterHistogramPropertyPage* RasterHistogramPropertyPage = new wxGISRasterHistogramPropertyPage(this, pParentWnd);
+    PropertySheetDialog.GetBookCtrl()->AddPage(RasterHistogramPropertyPage, RasterHistogramPropertyPage->GetPageName());
 
     //TODO: Additional page for virtual raster VRTSourcedDataset with sources files
 

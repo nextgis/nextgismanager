@@ -113,7 +113,14 @@ wxGISColor& wxGISColor::operator=(const wxGISColor& Color)
 
 wxString wxGISColor::GetAsString(long nFlags) const
 {
-    return wxString::Format(wxT("%d,%d,%d,%d"), Red(), Green(), Blue(), Alpha());
+    if (nFlags & wxC2S_HTML_SYNTAX)
+    {
+        return wxColour::GetAsString(nFlags);
+    }
+    else
+    {
+        return wxString::Format(wxT("%d,%d,%d,%d"), Red(), Green(), Blue(), Alpha());
+    }
 }
 
 void wxGISColor::SetFromString(const wxString &sColorTxt)

@@ -22,11 +22,24 @@
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/datasource/sysop.h"
 
+#include "wx/chart.h"
+#include "wx/xy/xyplot.h"
+#include "wx/xy/xylinerenderer.h"
+#include "wx/xy/xysimpledataset.h"
+#include "wx/axis/logarithmicnumberaxis.h"
+#include "wx/xy/xyhistorenderer.h"
+#include "wx/xy/xyarearenderer.h"
+#include "wx/xy/functions/sinefunction.h"
+
 #include "gdal_rat.h"
 #include "wx/propgrid/advprops.h"
 
 #define STAT_TXT _("Statistics")
 #define OVR_TXT _("Overviews")
+
+//------------------------------------------------------------------------------
+// wxGISRasterPropertyPage
+//------------------------------------------------------------------------------
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISRasterPropertyPage, wxPanel)
 
@@ -658,13 +671,133 @@ void wxGISRasterPropertyPage::OnFinish(wxGISProcessEvent& event)
 	}
 }
 
-    ////Histogram in new tab!
-    //wxPGProperty* phistprop = m_pg->Append( new wxStringProperty(_("Histogram"), wxPG_LABEL, _("Absent (click to build)")) );
-    //m_pg->SetPropertyEditor(phistprop, wxPG_EDITOR(TextCtrlAndButton));
-            ////Histogram
-            //int nBucketCount, *panHistogram = NULL;
-            //if(pBand->GetDefaultHistogram(&dfMin, &dfMax, &nBucketCount, &panHistogram, false, GDALTermProgress, NULL ) == CE_None )
-            //{
-            //    CPLFree( panHistogram );
-            //}
-            //else
+//------------------------------------------------------------------------------
+// wxGISRasterPropertyPage
+//------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(wxGISRasterHistogramPropertyPage, wxPanel)
+
+BEGIN_EVENT_TABLE(wxGISRasterHistogramPropertyPage, wxPanel)
+END_EVENT_TABLE()
+
+wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(void)
+{
+}
+
+wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+{
+    Create(pGxDataset, parent, id, pos, size, style, name);
+}
+
+wxGISRasterHistogramPropertyPage::~wxGISRasterHistogramPropertyPage()
+{
+    wsDELETE(m_pDataset);
+}
+
+bool wxGISRasterHistogramPropertyPage::Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+{
+    if (!wxPanel::Create(parent, id, pos, size, style, name))
+        return false;
+
+    m_pGxDataset = pGxDataset;
+    m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISRasterDataset);
+    if (!m_pDataset)
+        return false;
+    if (!m_pDataset->IsOpened())
+    if (!m_pDataset->Open(true))
+        return false;
+
+    wxBoxSizer* bMainSizer;
+    bMainSizer = new wxBoxSizer(wxVERTICAL);
+
+    m_pChartPanel = new wxChartPanel(this);
+    //m_pChartPanel->SetAntialias(true);
+
+    FillHistogram();
+
+    bMainSizer->Add(m_pChartPanel, 1, wxEXPAND | wxALL, 5);
+
+    this->SetSizer(bMainSizer);
+    this->Layout();
+
+    return true;
+}
+
+void wxGISRasterHistogramPropertyPage::FillHistogram()
+{
+    //Histogram
+    int nBucketCount, *panHistogram = NULL;
+    double dfMin, dfMax;
+
+    GDALDataset* poGDALDataset = m_pDataset->GetMainRaster();
+    if (!poGDALDataset)
+        poGDALDataset = m_pDataset->GetRaster();
+    if (poGDALDataset)
+    {
+        GDALRasterBand *pBand = poGDALDataset->GetRasterBand(1);
+        if (pBand->GetDefaultHistogram(&dfMin, &dfMax, &nBucketCount, &panHistogram, false, GDALTermProgress, NULL) == CE_None)
+        {
+            double *data = new double[nBucketCount * 2];
+            int iBucket;
+            int nDataPos = 0;
+            double dfStep = (dfMax - dfMin) / (nBucketCount - 1);
+            double dfVal = dfMin;
+            for (iBucket = 0; iBucket < nBucketCount; iBucket++)
+            {
+                data[nDataPos] = dfVal;
+                data[nDataPos + 1] = panHistogram[iBucket];
+                wxLogDebug(wxT("%f - %f"), data[nDataPos], data[nDataPos + 1]);
+                nDataPos += 2;
+                dfVal += dfStep;
+            }
+            CPLFree( panHistogram );
+
+            // first step: create plot
+            XYPlot *plot = new XYPlot();
+
+            // create dataset and add serie to it
+            XYSimpleDataset *dataset = new XYSimpleDataset();
+            dataset->AddSerie((double *)data, nBucketCount);
+
+            // create histogram renderer with bar width = 4 and vertical bars
+            XYHistoRenderer *histoRenderer = new XYHistoRenderer(3, true);
+
+            // set bar areas to renderer
+            // in this case, we set green bar with black outline for serie 0
+            wxBrush br(wxColour(255, 0, 255), wxSOLID);
+            wxPen pn(wxColour(255, 0, 255));
+
+            histoRenderer->SetBarArea(0, new FillAreaDraw(pn, br));
+            //histoRenderer->SetBarArea(0, new FillAreaDraw(*wxBLACK_PEN, *wxBLACK_PEN));
+
+            // set renderer to dataset
+            dataset->SetRenderer(histoRenderer);
+
+            // add our dataset to plot
+            plot->AddDataset(dataset);
+
+            // add left and bottom number axes
+            NumberAxis *leftAxis = new NumberAxis(AXIS_LEFT);
+            NumberAxis *bottomAxis = new NumberAxis(AXIS_BOTTOM);
+
+            // set bottom axis margins
+            bottomAxis->SetMargins(15, 15);
+
+            // add axes to plot
+            plot->AddAxis(leftAxis);
+            plot->AddAxis(bottomAxis);
+
+            // link axes and dataset
+            plot->LinkDataVerticalAxis(0, 0);
+            plot->LinkDataHorizontalAxis(0, 0);
+
+            // and finally create chart
+            Chart *chart = new Chart(plot, wxEmptyString /*GetName()*/, wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
+
+            m_pChartPanel->SetChart(chart);
+        }
+        else
+        {
+        }
+    }
+}

@@ -168,6 +168,14 @@ if(wxGIS_BUILD_DESKTOP)
     set(WXGISFRAMEWORK_LIB_NAME "")
     mark_as_advanced(WXGISFRAMEWORK_LIB_NAME)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/framework/)
+    #freechart
+    set(WXFREECHART_LIB_NAME "")
+    mark_as_advanced(WXFREECHART_LIB_NAME)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/freechart/)
+    set(wxGIS_HAVE_FREECHART ON)
+    mark_as_advanced(wxGIS_HAVE_FREECHART)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/freechart)
+    
     #carto
     set(WXGISCARTO_LIB_NAME "")
     mark_as_advanced(WXGISCARTO_LIB_NAME)
@@ -240,6 +248,7 @@ if(WIN32)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/sys CONFIGURATIONS Release)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/config CONFIGURATIONS Debug)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/config CONFIGURATIONS Release)
+    install(DIRECTORY ${WXGIS_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE PATTERN "src" EXCLUDE)
 else(WIN32)#UNIX
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION share/locale/wxgis/ FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt" PATTERN ".svn" EXCLUDE)
     install(CODE "FILE(MAKE_DIRECTORY /var/log/wxgis)")

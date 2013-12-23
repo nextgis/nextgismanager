@@ -27,10 +27,15 @@
 #include "wxgis/geoprocessingui/geoprocessingui.h"
 #include "wxgis/core/event.h"
 
+#include "wx/wxfreechartdefs.h"
+#include "wx/chartpanel.h"
 #include "wx/propgrid/propgrid.h"
 
-/** \class wxGISRasterPropertyPage rasterpropertypage.h
-    \brief The tab of raster dataset properties.
+/** @class wxGISRasterPropertyPage
+    
+    The tab of raster dataset properties.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISRasterPropertyPage : 
@@ -44,9 +49,9 @@ class WXDLLIMPEXP_GIS_CLU wxGISRasterPropertyPage :
 
 public:
     wxGISRasterPropertyPage(void);
-    wxGISRasterPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    wxGISRasterPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
 	~wxGISRasterPropertyPage();
-    virtual bool Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    virtual bool Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
     virtual wxString GetPageName(void) const {return wxString(_("Raster"));};
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
@@ -61,9 +66,34 @@ protected:
     wxGxRasterDataset* m_pGxDataset;
     wxPropertyGrid* m_pg;
 	long m_nCounter;
-	//long m_nCookie;
-	//IToolManagerUI* m_pToolManagerUI;
+private:
+    DECLARE_EVENT_TABLE()
+};
 
+
+/** @class wxGISRasterHistogramPropertyPage
+
+    The tab of raster bands histogram.
+
+    @library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGISRasterHistogramPropertyPage :
+    public wxPanel
+{
+    DECLARE_DYNAMIC_CLASS(wxGISRasterHistogramPropertyPage)
+public:
+    wxGISRasterHistogramPropertyPage(void);
+    wxGISRasterHistogramPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    ~wxGISRasterHistogramPropertyPage();
+    virtual bool Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    virtual wxString GetPageName(void) const { return wxString(_("Histogram")); };
+    virtual void FillHistogram();
+protected:
+    wxGISRasterDataset* m_pDataset;
+    wxGxRasterDataset* m_pGxDataset;
+    wxChartPanel *m_pChartPanel;
+private:
     DECLARE_EVENT_TABLE()
 };
 

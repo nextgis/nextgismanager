@@ -30,7 +30,7 @@
     
     The MapBitmap class draw layers to bitmap. It may used in export to bitmap, svg, pdf etc.
 
-    @library cartoui
+    @librarycartoui
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISMapBitmap :

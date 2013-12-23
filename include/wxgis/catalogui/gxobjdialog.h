@@ -56,7 +56,7 @@
 
     The class to make toolbar buttons (delete, up, create folder, etc.) on GxObjDialog more native.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class wxGxToolBarArt : public wxAuiDefaultToolBarArt
@@ -73,7 +73,7 @@ public:
     
     The tree view class on top of GxObjDialog - tree in popup.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class wxTreeViewComboPopup : 
     public wxGxTreeViewBase,
@@ -120,7 +120,7 @@ private:
     
     The content view class on center of GxObjDialog.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 #define OBJDLGLISTCTRLID	1012 //wxGxObjectDialog contents view
 
@@ -154,7 +154,7 @@ private:
 
     The dialog to open or save different objects (feature classes, raster, folders and etc.). This is like the file open/save dialog in OS, but works with wxGxObjects tree.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxObjectDialog :

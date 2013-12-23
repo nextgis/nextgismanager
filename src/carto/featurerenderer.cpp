@@ -148,9 +148,21 @@ void wxGISFeatureRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumD
 
     m_pSymbol->SetupDisplay(pDisplay);
 
+    int nCounter = 0;
+    IProgressor* pProgress = NULL;
+    if (NULL != pTrackCancel)
+    {
+        pProgress = pTrackCancel->GetProgressor();
+        pProgress->SetRange(Cursor.size());
+    }
+
+
     wxGISSpatialTreeCursor::const_iterator iter;
     for(iter = Cursor.begin(); iter != Cursor.end(); ++iter)
     {
+        if (NULL != pProgress)
+            pProgress->SetValue(nCounter++);
+
         wxGISSpatialTreeData *current = *iter;
         if(!current)
             continue;
@@ -209,9 +221,20 @@ void wxGISUniqueValueRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISE
     if(pDefaultSymbol)
         pDefaultSymbol->SetupDisplay(pDisplay);
 
+    int nCounter = 0;
+    IProgressor* pProgress = NULL;
+    if (NULL != pTrackCancel)
+    {
+        pProgress = pTrackCancel->GetProgressor();
+        pProgress->SetRange(Cursor.size());
+    }
+
     wxGISSpatialTreeCursor::const_iterator iter;
     for(iter = Cursor.begin(); iter != Cursor.end(); ++iter)
     {    
+        if (NULL != pProgress)
+            pProgress->SetValue(nCounter++);
+
         wxGISSpatialTreeData *current = *iter;
 
         if(!current)

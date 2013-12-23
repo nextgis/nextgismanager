@@ -27,7 +27,7 @@
 
     The progressor (gauge) class.
 
-    @library {framework}
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISProgressor : 
 	public wxGauge,
