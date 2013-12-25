@@ -119,6 +119,7 @@ public:
 	virtual bool CanRender(wxGISLayer* const pwxGISLayer) const;
 	virtual int *GetBandsCombination(int *pnBandCount) = 0;
     virtual bool Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const pDisplay, ITrackCancel* const pTrackCancel = NULL);
+    virtual bool Apply(ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISColorTable GetColorTable(void) const {return m_mColorTable;};
     virtual wxGISEnumRasterRendererType GetRasterRenderType(void) const {return enumGISRasterRenderTypeNone;};
     virtual wxGISEnumRendererType GetType(void) const {return enumGISRenderTypeRaster;};

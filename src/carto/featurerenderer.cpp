@@ -185,6 +185,10 @@ void wxGISFeatureRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumD
 	}
 }
 
+bool wxGISFeatureRenderer::Apply(ITrackCancel* const pTrackCancel)
+{
+    return true;
+}
 
 //-----------------------------------------------------------------------------
 // wxGISUniqueValueRenderer
@@ -194,33 +198,106 @@ IMPLEMENT_CLASS(wxGISUniqueValueRenderer, wxGISFeatureRenderer)
 
 wxGISUniqueValueRenderer::wxGISUniqueValueRenderer(wxGISLayer* pwxGISLayer) : wxGISFeatureRenderer(pwxGISLayer)
 {
+    m_pwxGISFeatureDataset = wxDynamicCast(m_pwxGISFeatureLayer->GetDataset(), wxGISFeatureDataset);
+    if (m_pwxGISFeatureDataset)
+    {
+        m_pwxGISFeatureDataset->Reference();
+    }
 }
 
 wxGISUniqueValueRenderer::~wxGISUniqueValueRenderer(void)
 {
     for( wxGISUniqueValuesSymbolMap::iterator it = m_omSymbols.begin(); it != m_omSymbols.end(); ++it )
         wsDELETE( it->second );
+
+    for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+    {
+        wsDELETE(m_astUniqueValues[i].Symbol);
+    }
+    wsDELETE(m_pwxGISFeatureDataset);
 }
 
 void wxGISUniqueValueRenderer::AddValue(int nField, const wxString &sValue, wxGISSymbol* const Symbol)
 {
-    m_naCheckFields.Add(nField);
-    wsSET(m_omSymbols[wxString::Format(wxT("%d_%s"), nField, sValue)], Symbol);
+    UNIQ_VALUE val;
+    val.sField = m_pwxGISFeatureDataset->GetFieldName(nField);
+    val.sValue = sValue;
+    wsSET(val.Symbol, Symbol);
+
+    //Check if pair field <-> value exist
+    for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+    {
+        if (m_astUniqueValues[i].sField == val.sField && m_astUniqueValues[i].sValue == val.sValue)
+            return;
+    }
+    m_astUniqueValues.push_back(val);
+}
+
+
+bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
+{
+    for (wxGISUniqueValuesSymbolMap::iterator it = m_omSymbols.begin(); it != m_omSymbols.end(); ++it)
+        wsDELETE(it->second);
+    m_omSymbols.clear();
+
+    long nFeaturesCount = m_pwxGISFeatureDataset->GetFeatureCount(TRUE, pTrackCancel);
+    if (nFeaturesCount == 0)
+    {
+        return true;     // success
+    }
+
+    IProgressor* pProgress(NULL);
+    if (pTrackCancel)
+    {
+        pTrackCancel->Reset();
+        pTrackCancel->PutMessage(wxString(_("Apply renderer for ")) + m_pwxGISFeatureLayer->GetName(), -1, enumGISMessageInfo);
+        pProgress = pTrackCancel->GetProgressor();
+    }
+
+
+    if (pProgress)
+    {
+        pProgress->SetRange(nFeaturesCount);
+    } 
+    
+    //set needed fields
+    wxArrayString saIgnoredFields = m_pwxGISFeatureDataset->GetFieldNames();
+    saIgnoredFields.Add(wxT("OGR_STYLE"));
+    saIgnoredFields.Add(wxT("GEOMETRY"));
+
+    for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+    {
+        saIgnoredFields.Remove(m_astUniqueValues[i].sField);
+    }
+
+    m_pwxGISFeatureDataset->Reset();
+    m_pwxGISFeatureDataset->SetIgnoredFields(saIgnoredFields);
+
+
+    //get all features
+    wxGISFeature Feature;
+    while ((Feature = m_pwxGISFeatureDataset->Next()).IsOk())
+    {
+        for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+        {
+            if (Feature.GetFieldAsString(m_astUniqueValues[i].sField) == m_astUniqueValues[i].sValue)
+            {
+                wsSET(m_omSymbols[Feature.GetFID()], m_astUniqueValues[i].Symbol);
+                break;
+            }
+        }
+    }
+
+    return true;
 }
 
 void wxGISUniqueValueRenderer::SetSymbol(wxGISSymbol *pSymbol)
 {
-    wsSET(m_omSymbols[wxT("default")], pSymbol);
+    wsSET(m_pSymbol, pSymbol);//default
 }
 
 void wxGISUniqueValueRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumDrawPhase DrawPhase, wxGISDisplay *pDisplay, ITrackCancel *pTrackCancel)
 {
-    //TODO: check if dataset has filter with zero attribute fields
-
-    wxGISSymbol* pDefaultSymbol = m_omSymbols[wxT("default")];
-    if(pDefaultSymbol)
-        pDefaultSymbol->SetupDisplay(pDisplay);
-
     int nCounter = 0;
     IProgressor* pProgress = NULL;
     if (NULL != pTrackCancel)
@@ -244,30 +321,23 @@ void wxGISUniqueValueRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISE
 		{
 		case wxGISDPGeography:
             {
-            //search style
-                wxGISFeature Feature = m_pwxGISFeatureLayer->GetFeatureByID(current->GetFID());
-                if(Feature.IsOk())
+                wxGISUniqueValuesSymbolMap::iterator it = m_omSymbols.find(current->GetFID());
+                if (it != m_omSymbols.end())
                 {
-                    wxGISSymbol *pSymbol = NULL;
-                    for(size_t j = 0; j < m_naCheckFields.GetCount(); ++j)
-                    {
-                        wxString sCmp = wxString::Format(wxT("%d_%s"), m_naCheckFields[j], Feature.GetFieldAsString( m_naCheckFields[j] ));
-                        pSymbol = m_omSymbols[sCmp];
-                        if(pSymbol)
-                            break;
-                    }
-                    //draw
-                    if(pSymbol)
+                    wxGISSymbol *pSymbol = it->second;
+                    if (NULL != pSymbol)
                     {
                         pSymbol->SetupDisplay(pDisplay);
                         pSymbol->Draw(current->GetGeometry());
+                        continue;
                     }
-                    else if(pDefaultSymbol)
-                    {
-                        //draw default
-                        pDefaultSymbol->Draw(current->GetGeometry());
-                    }
-			    }
+                }
+
+                if (NULL != m_pSymbol)
+                {
+                    m_pSymbol->SetupDisplay(pDisplay);
+                    m_pSymbol->Draw(current->GetGeometry());
+                }
             }
 			break;
 		case wxGISDPAnnotation:

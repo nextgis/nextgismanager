@@ -566,7 +566,7 @@ OGRFeatureDefn* const wxGISTable::GetDefinition(void)
     return NULL;
 }
 
-wxArrayString wxGISTable::GetFieldNames()
+wxArrayString wxGISTable::GetFieldNames() const
 {
     wxArrayString saFields;
     OGRFeatureDefn * const pDef = GetDefinition();
@@ -581,6 +581,19 @@ wxArrayString wxGISTable::GetFieldNames()
     return saFields;
 }
 
+wxString wxGISTable::GetFieldName(int nIndex) const
+{
+    OGRFeatureDefn * const pDef = GetDefinition();
+    if (NULL != pDef)
+    {
+        OGRFieldDefn* pFDefn = pDef->GetFieldDefn(nIndex);
+        if (pFDefn)
+        {
+            return wxString(pFDefn->GetNameRef(), wxConvUTF8);
+        }        
+    }
+    return wxEmptyString;
+}
 
 OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
 {

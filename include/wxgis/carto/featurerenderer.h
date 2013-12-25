@@ -41,6 +41,7 @@ public:
 
     virtual void SetSymbol(wxGISSymbol *pSymbol);
 	virtual void Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumDrawPhase DrawPhase, wxGISDisplay *pDisplay, ITrackCancel *pTrackCancel = NULL);
+    virtual bool Apply(ITrackCancel* const pTrackCancel = NULL);
 protected:
     wxGISFeatureLayer* m_pwxGISFeatureLayer;
 	wxGISSymbol* m_pSymbol;
@@ -48,7 +49,9 @@ protected:
 };
 
 
-WX_DECLARE_STRING_HASH_MAP( wxGISSymbol*, wxGISUniqueValuesSymbolMap );
+//WX_DECLARE_STRING_HASH_MAP( wxGISSymbol*, wxGISUniqueValuesSymbolMap );
+WX_DECLARE_HASH_MAP(long, wxGISSymbol*, wxIntegerHash, wxIntegerEqual, wxGISUniqueValuesSymbolMap);
+
 
 /** \class wxGISSimpleRenderer featurerenderer.h
     \brief The vector layer renderer
@@ -64,7 +67,16 @@ public:
     virtual void AddValue(int nField, const wxString &sValue, wxGISSymbol* const Symbol);
     virtual void SetSymbol(wxGISSymbol *pSymbol);
 	virtual void Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumDrawPhase DrawPhase, wxGISDisplay *pDisplay, ITrackCancel *pTrackCancel = NULL);
+    virtual bool Apply(ITrackCancel* const pTrackCancel = NULL);
+
+    typedef struct _uniq_value{
+        wxString sField;
+        wxString sValue;
+        wxGISSymbol* Symbol;
+    }UNIQ_VALUE;
 protected:
-    wxArrayInt m_naCheckFields;
+    wxVector<UNIQ_VALUE> m_astUniqueValues;
+    //wxArrayInt m_naCheckFields;
     wxGISUniqueValuesSymbolMap m_omSymbols;
+    wxGISFeatureDataset *m_pwxGISFeatureDataset;
 };

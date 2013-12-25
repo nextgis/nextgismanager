@@ -39,6 +39,7 @@ public:
     virtual wxString GetName(void) const;
     virtual wxGISEnumRendererType GetType(void) const;
 	virtual bool Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const pDisplay, ITrackCancel* const pTrackCancel = NULL) = 0;
+    virtual bool Apply(ITrackCancel* const pTrackCancel = NULL) = 0;
 protected:
 	wxGISLayer* const m_pwxGISLayer;
 };

@@ -588,6 +588,11 @@ bool wxGISRasterRenderer::CanRender(wxGISLayer* const pwxGISLayer) const
 	return pwxGISLayer->GetType() == enumGISRasterDataset ? true : false;
 }
 
+bool wxGISRasterRenderer::Apply(ITrackCancel* const pTrackCancel)
+{
+    return true;
+}
+
 bool wxGISRasterRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const pDisplay, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(pDisplay, false, wxT("Display pointer is NULL"));

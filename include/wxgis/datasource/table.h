@@ -70,7 +70,8 @@ public:
     virtual wxFontEncoding GetEncoding(void) const;
     virtual void SetEncoding(const wxFontEncoding &oEncoding);
     virtual bool HasFID(void) const {return m_bHasFID;};
-    virtual wxArrayString GetFieldNames(void);
+    virtual wxArrayString GetFieldNames(void) const;
+    virtual wxString GetFieldName(int nIndex) const;
     //
     virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
     virtual OGRErr SetFilter(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter);

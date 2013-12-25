@@ -108,6 +108,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd);
     ProgressDlg.ShowProgress(true);
     wxGxCatalogBase* pCatalog = GetGxCatalog();
+    bool bCopyAsk = true;
 
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {
@@ -129,11 +130,18 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
                     return false;
                 }
             }
-            else if(!bMove && pGxObjectEdit->CanCopy(pPath))
+            else if(pGxObjectEdit->CanCopy(pPath))
             {
+                if (bMove && bCopyAsk)
+                {
+                    bCopyAsk = false;
+                    if (wxMessageBox(wxString::Format(_("Cannot move path: %s.\nBut can copy. Proceed?"), pGxObj->GetFullName()), _("Question"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION) == wxNO)
+                        return false;
+
+                }
                 if(!pGxObjectEdit->Copy(pPath, &ProgressDlg))
                 {
-                     wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
+                    wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
                     return false;
                 }
             }
