@@ -83,6 +83,9 @@ wxGISSimpleLineSymbol::wxGISSimpleLineSymbol() : wxGISSymbol()
 wxGISSimpleLineSymbol::wxGISSimpleLineSymbol(const wxGISColor& Color, double dfWidth) : wxGISSymbol(Color)
 {
     m_dfWidth = dfWidth;
+    m_eCup = enumGISLineCupButt;
+    m_eJoin = enumGISLineJoinMiter;
+    m_dfMiterLimit = 10.0;
 }
 
 wxGISSimpleLineSymbol::~wxGISSimpleLineSymbol()
@@ -223,6 +226,7 @@ wxGISSimpleFillSymbol::wxGISSimpleFillSymbol() : wxGISSymbol()
 wxGISSimpleFillSymbol::wxGISSimpleFillSymbol(const wxGISColor& Color, wxGISSimpleLineSymbol *pLineSymbol) : wxGISSymbol(Color)
 {
     wsSET(m_pLineSymbol, pLineSymbol);
+    m_eFillRule = enumGISFillRuleOdd;
 }
 
 wxGISSimpleFillSymbol::~wxGISSimpleFillSymbol()
@@ -332,6 +336,8 @@ IMPLEMENT_CLASS(wxGISSimpleMarkerSymbol, wxGISSymbol)
 
 wxGISSimpleMarkerSymbol::wxGISSimpleMarkerSymbol() : wxGISSymbol()
 {
+    m_dfSize = 10;
+    m_dfOutlineSize = 0;
 }
 
 wxGISSimpleMarkerSymbol::wxGISSimpleMarkerSymbol(const wxGISColor& Color, double dfSize) : wxGISSymbol(Color)
