@@ -721,6 +721,9 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SQLITE_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true)); 
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_SQLITE_LIST_VIRTUAL_OGR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_SQLITE_LIST_VIRTUAL_OGR", "YES")) == 0 ? false : true));
 
+    sub_prop = AppendProperty(prop, new wxPropertyCategory(_("SXF options")));
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SXF_LAYER_FULLNAME")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true)); 
+
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("Other OGR options")) );
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("SHAPE_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "SHAPE_ENCODING", "" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_VRT_MAX_OPENED")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_VRT_MAX_OPENED", "100" ))));

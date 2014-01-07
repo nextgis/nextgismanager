@@ -181,13 +181,26 @@ void wxGISTable::SetInternalValues(void)
         return;
     //set string encoding
     //TODO: if cpg is not exist get encoding from header of dbf or etc. and write to cpg else reade from cpg
+#ifdef CPL_RECODE_ICONV
     m_bOLCStringsAsUTF8 = m_poLayer->TestCapability(OLCStringsAsUTF8) != 0;
+#else
+    m_bOLCStringsAsUTF8 = false;
+#endif // CPL_RECODE_ICONV
+
+
     m_bOLCFastFeatureCount = m_poLayer->TestCapability(OLCFastFeatureCount) != 0;
 
     //TODO: need strategy to decide if GDAL can encode data or not
-    //if(m_bOLCStringsAsUTF8)
-    //    m_Encoding = wxFONTENCODING_UTF8;
-    //else
+    if (m_bOLCStringsAsUTF8)
+    {
+        //override default encoding
+        wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
+        if (FEnc != wxFONTENCODING_DEFAULT)
+            m_Encoding = FEnc;
+        else
+            m_Encoding = wxFONTENCODING_UTF8;
+    }
+    else
     {
         if(m_nType == enumGISFeatureDataset)
         {
@@ -207,6 +220,7 @@ void wxGISTable::SetInternalValues(void)
             case enumVecDXF:
             default:
                 {
+
                     wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
                     if (FEnc != wxFONTENCODING_DEFAULT)
                         m_Encoding = FEnc;
@@ -217,11 +231,14 @@ void wxGISTable::SetInternalValues(void)
         }
         else if(m_nType == enumGISTableDataset)
         {
-            wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
-            if(FEnc != wxFONTENCODING_DEFAULT)
-                m_Encoding = FEnc;
-            else
-                m_Encoding = wxLocale::GetSystemEncoding();
+            {
+
+                wxFontEncoding FEnc = GetEncodingFromCpg(m_sPath);
+                if (FEnc != wxFONTENCODING_DEFAULT)
+                    m_Encoding = FEnc;
+                else
+                    m_Encoding = wxLocale::GetSystemEncoding();
+            }
         }
     }
 

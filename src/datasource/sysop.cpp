@@ -365,7 +365,7 @@ wxString ClearExt(const wxString &sPath)
 
 wxFontEncoding GetEncodingFromCpg(const CPLString &sPath)
 {
-    wxFontEncoding oDefaultEnc = wxLocale::GetSystemEncoding();
+    wxFontEncoding oDefaultEnc = wxFONTENCODING_DEFAULT;// wxLocale::GetSystemEncoding();
 	const char* szCPGPath = CPLResetExtension(sPath, "cpg");
     if(!CPLCheckForFile((char*)szCPGPath, NULL))
         return oDefaultEnc;

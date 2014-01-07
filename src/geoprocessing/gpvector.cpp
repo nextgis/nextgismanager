@@ -1469,8 +1469,10 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         oEncoding = wxFontMapperBase::GetEncodingFromName(sz_enc);
     }
 
+#ifndef CPL_RECODE_ICONV
     wxGISConfigOptionReset reset_shp("SHAPE_ENCODING", "", CPL_ENC_ASCII);
     wxGISConfigOptionReset reset_dxf("DXF_ENCODING", "", CPL_ENC_ASCII);
+#endif
 
     OGRLayer *poLayerDest = poDS->CreateLayer(szName, oSpatialRef, poFields->GetGeomType(), papszLayerOptions);
     if(poLayerDest == NULL)
@@ -1581,7 +1583,6 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                 CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
                 if(pTrackCancel)
                     pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-                CPLSetConfigOption("SHAPE_ENCODING", CPL_ENC_ASCII);
                 return NULL;
             }
         }
