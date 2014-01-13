@@ -365,8 +365,9 @@ bool wxGISPostgresDataSource::Open(int bUpdate)
 		wxLogError(_("Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"), wxString(err, wxConvUTF8).c_str(), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
 		return false;
 	}
-	wxString sPath = wxString::Format(wxT("host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
-	m_sPath = CPLString(sPath.mb_str(wxConvUTF8));
+	
+    //wxString sPath = wxString::Format(wxT("host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
+	//m_sPath = CPLString(sPath.mb_str(wxConvUTF8));
 
     //open second connection 
     m_poDS4SQL = OGRSFDriverRegistrar::Open(sConnStr.mb_str(wxConvUTF8), bUpdate);//

@@ -173,6 +173,7 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
         return false;
     }
 
+    Disconnect();
     bool bRet = pDSet->Move(szDestPath, pTrackCancel);
     wsDELETE(pDSet);
 
@@ -432,6 +433,8 @@ void wxGxRemoteConnection::RenameSchema(const wxString& sSchemaName, const wxStr
         if (NULL != current && current->GetName().IsSameAs(sSchemaName))
         {
             current->SetName(sNewSchemaName);
+            CPLString szNewSchemaName = current->GetName().mb_str(wxConvUTF8);
+            current->SetPath(CPLFormFilename(CPLGetPath(current->GetPath()), szNewSchemaName, NULL));
             wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
             break;
         }

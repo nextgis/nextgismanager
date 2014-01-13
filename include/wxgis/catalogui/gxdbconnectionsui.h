@@ -31,7 +31,8 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxDBConnectionsUI :
     public wxGxDBConnections,
-	public IGxObjectUI,
+    public IGxObjectUI,
+    public IGxDropTarget,
     public wxGxAutoRenamer
 {
     DECLARE_DYNAMIC_CLASS(wxGxDBConnectionsUI)
@@ -43,6 +44,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxDBConnections.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxDBConnections.NewMenu"));};
+    //IGxDropTarget
+    virtual wxDragResult CanDrop(wxDragResult def);
+    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

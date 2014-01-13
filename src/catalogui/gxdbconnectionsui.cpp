@@ -20,6 +20,7 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/gxdbconnectionsui.h"
+#include "wxgis/catalogui/gxcatalogui.h"
 
 #include "../../art/db_connections_16.xpm"
 #include "../../art/db_connections_48.xpm"
@@ -52,4 +53,12 @@ wxIcon wxGxDBConnectionsUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
+wxDragResult wxGxDBConnectionsUI::CanDrop(wxDragResult def)
+{
+    return def;
+}
 
+bool wxGxDBConnectionsUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
+{
+    return FolderDrop(m_sPath, saGxObjectPaths, bMove);
+}
