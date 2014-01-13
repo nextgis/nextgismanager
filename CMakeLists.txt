@@ -77,7 +77,6 @@ if(GDAL_FOUND)
     include_directories(${GDAL_INCLUDE_DIR}/gcore)
     include_directories(${GDAL_INCLUDE_DIR}/alg)
     include_directories(${GDAL_INCLUDE_DIR}/frmts/vrt)
-    include_directories(${GDAL_INCLUDE_DIR}/build/port) #assume that out of source build was in build dir
 endif(GDAL_FOUND)
 
 option(wxGIS_PORTABLE "Set OFF to build non portable version" ON)
