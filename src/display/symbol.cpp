@@ -145,24 +145,25 @@ void wxGISSimpleLineSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
         return;
 
     wxCriticalSectionLocker lock(m_pDisplay->GetLock());
-	if(!m_pDisplay->CheckDrawAsPoint(Env, m_dfWidth))
+
+    OGRGeometry *pGeom = Geometry;
+    if (eGeomType == wkbMultiLineString)
     {
-        OGRGeometry *pGeom = Geometry;
-        if(eGeomType == wkbMultiLineString)
-        {
-		    OGRGeometryCollection* pOGRGeometryCollection = (OGRGeometryCollection*)pGeom;
-		    for(int i = 0; i < pOGRGeometryCollection->getNumGeometries(); ++i)
-			    Draw(wxGISGeometry(pOGRGeometryCollection->getGeometryRef(i), false));
-            return;
-        }
-
-        OGRLineString* pLine = (OGRLineString*)pGeom;
-
-        if(!DrawPreserved(pLine))
-		    return;
+		OGRGeometryCollection* pOGRGeometryCollection = (OGRGeometryCollection*)pGeom;
+		for(int i = 0; i < pOGRGeometryCollection->getNumGeometries(); ++i)
+			Draw(wxGISGeometry(pOGRGeometryCollection->getGeometryRef(i), false));
     }
-    SetStyleToDisplay();
-    m_pDisplay->Stroke();
+    else
+    {
+        OGRLineString* pLine = (OGRLineString*)pGeom;
+        if (!m_pDisplay->CheckDrawAsPoint(pLine, m_dfWidth))
+        {
+            if(!DrawPreserved(pLine))
+		        return;
+        }
+        SetStyleToDisplay();
+        m_pDisplay->Stroke();
+    }
 }
 
 void wxGISSimpleLineSymbol::SetStyleToDisplay()
