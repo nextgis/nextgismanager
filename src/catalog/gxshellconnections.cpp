@@ -1,9 +1,9 @@
 /******************************************************************************
- * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxDBConnections class.
- * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
- ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+* Project:  wxGIS (GIS Catalog)
+* Purpose:  Shell Connections classes (ssh, ftp, etc.).
+* Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+******************************************************************************
+*   Copyright (C) 2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -17,36 +17,36 @@
 *
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+****************************************************************************/
 
-#include "wxgis/catalog/gxdbconnections.h"
-/*
+#include "wxgis/catalog/gxshellconnections.h"
+
 #include "wxgis/core/config.h"
-#include "wxgis/datasource/datasource.h"
+//#include "wxgis/datasource/datasource.h"
 
 //---------------------------------------------------------------------------
-// wxGxDBConnections
+// wxGxShellConnections
 //---------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGxDBConnections, wxGxFolder)
+IMPLEMENT_DYNAMIC_CLASS(wxGxShellConnections, wxGxFolder)
 
-BEGIN_EVENT_TABLE(wxGxDBConnections, wxGxFolder)
-    EVT_FSWATCHER(wxID_ANY, wxGxDBConnections::OnFileSystemEvent)
+BEGIN_EVENT_TABLE(wxGxShellConnections, wxGxFolder)
+    EVT_FSWATCHER(wxID_ANY, wxGxShellConnections::OnFileSystemEvent)
 #ifdef __WXGTK__
-    EVT_GXOBJECT_ADDED(wxGxDiscConnection::OnObjectAdded)
+    EVT_GXOBJECT_ADDED(wxGxShellConnections::OnObjectAdded)
 #endif
 END_EVENT_TABLE()
 
-wxGxDBConnections::wxGxDBConnections(void) : wxGxFolder()
+wxGxShellConnections::wxGxShellConnections(void) : wxGxFolder()
 {
-    m_sName = wxString(_("DataBase connections"));
+    m_sName = wxString(_("Shell connections"));
 }
 
-bool wxGxDBConnections::Create(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)
+bool wxGxShellConnections::Create(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)
 {
-    if( !wxGxFolder::Create(oParent, _("DataBase connections"), soPath) )
+    if( !wxGxFolder::Create(oParent, _("Shell connections"), soPath) )
     {
-        wxLogError(_("wxGxDBConnections::Create failed. GxObject %s"), wxString(_("DataBase connections")).c_str());
+        wxLogError(_("wxGxShellConnections::Create failed. GxObject %s"), wxString(_("Shell connections")).c_str());
         return false;
     }
 
@@ -64,11 +64,11 @@ bool wxGxDBConnections::Create(wxGxObject *oParent, const wxString &soName, cons
     return true;
 }
 
-wxGxDBConnections::~wxGxDBConnections(void)
+wxGxShellConnections::~wxGxShellConnections(void)
 {
 }
 
-void wxGxDBConnections::Init(wxXmlNode* const pConfigNode)
+void wxGxShellConnections::Init(wxXmlNode* const pConfigNode)
 {
     m_sInternalPath = pConfigNode->GetAttribute(wxT("path"), NON);
     if(m_sInternalPath.IsEmpty() || m_sInternalPath == wxString(NON))
@@ -77,12 +77,12 @@ void wxGxDBConnections::Init(wxXmlNode* const pConfigNode)
 		if(!oConfig.IsOk())
 			return;
 
-		m_sInternalPath = oConfig.GetLocalConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT("dbconnections"));
+		m_sInternalPath = oConfig.GetLocalConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT("shconnections"));
     }
 
     //m_sInternalPath.Replace(wxT("\\"), wxT("/"));
-    wxLogMessage(_("wxGxDBConnections: The path is set to '%s'"), m_sInternalPath.c_str());
-    CPLSetConfigOption("wxGxDBConnections", m_sInternalPath.mb_str(wxConvUTF8));
+    wxLogMessage(_("wxGxShellConnections: The path is set to '%s'"), m_sInternalPath.c_str());
+    CPLSetConfigOption("wxGxShellConnections", m_sInternalPath.mb_str(wxConvUTF8));
 
     m_sPath = CPLString(m_sInternalPath.mb_str(wxConvUTF8));
 
@@ -90,12 +90,12 @@ void wxGxDBConnections::Init(wxXmlNode* const pConfigNode)
 		wxFileName::Mkdir(m_sInternalPath, 0755, wxPATH_MKDIR_FULL);
 }
 
-void wxGxDBConnections::Serialize(wxXmlNode* pConfigNode)
+void wxGxShellConnections::Serialize(wxXmlNode* pConfigNode)
 {
     pConfigNode->AddAttribute(wxT("path"), m_sInternalPath);
 }
 
-bool wxGxDBConnections::CanCreate(long nDataType, long DataSubtype)
+bool wxGxShellConnections::CanCreate(long nDataType, long DataSubtype)
 {
 	if(nDataType != enumGISContainer)
 		return false;
@@ -104,7 +104,7 @@ bool wxGxDBConnections::CanCreate(long nDataType, long DataSubtype)
 	return wxGxFolder::CanCreate(nDataType, DataSubtype);
 }
 
-bool wxGxDBConnections::Destroy(void)
+bool wxGxShellConnections::Destroy(void)
 {
 #ifdef __WXGTK__
 	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
@@ -115,7 +115,7 @@ bool wxGxDBConnections::Destroy(void)
     return wxGxFolder::Destroy();
 }
 
-void wxGxDBConnections::StartWatcher(void)
+void wxGxShellConnections::StartWatcher(void)
 {
     //add itself
     wxFileName oFileName = wxFileName::DirName(wxString(m_sPath, wxConvUTF8));
@@ -152,7 +152,7 @@ void wxGxDBConnections::StartWatcher(void)
 #endif
 } 
 
-void wxGxDBConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
+void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
     wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
     switch(event.GetChangeType())
@@ -220,7 +220,7 @@ void wxGxDBConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
     event.Skip();
 }
 
-void wxGxDBConnections::LoadChildren(void)
+void wxGxShellConnections::LoadChildren(void)
 {
 	if(m_bIsChildrenLoaded)
 		return;
@@ -248,7 +248,7 @@ void wxGxDBConnections::OnObjectAdded(wxGxCatalogEvent& event)
 }
 #endif
 
-bool wxGxDBConnections::IsPathWatched(const wxString& sPath)
+bool wxGxShellConnections::IsPathWatched(const wxString& sPath)
 {
     wxArrayString sPaths;
     m_pWatcher->GetWatchedPaths(&sPaths);
@@ -256,7 +256,7 @@ bool wxGxDBConnections::IsPathWatched(const wxString& sPath)
     return sPaths.Index(sPath, false) != wxNOT_FOUND;
 }
 
-void wxGxDBConnections::Refresh(void)
+void wxGxShellConnections::Refresh(void)
 {
 #ifdef __WXGTK__
     m_pWatcher->RemoveAll();
@@ -266,4 +266,3 @@ void wxGxDBConnections::Refresh(void)
 	LoadChildren();
     wxGIS_GXCATALOG_EVENT(ObjectRefreshed);
 }
-*/

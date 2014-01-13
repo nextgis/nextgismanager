@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxDBConnectionsUI class.
+ * Purpose:  wxGxShellConnectionsUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2013 Bishop
+*   Copyright (C) 2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,31 +19,33 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #pragma once
-/*
+
 #include "wxgis/catalogui/catalogui.h"
-#include "wxgis/catalog/gxdbconnections.h"
+#include "wxgis/catalog/gxshellconnections.h"
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalogui/gxview.h"
 
-/** \class wxGxDBConnectionsUI gxdbconnectionsui.h
-    \brief The database connections root item in user interface.
+/** @class wxGxShellConnectionsUI
+
+    The database connections root item in user interface.
+
+    @library {catalogui}
 */
-/*
-class WXDLLIMPEXP_GIS_CLU wxGxDBConnectionsUI :
-    public wxGxDBConnections,
+
+class WXDLLIMPEXP_GIS_CLU wxGxShellConnectionsUI :
+    public wxGxShellConnections,
 	public IGxObjectUI,
     public wxGxAutoRenamer
 {
-    DECLARE_DYNAMIC_CLASS(wxGxDBConnectionsUI)
+    DECLARE_DYNAMIC_CLASS(wxGxShellConnectionsUI)
 public:
-	wxGxDBConnectionsUI(void);
-	virtual ~wxGxDBConnectionsUI(void);
+    wxGxShellConnectionsUI(void);
+    virtual ~wxGxShellConnectionsUI(void);
     //IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxDBConnections.ContextMenu"));};
-	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxDBConnections.NewMenu"));};
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxShellConnectionsUI.ContextMenu"));};
+	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxShellConnectionsUI.NewMenu"));};
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
-*/

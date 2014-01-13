@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxDBConnectionsUI class.
+ * Purpose:  wxGxShellConnectionsUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2013 Bishop
+*   Copyright (C) 2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,37 +19,37 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "wxgis/catalogui/gxdbconnectionsui.h"
-/*
-#include "../../art/db_connections_16.xpm"
-#include "../../art/db_connections_48.xpm"
+#include "wxgis/catalogui/gxshellconnectionsui.h"
+
+#include "../../art/shell_connections_16.xpm"
+#include "../../art/shell_connections_48.xpm"
 
 //---------------------------------------------------------------------------
-// wxGxDBConnectionsUI
+// wxGxShellConnectionsUI
 //---------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGxDBConnectionsUI, wxGxDBConnections)
+IMPLEMENT_DYNAMIC_CLASS(wxGxShellConnectionsUI, wxGxShellConnections)
 
-wxGxDBConnectionsUI::wxGxDBConnectionsUI(void) : wxGxDBConnections(), wxGxAutoRenamer()
+wxGxShellConnectionsUI::wxGxShellConnectionsUI(void) : wxGxShellConnections(), wxGxAutoRenamer()
 {    
 }
 
-wxGxDBConnectionsUI::~wxGxDBConnectionsUI(void)
+wxGxShellConnectionsUI::~wxGxShellConnectionsUI(void)
 {
 }
 
-wxIcon wxGxDBConnectionsUI::GetLargeImage(void)
+wxIcon wxGxShellConnectionsUI::GetLargeImage(void)
 {
     if(!m_LargeIcon.IsOk())
-        m_LargeIcon = wxIcon(db_connections_48_xpm);
+        m_LargeIcon = wxIcon(shell_connections_48_xpm);
     return m_LargeIcon;
 }
 
-wxIcon wxGxDBConnectionsUI::GetSmallImage(void)
+wxIcon wxGxShellConnectionsUI::GetSmallImage(void)
 {
     if(!m_SmallIcon.IsOk())
-        m_SmallIcon = wxIcon(db_connections_16_xpm);
+        m_SmallIcon = wxIcon(shell_connections_16_xpm);
 	return m_SmallIcon;
 }
-*/
+
 

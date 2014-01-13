@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxDBConnections class.
+ * Purpose:  Shell Connections classes (ssh, ftp, etc.).
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #pragma once
-/*
+
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxfolder.h"
 #include "wxgis/catalog/gxcatalog.h"
@@ -33,23 +33,24 @@
 #endif
 
 
-/** \class wxGxDBConnections gxdbconnections.h
-    \brief The database connections root item.
+/** @class wxGxShellConnections
+    
+    The shell connections root item.  This root item can held connections (*.shconn) and folder items
 
-	This root item can held connections (*.xconn) and folders items
+    @library {catalog}
 */
-/*
-class WXDLLIMPEXP_GIS_CLT wxGxDBConnections :
+
+class WXDLLIMPEXP_GIS_CLT wxGxShellConnections :
 	public wxGxFolder,
     public IGxRootObjectProperties
 {
-   DECLARE_DYNAMIC_CLASS(wxGxDBConnections)
+    DECLARE_DYNAMIC_CLASS(wxGxShellConnections)
 public:
-	wxGxDBConnections(void);
-	virtual ~wxGxDBConnections(void);
+    wxGxShellConnections(void);
+    virtual ~wxGxShellConnections(void);
 	//wxGxObject
     virtual bool Create(wxGxObject *oParent = NULL, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-	virtual wxString GetCategory(void) const {return wxString(_("Database connections folder"));};
+	virtual wxString GetCategory(void) const {return wxString(_("Shell connections folder"));};
     virtual bool Destroy(void);
     virtual void Refresh(void);
 	//wxGxObjectContainer
@@ -78,4 +79,4 @@ protected:
 private:
     DECLARE_EVENT_TABLE()
 };
-*/
+
