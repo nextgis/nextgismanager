@@ -49,7 +49,7 @@ wxDEFINE_EVENT( wxGISTASKMNGR_DISCONNECT, wxGISTaskManagerEvent );
 //------------------------------------------------------------------
 #define HOST wxT("127.0.0.1")
 #define PORT 9980
-#define TIMEOUT 15
+#define TIMEOUT 25
 
 IMPLEMENT_CLASS(wxGISLocalClientConnection, INetConnection)
 
@@ -214,7 +214,7 @@ void wxGISTaskManager::StartTaskManagerServer()
         wxLogError(_("Task Manager Server start failed. Path '%s'"), sTaskMngrServerPath.c_str());
     }
     //start timer to connect task manager server
-    m_timer.Start(2500, false); //2,5 sec. disconnect timer
+    m_timer.Start(5500, false); //2,5 sec. disconnect timer
 }
 
 bool wxGISTaskManager::IsValid(void) const

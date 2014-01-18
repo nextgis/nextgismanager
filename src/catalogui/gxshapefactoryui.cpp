@@ -3,7 +3,7 @@
  * Purpose:  wxGxShapeFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010  Bishop
+*   Copyright (C) 2010,2014  Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -38,14 +38,12 @@ wxGxShapeFactoryUI::~wxGxShapeFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxShapeFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type)
+wxGxObject* wxGxShapeFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     switch(type)
     {

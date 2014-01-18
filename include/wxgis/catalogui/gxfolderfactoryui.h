@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderFactoryUI class. Create new GxFolderUI objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ public:
 	wxGxFolderFactoryUI(void);
 	virtual ~wxGxFolderFactoryUI(void);
 	//wxGxObjectFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
 protected:
     wxIcon m_oLargeFolderIcon, m_oSmallFolderIcon;
 };

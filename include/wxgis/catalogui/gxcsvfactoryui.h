@@ -35,7 +35,7 @@ public:
 	wxGxCSVFileFactoryUI(void);
 	virtual ~wxGxCSVFileFactoryUI(void);
     //wxGxCSVFileFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
 protected:
     wxIcon m_LargeCSVIcon, m_SmallCSVIcon;
     //wxIcon m_LargeMifIcon, m_SmallMifIcon;

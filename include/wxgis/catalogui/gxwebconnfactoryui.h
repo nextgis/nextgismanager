@@ -3,7 +3,7 @@
  * Purpose:  wxGxWebConnectionFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,8 +35,10 @@ public:
 	wxGxWebConnectionFactoryUI(void);
 	virtual ~wxGxWebConnectionFactoryUI(void);
 	//wxGxDBConnectionFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
 protected:
     wxIcon m_LargeIconConn, m_SmallIconConn;
     wxIcon m_LargeIconDisconn, m_SmallIconDisconn;
+    wxIcon m_LargeIconNGWConn, m_SmallIconNGWConn;
+    wxIcon m_LargeIconNGWDisconn, m_SmallIconNGWDisconn;
 };

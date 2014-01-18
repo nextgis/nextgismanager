@@ -3,7 +3,7 @@
  * Purpose:  wxGxRasterFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2013 Bishop
+*   Copyright (C) 2010,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -52,14 +52,12 @@ wxGxRasterFactoryUI::~wxGxRasterFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type)
+wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxIcon icLargeIcon, icSmallIcon;
     //different icons for rasters

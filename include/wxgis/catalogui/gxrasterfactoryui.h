@@ -3,7 +3,7 @@
  * Purpose:  wxGxRasterFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2013 Bishop
+*   Copyright (C) 2010,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
 	wxGxRasterFactoryUI(void);
 	virtual ~wxGxRasterFactoryUI(void);
     //wxGxRasterFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type, bool bCheckNames);
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
     wxIcon m_icBMPLargeIcon, m_icBMPSmallIcon;

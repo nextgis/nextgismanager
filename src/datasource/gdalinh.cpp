@@ -394,7 +394,11 @@ void wxGISFeature::SetField(int nIndex, double dfValue)
 void wxGISFeature::SetField(int nIndex, const wxString &sValue)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+#ifdef CPL_RECODE_ICONV
+    const char* szData = sValue.ToUTF8();// .mb_str(wxConvUTF8);
+#else
     const char* szData = EncodeString(sValue, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+#endif //CPL_RECODE_ICONV
     ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, szData);
 }
 
@@ -549,7 +553,7 @@ wxGISGeometry wxGISFeature::GetGeometry(void) const
 void wxGISFeature::SetStyleString(const wxString &sStyle)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
-    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetStyleString(sStyle.mb_str(wxConvUTF8));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetStyleString(sStyle.ToUTF8());
 }
 
 int wxGISFeature::GetFieldAsInteger(const wxString &sFieldName) const
@@ -571,7 +575,7 @@ int wxGISFeature::GetFieldIndex(const wxString &sFieldName) const
 {
     //TODO: check for russian field name encoding
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, -1, wxT("The OGRFeature pointer is null"));
-    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldIndex(sFieldName.mb_str(wxConvUTF8));
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldIndex(sFieldName.ToUTF8());
 }
 
 wxString wxGISFeature::GetFieldName(int nIndex) const

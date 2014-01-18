@@ -3,7 +3,7 @@
  * Purpose:  wxGxCSVFileFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011.2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -40,14 +40,12 @@ wxGxCSVFileFactoryUI::~wxGxCSVFileFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxCSVFileFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxCSVFileFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxTableDatasetUI* pDataset = new wxGxTableDatasetUI(enumTableCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
     return wxStaticCast(pDataset, wxGxObject);

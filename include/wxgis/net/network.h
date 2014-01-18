@@ -28,6 +28,7 @@
 #define SLEEP 40
 #define WAITFOR 50
 #define BUFF_SIZE 16384
+#define USE_STREAMS
 
 class WXDLLIMPEXP_GIS_NET INetConnection;
 

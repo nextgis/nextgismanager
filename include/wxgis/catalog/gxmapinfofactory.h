@@ -37,7 +37,7 @@ public:
 	//wxGxObjectFactory
 	virtual bool GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds);
     virtual wxString GetName(void) const {return wxString(_("Mapinfo files"));};
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type, bool bCheckNames);
 protected:
     bool m_bHasDriver;
 };

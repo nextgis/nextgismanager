@@ -3,7 +3,7 @@
  * Purpose:  wxGxMLFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Bishop
+*   Copyright (C) 2010-2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
 	wxGxMLFactoryUI(void);
 	virtual ~wxGxMLFactoryUI(void);
 	//wxGxMLFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type, bool bCheckNames);
 protected:
     wxIcon m_LargeDXFIcon, m_SmallDXFIcon;
     wxIcon m_LargeKMLIcon, m_SmallKMLIcon;

@@ -3,7 +3,7 @@
  * Purpose:  wxGxShapeFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012 Bishop
+*   Copyright (C) 2010,2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
 	wxGxShapeFactoryUI(void);
 	virtual ~wxGxShapeFactoryUI(void);
     //wxGxShapeFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type, bool bCheckNames);
 protected:
     wxIcon m_LargeSHPIcon, m_SmallSHPIcon;
     wxIcon m_LargeDBFIcon, m_SmallDBFIcon;

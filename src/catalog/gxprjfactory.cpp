@@ -3,7 +3,7 @@
  * Purpose:  wxGxPrjFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ wxGxPrjFactory::~wxGxPrjFactory(void)
 
 bool wxGxPrjFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         CPLString szExt = CPLGetExtension(pFileNames[i]);
@@ -65,7 +66,7 @@ bool wxGxPrjFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
 
             if(bAdd)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumESRIPrjFile);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumESRIPrjFile, bCheckNames);
             }
 
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
@@ -84,14 +85,14 @@ bool wxGxPrjFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
 
             if(bAdd)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumQPJfile);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumQPJfile, bCheckNames);
             }
 
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "spr"))
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumSPRfile);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumSPRfile, bCheckNames);
 
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
@@ -106,14 +107,12 @@ bool wxGxPrjFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
 }
 
 
-wxGxObject* wxGxPrjFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType)
+wxGxObject* wxGxPrjFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxPrjFile* pFile = new wxGxPrjFile(nType, pParent, soName, szPath);
 	return wxStaticCast(pFile, wxGxObject);

@@ -3,7 +3,7 @@
  * Purpose:  wxGxDBConnectionFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -43,6 +43,8 @@ wxGxDBConnectionFactory::~wxGxDBConnectionFactory(void)
 
 bool wxGxDBConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
+
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
@@ -51,7 +53,7 @@ bool wxGxDBConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileName
 		{
             if( m_bHasDriver )
             {
-    			wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i]); 
+                wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], bCheckNames);
                 if(pObj)
                     pChildrenIds.Add(pObj->GetId());
             }
@@ -61,14 +63,12 @@ bool wxGxDBConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileName
 	return true;
 }
 
-wxGxObject* wxGxDBConnectionFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxDBConnectionFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if (bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     //TODO: other DB like MySQL my have different ifdefs
 #ifdef wxGIS_USE_POSTGRES

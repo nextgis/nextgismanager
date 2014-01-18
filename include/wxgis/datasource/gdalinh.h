@@ -147,7 +147,7 @@ protected:
             }
             else if (oEncoding == wxFONTENCODING_UTF8)
             {
-                return wxString(psz, wxConvUTF8);
+                return wxString::FromUTF8(psz);
             }
             else if (oEncoding == wxFONTENCODING_UTF7)
             {

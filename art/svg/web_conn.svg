@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="web_conn.svg"
-   inkscape:export-filename="D:\work\projects\art\png\web_disconn_48.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90"
+   inkscape:export-filename="D:\work\projects\art\png\ngw_conn_16.png"
+   inkscape:export-xdpi="30"
+   inkscape:export-ydpi="30"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.1">
   <defs
@@ -1406,7 +1406,7 @@
      inkscape:zoom="6.025139"
      inkscape:cx="40.711646"
      inkscape:cy="27.335407"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
@@ -1458,7 +1458,8 @@
   <g
      id="layer1"
      inkscape:label="icon"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     style="display:inline">
     <g
        transform="matrix(0.76946134,0,0,0.76946134,-20.986835,-11.340972)"
        id="g17350">
@@ -1532,7 +1533,7 @@
            sodipodi:cy="40.625"
            sodipodi:rx="0.53125"
            sodipodi:ry="0.53125"
-           d="m 19,40.625 c 0,0.293401 -0.237849,0.53125 -0.53125,0.53125 -0.293401,0 -0.53125,-0.237849 -0.53125,-0.53125 0,-0.293401 0.237849,-0.53125 0.53125,-0.53125 0.293401,0 0.53125,0.237849 0.53125,0.53125 z"
+           d="m 19,40.625 a 0.53125,0.53125 0 1 1 -1.0625,0 0.53125,0.53125 0 1 1 1.0625,0 z"
            transform="matrix(0.94118,0,0,0.94118,0.687895,1.413727)" />
       </g>
     </g>
@@ -1756,7 +1757,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="disconn"
-     style="display:inline">
+     style="display:none">
     <g
        transform="translate(0.49930173,23.714514)"
        style="display:inline"
@@ -1818,8 +1819,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="type_TMS"
-     sodipodi:insensitive="true"
-     style="display:inline">
+     style="display:none">
     <rect
        style="fill:#ce5c00;fill-opacity:1;stroke:none;display:inline"
        id="rect20258-9-5"
@@ -1874,7 +1874,7 @@
      style="display:none"
      sodipodi:insensitive="true">
     <rect
-       style="fill:#3465a4;fill-opacity:1;stroke:none"
+       style="fill:#75507b;fill-opacity:1;stroke:none"
        id="rect20258"
        width="33.9702"
        height="16.241863"
@@ -1893,5 +1893,31 @@
          x="29.439835"
          y="16.215988"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#eeeeec;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">OSM</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="type NGW"
+     style="display:none">
+    <rect
+       style="fill:#3465a4;fill-opacity:1;stroke:none;display:inline"
+       id="rect20258-1"
+       width="33.9702"
+       height="16.241863"
+       x="12.225846"
+       y="1.8716468" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.07156181px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="29.32547"
+       y="16.157946"
+       id="text20279-7"
+       sodipodi:linespacing="125%"
+       transform="scale(0.99510469,1.0049194)"><tspan
+         sodipodi:role="line"
+         id="tspan20281-4"
+         x="29.32547"
+         y="16.157946"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#eeeeec;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">NGW</tspan></text>
   </g>
 </svg>

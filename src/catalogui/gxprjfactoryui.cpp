@@ -3,7 +3,7 @@
  * Purpose:  wxGxPrjFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -37,14 +37,12 @@ wxGxPrjFactoryUI::~wxGxPrjFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxPrjFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType)
+wxGxObject* wxGxPrjFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxPrjFileUI* pFile = new wxGxPrjFileUI(nType, pParent, soName, szPath, m_LargePRJIcon, m_SmallPRJIcon);
 	return wxStaticCast(pFile, wxGxObject);

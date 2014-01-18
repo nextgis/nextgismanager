@@ -3,7 +3,7 @@
  * Purpose:  wxGxWebConnectionFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ wxGxWebConnectionFactory::~wxGxWebConnectionFactory(void)
 
 bool wxGxWebConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
@@ -49,7 +50,7 @@ bool wxGxWebConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileNam
 		{
             if( m_bHasDriver )
             {
-    			wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i]); 
+    			wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], bCheckNames); 
                 if(pObj)
                     pChildrenIds.Add(pObj->GetId());
             }
@@ -59,15 +60,30 @@ bool wxGxWebConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileNam
 	return true;
 }
 
-wxGxObject* wxGxWebConnectionFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxWebConnectionFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
-    wxGxTMSWebService* pDataset = new wxGxTMSWebService(pParent, soName, szPath);
-	return wxStaticCast(pDataset, wxGxObject);
+    wxXmlDocument config(wxString::FromUTF8(szPath));
+    if (config.IsOk())
+    {
+        wxXmlNode* pRoot = config.GetRoot();
+        if (pRoot != NULL)
+        {
+            if (pRoot->GetName().IsSameAs(wxT("NGW"), false))
+            {
+                wxGxNGWService* pDataset = new wxGxNGWService(pParent, soName, szPath);
+	            return wxStaticCast(pDataset, wxGxObject);
+            }
+            else if (pRoot->GetName().IsSameAs(wxT("GDAL_WMS"), false))
+            {
+                wxGxTMSWebService* pDataset = new wxGxTMSWebService(pParent, soName, szPath);
+	            return wxStaticCast(pDataset, wxGxObject);
+            }
+        }
+    }
+    return NULL;
 }

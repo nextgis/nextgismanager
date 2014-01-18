@@ -3,7 +3,7 @@
  * Purpose:  wxGxWebConnectionFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,10 @@
 #include "../../art/web_tms_conn_48.xpm"
 #include "../../art/web_tms_disconn_16.xpm"
 #include "../../art/web_tms_disconn_48.xpm"
+#include "../../art/ngw_conn_16.xpm"
+#include "../../art/ngw_conn_48.xpm"
+#include "../../art/ngw_disconn_16.xpm"
+#include "../../art/ngw_disconn_48.xpm"
 
 //------------------------------------------------------------------------------
 // wxGxWebConnectionFactoryUI
@@ -39,21 +43,43 @@ wxGxWebConnectionFactoryUI::wxGxWebConnectionFactoryUI(void) : wxGxWebConnection
     m_SmallIconConn = wxIcon(web_tms_conn_16_xpm);
     m_LargeIconDisconn = wxIcon(web_tms_disconn_48_xpm);
     m_SmallIconDisconn = wxIcon(web_tms_disconn_16_xpm);    
+    m_LargeIconNGWConn = wxIcon(ngw_conn_48_xpm);
+    m_SmallIconNGWConn = wxIcon(ngw_conn_16_xpm);
+    m_LargeIconNGWDisconn = wxIcon(ngw_disconn_48_xpm);
+    m_SmallIconNGWDisconn = wxIcon(ngw_disconn_16_xpm);
 }
 
 wxGxWebConnectionFactoryUI::~wxGxWebConnectionFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxWebConnectionFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxWebConnectionFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
     
-    wxGxTMSWebServiceUI* pDataset = new wxGxTMSWebServiceUI(pParent, soName, szPath, m_LargeIconConn, m_SmallIconConn, m_LargeIconDisconn, m_SmallIconDisconn);
-	return wxStaticCast(pDataset, wxGxObject);
+
+
+    wxXmlDocument config(wxString::FromUTF8(szPath));
+    if (config.IsOk())
+    {
+        wxXmlNode* pRoot = config.GetRoot();
+        if (pRoot != NULL)
+        {
+            if (pRoot->GetName().IsSameAs(wxT("NGW"), false))
+            {
+                wxGxNGWServiceUI* pDataset = new wxGxNGWServiceUI(pParent, soName, szPath, m_LargeIconNGWConn, m_SmallIconNGWConn, m_LargeIconNGWDisconn, m_SmallIconNGWDisconn);
+                return wxStaticCast(pDataset, wxGxObject);
+            }
+            else if (pRoot->GetName().IsSameAs(wxT("GDAL_WMS"), false))
+            {
+                wxGxTMSWebServiceUI* pDataset = new wxGxTMSWebServiceUI(pParent, soName, szPath, m_LargeIconConn, m_SmallIconConn, m_LargeIconDisconn, m_SmallIconDisconn);
+	            return wxStaticCast(pDataset, wxGxObject);
+            }
+        }
+    }
+    return NULL;
+
 }

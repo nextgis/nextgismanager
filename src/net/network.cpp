@@ -239,16 +239,22 @@ bool INetConnection::ProcessOutputNetMessage(void)
             return true;
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
-        //wxSocketOutputStream out(*m_pSock);
         wxNetMessage msgout = m_aoMessages.top();
         wxJSONWriter writer( wxJSONWRITER_NONE ); 
         writer.SetDoubleFmtString("%.10f");
+
+#ifdef USE_STREAMS
+        wxSocketOutputStream out(*m_pSock);
+        writer.Write( msgout.GetInternalValue(), out );
+        //write EOF
+        out.PutC(-1);
+#else
         wxString sOut;
         writer.Write( msgout.GetInternalValue(), sOut );
 #ifdef _DEBUG
         wxLogDebug(wxString::Format(wxT("snd:%s"), sOut));
-#endif
-        //writer.Write( msgout.GetInternalValue(), out );
+#endif //_DEBUG
+
 
         wxUint32 nSize = m_pSock->WriteMsg(sOut.data(), sOut.size()).LastCount();
         if(nSize != sOut.size())
@@ -256,11 +262,10 @@ bool INetConnection::ProcessOutputNetMessage(void)
             wxLogError(_("Failed to send network message"));
             return true;
         }
+#endif //USE_STREAMS
 
         m_aoMessages.pop();
 
-        //write EOF
-        //out.PutC(-1);
         return true;
     }
     else
@@ -286,6 +291,13 @@ bool INetConnection::ProcessInputNetMessage(void)
         if(!m_pSock)
             return true;
 
+        wxJSONValue  value;
+        wxJSONReader reader;
+
+#ifdef USE_STREAMS
+        wxSocketInputStream in(*m_pSock);
+        int numErrors = reader.Parse( in, &value );
+#else
         RtlZeroMemory(m_Buffer, sizeof(m_Buffer));
         wxUint32 nRead(0);
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
@@ -297,17 +309,14 @@ bool INetConnection::ProcessInputNetMessage(void)
 
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
-        //wxSocketInputStream in(*m_pSock);
-        wxJSONValue  value;
-        wxJSONReader reader;
-        //int numErrors = reader.Parse( in, &value );
+
         int numErrors = reader.Parse( sIn, &value );
+#endif
         if ( numErrors > 0 )  
         {
             wxLogDebug(_("Invalid input message"));
             return false;
         }
-
 
         wxNetMessage msg(value);
         if(!msg.IsOk())

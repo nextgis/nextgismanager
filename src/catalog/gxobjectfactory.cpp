@@ -69,10 +69,14 @@ void wxGxObjectFactory::SetEnabled(bool bIsEnabled)
 
 bool wxGxObjectFactory::IsNameExist(wxGxObject* pParent, const wxString &soName)
 {
+#ifdef CHECK_DUBLES
     wxGxObjectContainer* pCont = wxDynamicCast(pParent, wxGxObjectContainer);
     if(pCont)
     {
         return pCont->IsNameExist(soName);
     }
+#endif //CHECK_DUBLES
+
     return false;
+
 }

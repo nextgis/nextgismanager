@@ -3,7 +3,7 @@
  * Purpose:  wxGxShapeFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ wxGxShapeFactory::~wxGxShapeFactory(void)
 
 bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         wxGxObject* pGxObj = NULL;
@@ -67,7 +68,7 @@ bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxAr
             //    bHasPrj = true;
             if(bHasDbf && m_bHasDriver)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISFeatureDataset);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISFeatureDataset, bCheckNames);
                 if(pGxObj)
                     pChildrenIds.Add(pGxObj->GetId());
             }
@@ -87,7 +88,7 @@ bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxAr
             }
             if(!bHasShp && m_bHasDriver)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISTableDataset);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISTableDataset, bCheckNames);
                 if(pGxObj)
                     pChildrenIds.Add(pGxObj->GetId());
             }
@@ -119,14 +120,12 @@ bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxAr
 	return true;
 }
 
-wxGxObject* wxGxShapeFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type)
+wxGxObject* wxGxShapeFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumDatasetType type, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     switch(type)
     {

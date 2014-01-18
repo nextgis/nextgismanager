@@ -126,6 +126,8 @@ bool wxGxFolder::Rename(const wxString &sNewName)
     CPLString szNewPath(sNewPath.mb_str(wxConvUTF8));
     if(RenameFile(m_sPath, szNewPath))
 	{
+        if (m_bIsChildrenLoaded)
+            Refresh();
 		return true;
 	}
 	else

@@ -29,8 +29,11 @@
 
 WX_DECLARE_STRING_HASH_MAP( wxXmlNode*, wxGISConfigNodesMap );
 
-/** \class wxGISConfig config.h
-    \brief The config class
+/** @class wxGISConfig
+    
+    The config main class. This is the wrapper around xml config files. wxGISConfig cached all opened xml config files for speed. All changes are stored to appropriate files before wxGISConfig class destructs on program exit.
+    
+    @library {core}
 */
 class WXDLLIMPEXP_GIS_CORE wxGISConfig : public wxObject
 {

@@ -3,7 +3,7 @@
  * Purpose:  wxGxPrjFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Bishop
+*   Copyright (C) 2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
 	wxGxPrjFactoryUI(void);
 	virtual ~wxGxPrjFactoryUI(void);
 protected:
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumPrjFileType nType, bool bCheckNames);
 protected:
     wxIcon m_LargePRJIcon, m_SmallPRJIcon;
 };

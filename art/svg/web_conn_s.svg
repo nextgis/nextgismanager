@@ -16,7 +16,7 @@
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="web_conn_s.svg"
-   inkscape:export-filename="D:\work\projects\art\png\web_osm_disconn_16.png"
+   inkscape:export-filename="D:\work\projects\art\png\ngw_conn_16.png"
    inkscape:export-xdpi="30"
    inkscape:export-ydpi="30"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -1480,8 +1480,8 @@
      showgrid="false"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1600"
-     inkscape:window-height="838"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:showpageshadow="true"
@@ -1827,7 +1827,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="disconn"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <g
        transform="translate(0.49930173,23.714514)"
@@ -1890,7 +1890,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="type_TMS"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <rect
        style="fill:#ce5c00;fill-opacity:1;stroke:none;display:inline"
@@ -1916,7 +1916,8 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="type_WMS"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#4e9a06;fill-opacity:1;stroke:none"
        id="rect20258-9"
@@ -1942,9 +1943,10 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="type_OSM"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <rect
-       style="fill:#3465a4;fill-opacity:1;stroke:none"
+       style="fill:#75507b;fill-opacity:1;stroke:none"
        id="rect20258"
        width="41.936821"
        height="19.561289"
@@ -1963,5 +1965,33 @@
          x="27.259312"
          y="17.536287"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#eeeeec;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">OSM</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="type NGW">
+    <rect
+       style="fill:#3465a4;fill-opacity:1;stroke:none;display:inline"
+       id="rect20258-1"
+       width="43.098621"
+       height="23.5446"
+       x="4.2592244"
+       y="2.8674743"
+       inkscape:export-filename="D:\work\projects\art\png\rect20258-1.png"
+       inkscape:export-xdpi="30"
+       inkscape:export-ydpi="30" />
+    <text
+       xml:space="preserve"
+       style="font-size:23.15173721px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="27.683395"
+       y="22.056366"
+       id="text20279-7"
+       sodipodi:linespacing="125%"
+       transform="scale(0.93094432,1.0741781)"><tspan
+         sodipodi:role="line"
+         id="tspan20281-4"
+         x="27.683395"
+         y="22.056366"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#eeeeec;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono Bold">NGW</tspan></text>
   </g>
 </svg>

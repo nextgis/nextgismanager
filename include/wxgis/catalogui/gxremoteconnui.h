@@ -26,8 +26,11 @@
 
 #ifdef wxGIS_USE_POSTGRES
 
-/** \class wxGxRemoteConnectionUI gxfileui.h
-    \brief A Remote Connection GxObjectUI.
+/** @class wxGxRemoteConnectionUI
+    
+    A Remote Connection GxObjectUI.
+
+    @library {catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteConnectionUI :
@@ -67,8 +70,11 @@ protected:
     long m_PendingId;
 };
 
-/** \class wxGxRemoteDBSchemaUI gxfileui.h
-    \brief A Remote Database schema GxObjectUI.
+/** @class wxGxRemoteDBSchemaUI
+    
+    A Remote Database schema GxObjectUI.
+
+    @library {catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
@@ -113,8 +119,11 @@ protected:
 
 #endif // wxGIS_USE_POSTGRES
 
-/** \class wxGxTMSWebServiceUI gxremoteconnui.h
-    \brief A TMS Web Service GxObjectUI.
+/** @class wxGxTMSWebServiceUI
+    
+    A Tile Map Service GxObjectUI.
+
+    @library {catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxTMSWebServiceUI :
@@ -136,4 +145,83 @@ public:
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
     wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
+};
+
+/** @class wxGxNGWServiceUI
+    
+    A NextGIS Web Service GxObjectUI.
+
+    @library {catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
+    public wxGxNGWService,
+	public IGxObjectUI,
+    public IGxObjectEditUI
+{
+    DECLARE_CLASS(wxGxNGWServiceUI)
+public:
+    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon);
+    virtual ~wxGxNGWServiceUI(void);
+	//IGxObjectUI
+	virtual wxIcon GetLargeImage(void);
+	virtual wxIcon GetSmallImage(void);
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxNGWServiceUI.ContextMenu"));};
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWServiceUI.NewtMenu")); };
+	//IGxObjectEditUI
+	virtual void EditProperties(wxWindow *parent);
+protected:
+    virtual void LoadChildren(void);
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
+    wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
+};
+
+/** @class wxGxNGWLayersUI
+
+    A NextGIS Web Service Layers GxObjectUI.
+
+    @library {catalog}
+*/
+class WXDLLIMPEXP_GIS_CLU wxGxNGWLayersUI :
+    public wxGxNGWLayers,
+    public IGxObjectUI
+{
+    DECLARE_CLASS(wxGxNGWLayersUI)
+public:
+    wxGxNGWLayersUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeLayerIcon = wxNullIcon, const wxIcon &icSmallLayerIcon = wxNullIcon);
+    virtual ~wxGxNGWLayersUI(void);
+	//IGxObjectUI
+	virtual wxIcon GetLargeImage(void);
+	virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayersUI.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayersUI.NewtMenu")); };
+protected:
+    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
+    wxIcon m_icLargeLayerIcon, m_icSmallLayerIcon;
+};
+
+/** @class wxGxNGWLayerUI
+
+    A NextGIS Web Service Layer GxObjectUI.
+
+    @library {catalog}
+*/
+class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :
+    public wxGxNGWLayer,
+    public IGxObjectUI
+{
+    DECLARE_CLASS(wxGxNGWLayerUI)
+public:
+    wxGxNGWLayerUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    virtual ~wxGxNGWLayerUI(void);
+	//IGxObjectUI
+	virtual wxIcon GetLargeImage(void);
+	virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayerUI.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayerUI.NewtMenu")); };
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
 };

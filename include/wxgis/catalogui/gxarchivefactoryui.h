@@ -35,7 +35,7 @@ public:
 	wxGxArchiveFactoryUI(void);
 	virtual ~wxGxArchiveFactoryUI(void);
 	//IGxObjectFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
 protected:
     wxIcon m_oLargeAFolderIcon, m_oSmallAFolderIcon;
 };

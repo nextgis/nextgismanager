@@ -3,7 +3,7 @@
  * Purpose:  wxGxMapInfoFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010  Bishop
+*   Copyright (C) 2009-2014  Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,9 @@ wxGxMapInfoFactory::~wxGxMapInfoFactory(void)
 
 bool wxGxMapInfoFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
-    for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
+
+    for (int i = CSLCount(pFileNames) - 1; i >= 0; i--)
     {
         wxGxObject* pGxObj = NULL;
         CPLString szExt = CPLGetExtension(pFileNames[i]);
@@ -89,9 +91,9 @@ bool wxGxMapInfoFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
             }
 
             if(bHasMap && bHasMap && bHasID && bHasDat)
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecMapinfoTab);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecMapinfoTab, bCheckNames);
             else if(bHasDat)
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], wxGISEnumVectorDatasetType(emumVecMAX + 1));
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], wxGISEnumVectorDatasetType(emumVecMAX + 1), bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "mif"))
@@ -101,9 +103,9 @@ bool wxGxMapInfoFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
             if(CPLCheckForFile((char*)szPath.c_str(), NULL))
                 bHasMid = true;
             if(bHasMid)
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecMapinfoMif);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecMapinfoMif, bCheckNames);
             else
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], wxGISEnumVectorDatasetType(emumVecMAX + 2));
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], wxGISEnumVectorDatasetType(emumVecMAX + 2), bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "map"))
@@ -139,17 +141,15 @@ bool wxGxMapInfoFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
 	return true;
 }
 
-wxGxObject* wxGxMapInfoFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type)
+wxGxObject* wxGxMapInfoFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type, bool bCheckNames)
 {
     if(!m_bHasDriver)
         return NULL;
 
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     if(emumVecMAX + 1)
         return wxStaticCast(new wxGxTableDataset(enumTableMapinfoTab, pParent, soName, szPath), wxGxObject);

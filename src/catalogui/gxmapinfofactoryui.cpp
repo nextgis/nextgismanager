@@ -3,7 +3,7 @@
  * Purpose:  wxGxMapInfoFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011 Bishop
+*   Copyright (C) 2009-2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -50,17 +50,15 @@ wxGxMapInfoFactoryUI::~wxGxMapInfoFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxMapInfoFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type)
+wxGxObject* wxGxMapInfoFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type, bool bCheckNames)
 {
     if(!m_bHasDriver)
         return NULL;
 
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     switch(type)
     {

@@ -3,7 +3,7 @@
  * Purpose:  wxGxMLFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Bishop
+*   Copyright (C) 2009-2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -51,6 +51,7 @@ wxGxMLFactory::~wxGxMLFactory(void)
 
 bool wxGxMLFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         wxGxObject* pGxObj = NULL;
@@ -59,32 +60,32 @@ bool wxGxMLFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArray
 
         if(wxGISEQUAL(szExt, "kml") && (m_bHasKMLDriver || m_bHasLIBKMLDriver) )
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecKML);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecKML, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "kmz") && m_bHasLIBKMLDriver)
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecKMZ);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecKMZ, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "dxf") && m_bHasDXFDriver)
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecDXF);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecDXF, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if(wxGISEQUAL(szExt, "gml") && m_bHasGMLDriver)
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGML);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGML, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if ( (wxGISEQUAL(szExt, "geojson") || wxGISEQUAL(szExt, "json")) && m_bHasJsonDriver)
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGeoJSON);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecGeoJSON, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
         else if (wxGISEQUAL(szExt, "sxf") && m_bHasSXFDriver)
         {
-            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecSXF);
+            pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumVecSXF, bCheckNames);
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
 
@@ -108,14 +109,12 @@ bool wxGxMLFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArray
 	return true;
 }
 
-wxGxObject* wxGxMLFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type)
+wxGxObject* wxGxMLFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumVectorDatasetType type, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     switch (type)
     {

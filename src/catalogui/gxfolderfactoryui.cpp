@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderFactoryUI class. Create new GxFolderUI objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -44,14 +44,12 @@ wxGxFolderFactoryUI::~wxGxFolderFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxFolderFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxFolderFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxFolder* pFolder = new wxGxFolderUI(pParent, soName, szPath, m_oLargeFolderIcon, m_oSmallFolderIcon);
 	return static_cast<wxGxObject*>(pFolder);

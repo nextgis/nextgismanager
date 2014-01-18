@@ -549,7 +549,24 @@ void wxGISCatalogMainCmd::OnClick(void)
                 {
                     //show ask dialog
                     wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
-					wxRichMessageDialog dlg(pWnd, wxString::Format(_("Do you really want to delete %d item(s)"), pSel->GetCount()), wxString(_("Delete confirm")), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION | wxSTAY_ON_TOP | wxCENTRE);
+                    wxString sMessage = wxString::Format(_("Do you really want to delete %d item(s)"), pSel->GetCount());
+                    if (pSel->GetCount() > 0)
+                    {
+                        sMessage.Append(wxT("\n"));
+                    }
+
+                    for (size_t i = 0; i < pSel->GetCount(); ++i)
+                    {
+                        wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+                        if (NULL != pGxObject)
+                        {
+                            sMessage.Append(pGxObject->GetName());
+                            if (i < pSel->GetCount() - 1)
+                                sMessage.Append(wxT(", "));
+                        }                        
+                    }
+
+                    wxRichMessageDialog dlg(pWnd, sMessage, wxString(_("Delete confirm")), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION | wxSTAY_ON_TOP | wxCENTRE);
 					dlg.SetExtendedMessage(wxString(_("The result of operation cannot be undone!\nThe deleted items will remove from disk and will not put to the recycled bin.")));
 					dlg.ShowCheckBox("Use my choice and do not show this dialog in future");
 

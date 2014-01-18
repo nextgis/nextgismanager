@@ -123,9 +123,11 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         }
     }
 
+#ifndef CPL_RECODE_ICONV
     wxEncodingConverter oEncConverter;
     bool bFastConv = oEncConverter.Init(pSrcDataSet->GetEncoding(), pDstDataSet->GetEncoding(), wxCONVERT_SUBSTITUTE);
     char szMaxStr[4096];
+#endif
 
     pSrcDataSet->Reset();
     wxGISFeature Feature;
@@ -206,6 +208,9 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                     newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsStringList(staFieldMap[i].nSrsFieldNo));
                     break;
                 case OFTString:
+#ifdef CPL_RECODE_ICONV
+                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
+#else
                     if (bFastConv)
                     {
                         const char* pszStr = Feature.GetFieldAsChar(staFieldMap[i].nSrsFieldNo);
@@ -215,6 +220,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                             break;
                         }
                     }
+#endif //CPL_RECODE_ICONV
                 default:
                     newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
                     break;

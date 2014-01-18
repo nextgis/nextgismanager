@@ -252,21 +252,24 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
 
     if(m_pSock->WaitForRead(WAITFOR))
     {
+        wxJSONValue  value;
+        wxJSONReader reader;
+#ifdef USE_STREAMS
+        wxSocketInputStream in(*m_pSock);
+        int numErrors = reader.Parse( in, &value );
+#else
         RtlZeroMemory(m_Buffer, sizeof(m_Buffer));
         wxUint32 nRead(0);
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
         wxString sIn(m_Buffer, nRead);
 #ifdef _DEBUG
         wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
-#endif
+#endif // _DEBUG
 
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
-        //wxSocketInputStream in(*m_pSock);
-        wxJSONValue  value;
-        wxJSONReader reader;
-        //int numErrors = reader.Parse( in, &value );
         int numErrors = reader.Parse( sIn, &value );
+#endif // USE_STREAMS
         if ( numErrors > 0 )  
         {
             wxLogDebug(_("Invalid input message"));

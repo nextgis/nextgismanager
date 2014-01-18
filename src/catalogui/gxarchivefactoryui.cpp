@@ -3,7 +3,7 @@
  * Purpose:  wxGxArchiveFactoryUI class. Create new GxFolderUI objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -40,14 +40,12 @@ wxGxArchiveFactoryUI::~wxGxArchiveFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxArchiveFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxArchiveFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
     
     wxGxArchiveUI* pFolder = new wxGxArchiveUI(pParent, soName, szPath, m_oLargeAFolderIcon, m_oSmallAFolderIcon);
 	return wxStaticCast(pFolder, wxGxObject);

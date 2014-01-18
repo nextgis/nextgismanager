@@ -28,6 +28,8 @@
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/catalog/gxdbconnfactory.h"
+#include "wxgis/net/curl.h"
+#include "wxgis/core/json/jsonreader.h"
 
 //--------------------------------------------------------------
 //class wxGxRemoteConnection
@@ -1085,4 +1087,325 @@ void wxGxTMSWebService::FillMetadata(bool bForce)
         m_nSize += BufL.st_size;
         m_dtMod = wxDateTime(BufL.st_mtime);
     } 
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWWebService
+//--------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxNGWService, wxGxObjectContainer)
+
+wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+{
+    m_bChildrenLoaded = false;
+    m_bIsConnected = false;
+
+    wxXmlDocument doc(wxString::FromUTF8(soPath));
+    if (doc.IsOk())
+    {
+        wxXmlNode* pRootNode = doc.GetRoot();
+        if (NULL != pRootNode)
+        {
+            wxXmlNode* pDataNode = pRootNode->GetChildren();
+            if (NULL != pDataNode)
+            {
+                m_sURL = pDataNode->GetAttribute(wxT("url"));
+            }
+        }
+    }
+}
+
+wxGxNGWService::~wxGxNGWService(void)
+{
+}
+
+bool wxGxNGWService::Delete(void)
+{
+    Disconnect();
+
+    bool bRet = DeleteFile(m_sPath);
+ 
+    if (!bRet)
+    {
+        const char* err = CPLGetLastErrorMsg();
+        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        return false;
+    }
+    return true;
+}
+
+bool wxGxNGWService::Rename(const wxString &sNewName)
+{
+    CPLString szDirPath = CPLGetPath(m_sPath);
+    CPLString szName = CPLGetBasename(m_sPath);
+    CPLString szNewName(ClearExt(sNewName).mb_str(wxConvUTF8));
+    CPLString szNewPath(CPLFormFilename(szDirPath, szNewName, GetExtension(m_sPath, szName)));
+
+
+    if (!RenameFile(m_sPath, szNewPath))
+    {
+        const char* err = CPLGetLastErrorMsg();
+        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        return false;
+    }
+    else
+    {
+        m_sPath = szNewPath;
+        m_sName = sNewName;
+        //change event
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+    }
+    return true;
+}
+
+
+bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    bool bRet = CopyFile(m_sPath, szDestPath, pTrackCancel);
+    
+    if (!bRet)
+    {
+        const char* err = CPLGetLastErrorMsg();
+        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxLogError(sErr);
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+        return false;
+    }
+
+    return true;
+}
+
+bool wxGxNGWService::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    Disconnect();
+    bool bRet = MoveFile(m_sPath, szDestPath, pTrackCancel);
+
+    if (!bRet)
+    {
+        const char* err = CPLGetLastErrorMsg();
+        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxLogError(sErr);
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+        return false;
+    }
+
+    return true;
+}
+
+bool wxGxNGWService::Connect(void)
+{
+    if (IsConnected())
+    {
+        return true;
+    }
+    bool bRes = true;
+    //connect with login and passwd
+    //bRes = Login();
+    if (bRes)
+    {
+        LoadChildren();
+
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+    }
+
+    return bRes;
+}
+
+bool wxGxNGWService::Disconnect(void)
+{
+    if (!IsConnected())
+    {
+        return true;
+    }
+
+    DestroyChildren();
+    wxGIS_GXCATALOG_EVENT(ObjectChanged);
+
+    m_bChildrenLoaded = false;
+    m_bIsConnected = false;
+
+    return true;
+}
+
+bool wxGxNGWService::IsConnected()
+{
+    return m_bIsConnected;
+}
+
+void wxGxNGWService::Refresh(void)
+{
+    DestroyChildren();
+    LoadChildren();
+    wxGxObject::Refresh();
+}
+
+bool wxGxNGWService::HasChildren(void)
+{
+    LoadChildren();
+    return wxGxObjectContainer::HasChildren();
+}
+
+void wxGxNGWService::LoadChildren(void)
+{
+    if (m_bChildrenLoaded)
+        return;
+    new wxGxNGWLayers(this, _("Layers"), CPLString(m_sURL.ToUTF8()));
+    m_bIsConnected = true;
+    m_bChildrenLoaded = true;
+
+    //wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    //if (NULL == pDSet)
+    //{
+    //    return;
+    //}
+
+    //wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname,oid FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
+
+    //if (NULL != pInfoSchema)
+    //{
+    //    m_saSchemas = FillSchemaNames(pInfoSchema);
+    //    wsDELETE(pInfoSchema);
+
+    //    pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"), wxT("PG")), wxGISTableCached);
+
+    //    wxFeatureCursor Cursor = pInfoSchema->Search();
+    //    wxGISFeature Feature;
+    //    while ((Feature = Cursor.Next()).IsOk())
+    //    {
+    //        wxString sName = Feature.GetFieldAsString(0);
+    //        if (sName.IsSameAs(wxT("geometry_columns")))
+    //            m_bHasGeom = true;
+    //        else if (sName.IsSameAs(wxT("geography_columns")))
+    //            m_bHasGeog = true;
+    //        else if (sName.IsSameAs(wxT("raster_columns")))
+    //            m_bHasRaster = true;
+    //    }
+
+
+    //    for (wxGISDBShemaMap::const_iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
+    //    {
+    //        CPLString szPath(CPLFormFilename(GetPath(), it->second.mb_str(wxConvUTF8), ""));
+    //        GetNewRemoteDBSchema(it->second, szPath, pDSet);
+    //    }
+    //    m_bChildrenLoaded = true;
+    //}
+    //wsDELETE(pDSet);
+}
+
+bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
+{
+    //if (nDataType != enumGISContainer)
+    //    return false;
+    //if (DataSubtype != enumContGDBFolder)
+    //    return false;
+    //return true;
+    return false;
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWLayers
+//--------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxNGWLayers, wxGxObjectContainer)
+
+wxGxNGWLayers::wxGxNGWLayers(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+{
+    m_bChildrenLoaded = false;
+    m_nDNSCacheTimeout = 180;
+    m_nTimeout = 1000;
+    m_nConnTimeout = 30;
+
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        m_sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+        m_sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), wxEmptyString);
+        m_nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), m_nDNSCacheTimeout);
+        m_nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), m_nTimeout);
+        m_nConnTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), m_nConnTimeout);
+    }
+}
+
+wxGxNGWLayers::~wxGxNGWLayers(void)
+{
+}
+
+bool wxGxNGWLayers::HasChildren(void)
+{
+    LoadChildren();
+    return wxGxObjectContainer::HasChildren();
+}
+
+void wxGxNGWLayers::Refresh(void)
+{
+    DestroyChildren();
+    LoadChildren();
+    wxGxObject::Refresh();
+}
+
+void wxGxNGWLayers::LoadChildren(void)
+{
+    if (m_bChildrenLoaded)
+        return;
+    wxGISCurl curl(m_sProxy, m_sHeaders, m_nDNSCacheTimeout, m_nTimeout, m_nConnTimeout);
+    if (!curl.IsValid())
+        return;
+
+    //http://demo.nextgis.ru/ngw_rosavto/api/layer_group/0/tree
+    wxString sURL = wxString::FromUTF8(m_sPath) + wxT("/api/layer_group/0/tree");
+    if (!sURL.StartsWith(wxT("http")))
+    {
+        sURL.Prepend(wxT("http://"));
+    }
+    PERFORMRESULT res = curl.Get(sURL);
+
+    wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if (numErrors > 0)  {
+        const wxArrayString& errors = reader.GetErrors();
+        wxString sErrMsg(_("GeoJSON parsing error"));
+        for (size_t i = 0; i < errors.GetCount(); ++i)
+        {
+            wxString sErr = errors[i];
+            sErrMsg.Append(wxT("\n"));
+            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+        }
+        wxLogError(sErrMsg);
+        return;
+    }
+
+    m_bChildrenLoaded = true;
+
+    wxJSONValue oLayers = JSONRoot[wxT("layers")];
+    for (size_t i = 0; i < oLayers.Size(); ++i)
+    {
+        wxString sName = oLayers[i][wxT("display_name")].AsString();
+        int nId = oLayers[i][wxT("id")].AsInt();
+
+        AddLayer(sName, nId);
+    }
+    
+    m_sName = JSONRoot[wxT("display_name")].AsString();
+
+}
+
+wxGxObject* wxGxNGWLayers::AddLayer(const wxString &sName, int nId)
+{
+    return wxStaticCast(new wxGxNGWLayer(this, sName), wxGxObject);
+}
+
+
+//--------------------------------------------------------------
+//class wxGxNGWLayer
+//--------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxNGWLayer, wxGxObject)
+
+wxGxNGWLayer::wxGxNGWLayer(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObject(oParent, soName, soPath)
+{
+}
+
+wxGxNGWLayer::~wxGxNGWLayer()
+{
+
 }

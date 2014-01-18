@@ -3,7 +3,7 @@
  * Purpose:  Remote Connection classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -33,8 +33,12 @@ class wxGxRemoteDBSchema;
 
 WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, wxGISDBShemaMap);
 
-/** \class wxGxRemoteConnection gxremoteconn.h
-    \brief A Remote Connection GxObject.
+/** 
+    @class wxGxRemoteConnection gxremoteconn.h
+    
+    A Remote Connection GxObject.
+    
+    @library {catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
@@ -102,8 +106,11 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGxRemoteDBSchema gxremoteconn.h
-    \brief A Remote Database schema GxObject.
+/** @class wxGxRemoteDBSchema
+    
+    A Remote Database schema GxObject.
+
+    @library {catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :	
@@ -165,19 +172,118 @@ private:
 #endif //wxGIS_USE_POSTGRES
 
 
-/** \class wxGxTMSWebService gxremoteconn.h
-    \brief A TMS Web Service GxObject.
+/** @class wxGxTMSWebService
+    
+    A TMS Web Service GxObject.
+
+    @library {catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTMSWebService :
 	public wxGxRasterDataset
 {
-    DECLARE_CLASS(wxGxRemoteConnection)
+    DECLARE_CLASS(wxGxTMSWebService)
 public:
 	wxGxTMSWebService(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxTMSWebService(void);
 	//wxGxObject
-	virtual wxString GetCategory(void) const {return wxString(_("Web service"));};
+	virtual wxString GetCategory(void) const {return wxString(_("Tile Map service"));};
     //wxGxDataset
     virtual void FillMetadata(bool bForce = false);
+};
+
+
+/** @class wxGxNGWService
+
+    A NextGIS Web Service GxObject.
+
+    @library {catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWService :
+    public wxGxObjectContainer, 
+    public IGxObjectEdit,
+    public IGxRemoteConnection,
+    public IGxObjectNoFilter
+{
+    DECLARE_CLASS(wxGxNGWService)
+public:
+    wxGxNGWService(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+    virtual ~wxGxNGWService(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const { return wxString(_("NextGIS Web service")); };
+    virtual void Refresh(void);
+    //IGxRemoteConnection
+    virtual bool Connect(void);
+    virtual bool Disconnect(void);
+    virtual bool IsConnected(void);
+    //IGxObjectEdit
+    virtual bool Delete(void);
+    virtual bool CanDelete(void){ return true; };
+    virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void){ return true; };
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath){ return true; };
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath){ return CanCopy(szDestPath) & CanDelete(); };
+    //wxGxObjectContainer
+    virtual bool AreChildrenViewable(void) const { return true; };
+    virtual bool HasChildren(void);
+    virtual bool CanCreate(long nDataType, long DataSubtype);
+protected:
+    virtual void LoadChildren(void);
+protected:
+    wxString m_sLogin;
+    wxString m_sPassword;
+    wxString m_sURL;
+    bool m_bChildrenLoaded, m_bIsConnected;
+};
+
+/** @class wxGxNGWLayers
+
+    A NextGIS Web Service Layers GxObject.
+
+    @library {catalog}
+*/
+class WXDLLIMPEXP_GIS_CLT wxGxNGWLayers :
+    public wxGxObjectContainer,
+    public IGxObjectNoFilter
+{
+    DECLARE_CLASS(wxGxNGWService)
+public:
+    wxGxNGWLayers(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
+    virtual ~wxGxNGWLayers(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const { return wxString(_("NGW service layers")); };
+    virtual void Refresh(void);
+    //wxGxObjectContainer
+    virtual bool AreChildrenViewable(void) const { return true; };
+    virtual bool HasChildren(void);
+protected:
+    virtual void LoadChildren(void);
+    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+protected:
+    bool m_bChildrenLoaded;
+    wxString m_sProxy;
+    wxString m_sHeaders;
+    int m_nDNSCacheTimeout;
+    int m_nTimeout;
+    int m_nConnTimeout;
+};
+
+/** @class wxGxNGWLayer
+
+    A NextGIS Web Service Layer GxObject.
+
+    @library {catalog}
+*/
+class WXDLLIMPEXP_GIS_CLT wxGxNGWLayer :
+    public wxGxObject
+{
+    DECLARE_CLASS(wxGxNGWLayer)
+public:
+    wxGxNGWLayer(wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
+    virtual ~wxGxNGWLayer(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const { return wxString(_("NGW service layer")); };
 };

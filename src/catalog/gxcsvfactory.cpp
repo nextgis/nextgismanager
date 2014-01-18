@@ -3,7 +3,7 @@
  * Purpose:  wxGxCSVFileFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ wxGxCSVFileFactory::~wxGxCSVFileFactory(void)
 
 bool wxGxCSVFileFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
+
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         wxGxObject* pGxObj = NULL;
@@ -49,7 +51,7 @@ bool wxGxCSVFileFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
         {
             if(m_bHasDriver)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i]);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], bCheckNames);
                 if(pGxObj)
                     pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
             }
@@ -69,14 +71,12 @@ bool wxGxCSVFileFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
 	return true;
 }
 
-wxGxObject* wxGxCSVFileFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxCSVFileFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxTableDataset* pDataset = new wxGxTableDataset(enumTableCSV, pParent, soName, szPath);
     return wxStaticCast(pDataset, wxGxObject);

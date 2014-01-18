@@ -3,7 +3,7 @@
  * Purpose:  wxGxDBConnectionFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ public:
 	//IGxObjectFactory
 	virtual bool GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds);
     virtual wxString GetName(void) const {return wxString(_("DataBase connections"));};
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
     virtual void Serialize(wxXmlNode* const pConfig, bool bStore);
     //wxGxDBConnectionFactory
     virtual bool GetLoadSystemTablesAndShemes(void){return m_bLoadSystemTablesAndSchemes;};

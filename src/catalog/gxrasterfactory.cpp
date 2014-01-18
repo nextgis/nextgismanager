@@ -3,7 +3,7 @@
  * Purpose:  wxGxRasterFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010,2013  Bishop
+*   Copyright (C) 2009-2010,2013,2014  Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@ wxGxRasterFactory::~wxGxRasterFactory(void)
 
 bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         wxGxObject* pGxObj = NULL;
@@ -85,7 +86,7 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
                 if(raster_exts[j].bAvailable)
                 {
                     CPLString szPath(pFileNames[i]);
-                    pGxObj = GetGxObject(pParent, GetConvName(szPath), szPath, raster_exts[j].eType);
+                    pGxObj = GetGxObject(pParent, GetConvName(szPath), szPath, raster_exts[j].eType, bCheckNames);
                     if(pGxObj != NULL)
                         pChildrenIds.Add(pGxObj->GetId());
                 }
@@ -132,14 +133,12 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
 	return true;
 }
 
-wxGxObject* wxGxRasterFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type)
+wxGxObject* wxGxRasterFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumRasterDatasetType type, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if(bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif // CHECK_DUBLES
 
     wxGxRasterDataset* pDataset = new wxGxRasterDataset(type, pParent, soName, szPath);
     return wxStaticCast(pDataset, wxGxObject);

@@ -3,7 +3,7 @@
  * Purpose:  wxGxArchiveFactory class. Create new GxFolder objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ wxGxArchiveFactory::~wxGxArchiveFactory(void)
 
 bool wxGxArchiveFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         if( EQUALN(pFileNames[i],"/vsi",4) )
@@ -60,7 +61,7 @@ bool wxGxArchiveFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
                 CPLString pArchiveName("/vsizip/");
                 pArchiveName += pFileNames[i];
 
-                pGxObj = GetGxObject(pParent, wxString(CPLGetFilename(pFileNames[i]), wxConvUTF8), pArchiveName);
+                pGxObj = GetGxObject(pParent, wxString(CPLGetFilename(pFileNames[i]), wxConvUTF8), pArchiveName, bCheckNames);
             }
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
@@ -85,14 +86,12 @@ bool wxGxArchiveFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
 	return true;
 }
 
-wxGxObject* wxGxArchiveFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxArchiveFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if (bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxArchive* pFolder = new wxGxArchive(pParent, soName, szPath);
 	return wxStaticCast(pFolder, wxGxObject);

@@ -31,6 +31,8 @@
 #include "../../art/table_pg_48.xpm"
 #include "../../art/dbschema_16.xpm"
 #include "../../art/dbschema_48.xpm"
+#include "../../art/layers_16.xpm"
+#include "../../art/layer_16.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -502,4 +504,120 @@ void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.Center();
 
     PropertySheetDialog.ShowModal();
+}
+
+
+//--------------------------------------------------------------
+//class wxGxNGWServiceUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWServiceUI, wxGxNGWService)
+
+wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl) : wxGxNGWService(oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+    m_icLargeIconDsbl = icLargeIconDsbl;
+    m_icSmallIconDsbl = icSmallIconDsbl;
+}
+
+wxGxNGWServiceUI::~wxGxNGWServiceUI(void)
+{
+}
+
+wxIcon wxGxNGWServiceUI::GetLargeImage(void)
+{
+    if (IsConnected())
+    {
+        return m_icLargeIcon;
+    }
+    else
+    {
+        return m_icLargeIconDsbl;
+    }
+}
+
+wxIcon wxGxNGWServiceUI::GetSmallImage(void)
+{
+    if (IsConnected())
+    {
+        return m_icSmallIcon;
+    }
+    else
+    {
+        return m_icSmallIconDsbl;
+    }
+}
+
+void wxGxNGWServiceUI::EditProperties(wxWindow *parent)
+{
+}
+
+void wxGxNGWServiceUI::LoadChildren(void)
+{
+    if (m_bChildrenLoaded)
+        return;
+    new wxGxNGWLayersUI(this, _("Layers"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
+    m_bIsConnected = true;
+    m_bChildrenLoaded = true;
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWLayersUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWLayersUI, wxGxNGWLayers)
+
+wxGxNGWLayersUI::wxGxNGWLayersUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeLayerIcon, const wxIcon &icSmallLayerIcon) : wxGxNGWLayers(oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+    m_icLargeLayerIcon = icLargeLayerIcon;
+    m_icSmallLayerIcon = icSmallLayerIcon;
+}
+
+wxGxNGWLayersUI::~wxGxNGWLayersUI(void)
+{
+}
+
+wxIcon wxGxNGWLayersUI::GetLargeImage(void)
+{
+    return m_icLargeIcon;
+}
+
+wxIcon wxGxNGWLayersUI::GetSmallImage(void)
+{
+    return m_icSmallIcon;
+}
+
+wxGxObject* wxGxNGWLayersUI::AddLayer(const wxString &sName, int nId)
+{
+    return wxStaticCast(new wxGxNGWLayerUI(this, sName, "", m_icLargeLayerIcon, m_icSmallLayerIcon), wxGxObject);
+}
+
+
+//--------------------------------------------------------------
+//class wxGxNGWLayerUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWLayerUI, wxGxNGWLayer)
+
+wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+}
+
+wxGxNGWLayerUI::~wxGxNGWLayerUI(void)
+{
+}
+
+wxIcon wxGxNGWLayerUI::GetLargeImage(void)
+{
+    return m_icLargeIcon;
+}
+
+wxIcon wxGxNGWLayerUI::GetSmallImage(void)
+{
+    return m_icSmallIcon;
 }

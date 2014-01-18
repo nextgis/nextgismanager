@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderFactory class. Create new GxFolder objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ wxGxFolderFactory::~wxGxFolderFactory(void)
 bool wxGxFolderFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds)
 {
     wxGxCatalogBase* pCatalog = GetGxCatalog();
+    bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         VSIStatBufL BufL;
@@ -49,7 +50,7 @@ bool wxGxFolderFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
         {
             if(VSI_ISDIR(BufL.st_mode))
 		    {
-			    wxGxObject* pObj = GetGxObject(pParent, wxString(CPLGetFilename(pFileNames[i]), wxConvUTF8), pFileNames[i]); 
+                wxGxObject* pObj = GetGxObject(pParent, wxString(CPLGetFilename(pFileNames[i]), wxConvUTF8), pFileNames[i], bCheckNames);
                 if(pObj)
                     pChildrenIds.Add(pObj->GetId());
                 pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
@@ -59,14 +60,12 @@ bool wxGxFolderFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
 	return true;
 }
 
-wxGxObject* wxGxFolderFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath)
+wxGxObject* wxGxFolderFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
-#ifdef CHECK_DUBLES
-    if(IsNameExist(pParent, soName))
+    if (bCheckNames && IsNameExist(pParent, soName))
     {
         return NULL;
     }
-#endif //CHECK_DUBLES
 
     wxGxFolder* pFolder = new wxGxFolder(pParent, soName, szPath);
 	return static_cast<wxGxObject*>(pFolder);
