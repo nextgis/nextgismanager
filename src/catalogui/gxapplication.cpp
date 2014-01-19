@@ -20,6 +20,8 @@
  ****************************************************************************/
 #include "wxgis/catalogui/gxapplication.h"
 #include "wxgis/framework/toolbarmenu.h"
+#include "wxgis/catalogui/gxtreeview.h"
+
 
 #include "../../art/mainframecat.xpm"
 
@@ -236,3 +238,42 @@ wxIcon wxGxApplication::GetAppIcon(void)
         m_pAppIcon = wxIcon(mainframecat_xpm);
     return m_pAppIcon;
 }
+
+void wxGxApplication::UpdateNewMenu(wxGxSelection* Selection)
+{
+    if (NULL != m_pNewMenu)
+        m_pNewMenu->Update(Selection);
+    UpdateNewMenuInCommands();
+}
+
+void wxGxApplication::UpdateNewMenuInCommands()
+{
+    for (size_t i = 0; i < m_CommandBarArray.size(); ++i)
+    {
+        switch (m_CommandBarArray[i]->GetType())
+        {
+        case enumGISCBContextmenu:
+        case enumGISCBSubMenu:
+        case enumGISCBMenubar:
+        {
+            wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
+
+            size_t nPos = wxNOT_FOUND;
+            wxMenuItem * this_item = pMenu->FindChildItem(NEWMENUID, &nPos);
+            if (nPos != wxNOT_FOUND && this_item != NULL)
+            {
+                //nthis_item->GetSubMenu()->UpdateUI(this);
+                pMenu->Remove(NEWMENUID);
+                pMenu->Insert(nPos, this_item);
+                return;
+            }
+        }
+            break;
+        case enumGISCBToolbar:
+        case enumGISCBNone:
+        default:
+            break;
+        }
+    }
+}
+

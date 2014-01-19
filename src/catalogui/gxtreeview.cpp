@@ -3,7 +3,7 @@
  * Purpose:  wxGxTreeView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -202,6 +202,7 @@ bool wxGxTreeViewBase::Activate(IApplication* const pApplication, wxXmlNode* con
 	{
         return false;
 	}
+    m_pGxApp = dynamic_cast<wxGxApplication*>(pApplication);
  
     if (NULL == GetGxCatalog())
 		return false;
@@ -209,8 +210,6 @@ bool wxGxTreeViewBase::Activate(IApplication* const pApplication, wxXmlNode* con
 
     //delete
     m_pDeleteCmd = m_pApp->GetCommand(wxT("wxGISCatalogMainCmd"), 4);
-	//new
-	m_pNewMenu = dynamic_cast<wxGISNewMenu*>(m_pApp->GetCommandBar(NEWMENUNAME));
 
     AddRoot(m_pCatalog);
 
@@ -221,7 +220,7 @@ bool wxGxTreeViewBase::Activate(IApplication* const pApplication, wxXmlNode* con
         m_ConnectionPointSelectionCookie = m_pSelection->Advise(this);
 	}
 	return true;
-};
+}
 
 void wxGxTreeViewBase::Deactivate(void)
 {
@@ -304,9 +303,9 @@ void wxGxTreeViewBase::UpdateGxSelection(void)
 	        m_pSelection->Select(pData->m_nObjectID, true, GetId());
 		}
     }
-	if (m_pNewMenu)
+    if (m_pGxApp)
 	{
-		m_pNewMenu->Update(m_pSelection);
+        m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 }
 

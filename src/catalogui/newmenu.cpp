@@ -26,9 +26,10 @@
 // wxGISNewMenu
 //----------------------------------------------------------------------
 
-wxGISNewMenu::wxGISNewMenu(const wxString& sName, const wxString& sCaption, wxGISEnumCommandBars type, const wxString& title, long style) : wxGISMenu(sName, sCaption, type, title, style)
+wxGISNewMenu::wxGISNewMenu(const wxString& sName, const wxString& sCaption, wxGISEnumCommandBars type, const wxString& title, long style) : wxGISMenu(sName, sCaption, type, title, style), wxGISCommand()
 {
 	m_pCatalog = NULL;
+    SetID(NEWMENUID);
 }
 
 wxGISNewMenu::~wxGISNewMenu(void)
@@ -148,16 +149,16 @@ void wxGISNewMenu::AddCommand(wxGISCommand* pCmd)
 		{
 			wxMenuItem *item = new wxMenuItem(this, pCmd->GetID(), pCmd->GetCaption(), pCmd->GetMessage(), (wxItemKind)pCmd->GetKind());
 //TODO: check if works in new wxWidgets release
-//			wxBitmap Bmp = pCmd->GetBitmap();
-//			if(Bmp.IsOk())
-//            {
-//#ifdef __WIN32__
-//                wxImage Img = Bmp.ConvertToImage();
-//				item->SetBitmaps(Bmp, Img.ConvertToGreyscale());
-//#else
-//                item->SetBitmap(Bmp);
-//#endif
-//            }
+			wxBitmap Bmp = pCmd->GetBitmap();
+			if(Bmp.IsOk())
+            {
+#ifdef __WIN32__
+                wxImage Img = Bmp.ConvertToImage();
+				item->SetBitmaps(Bmp, Img.ConvertToGreyscale());
+#else
+                item->SetBitmap(Bmp);
+#endif
+            }
 			Append(item);
 		}
 		break;

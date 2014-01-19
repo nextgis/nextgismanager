@@ -161,20 +161,18 @@ bool wxGxToolboxTreeView::Activate(IApplication* const pApplication, wxXmlNode* 
 		return false;
 
 	m_pApp = dynamic_cast<wxGISApplicationBase*>(pApplication);
-	wxGxApplicationBase* pGxApp = dynamic_cast<wxGxApplicationBase*>(pApplication);
-	if (NULL == pGxApp)
+	m_pGxApp = dynamic_cast<wxGxApplication*>(pApplication);
+	if (NULL == m_pGxApp)
 	{
 		return false;
 	}
-	m_pSelection = pGxApp->GetGxSelection();
+	m_pSelection = m_pGxApp->GetGxSelection();
 	//m_pConnectionPointSelection = dynamic_cast<wxGISConnectionPointContainer*>( m_pSelection );
 	//if(m_pConnectionPointSelection != NULL)
 	//	m_ConnectionPointSelectionCookie = m_pConnectionPointSelection->Advise(this);
 
 	//delete
 	m_pDeleteCmd = m_pApp->GetCommand(wxT("wxGISCatalogMainCmd"), 4);
-	//new
-	m_pNewMenu = dynamic_cast<wxGISNewMenu*>(m_pApp->GetCommandBar(NEWMENUNAME));
 
 	if (NULL == GetGxCatalog())
 		return false;
@@ -199,9 +197,9 @@ void wxGxToolboxTreeView::UpdateGxSelection(void)
     //    if(pData != NULL)
 	   //     m_pSelection->Select(pData->m_pObject, true, GetId());
     //}
-	if (m_pNewMenu)
+	if (m_pGxApp)
 	{
-		m_pNewMenu->Update(m_pSelection);
+        m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 }
 

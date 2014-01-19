@@ -23,15 +23,19 @@
 #include "wxgis/framework/applicationex.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/gxselection.h"
-#include "wxgis/catalogui/gxtreeview.h"
 #include "wxgis/catalogui/newmenu.h"
 #include "wxgis/catalogui/gxtabview.h"
 
 #include "wx/aui/aui.h"
 #include "wx/artprov.h"
 
-/** \class wxGxApplication gxapplication.h
- *   \brief A catalog application framework class.
+class wxGxTreeView;
+
+/** @class wxGxApplication gxapplication.h
+    
+    A catalog application framework class.
+
+    @library {catalogui}
  */
 
 class WXDLLIMPEXP_GIS_CLU wxGxApplication :
@@ -50,6 +54,8 @@ public:
 	virtual wxString GetAppDisplayNameShort(void) const {return wxString(_("Manager"));};
     virtual bool CreateApp(void);
 	virtual wxIcon GetAppIcon(void);
+    virtual void UpdateNewMenu(wxGxSelection* Selection);
+    virtual void UpdateNewMenuInCommands(void);
 protected:
 	wxGxTreeView* m_pTreeView;
 	wxGxTabView* m_pTabView;

@@ -132,7 +132,6 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
     {
         switch(m_CommandBarArray[i]->GetType())
         {
-        case enumGISCBSubMenu:
         case enumGISCBMenubar:
 /*#ifdef __WXGTK__
             {
@@ -171,7 +170,7 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 #endif	//__WXGTK__*/
             break;
 			case enumGISCBContextmenu:
-//				{
+				//{
 //					wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
 //// dirty hack
 //                    //wxMenuItemList& pLst = pMenu->GetMenuItems();
@@ -203,6 +202,8 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 //						    pItem->SetItemLabel(pCmd->GetCaption() + wxT("\t") + sAcc);
 //                    }
 //				}
+				break;
+        case enumGISCBSubMenu:
 				break;
         case enumGISCBToolbar:
             {

@@ -3,7 +3,7 @@
  * Purpose:  wxGxContentView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@
 
 #include "wxgis/catalogui/gxview.h"
 #include "wxgis/catalogui/gxcatalogui.h"
-#include "wxgis/catalogui/newmenu.h"
 #include "wxgis/catalog/gxevent.h"
 #include "wxgis/catalogui/gxeventui.h"
+#include "wxgis/catalogui/gxapplication.h"
 
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
@@ -35,8 +35,11 @@ class wxGxApplication;
 
 //TODO: Fix mouse selection dragging linux
 
-/** \struct wxGxToolBarArt gxcontentview.h
-    \brief The struct needed for sort data in content view.
+/** @struct wxGxToolBarArt gxcontentview.h
+    
+    The struct needed for sort data in content view.
+
+    @library {catalogui}
 */
 typedef struct _sortdata
 {
@@ -44,8 +47,11 @@ typedef struct _sortdata
     short currentSortCol;
 } SORTDATA, *LPSORTDATA;
 
-/** \class wxGxContentView gxcontentview.h
-    \brief The catalog content view class.
+/** @class wxGxContentView gxcontentview.h
+    
+    The catalog content view class.
+
+    @library {catalogui}
 */
 class WXDLLIMPEXP_GIS_CLU wxGxContentView :
 	public wxListCtrl,
@@ -127,10 +133,9 @@ protected:
 	wxGxSelection* m_pSelection;
     wxGxCatalogUI* m_pCatalog;
     wxGISApplicationBase* m_pApp;
-
+    wxGxApplication *m_pGxApp;
     wxGISCommand* m_pDeleteCmd;
 
-	wxGISNewMenu* m_pNewMenu;
 	long m_nParentGxObjectID;
 	bool m_bDragging;
     wxVector<ICONDATA> m_IconsArray;

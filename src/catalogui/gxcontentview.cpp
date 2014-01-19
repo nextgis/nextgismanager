@@ -221,6 +221,7 @@ bool wxGxContentView::Activate(IApplication* const pApplication, wxXmlNode* cons
     m_pApp = dynamic_cast<wxGISApplicationBase*>(pApplication);
     if(NULL == m_pApp)
         return false;
+    m_pGxApp = dynamic_cast<wxGxApplication*>(pApplication);
 
     if(!GetGxCatalog())
 		return false;
@@ -228,8 +229,6 @@ bool wxGxContentView::Activate(IApplication* const pApplication, wxXmlNode* cons
 
     //delete
     m_pDeleteCmd = m_pApp->GetCommand(wxT("wxGISCatalogMainCmd"), 4);
-	//new
-	m_pNewMenu = dynamic_cast<wxGISNewMenu*>(m_pApp->GetCommandBar(NEWMENUNAME));
 
     m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
 
@@ -457,11 +456,11 @@ void wxGxContentView::OnSelected(wxListEvent& event)
 		nCount++;
         m_pSelection->Select(pItemData->nObjectID, true, NOTFIRESELID);
     }
-	if(	m_pNewMenu )
-	{
-		if(nCount <= 0)
-			m_pSelection->SetInitiator(TREECTRLID);
-		m_pNewMenu->Update(m_pSelection);
+
+    if(nCount <= 0)
+    {
+		m_pSelection->SetInitiator(TREECTRLID);
+        m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 
     wxGISStatusBar* pStatusBar = m_pApp->GetStatusBar();
@@ -513,11 +512,10 @@ void wxGxContentView::OnDeselected(wxListEvent& event)
         }
     }
 
-	if(	m_pNewMenu )
-	{
-		if(GetSelectedItemCount() == 0)
-			m_pSelection->SetInitiator(TREECTRLID);
-		m_pNewMenu->Update(m_pSelection);
+	if(GetSelectedItemCount() == 0)
+    {
+		m_pSelection->SetInitiator(TREECTRLID);
+        m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 
     wxGISStatusBar* pStatusBar = m_pApp->GetStatusBar();
@@ -546,6 +544,7 @@ void wxGxContentView::ShowContextMenu(const wxPoint& pos)
 		IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
         if(pGxObjectUI)
         {
+            //wxString psContextMenu = pGxObjectUI->NewMenu();
             wxString psContextMenu = pGxObjectUI->ContextMenu();
             if(m_pApp)
             {

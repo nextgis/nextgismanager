@@ -22,9 +22,9 @@
 
 #include "wxgis/catalogui/gxview.h"
 #include "wxgis/catalogui/gxcatalogui.h"
-#include "wxgis/catalogui/newmenu.h"
 #include "wxgis/catalog/gxevent.h"
 #include "wxgis/catalogui/gxeventui.h"
+#include "wxgis/catalogui/gxapplication.h"
 
 #include "wx/treectrl.h"
 #include "wx/imaglist.h"
@@ -102,12 +102,12 @@ protected:
 	wxImageList m_TreeImageList;
 	wxTreeItemMap m_TreeMap;
     wxGISApplicationBase* m_pApp;
+    wxGxApplication *m_pGxApp;
 	long m_ConnectionPointCatalogCookie, m_ConnectionPointSelectionCookie;
 	wxGxSelection* m_pSelection;
     wxGxCatalogUI* m_pCatalog;
     wxGISCommand* m_pDeleteCmd;
     wxVector<ICONDATA> m_IconsArray;
-	wxGISNewMenu* m_pNewMenu;
 private:
     DECLARE_EVENT_TABLE()
 };

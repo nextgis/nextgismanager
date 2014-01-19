@@ -25,6 +25,7 @@
 #include "wxgis/framework/commandbar.h"
 
 #define NEWMENUNAME wxT("Application.NewMenu")
+#define NEWMENUID ID_PLUGINCMDMAX - 1
 
 //----------------------------------------------------------------------
 // wxGISNewMenu

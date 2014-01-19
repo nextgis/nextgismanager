@@ -235,6 +235,7 @@ void wxGISMenu::AddCommand(wxGISCommand* pCmd)
 			{
 				pGISCommandBar->Reference();
 				SUBMENUDATA data = {AppendSubMenu(dynamic_cast<wxMenu*>(pCmd), pCmd->GetCaption(), pCmd->GetMessage()), pGISCommandBar};
+                data.pItem->SetId(pCmd->GetID());
 				m_SubmenuArray.push_back(data);
 			}
 		}
@@ -248,12 +249,15 @@ void wxGISMenu::AddCommand(wxGISCommand* pCmd)
             wxBitmap Bmp = pCmd->GetBitmap();
 			if(Bmp.IsOk())
             {
-
                 wxImage Img = Bmp.ConvertToImage();                //Img.RotateHue(-0.1);
 				item->SetBitmaps(Bmp, Img.ConvertToGreyscale());
             }
- #endif
-			Append(item);
+#else
+            {
+                item->SetBitmap(Bmp);
+            }
+#endif
+            Append(item);
 		}
 		break;
 	case enumGISCommandDropDown:
