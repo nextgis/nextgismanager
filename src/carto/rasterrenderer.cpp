@@ -923,8 +923,31 @@ void wxGISRasterRGBARenderer::OnFillStats(void)
         };
     }
 
-	//set min/max values
 	//set nodata color for each band
+    if(m_pwxGISRasterDataset->HasNoData(m_nRedBand) )
+    {
+        m_paStretch[0]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nRedBand));
+    }
+
+    if(m_pwxGISRasterDataset->HasNoData(m_nGreenBand) )
+    {
+        m_paStretch[1]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nGreenBand));
+    }
+
+    if(m_pwxGISRasterDataset->HasNoData(m_nBlueBand) )
+    {
+        m_paStretch[2]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nBlueBand));
+    }
+
+    if (m_nAlphaBand != -1)
+    {
+        if(m_pwxGISRasterDataset->HasNoData(m_nAlphaBand) )
+        {
+            m_paStretch[3]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nAlphaBand));
+        }
+    }
+
+	//set min/max values
 	if(m_pwxGISRasterDataset->HasStatistics())
 	{
 
@@ -936,20 +959,10 @@ void wxGISRasterRGBARenderer::OnFillStats(void)
             m_paStretch[0]->SetStats(dfMin, dfMax, dfMean, dfStdDev);
         }
 
-        if(m_pwxGISRasterDataset->HasNoData(m_nRedBand) )
-        {
-            m_paStretch[0]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nRedBand));
-        }
-
 		GDALRasterBand* pGreenBand = poGDALDataset->GetRasterBand(m_nGreenBand);
         if(pGreenBand->GetStatistics(FALSE, FALSE, &dfMin, &dfMax, &dfMean, &dfStdDev) == CE_None)
         {
             m_paStretch[1]->SetStats(dfMin, dfMax, dfMean, dfStdDev);
-        }
-
-        if(m_pwxGISRasterDataset->HasNoData(m_nGreenBand) )
-        {
-            m_paStretch[1]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nGreenBand));
         }
 
 		GDALRasterBand* pBlueBand = poGDALDataset->GetRasterBand(m_nBlueBand);
@@ -958,22 +971,12 @@ void wxGISRasterRGBARenderer::OnFillStats(void)
             m_paStretch[2]->SetStats(dfMin, dfMax, dfMean, dfStdDev);
         }
 
-        if(m_pwxGISRasterDataset->HasNoData(m_nBlueBand) )
-        {
-            m_paStretch[2]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nBlueBand));
-        }
-
         if(m_nAlphaBand != -1)
         {
  		    GDALRasterBand* pAlphaBand = poGDALDataset->GetRasterBand(m_nAlphaBand);
             if(pAlphaBand->GetStatistics(FALSE, FALSE, &dfMin, &dfMax, &dfMean, &dfStdDev) == CE_None)
             {
                 m_paStretch[3]->SetStats(dfMin, dfMax, dfMean, dfStdDev);
-            }
-
-            if(m_pwxGISRasterDataset->HasNoData(m_nAlphaBand) )
-            {
-                m_paStretch[3]->SetNoData(m_pwxGISRasterDataset->GetNoData(m_nAlphaBand));
             }
             //TODO: set stretch type to min-max
         }

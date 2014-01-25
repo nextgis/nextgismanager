@@ -122,12 +122,21 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
         IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);
         if(pGxObjectEdit)
         {
-            if(bMove && pGxObjectEdit->CanMove(pPath))
+            if(bMove)
             {
-                if(!pGxObjectEdit->Move(pPath, &ProgressDlg))
+                bool bShouldMove = true;
+                wxGxObject* pParentGxObj = pGxObj->GetParent();
+                if (pParentGxObj != NULL)
                 {
-                    wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Move"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
-                    return false;
+                    bShouldMove = pParentGxObj->GetPath() != pPath;
+                }
+                if (bShouldMove && pGxObjectEdit->CanMove(pPath))
+                {
+                    if(!pGxObjectEdit->Move(pPath, &ProgressDlg))
+                    {
+                        wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Move"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
+                        return false;
+                    }
                 }
             }
             else if(pGxObjectEdit->CanCopy(pPath))
