@@ -3,7 +3,7 @@
  * Purpose:  inherited from gdal and ogr classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012,2013 Bishop
+*   Copyright (C) 2012-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -96,6 +96,7 @@ public:
 
     //get
     const char* GetFieldAsChar(int nField) const;
+    OGRField* GetRawField(int nField) const;
     wxString GetFieldAsString(int nField) const;
     wxString GetFieldAsString(const wxString &sFieldName) const;
     wxDateTime GetFieldAsDateTime(int nField) const;
@@ -119,6 +120,7 @@ public:
     //set
     OGRErr SetFID(long nFID);
     void SetField(int nIndex, int nValue);
+    void SetField(int nIndex, OGRField* psField);
     void SetField(int nIndex, double dfValue);
     void SetField(int nIndex, const wxString &sValue);
     void SetField(int nIndex, const char* pszStr);
@@ -135,7 +137,9 @@ public:
     void SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
     void SetField(const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
     OGRErr SetGeometry(const wxGISGeometry &Geom);
+    OGRErr SetGeometryDirectly(const wxGISGeometry &Geom);
     void SetStyleString(const wxString &sStyle);
+    void StealGeometry(void);
 protected:
     inline wxString EncodeString(const char* psz, wxFontEncoding oEncoding) const
     {
@@ -292,6 +296,7 @@ public:
 
     OGREnvelope GetEnvelope(void) const;
     OGRGeometry* Copy(void) const;
+    OGRGeometry* Steal(void);
     OGRPoint* GetCentroid(void);
     wxGISSpatialReference GetSpatialReference() const;
     void SetSpatialReference(const wxGISSpatialReference &SpaRef);
@@ -325,7 +330,7 @@ public:
 
     virtual ~wxGISGeometryRefData(void)
     {
-        if(m_bOwnGeom)
+        if (m_bOwnGeom && NULL != m_poGeom)
             OGRGeometryFactory::destroyGeometry(m_poGeom);
     }
 

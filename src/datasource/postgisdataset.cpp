@@ -495,7 +495,7 @@ wxString wxGISPostgresDataSource::NormalizeTableName(const wxString &sSrcName)
 
 IMPLEMENT_CLASS(wxGISPostgresFeatureDataset, wxGISFeatureDataset)
 
-wxGISPostgresFeatureDataset::wxGISPostgresFeatureDataset(int iLayer, const CPLString &sPath, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISFeatureDataset(sPath, emumVecPostGIS, poLayer, poDS)
+wxGISPostgresFeatureDataset::wxGISPostgresFeatureDataset(int iLayer, const CPLString &sPath, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISFeatureDataset(sPath, enumVecPostGIS, poLayer, poDS)
 {
     m_iLayer = iLayer;
     m_nType = enumGISFeatureDataset;

@@ -42,14 +42,14 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumVecKMZ:
         case enumVecDXF:
             return true;
-        case emumVecPostGIS:
+        case enumVecPostGIS:
             return false;
         case enumVecGML:
         case enumVecGeoJSON:
             return true;
         case enumVecWFS:
         case enumVecMem:
-        case emumVecMAX:
+        case enumVecMAX:
         case enumVecUnknown:
         default:
             return false;
@@ -130,7 +130,7 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
             return wxString(wxT("LIBKML"));
         case enumVecDXF:
             return wxString(wxT("DXF"));
-        case emumVecPostGIS:
+        case enumVecPostGIS:
             return wxString(wxT("PostgreSQL"));
         case enumVecGML:
             return wxString(wxT("GML"));

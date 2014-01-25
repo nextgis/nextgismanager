@@ -3,7 +3,7 @@
  * Purpose:  wxGISTableView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Bishop
+*   Copyright (C) 2009-2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@
 
 #include "wx/renderer.h"
 
+#define FILL_STEP 1000
+
 //------------------------------------------------------------------
 // wxGISGridTable
 //------------------------------------------------------------------
@@ -41,6 +43,8 @@ wxGISGridTable::wxGISGridTable(wxGISDataset* pGISDataset)
 		m_nCols = pOGRFeatureDefn->GetFieldCount();
 		m_nRows = m_pGISDataset->GetFeatureCount();
 	}
+
+    FillForPos(0);
 }
 
 wxGISGridTable::~wxGISGridTable()
@@ -65,7 +69,18 @@ wxString wxGISGridTable::GetValue(int row, int col)
 		return wxEmptyString;
 
 	//fetch more data
-    wxGISFeature Feature = m_pGISDataset->GetFeature(row);
+    wxGISFeature Feature;
+    if (m_moFeatures[row].IsOk())
+    {
+        Feature = m_moFeatures[row];
+    }
+    else
+    {
+     //   Feature = m_pGISDataset->GetFeature(row);
+     //   m_moFeatures[row] = Feature;
+        FillForPos(row);
+        return GetValue(row, col);
+    }
     if(Feature.IsOk())
         return Feature.GetFieldAsString(col);
 	return wxEmptyString;
@@ -108,6 +123,23 @@ bool wxGISGridTable::IsEmptyCell(int row, int col)
     return false; 
 }
 
+void wxGISGridTable::FillForPos(int nRow)
+{
+    long nBeg = floor(double(nRow) / FILL_STEP) * FILL_STEP;
+
+    wxGISFeature Feature = m_pGISDataset->GetFeature(nBeg);
+    m_moFeatures[nBeg] = Feature;
+
+    for (long i = nBeg + 1; i < nBeg + FILL_STEP; ++i)
+    {
+        //if (m_moFeatures[i].IsOk())
+        //    continue;
+        Feature = m_pGISDataset->Next();
+        if (!Feature.IsOk())
+            break;
+        m_moFeatures[i] = Feature;
+    }
+}
 
 //-------------------------------------
 // wxGridCtrl

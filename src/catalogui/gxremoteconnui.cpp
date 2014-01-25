@@ -327,7 +327,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     }
     else if (paDatasets[0].pDSet->GetType() == enumGISFeatureDataset)
     {
-        wxGxObjectFilter* pFilter = new wxGxFeatureDatasetFilter(emumVecPostGIS);
+        wxGxObjectFilter* pFilter = new wxGxFeatureDatasetFilter(enumVecPostGIS);
         if (paDatasets.size() == 1)
         {
             ExportSingleVectorDataset(pWnd, GetPath(), paDatasets[0].sName, pFilter, paDatasets[0].pDSet);

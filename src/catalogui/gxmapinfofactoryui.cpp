@@ -66,9 +66,9 @@ wxGxObject* wxGxMapInfoFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
         return wxStaticCast(new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeTabIcon, m_SmallTabIcon), wxGxObject);
     case enumVecMapinfoMif:
         return wxStaticCast(new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeMifIcon, m_SmallMifIcon), wxGxObject);
-    case emumVecMAX + 1:
+    case enumVecMAX + 1:
         return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoTab, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
-    case emumVecMAX + 2:
+    case enumVecMAX + 2:
         return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoMif, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
     default:
         return NULL;

@@ -64,6 +64,7 @@ protected:
     OGREnvelope m_stExtent;
     OGRwkbGeometryType m_eGeomType;
 	wxGISSpatialTree* m_pSpatialTree;
+    bool m_bOLCFastGetExtent;
 };
 
 /** \class wxGISFeatureDatasetCached featuredataset.h

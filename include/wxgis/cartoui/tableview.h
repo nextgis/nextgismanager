@@ -3,7 +3,7 @@
  * Purpose:  wxGISTableView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Bishop
+*   Copyright (C) 2009-2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -42,9 +42,15 @@
 #define GRID_ROW_SIZE 15
 #define GRID_COL_SIZE 20
 
-//------------------------------------------------------------------
-// wxGISTable
-//------------------------------------------------------------------
+WX_DECLARE_HASH_MAP(long, wxGISFeature, wxIntegerHash, wxIntegerEqual, wxGISFeatureMap);
+
+/**
+    @class wxGISTable
+
+    The grid of values for dataset
+
+    @library {cartoui}
+*/
 
 class WXDLLIMPEXP_GIS_CTU wxGISGridTable :
 	public wxGridTableBase
@@ -63,16 +69,23 @@ public:
     virtual wxString GetColLabelValue(int col);
 	virtual wxString GetRowLabelValue(int row);
     virtual wxGISTable* GetDataset() const;
+protected:
+    virtual void FillForPos(int nRow);
 private:
 	wxGISTable* m_pGISDataset;	
 	//wxString m_sFIDKeyName;
 	int m_nCols;          // columns from dataSet
     int m_nRows;          // rows initially returned by dataSet
+    wxGISFeatureMap m_moFeatures;
 };
 
-//------------------------------------------------------------------
-// wxGridCtrl
-//------------------------------------------------------------------
+/**
+    @class wxGridCtrl
+
+    The control with grid and buttons (first, last, next, prev) recor count field and etc.
+
+    @library {cartoui}
+*/
 
 class WXDLLIMPEXP_GIS_CTU wxGridCtrl:
 	public wxGrid

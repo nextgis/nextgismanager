@@ -50,13 +50,13 @@ enum wxGISEnumVectorDatasetType
     enumVecKML,
     enumVecKMZ,
     enumVecDXF,
-	emumVecPostGIS,
+	enumVecPostGIS,
 	enumVecGML,
     enumVecGeoJSON,
     enumVecWFS,
     enumVecMem,
     enumVecSXF,
-    emumVecMAX
+    enumVecMAX
 };
 
 /** \enum wxGISEnumRasterDatasetType
@@ -92,7 +92,7 @@ enum wxGISEnumTableDatasetType
     enumTableMapinfoTab,
     enumTableMapinfoMif,
     enumTableCSV,
-    emumTableMAX
+    enumTableMAX
 };
 
 /** \enum wxGISEnumPrjFileType

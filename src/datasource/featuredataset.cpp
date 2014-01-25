@@ -158,7 +158,7 @@ char **wxGISFeatureDataset::GetFileList()
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))
             papszFileList = CSLAddString( papszFileList, szPath );
         break;
-    case emumVecPostGIS:
+    case enumVecPostGIS:
         return papszFileList;
     case enumVecKML:
     case enumVecKMZ:    
@@ -235,8 +235,8 @@ void wxGISFeatureDataset::SetInternalValues()
     }
 
     //fill extent if fast
-	bool bOLCFastGetExtent = m_poLayer->TestCapability(OLCFastGetExtent) != 0;
-    if(bOLCFastGetExtent)
+    m_bOLCFastGetExtent = m_poLayer->TestCapability(OLCFastGetExtent) == TRUE;
+    if (m_bOLCFastGetExtent)
     {
         if(m_poLayer->GetExtent(&m_stExtent, FALSE) == OGRERR_NONE)
         {

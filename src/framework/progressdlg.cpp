@@ -3,7 +3,7 @@
  * Purpose:  wxGISProgressDlg class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -93,6 +93,7 @@ void wxGISProgressDlg::SetRange(int range)
     {
         m_pProgressBar->SetRange(range);
         m_dtStart = wxDateTime::Now();
+        SetValue(0);
     }
 }
 
@@ -102,7 +103,7 @@ int wxGISProgressDlg::GetRange(void) const
     {
         return m_pProgressBar->GetRange();
     }
-    return 0;
+    return 1;
 }
 
 int wxGISProgressDlg::GetValue(void) const
@@ -132,15 +133,18 @@ void wxGISProgressDlg::Stop(void)
 
 void wxGISProgressDlg::SetValue(int value)
 {
-    wxTheApp->Yield(true);
     if (NULL != m_pProgressBar)
     {
         m_pProgressBar->SetValue(value);
     }
 
+    wxTheApp->Yield(true);
 
     wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
-    double dfDone = double(value) / GetRange();
+    int nRange = GetRange();
+    if (nRange < 1)
+        nRange = 1;
+    double dfDone = double(value) / nRange;
     double dfToDo = 1.0 - dfDone;
     int nDone = dfDone * 100;
     if (m_nPrevDone == nDone)
@@ -214,7 +218,12 @@ void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGIS
     {
         if (m_bAddPercentToMessage)
         {
-            m_staticText->SetLabel(m_sLastMessage + wxString::Format(_(" - %d%% done"), GetValue()));
+            int nRange = GetRange();
+            if (nRange < 1)
+                nRange = 1;
+            int nDone = double(GetValue()) / nRange * 100;
+
+            m_staticText->SetLabel(m_sLastMessage + wxString::Format(_(" - %d%% done"), nDone));
         }
         else
         {

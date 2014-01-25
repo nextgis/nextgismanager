@@ -457,9 +457,10 @@ void wxGxContentView::OnSelected(wxListEvent& event)
         m_pSelection->Select(pItemData->nObjectID, true, NOTFIRESELID);
     }
 
-    if(nCount <= 0)
+    if (m_pGxApp != NULL)
     {
-		m_pSelection->SetInitiator(TREECTRLID);
+        if(nCount <= 0)
+	    	m_pSelection->SetInitiator(TREECTRLID);
         m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 
@@ -515,7 +516,8 @@ void wxGxContentView::OnDeselected(wxListEvent& event)
 	if(GetSelectedItemCount() == 0)
     {
 		m_pSelection->SetInitiator(TREECTRLID);
-        m_pGxApp->UpdateNewMenu(m_pSelection);
+        if (m_pGxApp)
+            m_pGxApp->UpdateNewMenu(m_pSelection);
 	}
 
     wxGISStatusBar* pStatusBar = m_pApp->GetStatusBar();

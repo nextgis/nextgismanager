@@ -203,7 +203,7 @@ void wxGISSimpleLineSymbol::SetStyleToDisplay()
 bool wxGISSimpleLineSymbol::DrawPreserved(const OGRLineString* pLine, bool bIsRing)
 {
 	int nPointCount = pLine->getNumPoints();
-	if(nPointCount < 2)
+    if ((bIsRing && nPointCount < 3) || (!bIsRing && nPointCount < 2))
 		return false;
     OGRRawPoint* pOGRRawPoints = new OGRRawPoint[nPointCount * 3];
 	pLine->getPoints(pOGRRawPoints);

@@ -105,7 +105,7 @@ public:
 
 WXDLLIMPEXP_GIS_GP inline void AddAllVectorFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+    for (size_t i = enumVecUnknown + 1; i < enumVecMAX; ++i)
     {
         pDomain->AddFilter(new wxGxFeatureDatasetFilter(wxGISEnumVectorDatasetType(i)));
     }
@@ -113,7 +113,7 @@ WXDLLIMPEXP_GIS_GP inline void AddAllVectorFilters(wxGISGPGxObjectDomain* pDomai
 
 WXDLLIMPEXP_GIS_GP inline void AddAllVectorFileFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+    for (size_t i = enumVecUnknown + 1; i < enumVecMAX; ++i)
     {
         if (IsFileDataset(enumGISFeatureDataset, wxGISEnumVectorDatasetType(i)))
         {
@@ -124,7 +124,7 @@ WXDLLIMPEXP_GIS_GP inline void AddAllVectorFileFilters(wxGISGPGxObjectDomain* pD
 
 WXDLLIMPEXP_GIS_GP inline void AddAllVectorDBFilters(wxGISGPGxObjectDomain* pDomain)
 {
-    pDomain->AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS));
+    pDomain->AddFilter(new wxGxFeatureDatasetFilter(enumVecPostGIS));
 }
 
 

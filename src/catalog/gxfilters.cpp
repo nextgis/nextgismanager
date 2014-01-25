@@ -70,7 +70,16 @@ wxGISEnumSaveObjectResults wxGxObjectFilter::CanSaveObject( wxGxObject* const pL
 		return enumGISSaveObjectDeny;
 	if(pContainer->CanCreate(GetType(), GetSubType()))
 	{
-        if(pContainer->FindGxObject(pLocation->GetFullName() + wxFileName::GetPathSeparator() + sName) == NULL)
+        wxString sDir = pLocation->GetFullName();
+        if (sDir.EndsWith(wxFileName::GetPathSeparator()))
+        {
+            sDir += sName;
+        }
+        else
+        {
+            sDir += wxFileName::GetPathSeparator() + sName;
+        }
+        if (pContainer->FindGxObject(sDir) == NULL)
 			return enumGISSaveObjectAccept;
 		else
 			return enumGISSaveObjectExists;
@@ -367,7 +376,7 @@ wxString wxGxFeatureDatasetFilter::GetName(void) const
  	    return wxString(_("KML file (*.kmz)"));
     case enumVecDXF:
 	    return wxString(_("AutoCAD DXF file (*.dxf)"));
-	case emumVecPostGIS:
+	case enumVecPostGIS:
 	    return wxString(_("PostGIS Feature class"));
 	case enumVecGML:
 	    return wxString(_("GML file (*.gml)"));
@@ -400,7 +409,7 @@ wxString wxGxFeatureDatasetFilter::GetExt(void) const
         return wxString(wxT("dxf"));
 	case enumVecWFS:
 	case enumVecMem:
-	case emumVecPostGIS:
+	case enumVecPostGIS:
 	    return wxEmptyString;
 	case enumVecGML:
 	    return wxString(wxT("gml"));

@@ -51,7 +51,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
 
     if (eType == enumGISFeatureDataset)
     {
-        for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+        for (size_t i = enumVecUnknown + 1; i < enumVecMAX; ++i)
         {
             wxGISEnumVectorDatasetType eCurrentSubType = (wxGISEnumVectorDatasetType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISFeatureDataset, eCurrentSubType))
@@ -69,9 +69,9 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
             }
         }
 
-        if (eSubType != emumVecPostGIS)
+        if (eSubType != enumVecPostGIS)
         {
-            dlg.AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS), false);
+            dlg.AddFilter(new wxGxFeatureDatasetFilter(enumVecPostGIS), false);
         }
     }
     else if (eType == enumGISRasterDataset)
@@ -101,7 +101,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
     }
     else if (eType == enumGISTableDataset)
     {
-        for (size_t i = enumTableUnknown + 1; i < emumTableMAX; ++i)
+        for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
             wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISTableDataset, eCurrentSubType))
@@ -239,7 +239,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
 
     if (eType == enumGISFeatureDataset)
     {
-        for (size_t i = enumVecUnknown + 1; i < emumVecMAX; ++i)
+        for (size_t i = enumVecUnknown + 1; i < enumVecMAX; ++i)
         {
             wxGISEnumVectorDatasetType eCurrentSubType = (wxGISEnumVectorDatasetType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISFeatureDataset, eCurrentSubType))
@@ -257,9 +257,9 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
             }
         }
 
-        if (eSubType != emumVecPostGIS)
+        if (eSubType != enumVecPostGIS)
         {
-            dlg.AddFilter(new wxGxFeatureDatasetFilter(emumVecPostGIS), false);
+            dlg.AddFilter(new wxGxFeatureDatasetFilter(enumVecPostGIS), false);
         }
     }
     else if (eType == enumGISRasterDataset)
@@ -289,7 +289,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
     }
     else if (eType == enumGISTableDataset)
     {
-        for (size_t i = enumTableUnknown + 1; i < emumTableMAX; ++i)
+        for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
             wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISTableDataset, eCurrentSubType))
@@ -436,7 +436,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     wxCHECK_RET(pFilter && pGxDataset, wxT("The input pointer is NULL"));
 
     wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd);
-    ProgressDlg.SetAddPercentToMessage(true);
+    ProgressDlg.SetAddPercentToMessage(false);
     ProgressDlg.ShowProgress(true);
 
     wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);

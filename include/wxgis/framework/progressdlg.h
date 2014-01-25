@@ -3,7 +3,7 @@
  * Purpose:  wxGISProgressDlg class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,8 +35,11 @@
 #include <wx/button.h>
 #include <wx/dialog.h>
 
-/** \class wxGISProgressDlg progressdlg.h
-    \brief The dialog showing progress and some buttons.
+/** @class wxGISProgressDlg progressdlg.h
+    
+    The dialog showing progress and some buttons.
+
+    @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISProgressDlg : 
 	public wxDialog,

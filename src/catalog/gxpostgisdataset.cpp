@@ -133,7 +133,7 @@ IMPLEMENT_CLASS(wxGxPostGISFeatureDataset, wxGxFeatureDataset)
 ////#endif
 //}
 
-wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(emumVecPostGIS, oParent, soName, soPath)
+wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecPostGIS, oParent, soName, soPath)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = sSchema + wxT(".") + soName;

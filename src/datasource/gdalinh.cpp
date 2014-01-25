@@ -3,7 +3,7 @@
  * Purpose:  inherited from gdal and ogr classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012,2013 Bishop
+*   Copyright (C) 2012-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -544,6 +544,12 @@ OGRErr wxGISFeature::SetGeometry(const wxGISGeometry &Geom)
     return ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetGeometryDirectly(Geom.Copy());
 }
 
+OGRErr wxGISFeature::SetGeometryDirectly(const wxGISGeometry &Geom)
+{
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, OGRERR_INVALID_HANDLE, wxT("The OGRFeature pointer is null"));
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetGeometryDirectly(Geom);
+}
+
 wxGISGeometry wxGISFeature::GetGeometry(void) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxGISGeometry(), wxT("The OGRFeature pointer is null"));
@@ -554,6 +560,12 @@ void wxGISFeature::SetStyleString(const wxString &sStyle)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetStyleString(sStyle.ToUTF8());
+}
+
+void wxGISFeature::StealGeometry(void)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->StealGeometry();
 }
 
 int wxGISFeature::GetFieldAsInteger(const wxString &sFieldName) const
@@ -588,6 +600,18 @@ int wxGISFeature::GetFieldCount(void) const
 {
     wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
     return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldCount();
+}
+
+OGRField* wxGISFeature::GetRawField(int nField) const
+{
+    wxCHECK_MSG(((wxGISFeatureRefData *)m_refData)->m_poFeature, 0, wxT("The OGRFeature pointer is null"));
+    return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetRawFieldRef(nField);
+}
+
+void wxGISFeature::SetField(int nIndex, OGRField* psField)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, psField);
 }
 
 //-----------------------------------------------------------------------------
@@ -647,6 +671,13 @@ OGRGeometry* wxGISGeometry::Copy(void) const
 {
     wxCHECK_MSG(((wxGISGeometryRefData *)m_refData)->m_poGeom, NULL, wxT("OGRGeometry pointer is null"));
     return ((wxGISGeometryRefData *)m_refData)->m_poGeom->clone();
+}
+
+OGRGeometry* wxGISGeometry::Steal(void)
+{
+    OGRGeometry* out = ((wxGISGeometryRefData *)m_refData)->m_poGeom;
+    ((wxGISGeometryRefData *)m_refData)->m_poGeom = NULL;
+    return out;
 }
 
 wxGISSpatialReference wxGISGeometry::GetSpatialReference() const

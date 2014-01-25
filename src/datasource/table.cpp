@@ -175,20 +175,20 @@ wxGISDataset* wxGISTable::GetSubset(const wxString & sSubsetName)
 
 }
 
-void wxGISTable::SetInternalValues(void)
+void wxGISTable::SetInternalValues()
 {
     if(NULL == m_poLayer)
         return;
     //set string encoding
     //TODO: if cpg is not exist get encoding from header of dbf or etc. and write to cpg else reade from cpg
 #ifdef CPL_RECODE_ICONV
-    m_bOLCStringsAsUTF8 = m_poLayer->TestCapability(OLCStringsAsUTF8) != 0;
+    m_bOLCStringsAsUTF8 = m_poLayer->TestCapability(OLCStringsAsUTF8) == TRUE;
 #else
     m_bOLCStringsAsUTF8 = false;
 #endif // CPL_RECODE_ICONV
 
 
-    m_bOLCFastFeatureCount = m_poLayer->TestCapability(OLCFastFeatureCount) != 0;
+    m_bOLCFastFeatureCount = m_poLayer->TestCapability(OLCFastFeatureCount) == TRUE;
 
     //TODO: need strategy to decide if GDAL can encode data or not
     if (m_bOLCStringsAsUTF8)
@@ -212,7 +212,7 @@ void wxGISTable::SetInternalValues(void)
                 m_nCurrentFID = 1;//TODO: check if kml FID starts with 1
                 m_Encoding = wxFONTENCODING_UTF8;
                 break;
-            case emumVecPostGIS://TODO: check encoding
+            case enumVecPostGIS://TODO: check encoding
                 m_Encoding = wxFONTENCODING_UTF8;
                 break;
             case enumVecESRIShapefile:
