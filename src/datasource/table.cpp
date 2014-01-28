@@ -294,7 +294,7 @@ void wxGISTable::Close(void)
 
     //Send event
     wxFeatureDSEvent event(wxDS_CLOSED);
-    PostEvent(event);
+    AddEvent(event);
 }
 
 size_t wxGISTable::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel)
@@ -340,7 +340,7 @@ OGRErr wxGISTable::DeleteFeature(long nFID)
 
 	m_nFeatureCount--;
 
-    PostEvent(wxFeatureDSEvent(wxDS_FEATURE_DELETED, nFID));
+    PostEvent(new wxFeatureDSEvent(wxDS_FEATURE_DELETED, nFID));
 
     return eErr;
 }
@@ -360,7 +360,7 @@ OGRErr wxGISTable::StoreFeature(wxGISFeature &Feature)
             Feature.SetFID(m_nFeatureCount);
     }
 
-    PostEvent(wxFeatureDSEvent(wxDS_FEATURE_ADDED, Feature.GetFID()));
+    PostEvent(new wxFeatureDSEvent(wxDS_FEATURE_ADDED, Feature.GetFID()));
 
     return eErr;
 }
@@ -388,7 +388,7 @@ OGRErr wxGISTable::SetFeature(const wxGISFeature &Feature)
 
 	OGRErr eErr = m_poLayer->SetFeature(Feature);
 
-    PostEvent(wxFeatureDSEvent(wxDS_FEATURE_CHANGED, Feature.GetFID()));
+    PostEvent(new wxFeatureDSEvent(wxDS_FEATURE_CHANGED, Feature.GetFID()));
 
     return eErr;
 }

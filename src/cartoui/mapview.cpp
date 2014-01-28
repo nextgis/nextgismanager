@@ -703,7 +703,7 @@ void wxGISMapView::RotateBy(wxPoint MouseLocation)
 				m_dCurrentAngle += DOUBLEPI;
 			DrawToolTip(CDC, wxString::Format(_("%.4f degree"), m_dCurrentAngle * DEGPI));
 
-            PostEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
+            AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
 		}
 	}
 }
@@ -744,7 +744,7 @@ void wxGISMapView::SetRotate(double dAngleRad)
 	if(m_dCurrentAngle < 0)
 		m_dCurrentAngle += DOUBLEPI;
 
-	PostEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
+	AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
 
     CreateAndRunDrawThread();
 }
@@ -1041,7 +1041,7 @@ void wxGISMapView::OnMapDrawing(wxMxMapViewUIEvent& event)
         m_pAni->ShowProgress(false);
     }
 
-	PostEvent(event);
+    AddEvent(wxMxMapViewUIEvent(event));
 }
 
 wxThread::ExitCode wxGISMapView::Entry()
@@ -1116,18 +1116,17 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
     
     
     wxTimeSpan sp = wxDateTime::Now() - m_dtNow;
+    m_pGISDisplay->SetUpperCachesDerty( event.GetLayerCacheId() );
     if(sp.GetMilliseconds() > TM_LAYER_UPDATE_REFRESH)
     {
         m_dtNow = wxDateTime::Now();
         m_timer.Stop();
-        m_pGISDisplay->SetUpperCachesDerty( event.GetLayerCacheId() );
         CreateAndRunDrawThread();
     }
     else
     {
         //plan to redraw in LAYER_UPDATE_REFRESH ms
         //m_nDrawingState = enumGISMapNone;
-        m_pGISDisplay->SetUpperCachesDerty( event.GetLayerCacheId() );
         m_timer.Start(TM_LAYER_UPDATE_REFRESH);
     }
 }

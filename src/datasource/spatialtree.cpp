@@ -198,7 +198,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
                 WX_APPEND_ARRAY(cursor, m_paCachedData);
                 /*for(wxVector<wxGISSpatialTreeData*>::const_iterator it = m_paCachedData.begin(); it != m_paCachedData.end(); ++it)
                     cursor.push_back(*it);*/
-                m_pDSet->QueueEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor));
+                m_pDSet->PostEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor));
                 nItemCounter = 0;
                 m_paCachedData.clear();
             }
@@ -244,7 +244,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
         WX_APPEND_ARRAY(cursor, m_paCachedData);
         /*for(wxVector<wxGISSpatialTreeData*>::const_iterator it = m_paCachedData.begin(); it != m_paCachedData.end(); ++it)
             cursor.push_back(*it);*/
-        m_pDSet->QueueEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor)); 
+        m_pDSet->PostEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor)); 
     }
 
     if(pProgress)

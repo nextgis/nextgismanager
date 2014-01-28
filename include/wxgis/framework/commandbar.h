@@ -3,7 +3,7 @@
  * Purpose:  wxGISCommandBar class, and diferent implementation - wxGISMneu, wxGISToolBar 
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012  Bishop
+*   Copyright (C) 2009,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -33,10 +33,11 @@
 #define LOCATIONSTR _("Location")
 #define GEOGRAPHYOSTR _("Geography")
 
-/** \enum wxGISEnumCommandBars
-    \brief A command bar types.
+/** @enum wxGISEnumCommandBars
+    
+    A command bar types. This is predefined command bar types.
 
-    This is predefined command bar types.
+    @library {framework}
 */
 enum wxGISEnumCommandBars
 {
@@ -47,10 +48,11 @@ enum wxGISEnumCommandBars
 	enumGISCBToolbar = 0x0008       /**< The type is toolbar */
 };
 
-/** \class wxGISCommandBar commandbar.h
-    \brief wxGISCommandBar class.
+/** @class wxGISCommandBar
 
-    This is base class for application command bars.    
+    This is base class for application command bars.   
+
+    @library {framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISCommandBar : 
@@ -82,13 +84,19 @@ protected:
 	wxGISEnumCommandBars m_type;
 };
 
-/** \def vector<IGISCommandBar*> COMMANDBARARRAY
-    \brief A CommandBar array.
+/** @def vector<IGISCommandBar*> COMMANDBARARRAY
+    
+    A CommandBar array.
+
+    @library {framework}
 */
 WX_DEFINE_ARRAY_PTR(wxGISCommandBar*, wxGISCommandBarPtrArray);
 
-/** \class wxGISMenu commandbar.h
-    \brief wxGISMenu class. 
+/** @class wxGISMenu
+
+    wxGISMenu class.  Menu context or dropdown
+
+    @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISMenu :
 	public wxMenu,
@@ -112,8 +120,11 @@ protected:
 	wxVector<SUBMENUDATA> m_SubmenuArray;
 };
 
-/** \class wxGISToolbar commandbar.h
-    \brief wxGISToolbar class. 
+/** @class wxGISToolbar
+
+   Toolbar in main application window. 
+
+    @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISToolBar :
 	public wxAuiToolBar,
@@ -141,14 +152,17 @@ public:
 	virtual void Deactivate(void);
 	virtual void UpdateControls(void);
 protected: // handlers
-    void OnMotion(wxMouseEvent& evt);
-protected: 
+    virtual void OnMotion(wxMouseEvent& evt);
+    virtual void OnToolDropDown(wxAuiToolBarEvent& event);
+    virtual void OnDropDownCommand(wxCommandEvent& event);
+protected:
 	void ReAddCommand(wxGISCommand* pCmd);
 protected:
 	wxGISStatusBar* m_pStatusBar;
 	bool m_bLDock;
 	bool m_bRDock;
     bool m_bActive;
+    IDropDownCommand* m_pDropDownCommand;
 
 	std::map<size_t, IToolBarControl*> m_RemControlMap;
 private:

@@ -3,7 +3,7 @@
  * Purpose:  Catalog Views Commands class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,14 @@
 #include "wxgis/framework/command.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/catalogui/gxtabview.h"
+
+/** @class wxGISCatalogViewsCmd
+
+    The main catalog views commands includes: "ContentsView states", "Select All", "Show/hide tree view".
+
+    @library {catalogui}
+*/
+
 
 class wxGISCatalogViewsCmd :
     public wxGISCommand,

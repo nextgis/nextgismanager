@@ -3,7 +3,7 @@
  * Purpose:  wxGISApplication class. Base application functionality (commands, menues, etc.)
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,11 @@
 #include "wx/datetime.h"
 #include "wx/intl.h"
 
-/** \class wxGISApplication application.h
-    \brief A wxGISApplication class.
+/** @class wxGISApplication
+
+    A wxGISApplication class. Application class with menu, commands and toolbars
+
+    @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISApplication :
 	public wxFrame,	public wxGISApplicationBase
@@ -65,21 +68,16 @@ protected:
     virtual void OnEraseBackground(wxEraseEvent& event);
     virtual void OnSize(wxSizeEvent& event);
 	virtual void OnCommand(wxCommandEvent& event);
-	virtual void OnDropDownCommand(wxCommandEvent& event);
 	virtual void OnCommandUI(wxUpdateUIEvent& event);
 	virtual void OnRightDown(wxMouseEvent& event);
 	virtual void OnAuiRightDown(wxAuiToolBarEvent& event);
-	virtual void OnToolDropDown(wxAuiToolBarEvent& event);
 	virtual void OnClose(wxCloseEvent & event);
 //
 protected:
 	wxGISAcceleratorTable* m_pGISAcceleratorTable;
-    IDropDownCommand* m_pDropDownCommand;
 	ITrackCancel* m_pTrackCancel;
-    //
     wxFFile m_LogFile;
     wxLocale* m_pLocale; // locale we'll be using
-	//char* m_pszOldLocale;
     wxString m_sDecimalPoint;
 private:
     DECLARE_EVENT_TABLE()

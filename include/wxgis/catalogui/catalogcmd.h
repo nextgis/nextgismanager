@@ -23,10 +23,11 @@
 #include "wxgis/framework/command.h"
 #include "wxgis/catalogui/gxapplication.h"
 
-/** \class wxGISCatalogMainCmd catalogcmd.h
-    \brief The main catalog commands.
+/** @class wxGISCatalogMainCmd
+    
+    The main catalog commands includes: "Up One Level", "Connect Folder", "Disconnect Folder", "Location", "Delete Item", "Back", "Forward", "Create Folder", "Rename", "Refresh", "Properties", "Copy", "Cut" and "Paste".
 
-	The main catalog commands includes: "Up One Level", "Connect Folder", "Disconnect Folder", "Location", "Delete Item", "Back", "Forward", "Create Folder", "Rename", "Refresh", "Properties", "Copy", "Cut" and "Paste".
+    @library {catalogui}
 */
 
 class wxGISCatalogMainCmd :

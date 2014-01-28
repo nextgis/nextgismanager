@@ -40,25 +40,25 @@ wxGxCatalog::~wxGxCatalog(void)
 void wxGxCatalog::ObjectDeleted(long nObjectID)
 {
 	wxGxCatalogEvent event(wxGXOBJECT_DELETED, nObjectID);
-	PostEvent(event);
+	AddEvent(event);
 }
 
 void  wxGxCatalog::ObjectAdded(long nObjectID)
 {
 	wxGxCatalogEvent event(wxGXOBJECT_ADDED, nObjectID);
-	PostEvent(event);
+	AddEvent(event);
 }
 
 void  wxGxCatalog::ObjectChanged(long nObjectID)
 {
 	wxGxCatalogEvent event(wxGXOBJECT_CHANGED, nObjectID);
-	PostEvent(event);
+    AddEvent(event);
 }
 
 void  wxGxCatalog::ObjectRefreshed(long nObjectID)
 {
 	wxGxCatalogEvent event(wxGXOBJECT_REFRESHED, nObjectID);
-	PostEvent(event);
+    AddEvent(event);
 }
 
 void wxGxCatalog::LoadChildren(void)

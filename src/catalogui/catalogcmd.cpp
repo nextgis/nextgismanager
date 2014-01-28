@@ -561,7 +561,9 @@ void wxGISCatalogMainCmd::OnClick(void)
                         if (NULL != pGxObject)
                         {
                             sMessage.Append(pGxObject->GetName());
-                            if (i < pSel->GetCount() - 1)
+                            if (i % 4 == 0)
+                                sMessage.Append(wxT("\n"));
+                            else if (i < pSel->GetCount() - 1)
                                 sMessage.Append(wxT(", "));
                         }                        
                     }
