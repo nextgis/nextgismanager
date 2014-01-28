@@ -332,8 +332,9 @@ bool INetConnection::ProcessInputNetMessage(void)
         }
         else
         {                
-            wxGISNetEvent event(m_nUserId, wxGISNET_MSG, msg);
-            PostEvent(event);
+            //wxGISNetEvent event(m_nUserId, wxGISNET_MSG, msg);
+            //PostEvent(event);
+            PostEvent(new wxGISNetEvent(m_nUserId, wxGISNET_MSG, msg));
         }
         return true;
     }

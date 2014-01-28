@@ -137,8 +137,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
             m_bIsConnecting = false;
             {
             wxNetMessage msgin(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHighest);
-            wxGISNetEvent event(wxNOT_FOUND, wxGISNET_MSG, msgin);
-            PostEvent(event);
+            PostEvent(new wxGISNetEvent(wxNOT_FOUND, wxGISNET_MSG, msgin));
             }
         break;
         case wxSOCKET_LOST:
@@ -154,8 +153,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
                 {
                     m_bIsConnected = false;
                 }
-                wxGISNetEvent event(wxNOT_FOUND, wxGISNET_MSG, msgin);
-                PostEvent(event);
+                PostEvent(new wxGISNetEvent(wxNOT_FOUND, wxGISNET_MSG, msgin));
             }
         break;
         default:
@@ -237,7 +235,7 @@ void wxGISTaskManager::OnGISNetEvent(wxGISNetEvent& event)
         switch(msg.GetCommand())
         {
         case enumGISNetCmdBye: //server disconnected
-            PostEvent(wxGISTaskManagerEvent(wxGISTASKMNGR_DISCONNECT));
+            PostEvent(new wxGISTaskManagerEvent(wxGISTASKMNGR_DISCONNECT));
             ClearCategories();
             //start task manager server
             StartTaskManagerServer();
@@ -383,7 +381,7 @@ void wxGISTaskManager::FillDetails(const wxJSONValue &val)
         SendNetMessageAsync(msg_gettasks);
     }
     m_bDetailesFilled = true;
-    PostEvent(wxGISTaskManagerEvent(wxGISTASKMNGR_CONNECT));
+    PostEvent(new wxGISTaskManagerEvent(wxGISTASKMNGR_CONNECT));
 }
 
 void wxGISTaskManager::OnTimer( wxTimerEvent & event)

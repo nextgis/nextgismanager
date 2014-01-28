@@ -137,7 +137,7 @@ void wxGISTaskBase::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue
     case enumGISCmdStDel:
         if(m_pParentTask)
         {
-            PostEvent(wxGISTaskEvent(GetId(), wxGISTASK_DEL));
+            AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_DEL));
             m_pParentTask->Delete(this);
         }
         break;
@@ -158,7 +158,7 @@ void wxGISTaskBase::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue
                     outval[wxT("id")] = pTask->GetId();
                     SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
                         
-                    PostEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
+                    AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
                 }
             }
         }
@@ -186,7 +186,7 @@ void wxGISTaskBase::AddTask(const wxJSONValue &val)
             outval[wxT("id")] = m_nId;
             SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
 
-            PostEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
+            AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
         }
     }
 }
@@ -196,13 +196,13 @@ void wxGISTaskBase::ChangeTask(const wxJSONValue &val)
     m_sName = val.Get(wxT("name"), wxJSONValue(m_sName)).AsString();
     m_nState = (wxGISEnumTaskStateType)val.Get(wxT("state"), wxJSONValue(m_nState)).AsLong();
 
-    PostEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
+    AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
     m_pParentTask->OnSubTaskChanged(GetId());
 }
 
 void wxGISTaskBase::OnSubTaskChanged(int nId)
 {
-    PostEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
+    AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
 }
 
 void wxGISTaskBase::NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val)
@@ -506,7 +506,7 @@ void wxGISTask::ChangeTask(const wxJSONValue &val)
     if(val.HasMember(wxT("params")))
         m_Params = val[wxT("params")];
 
-    PostEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
+    AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
     m_pParentTask->OnSubTaskChanged(GetId());
 }
 
@@ -559,7 +559,7 @@ void wxGISTask::AddMessage(wxGISTaskMessage* pMessage)
     }
     m_oaMessages.push_back(pMessage);
     
-    PostEvent(wxGISTaskEvent(GetId(), wxGISTASK_MESSAGEADDED, pMessage->m_nId));
+    AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_MESSAGEADDED, pMessage->m_nId));
 }
 
 wxJSONValue wxGISTask::GetConfig(void)
@@ -789,7 +789,7 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                     outval[wxT("id")] = pTask->GetId();
                     SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
 
-                    PostEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
+                    AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
                 }
             }
         }
@@ -813,7 +813,7 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                 outval[wxT("id")] = pTask->GetId();
                 SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
 
-                PostEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
+                AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
             }
         }
         break;

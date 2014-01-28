@@ -342,8 +342,9 @@ void wxClientTCPNetFactory::OnBroadcastEvent(wxSocketEvent& event)
                     //create net message event and post it
                     msg.SetValue(val);
 
-                    wxGISNetEvent event(0, wxGISNET_MSG, msg);
-                    PostEvent(event);
+                    //wxGISNetEvent event(0, wxGISNET_MSG, msg);
+                    //PostEvent(event);
+                    PostEvent(new wxGISNetEvent(0, wxGISNET_MSG, msg));
                 }
             }
             break;
@@ -530,8 +531,9 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
                 {
                     m_bIsConnected = false;
                 }
-                wxGISNetEvent event(0, wxGISNET_MSG, msgin);
-                PostEvent(event);
+                //wxGISNetEvent event(0, wxGISNET_MSG, msgin);
+                //PostEvent(event);
+                PostEvent(new wxGISNetEvent(0, wxGISNET_MSG, msgin));
             }
         break;
         default:

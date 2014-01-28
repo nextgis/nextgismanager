@@ -285,8 +285,7 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
             return false;
         }
 
-        wxGISNetEvent event(m_nUserId, wxGISNET_MSG, msg);
-        PostEvent(event);
+        PostEvent(new wxGISNetEvent(m_nUserId, wxGISNET_MSG, msg));
 
         return true;
     }
@@ -324,8 +323,7 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
                 m_bIsConnected = false;
                 //send bye to the app
                 wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHighest);
-                wxGISNetEvent event(m_nUserId, wxGISNET_MSG, msgin);
-                PostEvent(event);
+                PostEvent(new wxGISNetEvent(m_nUserId, wxGISNET_MSG, msgin));
 
                 //as connection is lost we destroy itself
                 Destroy();
