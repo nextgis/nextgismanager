@@ -650,12 +650,46 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         if (eGeomType > 1 && eGeomType < 4 && nNewSubType == enumVecPostGIS)
         {
-            pNewDef = pDef->Clone();
-            pNewDef->SetGeomType((OGRwkbGeometryType)(eGeomType + 3));//set multi
+            //check to multi
             if (pTrackCancel)
             {
-                pTrackCancel->PutMessage(wxString::Format(_("Force geometry filed to %s"), OGRGeometryTypeToName(pNewDef->GetGeomType())), wxNOT_FOUND, enumGISMessageInfo);
+                pTrackCancel->PutMessage(wxString::Format(_("Check if features geometry is the type of %s"), OGRGeometryTypeToName(pNewDef->GetGeomType())), wxNOT_FOUND, enumGISMessageInfo);
             }
+
+            bool bToMulti = false;
+
+            wxArrayString saIgnoredFields = pSrsDataSet->GetFieldNames();
+            saIgnoredFields.Add(wxT("OGR_STYLE"));
+            pSrsDataSet->SetIgnoredFields(saIgnoredFields);
+            pSrsDataSet->Reset();
+
+
+            wxGISFeature Feature;
+            while ((Feature = pSrsDataSet->Next()).IsOk())
+            {
+                //check if Feature will destroy by Ref Count
+                wxGISGeometry Geom = Feature.GetGeometry();
+                if (Geom.IsOk())
+                {
+                    if (Geom.GetType() > eGeomType)
+                    {
+                        bToMulti = true;
+                        break;
+                    }
+                }
+            }
+
+            if (bToMulti)
+            {
+                pNewDef = pDef->Clone();
+                pNewDef->SetGeomType((OGRwkbGeometryType)(eGeomType + 3));//set multi
+                if (pTrackCancel)
+                {
+                    pTrackCancel->PutMessage(wxString::Format(_("Force geometry filed to %s"), OGRGeometryTypeToName(pNewDef->GetGeomType())), wxNOT_FOUND, enumGISMessageInfo);
+                }
+            }
+            saIgnoredFields.Clear();
+            pSrsDataSet->SetIgnoredFields(saIgnoredFields);
         }
 
         if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
