@@ -3,7 +3,7 @@
  * Purpose:  wxGISProgressDlg class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2014 Bishop
+*   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -74,6 +74,14 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
     this->Centre(wxBOTH);
 
     m_dtStart = wxDateTime::Now();
+#ifdef __WXMSW__
+    m_pTaskbarList = NULL;
+    CoCreateInstance(
+        CLSID_TaskbarList,
+        NULL,
+        CLSCTX_INPROC_SERVER,
+        IID_PPV_ARGS(&m_pTaskbarList));
+#endif
 }
 
 wxGISProgressDlg::~wxGISProgressDlg(void)
@@ -84,6 +92,7 @@ bool wxGISProgressDlg::ShowProgress(bool bShow)
 {
 	bool bRet = wxDialog::Show(bShow);
     Update();
+
     return bRet;
 }
 
@@ -95,6 +104,13 @@ void wxGISProgressDlg::SetRange(int range)
         m_dtStart = wxDateTime::Now();
         SetValue(0);
     }
+
+#ifdef __WXMSW__
+    wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
+    if (pMainFrame && m_pTaskbarList)
+        m_pTaskbarList->SetProgressState((HWND)pMainFrame->GetHandle(), TBPF_NORMAL);
+#endif
+
 }
 
 int wxGISProgressDlg::GetRange(void) const
@@ -121,6 +137,13 @@ void wxGISProgressDlg::Play(void)
     {
         return m_pProgressBar->Play();
     }
+
+#ifdef __WXMSW__
+    wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
+    if (pMainFrame && m_pTaskbarList)
+        m_pTaskbarList->SetProgressState((HWND)pMainFrame->GetHandle(), TBPF_INDETERMINATE);
+#endif
+
 }
 
 void wxGISProgressDlg::Stop(void)
@@ -139,6 +162,12 @@ void wxGISProgressDlg::SetValue(int value)
     }
 
     wxTheApp->Yield(true);
+
+#ifdef __WXMSW__
+    wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
+    if (pMainFrame && m_pTaskbarList)
+        m_pTaskbarList->SetProgressValue((HWND)pMainFrame->GetHandle(), value, GetRange());
+#endif
 
     wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
     int nRange = GetRange();

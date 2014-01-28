@@ -35,6 +35,10 @@
 #include <wx/button.h>
 #include <wx/dialog.h>
 
+#ifdef __WXMSW__
+#include <shobjidl.h>
+#endif
+
 /** @class wxGISProgressDlg progressdlg.h
     
     The dialog showing progress and some buttons.
@@ -83,6 +87,9 @@ protected:
     wxVector<MESSAGE> m_saWarnings;
     wxDateTime m_dtStart;
     int m_nPrevDone;
+#ifdef __WXMSW__
+    ITaskbarList3 *m_pTaskbarList;
+#endif
 private:
     DECLARE_EVENT_TABLE()
 };
