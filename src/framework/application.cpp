@@ -3,7 +3,7 @@
  * Purpose:  wxGISApplication class. Base application functionality (commands, menues, etc.)
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -43,17 +43,14 @@ BEGIN_EVENT_TABLE(wxGISApplication, wxFrame)
     EVT_SIZE(wxGISApplication::OnSize)
 	EVT_RIGHT_DOWN(wxGISApplication::OnRightDown)
 	EVT_MENU_RANGE(ID_PLUGINCMD, ID_TOOLBARCMDMAX, wxGISApplication::OnCommand)
-	EVT_MENU_RANGE(ID_MENUCMD, ID_MENUCMDMAX, wxGISApplication::OnDropDownCommand)
 	EVT_UPDATE_UI_RANGE(ID_PLUGINCMD, ID_PLUGINCMDMAX, wxGISApplication::OnCommandUI)
     EVT_AUITOOLBAR_RIGHT_CLICK(wxID_ANY, wxGISApplication::OnAuiRightDown)
-    EVT_AUITOOLBAR_TOOL_DROPDOWN(wxID_ANY, wxGISApplication::OnToolDropDown)
     EVT_CLOSE(wxGISApplication::OnClose)
 END_EVENT_TABLE()
 
 wxGISApplication::wxGISApplication(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style), wxGISApplicationBase()
 {
     m_pGISAcceleratorTable = NULL;
-    m_pDropDownCommand = NULL;
     m_pTrackCancel = NULL;
     m_pLocale = NULL;
     m_sDecimalPoint = wxString(wxT("."));
@@ -95,13 +92,6 @@ void wxGISApplication::OnCommand(wxCommandEvent& event)
 		if(pToolBarMenu)
 			pToolBarMenu->OnCommand(event);
 	}
-}
-
-void wxGISApplication::OnDropDownCommand(wxCommandEvent& event)
-{
-    event.Skip();
-    if(m_pDropDownCommand)
-        m_pDropDownCommand->OnDropDownCommand(event.GetId());
 }
 
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
@@ -322,28 +312,6 @@ void wxGISApplication::ShowToolBarMenu(void)
 	{
 		PopupMenu(pToolBarMenu);
 	}
-}
-
-void wxGISApplication::OnToolDropDown(wxAuiToolBarEvent& event)
-{
-    if(event.IsDropDownClicked())
-    {
-        wxGISCommand* pCmd = GetCommand(event.GetToolId());
-        m_pDropDownCommand = dynamic_cast<IDropDownCommand*>(pCmd);
-        if(m_pDropDownCommand)
-        {
-            wxMenu* pMenu = m_pDropDownCommand->GetDropDownMenu();
-            if(pMenu)
-            {
-                PushEventHandler(pMenu);
-                PopupMenu(pMenu, event.GetItemRect().GetBottomLeft());
-                PopEventHandler();
-                delete pMenu;
-                return;
-            }
-        }
-    }
-    event.Skip();
 }
 
 bool wxGISApplication::CreateApp(void)

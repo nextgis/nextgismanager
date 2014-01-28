@@ -3,7 +3,7 @@
  * Purpose:  wxGISCommandBar class, and diferent implementation - wxGISMneu, wxGISToolBar
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012  Bishop
+*   Copyright (C) 2009-2012, 2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -316,6 +316,8 @@ IMPLEMENT_CLASS2(wxGISToolBar, wxGISCommandBar, wxAuiToolBar)
 
 BEGIN_EVENT_TABLE(wxGISToolBar, wxAuiToolBar)
     EVT_MOTION(wxGISToolBar::OnMotion)
+    EVT_AUITOOLBAR_TOOL_DROPDOWN(wxID_ANY, wxGISToolBar::OnToolDropDown)
+    EVT_MENU_RANGE(ID_MENUCMD, ID_MENUCMDMAX, wxGISToolBar::OnDropDownCommand)
 END_EVENT_TABLE()
 
 wxGISToolBar::wxGISToolBar(wxWindow* parent, wxWindowID id, const wxPoint& position, const wxSize& size, long style, const wxString& sName, const wxString& sCaption, wxGISEnumCommandBars type ) : wxAuiToolBar(parent, id, position, size, style), wxGISCommandBar(sName, sCaption, type), m_pStatusBar(NULL)
@@ -326,10 +328,47 @@ wxGISToolBar::wxGISToolBar(wxWindow* parent, wxWindowID id, const wxPoint& posit
 		m_pStatusBar = pApp->GetStatusBar();
 	}
     m_bActive = false;
+    m_pDropDownCommand = NULL;
 }
 
 wxGISToolBar::~wxGISToolBar(void)
 {
+}
+
+void wxGISToolBar::OnToolDropDown(wxAuiToolBarEvent& event)
+{
+    if (event.IsDropDownClicked())
+    {
+        for (size_t i = 0; i < m_CommandArray.size(); ++i)
+        {
+            if (m_CommandArray[i] && m_CommandArray[i]->GetID() == event.GetToolId())
+            {
+                m_pDropDownCommand = dynamic_cast<IDropDownCommand*>(m_CommandArray[i]);
+                if (m_pDropDownCommand)
+                {
+                    wxMenu* pMenu = m_pDropDownCommand->GetDropDownMenu();
+                    if (pMenu)
+                    {
+                        PushEventHandler(pMenu);
+                        PopupMenu(pMenu, event.GetItemRect().GetBottomLeft());
+                        PopEventHandler();
+                        delete pMenu;
+                        return;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    event.Skip();
+}
+
+void wxGISToolBar::OnDropDownCommand(wxCommandEvent& event)
+{
+    if (m_pDropDownCommand)
+        m_pDropDownCommand->OnDropDownCommand(event.GetId());
+    else
+        event.Skip();
 }
 
 void wxGISToolBar::OnMotion(wxMouseEvent& evt)
