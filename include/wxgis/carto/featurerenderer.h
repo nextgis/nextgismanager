@@ -42,6 +42,7 @@ public:
     virtual void SetSymbol(wxGISSymbol *pSymbol);
 	virtual void Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumDrawPhase DrawPhase, wxGISDisplay *pDisplay, ITrackCancel *pTrackCancel = NULL);
     virtual bool Apply(ITrackCancel* const pTrackCancel = NULL);
+    virtual void FeatureChanged(const wxGISFeature &Feature);
 protected:
     wxGISFeatureLayer* m_pwxGISFeatureLayer;
 	wxGISSymbol* m_pSymbol;
@@ -68,6 +69,7 @@ public:
     virtual void SetSymbol(wxGISSymbol *pSymbol);
 	virtual void Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumDrawPhase DrawPhase, wxGISDisplay *pDisplay, ITrackCancel *pTrackCancel = NULL);
     virtual bool Apply(ITrackCancel* const pTrackCancel = NULL);
+    virtual void FeatureChanged(const wxGISFeature &Feature);
 
     typedef struct _uniq_value{
         wxString sField;

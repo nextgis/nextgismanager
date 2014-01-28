@@ -30,6 +30,7 @@ IMPLEMENT_CLASS(wxGISFeatureRenderer, wxGISRenderer)
 
 wxGISFeatureRenderer::wxGISFeatureRenderer(wxGISLayer* pwxGISLayer) : wxGISRenderer(pwxGISLayer)
 {
+    m_pSymbol = NULL;
     m_pwxGISFeatureLayer = wxDynamicCast(m_pwxGISLayer, wxGISFeatureLayer);
 
     if(!m_pwxGISFeatureLayer)
@@ -87,6 +88,8 @@ wxGISFeatureRenderer::~wxGISFeatureRenderer(void)
 
 void wxGISFeatureRenderer::SetSymbol(wxGISSymbol *pSymbol)
 {
+    if (m_pSymbol != NULL)
+        m_pSymbol->Release();
     wsSET(m_pSymbol, pSymbol);
 }
 
@@ -190,6 +193,11 @@ bool wxGISFeatureRenderer::Apply(ITrackCancel* const pTrackCancel)
     return true;
 }
 
+void wxGISFeatureRenderer::FeatureChanged(const wxGISFeature &Feature)
+{
+
+}
+
 //-----------------------------------------------------------------------------
 // wxGISUniqueValueRenderer
 //-----------------------------------------------------------------------------
@@ -222,7 +230,6 @@ void wxGISUniqueValueRenderer::AddValue(int nField, const wxString &sValue, wxGI
     UNIQ_VALUE val;
     val.sField = m_pwxGISFeatureDataset->GetFieldName(nField);
     val.sValue = sValue;
-    wsSET(val.Symbol, Symbol);
 
     //Check if pair field <-> value exist
     for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
@@ -230,6 +237,7 @@ void wxGISUniqueValueRenderer::AddValue(int nField, const wxString &sValue, wxGI
         if (m_astUniqueValues[i].sField == val.sField && m_astUniqueValues[i].sValue == val.sValue)
             return;
     }
+    wsSET(val.Symbol, Symbol);
     m_astUniqueValues.push_back(val);
 }
 
@@ -267,7 +275,11 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
 
     for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
     {
-        saIgnoredFields.Remove(m_astUniqueValues[i].sField);
+        int nPos = saIgnoredFields.Index(m_astUniqueValues[i].sField, false);
+        if (nPos != wxNOT_FOUND)
+        {
+            saIgnoredFields.RemoveAt(nPos);
+        }
     }
 
     m_pwxGISFeatureDataset->Reset();
@@ -351,4 +363,19 @@ void wxGISUniqueValueRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISE
 		if(pTrackCancel && !pTrackCancel->Continue())
 			break;
 	}
+}
+
+void wxGISUniqueValueRenderer::FeatureChanged(const wxGISFeature &Feature)
+{
+    for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+    {
+        if (Feature.GetFieldAsString(m_astUniqueValues[i].sField) == m_astUniqueValues[i].sValue)
+        {
+            if (m_omSymbols[Feature.GetFID()] != NULL)
+                m_omSymbols[Feature.GetFID()]->Release();
+
+            wsSET(m_omSymbols[Feature.GetFID()], m_astUniqueValues[i].Symbol);
+            break;
+        }
+    }
 }
