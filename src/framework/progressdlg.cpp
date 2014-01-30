@@ -86,6 +86,12 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
 
 wxGISProgressDlg::~wxGISProgressDlg(void)
 {
+#ifdef __WXMSW__
+    wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
+    if (pMainFrame && m_pTaskbarList)
+        m_pTaskbarList->SetProgressState((HWND)pMainFrame->GetHandle(), TBPF_NOPROGRESS);
+#endif
+
 }
 
 bool wxGISProgressDlg::ShowProgress(bool bShow)
