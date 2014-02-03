@@ -3,7 +3,7 @@
  * Purpose:  wxGISNewMenu class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Bishop
+*   Copyright (C) 2009,2011,2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ wxIcon wxGISNewMenu::GetBitmap(void)
 
 wxString wxGISNewMenu::GetCaption(void)
 {
-	return wxString(_("New"));
+	return wxString(_("Create"));
 }
 
 wxString wxGISNewMenu::GetCategory(void)
@@ -63,7 +63,7 @@ bool wxGISNewMenu::GetEnabled(void)
 
 wxString wxGISNewMenu::GetMessage(void)
 {
-	return wxString(_("New menu"));
+	return wxString(_("Create menu"));
 }
 
 wxGISEnumCommandKind wxGISNewMenu::GetKind(void)
@@ -88,7 +88,7 @@ bool wxGISNewMenu::OnCreate(wxGISApplicationBase* pApp)
 
 wxString wxGISNewMenu::GetTooltip(void)
 {
-	return wxString(_("New menu"));
+	return wxString(_("Create menu"));
 }
 
 unsigned char wxGISNewMenu::GetCount(void)

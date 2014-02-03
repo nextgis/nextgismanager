@@ -24,16 +24,14 @@
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/framework/commandbar.h"
 
-#define NEWMENUNAME wxT("Application.NewMenu")
+#define NEWMENUNAME wxT("Application.CreateNewMenu")
 #define NEWMENUID ID_PLUGINCMDMAX - 1
 
-//----------------------------------------------------------------------
-// wxGISNewMenu
-//----------------------------------------------------------------------
-/** \class wxGISNewMenu newmenu.h
-    \brief The new menu class
+/** @class wxGISNewMenu
+    
+    The create menu class. Consist of create new objects items
 
-    Consist of create new objects items
+    @library {catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISNewMenu :
@@ -41,7 +39,7 @@ class WXDLLIMPEXP_GIS_CLU wxGISNewMenu :
 	public wxGISCommand
 {
 public:
-	wxGISNewMenu(const wxString& sName = NEWMENUNAME, const wxString& sCaption = _("New"), wxGISEnumCommandBars type = enumGISCBSubMenu, const wxString& title = wxEmptyString, long style = 0);
+	wxGISNewMenu(const wxString& sName = NEWMENUNAME, const wxString& sCaption = _("Create"), wxGISEnumCommandBars type = enumGISCBSubMenu, const wxString& title = wxEmptyString, long style = 0);
 	virtual ~wxGISNewMenu(void);
 	//wxGISMenu
 	virtual void AddCommand(wxGISCommand* pCmd);
