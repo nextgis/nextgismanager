@@ -63,6 +63,24 @@ void wxGISTaskManager::Exit(void)
         m_pNetworkService = NULL;
     }
 
+    //yield
+    wxDateTime dtBeg = wxDateTime::Now();
+    wxTimeSpan Elapsed = wxDateTime::Now() - dtBeg;
+    wxFprintf(stdout, wxString(_("Exiting\n")));
+    int nSec = 3;
+    while (Elapsed.GetSeconds() < 3)
+    {
+        wxTheApp->Yield(true);
+        Elapsed = wxDateTime::Now() - dtBeg;
+        int nTest = 3 - Elapsed.GetSeconds().ToLong();
+        if (nSec != nTest)
+        {
+            wxFprintf(stdout, wxString::Format(wxT("%d sec.\r"), nTest));
+            nSec = nTest;
+        }
+        
+    }
+
     wxGISTaskCategoryMap::iterator it;
     for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
     {

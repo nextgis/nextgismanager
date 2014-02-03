@@ -27,7 +27,7 @@
 // wxGxDiscConnection
 //---------------------------------------------------------------------------
 
-#define TM_CHECKING 2500
+#define TM_CHECKING 950
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxDiscConnection, wxGxFolder)
 

@@ -38,10 +38,13 @@ void *wxNetReaderThread::Entry()
 	if(!m_pNetConnection)
 		return (ExitCode)-1;
 
-	while(!TestDestroy() && m_pNetConnection)
+	while(!TestDestroy())
 	{
 		//WaitForRead
-        if(!m_pNetConnection->ProcessInputNetMessage())
+        wxCriticalSectionLocker lock(m_CritSect);
+        if (m_pNetConnection == NULL)
+            break;
+        if (!m_pNetConnection->ProcessInputNetMessage())
         {
             wxThread::Sleep(SLEEP);
         }
@@ -56,6 +59,7 @@ void wxNetReaderThread::OnExit()
 
 void wxNetReaderThread::ClearConnection()
 {
+    wxCriticalSectionLocker lock(m_CritSect);
     m_pNetConnection = NULL;
 }
 
@@ -72,10 +76,13 @@ void *wxNetWriterThread::Entry()
 	if(!m_pNetConnection)
 		return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
 
-	while(!TestDestroy() && m_pNetConnection)
+	while(!TestDestroy())
 	{
         //WaitForWrite
-        if(!m_pNetConnection->ProcessOutputNetMessage())
+        wxCriticalSectionLocker lock(m_CritSect);
+        if (m_pNetConnection == NULL)
+            break;
+        if (!m_pNetConnection->ProcessOutputNetMessage())
         {
             wxThread::Sleep(SLEEP);
         }
@@ -90,6 +97,7 @@ void wxNetWriterThread::OnExit()
 
 void wxNetWriterThread::ClearConnection()
 {
+    wxCriticalSectionLocker lock(m_CritSect);
     m_pNetConnection = NULL;
 }
 

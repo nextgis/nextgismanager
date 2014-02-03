@@ -35,7 +35,8 @@ enum wxGISEnumMapToolState
 	enumGISMapDrawing,
 	enumGISMapWheeling,
 	enumGISMapWheelingStop,
-    enumGISMapFlashing
+    enumGISMapFlashing,
+    enumGISMapRedraw
 };
 
 /** \enum wxGISEnumFlashStyle

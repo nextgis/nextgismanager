@@ -3,7 +3,7 @@
  * Purpose:  Remote Connection UI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -120,7 +120,7 @@ bool wxGxRemoteConnectionUI::Connect(void)
     if(NULL != pCat && m_PendingId == wxNOT_FOUND)
     {
         m_PendingId = pCat->AddPending(GetId());
-        //pCat->ObjectRefreshed(GetId());
+        pCat->ObjectChanged(GetId());
     }
     //start thread to load schemes
     if (!CreateAndRunThread())

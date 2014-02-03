@@ -82,7 +82,9 @@ bool wxGISTaskBase::Save(void)
 {
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
-        if(it->second && !it->second->Save())
+        if(NULL != it->second) 
+            return false;
+        if (!it->second->Save())
             return false;
     }
 
@@ -104,14 +106,14 @@ bool wxGISTaskBase::Save(void)
 
 wxString wxGISTaskBase::GetNewStorePath(const wxString &sAddToName, const wxString &sSubDir)
 {
-    if(m_pParentTask)
+    if(NULL != m_pParentTask)
         return m_pParentTask->GetNewStorePath(sAddToName, sSubDir);
     return wxEmptyString;
 }
 
 void wxGISTaskBase::StartNextQueredTask(void)
 {
-    if(m_pParentTask)
+    if(NULL != m_pParentTask)
         m_pParentTask->StartNextQueredTask();
 }
 
@@ -120,7 +122,10 @@ void wxGISTaskBase::OnDestroy(void)
     m_pParentTask = NULL;
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
-        it->second->OnDestroy();
+        if (NULL != it->second)
+        {
+            it->second->OnDestroy();
+        }        
     }
 }
 

@@ -203,8 +203,12 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
 
     switch(m_nDrawingState)
     {
+    case enumGISMapRedraw:
+        m_nDrawingState = enumGISMapDrawing;
+        CreateAndRunDrawThread();
+        m_timer.Stop();
+        return;
     case enumGISMapZooming:
-    {
         //stop zooming action
 		if(m_pGISDisplay && !wxGetMouseState().LeftIsDown()) //user release mouse button, so draw contents
 		{
@@ -221,9 +225,8 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
 //                    StartDraingThread();
 //                }
             m_timer.Stop();	//Thaw();
+            return;
 		}
-    }
-    break;
     case enumGISMapWheeling:
 		m_nDrawingState = enumGISMapWheelingStop;
 		return;
@@ -1105,6 +1108,7 @@ void wxGISMapView::DestroyDrawThread(void)
 
 void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
 {
+    wxLogDebug(wxT("changed map: %d"), event.GetLayerCacheId());
     //if(m_nDrawingState != enumGISMapNone)
     //    return;
     //TODO: update extents
@@ -1126,7 +1130,7 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
     else
     {
         //plan to redraw in LAYER_UPDATE_REFRESH ms
-        //m_nDrawingState = enumGISMapNone;
+        m_nDrawingState = enumGISMapRedraw;
         m_timer.Start(TM_LAYER_UPDATE_REFRESH);
     }
 }

@@ -218,7 +218,7 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 		case 9:
 			return wxString(_("Catalog"));
 		case 7:
-			return wxString(_("New"));
+			return wxString(_("Create"));
 		case 4:
 		case 8:
 		case 11:

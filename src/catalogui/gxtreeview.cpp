@@ -901,9 +901,10 @@ void wxGxTreeView::OnObjectAdded(wxGxCatalogEvent& event)
             {
 				if (NULL != pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetPath()))
                 {
+//				    AddTreeItem(pGxObject, ParentTreeItemId);
+ //				    SetItemHasChildren(ParentTreeItemId, true);
                     Expand(ParentTreeItemId);
-				    AddTreeItem(pGxObject, ParentTreeItemId);
-                    SortChildren(ParentTreeItemId);
+//                    SortChildren(ParentTreeItemId);
                     BeginRename(pGxObject->GetId());
                 }
                 else

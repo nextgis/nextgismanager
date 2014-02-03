@@ -44,6 +44,7 @@ public:
     void ClearConnection();
 protected:
     INetConnection* m_pNetConnection;
+    wxCriticalSection m_CritSect;
 };
 
 /** \class wxNetWriterThread network.h
@@ -58,6 +59,7 @@ public:
     void ClearConnection();
 protected:
     INetConnection* m_pNetConnection;
+    wxCriticalSection m_CritSect;
 };
 
 /** \class INetConnection network.h

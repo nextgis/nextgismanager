@@ -49,7 +49,7 @@ wxGISRemoteConnDlg::wxGISRemoteConnDlg( CPLString pszConnPath, wxWindow* parent,
 	m_sServer = wxString(wxT("localhost")); 
 	m_sPort = wxString(wxT("5432")); 
 	m_sDatabase = wxString(wxT("postgres")); 
-	m_bIsBinaryCursor = false;
+	m_bIsBinaryCursor = true;
 
 	//load values from xconn file
 	if(!m_bCreateNew)

@@ -3,7 +3,7 @@
  * Purpose:  wxCatalogUI main header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -37,8 +37,11 @@
 #define FILTERCOMBO	1011 //wxGxObjectDialog
 #define WXGISHIGHEST	1200 //
 
-/** \class IGxObjectSort catalogui.h
-    \brief A Interface class for GxObject sort order in GxObjectContainer.
+/** @class IGxObjectSort
+    
+    A Interface class for GxObject sort order in GxObjectContainer.
+
+    @library {catalogui}
 */
 class IGxObjectSort
 {
@@ -48,10 +51,11 @@ public:
 	virtual bool IsSortEnabled(void) = 0;
 };
 
-/** \class IGxObjectWizard catalogui.h
-    \brief A Interface class for GxObject wisards.
+/** @class IGxObjectWizard
+    
+    A Interface class for GxObject wisards. If double clicked on gxobject inherited from this interface the Invoke method is executed
 
-    If double clicked on gxobject inherited from this interface the Invoke method is executed
+    @library {catalogui}
 */
 class IGxObjectWizard
 {
@@ -60,10 +64,11 @@ public:
 	virtual bool Invoke(wxWindow* pParentWnd) = 0;
 };
 
-/** \class IGxObjectUI catalogui.h
-    \brief A Interface class for GxObject UI.
+/** @class IGxObjectUI
+    
+    A Interface class for GxObject UI. This interface class provides some UI onformation (icons, menues, etc.)
 
-    This interface class provides some UI onformation (icons, menues, etc.)
+    @library {catalogui}
 */
 class IGxObjectUI
 {
@@ -76,10 +81,11 @@ public:
 	//virtual wxDataFormat GetDataFormat(void){return wxDataFormat(wxDF_FILENAME);};
 };
 
-/** \class IGxObjectEditUI catalogui.h
-    \brief A Interface class for GxObject UI edits.
+/** @class IGxObjectEditUI
+    
+    A Interface class for GxObject UI edits. This interface class provides edit properties dialog for "Properties" command
 
-    This interface class provides edit properties dialog for "Properties" command
+    @library {catalogui}
 */
 class IGxObjectEditUI
 {
@@ -87,47 +93,7 @@ public:
 	virtual ~IGxObjectEditUI(void){};
 	virtual void EditProperties(wxWindow *parent){};
 };
-/*
-class IGxSelection
-{
-public:
-	enum wxGISEnumInitiators
-	{
-		INIT_ALL = -2,
-		INIT_NONE = -1
-	} Initiator;
-	virtual ~IGxSelection(void){};
-	virtual void Select( long nObjectID,  bool appendToExistingSelection, long nInitiator ) = 0;
-	virtual void Select( long nObjectID ) = 0;
-	virtual void Unselect( long nObjectID, long nInitiator) = 0;
-	virtual void Clear(long nInitiator) = 0;
-	virtual size_t GetCount(void) = 0;
-	virtual size_t GetCount(long nInitiator) = 0;
-	virtual long GetSelectedObjectID(size_t nIndex) = 0;
-	virtual long GetSelectedObjectID(long nInitiator, size_t nIndex) = 0;
-	virtual long GetLastSelectedObjectID(void) = 0;
-	virtual void SetInitiator(long nInitiator) = 0;
-    virtual void Do( long nObjectID ) = 0;
-    virtual bool CanRedo() = 0;
-	virtual bool CanUndo() = 0;
-	virtual void RemoveDo(long nObjectID) = 0;
-    virtual long Redo(int nPos = wxNOT_FOUND) = 0;
-    virtual long Undo(int nPos = wxNOT_FOUND) = 0;
-    virtual void Reset() = 0;
-    virtual size_t GetDoSize() = 0;
-    virtual int GetDoPos(void) = 0;
-    virtual long GetDoID(size_t nIndex) = 0;
-    virtual wxArrayLong GetDoArray(void) = 0;
-};
 
-class IGxView : public IView
-{
-public:
-	virtual ~IGxView(void){};
-	virtual bool Applies(IGxSelection* Selection) = 0;
-    virtual void BeginRename(long nObjectID = wxNOT_FOUND) = 0;
-};
-*/
 enum wxGISEnumContentsViewStyle
 {
     enumGISCVUndefined = 0,
@@ -137,10 +103,11 @@ enum wxGISEnumContentsViewStyle
 	enumGISCVList
 };
 
-/** \class IGxContentsView catalogui.h
-    \brief The IGxContentsView interface class.
+/** @class IGxContentsView 
 
-    The GxViews which should support Style Changing like switch between report view to list view mast derived from this class.
+    The IGxContentsView interface class. The GxViews which should support Style Changing like switch between report view to list view mast derived from this class.
+
+    @library {catalogui}
 */
 class IGxContentsView
 {
@@ -152,10 +119,11 @@ public:
     virtual wxGISEnumContentsViewStyle GetStyle(void) = 0;
 };
 
-/** \class IGxDropTarget catalogui.h
-    \brief A DropTarget interface class.
+/** @class IGxDropTarget
+    
+    A DropTarget interface class. The GxObject which should support drag'n'drop capability mast derived from this class.
 
-    The GxObject which should support drag'n'drop capability mast derived from this class.
+    @library {catalogui}
 */
 class IGxDropTarget
 {
@@ -165,8 +133,11 @@ public:
     virtual bool Drop(const wxArrayString& GxObjects, bool bMove) = 0;
 };
 
-/** \class IGxObjectTreeAttr catalogui.h
-    \brief A Interface class for GxObject item view and behaviour in tree.
+/** @class IGxObjectTreeAttr
+    
+    A Interface class for GxObject item view and behaviour in tree.
+
+    @library {catalogui}
 */
 class IGxObjectTreeAttr
 {

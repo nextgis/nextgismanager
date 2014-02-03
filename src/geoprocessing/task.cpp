@@ -458,6 +458,11 @@ void wxGISTask::SetPriority(long nPriority)
 
 double wxGISTask::GetDone(void) const
 {
+    if (GetState() == enumGISTaskDone)
+        return 100;
+    if(m_omSubTasks.empty())
+        return m_dfDone;
+
     double out(0);
     for(wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
@@ -467,9 +472,7 @@ double wxGISTask::GetDone(void) const
             out += pTask->GetDone();
         }
     }
-    if(m_omSubTasks.empty())
-        return m_dfDone;
-    return m_dfDone + out / m_omSubTasks.size();
+    return out / m_omSubTasks.size();
 }
 
 wxGISTaskMessagesArray wxGISTask::GetMessages(void) const

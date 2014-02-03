@@ -282,23 +282,25 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
         }
     }
 
-    m_pwxGISFeatureDataset->Reset();
     m_pwxGISFeatureDataset->SetIgnoredFields(saIgnoredFields);
-
+    m_pwxGISFeatureDataset->Reset();
 
     //get all features
     wxGISFeature Feature;
     while ((Feature = m_pwxGISFeatureDataset->Next()).IsOk())
     {
-        for (size_t i = 0; i < m_astUniqueValues.size(); ++i)
+        for (size_t j = 0; j < m_astUniqueValues.size(); ++j)
         {
-            if (Feature.GetFieldAsString(m_astUniqueValues[i].sField) == m_astUniqueValues[i].sValue)
+            if (Feature.GetFieldAsString(m_astUniqueValues[j].sField) == m_astUniqueValues[j].sValue)
             {
-                wsSET(m_omSymbols[Feature.GetFID()], m_astUniqueValues[i].Symbol);
+                wsSET(m_omSymbols[Feature.GetFID()], m_astUniqueValues[j].Symbol);
                 break;
             }
         }
     }
+
+    saIgnoredFields.Clear();
+    m_pwxGISFeatureDataset->SetIgnoredFields(saIgnoredFields);
 
     return true;
 }

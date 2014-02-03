@@ -221,7 +221,7 @@ void wxGISNetworkService::OnGISNetEvent(wxGISNetEvent& event)
         pNetEvtProc->ProcessNetEvent(event);
 //    wxRxCatalog* pCat = wxDynamicCast(GetGxCatalog(), wxRxCatalog);
 //    pCat->ProcessNetEvent(event);*/
-    if(m_pNetEvtProc)
+    if(NULL != m_pNetEvtProc)
         m_pNetEvtProc->ProcessNetEvent(event);
 }
 

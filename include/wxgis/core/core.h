@@ -87,11 +87,13 @@ protected:
 	};
     virtual void PostEvent(wxEvent *event)
     {
+        wxCHECK_RET(event, wxT("Input event pointer is NULL"));
 		for(size_t i = 0; i < m_pPointsArray.size(); ++i)
 		{
 			if(m_pPointsArray[i] != NULL)
-				m_pPointsArray[i]->QueueEvent(event);
+				m_pPointsArray[i]->QueueEvent(event->Clone());
 		}    
+        wxDELETE(event);
     };
 protected:
 	wxVector<wxEvtHandler*> m_pPointsArray;

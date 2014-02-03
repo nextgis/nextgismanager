@@ -91,7 +91,7 @@ wxString wxGISCreateNewCmd::GetCategory(void)
 		case 0:
 		case 1:
 		case 2:
-            return wxString(_("New"));
+            return wxString(_("Create"));
 		default:
 			return NO_CATEGORY;
 	}

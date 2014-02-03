@@ -144,7 +144,7 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 	bFooterSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
 
-	m_CreateButton = new wxButton( this, ID_CREATE , _("Create container"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_CreateButton = new wxButton( this, ID_CREATE , _("Create folder"), wxDefaultPosition, wxDefaultSize, 0 );
     m_CreateButton->Show(false);
 	bFooterSizer->Add( m_CreateButton, 0, wxALL, 8 );
 
