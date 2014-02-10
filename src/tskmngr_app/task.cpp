@@ -82,7 +82,7 @@ bool wxGISTaskBase::Save(void)
 {
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
-        if(NULL != it->second) 
+        if(NULL == it->second) 
             return false;
         if (!it->second->Save())
             return false;
@@ -1030,8 +1030,8 @@ bool wxGISTaskCategory::AddTask(const wxJSONValue &TaskConfig, long nMessageId, 
     }
     else
     {
-        wxDELETE(pTask);
         m_sLastError = wxString::Format(_("Save changes to file '%s' failed"), pTask->GetStorePath().c_str());
+        wxDELETE(pTask);
         return false;
     }
 }

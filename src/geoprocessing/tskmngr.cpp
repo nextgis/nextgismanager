@@ -192,6 +192,8 @@ wxGISTaskManager::~wxGISTaskManager()
     wxDELETE(m_pConn);
 
     ClearCategories();
+
+    g_pTaskManager = NULL;
 }
 
 void wxGISTaskManager::StartTaskManagerServer()

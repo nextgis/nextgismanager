@@ -60,6 +60,9 @@ public:
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
 	virtual wxGISFeature CreateFeature(void);
     virtual OGRErr SetFeature(const wxGISFeature &Feature);  
+    virtual OGRErr CommitTransaction(void);
+    virtual OGRErr StartTransaction(void);
+    virtual OGRErr RollbackTransaction(void);
     //
     virtual void Reset(void);
     virtual wxGISFeature Next(void);

@@ -100,16 +100,6 @@ bool wxGISCatalogApp::OnInit()
 	bool bDebugMode = oConfig.GetDebugMode();
     m_pMainFrame->SetDebugMode(bDebugMode);
 
-    //some default GDAL
-	wxString sGDALCacheMax = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/cachemax")), wxString(wxT("128")));
-	CPLSetConfigOption ( "GDAL_CACHEMAX", sGDALCacheMax.mb_str() );
-    CPLSetConfigOption ( "LIBKML_USE_DOC.KML", "no" );
-    CPLSetConfigOption ( "GDAL_USE_SOURCE_OVERVIEWS", "ON" );
-    CPLSetConfigOption ( "OSR_USE_CT_GRAMMAR", "FALSE" );
-
-    //GDAL_MAX_DATASET_POOL_SIZE
-    //OGR_ARC_STEPSIZE
-
 	OGRRegisterAll();
 	GDALAllRegister();
 
@@ -123,9 +113,6 @@ bool wxGISCatalogApp::OnInit()
 	oConfig.SetSysDir(sSysDir);
 	oConfig.SetDebugMode(bDebugMode);
 
-	//gdal
-	oConfig.Write(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/cachemax")), sGDALCacheMax);
-
     wxString sKey(wxT("wxGISCommon/libs"));
     //load libs
 	wxXmlNode* pLibsNode = oConfig.GetConfigNode(enumGISHKCU, sKey);
@@ -134,10 +121,6 @@ bool wxGISCatalogApp::OnInit()
 	pLibsNode = oConfig.GetConfigNode(enumGISHKLM, sKey);
 	if(pLibsNode)
 		LoadLibs(pLibsNode);
-
-    // and show it (the frames, unlike simple controls, are not shown when
-    // created initially)
-    //SetTopWindow(frame);
 
 	return true;
 }

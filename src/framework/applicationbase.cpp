@@ -21,6 +21,8 @@
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/core/config.h"
 
+#include "gdal_priv.h"
+
 //--------------------------------------------------------------------------
 // wxGISApplicationBase
 //--------------------------------------------------------------------------
@@ -280,6 +282,20 @@ bool wxGISApplicationBase::CreateApp(void)
     wxGISAppConfig oConfig = GetConfig();
 	if(!oConfig.IsOk())
 		return false;
+
+    //load GDAL defaults
+    wxString sGDALCacheMax = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/cachemax")), wxString(wxT("128")));
+    CPLSetConfigOption("GTIFF_REPORT_COMPD_CS", "YES");
+    CPLSetConfigOption("GTIFF_ESRI_CITATION", "YES");
+
+    CPLSetConfigOption("GDAL_CACHEMAX", sGDALCacheMax.mb_str());
+    CPLSetConfigOption("LIBKML_USE_DOC.KML", "no");
+    CPLSetConfigOption("GDAL_USE_SOURCE_OVERVIEWS", "ON");
+    CPLSetConfigOption("OSR_USE_CT_GRAMMAR", "FALSE");
+
+    //GDAL_MAX_DATASET_POOL_SIZE
+    //OGR_ARC_STEPSIZE
+
 
     //load commands
 	wxXmlNode* pCommandsNode = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/commands")));

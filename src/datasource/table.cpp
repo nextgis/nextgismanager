@@ -393,6 +393,33 @@ OGRErr wxGISTable::SetFeature(const wxGISFeature &Feature)
     return eErr;
 }
 
+OGRErr wxGISTable::CommitTransaction(void)
+{
+    if (!m_poLayer || m_nSubType == enumTableQueryResult)
+        return OGRERR_FAILURE;
+    OGRErr eErr = m_poLayer->CommitTransaction();
+
+    return eErr;
+}
+
+OGRErr wxGISTable::StartTransaction(void)
+{
+    if (!m_poLayer || m_nSubType == enumTableQueryResult)
+        return OGRERR_FAILURE;
+    OGRErr eErr = m_poLayer->StartTransaction();
+
+    return eErr;
+}
+
+OGRErr wxGISTable::RollbackTransaction(void)
+{
+    if (!m_poLayer || m_nSubType == enumTableQueryResult)
+        return OGRERR_FAILURE;
+    OGRErr eErr = m_poLayer->RollbackTransaction();
+
+    return eErr;
+}
+
 wxGISFeature wxGISTable::GetFeatureByID(long nFID)
 {
     if(m_poLayer)

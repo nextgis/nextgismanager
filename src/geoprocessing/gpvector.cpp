@@ -32,6 +32,8 @@
 #include <wx/fontmap.h>
 #include <wx/encconv.h>
 
+#define MAX_FEATURES_FORINSERT 1000
+
 bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, ITrackCancel* const pTrackCancel)
 {
     const wxGISSpatialReference oSrcSRS = pSrcDataSet->GetSpatialReference();
@@ -323,6 +325,8 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     //set filter
     pSrsDataSet->SetFilter(SpaFilter);
 
+    OGRErr eErr = pDstDataSet->StartTransaction();
+
     //copy data
     if (!CopyRows(pSrsDataSet, pDstDataSet, pTrackCancel))
     {
@@ -337,15 +341,18 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
 
         //remove filter
         pSrsDataSet->SetFilter();
+        eErr = pDstDataSet->RollbackTransaction();
         return false;
     }
 
     //remove filter
     pSrsDataSet->SetFilter();
 
+    eErr = pDstDataSet->CommitTransaction();
+
     pDstDataSet->Close();
 
-    return true;
+    return eErr == OGRERR_NONE;
 }
 
 bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszDataSourceOptions, char ** papszLayerOptions, ITrackCancel* const pTrackCancel)
@@ -691,6 +698,13 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
             saIgnoredFields.Clear();
             pSrsDataSet->SetIgnoredFields(saIgnoredFields);
         }
+
+        //TODO:
+        //if (nNewSubType == enumVecPostGIS && pSrsDataSet->GetFeatureCount() > MAX_FEATURES_FORINSERT)
+        //{
+        wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
+        //}
+
 
         if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
         {
@@ -1563,7 +1577,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     wxGISConfigOptionReset reset_shp("SHAPE_ENCODING", "", CPL_ENC_ASCII);
     wxGISConfigOptionReset reset_dxf("DXF_ENCODING", "", CPL_ENC_ASCII);
 #endif
-
+    
+    //TODO: test if vertical srs can storing in output format
+    oSpatialRef->StripVertical();
     OGRLayer *poLayerDest = poDS->CreateLayer(szName, oSpatialRef, poFields->GetGeomType(), papszLayerOptions);
     if(poLayerDest == NULL)
     {

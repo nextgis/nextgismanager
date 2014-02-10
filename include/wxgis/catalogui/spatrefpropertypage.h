@@ -49,6 +49,7 @@ protected:
     void FillProjected(const wxGISSpatialReference &oSRS);
     void FillGeographic(const wxGISSpatialReference &oSRS);
     void FillLoclal(const wxGISSpatialReference &oSRS);
+    void FillVertical(const wxGISSpatialReference &oSRS);
     void AppendProjParam(wxPGProperty* pid, const char *pszName, const wxGISSpatialReference &oSRS);
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
