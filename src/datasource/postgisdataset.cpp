@@ -108,7 +108,7 @@ wxGISDataset* wxGISPostgresDataSource::GetSubset(size_t nIndex)
     if(m_poDS)
     {
 	    OGRLayer* poLayer = m_poDS->GetLayer(nIndex);
-		return GetDatasetFromOGRLayer(nIndex, m_sPath, poLayer);
+        return GetDatasetFromOGRLayer(m_sPath, poLayer);
     }
     return NULL;
 }
@@ -127,33 +127,34 @@ wxGISDataset* wxGISPostgresDataSource::GetSubset(const wxString &sTableName)
         {
             sCmpName = CPLString(sTableName.mb_str(wxConvUTF8));
         }
-        for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
-        {
-            OGRLayer* poLayer = m_poDS->GetLayer(i);
-            if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
-            {
-                return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
-            }
-        }
+        //for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+        //{
+        //    OGRLayer* poLayer = m_poDS->GetLayer(i);
+        //    if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
+        //    {
+        //        return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
+        //    }
+        //}
 
         //try to OpenTable
         OGRLayer* poLayer = m_poDS->GetLayerByName(sCmpName);
-        if (NULL != poLayer)
-        {
-            for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
-            {
-                OGRLayer* poLayer = m_poDS->GetLayer(i);
-                if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
-                {
-                    return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
-                }
-            }
-        }
+        return GetDatasetFromOGRLayer(m_sPath, poLayer);
+        //if (NULL != poLayer)
+        //{
+        //    for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+        //    {
+        //        poLayer = m_poDS->GetLayer(i);
+        //        if (NULL != poLayer && wxGISEQUAL(sCmpName, poLayer->GetName()))
+        //        {
+        //            return GetDatasetFromOGRLayer(i, m_sPath, poLayer);
+        //        }
+        //    }
+        //}
     }
     return NULL;
 }
 
-wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(int iLayer, const CPLString &sPath, OGRLayer* poLayer)
+wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer)
 {
 	wxCHECK_MSG(poLayer, NULL, wxT("Input layer pointer is null"));
 	//check the layer type
@@ -161,7 +162,7 @@ wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(int iLayer, const 
     CPLString szGeomColumn(poLayer->GetGeometryColumn());
 	if(!szGeomColumn.empty())
 	{
-        wxGISPostgresFeatureDataset* pFeatureDataset = new wxGISPostgresFeatureDataset(iLayer, sPath, poLayer, m_poDS);
+        wxGISPostgresFeatureDataset* pFeatureDataset = new wxGISPostgresFeatureDataset(sPath, poLayer, m_poDS);
 		pFeatureDataset->SetEncoding(m_Encoding);
         pDataset = static_cast<wxGISDataset*>(pFeatureDataset);
 	}
@@ -495,9 +496,8 @@ wxString wxGISPostgresDataSource::NormalizeTableName(const wxString &sSrcName)
 
 IMPLEMENT_CLASS(wxGISPostgresFeatureDataset, wxGISFeatureDataset)
 
-wxGISPostgresFeatureDataset::wxGISPostgresFeatureDataset(int iLayer, const CPLString &sPath, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISFeatureDataset(sPath, enumVecPostGIS, poLayer, poDS)
+wxGISPostgresFeatureDataset::wxGISPostgresFeatureDataset(const CPLString &sPath, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISFeatureDataset(sPath, enumVecPostGIS, poLayer, poDS)
 {
-    m_iLayer = iLayer;
     m_nType = enumGISFeatureDataset;
     m_eGeomType = wkbUnknown;
     m_pSpatialTree = NULL;
@@ -524,7 +524,28 @@ bool wxGISPostgresFeatureDataset::Delete(ITrackCancel* const pTrackCancel)
 {
     if(m_poDS)
     {
-        OGRErr eErr = m_poDS->DeleteLayer(m_iLayer);
+        int iLayer = wxNOT_FOUND;
+        for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+        {
+            OGRLayer* poLayer = m_poDS->GetLayer(i);
+            if (NULL != poLayer && wxGISEQUAL(m_poLayer->GetName(), poLayer->GetName()))
+            {
+                iLayer = i;
+                break;
+            }
+        }
+
+        if (iLayer == wxNOT_FOUND)
+        {
+            if(pTrackCancel)
+            {
+                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString(m_poLayer->GetName(), wxConvUTF8).c_str());
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
+        }
+
+        OGRErr eErr = m_poDS->DeleteLayer(iLayer);
         if(eErr !=  OGRERR_NONE)
         {
             const char* err = CPLGetLastErrorMsg();

@@ -299,7 +299,7 @@ wxGxObjectFactory* const wxGxCatalog::GetObjectFactoryByClassName(const wxString
 {
     for(size_t i = 0; i < m_ObjectFactoriesArray.size(); ++i)
     {
-        if(m_ObjectFactoriesArray[i]->GetClassName().IsSameAs(sClassName))
+        if (m_ObjectFactoriesArray[i] && m_ObjectFactoriesArray[i]->GetClassName().IsSameAs(sClassName))
             return m_ObjectFactoriesArray[i];
     }
     return NULL;
@@ -309,7 +309,7 @@ wxGxObjectFactory* const wxGxCatalog::GetObjectFactoryByName(const wxString &sFa
 {
     for(size_t i = 0; i < m_ObjectFactoriesArray.size(); ++i)
     {
-        if(m_ObjectFactoriesArray[i]->GetName().IsSameAs(sFactoryName))
+        if (m_ObjectFactoriesArray[i] && m_ObjectFactoriesArray[i]->GetName().IsSameAs(sFactoryName))
             return m_ObjectFactoriesArray[i];
     }
     return NULL;

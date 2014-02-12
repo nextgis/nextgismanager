@@ -692,7 +692,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
                 pNewDef->SetGeomType((OGRwkbGeometryType)(eGeomType + 3));//set multi
                 if (pTrackCancel)
                 {
-                    pTrackCancel->PutMessage(wxString::Format(_("Force geometry filed to %s"), OGRGeometryTypeToName(pNewDef->GetGeomType())), wxNOT_FOUND, enumGISMessageInfo);
+                    pTrackCancel->PutMessage(wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(pNewDef->GetGeomType())), wxNOT_FOUND, enumGISMessageInfo);
                 }
             }
             saIgnoredFields.Clear();
@@ -1579,7 +1579,8 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 #endif
     
     //TODO: test if vertical srs can storing in output format
-    oSpatialRef->StripVertical();
+    if (oSpatialRef.IsOk())
+        oSpatialRef->StripVertical();
     OGRLayer *poLayerDest = poDS->CreateLayer(szName, oSpatialRef, poFields->GetGeomType(), papszLayerOptions);
     if(poLayerDest == NULL)
     {

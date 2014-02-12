@@ -79,7 +79,7 @@ protected:
         }
     }
     PGresult *OGRPG_PQexec(PGconn *conn, const char *query, int bMultipleCommandAllowed = FALSE);
-	wxGISDataset* GetDatasetFromOGRLayer(int iLayer, const CPLString &sPath, OGRLayer* poLayer);
+	wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
 protected:
 	OGRDataSource *m_poDS;
 	OGRDataSource *m_poDS4SQL;
@@ -96,13 +96,13 @@ class WXDLLIMPEXP_GIS_DS wxGISPostgresFeatureDataset :
 {
     DECLARE_CLASS(wxGISPostgresFeatureDataset)
 public:
-	wxGISPostgresFeatureDataset(int iLayer, const CPLString &sPath, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+    wxGISPostgresFeatureDataset(const CPLString &sPath, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
 	virtual ~wxGISPostgresFeatureDataset(void);
     //wxGISDataset
     virtual bool CanDelete(void);
     virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
 protected:
-    int m_iLayer;
+    CPLString m_sLayerName;
 };
 
 #endif //wxGIS_USE_POSTGRES
