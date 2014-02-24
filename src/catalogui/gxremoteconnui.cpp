@@ -557,9 +557,49 @@ void wxGxNGWServiceUI::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
-    new wxGxNGWLayersUI(this, _("Layers"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
+    new wxGxNGWRootUI(this, _("Layers"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
     m_bIsConnected = true;
     m_bChildrenLoaded = true;
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWRootUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWRootUI, wxGxNGWRoot)
+
+wxGxNGWRootUI::wxGxNGWRootUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeLayerIcon, const wxIcon &icSmallLayerIcon) : wxGxNGWRoot(oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+    m_icLargeLayerIcon = icLargeLayerIcon;
+    m_icSmallLayerIcon = icSmallLayerIcon;
+}
+
+wxGxNGWRootUI::~wxGxNGWRootUI(void)
+{
+}
+
+wxIcon wxGxNGWRootUI::GetLargeImage(void)
+{
+    return m_icLargeIcon;
+}
+
+wxIcon wxGxNGWRootUI::GetSmallImage(void)
+{
+    return m_icSmallIcon;
+}
+
+wxGxObject* wxGxNGWRootUI::AddLayer(const wxString &sName, int nId)
+{
+    return wxStaticCast(new wxGxNGWLayerUI(this, sName, "", m_icLargeLayerIcon, m_icSmallLayerIcon), wxGxObject);
+}
+
+wxGxObject* wxGxNGWRootUI::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
+{
+    wxGxNGWLayersUI* pLayers = new wxGxNGWLayersUI(this, sName, "", m_icLargeIcon, m_icSmallIcon, m_icLargeLayerIcon, m_icSmallLayerIcon);
+    pLayers->LoadChildren(Data);
+    return wxStaticCast(pLayers, wxGxObject);
 }
 
 //--------------------------------------------------------------
@@ -595,6 +635,12 @@ wxGxObject* wxGxNGWLayersUI::AddLayer(const wxString &sName, int nId)
     return wxStaticCast(new wxGxNGWLayerUI(this, sName, "", m_icLargeLayerIcon, m_icSmallLayerIcon), wxGxObject);
 }
 
+wxGxObject* wxGxNGWLayersUI::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
+{
+    wxGxNGWLayersUI* pLayers = new wxGxNGWLayersUI(this, sName, "", m_icLargeIcon, m_icSmallIcon, m_icLargeLayerIcon, m_icSmallLayerIcon);
+    pLayers->LoadChildren(Data);
+    return wxStaticCast(pLayers, wxGxObject);
+}
 
 //--------------------------------------------------------------
 //class wxGxNGWLayerUI

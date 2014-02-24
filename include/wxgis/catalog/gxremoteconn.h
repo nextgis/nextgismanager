@@ -24,6 +24,7 @@
 
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxdataset.h"
+#include "wxgis/core/json/jsonval.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -239,20 +240,20 @@ protected:
     bool m_bChildrenLoaded, m_bIsConnected;
 };
 
-/** @class wxGxNGWLayers
+/** @class wxGxNGWRoot
 
-    A NextGIS Web Service Layers GxObject.
+    A NextGIS Web Service Root Layers GxObject.
 
     @library {catalog}
 */
-class WXDLLIMPEXP_GIS_CLT wxGxNGWLayers :
+class WXDLLIMPEXP_GIS_CLT wxGxNGWRoot :
     public wxGxObjectContainer,
     public IGxObjectNoFilter
 {
-    DECLARE_CLASS(wxGxNGWService)
+    DECLARE_CLASS(wxGxNGWRoot)
 public:
-    wxGxNGWLayers(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
-    virtual ~wxGxNGWLayers(void);
+    wxGxNGWRoot(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
+    virtual ~wxGxNGWRoot(void);
     //wxGxObject
     virtual wxString GetCategory(void) const { return wxString(_("NGW service layers")); };
     virtual void Refresh(void);
@@ -262,6 +263,7 @@ public:
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
 protected:
     bool m_bChildrenLoaded;
     wxString m_sProxy;
@@ -269,6 +271,30 @@ protected:
     int m_nDNSCacheTimeout;
     int m_nTimeout;
     int m_nConnTimeout;
+};
+
+/** @class wxGxNGWLayers
+
+    A NextGIS Web Service Layers GxObject.
+
+    @library{ catalog }
+*/
+class WXDLLIMPEXP_GIS_CLT wxGxNGWLayers :
+    public wxGxObjectContainer,
+    public IGxObjectNoFilter
+{
+    DECLARE_CLASS(wxGxNGWLayers)
+public:
+    wxGxNGWLayers(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
+    virtual ~wxGxNGWLayers(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const { return wxString(_("NGW service layers")); };
+    //wxGxObjectContainer
+    virtual bool AreChildrenViewable(void) const { return true; };
+    virtual void LoadChildren(const wxJSONValue &Data);
+protected:
+    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
 };
 
 /** @class wxGxNGWLayer

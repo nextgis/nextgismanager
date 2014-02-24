@@ -86,13 +86,15 @@ wxGISPostgresDataSource::~wxGISPostgresDataSource(void)
 
 void wxGISPostgresDataSource::Close(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
+
 	m_bIsOpened = false;
-    if(m_poDS && m_poDS->Dereference() <= 0)
-        OGRDataSource::DestroyDataSource( m_poDS );
-	m_poDS = NULL;
     if (m_poDS4SQL && m_poDS4SQL->Dereference() <= 0)
         OGRDataSource::DestroyDataSource(m_poDS4SQL);
     m_poDS4SQL = NULL;
+    if(m_poDS && m_poDS->Dereference() <= 0)
+        OGRDataSource::DestroyDataSource( m_poDS );
+	m_poDS = NULL;
     
 }
 
@@ -290,7 +292,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement, co
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 	wxGISDataset* pDataset(NULL);
-    if (m_poDS4SQL)
+    if (NULL != m_poDS4SQL)
 	{
         CPLString szStatement(sStatement.mb_str(wxConvUTF8));
         OGRLayer * poLayer = m_poDS4SQL->ExecuteSQL(szStatement, NULL, sDialect.mb_str(wxConvUTF8));

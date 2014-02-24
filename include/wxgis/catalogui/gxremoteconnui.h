@@ -177,6 +177,34 @@ protected:
     wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
 };
 
+/** @class wxGxNGWRootUI
+
+    A NextGIS Web Service Root Layers GxObjectUI.
+
+    @library {catalog}
+*/
+class WXDLLIMPEXP_GIS_CLU wxGxNGWRootUI :
+    public wxGxNGWRoot,
+    public IGxObjectUI
+{
+    DECLARE_CLASS(wxGxNGWRootUI)
+public:
+    wxGxNGWRootUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeLayerIcon = wxNullIcon, const wxIcon &icSmallLayerIcon = wxNullIcon);
+    virtual ~wxGxNGWRootUI(void);
+    //IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayersUI.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayersUI.NewtMenu")); };
+protected:
+    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
+    wxIcon m_icLargeLayerIcon, m_icSmallLayerIcon;
+};
+
+
 /** @class wxGxNGWLayersUI
 
     A NextGIS Web Service Layers GxObjectUI.
@@ -198,6 +226,7 @@ public:
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayersUI.NewtMenu")); };
 protected:
     virtual wxGxObject* AddLayer(const wxString &sName, int nId);
+    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
     wxIcon m_icLargeLayerIcon, m_icSmallLayerIcon;

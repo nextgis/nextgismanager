@@ -1250,7 +1250,7 @@ void wxGxNGWService::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
-    new wxGxNGWLayers(this, _("Layers"), CPLString(m_sURL.ToUTF8()));
+    new wxGxNGWRoot(this, _("Layers"), CPLString(m_sURL.ToUTF8()));
     m_bIsConnected = true;
     m_bChildrenLoaded = true;
 
@@ -1304,11 +1304,11 @@ bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWLayers
+//class wxGxNGWRoot
 //--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxNGWLayers, wxGxObjectContainer)
+IMPLEMENT_CLASS(wxGxNGWRoot, wxGxObjectContainer)
 
-wxGxNGWLayers::wxGxNGWLayers(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+wxGxNGWRoot::wxGxNGWRoot(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
 {
     m_bChildrenLoaded = false;
     m_nDNSCacheTimeout = 180;
@@ -1326,24 +1326,24 @@ wxGxNGWLayers::wxGxNGWLayers(wxGxObject *oParent, const wxString &soName, const 
     }
 }
 
-wxGxNGWLayers::~wxGxNGWLayers(void)
+wxGxNGWRoot::~wxGxNGWRoot(void)
 {
 }
 
-bool wxGxNGWLayers::HasChildren(void)
+bool wxGxNGWRoot::HasChildren(void)
 {
     LoadChildren();
     return wxGxObjectContainer::HasChildren();
 }
 
-void wxGxNGWLayers::Refresh(void)
+void wxGxNGWRoot::Refresh(void)
 {
     DestroyChildren();
     LoadChildren();
     wxGxObject::Refresh();
 }
 
-void wxGxNGWLayers::LoadChildren(void)
+void wxGxNGWRoot::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
@@ -1385,14 +1385,77 @@ void wxGxNGWLayers::LoadChildren(void)
 
         AddLayer(sName, nId);
     }
-    
+
+    wxJSONValue oChildren = JSONRoot[wxT("children")];
+    for (size_t i = 0; i < oChildren.Size(); ++i)
+    {
+        wxString sName = oChildren[i][wxT("display_name")].AsString();
+        int nId = oChildren[i][wxT("id")].AsInt();
+
+        AddLayerGroup(oChildren[i], sName, nId);
+    }
+
     m_sName = JSONRoot[wxT("display_name")].AsString();
+
+}
+
+wxGxObject* wxGxNGWRoot::AddLayer(const wxString &sName, int nId)
+{
+    return wxStaticCast(new wxGxNGWLayer(this, sName), wxGxObject);
+}
+
+wxGxObject* wxGxNGWRoot::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
+{
+    wxGxNGWLayers* pLayers = new wxGxNGWLayers(this, sName);
+    pLayers->LoadChildren(Data);
+    return wxStaticCast(pLayers, wxGxObject);
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWLayers
+//--------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxNGWLayers, wxGxObjectContainer)
+
+wxGxNGWLayers::wxGxNGWLayers(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+{
+}
+
+wxGxNGWLayers::~wxGxNGWLayers()
+{
 
 }
 
 wxGxObject* wxGxNGWLayers::AddLayer(const wxString &sName, int nId)
 {
     return wxStaticCast(new wxGxNGWLayer(this, sName), wxGxObject);
+}
+
+wxGxObject* wxGxNGWLayers::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
+{
+    wxGxNGWLayers* pLayers = new wxGxNGWLayers(this, sName);
+    pLayers->LoadChildren(Data);
+    return wxStaticCast(pLayers, wxGxObject);
+}
+
+void wxGxNGWLayers::LoadChildren(const wxJSONValue &Data)
+{
+    wxJSONValue oLayers = Data[wxT("layers")];
+    for (size_t i = 0; i < oLayers.Size(); ++i)
+    {
+        wxString sName = oLayers[i][wxT("display_name")].AsString();
+        int nId = oLayers[i][wxT("id")].AsInt();
+
+        AddLayer(sName, nId);
+    }
+
+    wxJSONValue oChildren = Data[wxT("children")];
+    for (size_t i = 0; i < oChildren.Size(); ++i)
+    {
+        wxString sName = oChildren[i][wxT("display_name")].AsString();
+        int nId = oChildren[i][wxT("id")].AsInt();
+
+        AddLayerGroup(oChildren[i], sName, nId);
+    }
 }
 
 
