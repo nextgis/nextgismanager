@@ -21,7 +21,7 @@
 #include "wxgis/catalogui/createnewcmd.h"
 
 #include "wxgis/catalogui/gxcatalogui.h"
-#include "wxgis/catalogui/remoteconndlg.h"
+#include "wxgis/catalogui/remoteconndlgs.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalogui/gxselection.h"
 #include "wxgis/catalogui/gxdbconnectionsui.h"

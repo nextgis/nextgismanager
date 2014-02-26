@@ -57,7 +57,8 @@ class WXDLLIMPEXP_GIS_CLU wxGxContentView :
 	public wxListCtrl,
 	public wxGxView,
     public IGxContentsView,
-    public IViewDropTarget
+    public IViewDropTarget,
+    public wxThreadHelper
 {
     DECLARE_DYNAMIC_CLASS(wxGxContentView)
 public:
@@ -121,6 +122,9 @@ protected:
     int GetIconPos(wxIcon icon_small, wxIcon icon_large);
     virtual void InitColumns(void);
     virtual void SelectItem(int nChar = WXK_DOWN, bool bShift = false);
+    virtual wxThread::ExitCode Entry();
+    virtual bool CreateAndRunFillMetaThread(void);
+    virtual void DestroyFillMetaThread(void);
 protected:
 	bool m_bSortAsc;
 	short m_currentSortCol;
@@ -141,8 +145,11 @@ protected:
     wxVector<ICONDATA> m_IconsArray;
     wxCriticalSection m_CritSect;
     wxCriticalSection m_CritSectCont;
+    wxCriticalSection m_CritSectFillMeta;
     long m_HighLightItem;
     int m_bPrevChar;
+
+    wxArrayLong m_anFillMetaIDs;
 private:
     DECLARE_EVENT_TABLE()
 };

@@ -45,6 +45,7 @@ public:
     virtual wxULongLong GetSize(void) const {return m_nSize;};
     virtual wxDateTime GetModificationDate(void) const {return m_dtMod;};
     virtual void FillMetadata(bool bForce = false);
+    virtual bool IsMetadataFilled() const;
     //wxGxObject
     virtual void SetPath(const CPLString &soPath);
     //IGxObjectEdit

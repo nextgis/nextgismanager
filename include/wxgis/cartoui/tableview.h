@@ -35,6 +35,7 @@
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
+#include <wx/statline.h>
 
 #include "wxgis/carto/carto.h"
 #include "wxgis/datasource/table.h"
@@ -118,7 +119,8 @@ class WXDLLIMPEXP_GIS_CTU wxGISTableView :
         ID_PREV,
         ID_NEXT,
         ID_LAST,
-	    ID_POS
+	    ID_POS,
+        ID_ENCODING
     };
     DECLARE_CLASS(wxGISTableView)
 public:
@@ -138,12 +140,15 @@ public:
 	void OnSetPos(wxCommandEvent& event);
 protected:
 	wxGridCtrl* m_grid;
-	wxStaticText* m_staticText1, *m_staticText2;
+    wxStaticText* m_staticText1, *m_staticText2, *m_staticText3, *m_staticText4;
 	wxBitmapButton* m_bpFirst;
 	wxBitmapButton* m_bpPrev;
 	wxTextCtrl* m_position;
 	wxBitmapButton* m_bpNext;
 	wxBitmapButton* m_bpLast;
+    wxComboBox *m_pEncodingsCombo;
+    wxStaticLine *m_staticline1;
+    std::map<wxString, wxFontEncoding> m_mnEnc;
 private:
     DECLARE_EVENT_TABLE()
 };

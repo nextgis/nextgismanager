@@ -165,6 +165,8 @@ wxGxContentView::wxGxContentView(wxWindow* parent, wxWindowID id, const wxPoint&
 wxGxContentView::~wxGxContentView(void)
 {
 	ResetContents();
+
+    DestroyFillMetaThread();
 }
 
 bool wxGxContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
@@ -204,6 +206,8 @@ bool wxGxContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 
 	SetImageList(&m_ImageListLarge, wxIMAGE_LIST_NORMAL);
 	SetImageList(&m_ImageListSmall, wxIMAGE_LIST_SMALL);
+
+    CreateAndRunFillMetaThread();
 
     return true;
 }
@@ -395,16 +399,11 @@ bool wxGxContentView::AddObject(wxGxObject* const pObject)
         wxGxDataset* pDSet = wxDynamicCast(pObject, wxGxDataset);
         if(pDSet)
         {
-            pDSet->FillMetadata(true);
-            if(pDSet->GetSize() > 0)
-                SetItem(ListItemID, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
-            if(pDSet->GetModificationDate().IsValid())
-                SetItem(ListItemID, 3, pDSet->GetModificationDate().Format()); 
+            wxCriticalSectionLocker locker(m_CritSectFillMeta);
+            m_anFillMetaIDs.Add(pDSet->GetId());
         }
 	}
 	SetItemPtrData(ListItemID, (wxUIntPtr) pData);
-
-	//wxListCtrl::Refresh();
 
     return true;
 }
@@ -857,9 +856,18 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
             wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
             if(pDSet)
             {
-                pDSet->FillMetadata();
-                SetItem(i, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
-                SetItem(i, 3, pDSet->GetModificationDate().Format()); 
+                if (pDSet->IsMetadataFilled())
+                {
+                    if (pDSet->GetSize() > 0)
+                        SetItem(i, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
+                    if (pDSet->GetModificationDate().IsValid())
+                        SetItem(i, 3, pDSet->GetModificationDate().Format()); 
+                }
+                else
+                {
+                    wxCriticalSectionLocker locker(m_CritSectFillMeta);
+                    m_anFillMetaIDs.Add(pDSet->GetId());
+                }
             }
 	    }
 	}
@@ -1259,3 +1267,56 @@ bool wxGxContentView::CanPaste()
     //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML
 }
 
+bool wxGxContentView::CreateAndRunFillMetaThread(void)
+{
+    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(_("Could not create the thread!"));
+        return false;
+    }
+
+    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(_("Could not run the thread!"));
+        return false;
+    }
+
+    return true;
+}
+
+void wxGxContentView::DestroyFillMetaThread(void)
+{
+    GetThread()->Wait();//Delete();//
+}
+
+wxThread::ExitCode wxGxContentView::Entry()
+{
+    while (!GetThread()->TestDestroy())
+    {
+        long nID = wxNOT_FOUND;
+        m_CritSectFillMeta.Enter();
+        if (m_anFillMetaIDs.GetCount() > 0)
+        {
+            nID = m_anFillMetaIDs[0];
+            m_anFillMetaIDs.RemoveAt(0);
+        }
+        m_CritSectFillMeta.Leave();
+
+        if (nID == wxNOT_FOUND)
+        {
+            wxThread::Sleep(950);
+        }
+        else
+        {
+            wxGxDataset* pDSet = wxDynamicCast(m_pCatalog->GetRegisterObject(nID), wxGxDataset);
+            if (NULL != pDSet)
+            {
+                pDSet->FillMetadata(true);
+                m_pCatalog->ObjectChanged(nID);
+            }
+        }
+
+    }
+
+    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;     // success
+}

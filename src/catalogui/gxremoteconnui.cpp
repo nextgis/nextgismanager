@@ -49,7 +49,7 @@
 
 #ifdef wxGIS_USE_POSTGRES
 
-#include "wxgis/catalogui/remoteconndlg.h"
+#include "wxgis/catalogui/remoteconndlgs.h"
 #include "wxgis/catalogui/gxpostgisdatasetui.h"
 
 //--------------------------------------------------------------

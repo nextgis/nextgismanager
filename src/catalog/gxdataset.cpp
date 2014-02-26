@@ -47,6 +47,11 @@ wxGxDataset::~wxGxDataset()
     wsDELETE(m_pwxGISDataset);
 }
 
+bool wxGxDataset::IsMetadataFilled() const
+{
+    return m_bIsMetadataFilled;
+}
+
 void wxGxDataset::FillMetadata(bool bForce)
 {
     if(m_bIsMetadataFilled && !bForce)

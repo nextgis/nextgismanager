@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxObjectFactory class. Base abstract class for all factories
+ * Purpose:  GIS Prolect UI classes factory
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012,2014 Bishop
+*   Copyright (C) 2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,30 +20,23 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgis/catalog/catalog.h"
-#include "wxgis/catalog/gxobject.h"
+#include "wxgis/catalogui/catalogui.h"
+#include "wxgis/catalog/gxgisprojfactory.h"
 
-#define CHECK_DUBLES
-#define CHECK_DUBLES_MAX_COUNT 48
-
-/** \class wxGxObjectFactory gxobjectfactory.h
-    \brief A base class for GxObject factory.
+/** @class wxGxGisProjectFactoryUI
+    
+    A GIS Project files UI factory.
 */
-class WXDLLIMPEXP_GIS_CLT wxGxObjectFactory :
-	public wxObject
+class WXDLLIMPEXP_GIS_CLU wxGxGisProjectFactoryUI :
+    public wxGxGisProjectFactory
 {
-	DECLARE_ABSTRACT_CLASS(wxGxObjectFactory)
+    DECLARE_DYNAMIC_CLASS(wxGxGisProjectFactoryUI)
 public:
-	wxGxObjectFactory(void);
-	virtual ~wxGxObjectFactory(void);
-    virtual void Serialize(wxXmlNode* const pConfig, bool bStore);
-    virtual wxString GetClassName(void) const;
-    virtual wxString GetName(void) const = 0;
-	virtual bool GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds) = 0;     
-    virtual bool GetEnabled(void) const;
-    virtual void SetEnabled(bool bIsEnabled);
-    virtual bool IsNameExist(wxGxObject* pParent, const wxString &soName);
+    wxGxGisProjectFactoryUI(void);
+    virtual ~wxGxGisProjectFactoryUI(void);
+	//wxGxObjectFactory
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumGisProjectType eType, bool bCheckNames);
 protected:
-    bool m_bIsEnabled;
+    wxIcon m_oLargeQGISIcon, m_oSmallQGISIcon;
+    wxIcon m_oLargeMIWORIcon, m_oSmallMIWORIcon;
 };
-

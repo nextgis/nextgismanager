@@ -25,6 +25,7 @@
 #include "../../art/small_arrow.xpm"
 
 #include "wx/renderer.h"
+#include <wx/fontmap.h>
 
 #define FILL_STEP 1000
 
@@ -306,6 +307,34 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("of"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2->Wrap( -1 );
 	bSizerLow->Add( m_staticText2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+    //m_staticline1 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL);
+    //bSizerLow->Add(m_staticline1, 0, wxRIGHT | wxLEFT, 5);
+    m_staticText4 = new wxStaticText(this, wxID_ANY, wxT("|"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText4->Enable(false);
+    bSizerLow->Add(m_staticText4, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText3 = new wxStaticText(this, wxID_ANY, _("Encoding:"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText3->Wrap(-1);
+    bSizerLow->Add(m_staticText3, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    //add encodings combo
+    wxArrayString asEnc;
+    wxString sDefault;
+    for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
+    {
+        wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+        if (!sDesc.StartsWith(_("Unknown")))
+        {
+            if (i == wxFONTENCODING_DEFAULT)
+                sDefault = sDesc;
+            asEnc.Add(sDesc);
+            m_mnEnc[sDesc] = (wxFontEncoding)i;
+        }
+    }
+    
+    m_pEncodingsCombo = new wxComboBox(this, ID_ENCODING, sDefault, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_DROPDOWN | wxCB_READONLY | wxCB_SORT);
+    bSizerLow->Add(m_pEncodingsCombo, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
 
 	bSizerMain->Add( bSizerLow, 0, wxEXPAND, 5 );

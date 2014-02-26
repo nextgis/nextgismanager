@@ -121,7 +121,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/tablepropertypage.h
     ${LIB_HEADERS}/vectorpropertypage.h
     ${LIB_HEADERS}/viewscmd.h
-    ${LIB_HEADERS}/remoteconndlg.h
+    ${LIB_HEADERS}/remoteconndlgs.h
     ${LIB_HEADERS}/gxremoteconnui.h
     ${LIB_HEADERS}/gxpostgisdatasetui.h
     ${LIB_HEADERS}/gxdbconnectionsui.h
@@ -133,7 +133,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxshellconnui.h
     ${LIB_HEADERS}/gxshellconnectionsui.h
     ${LIB_HEADERS}/gxshellconnfactoryui.h
-)
+    ${LIB_HEADERS}/gxgisprojui.h
+    ${LIB_HEADERS}/gxgisprojfactoryui.h)
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/catalogcmd.cpp
@@ -182,7 +183,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxdbconnfactoryui.cpp
     ${LIB_SOURCES}/gxwebconnectionsui.cpp
     ${LIB_SOURCES}/gxwebconnfactoryui.cpp
-    ${LIB_SOURCES}/remoteconndlg.cpp
+    ${LIB_SOURCES}/remoteconndlgs.cpp
     ${LIB_SOURCES}/gxremoteconnui.cpp
     ${LIB_SOURCES}/gxpostgisdatasetui.cpp
     ${LIB_SOURCES}/droptarget.cpp #think about move to other lib
@@ -190,6 +191,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxshellconnui.cpp
     ${LIB_SOURCES}/gxshellconnectionsui.cpp
     ${LIB_SOURCES}/gxshellconnfactoryui.cpp
+    ${LIB_SOURCES}/gxgisprojui.cpp
+    ${LIB_SOURCES}/gxgisprojfactoryui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)

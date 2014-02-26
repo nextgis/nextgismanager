@@ -19,7 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "wxgis/catalogui/remoteconndlg.h"
+#include "wxgis/catalogui/remoteconndlgs.h"
 
 #ifdef wxGIS_USE_POSTGRES
 

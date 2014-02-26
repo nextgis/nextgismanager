@@ -103,6 +103,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxshellconnections.h
     ${LIB_HEADERS}/gxshellconnfactory.h 
     ${LIB_HEADERS}/gxshellconn.h
+    ${LIB_HEADERS}/gxgisproj.h
+    ${LIB_HEADERS}/gxgisprojfactory.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -139,6 +141,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxshellconnections.cpp
     ${LIB_SOURCES}/gxshellconnfactory.cpp 
     ${LIB_SOURCES}/gxshellconn.cpp
+    ${LIB_SOURCES}/gxgisproj.cpp
+    ${LIB_SOURCES}/gxgisprojfactory.cpp
 )
 
 add_definitions(-DwxUSE_GUI=0 -DWXMAKINGDLL_GIS_CLT)
