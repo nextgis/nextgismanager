@@ -486,7 +486,7 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
         m_CommandArray.push_back(pwxGISCatalogMainCmd);
 
         wxGISEnumCommandKind kind = pwxGISCatalogMainCmd->GetKind();
-        if(pwxGISCatalogMainCmd->GetKind() == enumGISCommandDropDown)
+        if (kind == enumGISCommandDropDown)
             kind = enumGISCommandNormal;
 		m_toolBar->AddTool( pwxGISCatalogMainCmd->GetID(), pwxGISCatalogMainCmd->GetCaption(), pwxGISCatalogMainCmd->GetBitmap(), wxNullBitmap, (wxItemKind)kind, pwxGISCatalogMainCmd->GetTooltip(), pwxGISCatalogMainCmd->GetMessage(), NULL );
 		if(pwxGISCatalogMainCmd->GetKind() == enumGISCommandDropDown)

@@ -138,6 +138,7 @@ public:
 	void OnBtnPrev(wxCommandEvent& event);
 	void OnBtnLast(wxCommandEvent& event);
 	void OnSetPos(wxCommandEvent& event);
+    void OnEncodingSelect(wxCommandEvent& event);
 protected:
 	wxGridCtrl* m_grid;
     wxStaticText* m_staticText1, *m_staticText2, *m_staticText3, *m_staticText4;

@@ -36,7 +36,7 @@
 #include <wx/stattext.h>
 #include <wx/sizer.h>
 
-#define LISTSTR _("List")
+#define LISTSTR _("Content")
 #define PREVIEWSTR _("Preview")
 
 class WXDLLIMPEXP_GIS_CLU wxGxApplication;

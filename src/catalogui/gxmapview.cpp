@@ -49,12 +49,14 @@ END_EVENT_TABLE()
 
 wxGxMapView::wxGxMapView(void) : wxGISMapView(), wxGxView()
 {
+    m_nPanCmdId = wxNOT_FOUND;
     m_nParentGxObjectID = wxNOT_FOUND;
     m_ConnectionPointSelectionCookie = m_ConnectionPointCatalogCookie = wxNOT_FOUND;
 }
 
 wxGxMapView::wxGxMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxGISMapView(parent, id, pos, size), m_pStatusBar(NULL)
 {
+    m_nPanCmdId = wxNOT_FOUND;
     m_nParentGxObjectID = wxNOT_FOUND;
 	m_sViewName = wxString(_("Geography View"));
     m_ConnectionPointSelectionCookie = m_ConnectionPointCatalogCookie = wxNOT_FOUND;
@@ -76,13 +78,21 @@ bool wxGxMapView::Activate(IApplication* const pApplication, wxXmlNode* const pC
 	if(!wxGxView::Activate(pApplication, pConf))
 		return false;
 	//Serialize(m_pXmlConf, false);
-    
-    //TODO: get/store from/in config, set from property page
-	m_CFormat.Create(wxString(wxT("X: dd.dddd[ ]Y: dd.dddd")));
 
     m_pApp = dynamic_cast<wxGxApplication*>(pApplication);
     if(!m_pApp)
         return false;
+
+    //get/store from/in config, set from property page
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        m_CFormat.Create(oConfig.Read(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/statusbar/coord/format_mask")), wxT("X: dd.dddd[ ]Y: dd.dddd")));
+    }
+    else
+    {
+	    m_CFormat.Create(wxString(wxT("X: dd.dddd[ ]Y: dd.dddd")));
+    }
 
     m_pSelection = m_pApp->GetGxSelection();
 
@@ -98,6 +108,10 @@ bool wxGxMapView::Activate(IApplication* const pApplication, wxXmlNode* const pC
 	m_pStatusBar = m_pApp->GetStatusBar();
 
 	SetTrackCancel(new wxGxTrackCancel(m_pStatusBar));
+
+    //find pan cmd
+    wxGISCommand *pPanCmd = m_pApp->GetCommand(wxT("wxGISCartoMainTool"), 2);
+    m_nPanCmdId = pPanCmd->GetID();
 	return true;
 }
 
@@ -382,6 +396,16 @@ void wxGxMapView::OnMouseDoubleClick(wxMouseEvent& event)
 	if(m_pApp)
 		m_pApp->OnMouseDoubleClick(event);
 	event.Skip();
+}
+
+
+void wxGxMapView::OnShow(bool bShow)
+{
+    if (bShow && wxNOT_FOUND != m_nPanCmdId)
+    {
+        wxCommandEvent event(wxEVT_MENU, m_nPanCmdId);
+        m_pApp->ProcessWindowEvent(event);
+    }
 }
 
 //typedef struct OvrProgressData

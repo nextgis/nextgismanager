@@ -56,7 +56,7 @@ private:
     \brief The carto main commands.
 */
 
-class wxGISCartoMainCmd :
+class WXDLLIMPEXP_GIS_CTU wxGISCartoMainCmd :
 	public wxGISCommand
 {
 	DECLARE_DYNAMIC_CLASS(wxGISCartoMainCmd)
@@ -86,7 +86,7 @@ private:
     \brief The carto main tool.
 */
 
-class wxGISCartoMainTool :
+class WXDLLIMPEXP_GIS_CTU wxGISCartoMainTool :
 	public ITool
 {
 	DECLARE_DYNAMIC_CLASS(wxGISCartoMainTool)
@@ -126,7 +126,7 @@ private:
     \brief The carto frame tools and commands.
 */
 
-class wxGISCartoFrameTool :
+class WXDLLIMPEXP_GIS_CTU wxGISCartoFrameTool :
 	public ITool,
 	public IToolControl
 {

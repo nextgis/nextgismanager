@@ -1269,7 +1269,7 @@ bool wxGxContentView::CanPaste()
 
 bool wxGxContentView::CreateAndRunFillMetaThread(void)
 {
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+    if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
     {
         wxLogError(_("Could not create the thread!"));
         return false;
@@ -1286,7 +1286,8 @@ bool wxGxContentView::CreateAndRunFillMetaThread(void)
 
 void wxGxContentView::DestroyFillMetaThread(void)
 {
-    GetThread()->Wait();//Delete();//
+    if (GetThread() && GetThread()->IsRunning())
+        GetThread()->Delete();//
 }
 
 wxThread::ExitCode wxGxContentView::Entry()

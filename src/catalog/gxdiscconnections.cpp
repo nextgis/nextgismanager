@@ -41,9 +41,9 @@ wxGxDiscConnections::wxGxDiscConnections(void) : wxGxJSONConnectionStorage()
 
 bool wxGxDiscConnections::Create(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)
 {
-    if( !wxGxObjectContainer::Create(oParent, _("Folder connections"), soPath) )
+    if (!wxGxObjectContainer::Create(oParent, GetName(), soPath))
     {
-        wxLogError(_("wxGxDiscConnections::Create failed. GxObject %s"), wxString(_("Folder connections")).c_str());
+        wxLogError(_("wxGxSpatialReferencesFolder::Create failed. GxObject %s"), GetName().c_str());
         return false;
     }
     //get config path
@@ -141,9 +141,8 @@ void wxGxDiscConnections::CreateConnectionsStorage(void)
 	arr = wxFSVolumeBase::GetVolumes(wxFS_VOL_MOUNTED, wxFS_VOL_REMOVABLE);//| wxFS_VOL_REMOTE
 #elif defined(__UNIX__)
     //linux paths
-    wxStandardPaths stp;
     arr.Add(wxT("/"));
-    arr.Add(stp.GetUserConfigDir());
+    arr.Add(wxStandardPaths::Get().GetUserConfigDir());
 //      arr.Add(stp.GetDataDir());
 #endif
     //create

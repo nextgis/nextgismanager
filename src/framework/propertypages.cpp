@@ -136,7 +136,7 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     }
 	bMainSizer->Add( m_LangChoice, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticText3 = new wxStaticText( this, wxID_ANY, _("wxGIS system files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3 = new wxStaticText( this, wxID_ANY, _("System files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
 	bMainSizer->Add( m_staticText3, 0, wxEXPAND|wxALL, 5 );
 	
@@ -152,7 +152,7 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
 	
 	bMainSizer->Add( bSizer21, 0, wxEXPAND, 5 );
 	
-	m_staticText4 = new wxStaticText( this, wxID_ANY, _("wxGIS log files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4 = new wxStaticText( this, wxID_ANY, _("Log files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
 	bMainSizer->Add( m_staticText4, 0, wxALL|wxEXPAND, 5 );
 	

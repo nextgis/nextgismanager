@@ -60,10 +60,6 @@ public:
     virtual bool SetupSys(const wxString &sSysPath);
     virtual bool SetupLoc(const wxString &sLoc, const wxString &sLocPath);
     virtual wxString GetDecimalPoint(void) const{return m_sDecimalPoint;};
-protected:
-	virtual void SerializeFramePos(bool bSave = false);
-    virtual void LoadToolbars(wxXmlNode* pRootNode);
-    virtual void SerializeCommandBars(bool bSave = false);
 	//events
     virtual void OnEraseBackground(wxEraseEvent& event);
     virtual void OnSize(wxSizeEvent& event);
@@ -72,6 +68,10 @@ protected:
 	virtual void OnRightDown(wxMouseEvent& event);
 	virtual void OnAuiRightDown(wxAuiToolBarEvent& event);
 	virtual void OnClose(wxCloseEvent & event);
+protected:
+	virtual void SerializeFramePos(bool bSave = false);
+    virtual void LoadToolbars(wxXmlNode* pRootNode);
+    virtual void SerializeCommandBars(bool bSave = false);
 //
 protected:
 	wxGISAcceleratorTable* m_pGISAcceleratorTable;

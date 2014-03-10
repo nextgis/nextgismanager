@@ -188,7 +188,7 @@ void wxGISExtentStack::Do(const OGREnvelope &NewEnv)
 void wxGISExtentStack::Redo()
 {
 	m_nPos++;
-	if(m_nPos < m_staEnvelope.size())
+	if(m_nPos > wxNOT_FOUND && m_nPos < m_staEnvelope.size())
 	{
 		OGREnvelope Env = m_staEnvelope[m_nPos];
 		SetExtent(Env);
@@ -198,7 +198,7 @@ void wxGISExtentStack::Redo()
 void wxGISExtentStack::Undo()
 {
 	m_nPos--;
-	if(m_nPos > wxNOT_FOUND)
+    if (m_nPos > wxNOT_FOUND && m_staEnvelope.size() > m_nPos)
 	{
 		OGREnvelope Env = m_staEnvelope[m_nPos];
 		SetExtent(Env);

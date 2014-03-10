@@ -85,7 +85,9 @@ public:
 	virtual bool Activate(IApplication* const pApplication, wxXmlNode* const pConf);
 	virtual void Deactivate(void);
 	virtual bool Applies(wxGxSelection* const Selection);
-//events
+    //wxGxView
+    virtual void OnShow(bool bShow);
+    //events
 	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
 protected:
     virtual void LoadData(long nGxObjectId);
@@ -101,6 +103,8 @@ protected:
 
 	wxGISStatusBar* m_pStatusBar;
 	wxGxApplication* m_pApp;
+
+    long m_nPanCmdId;
 
 	wxGISCoordinatesFormat m_CFormat;
 private:

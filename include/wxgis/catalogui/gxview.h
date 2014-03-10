@@ -45,6 +45,7 @@ public:
     //wxGxView
 	virtual bool Applies(wxGxSelection* const Selection);
     virtual void BeginRename(long nObjectID = wxNOT_FOUND){};
+    virtual void OnShow(bool bShow){};
 protected:
 	wxString m_sViewName;
 	wxXmlNode* m_pXmlConf;

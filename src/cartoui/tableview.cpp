@@ -214,6 +214,7 @@ BEGIN_EVENT_TABLE(wxGISTableView, wxPanel)
 	EVT_BUTTON(wxGISTableView::ID_PREV, wxGISTableView::OnBtnPrev)
 	EVT_BUTTON(wxGISTableView::ID_LAST, wxGISTableView::OnBtnLast)
 	EVT_TEXT_ENTER(wxGISTableView::ID_POS, wxGISTableView::OnSetPos)
+    EVT_COMBOBOX(ID_ENCODING, wxGISTableView::OnEncodingSelect)
 END_EVENT_TABLE();
 
 wxGISTableView::wxGISTableView(void)
@@ -409,6 +410,8 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		(*m_position) << 1;
 
 		m_staticText2->SetLabel(wxString::Format(_("of %u"), m_grid->GetNumberRows()));
+        
+        this->Layout();
 	}
 }
 
@@ -419,4 +422,9 @@ wxGridTableBase* wxGISTableView::GetTable(void) const
         return m_grid->GetTable();
     }
     return NULL;
+}
+
+void wxGISTableView::OnEncodingSelect(wxCommandEvent& event)
+{
+
 }

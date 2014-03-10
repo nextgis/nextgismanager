@@ -55,7 +55,7 @@ public:
 	virtual void SetExtent(const OGREnvelope& Env);
 	virtual void SetFullExtent(void);
 	virtual OGREnvelope GetFullExtent(void);
-	//
+    //
 	virtual double GetScaleRatio(OGREnvelope& Bounds, wxDC& dc);
 	virtual void PanStart(wxPoint MouseLocation);
 	virtual void PanMoveTo(wxPoint MouseLocation);

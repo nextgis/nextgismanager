@@ -22,48 +22,61 @@
 
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxarchfolder.h"
+#include "wxgis/catalog/gxcatalog.h"
 
 #define GEOGCSSTR _("Geographic Coordinate Systems")
 #define PROJCSSTR _("Projected Coordinate Systems")
 
-/** \class wxGxPrjFolder gxspatreffolder.h
-    \brief A projections folder root GxObject.
+/** @class wxGxPrjFolder
+    
+    A projections folder root GxObject.
+
+    @library{catalog}
 */
-/*
+
+
 class WXDLLIMPEXP_GIS_CLT wxGxPrjFolder :
 	public wxGxArchiveFolder
 {
+    DECLARE_CLASS(wxGxPrjFolder)
 public:
-	wxGxPrjFolder(CPLString Path, wxString Name);
+    wxGxPrjFolder();
+    wxGxPrjFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxPrjFolder(void);
-	//IGxObject
-	virtual wxString GetCategory(void){return wxString(_("Coordinate Systems Folder"));};
+	//wxGxObject
+	virtual wxString GetCategory(void) const {return wxString(_("Coordinate Systems Folder"));};
+protected:
     //wxGxArchiveFolder
-    virtual IGxObject* GetArchiveFolder(CPLString szPath, wxString soName);
+    virtual wxGxObject* GetArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 };
+
+/** @class wxGxSpatialReferencesFolder
+
+    A spatial reference root GxObject.
+
+    @library{catalog}
 */
-/** \class wxGxSpatialReferencesFolder gxspatreffolder.h
-    \brief A spatial reference root GxObject.
-*/
-/*
+
 class WXDLLIMPEXP_GIS_CLT wxGxSpatialReferencesFolder :
 	public wxGxPrjFolder,
-    public IGxRootObjectProperties,
-    public wxObject
+    public IGxRootObjectProperties
 {
    DECLARE_DYNAMIC_CLASS(wxGxSpatialReferencesFolder)
 public:
 	wxGxSpatialReferencesFolder(void);//wxString Path, wxString Name, bool bShowHidden
 	virtual ~wxGxSpatialReferencesFolder(void);
-	//IGxObject
-	virtual wxString GetName(void){return wxString(_("Coordinate Systems"));};
-    virtual wxString GetBaseName(void){return GetName();};
-	virtual CPLString GetInternalName(void){return m_sPath;};
-	virtual wxString GetCategory(void){return wxString(_("Coordinate Systems Folder"));};
+	//wxGxObject
+	virtual wxString GetName(void) const {return wxString(_("Coordinate Systems"));};
+	virtual wxString GetCategory(void) const {return wxString(_("Coordinate Systems Folder"));};
+    virtual bool Create(wxGxObject *oParent = NULL, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
     //IGxRootObjectProperties
     virtual void Init(wxXmlNode* const pConfigNode);
-    virtual void Serialize(wxXmlNode* pConfigNode);
+    virtual void Serialize(wxXmlNode* const pConfigNode);
 protected:
-	wxString m_sInternalPath;
+    virtual bool IsArchive(void) const;
+protected:
+    wxString m_sInternalPath;
+    wxGxCatalog* m_pCatalog;
+    bool m_bIsArchive;
 };
-*/
+

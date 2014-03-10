@@ -19,15 +19,18 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/catalog/gxspatreffolder.h"
-#include "cpl_vsi_virtual.h"
-#include <wx/stdpaths.h>
-/*
-/////////////////////////////////////////////////////////////////////////
-// wxGxSpatialReferencesFolder
-/////////////////////////////////////////////////////////////////////////
-IMPLEMENT_DYNAMIC_CLASS(wxGxSpatialReferencesFolder, wxObject)
 
-wxGxSpatialReferencesFolder::wxGxSpatialReferencesFolder(void) : wxGxPrjFolder(CPLString(), GetName())
+#include "cpl_vsi_virtual.h"
+
+#include <wx/stdpaths.h>
+
+//-----------------------------------------------------------------------------------
+// wxGxSpatialReferencesFolder
+//-----------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(wxGxSpatialReferencesFolder, wxGxPrjFolder)
+
+wxGxSpatialReferencesFolder::wxGxSpatialReferencesFolder(void) : wxGxPrjFolder()
 {
 }
 
@@ -35,14 +38,26 @@ wxGxSpatialReferencesFolder::~wxGxSpatialReferencesFolder(void)
 {
 }
 
+bool wxGxSpatialReferencesFolder::Create(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)
+{
+    if (!wxGxPrjFolder::Create(oParent, GetName(), soPath))
+    {
+        wxLogError(_("wxGxSpatialReferencesFolder::Create failed. GxObject %s"), GetName().c_str());
+        return false;
+    }
+
+    m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+    return true;
+}
+
+
 void wxGxSpatialReferencesFolder::Init(wxXmlNode* const pConfigNode)
 {
     m_sInternalPath = pConfigNode->GetAttribute(wxT("path"), NON);
     if(m_sInternalPath.IsEmpty() || m_sInternalPath == wxString(NON))
     {
         //example: /vsizip/c:/wxGIS/sys/cs.zip/cs
-        wxStandardPaths stp;
-        wxString sExeDirPath = wxPathOnly(stp.GetExecutablePath());
+        wxString sExeDirPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath());
         m_sInternalPath = wxT("/vsizip/") + sExeDirPath + wxT("/sys/cs.zip/cs");
     }
 
@@ -50,7 +65,9 @@ void wxGxSpatialReferencesFolder::Init(wxXmlNode* const pConfigNode)
     wxLogMessage(_("wxGxSpatialReferencesFolder: The path is set to '%s'"), m_sInternalPath.c_str());
     CPLSetConfigOption("wxGxSpatialReferencesFolder", m_sInternalPath.mb_str(wxConvUTF8));
 
-    m_sPath = CPLString(m_sInternalPath.mb_str(wxConvUTF8));
+    m_sPath = CPLString(m_sInternalPath.ToUTF8());
+
+    m_bIsArchive = m_sInternalPath.Find(wxT("/vsizip/")) != wxNOT_FOUND;
 }
 
 void wxGxSpatialReferencesFolder::Serialize(wxXmlNode* pConfigNode)
@@ -58,11 +75,21 @@ void wxGxSpatialReferencesFolder::Serialize(wxXmlNode* pConfigNode)
     pConfigNode->AddAttribute(wxT("path"), m_sInternalPath);
 }
 
-/////////////////////////////////////////////////////////////////////////
-// wxGxPrjFolder
-/////////////////////////////////////////////////////////////////////////
+bool wxGxSpatialReferencesFolder::IsArchive(void) const
+{
+    return m_bIsArchive;
+}
 
-wxGxPrjFolder::wxGxPrjFolder(CPLString Path, wxString Name) : wxGxArchiveFolder(Path, Name)
+//-----------------------------------------------------------------------------------
+// wxGxPrjFolder
+//-----------------------------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxPrjFolder, wxGxArchiveFolder)
+
+wxGxPrjFolder::wxGxPrjFolder() : wxGxArchiveFolder()
+{
+}
+
+wxGxPrjFolder::wxGxPrjFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxArchiveFolder(oParent, soName, soPath)
 {
 }
 
@@ -70,12 +97,14 @@ wxGxPrjFolder::~wxGxPrjFolder(void)
 {
 }
 
-IGxObject* wxGxPrjFolder::GetArchiveFolder(CPLString szPath, wxString soName)
+wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)
 {
-	wxGxPrjFolder* pFolder = new wxGxPrjFolder(szPath, soName);
-	return static_cast<IGxObject*>(pFolder);
+    wxGxPrjFolder* pFolder = new wxGxPrjFolder(oParent, soName, soPath);
+    return wxStaticCast(pFolder, wxGxObject);
 }
 
+
+/*
                 //cast ctrl
 
     //            wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);

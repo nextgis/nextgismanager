@@ -357,7 +357,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
 
 bool wxGxRemoteDBSchemaUI::CreateAndRunThread(void)
 {
-    if (!GetThread())
+    if (GetThread() == NULL)
     {
         if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
         {

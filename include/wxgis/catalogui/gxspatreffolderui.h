@@ -3,7 +3,7 @@
  * Purpose:  wxGxSpatialReferencesFolderUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011 Bishop
+*   Copyright (C) 2009-2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -24,10 +24,13 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalogui/gxarchfolderui.h"
 
-/** \class wxGxSpatialReferencesFolderUI gxspatreffolderui.h
-    \brief A spatial reference root GxObject.
+/** @class wxGxSpatialReferencesFolderUI
+
+    A spatial reference root GxObject.
+
+    @library{catalogui}
 */
-/*
+
 class WXDLLIMPEXP_GIS_CLU wxGxSpatialReferencesFolderUI :
     public wxGxSpatialReferencesFolder,
 	public IGxObjectUI
@@ -39,33 +42,39 @@ public:
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void){return wxString(wxT("wxGxSpatialReferencesFolder.ContextMenu"));};
-	virtual wxString NewMenu(void){return wxString(wxT("wxGxSpatialReferencesFolder.NewMenu"));};
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxSpatialReferencesFolder.ContextMenu"));};
+	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxSpatialReferencesFolder.NewMenu"));};
+protected:
     //wxGxArchiveFolder
-    virtual IGxObject* GetArchiveFolder(CPLString szPath, wxString soName);
-    virtual void EmptyChildren(void);
+    virtual wxGxObject* GetArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
+
+/** @class wxGxPrjFolderUI
+    
+    A projections folder root GxObject.
+
+    @library{catalogui}
 */
-/** \class wxGxPrjFolderUI gxspatreffolderui.h
-    \brief A projections folder root GxObject.
-*/
-/*
+
+
 class WXDLLIMPEXP_GIS_CLU wxGxPrjFolderUI :
 	public wxGxArchiveFolderUI
 {
+    DECLARE_CLASS(wxGxPrjFolderUI)
 public:
-	wxGxPrjFolderUI(CPLString Path, wxString Name, wxIcon LargeIcon = wxNullIcon, wxIcon SmallIcon = wxNullIcon);
+    wxGxPrjFolderUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", wxIcon LargeIcon = wxNullIcon, wxIcon SmallIcon = wxNullIcon);
 	virtual ~wxGxPrjFolderUI(void);
 	//IGxObject
-	virtual wxString GetCategory(void){return wxString(_("Coordinate Systems Folder"));};
+	virtual wxString GetCategory(void) const {return wxString(_("Coordinate Systems Folder"));};
     //IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
+protected:
     //wxGxArchiveFolder
-    virtual IGxObject* GetArchiveFolder(CPLString szPath, wxString soName);
+    virtual wxGxObject* GetArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
-*/
+

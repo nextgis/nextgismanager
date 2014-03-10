@@ -30,6 +30,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxArchiveFolder :
 {
     DECLARE_CLASS(wxGxArchiveFolder)
 public:
+    wxGxArchiveFolder(void);
 	wxGxArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxArchiveFolder(void);
 	//wxGxObject
@@ -41,6 +42,7 @@ public:
 protected:
     virtual wxGxObject* GetArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual void LoadChildren(void);
+    virtual bool IsArchive(void) const;
 };
 
 /** \class wxGxArchive gxarchfolder.h

@@ -46,16 +46,36 @@ bool wxGxWebConnectionFactory::GetChildren(wxGxObject* pParent, char** &pFileNam
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         CPLString szExt = CPLGetExtension(pFileNames[i]);
-		if(wxGISEQUAL(szExt, "wconn"))
+        if (wxGISEQUAL(szExt, "wconn"))
 		{
             if( m_bHasDriver )
             {
     			wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], bCheckNames); 
-                if(pObj)
+                if (pObj != NULL)
+                {
                     pChildrenIds.Add(pObj->GetId());
+                }
             }
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
 		}
+        else if (wxGISEQUAL(szExt, "xml"))
+        {
+            bool bAdd = false;
+            if (m_bHasDriver)
+            {
+                wxGxObject* pObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], bCheckNames);
+                if (pObj != NULL)
+                {
+                    pChildrenIds.Add(pObj->GetId());
+                    bAdd = true;
+                }
+            }
+
+            if (bAdd)
+            {
+                pFileNames = CSLRemoveStrings(pFileNames, i, 1, NULL);
+            }
+        }
     }
 	return true;
 }

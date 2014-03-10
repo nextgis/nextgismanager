@@ -46,6 +46,8 @@ wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
  	if(m_pwxGISDataset == NULL)
     {
         m_pwxGISDataset = m_pwxGISRemoteConn->GetSubset(m_sFullyQualifiedName);
+        if (NULL == m_pwxGISDataset)
+            return NULL;
         m_pwxGISDataset->Reference();
     }
     wsGET(m_pwxGISDataset);

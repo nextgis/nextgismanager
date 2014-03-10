@@ -107,12 +107,21 @@ bool wxGxArchive::Rename(const wxString &sNewName)
 //----------------------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxArchiveFolder, wxGxFolder)
 
+wxGxArchiveFolder::wxGxArchiveFolder() : wxGxFolder()
+{
+}
+
 wxGxArchiveFolder::wxGxArchiveFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFolder(oParent, soName, soPath)
 {
 }
 
 wxGxArchiveFolder::~wxGxArchiveFolder(void)
 {
+}
+
+bool wxGxArchiveFolder::IsArchive(void) const
+{
+    return true;
 }
 
 void wxGxArchiveFolder::LoadChildren(void)
@@ -139,11 +148,20 @@ void wxGxArchiveFolder::LoadChildren(void)
         {
             if(VSI_ISDIR(BufL.st_mode))
             {
-		        wxString sCharset(wxT("cp-866"));
-		        wxGISAppConfig oConfig = GetConfig();
-                if(oConfig.IsOk())
-			        sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
-                wxString sFileName(papszItems[i], wxCSConv(sCharset));
+                wxString sFileName;
+                if (IsArchive())
+                {
+		            wxString sCharset(wxT("cp-866"));
+		            wxGISAppConfig oConfig = GetConfig();
+                    if(oConfig.IsOk())
+			            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+                    sFileName = wxString(papszItems[i], wxCSConv(sCharset));
+                }
+                else
+                {
+                    sFileName = wxString::FromUTF8(papszItems[i]);
+                }
+
 				GetArchiveFolder(this, sFileName, szFileName);
             }
             else
@@ -161,8 +179,8 @@ void wxGxArchiveFolder::LoadChildren(void)
     {
         wxArrayLong ChildrenIds;
         pCatalog->CreateChildren(this, papszFileList, ChildrenIds);
-        for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-            pCatalog->ObjectAdded(ChildrenIds[i]);
+        //for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+        //    pCatalog->ObjectAdded(ChildrenIds[i]);
 	}
 
     CSLDestroy( papszFileList );

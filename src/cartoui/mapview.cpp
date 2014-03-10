@@ -36,6 +36,7 @@
 #define INCH_TO_CM 2.54
 #define TM_DEFAULT_FLASH_PERIOD 400
 #define TM_LAYER_UPDATE_REFRESH 950
+#define MIN_SIZE_TO_DRAW 100
 
 //-----------------------------------------------
 // wxGISMapView
@@ -145,7 +146,7 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 
 void wxGISMapView::OnSize(wxSizeEvent & event)
 {
-    if(m_PrevSize == event.GetSize() || event.GetSize().GetWidth () < 200 || event.GetSize().GetHeight () < 200)
+    if (m_PrevSize == event.GetSize() || event.GetSize().GetWidth() < MIN_SIZE_TO_DRAW || event.GetSize().GetHeight() < MIN_SIZE_TO_DRAW)
         return;
 
     //event.Skip(false);
