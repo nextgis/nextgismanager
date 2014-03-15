@@ -21,6 +21,7 @@
 #include "wxgis/datasource/rasterdataset.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/datasource/rasterop.h"
+#include "wxgis/core/config.h"
 
 #include <wx/filename.h>
 #include "gdal_rat.h"
@@ -342,11 +343,21 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
          }
 
         bHasGeoTransform = true;
-        if ((adfGeoTransform[2] != 0.0 || adfGeoTransform[4] != 0.0 ) || m_poDataset->GetGCPCount() > 0)// adfGeoTransform[1] < 0.0 || adfGeoTransform[5] > 0.0 ||
+        if ((adfGeoTransform[2] != 0.0 || adfGeoTransform[4] != 0.0 ) || (adfGeoTransform[1] < 0.0 || adfGeoTransform[5] > 0.0) || m_poDataset->GetGCPCount() > 0)
         {
             bHasGeoTransform = false;
             m_poMainDataset = m_poDataset;
-            m_poDataset = (GDALDataset *) GDALAutoCreateWarpedVRT( m_poMainDataset, NULL, NULL, GRA_NearestNeighbour, 0.3, NULL );//TODO: get GRA_NearestNeighbour, 0.3 from config
+            
+            wxGISAppConfig oConfig = GetConfig();
+            GDALResampleAlg eAlg = GRA_NearestNeighbour;
+            double dfMaxErr = 0.3;
+            if (oConfig.IsOk())
+            {
+                eAlg = (GDALResampleAlg)oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/raster/resample_alg")), eAlg);
+                dfMaxErr = oConfig.ReadDouble(enumGISHKCU, wxString(wxT("wxGISCommon/raster/max_err")), dfMaxErr);
+            }
+
+            m_poDataset = (GDALDataset *)GDALAutoCreateWarpedVRT(m_poMainDataset, NULL, NULL, eAlg, dfMaxErr, NULL);
             m_poMainDataset->Dereference();
             if(m_poDataset == NULL)
             {
