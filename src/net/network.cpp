@@ -3,7 +3,7 @@
  * Purpose:  network classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Bishop
+*   Copyright (C) 2010,2012-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,9 +41,9 @@ void *wxNetReaderThread::Entry()
 	while(!TestDestroy())
 	{
 		//WaitForRead
-        wxCriticalSectionLocker lock(m_CritSect);
-        if (m_pNetConnection == NULL)
-            break;
+        //wxCriticalSectionLocker lock(m_CritSect);
+        //if (m_pNetConnection == NULL)
+        //    break;
         if (!m_pNetConnection->ProcessInputNetMessage())
         {
             wxThread::Sleep(SLEEP);
@@ -55,13 +55,9 @@ void *wxNetReaderThread::Entry()
 
 void wxNetReaderThread::OnExit()
 {
-}
-
-void wxNetReaderThread::ClearConnection()
-{
-    wxCriticalSectionLocker lock(m_CritSect);
     m_pNetConnection = NULL;
 }
+
 
 // ----------------------------------------------------------------------------
 // wxNetTCPWriter
@@ -79,9 +75,9 @@ void *wxNetWriterThread::Entry()
 	while(!TestDestroy())
 	{
         //WaitForWrite
-        wxCriticalSectionLocker lock(m_CritSect);
-        if (m_pNetConnection == NULL)
-            break;
+        //wxCriticalSectionLocker lock(m_CritSect);
+        //if (m_pNetConnection == NULL)
+        //    break;
         if (!m_pNetConnection->ProcessOutputNetMessage())
         {
             wxThread::Sleep(SLEEP);
@@ -93,11 +89,6 @@ void *wxNetWriterThread::Entry()
 
 void wxNetWriterThread::OnExit()
 {
-}
-
-void wxNetWriterThread::ClearConnection()
-{
-    wxCriticalSectionLocker lock(m_CritSect);
     m_pNetConnection = NULL;
 }
 
@@ -181,6 +172,18 @@ bool INetConnection::CreateAndRunThreads(void)
 
 void INetConnection::DestroyThreads(void)
 {
+    if (m_pInThread && m_pInThread->IsRunning())
+    {
+        m_pInThread->Delete();
+        m_pInThread = NULL;
+    }
+
+    if (m_pOutThread && m_pOutThread->IsRunning())
+    {
+        m_pOutThread->Delete();
+        m_pOutThread = NULL;
+    }
+       
     if(m_pSock)
     {
         if( m_pSock->Destroy() )
@@ -189,34 +192,6 @@ void INetConnection::DestroyThreads(void)
             wxLogDebug(wxT("Socket not destroyed!!!"));
     }
 
-    if (m_pInThread)
-    {
-        if(m_pInThread->IsRunning())
-        {
-            m_pInThread->ClearConnection();
-            while(m_pInThread->Delete() != wxTHREAD_NO_ERROR)
-            {
-                //wxThread::This()->Sleep(SLEEP);
-                wxMilliSleep(SLEEP);
-            }
-        }
-        m_pInThread = NULL;
-    }
-
-    if (m_pOutThread)
-    {
-        if(m_pOutThread->IsRunning())
-        {
-            m_pOutThread->ClearConnection();
-            while(m_pOutThread->Delete() != wxTHREAD_NO_ERROR)
-            {
-                //wxThread::This()->Sleep(SLEEP);
-                wxMilliSleep(SLEEP);
-            }
-        }
-        m_pOutThread = NULL;
-    }
-       
     //wxCriticalSectionLocker lock(m_dataCS);
     //cleare quere
     while(m_aoMessages.size() > 0)
@@ -241,7 +216,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
         return false;
     }
 
-    if(m_pSock->WaitForWrite(WAITFOR))
+    if(m_pSock->WaitForWrite(0, WAITFOR))
     {
         if(!m_pSock)
             return true;
@@ -294,7 +269,7 @@ bool INetConnection::ProcessInputNetMessage(void)
         return false;
     }
 
-    if(m_pSock->WaitForRead(WAITFOR))
+    if(m_pSock->WaitForRead(0, WAITFOR))
     {
         if(!m_pSock)
             return true;

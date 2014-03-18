@@ -91,7 +91,8 @@ protected:
 	OGRLayer* m_poLayer;
 
     wxFontEncoding m_Encoding;
-    
+    bool m_bRecodeToSystem;
+
     long m_nFeatureCount, m_nCurrentFID;
     bool m_bOLCStringsAsUTF8;
     bool m_bOLCFastFeatureCount;

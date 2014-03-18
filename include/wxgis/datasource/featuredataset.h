@@ -3,7 +3,7 @@
  * Purpose:  FeatureDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,8 @@ public:
 	virtual bool IsCaching(void) const;    
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     virtual void StopCaching(void);
+    virtual void SetEncoding(const wxFontEncoding &oEncoding);
+    virtual char **GetFileList();
     //editing
 	virtual OGRErr DeleteFeature(long nFID);    
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
@@ -56,8 +58,6 @@ public:
     virtual OGRErr SetFilter(const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter);
     virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);
-	//wxGISTable
-    virtual char **GetFileList();
 protected:
     virtual void SetInternalValues(void);
 protected:	

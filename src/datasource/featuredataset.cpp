@@ -3,7 +3,7 @@
  * Purpose:  FeatureDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/datasource/sysop.h"
 
 //---------------------------------------
 // wxGISFeatureDataset
@@ -197,11 +198,34 @@ const wxGISSpatialReference wxGISFeatureDataset::GetSpatialReference(void)
 	return m_SpatialReference;
 }
 
+void wxGISFeatureDataset::SetEncoding(const wxFontEncoding &oEncoding)
+{
+    if (m_nSubType == enumVecESRIShapefile)
+    {
+        wxString sEnc = wxLocale::GetSystemEncodingName();
+        const char* sz_enc = sEnc.mb_str();
+        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("SHAPE_ENCODING", sz_enc), sz_enc);
+    }
+    m_Encoding = oEncoding;
+}
+
 bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const pTrackCancel)
 {
 	if(IsOpened())
     {
 		return true;
+    }
+
+    if (m_nSubType == enumVecESRIShapefile)
+    {
+        const char* szCPGPath = CPLResetExtension(m_sPath, "cpg");
+        if (!CPLCheckForFile((char*)szCPGPath, NULL))//no cpg file
+        {
+            //set system encoding
+            wxString sEnc = wxLocale::GetSystemEncodingName();
+            const char* sz_enc = sEnc.mb_str();
+            CPLSetConfigOption("SHAPE_ENCODING", sz_enc);
+        }
     }
 
 	if(!wxGISTable::Open(iLayer, bUpdate, bCache, pTrackCancel))

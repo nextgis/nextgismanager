@@ -82,8 +82,11 @@ wxString wxGISGridTable::GetValue(int row, int col)
         FillForPos(row);
         return GetValue(row, col);
     }
-    if(Feature.IsOk())
+
+    if (Feature.IsOk())
+    {
         return Feature.GetFieldAsString(col);
+    }
 	return wxEmptyString;
 }
 
@@ -142,6 +145,11 @@ void wxGISGridTable::FillForPos(int nRow)
     }
 }
 
+void wxGISGridTable::ClearFeatures(void)
+{
+    m_moFeatures.clear();
+}
+
 //-------------------------------------
 // wxGridCtrl
 //-------------------------------------
@@ -198,6 +206,21 @@ void wxGridCtrl::OnSelectCell(wxGridEvent& event)
 {
     event.Skip();
     GetGridRowLabelWindow()->Refresh();
+}
+
+void wxGridCtrl::SetEncoding(const wxFontEncoding &eEnc)
+{
+    wxGISGridTable* pTable = wxDynamicCast(GetTable(), wxGISGridTable);
+    if (pTable)
+    {
+        wxGISTable* pDs = pTable->GetDataset();
+        if (pDs != NULL)
+        {
+            pDs->SetEncoding(eEnc);
+        }
+        pTable->ClearFeatures();
+        ClearGrid();
+    }
 }
 
 //-------------------------------------
@@ -426,5 +449,7 @@ wxGridTableBase* wxGISTableView::GetTable(void) const
 
 void wxGISTableView::OnEncodingSelect(wxCommandEvent& event)
 {
-
+    wxString sSel = m_pEncodingsCombo->GetStringSelection();
+    wxFontEncoding eEnc = m_mnEnc[sSel];
+    m_grid->SetEncoding(eEnc);
 }

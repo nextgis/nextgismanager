@@ -86,7 +86,7 @@ bool wxGISNetServerConnection::ProcessInputNetMessage(void)
         return false;
     }
 
-    if(m_pSock->WaitForRead(WAITFOR))
+    if(m_pSock->WaitForRead(0, WAITFOR))
     {
         wxJSONValue  value;
         wxJSONReader reader;

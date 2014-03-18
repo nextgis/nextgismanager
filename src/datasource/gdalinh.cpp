@@ -19,7 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/datasource/gdalinh.h"
-
+#include <wx/encconv.h>
 //-----------------------------------------------------------------------------
 // wxGISSpatialReference
 //-----------------------------------------------------------------------------
@@ -143,9 +143,9 @@ WX_DEFINE_USER_EXPORTED_OBJARRAY(wxGISFeatureArray);
 
 IMPLEMENT_CLASS(wxGISFeature, wxObject)
 
-wxGISFeature::wxGISFeature(OGRFeature *poFeature, const wxFontEncoding &oEncodingS)
+wxGISFeature::wxGISFeature(OGRFeature *poFeature, const wxFontEncoding &oEncodingS, bool bRecodeToSystem)
 {
-    m_refData = new wxGISFeatureRefData(poFeature, oEncodingS);
+    m_refData = new wxGISFeatureRefData(poFeature, oEncodingS, bRecodeToSystem);
 }
 
 wxObjectRefData *wxGISFeature::CreateRefData() const
@@ -373,7 +373,16 @@ wxString wxGISFeature::GetFieldAsString(int nField) const
 	default:
         {
             const char* pszStringData( ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsString(nField) );
-            sOut = EncodeString(pszStringData, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+            if (((wxGISFeatureRefData *)m_refData)->m_bRecodeToSystem)
+            {
+                //UTF->System
+                CPLString szStr = CPLRecode(pszStringData, CPL_ENC_UTF8, wxLocale::GetSystemEncodingName().mb_str());
+                sOut = EncodeString(szStr.c_str(), ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+            }
+            else
+            {
+                sOut = EncodeString(pszStringData, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+            }
         }
 	}
 	return sOut;
@@ -612,6 +621,12 @@ void wxGISFeature::SetField(int nIndex, OGRField* psField)
 {
     wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
     ((wxGISFeatureRefData *)m_refData)->m_poFeature->SetField(nIndex, psField);
+}
+
+void wxGISFeature::SetEncoding(const wxFontEncoding &eEnc, bool bRecodeToSystem)
+{
+    wxCHECK_RET(((wxGISFeatureRefData *)m_refData)->m_poFeature, wxT("The OGRFeature pointer is null"));
+    ((wxGISFeatureRefData *)m_refData)->SetEncoding(eEnc, bRecodeToSystem);
 }
 
 //-----------------------------------------------------------------------------

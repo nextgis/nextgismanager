@@ -3,7 +3,7 @@
  * Purpose:  network classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Bishop
+*   Copyright (C) 2010,2012-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 #include "wx/thread.h"
 #include "wx/socket.h"
 
-#define SLEEP 40
-#define WAITFOR 50
+#define SLEEP 140
+#define WAITFOR 500
 #define BUFF_SIZE 16384
 #define USE_STREAMS
 
@@ -41,10 +41,8 @@ public:
     wxNetReaderThread(INetConnection* pNetConnection);
     virtual void *Entry();
     virtual void OnExit();
-    void ClearConnection();
 protected:
     INetConnection* m_pNetConnection;
-    wxCriticalSection m_CritSect;
 };
 
 /** \class wxNetWriterThread network.h
@@ -56,10 +54,8 @@ public:
     wxNetWriterThread(INetConnection* pNetConnection);
     virtual void *Entry();
     virtual void OnExit();
-    void ClearConnection();
 protected:
     INetConnection* m_pNetConnection;
-    wxCriticalSection m_CritSect;
 };
 
 /** \class INetConnection network.h

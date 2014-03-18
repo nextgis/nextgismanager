@@ -258,6 +258,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsInteger(staFieldMap[i].nSrsFieldNo));
 //                    break;
                 default:
+                    //TODO: recode to output encoding if pDstDataSet encoding diffes from src
                     newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
                     break;

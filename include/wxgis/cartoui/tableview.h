@@ -70,6 +70,7 @@ public:
     virtual wxString GetColLabelValue(int col);
 	virtual wxString GetRowLabelValue(int row);
     virtual wxGISTable* GetDataset() const;
+    virtual void ClearFeatures(void);
 protected:
     virtual void FillForPos(int nRow);
 private:
@@ -100,6 +101,7 @@ public:
 	wxGridCtrl();
 	virtual ~wxGridCtrl(void);
 	wxGridCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = wxPanelNameStr);
+    virtual void SetEncoding(const wxFontEncoding &eEnc);
 
     DECLARE_EVENT_TABLE();
 };

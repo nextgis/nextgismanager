@@ -39,6 +39,7 @@ wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, 
     m_nSubType = nSubType;
 
     m_Encoding = wxLocale::GetSystemEncoding();
+    m_bRecodeToSystem = false;
 
     poLayer == NULL ? m_bIsOpened = false : m_bIsOpened = true;
 
@@ -87,6 +88,18 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
 {
 	if(m_bIsOpened)
 		return true;
+
+    if (m_nSubType == enumTableDBF)
+    {
+        const char* szCPGPath = CPLResetExtension(m_sPath, "cpg");
+        if (!CPLCheckForFile((char*)szCPGPath, NULL))//no cpg file
+        {
+            //set system encoding
+            wxString sEnc = wxLocale::GetSystemEncodingName();
+            const char* sz_enc = sEnc.mb_str();
+            CPLSetConfigOption("SHAPE_ENCODING", sz_enc);
+        }
+    }
 
 	wxCriticalSectionLocker locker(m_CritSect);
 
@@ -377,7 +390,7 @@ wxGISFeature wxGISTable::CreateFeature(void)
         return wxGISFeature();
     }
 
-    wxGISFeature Feature( poFeature, m_Encoding );
+    wxGISFeature Feature(poFeature, m_Encoding, m_bRecodeToSystem);
 	return Feature;
 }
 
@@ -427,7 +440,7 @@ wxGISFeature wxGISTable::GetFeatureByID(long nFID)
 		OGRFeature* pFeature = m_poLayer->GetFeature(nFID);
 		if(pFeature)
 		{
-            return wxGISFeature(pFeature, m_Encoding);
+            return wxGISFeature(pFeature, m_Encoding, m_bRecodeToSystem);
 		}
 	}
 	return wxGISFeature();
@@ -474,7 +487,7 @@ wxGISFeature wxGISTable::Next(void)
     {
         pFeature->SetFID(m_nCurrentFID++);
     }
-    return wxGISFeature(pFeature, m_Encoding);
+    return wxGISFeature(pFeature, m_Encoding, m_bRecodeToSystem);
 }
 
 wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
@@ -531,7 +544,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
             {
                pProgressor->SetValue(nCounter++);
             }
-			oOutCursor.Add(wxGISFeature(pFeature, m_Encoding));
+            oOutCursor.Add(wxGISFeature(pFeature, m_Encoding, m_bRecodeToSystem));
 			if(bOnlyFirst)
 				break;
 		}
@@ -576,7 +589,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
                 pProgressor->SetValue(nCounter++);
             }
 
-			oOutCursor.Add(wxGISFeature(poFeature, m_Encoding));
+            oOutCursor.Add(wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem));
 			if(bOnlyFirst)
 				break;
 		}
@@ -746,6 +759,12 @@ wxFontEncoding wxGISTable::GetEncoding(void) const
 
 void wxGISTable::SetEncoding(const wxFontEncoding &oEncoding)
 {
+    if (m_nSubType == enumTableDBF)
+    {
+        wxString sEnc = wxLocale::GetSystemEncodingName();
+        const char* sz_enc = sEnc.mb_str();
+        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("SHAPE_ENCODING", sz_enc), sz_enc);
+    }
     m_Encoding = oEncoding;
 }
 
@@ -824,7 +843,7 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
             nFID = poFeature->GetFID();
 
         //store features in array for speed
-		m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding);
+        m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem);
 		m_nCurrentFID++;
 
 		if(pTrackCancel && !pTrackCancel->Continue())
@@ -968,7 +987,7 @@ wxGISFeature wxGISTableCached::GetFeatureByID(long nFID)
 		    OGRFeature* pFeature = m_poLayer->GetFeature(nFID);
 		    if(pFeature)
 		    {
-                ret = wxGISFeature(pFeature, m_Encoding);
+                ret = wxGISFeature(pFeature, m_Encoding, m_bRecodeToSystem);
 			    m_omFeatures[nFID] = ret;
 		    }
 	    }
@@ -1073,7 +1092,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
                 pProgressor->SetValue(nCounter++);
             }
 
-            oOutCursor.Add(wxGISFeature(poFeature, m_Encoding));
+            oOutCursor.Add(wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem));
             if (bOnlyFirst)
                 break;
         }
@@ -1127,7 +1146,7 @@ void wxGISTableQuery::Cache(ITrackCancel* const pTrackCancel)
             nFID = poFeature->GetFID();
 
         //store features in array for speed
-        m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding);
+        m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem);
         m_nCurrentFID++;
 
     }
