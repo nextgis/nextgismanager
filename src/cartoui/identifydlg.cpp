@@ -22,6 +22,8 @@
 #include "wxgis/core/config.h"
 
 #include <wx/clipbrd.h>
+#include <wx/fontmap.h>
+
 #include <cmath>
 
 #include "../../art/splitter_switch.xpm"
@@ -60,8 +62,8 @@ int wxCALLBACK FieldValueCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPt
 
 BEGIN_EVENT_TABLE(wxGISFeatureDetailsPanel, wxPanel)
     EVT_CONTEXT_MENU(wxGISFeatureDetailsPanel::OnContextMenu)
-	EVT_MENU_RANGE(ID_WG_COPY_NAME, ID_WG_RESET_SORT, wxGISFeatureDetailsPanel::OnMenu)
- 	EVT_UPDATE_UI_RANGE(ID_WG_COPY_NAME, ID_WG_RESET_SORT, wxGISFeatureDetailsPanel::OnMenuUpdateUI)
+    EVT_MENU_RANGE(ID_WG_COPY_NAME, ID_WG_ENCODING_START + wxFONTENCODING_MAX, wxGISFeatureDetailsPanel::OnMenu)
+    EVT_UPDATE_UI_RANGE(ID_WG_COPY_NAME, ID_WG_ENCODING_START + wxFONTENCODING_MAX, wxGISFeatureDetailsPanel::OnMenuUpdateUI)
     EVT_LIST_COL_CLICK(ID_LISTCTRL, wxGISFeatureDetailsPanel::OnColClick)
 	EVT_BUTTON(ID_MASKBTN, wxGISFeatureDetailsPanel::OnMaskMenu)
 END_EVENT_TABLE()
@@ -139,11 +141,28 @@ wxGISFeatureDetailsPanel::wxGISFeatureDetailsPanel( wxWindow* parent, wxWindowID
 	m_pMenu = new wxMenu;
 	m_pMenu->Append(ID_WG_COPY_NAME, wxString::Format(_("Copy %s"), _("Field")), wxString::Format(_("Copy '%s' value"), _("Field")), wxITEM_NORMAL);
 	m_pMenu->Append(ID_WG_COPY_VALUE, wxString::Format(_("Copy %s"), _("Value")), wxString::Format(_("Copy '%s' value"), _("Value")), wxITEM_NORMAL);
-	m_pMenu->Append(ID_WG_COPY, wxString(_("Copy")), wxString(_("Copy")), wxITEM_NORMAL);
-	m_pMenu->Append(ID_WG_HIDE, wxString(_("Hide")), wxString(_("Hide rows")), wxITEM_NORMAL);
+	m_pMenu->Append(ID_WG_COPY, _("Copy"), _("Copy rows"), wxITEM_NORMAL);
+	m_pMenu->Append(ID_WG_HIDE, _("Hide"), _("Hide rows"), wxITEM_NORMAL);
 	m_pMenu->AppendSeparator();
 	m_pMenu->Append(ID_WG_RESET_SORT, wxString(_("Remove sort")), wxString(_("Remove sort")), wxITEM_NORMAL);
 	m_pMenu->Append(ID_WG_RESET_HIDE, wxString(_("Show all rows")), wxString(_("Show all rows")), wxITEM_NORMAL);
+	m_pMenu->AppendSeparator();
+    //encoding
+    wxMenu *pEncMenu = new wxMenu;
+    //add encodings
+    wxString sDefault;
+    for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
+    {
+        wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+        if (!sDesc.StartsWith(_("Unknown")))
+        {
+            wxMenuItem* pMItem = pEncMenu->AppendRadioItem(ID_WG_ENCODING_START + i, sDesc);
+            if (i == wxFONTENCODING_DEFAULT)
+                pMItem->Check();
+        }
+    }
+
+    m_pMenu->AppendSubMenu(pEncMenu, _("Encodings"), _("Change text encoding"));
 
     m_currentSortCol = 0;
     m_nSortAsc = 0;
@@ -268,6 +287,17 @@ void wxGISFeatureDetailsPanel::WriteStringToClipboard(const wxString &sData)
 
 void wxGISFeatureDetailsPanel::OnMenu(wxCommandEvent& event)
 {
+    if (event.GetId() >= ID_WG_ENCODING_START)
+    {
+        wxFontEncoding eEnc = (wxFontEncoding)(event.GetId() - ID_WG_ENCODING_START);
+        wxGISIdentifyDlg* pParentDlg = wxDynamicCast(GetParent()->GetParent(), wxGISIdentifyDlg);
+        if (pParentDlg != NULL)
+        {
+            pParentDlg->SetEncoding(eEnc);
+        }
+        return;
+    }
+
     long nItem = wxNOT_FOUND;
 	wxString sOutput;
 	switch(event.GetId())
@@ -345,7 +375,7 @@ void wxGISFeatureDetailsPanel::OnMenu(wxCommandEvent& event)
 
 void wxGISFeatureDetailsPanel::OnMenuUpdateUI(wxUpdateUIEvent& event)
 {
-	if(event.GetId() == ID_WG_RESET_SORT)
+    if (event.GetId() == ID_WG_RESET_SORT || event.GetId() >= ID_WG_ENCODING_START)
 		return;
 	if(m_listCtrl->GetSelectedItemCount() == 0)
 		event.Enable(false);
@@ -630,6 +660,17 @@ void wxGISIdentifyDlg::OnSelChanged(wxTreeEvent& event)
 		}
 		wxGISFeature Feature = pData->m_pDataset->GetFeature(pData->m_nOID);
 		m_pFeatureDetailsPanel->FillPanel(Feature);
+    }
+}
+
+void wxGISIdentifyDlg::SetEncoding(const wxFontEncoding& eEnc)
+{
+    wxIdentifyTreeItemData* pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(m_pTreeCtrl->GetSelection());
+    if (pData != NULL)
+    {
+        pData->m_pDataset->SetEncoding(eEnc);
+        wxGISFeature Feature = pData->m_pDataset->GetFeature(pData->m_nOID);
+        m_pFeatureDetailsPanel->FillPanel(Feature);
     }
 }
 

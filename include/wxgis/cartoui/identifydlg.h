@@ -100,7 +100,8 @@ class wxGISFeatureDetailsPanel : public wxPanel
 		ID_WG_COPY,
 		ID_WG_HIDE,
         ID_WG_RESET_SORT,
-        ID_WG_RESET_HIDE
+        ID_WG_RESET_HIDE,
+        ID_WG_ENCODING_START
 	};
 public:
 	wxGISFeatureDetailsPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
@@ -185,6 +186,7 @@ public:
 	virtual void OnMenu(wxCommandEvent& event);
 	virtual void OnItemRightClick(wxTreeEvent& event);
 	virtual void OnDoubleClickSash(wxSplitterEvent& event);
+    virtual void SetEncoding(const wxFontEncoding& eEnc);
 protected:
 	wxBoxSizer* m_bMainSizer;
 	wxFlexGridSizer* m_fgTopSizer;

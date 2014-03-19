@@ -433,6 +433,8 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		(*m_position) << 1;
 
 		m_staticText2->SetLabel(wxString::Format(_("of %u"), m_grid->GetNumberRows()));
+
+        //TODO: Set grid encoding selection in combobox
         
         this->Layout();
 	}
