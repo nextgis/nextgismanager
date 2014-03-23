@@ -145,7 +145,8 @@ IMPLEMENT_CLASS(wxGISFeature, wxObject)
 
 wxGISFeature::wxGISFeature(OGRFeature *poFeature, const wxFontEncoding &oEncodingS, bool bRecodeToSystem)
 {
-    m_refData = new wxGISFeatureRefData(poFeature, oEncodingS, bRecodeToSystem);
+    if (poFeature != NULL)
+        m_refData = new wxGISFeatureRefData(poFeature, oEncodingS, bRecodeToSystem);
 }
 
 wxObjectRefData *wxGISFeature::CreateRefData() const

@@ -297,20 +297,6 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
 
-    wxGISFeatureDataset* pDstDataSet = wxDynamicCast(CreateDataset(sPath, sName, pFilter, poFields, oSpatialRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel), wxGISFeatureDataset);
-    if (NULL == pDstDataSet)
-    {
-        wxString sErr(_("Error creating new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
-        return false;
-    }
-
     if (pTrackCancel)
     {
         if (SpaFilter.GetWhereClause().IsEmpty())
@@ -325,6 +311,32 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
 
     //set filter
     pSrsDataSet->SetFilter(SpaFilter);
+
+    if (pSrsDataSet->GetFeatureCount(false, pTrackCancel) == 0)
+    {
+        pSrsDataSet->SetFilter();
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("No records to export"), wxNOT_FOUND, enumGISMessageNorm);
+        }
+
+        return true;
+    }
+
+    wxGISFeatureDataset* pDstDataSet = wxDynamicCast(CreateDataset(sPath, sName, pFilter, poFields, oSpatialRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel), wxGISFeatureDataset);
+    if (NULL == pDstDataSet)
+    {
+        wxString sErr(_("Error creating new dataset!\nOGR error: "));
+        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        sFullErr += CPLGetLastErrorMsg();
+        CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
+        }
+        return false;
+    }
+
 
     OGRErr eErr = pDstDataSet->StartTransaction();
 

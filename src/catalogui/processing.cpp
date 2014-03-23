@@ -525,36 +525,58 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
     {
         ProgressDlg.SetTitle(wxString::Format(_("Proceed %d of %d..."), i + 1, paDatasets.size()));
         wxGISDataset* pDataset = paDatasets[i].pDSet->GetDataset(false, &ProgressDlg);
-        wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
+        wxVector<wxGISFeatureDataset*> apFeatureDatasets;
+        if (pDataset->GetSubsetsCount() == 0)
+        {
+            wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
+            if (NULL != pFeatureDataset)
+            {
+                pFeatureDataset->Reference();
+                apFeatureDatasets.push_back(pFeatureDataset);
+            }
+        }
+        else
+        {
+            for (size_t j = 0; j < pDataset->GetSubsetsCount(); ++j)
+            {
+                wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset->GetSubset(j), wxGISFeatureDataset);
+                if (NULL != pFeatureDataset)
+                {
+                    pFeatureDataset->Reference();
+                    apFeatureDatasets.push_back(pFeatureDataset);
+                }
+            }
+        }
 
-        if (NULL == pFeatureDataset)
+        if (apFeatureDatasets.size() == 0)
         {
             wxMessageBox(_("The dataset is empty"), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
             wxLogError(_("wxGISFeatureDataset pointer is null returned"));
             return;
         }
 
-        //create progress dialog
-        if (!pFeatureDataset->IsOpened())
+        for (size_t j = 0; j < apFeatureDatasets.size(); ++j)
         {
-            if (!pFeatureDataset->Open(0, 0, false, &ProgressDlg))
+            if (!apFeatureDatasets[j]->IsOpened())
+            {
+                if (!apFeatureDatasets[j]->Open(0, 0, false, &ProgressDlg))
+                {
+                    wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
+                    wxLogError(ProgressDlg.GetLastMessage());
+                    wsDELETE(apFeatureDatasets[j]);
+                    continue;
+                }
+            }
+
+            if (!ExportFormat(apFeatureDatasets[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, static_cast<ITrackCancel*>(&ProgressDlg)))
             {
                 wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
                 wxLogError(ProgressDlg.GetLastMessage());
-                wsDELETE(pFeatureDataset);
-                return;
+                wsDELETE(apFeatureDatasets[j]);
+                continue;
             }
+            wsDELETE(apFeatureDatasets[j]);
         }
-
-        if (!ExportFormat(pFeatureDataset, sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, static_cast<ITrackCancel*>(&ProgressDlg)))
-        {
-            wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-            wxLogError(ProgressDlg.GetLastMessage());
-            wsDELETE(pFeatureDataset);
-            return;
-        }
-
-        wsDELETE(pFeatureDataset);
     }
     
     if (ProgressDlg.GetWarningCount() > 0)

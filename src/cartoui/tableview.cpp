@@ -132,7 +132,8 @@ void wxGISGridTable::FillForPos(int nRow)
     long nBeg = floor(double(nRow) / FILL_STEP) * FILL_STEP;
 
     wxGISFeature Feature = m_pGISDataset->GetFeature(nBeg);
-    m_moFeatures[nBeg] = Feature;
+    if (Feature.IsOk())
+        m_moFeatures[nBeg] = Feature;
 
     for (long i = nBeg + 1; i < nBeg + FILL_STEP; ++i)
     {
