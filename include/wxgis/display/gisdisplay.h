@@ -54,6 +54,7 @@ public:
 	virtual void Clear();
 	virtual size_t GetLastCacheID(void) const;
 	virtual size_t GetFlashCacheID(void) const;
+	virtual size_t GetDrawingCacheID(void) const;
 	virtual void SetDrawCache(size_t nCacheID, bool bNoDerty = false);
 	virtual size_t GetDrawCache(void) const;
 	virtual bool IsCacheDerty(size_t nCacheID) const;
@@ -143,6 +144,7 @@ protected:
 	bool m_bZeroCacheSet;
 	double m_dFrameRatio;
     double m_dScale;
+    int m_nSysCacheCount;
 
 	//temp cairo for output double buffering
 	cairo_surface_t *m_surface_tmp;

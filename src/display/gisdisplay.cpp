@@ -35,6 +35,8 @@ wxGISDisplay::wxGISDisplay(void)
 	m_dFrameCenterX = 400;
 	m_dFrameCenterY = 300;
 	m_dFrameRatio = 1.3333333333333333333333333333333;
+    m_nSysCacheCount = 0;
+    m_nLastCacheID = 0;
 
 	//create first cached layer
 	m_nMax_X = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
@@ -44,14 +46,21 @@ wxGISDisplay::wxGISDisplay(void)
 	layercachedata.pCairoSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, m_nMax_X, m_nMax_Y);
 	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
 	m_saLayerCaches.push_back(layercachedata);
+    m_nSysCacheCount++;
+
+    //add drawing cache
+    layercachedata.bIsDerty = false;
+	layercachedata.pCairoSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, m_nMax_X, m_nMax_Y);
+	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
+	m_saLayerCaches.push_back(layercachedata);
+    m_nSysCacheCount++;
 
     //add flash cache
     layercachedata.bIsDerty = false;
 	layercachedata.pCairoSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, m_nMax_X, m_nMax_Y);
 	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
 	m_saLayerCaches.push_back(layercachedata);
-
-    m_nLastCacheID = 0;
+    m_nSysCacheCount++;
 
 	m_dCacheCenterX = m_nMax_X / 2;
 	m_dCacheCenterY = m_nMax_Y / 2;
@@ -82,16 +91,16 @@ wxGISDisplay::~wxGISDisplay(void)
 
 void wxGISDisplay::Clear()
 {
-    wxCHECK_RET(m_saLayerCaches.size() - m_nLastCacheID == 2, wxT("Draw caches inconsistent"));
+    wxCHECK_RET(m_saLayerCaches.size() - m_nLastCacheID == m_nSysCacheCount, wxT("Draw caches inconsistent"));
 
-    if(m_saLayerCaches.size() > 2)
+    if (m_saLayerCaches.size() > m_nSysCacheCount)
     {
 	    for(size_t i = 1; i <= m_nLastCacheID; ++i)
 	    {
 		    cairo_destroy(m_saLayerCaches[i].pCairoContext);
 		    cairo_surface_destroy(m_saLayerCaches[i].pCairoSurface);
 	    }
-        m_saLayerCaches.erase(m_saLayerCaches.begin() + 1, m_saLayerCaches.end() - 1);
+        m_saLayerCaches.erase(m_saLayerCaches.begin() + 1, m_saLayerCaches.end() - (m_nSysCacheCount - 1));
     }
 
 	//default map bounds
@@ -150,6 +159,7 @@ void wxGISDisplay::OnEraseBackground(void)
 
 void wxGISDisplay::Output(wxDC* pDC)
 {
+    //TODO: draw all 1 - size caches to tmp_surface
 	wxCriticalSectionLocker locker(m_CritSect);
 
 	cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
@@ -383,6 +393,11 @@ size_t wxGISDisplay::GetFlashCacheID(void) const
 	return m_saLayerCaches.size() - 1;
 }
 
+size_t wxGISDisplay::GetDrawingCacheID(void) const
+{
+	return m_saLayerCaches.size() - 2;
+}
+
 bool wxGISDisplay::IsCacheDerty(size_t nCacheID) const
 {
 	return m_saLayerCaches[nCacheID].bIsDerty;
@@ -402,17 +417,26 @@ void wxGISDisplay::SetDrawCache(size_t nCacheID, bool bNoDerty)
     else
     {
 		//merge previous cache
+        if (m_nCurrentLayer > nCacheID)
+        {
+            m_nCurrentLayer = nCacheID - 1;
+        }
 		//TODO: clip by frame size cairo_clip()?
-		cairo_save(m_saLayerCaches[nCacheID].pCairoContext);
+        //TODO: rewrite to parallel cache drawing
+        for (int i = m_nCurrentLayer; i < nCacheID; ++i)
+        {
+		    cairo_save(m_saLayerCaches[i + 1].pCairoContext);
 
-		cairo_matrix_t mat = {1, 0, 0, 1, 0, 0};
-		cairo_set_matrix (m_saLayerCaches[nCacheID].pCairoContext, &mat);
+		    cairo_matrix_t mat = {1, 0, 0, 1, 0, 0};
+            cairo_set_matrix(m_saLayerCaches[i + 1].pCairoContext, &mat);
 
-		cairo_set_source_surface (m_saLayerCaches[nCacheID].pCairoContext, m_saLayerCaches[nCacheID - 1].pCairoSurface, 0, 0);
-		cairo_set_operator (m_saLayerCaches[nCacheID].pCairoContext, CAIRO_OPERATOR_SOURCE);
-		cairo_paint (m_saLayerCaches[nCacheID].pCairoContext);
 
-		cairo_restore(m_saLayerCaches[nCacheID].pCairoContext);
+            cairo_set_source_surface(m_saLayerCaches[i + 1].pCairoContext, m_saLayerCaches[i].pCairoSurface, 0, 0);
+            cairo_set_operator(m_saLayerCaches[i + 1].pCairoContext, CAIRO_OPERATOR_SOURCE);
+            cairo_paint(m_saLayerCaches[i + 1].pCairoContext);
+
+            cairo_restore(m_saLayerCaches[i + 1].pCairoContext);
+        }
 
 		m_nCurrentLayer = nCacheID;
     }
@@ -695,26 +719,31 @@ bool wxGISDisplay::DrawPointFast(double dX, double dY, double dOffsetX, double d
 	return true;
 }
 
+//TODO: move to cache class
 void wxGISDisplay::SetLineCap(cairo_line_cap_t line_cap)
 {
 	cairo_set_line_cap(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_cap);
 }
 
+//TODO: move to cache class
 void wxGISDisplay::SetLineJoin(cairo_line_join_t line_join)
 {
 	cairo_set_line_join(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_join);
 }
 
+//TODO: move to cache class
 void wxGISDisplay::SetLineWidth(double dWidth)
 {
     cairo_set_line_width(m_saLayerCaches[m_nCurrentLayer].pCairoContext, GetScaledWidth(dWidth));
 }
 
+//TODO: move to cache class
 void wxGISDisplay::SetMiterLimit(double dMiterLimit)
 {
     cairo_set_miter_limit(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dMiterLimit);
 }
 
+//TODO: move to cache class
 void wxGISDisplay::SetFillRule(cairo_fill_rule_t fill_rule)
 {
 	cairo_set_fill_rule(m_saLayerCaches[m_nCurrentLayer].pCairoContext, fill_rule);

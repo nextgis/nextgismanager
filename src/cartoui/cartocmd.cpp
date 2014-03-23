@@ -51,7 +51,7 @@
 // wxGISCartoMainCmd
 //--------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISCartoMainCmd, wxObject)
+IMPLEMENT_DYNAMIC_CLASS(wxGISCartoMainCmd, wxGISCommand)
 
 
 wxGISCartoMainCmd::wxGISCartoMainCmd(void) : wxGISCommand()
@@ -270,7 +270,7 @@ unsigned char wxGISCartoMainCmd::GetCount(void)
 //	3	//Info
 //	4	//?
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISCartoMainTool, wxObject)
+IMPLEMENT_DYNAMIC_CLASS(wxGISCartoMainTool, wxGISCommand)
 
 
 wxGISCartoMainTool::wxGISCartoMainTool(void)
@@ -685,7 +685,7 @@ void wxGISCartoMainTool::OnMouseDoubleClick(wxMouseEvent& event)
 //	2	//Input Rotate Angle
 //	3	//?
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISCartoFrameTool, wxObject)
+IMPLEMENT_DYNAMIC_CLASS(wxGISCartoFrameTool, wxGISCommand)
 
 
 wxGISCartoFrameTool::wxGISCartoFrameTool(void) : m_pMapView(NULL), m_bCheck(false)

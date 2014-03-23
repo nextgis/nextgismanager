@@ -25,8 +25,11 @@
 #include "wxgis/cartoui/mxeventui.h"
 #include "wxgis/cartoui/identifydlg.h"
 
-/** \class wxGISRotationComboBox cartocmd.h
-    \brief The frame angle rotation input combobox.
+/** @class wxGISRotationComboBox 
+
+    The frame angle rotation input combobox.
+
+    @library {cartoui}
 */
 
 class wxGISRotationComboBox : 
@@ -52,8 +55,11 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISCartoMainCmd cartocmd.h
-    \brief The carto main commands.
+/** @class wxGISCartoMainCmd
+    
+    The carto main commands.
+
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISCartoMainCmd :
@@ -82,8 +88,11 @@ private:
     WINDOWARRAY m_anMapWinIDs;
 };
 
-/** \class wxGISCartoMainTool cartocmd.h
-    \brief The carto main tool.
+/** @class wxGISCartoMainTool
+    
+    The carto main tool.
+
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISCartoMainTool :
@@ -122,8 +131,11 @@ private:
 	bool m_bCheck;
 };
 
-/** \class wxGISCartoFrameTool cartocmd.h
-    \brief The carto frame tools and commands.
+/** @class wxGISCartoFrameTool
+
+    The carto frame tools and commands.
+
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISCartoFrameTool :
