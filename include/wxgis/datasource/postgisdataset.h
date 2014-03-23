@@ -24,7 +24,7 @@
 
 #ifdef wxGIS_USE_POSTGRES
 
-#include "gdal/ogr_pg.h"
+//#include "gdal/ogr_pg.h"
 
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/filter.h"
@@ -49,16 +49,16 @@ public:
     virtual wxString GetName(void) const;
     virtual bool Open(int bUpdate = FALSE);
 	//wxGISPostGISDataset
-    wxGISDataset* ExecuteSQL(const wxString &sStatement, const wxString &sDialect = wxT("OGRSQL"));
+    bool ExecuteSQL(const wxString &sStatement);
+    wxGISDataset* ExecuteSQL2(const wxString &sStatement, const wxString &sDialect = wxT("OGRSQL"));
     //the geometry in spatial filter should have the same SpaRef as the target layer 
-    wxGISDataset* ExecuteSQL(const wxGISSpatialFilter &SpatialFilter, const wxString &sDialect = wxT("OGRSQL"));
-    bool PGExecuteSQL(const wxString &sStatement);
+    wxGISDataset* ExecuteSQL2(const wxGISSpatialFilter &SpatialFilter, const wxString &sDialect = wxT("OGRSQL"));
+    //bool PGExecuteSQL(const wxString &sStatement);
     bool CreateSchema(const wxString &sSchemaName);
     bool DeleteSchema(const wxString &sSchemaName);
     bool RenameSchema(const wxString &sSchemaName, const wxString &sSchemaNewName);
     bool RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName);
     bool MoveTable(const wxString &sTableName, const wxString &sSchemaName, const wxString &sSchemaNewName);
-    //wxGISDataset* PGExecuteSQL( const wxString &sStatement, bool bMultipleCommandAllowed = FALSE );
     //wxGISDataset
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
@@ -70,15 +70,6 @@ public:
     virtual wxFontEncoding GetEncoding() const { return m_Encoding; };
     static wxString NormalizeTableName(const wxString &sSrcName);
 protected:    
-    inline void OGRPGClearResult( PGresult*& hResult )
-    {
-        if( NULL != hResult )
-        {
-            PQclear( hResult );
-            hResult = NULL;
-        }
-    }
-    PGresult *OGRPG_PQexec(PGconn *conn, const char *query, int bMultipleCommandAllowed = FALSE);
 	wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
 protected:
 	OGRDataSource *m_poDS;

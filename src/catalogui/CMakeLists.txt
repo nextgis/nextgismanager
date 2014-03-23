@@ -134,7 +134,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxshellconnectionsui.h
     ${LIB_HEADERS}/gxshellconnfactoryui.h
     ${LIB_HEADERS}/gxgisprojui.h
-    ${LIB_HEADERS}/gxgisprojfactoryui.h)
+    ${LIB_HEADERS}/gxgisprojfactoryui.h
+)
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/catalogcmd.cpp

@@ -32,7 +32,7 @@ IMPLEMENT_CLASS(wxGxPostGISTableDataset, wxGxTableDataset)
 wxGxPostGISTableDataset::wxGxPostGISTableDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTableDataset(enumTablePostgres, oParent, soName, soPath)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
-    m_sFullyQualifiedName = sSchema + wxT(".") + soName;
+    m_sFullyQualifiedName = wxT("\"") + sSchema + wxT("\".\"") + soName + wxT("\"");
     m_sSchemaName = sSchema;
 }
 
@@ -62,7 +62,7 @@ void wxGxPostGISTableDataset::FillMetadata(bool bForce)
     wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
     m_pwxGISRemoteConn->ExecuteSQL(sStatement);
 
-    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(sStatement, wxT("PG")), wxGISTableCached);
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sStatement, wxT("PG")), wxGISTableCached);
     if (NULL != pTableList)
     {
         wxFeatureCursor Cursor = pTableList->Search(wxGISNullQueryFilter, true);
@@ -138,7 +138,7 @@ IMPLEMENT_CLASS(wxGxPostGISFeatureDataset, wxGxFeatureDataset)
 wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecPostGIS, oParent, soName, soPath)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
-    m_sFullyQualifiedName = sSchema + wxT(".") + soName;
+    m_sFullyQualifiedName = wxT("\"") + sSchema + wxT("\".\"") + soName + wxT("\"");
     m_sSchemaName = sSchema;
 }
 
@@ -168,7 +168,7 @@ void wxGxPostGISFeatureDataset::FillMetadata(bool bForce)
     wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
     m_pwxGISRemoteConn->ExecuteSQL(sStatement);
 
-    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL(sStatement, wxT("PG")), wxGISTableCached);
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sStatement, wxT("PG")), wxGISTableCached);
     if (NULL != pTableList)
     {
         wxFeatureCursor Cursor = pTableList->Search(wxGISNullQueryFilter, true);

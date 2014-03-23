@@ -67,6 +67,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/rasterdatasetcmd.h
     ${LIB_HEADERS}/sqlquerydialog.h
     ${LIB_HEADERS}/tableview.h
+    ${LIB_HEADERS}/drawingcmd.h
+    ${LIB_HEADERS}/drawingmap.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -78,7 +80,9 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/mxeventui.cpp
     ${LIB_SOURCES}/rasterdatasetcmd.cpp
     ${LIB_SOURCES}/sqlquerydialog.cpp
-    ${LIB_SOURCES}/tableview.cpp    
+    ${LIB_SOURCES}/tableview.cpp  
+    ${LIB_SOURCES}/drawingcmd.cpp
+    ${LIB_SOURCES}/drawingmap.cpp  
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CTU)
