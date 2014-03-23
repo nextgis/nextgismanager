@@ -94,6 +94,74 @@ void wxGISApplication::OnCommand(wxCommandEvent& event)
 	}
 }
 
+void wxGISApplication::Command(wxGISCommand* pCmd)
+{
+    if (NULL == pCmd)
+        return;
+    ITool* pTool(NULL);
+    if ((pTool = dynamic_cast<ITool*>(pCmd)) != NULL)//pCmd->GetKind() == enumGISCommandCheck && 
+    {
+        //check
+        pTool->SetChecked(true);
+        //uncheck
+        if (m_CurrentTool)
+        {
+            m_CurrentTool->SetChecked(false);
+
+            for (size_t i = 0; i < m_CommandBarArray.size(); ++i)
+            {
+                if (m_CommandBarArray[i]->GetType() == enumGISCBToolbar)
+                {
+                    wxAuiToolBar* pToolbar = dynamic_cast<wxAuiToolBar*>(m_CommandBarArray[i]);
+                    if (pToolbar && pCmd)
+                    {
+                        wxAuiToolBarItem* pAuiTool;
+                        
+                        if (m_CurrentTool != pTool)
+                        {
+                            pAuiTool  = pToolbar->FindTool(m_CurrentTool->GetID());
+                            if (pAuiTool)
+                            {
+                                pAuiTool->SetState(wxAUI_BUTTON_STATE_NORMAL);
+                                pToolbar->RefreshRect(pToolbar->GetToolRect(pAuiTool->GetId()));
+                            }
+                        }
+
+                        pAuiTool = pToolbar->FindTool(pTool->GetID());
+                        if (pAuiTool)
+                        {
+                            wxIcon Bmp = pCmd->GetBitmap();
+                            if (Bmp.IsOk())
+                            {
+                                if (!pAuiTool->GetBitmap().IsSameAs(Bmp))
+                                {
+                                    pAuiTool->SetBitmap(Bmp);
+                                    pToolbar->RefreshRect(pToolbar->GetToolRect(pAuiTool->GetId()));
+                                }
+                            }
+
+                            if (pCmd->GetKind() == enumGISCommandDropDown)
+                            {
+                                if (pCmd->GetChecked())
+                                {
+                                    pAuiTool->SetState(wxAUI_BUTTON_STATE_CHECKED);
+                                    pToolbar->RefreshRect(pToolbar->GetToolRect(pAuiTool->GetId()));
+                                }
+                            }
+                        }                        
+                    }
+                }
+            }
+        }
+
+        m_CurrentTool = pTool;
+    }
+    else
+    {
+        pCmd->OnClick();
+    }
+}
+
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 {
     //event.Skip();
@@ -111,7 +179,7 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 
         event.SetText(sCaption);
 //#ifdef __WXMSW__
-		if(pCmd->GetKind() == enumGISCommandCheck)
+        if (pCmd->GetKind() == enumGISCommandCheck)
 //#endif
             event.Check(pCmd->GetChecked());
 
@@ -198,8 +266,10 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
         case enumGISCBToolbar:
             {
                 wxGISToolBar* pGISToolBar = dynamic_cast<wxGISToolBar*>(m_CommandBarArray[i]);
-                if(pGISToolBar)
+                if (pGISToolBar)
+                {
                     pGISToolBar->UpdateControls();
+                }
                 wxAuiToolBar* pToolbar = dynamic_cast<wxAuiToolBar*>(m_CommandBarArray[i]);
                 if(pToolbar && pCmd)
                 {
@@ -210,16 +280,6 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
                             pTool->SetShortHelp(pCmd->GetTooltip() + wxT(" (") + sAcc + wxT(")"));
                         else
                             pTool->SetShortHelp(pCmd->GetTooltip());
-//#ifdef __WXMSW__
-                        if(!pTool->GetBitmap().IsOk())
-                        {
-                            wxIcon Bmp = pCmd->GetBitmap();
-                            if(Bmp.IsOk())
-                                pTool->SetBitmap(Bmp);
-                            else
-                                pTool->SetBitmap(wxBitmap(tool_16_xpm));
-                        }
-//#endif //__WXMSW__
                     }
                 }
             }

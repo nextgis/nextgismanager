@@ -47,7 +47,7 @@ public:
 	virtual ~wxGISMapView(void);
     virtual bool Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE, const wxString& name = wxT("GISMapView"));//wxSTATIC_BORDER|
 	virtual void SetTrackCancel(ITrackCancel* pTrackCancel);
-	virtual wxGISDisplay* GetDisplay(void){return m_pGISDisplay;};
+	virtual wxGISDisplay* GetDisplay(void) const {return m_pGISDisplay;};
 	//wxGISExtentStack
 	virtual bool AddLayer(wxGISLayer* pLayer);
 	virtual void Clear(void);

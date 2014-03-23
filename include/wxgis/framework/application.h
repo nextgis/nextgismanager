@@ -53,6 +53,7 @@ public:
 	virtual void ShowStatusBar(bool bShow);
 	virtual bool IsStatusBarShown(void);
 	virtual void ShowToolBarMenu(void);
+    virtual void Command(wxGISCommand* pCmd);
  //IApplication
     virtual bool CreateApp(void);
     virtual void OnAppOptions(void);

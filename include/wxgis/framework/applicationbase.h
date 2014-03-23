@@ -80,6 +80,7 @@ public:
 	virtual void RegisterChildWindow(wxWindowID nWndID);
 	virtual void UnRegisterChildWindow(wxWindowID nWndID);
     virtual wxWindow* GetRegisteredWindowByType(const wxClassInfo * info) const;
+	virtual void Command(wxGISCommand* pCmd);
     //IApplication
     virtual wxString GetAppName(void) const{return wxEmptyString;};
     virtual wxString GetAppVersionString(void) const{return wxEmptyString;};
@@ -99,7 +100,6 @@ public:
 protected:
     virtual void LoadCommands(wxXmlNode* pRootNode);
 	virtual void LoadMenues(wxXmlNode* pRootNode);
-	virtual void Command(wxGISCommand* pCmd);
 protected:
 	wxCommandPtrArray m_CommandArray;
 	wxGISCommandBarPtrArray m_CommandBarArray;

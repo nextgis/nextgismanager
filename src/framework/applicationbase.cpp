@@ -260,10 +260,10 @@ void wxGISApplicationBase::LoadMenues(wxXmlNode* pRootNode)
 
 void wxGISApplicationBase::Command(wxGISCommand* pCmd)
 {
-    if(!pCmd)
+    if(NULL == pCmd)
         return;
 	ITool* pTool(NULL);
-	if(pCmd->GetKind() == enumGISCommandCheck && (pTool = dynamic_cast<ITool*>(pCmd)) != NULL)
+	if((pTool = dynamic_cast<ITool*>(pCmd)) != NULL)//pCmd->GetKind() == enumGISCommandCheck && 
 	{
 		//uncheck
 		if(m_CurrentTool)
@@ -272,8 +272,10 @@ void wxGISApplicationBase::Command(wxGISCommand* pCmd)
 		pTool->SetChecked(true);
 		m_CurrentTool = pTool;
 	}
-	else
+    else
+    {
 		pCmd->OnClick();
+    }
 }
 
 bool wxGISApplicationBase::CreateApp(void)
