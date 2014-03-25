@@ -74,6 +74,11 @@ bool wxGISLayer::IsValid(void) const
 	return true;
 }
 
+bool wxGISLayer::IsCacheNeeded(void) const
+{
+	return true;
+}
+
 bool wxGISLayer::IsLoading() const
 {
     return false;

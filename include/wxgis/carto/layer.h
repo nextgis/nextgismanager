@@ -46,7 +46,7 @@ public:
 	virtual void SetVisible(bool bVisible){m_bVisible = bVisible;};
 	virtual void SetName(const wxString &sName){m_sName = sName;};
 	virtual wxString GetName(void) const {return m_sName;};
-	virtual bool IsCacheNeeded(void) const {return true;};
+	virtual bool IsCacheNeeded(void) const;
 	virtual wxGISEnumDatasetType GetType(void) const {return enumGISAny;};
 	virtual bool IsValid(void) const;
 	virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel = NULL) = 0;

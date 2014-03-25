@@ -603,6 +603,7 @@ BEGIN_EVENT_TABLE(wxGxLocationComboBox, wxComboCtrl)
     EVT_KILL_FOCUS(wxGxLocationComboBox::OnKillFocus)
     EVT_CHAR(wxGxLocationComboBox::OnChar)
     EVT_MOUSEWHEEL(wxGxLocationComboBox::OnMouseWheel)
+    EVT_LEFT_DCLICK(wxGxLocationComboBox::OnMouseDblClick)
 END_EVENT_TABLE()
 
 wxGxLocationComboBox::wxGxLocationComboBox(wxWindow* parent, wxWindowID id, const wxSize& size) : wxComboCtrl(parent, id, wxEmptyString, wxDefaultPosition, size, wxTE_PROCESS_ENTER), wxGxPathsListViewPopupParent()
@@ -823,5 +824,14 @@ void wxGxLocationComboBox::OnChar(wxKeyEvent& event)
 void wxGxLocationComboBox::OnMouseWheel(wxMouseEvent& event)
 {
     wxGxPathsListViewPopupParent::OnMouseWheel(event);
+}
+
+void wxGxLocationComboBox::OnMouseDblClick(wxMouseEvent& event)
+{
+    event.Skip();
+    //select last dir
+    wxString sPath = GetValue();
+    int nPos = sPath.Find(wxFileName::GetPathSeparator(), true);
+    SetSelection(nPos, sPath.Len());
 }
 

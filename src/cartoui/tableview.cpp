@@ -129,6 +129,8 @@ bool wxGISGridTable::IsEmptyCell(int row, int col)
 
 void wxGISGridTable::FillForPos(int nRow)
 {
+    wxBusyCursor wait;
+
     long nBeg = floor(double(nRow) / FILL_STEP) * FILL_STEP;
 
     wxGISFeature Feature = m_pGISDataset->GetFeature(nBeg);
@@ -219,6 +221,9 @@ void wxGridCtrl::SetEncoding(const wxFontEncoding &eEnc)
         {
             pDs->SetEncoding(eEnc);
         }
+
+        wxBusyCursor wait;
+
         pTable->ClearFeatures();
         ClearGrid();
     }

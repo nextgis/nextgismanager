@@ -524,22 +524,24 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
             wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
             IGxObjectTreeAttr* pGxObjectAttr = dynamic_cast<IGxObjectTreeAttr*>(pGxObject);
 
-            wxString sName;
-            if (m_pCatalog->GetShowExt())
+            if (NULL != pGxObject)
             {
-                sName = pGxObject->GetName();
-            }
-            else
-            {
-                sName = pGxObject->GetBaseName();
-            }
+                wxString sName;
+                if (m_pCatalog->GetShowExt())
+                {
+                    sName = pGxObject->GetName();
+                }
+                else
+                {
+                    sName = pGxObject->GetBaseName();
+                }
 
-            if (NULL != pGxObjectAttr && pGxObjectAttr->ShowCount())
-            {
-                sName.Append(wxString::Format(wxT(" [%d]"), pGxObjectAttr->GetCount()));
+                if (NULL != pGxObjectAttr && pGxObjectAttr->ShowCount())
+                {
+                    sName.Append(wxString::Format(wxT(" [%d]"), pGxObjectAttr->GetCount()));
+                }
+                SetItemText(TreeItemId, sName);
             }
-            SetItemText(TreeItemId, sName);
-
 
             if (NULL != pGxObjectUI)
             {

@@ -32,7 +32,7 @@ class WXDLLIMPEXP_GIS_CRT wxGISRasterLayer :
 {
     DECLARE_CLASS(wxGISRasterLayer)
 public:
-	wxGISRasterLayer(const wxString &sName = _("new layer"), wxGISDataset* pwxGISDataset = NULL);
+	wxGISRasterLayer(const wxString &sName = _("new raster layer"), wxGISDataset* pwxGISDataset = NULL);
 	virtual ~wxGISRasterLayer(void);
 //wxGISLayer
 	virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel * const pTrackCancel = NULL);

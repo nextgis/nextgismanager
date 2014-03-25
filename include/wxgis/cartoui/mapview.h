@@ -26,8 +26,11 @@
 #include "wxgis/cartoui/mxeventui.h"
 #include "wxgis/carto/mxevent.h"
 
-/** \class wxGISMapView mapview.h
-    \brief The MapView class draw layers to wxWindow.
+/** @class wxGISMapView
+
+    The MapView class draw layers to wxWindow.
+
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISMapView :
@@ -70,9 +73,9 @@ public:
     virtual void AddFlashGeometry(const wxGISGeometry& Geometry, wxGISSymbol* const pSymbol, unsigned char nPhase = 1);
     virtual void StartFlashing(wxGISEnumFlashStyle eFlashStyle = enumGISMapFlashNewColor);
 
-    /** \struct _flash_geometry mapview.h
-        \brief The geometry needed to be flashed on map.
-
+    /** @struct _flash_geometry
+        
+        The geometry needed to be flashed on map.
         stFillColour and stLineColour set drawing style and phase used in multistep flashing
     */
 

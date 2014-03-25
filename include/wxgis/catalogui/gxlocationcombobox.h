@@ -186,6 +186,7 @@ public:
     virtual void OnKillFocus(wxFocusEvent& event);
     virtual void OnChar(wxKeyEvent& event);
     virtual void OnMouseWheel(wxMouseEvent& event);
+    virtual void OnMouseDblClick(wxMouseEvent& event);
 protected:
 	wxGxApplication* m_pApp;
 	wxArrayString m_ValuesArr;

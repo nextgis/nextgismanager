@@ -25,8 +25,11 @@
 #include "wxgis/datasource/vectorop.h"
 #include "wxgis/carto/featurerenderer.h"
 
-/** \class wxGISFeatureLayer featurelayer.h
-    \brief The class represent vector datasource in map.
+/** @class wxGISFeatureLayer
+    
+    The class represent vector datasource in map.
+
+    @library{carto}
 */
 
 class WXDLLIMPEXP_GIS_CRT wxGISFeatureLayer :
@@ -34,7 +37,7 @@ class WXDLLIMPEXP_GIS_CRT wxGISFeatureLayer :
 {
     DECLARE_CLASS(wxGISFeatureLayer)
 public:
-	wxGISFeatureLayer(const wxString &sName = _("new layer"), wxGISDataset* pwxGISDataset = NULL);
+	wxGISFeatureLayer(const wxString &sName = _("new feature layer"), wxGISDataset* pwxGISDataset = NULL);
 	virtual ~wxGISFeatureLayer(void);
 //wxGISLayer
 	virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel = NULL);

@@ -121,14 +121,12 @@ wxGISDataset* wxGISPostgresDataSource::GetSubset(const wxString &sTableName)
     {
         CPLString sCmpName;
         wxString woPublicStr;
-        if (sTableName.StartsWith(wxT("public."), &woPublicStr))
+        if (!sTableName.StartsWith(wxT("public."), &woPublicStr))
         {
-            sCmpName = CPLString(woPublicStr.mb_str(wxConvUTF8));
+            woPublicStr = sTableName;
         }
-        else
-        {
-            sCmpName = CPLString(sTableName.mb_str(wxConvUTF8));
-        }
+        woPublicStr.Replace(wxT("\""), wxT(""));
+        sCmpName = CPLString(woPublicStr.ToUTF8());
         //for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
         //{
         //    OGRLayer* poLayer = m_poDS->GetLayer(i);
