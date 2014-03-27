@@ -3,7 +3,7 @@
  * Purpose:  wxGISAnimation class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012 Bishop
+*   Copyright (C) 2009,2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,10 +23,11 @@
 #include "wxgis/framework/framework.h"
 #include "wx/imaglist.h"
 
-/** \class wxGISAnimation animation.h
-    \brief The rotating globe animation class.
+/** @class wxGISAnimation animation.h
+    
+    The rotating globe animation class. The bitmap for animation may be any.
 
-    The bitmap for animation may be any
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISAnimation :
@@ -36,28 +37,28 @@ class WXDLLIMPEXP_GIS_FRW wxGISAnimation :
     DECLARE_CLASS(wxGISAnimation)
     enum
     {
-        ATIMER_ID = 1012
+        ATIMER_ID = 1012,
+        START_ID,
+        STOP_ID
     };
+
 public:
-	wxGISAnimation(wxWindow * parent, wxWindowID id = wxID_ANY,
-		const wxBitmap & bitmap = wxNullBitmap, const int bitmap_size = 16,
-		const wxPoint & pos = wxDefaultPosition,
-		const wxSize & size = wxDefaultSize,
-		long style = wxNO_BORDER,
-		const wxString name = wxT("Ani"));
+	wxGISAnimation(wxWindow * parent, wxWindowID id = wxID_ANY, const wxBitmap & bitmap = wxNullBitmap, const int bitmap_size = 16, const wxPoint & pos = wxDefaultPosition, const wxSize & size = wxDefaultSize, long style = wxNO_BORDER, const wxString name = wxT("Ani"));
 	virtual ~wxGISAnimation(void);
 	void OnPaint(wxPaintEvent & event);
 	void OnEraseBackground(wxEraseEvent & event);
     void OnTimer( wxTimerEvent & event);
 	//IProgressor
 	virtual bool ShowProgress(bool bShow);
-	virtual void Play(void){ m_timer.Start(50); };
-	virtual void Stop(void){ m_timer.Stop(); };
+	virtual void Play(void);
+    virtual void Stop(void);
     virtual void SetRange(int range){};
     virtual int GetRange() const {return 0;};
     virtual void SetValue(int value){};
     virtual int GetValue() const {return 0;};
 	virtual void SetYield(bool bYield = false);
+    //events
+    virtual void OnChangeState(wxCommandEvent &event);
 protected:
 	wxImageList m_ImageList;
 	int m_nImgPos;

@@ -48,4 +48,5 @@ WXDLLIMPEXP_GIS_CLU void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLS
 WXDLLIMPEXP_GIS_CLU void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleTableDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 
+void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs);
 #endif // wxGIS_HAVE_GEOPROCESSING

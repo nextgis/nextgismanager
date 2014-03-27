@@ -3,7 +3,7 @@
  * Purpose:  wxGISAnimation class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012 Bishop
+*   Copyright (C) 2009,2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ BEGIN_EVENT_TABLE(wxGISAnimation, wxControl)
 	EVT_PAINT(wxGISAnimation::OnPaint)
 	EVT_ERASE_BACKGROUND(wxGISAnimation::OnEraseBackground)
 	EVT_TIMER( ATIMER_ID, wxGISAnimation::OnTimer )
+    EVT_COMMAND(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxGISAnimation::OnChangeState)
 END_EVENT_TABLE()
 
 wxGISAnimation::wxGISAnimation(wxWindow * parent, wxWindowID id, const wxBitmap & bitmap, const int bitmap_size, const wxPoint & pos, const wxSize & size, long style, const wxString name) : wxControl(parent, id, pos, size, style, wxDefaultValidator, name), m_timer(this, ATIMER_ID), m_bYield(true)
@@ -79,4 +80,33 @@ void wxGISAnimation::SetYield(bool bYield)
 bool wxGISAnimation::ShowProgress(bool bShow)
 {
     return Show(bShow);
+}
+
+void wxGISAnimation::Play(void)
+{ 
+    wxCommandEvent ChangeStateEvent(wxEVT_COMMAND_BUTTON_CLICKED);
+    ChangeStateEvent.SetId(START_ID);
+    wxPostEvent(this, ChangeStateEvent);
+}
+
+void wxGISAnimation::Stop(void)
+{ 
+    wxCommandEvent ChangeStateEvent(wxEVT_COMMAND_BUTTON_CLICKED);
+    ChangeStateEvent.SetId(STOP_ID);
+    wxPostEvent(this, ChangeStateEvent);   
+}
+
+void wxGISAnimation::OnChangeState(wxCommandEvent &event)
+{
+    switch (event.GetId())
+    {
+    case START_ID:
+        m_timer.Start(50);
+        break;
+    case STOP_ID:
+        m_timer.Stop();
+        break;
+    default:
+        break;
+    }
 }

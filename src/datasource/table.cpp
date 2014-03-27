@@ -147,7 +147,7 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
 
 size_t wxGISTable::GetSubsetsCount(void) const
 {
-    if(m_poDS)
+    if (m_poDS && m_nType == enumGISContainer)
         return  m_poDS->GetLayerCount();
     return 0;
 }

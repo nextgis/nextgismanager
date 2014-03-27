@@ -235,6 +235,11 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
 
     SetInternalValues();
 
+    if (m_nSubType == enumVecKML || m_nSubType == enumVecKMZ)
+    {
+        m_nType = enumGISContainer;
+    }
+
 	m_bIsOpened = true;
 
     if(bCache)
@@ -678,13 +683,13 @@ wxGISFeature wxGISFeatureDatasetCached::GetFeature(long nIndex)
 size_t wxGISFeatureDatasetCached::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel)
 {
     wxCriticalSectionLocker locker(m_CritSect);
-    if (!bForce && m_nFeatureCount != wxNOT_FOUND)
+    //ignore force
+    if (m_nFeatureCount != wxNOT_FOUND)
 		return m_nFeatureCount;
     if(	m_poLayer )
     {
-        if(bForce)
+        if (m_omFeatures.empty())
         {
-            m_bIsCached = false;
             Cache(pTrackCancel);
         }
         else if(m_bOLCFastFeatureCount)
@@ -694,7 +699,6 @@ size_t wxGISFeatureDatasetCached::GetFeatureCount(bool bForce, ITrackCancel* con
         	m_nFeatureCount = m_poLayer->GetFeatureCount(0);
             if(m_nFeatureCount == wxNOT_FOUND)
             {
-                m_bIsCached = false;
                 Cache(pTrackCancel);
             }
             if(m_nFeatureCount == wxNOT_FOUND)

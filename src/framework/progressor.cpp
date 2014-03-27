@@ -165,5 +165,7 @@ void wxGISProgressor::OnSetValue(wxCommandEvent &event)
     case RANGE_ID:
         wxGauge::SetRange(event.GetInt());
         break;
+    default:
+        break;
     }
 }

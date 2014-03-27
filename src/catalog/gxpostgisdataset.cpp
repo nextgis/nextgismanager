@@ -166,8 +166,6 @@ void wxGxPostGISFeatureDataset::FillMetadata(bool bForce)
     m_bIsMetadataFilled = true;
 
     wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
-    m_pwxGISRemoteConn->ExecuteSQL(sStatement);
-
     wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sStatement, wxT("PG")), wxGISTableCached);
     if (NULL != pTableList)
     {

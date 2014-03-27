@@ -25,7 +25,7 @@
 
 /** @class wxGISProgressor
 
-    The progressor (gauge) class.
+    The progress bar (gauge) class.
 
     @library{framework}
 */
