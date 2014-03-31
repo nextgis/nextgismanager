@@ -194,7 +194,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 {
     const wxGISSpatialReference oSrcSRS = pSrcDataSet->GetSpatialReference();
     const wxGISSpatialReference oDstSRS = pDstDataSet->GetSpatialReference();
-    OGRCoordinateTransformation *poCT(NULL);
+    OGRCoordinateTransformation *poCT = NULL;
     
     if (oSrcSRS.IsOk() && oDstSRS.IsOk() && !oSrcSRS.IsSame(oDstSRS))
     {
@@ -350,7 +350,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                 if (wkbFlatten(Geom.GetType()) != wkbUnknown)
                 {                    
                     OGRErr eErr = pNewGeom->transform(poCT);
-                    if (eErr == OGRERR_NONE)
+                    if (eErr != OGRERR_NONE)
                     {
                         pTrackCancel->PutMessage(wxString::Format(_("Geometry transform failed\nFeature id %d"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
                     }
@@ -536,7 +536,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     //set filter
     pSrsDataSet->SetFilter(SpaFilter);
 
-    if (pSrsDataSet->GetFeatureCount(false, pTrackCancel) == 0 && !bCreateEmpty)
+    if (pSrsDataSet->GetFeatureCount(true, pTrackCancel) == 0 && !bCreateEmpty)
     {
         pSrsDataSet->SetFilter();
         if (pTrackCancel)
@@ -734,7 +734,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         OGRFeatureDefn *pNewDef = pDef->Clone();
         pNewDef->SetGeomType( wkbPoint );
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_point")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_point")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
@@ -770,7 +770,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbPolygon);
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_polygon")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_polygon")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
@@ -805,7 +805,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbLineString);
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_line")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_line")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
@@ -840,7 +840,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbMultiPoint);
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mpoint")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mpoint")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
@@ -875,7 +875,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbMultiLineString);
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mline")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mline")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
@@ -910,7 +910,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
         pNewDef = pDef->Clone();
         pNewDef->SetGeomType(wkbMultiPolygon);
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mpolygon")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxString(_("_mpolygon")), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, pTrackCancel))
         {
             return false;
         }
