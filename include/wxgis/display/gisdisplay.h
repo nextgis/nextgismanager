@@ -3,7 +3,7 @@
  * Purpose:  wxGISDisplay class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2013 Bishop
+*   Copyright (C) 2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,6 @@ public:
 	virtual void Clear();
 	virtual size_t GetLastCacheID(void) const;
 	virtual size_t GetFlashCacheID(void) const;
-	virtual size_t GetDrawingCacheID(void) const;
 	virtual void SetDrawCache(size_t nCacheID, bool bNoDerty = false);
 	virtual size_t GetDrawCache(void) const;
 	virtual bool IsCacheDerty(size_t nCacheID) const;

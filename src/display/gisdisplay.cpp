@@ -3,7 +3,7 @@
  * Purpose:  wxGISDisplay class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2013 Bishop
+*   Copyright (C) 2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -43,13 +43,6 @@ wxGISDisplay::wxGISDisplay(void)
 	m_nMax_Y = wxSystemSettings::GetMetric(wxSYS_SCREEN_Y);
 	LAYERCACHEDATA layercachedata;
 	layercachedata.bIsDerty = true;
-	layercachedata.pCairoSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, m_nMax_X, m_nMax_Y);
-	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
-	m_saLayerCaches.push_back(layercachedata);
-    m_nSysCacheCount++;
-
-    //add drawing cache
-    layercachedata.bIsDerty = false;
 	layercachedata.pCairoSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, m_nMax_X, m_nMax_Y);
 	layercachedata.pCairoContext = cairo_create (layercachedata.pCairoSurface);
 	m_saLayerCaches.push_back(layercachedata);
@@ -391,11 +384,6 @@ size_t wxGISDisplay::GetLastCacheID(void) const
 size_t wxGISDisplay::GetFlashCacheID(void) const
 {
 	return m_saLayerCaches.size() - 1;
-}
-
-size_t wxGISDisplay::GetDrawingCacheID(void) const
-{
-	return m_saLayerCaches.size() - 2;
 }
 
 bool wxGISDisplay::IsCacheDerty(size_t nCacheID) const

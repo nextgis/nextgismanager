@@ -3,7 +3,7 @@
  * Purpose:  RasterLayer header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/carto/layer.h"
 #include "wxgis/datasource/rasterdataset.h"
 
-/** \class wxGISRasterLayer rasterlayer.h
-    \brief The class represent raster datasource in map.
+/** @class wxGISRasterLayer
+
+    The class represent raster datasource in map.
+
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CRT wxGISRasterLayer :

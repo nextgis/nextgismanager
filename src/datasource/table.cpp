@@ -318,14 +318,14 @@ size_t wxGISTable::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel
     if(	m_poLayer )
     {
         if(bForce)
-            m_nFeatureCount = m_poLayer->GetFeatureCount(1);
+            m_nFeatureCount = m_poLayer->GetFeatureCount(TRUE);
         else if(m_bOLCFastFeatureCount)
-            m_nFeatureCount = m_poLayer->GetFeatureCount(0);
+            m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
         else 
         {
-		    m_nFeatureCount = m_poLayer->GetFeatureCount(0);
+            m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
             if(m_nFeatureCount == -1)
-                m_nFeatureCount = m_poLayer->GetFeatureCount(1);
+                m_nFeatureCount = m_poLayer->GetFeatureCount(TRUE);
             if(m_nFeatureCount == -1)
                 return 0;
         }
@@ -917,10 +917,10 @@ size_t wxGISTableCached::GetFeatureCount(bool bForce, ITrackCancel* const pTrack
             Cache(pTrackCancel);
         }
         else if(m_bOLCFastFeatureCount)
-            m_nFeatureCount = m_poLayer->GetFeatureCount(0);
+            m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
         else 
         {
-        	m_nFeatureCount = m_poLayer->GetFeatureCount(0);
+        	m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
             if(m_nFeatureCount == wxNOT_FOUND)
             {
                 m_bIsCached = false;

@@ -35,7 +35,8 @@ enum wxGISEnumDatasetType
 	enumGISFeatureDataset = 1,
 	enumGISTableDataset = 2,
 	enumGISRasterDataset = 3,
-	enumGISContainer = 4
+	enumGISContainer = 4,
+    enumGISDrawing = 5
 };
 
 /** \enum wxGISEnumVectorDatasetType

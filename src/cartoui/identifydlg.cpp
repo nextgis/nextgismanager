@@ -899,7 +899,7 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
     case 0://get top layer
         //TODO: check group layer 	
         {
-	        wxGISLayer* const pTopLayer = m_pMapView->GetLayer(m_pMapView->GetLayerCount() - 1);
+	        wxGISLayer* const pTopLayer = m_pMapView->GetLayerByIndex(m_pMapView->GetLayerCount() - 1);
             if(pTopLayer)
             {
                 FILLTREEDATA stdata = {pTopLayer, wxNullSpatialTreeCursor};
@@ -911,7 +911,7 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
         //TODO: check group layer
         for(size_t i = 0; i < m_pMapView->GetLayerCount(); ++i)
         {
-            wxGISLayer* const pLayer = m_pMapView->GetLayer(i);
+            wxGISLayer* const pLayer = m_pMapView->GetLayerByIndex(i);
             if(pLayer)
             {
                 FILLTREEDATA stdata = {pLayer, wxNullSpatialTreeCursor};

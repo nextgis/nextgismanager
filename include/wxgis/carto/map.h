@@ -36,11 +36,13 @@ public:
 	virtual void SetName(const wxString &sName) {m_sMapName = sName;};
 	virtual wxString GetName(void) const {return m_sMapName;};
 	virtual bool AddLayer(wxGISLayer* pLayer);
+    virtual void ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex);
 	virtual void Clear(void);
 	virtual size_t GetLayerCount(void) const {return m_paLayers.size();};
-	virtual wxGISLayer* const GetLayer(size_t nIndex);
-	virtual wxString GetDescription(void) const {return m_sDescription;};
-	virtual void SetDescription(wxString sDescription){m_sDescription = sDescription;};
+	virtual wxGISLayer* const GetLayerByIndex(size_t nIndex);
+    virtual wxGISLayer* const GetLayerById(short nId);
+    virtual wxString GetDescription(void) const { return m_sDescription; };
+	virtual void SetDescription(const wxString &sDescription){m_sDescription = sDescription;};
 	virtual OGREnvelope GetFullExtent(void) const;
 	virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
 	virtual wxGISSpatialReference GetSpatialReference(void) const;
@@ -51,6 +53,7 @@ protected:
     wxGISDisplay *m_pGISDisplay; 
 	OGREnvelope m_FullExtent;
 	bool m_bFullExtIsInit;
+    short m_nIdCounter;
 	wxCriticalSection m_CritSect;
 };
 

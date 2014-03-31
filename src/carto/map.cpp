@@ -31,6 +31,7 @@ wxGISMap::wxGISMap(void)
 	m_sMapName = wxString(_("new map"));
     m_pGISDisplay = NULL;
 	m_bFullExtIsInit = false;
+    m_nIdCounter = 0;
 }
 
 wxGISMap::~wxGISMap(void)
@@ -79,7 +80,7 @@ bool wxGISMap::AddLayer(wxGISLayer* pLayer)
     }
 
     pLayer->SetDisplay(m_pGISDisplay);
-
+    pLayer->SetId(m_nIdCounter++);
 	m_paLayers.push_back(pLayer);
 	return true;
 }
@@ -122,14 +123,45 @@ wxGISSpatialReference wxGISMap::GetSpatialReference(void) const
 	return m_SpatialReference;
 }
 
-wxGISLayer* const wxGISMap::GetLayer(size_t nIndex)
+wxGISLayer* const wxGISMap::GetLayerByIndex(size_t nIndex)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 	if(nIndex >= m_paLayers.size())
         return NULL;
 	return m_paLayers[nIndex];
-};
+}
 
+wxGISLayer* const wxGISMap::GetLayerById(short nId)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+    for (size_t i = 0; i < m_paLayers.size(); ++i)
+    {
+        if (m_paLayers[i]->GetId() == nId)
+            return m_paLayers[i];
+    }
+    return NULL;
+}
+
+void wxGISMap::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
+{
+    if (nOldIndex == nNewIndex)
+        return;
+    bool bAddToIndex = nNewIndex > nOldIndex;
+    wxVector<wxGISLayer*>::iterator IT = m_paLayers.begin();
+    std::advance(IT, nOldIndex);
+    //remove layer from array
+    wxGISLayer* pLayer = m_paLayers[nOldIndex];
+    m_paLayers.erase(IT);
+
+    //insert layer to new index
+    if (bAddToIndex)
+    {
+        nNewIndex--;
+    }
+    IT = m_paLayers.begin();
+    std::advance(IT, nNewIndex);
+    m_paLayers.insert(IT, pLayer);
+}
 
 //The AddLayer method adds a layer to the Map. Use GetLayerCount to get the total number of layers in the map.
 //AddLayer automatically attempts to set the Map's SpatialReference if a coordinate system has not yet been defined for the map.
@@ -227,3 +259,4 @@ OGREnvelope wxGISExtentStack::GetCurrentExtent(void) const
 {
 	return m_CurrentExtent;
 }
+

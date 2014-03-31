@@ -29,6 +29,9 @@ class WXDLLIMPEXP_FWD_GIS_CTU wxMxMapViewUIEvent;
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_ROTATED, wxMxMapViewUIEvent);
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_DRAWING_START, wxMxMapViewUIEvent);
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_DRAWING_STOP, wxMxMapViewUIEvent);
+wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_LAYER_ADDED, wxMxMapViewUIEvent);
+wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_LAYER_REMOVED, wxMxMapViewUIEvent);
+//wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_LAYER_ORDER_CHANGED, wxMxMapViewEvent);
 
 //wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_REFRESHED, wxGxMapViewEvent);
  //AfterDraw Fired after the specified phase is drawn. 
@@ -50,22 +53,27 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CTU, wxMXMAP_DRAWING_STOP, wxMxMapViewU
 class WXDLLIMPEXP_GIS_CTU wxMxMapViewUIEvent : public wxEvent
 {
 public:
-    wxMxMapViewUIEvent(int nWinId = 0, wxEventType eventType = wxMXMAP_ROTATED, double dAngleRad = 0) : wxEvent(nWinId, eventType)
+    wxMxMapViewUIEvent(int nWinId = 0, wxEventType eventType = wxMXMAP_ROTATED, short nLayerId = wxNOT_FOUND, double dAngleRad = 0) : wxEvent(nWinId, eventType)
 	{
         m_dRotation = dAngleRad;
+        m_nLayerId = nLayerId;
 	}
 	wxMxMapViewUIEvent(const wxMxMapViewUIEvent& event) : wxEvent(event)
 	{
         m_dRotation = event.m_dRotation;
+        m_nLayerId = event.m_nLayerId;
 	}
 
 	void SetRotate(double dAngleRad){m_dRotation = dAngleRad;};
-	double GetRotate(void){return m_dRotation;};
+	double GetRotate(void) const {return m_dRotation;};
+    void SetLayerId(size_t nLayerId){ m_nLayerId = nLayerId; };
+    size_t GetLayerId(void) const { return m_nLayerId; };
 
     virtual wxEvent *Clone() const { return new wxMxMapViewUIEvent(*this); }
 
 protected:
     double m_dRotation;
+    short m_nLayerId;
 
 private:
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxMxMapViewUIEvent)
@@ -79,3 +87,6 @@ typedef void (wxEvtHandler::*wxMxMapViewUIEventFunction)(wxMxMapViewUIEvent&);
 #define EVT_MXMAP_ROTATED(func)  wx__DECLARE_EVT0(wxMXMAP_ROTATED, wxMxMapViewUIEventHandler(func))
 #define EVT_MXMAP_DRAWING_START(func)  wx__DECLARE_EVT0(wxMXMAP_DRAWING_START, wxMxMapViewUIEventHandler(func))
 #define EVT_MXMAP_DRAWING_STOP(func)  wx__DECLARE_EVT0(wxMXMAP_DRAWING_STOP, wxMxMapViewUIEventHandler(func))
+#define EVT_MXMAP_LAYER_ADDED(func)  wx__DECLARE_EVT0(wxMXMAP_LAYER_ADDED, wxMxMapViewUIEventHandler(func))
+#define EVT_MXMAP_LAYER_REMOVED(func)  wx__DECLARE_EVT0(wxMXMAP_LAYER_REMOVED, wxMxMapViewUIEventHandler(func))
+//#define EVT_MXMAP_LAYER_ORDER_CHANGED(func)  wx__DECLARE_EVT0(wxMXMAP_LAYER_ORDER_CHANGED, wxMxMapViewEventHandler(func))

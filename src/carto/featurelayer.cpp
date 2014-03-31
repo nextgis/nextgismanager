@@ -3,7 +3,7 @@
  * Purpose:  FeatureLayer header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,14 +20,6 @@
  ****************************************************************************/
 #include "wxgis/carto/featurelayer.h"
 #include "wxgis/carto/mxevent.h"
-
-
-//#include "wxgis/display/displaytransformation.h"
-//#include "wxgis/geometry/algorithm.h"
-//#include "wxgis/datasource/spvalidator.h"
-//#include "wxgis/framework/application.h"
-//#include "wxgis/carto/transformthreads.h"
-//#include <wx/stopwatch.h>
 
 #define STEP 3.0
 #define NOCACHEVAL 2000
@@ -287,7 +279,7 @@ wxGISSpatialTreeCursor wxGISFeatureLayer::Idetify(const wxGISGeometry &Geom)
 void wxGISFeatureLayer::OnDSClosed(wxFeatureDSEvent& event)
 {
 	wxDELETE(m_pSpatialTree);
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_DS_CLOSED, GetCacheID()));
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_DS_CLOSED, GetId()));
 }
 
 void wxGISFeatureLayer::OnDSFeaturesAdded(wxFeatureDSEvent& event)
@@ -324,7 +316,7 @@ void wxGISFeatureLayer::OnDSFeaturesAdded(wxFeatureDSEvent& event)
         m_pFeatureRenderer->Draw(event.GetCursor(), wxGISDPGeography, m_pDisplay);
     }
     //send event that layer is changed and redraw needed to upper layers and whole map
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_LOADING, GetCacheID()));
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_LOADING, GetId()));
 }
 
 void wxGISFeatureLayer::OnDSFeatureAdded(wxFeatureDSEvent& event)
@@ -362,7 +354,7 @@ void wxGISFeatureLayer::OnDSFeatureAdded(wxFeatureDSEvent& event)
         m_pFeatureRenderer->FeatureChanged(Feature);
     }
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetCacheID()));
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
 }
 
 void wxGISFeatureLayer::OnDSFeatureDeleted(wxFeatureDSEvent& event)
@@ -371,7 +363,7 @@ void wxGISFeatureLayer::OnDSFeatureDeleted(wxFeatureDSEvent& event)
     {
         m_pSpatialTree->Remove(event.GetFID());
     }
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetCacheID()));
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
 }
 
 void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
@@ -407,7 +399,7 @@ void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
         m_pFeatureRenderer->FeatureChanged(Feature);
     }
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetCacheID()));
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
 }
 
 void wxGISFeatureLayer::SetSpatialReference(const wxGISSpatialReference &SpatialReference)

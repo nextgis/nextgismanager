@@ -34,6 +34,7 @@ wxGISLayer::wxGISLayer(const wxString &sName, wxGISDataset* pwxGISDataset)
     m_dMinScale = wxNOT_FOUND;
     m_bVisible = true;
     m_nCacheID = 0;
+    m_nId = wxNOT_FOUND;
 
     if(m_pwxGISDataset)
     {
@@ -96,4 +97,14 @@ void wxGISLayer::SetRenderer(wxGISRenderer* pRenderer)
 wxGISRenderer* wxGISLayer::GetRenderer(void)
 {
     return m_pRenderer;
+}
+
+short wxGISLayer::GetId() const
+{
+    return m_nId;
+}
+
+void wxGISLayer::SetId(short nNewId)
+{
+    m_nId = nNewId;
 }

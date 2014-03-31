@@ -3,7 +3,7 @@
  * Purpose:  event UI classes special for MapView events.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Bishop
+*   Copyright (C) 2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -31,28 +31,31 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CRT, wxMXMAP_LAYER_CHANGED, wxMxMapView
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CRT, wxMXMAP_LAYER_LOADING, wxMxMapViewEvent);
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CRT, wxMXMAP_LAYER_DS_CLOSED, wxMxMapViewEvent);
 
-/** \class wxGxMapViewEvent mxeventui.h
-    \brief The MapView class event.
+/** @class wxGxMapViewEvent
+
+    The MapView class event
+
+    @library{carto}
 */
 class WXDLLIMPEXP_GIS_CRT wxMxMapViewEvent : public wxEvent
 {
 public:
-    wxMxMapViewEvent(wxEventType eventType = wxMXMAP_LAYER_CHANGED, size_t nLayer = 0) : wxEvent(0, eventType)
+    wxMxMapViewEvent(wxEventType eventType = wxMXMAP_LAYER_CHANGED, short nLayerId = 0) : wxEvent(0, eventType)
 	{
-        m_nLayer = nLayer;
+        m_nLayerId = nLayerId;
 	}
 	wxMxMapViewEvent(const wxMxMapViewEvent& event) : wxEvent(event)
 	{
-        m_nLayer = event.m_nLayer;
+        m_nLayerId = event.m_nLayerId;
 	}
 
-	void SetLayerCacheId(size_t nLayer){m_nLayer = nLayer;};
-	size_t GetLayerCacheId(void){return m_nLayer;};
+    void SetLayerId(size_t nLayerId){ m_nLayerId = nLayerId; };
+    size_t GetLayerId(void) const { return m_nLayerId; };
 
     virtual wxEvent *Clone() const { return new wxMxMapViewEvent(*this); }
 
 protected:
-    size_t m_nLayer;
+    short m_nLayerId;
 
 private:
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxMxMapViewEvent)

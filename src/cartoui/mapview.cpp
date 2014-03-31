@@ -769,7 +769,7 @@ bool wxGISMapView::CanRotate(void)
 {
     for(size_t i = 0; i < GetLayerCount(); ++i)
     {
-        wxGISLayer* const pLayer = GetLayer(i);
+        wxGISLayer* const pLayer = GetLayerByIndex(i);
         if(pLayer)
         {
             wxGISDataset* pDSet = pLayer->GetDataset();
@@ -1109,7 +1109,7 @@ void wxGISMapView::DestroyDrawThread(void)
 
 void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
 {
-    wxLogDebug(wxT("changed map: %d"), event.GetLayerCacheId());
+    wxLogDebug(wxT("changed layer: %d"), event.GetLayerId());
     //if(m_nDrawingState != enumGISMapNone)
     //    return;
     //TODO: update extents
@@ -1121,7 +1121,10 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
     
     
     wxTimeSpan sp = wxDateTime::Now() - m_dtNow;
-    m_pGISDisplay->SetUpperCachesDerty( event.GetLayerCacheId() );
+    wxGISLayer *pLayer = GetLayerById(event.GetLayerId());
+    if (NULL == pLayer)
+        return;
+    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheID());
     if(sp.GetMilliseconds() > TM_LAYER_UPDATE_REFRESH)
     {
         m_dtNow = wxDateTime::Now();
@@ -1138,6 +1141,9 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
 
 void wxGISMapView::OnLayerLoading(wxMxMapViewEvent& event)
 {
-    m_pGISDisplay->SetUpperCachesDerty( event.GetLayerCacheId() ); //TODO: this will draw current caches directly to map. Changes in one will be overwite by upper
+    wxGISLayer *pLayer = GetLayerById(event.GetLayerId());
+    if (NULL == pLayer)
+        return;
+    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheID());//TODO: this will draw current caches directly to map. Changes in one will be overwite by upper
     Refresh();
 }

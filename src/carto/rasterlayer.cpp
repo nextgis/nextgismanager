@@ -3,7 +3,7 @@
  * Purpose:  RasterLayer header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,9 +20,6 @@
  ****************************************************************************/
 #include "wxgis/carto/rasterlayer.h"
 #include "wxgis/carto/rasterrenderer.h"
-/*
-#include "wxgis/display/displaytransformation.h"
-*/
 
 //----------------------------------------------------------------------------
 // wxGISRasterLayer

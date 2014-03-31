@@ -34,7 +34,7 @@ class WXDLLIMPEXP_GIS_CRT wxGISLayer :
 {
     DECLARE_ABSTRACT_CLASS(wxGISLayer)
 public:
-	wxGISLayer(const wxString &sName = _("new layer"), wxGISDataset* pwxGISDataset = NULL);
+    wxGISLayer(const wxString &sName = _("new layer"), wxGISDataset* pwxGISDataset = NULL);
 	virtual ~wxGISLayer(void);
 	virtual const wxGISSpatialReference GetSpatialReference(void);
 	virtual OGREnvelope GetEnvelope(void) const;
@@ -58,6 +58,8 @@ public:
     virtual void SetDisplay(wxGISDisplay *pDisplay) { m_pDisplay = pDisplay; };
     virtual wxGISDataset* GetDataset() {wsGET(m_pwxGISDataset);};
     virtual bool IsLoading() const;
+    virtual short GetId() const;
+    virtual void SetId(short nNewId);
 protected:
     wxGISDataset* m_pwxGISDataset;
     wxGISSpatialReference m_SpatialReference;
@@ -67,6 +69,7 @@ protected:
     bool m_bVisible;
     wxString m_sName;
     size_t m_nCacheID;
+    short m_nId;
     //renderer
     wxGISRenderer* m_pRenderer;
 };
