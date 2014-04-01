@@ -60,7 +60,9 @@ const wxGISSpatialReference wxGISLayer::GetSpatialReference(void)
 
 void wxGISLayer::SetSpatialReference(const wxGISSpatialReference &SpatialReference)
 {
-    if(m_SpatialReference->IsSame(SpatialReference))
+    if (!SpatialReference.IsOk())
+        return;
+    if (m_SpatialReference.IsOk() && m_SpatialReference->IsSame(SpatialReference))
         return;
     m_SpatialReference = SpatialReference;
 }

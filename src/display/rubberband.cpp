@@ -3,7 +3,7 @@
  * Purpose:  wxGISRubberBand class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -164,24 +164,13 @@ void wxGISRubberEnvelope::OnMouseMove(wxMouseEvent& event)
 	Y = std::min(m_StartY, EvY);
 
 	wxClientDC CDC(m_pWnd);
-	//wxGISPointsArray ClipGeometry;
- //   if(!m_PrevRect.IsEmpty())
- //   {
- //       m_PrevRect.Inflate(2,2);
-	//	ClipGeometry.Add(new wxRealPoint(double(m_PrevRect.GetLeft()), double(m_PrevRect.GetTop())));//top-left
-	//	ClipGeometry.Add(new wxRealPoint(double(m_PrevRect.GetRight()), double(m_PrevRect.GetTop())));//top-right
-	//	ClipGeometry.Add(new wxRealPoint(double(m_PrevRect.GetRight()), double(m_PrevRect.GetBottom())));//bottom-right
-	//	ClipGeometry.Add(new wxRealPoint(double(m_PrevRect.GetLeft()), double(m_PrevRect.GetBottom())));//bottom-left
-	//	m_pDisp->Output(&CDC);
- //   }
-	//else
-		m_pDisp->Output(&CDC);
+	m_pDisp->Output(&CDC);
 
 	CDC.SetPen(m_oPen);
 	CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
 	CDC.SetLogicalFunction(wxOR_REVERSE);
 	CDC.DrawRectangle(X, Y, width, height);
-    m_PrevRect = wxRect(X, Y, width, height);
+    //m_PrevRect = wxRect(X, Y, width, height);
 }
 
 void wxGISRubberEnvelope::OnMouseUp(wxMouseEvent& event)
@@ -214,23 +203,422 @@ void wxGISRubberEnvelope::OnMouseUp(wxMouseEvent& event)
 		pRgn->assignSpatialReference(m_SpaRef);
 	m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pRgn));
 
-	//wxRect rc(wxPoint(dX1, dY1), wxPoint(dX2, dY2));
-	//m_RetEnv = m_pDisp->TransformRect(rc);
-	//if(IsDoubleEquil(dX1, dX2) || IsDoubleEquil(dY1, dY2))
-	//{
-	//	m_RetEnv.MaxX = m_RetEnv.MinX;
-	//	m_RetEnv.MaxY = m_RetEnv.MinY;
-	//}
-	//m_pDisp->DC2World(&dX1, &dY1);
-	//m_pDisp->DC2World(&dX2, &dY2);
-	//m_RetEnv.MinX = dX1;
-	//m_RetEnv.MinY = dY1;
-	//m_RetEnv.MaxX = dX2;
-	//m_RetEnv.MaxY = dY2;
-
-
-
 	OnUnlock();
-    m_PrevRect.width = -1;
-    m_PrevRect.height = -1;
+    //m_PrevRect.width = -1;
+    //m_PrevRect.height = -1;
 }
+
+//----------------------------------------------------
+// class wxGISRubberCircle
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberCircle, wxGISRubberBand)
+
+wxGISRubberCircle::wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberCircle::~wxGISRubberCircle()
+{
+}
+
+void wxGISRubberCircle::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+    int width, height;
+    width = EvX - m_StartX;
+    height = EvY - m_StartY;
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+
+    wxCoord nRadius = sqrt(width*width + height*height);
+    CDC.DrawCircle(m_StartX, m_StartY, nRadius);
+    CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
+}
+
+void wxGISRubberCircle::OnMouseUp(wxMouseEvent& event)
+{
+    event.Skip();
+
+    double dX1 = m_StartX;
+    double dY1 = m_StartY;
+    double dX2 = event.GetX();
+    double dY2 = event.GetY();
+
+    m_pDisp->DC2World(&dX1, &dY1);
+    m_pDisp->DC2World(&dX2, &dY2);
+
+    OGRPoint pt1(dX1, dY1);
+    OGRPoint pt2(dX2, dY2);
+
+    OGRMultiPoint * pMPt = new OGRMultiPoint();
+    pMPt->addGeometry(&pt1);
+    pMPt->addGeometry(&pt2);
+    pMPt->flattenTo2D();
+    if (m_SpaRef.IsOk())
+        pMPt->assignSpatialReference(m_SpaRef);
+    m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pMPt));
+
+    OnUnlock();
+}
+
+//----------------------------------------------------
+// class wxGISRubberEllipse
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberEllipse, wxGISRubberEnvelope)
+
+wxGISRubberEllipse::wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberEnvelope(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberEllipse::~wxGISRubberEllipse()
+{
+}
+
+void wxGISRubberEllipse::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+    int width, height, X, Y;
+    width = abs(EvX - m_StartX);
+    height = abs(EvY - m_StartY);
+    X = std::min(m_StartX, EvX);
+    Y = std::min(m_StartY, EvY);
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+
+    wxRect rect;
+    CDC.DrawEllipse(wxPoint(X,Y), wxSize(width, height));
+}
+
+//----------------------------------------------------
+// class wxGISRubberFreeHand
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberFreeHand, wxGISRubberBand)
+
+#define FREEHAND_STEP_PIX 7
+
+wxGISRubberFreeHand::wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberFreeHand::~wxGISRubberFreeHand()
+{
+}
+
+void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+    int width, height;
+    if (m_aoPoints.empty())
+    {
+        width = abs(EvX - m_StartX);
+        height = abs(EvY - m_StartY);
+    }
+    else
+    {
+        width = abs(EvX - m_aoPoints[m_aoPoints.size() - 1].x);
+        height = abs(EvY - m_aoPoints[m_aoPoints.size() - 1].y);
+    }
+
+    if (width > FREEHAND_STEP_PIX || height > FREEHAND_STEP_PIX)
+    {
+        m_aoPoints.push_back(wxPoint(EvX, EvY));
+    }
+
+    if (m_aoPoints.empty())
+    {
+        return;
+    }
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+        
+    /*wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 1];
+    int nCounter = 0;
+    paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+    size_t i;
+    for (i = 0; i < m_aoPoints.size(); ++i)
+    {
+        paoPoints[nCounter++] = m_aoPoints[i];
+    }
+
+    CDC.DrawLines(nCounter, paoPoints);
+
+    wxDELETEA(paoPoints);*/
+
+    if (m_aoPoints.empty())
+    {
+        CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
+    }
+    else
+    {
+        wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 2];
+        int nCounter = 0;
+        paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+        size_t i;
+        for (i = 0; i < m_aoPoints.size(); ++i)
+        {
+            paoPoints[nCounter++] = m_aoPoints[i];
+        }
+        paoPoints[nCounter++] = wxPoint(EvX, EvY);
+
+        CDC.DrawLines(nCounter, paoPoints);
+
+        wxDELETEA(paoPoints);
+    }
+
+
+}
+
+void wxGISRubberFreeHand::OnMouseUp(wxMouseEvent& event)
+{
+    event.Skip();
+
+    OGRLineString* pLine = new OGRLineString();
+    double dX1 = m_StartX;
+    double dY1 = m_StartY;
+    m_pDisp->DC2World(&dX1, &dY1);
+    pLine->addPoint(dX1, dY1);
+
+    for (size_t i = 0; i < m_aoPoints.size(); ++i)
+    {
+        dX1 = m_aoPoints[i].x;
+        dY1 = m_aoPoints[i].y;
+        pLine->addPoint(dX1, dY1);
+    }
+
+    pLine->flattenTo2D();
+    if (m_SpaRef.IsOk())
+        pLine->assignSpatialReference(m_SpaRef);
+    m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pLine));
+
+    OnUnlock();
+}
+
+//----------------------------------------------------
+// class wxGISRubberLine
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberLine, wxGISRubberBand)
+
+wxGISRubberLine::wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberLine::~wxGISRubberLine()
+{
+}
+
+void wxGISRubberLine::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+
+    if (m_aoPoints.empty())
+    {
+        CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
+    }
+    else
+    {
+        wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 2];
+        int nCounter = 0;
+        paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+        size_t i;
+        for (i = 0; i < m_aoPoints.size(); ++i)
+        {
+            paoPoints[nCounter++] = m_aoPoints[i];
+        }
+        paoPoints[nCounter++] = wxPoint(EvX, EvY);
+
+        CDC.DrawLines(nCounter, paoPoints);
+
+        wxDELETEA(paoPoints);
+    }
+}
+
+void wxGISRubberLine::OnMouseDown(wxMouseEvent& event)
+{
+    //event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+    m_aoPoints.push_back(wxPoint(EvX, EvY));
+}
+
+void wxGISRubberLine::OnMouseDoubleClick(wxMouseEvent& event)
+{
+    event.Skip();
+
+    OGRLineString* pLine = new OGRLineString();
+    double dX1 = m_StartX;
+    double dY1 = m_StartY;
+    m_pDisp->DC2World(&dX1, &dY1);
+    pLine->addPoint(dX1, dY1);
+
+    for (size_t i = 0; i < m_aoPoints.size(); ++i)
+    {
+        dX1 = m_aoPoints[i].x;
+        dY1 = m_aoPoints[i].y;
+        pLine->addPoint(dX1, dY1);
+    }
+
+    pLine->flattenTo2D();
+    if (m_SpaRef.IsOk())
+        pLine->assignSpatialReference(m_SpaRef);
+    m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pLine));
+
+    OnUnlock();
+}
+
+//----------------------------------------------------
+// class wxGISRubberPolygon
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberPolygon, wxGISRubberLine)
+
+wxGISRubberPolygon::wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberPolygon::~wxGISRubberPolygon()
+{
+}
+
+void wxGISRubberPolygon::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+
+    if (m_aoPoints.empty())
+    {
+        CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
+    }
+    else
+    {
+        wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 3];
+        int nCounter = 0;
+        paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+        size_t i;
+        for (i = 0; i < m_aoPoints.size(); ++i)
+        {
+            paoPoints[nCounter++] = m_aoPoints[i];
+        }
+        paoPoints[nCounter++] = wxPoint(EvX, EvY);
+        paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+
+        CDC.DrawLines(nCounter, paoPoints);
+
+        wxDELETEA(paoPoints);
+    }
+}
+
+void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
+{
+    event.Skip();
+
+    OGRLinearRing ring;
+    double dX1 = m_StartX;
+    double dY1 = m_StartY;
+    m_pDisp->DC2World(&dX1, &dY1);
+    ring.addPoint(dX1, dY1);
+
+    for (size_t i = 0; i < m_aoPoints.size(); ++i)
+    {
+        dX1 = m_aoPoints[i].x;
+        dY1 = m_aoPoints[i].y;
+        ring.addPoint(dX1, dY1);
+    }
+    ring.closeRings();
+
+    OGRPolygon* pRgn = new OGRPolygon();
+    pRgn->addRing(&ring);
+    pRgn->flattenTo2D();
+    if (m_SpaRef.IsOk())
+        pRgn->assignSpatialReference(m_SpaRef);
+    m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pRgn));
+
+    OnUnlock();
+}
+
+
+//----------------------------------------------------
+// class wxGISRubberSpline
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberSpline, wxGISRubberLine)
+
+wxGISRubberSpline::wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberSpline::~wxGISRubberSpline()
+{
+}
+
+void wxGISRubberSpline::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip();
+
+    int EvX = event.GetX(), EvY = event.GetY();
+
+    wxClientDC CDC(m_pWnd);
+    m_pDisp->Output(&CDC);
+
+    CDC.SetPen(m_oPen);
+    CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
+    CDC.SetLogicalFunction(wxOR_REVERSE);
+
+    if (m_aoPoints.empty())
+    {
+        CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
+    }
+    else
+    {
+        wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 2];
+        int nCounter = 0;
+        paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+        size_t i;
+        for (i = 0; i < m_aoPoints.size(); ++i)
+        {
+            paoPoints[nCounter++] = m_aoPoints[i];
+        }
+        paoPoints[nCounter++] = wxPoint(EvX, EvY);
+
+        CDC.DrawSpline(nCounter, paoPoints);
+
+        wxDELETEA(paoPoints);
+    }
+}
+
+

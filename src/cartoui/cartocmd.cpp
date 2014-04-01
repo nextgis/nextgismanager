@@ -528,14 +528,15 @@ void wxGISCartoMainTool::SetChecked(bool bCheck)
 
 void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 {
+	wxGISAppConfig oConfig = GetConfig();
+    wxGISColor color(0, 0, 255, 255);
+    int nWidth(2);
+
     event.Skip();
 	switch(m_subtype)
 	{
 		case 0:	//z_in
 		{
-			wxGISAppConfig oConfig = GetConfig();
-            wxGISColor color(0, 0, 255, 255);
-            int nWidth(2);
             if(oConfig.IsOk())
             {
                 wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                
@@ -568,9 +569,6 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 		break;
 		case 1:	//z_out
 		{
-			wxGISAppConfig oConfig = GetConfig();
-            wxGISColor color(0, 0, 255, 255);
-            int nWidth(2);
             if(oConfig.IsOk())
             {
                 wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                
@@ -605,9 +603,6 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 			break;
 		case 3:	//inf
 		{
-			wxGISAppConfig oConfig = GetConfig();
-            wxGISColor color(0, 0, 255, 255);
-            int nWidth(2);
             if(oConfig.IsOk())
             {
                 wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                

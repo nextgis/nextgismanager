@@ -163,6 +163,15 @@ void wxGISMap::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
     m_paLayers.insert(IT, pLayer);
 }
 
+bool wxGISMap::HasLayerType(wxGISEnumDatasetType eType) const
+{
+    for (size_t i = 0; i < m_paLayers.size(); ++i)
+    {
+        if (m_paLayers[i]->GetType() == eType)
+            return true;
+    }
+    return false;
+}
 //The AddLayer method adds a layer to the Map. Use GetLayerCount to get the total number of layers in the map.
 //AddLayer automatically attempts to set the Map's SpatialReference if a coordinate system has not yet been defined for the map.
 

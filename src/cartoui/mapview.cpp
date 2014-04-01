@@ -445,7 +445,12 @@ bool wxGISMapView::AddLayer(wxGISLayer* pLayer)
 
     pLayer->Advise(this); //by now we don't need unadvise as layer will always destruct before map
 
-	return wxGISExtentStack::AddLayer(pLayer);
+	bool bRes = wxGISExtentStack::AddLayer(pLayer);
+
+    if (bRes)
+        AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_LAYER_ADDED, pLayer->GetId()));
+
+    return bRes;
 }
 
 void wxGISMapView::Clear(void)
@@ -454,6 +459,7 @@ void wxGISMapView::Clear(void)
 	//Clear caches
 	m_pGISDisplay->Clear();
 	wxGISExtentStack::Clear();
+    AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_CLEARED));
 }
 
 void wxGISMapView::OnMouseWheel(wxMouseEvent& event)

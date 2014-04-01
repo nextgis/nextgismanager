@@ -46,6 +46,7 @@ public:
 	virtual OGREnvelope GetFullExtent(void) const;
 	virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
 	virtual wxGISSpatialReference GetSpatialReference(void) const;
+    virtual bool HasLayerType(wxGISEnumDatasetType eType) const;
 protected:
 	wxString m_sMapName, m_sDescription;
 	wxVector<wxGISLayer*> m_paLayers;

@@ -3,7 +3,7 @@
  * Purpose:  wxGISRubberBand class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,10 +25,11 @@
 #include "wxgis/display/gisdisplay.h"
 #include "wxgis/datasource/gdalinh.h"
 
-/** \class wxGISRubberBand rubberband.h
-    \brief The class to drawing rectangles on display while mouse dragging
+/** @class wxGISRubberBand
 
-    The class functionality uses in identify, ZoomIn and ZoomOut tools
+    The class to drawing shape on window while mouse dragging. 
+
+    @library{display}
 */
 
 class WXDLLIMPEXP_GIS_DSP wxGISRubberBand :
@@ -60,14 +61,18 @@ protected:
 	wxGISDisplay *m_pDisp;
 	wxPen m_oPen;
 
-    wxRect m_PrevRect;
+    //wxRect m_PrevRect;
     wxGISSpatialReference m_SpaRef;
 private:
 	DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISRubberEnvelope rubberband.h
-    \brief The special version with clip drawing
+/** @class wxGISRubberEnvelope
+
+    The class to drawing rectangle on window while mouse dragging. 
+    The class functionality uses in identify, ZoomIn and ZoomOut tools.
+
+    @library{display}
 */
 
 class WXDLLIMPEXP_GIS_DSP wxGISRubberEnvelope :
@@ -80,3 +85,115 @@ public:
 	virtual void OnMouseMove(wxMouseEvent& event);
 	virtual void OnMouseUp(wxMouseEvent& event);
 };
+
+/** @class wxGISRubberCircle
+
+    The class to drawing circle on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberCircle :
+    public wxGISRubberBand
+{
+    DECLARE_CLASS(wxGISRubberCircle)
+public:
+    wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberCircle(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+    virtual void OnMouseUp(wxMouseEvent& event);
+};
+
+/** @class wxGISRubberEllipse
+
+    The class to drawing ellipse on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberEllipse :
+    public wxGISRubberEnvelope
+{
+    DECLARE_CLASS(wxGISRubberEllipse)
+public:
+    wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberEllipse(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+};
+
+/** @class wxGISRubberFreeHand
+
+    The class to drawing freehand on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberFreeHand :
+    public wxGISRubberBand
+{
+    DECLARE_CLASS(wxGISRubberFreeHand)
+public:
+    wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberFreeHand(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+    virtual void OnMouseUp(wxMouseEvent& event);
+protected:
+    wxVector<wxPoint> m_aoPoints;
+};
+
+/** @class wxGISRubberLine
+
+    The class to drawing line on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberLine :
+    public wxGISRubberBand
+{
+    DECLARE_CLASS(wxGISRubberLine)
+public:
+    wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberLine(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+    virtual void OnMouseDown(wxMouseEvent& event);
+    virtual void OnMouseDoubleClick(wxMouseEvent& event);
+protected:
+    wxVector<wxPoint> m_aoPoints;
+};
+
+/** @class wxGISRubberPolygon
+
+    The class to drawing polygon on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberPolygon :
+    public wxGISRubberLine
+{
+    DECLARE_CLASS(wxGISRubberPolygon)
+public:
+    wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberPolygon(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+    virtual void OnMouseDoubleClick(wxMouseEvent& event);
+};
+
+/** @class wxGISRubberSpline
+
+    The class to drawing spline on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberSpline :
+    public wxGISRubberLine
+{
+    DECLARE_CLASS(wxGISRubberSpline)
+public:
+    wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberSpline(void);
+    virtual void OnMouseMove(wxMouseEvent& event);
+};
+
