@@ -139,8 +139,10 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
 
 	m_bIsOpened = true;
     
-	if(bCache)
+    if (bCache)
+    {
 		Cache(pTrackCancel);
+    }
 
 	return true;
 }

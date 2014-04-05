@@ -67,6 +67,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/stretch.h
     ${LIB_HEADERS}/transformthreads.h    
     ${LIB_HEADERS}/mxevent.h   
+    ${LIB_HEADERS}/drawinglayer.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -80,6 +81,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/stretch.cpp
     ${LIB_SOURCES}/transformthreads.cpp    
     ${LIB_SOURCES}/mxevent.cpp
+    ${LIB_SOURCES}/drawinglayer.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CRT)

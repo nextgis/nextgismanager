@@ -21,7 +21,7 @@
 #pragma once
 #include "wxgis/framework/command.h"
 #include "wxgis/framework/applicationbase.h"
-#include "wxgis/cartoui/mapview.h"
+#include "wxgis/cartoui/drawingmap.h"
 #include "wxgis/cartoui/mxeventui.h"
 
 enum wxGISEnumDrawingToolType{
@@ -33,7 +33,36 @@ enum wxGISEnumDrawingToolType{
     enumGISDrawingToolCurve,
     enumGISDrawingToolFreeHand,
     enumGISDrawingToolMarker,
+    enumGISDrawingToolLayerSelector,
     enumGISDrawingToolMax
+};
+
+/** @class wxGISDrawingLayersComboBox
+
+    The list of drawing layers in current map
+
+    @library {cartoui}
+*/
+
+class wxGISDrawingLayersComboBox :
+    public wxComboBox,
+    public IToolBarControl
+{
+    DECLARE_CLASS(wxGISDrawingLayersComboBox)
+public:
+    wxGISDrawingLayersComboBox(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style = wxCB_READONLY, const wxValidator& validator = wxDefaultValidator, const wxString& name = wxT("DrawingLayersComboBox"));
+    virtual ~wxGISDrawingLayersComboBox(void);
+    virtual void UpdateLayersList(int nWinId);
+    //events
+    void OnLayerAdded(wxMxMapViewUIEvent& event);
+    void OnLayerRemoved(wxMxMapViewUIEvent& event);
+    //IToolBarControl
+    virtual void Activate(wxGISApplicationBase* pApp);
+    virtual void Deactivate(void);
+protected:
+    wxVector<std::pair<wxWindowID, long>> m_anMapWinIDs;
+private:
+    DECLARE_EVENT_TABLE()
 };
 
 /** @class wxGISDrawingTool
@@ -44,7 +73,8 @@ enum wxGISEnumDrawingToolType{
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISDrawingTool :
-    public ITool
+    public ITool,
+    public IToolControl
 {
     DECLARE_DYNAMIC_CLASS(wxGISDrawingTool)
 
@@ -70,11 +100,15 @@ public:
     virtual void OnMouseUp(wxMouseEvent& event);
     virtual void OnMouseDoubleClick(wxMouseEvent& event);
     virtual void OnMouseMove(wxMouseEvent& event);
+    //IToolControl
+    virtual IToolBarControl* GetControl(void);
+    virtual wxString GetToolLabel(void);
+    virtual bool HasToolLabel(void);
 private:
     wxGISApplicationBase* m_pApp;
     wxIcon m_IconPolygon, m_IconLine, m_IconMarker, m_IconCircle, m_IconEllipse, m_IconCurve, m_IconRectangle, m_IconFreeHand;
     wxCursor m_CurDrawing;
-    wxGISMapView* m_pMapView;
+    wxGISDrawingMapView* m_pMapView;
     WINDOWARRAY m_anMapWinIDs;
     bool m_bCheck;
 };

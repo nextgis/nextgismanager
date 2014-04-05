@@ -200,11 +200,17 @@ const wxGISSpatialReference wxGISFeatureDataset::GetSpatialReference(void)
 
 void wxGISFeatureDataset::SetEncoding(const wxFontEncoding &oEncoding)
 {
-    if (m_nSubType == enumVecESRIShapefile)
+    if (m_nSubType == enumVecESRIShapefile )
     {
         wxString sEnc = wxLocale::GetSystemEncodingName();
         const char* sz_enc = sEnc.mb_str();
         m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("SHAPE_ENCODING", sz_enc), sz_enc);
+    }
+    else if (m_nSubType == enumVecDXF)
+    {
+        wxString sEnc = wxLocale::GetSystemEncodingName();
+        const char* sz_enc = sEnc.mb_str();
+        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("DXF_ENCODING", sz_enc), sz_enc);
     }
     m_Encoding = oEncoding;
 }
@@ -227,8 +233,19 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
             CPLSetConfigOption("SHAPE_ENCODING", sz_enc);
         }
     }
+    else if (m_nSubType == enumVecDXF)
+    {
+        const char* szCPGPath = CPLResetExtension(m_sPath, "cpg");
+        if (!CPLCheckForFile((char*)szCPGPath, NULL))//no cpg file
+        {
+            //set system encoding
+            wxString sEnc = wxLocale::GetSystemEncodingName();
+            const char* sz_enc = sEnc.mb_str();
+            CPLSetConfigOption("DXF_ENCODING", sz_enc);
+        }
+    }
 
-	if(!wxGISTable::Open(iLayer, bUpdate, bCache, pTrackCancel))
+	if(!wxGISTable::Open(iLayer, bUpdate, false, pTrackCancel))
     {
 		return false;
     }
@@ -592,7 +609,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
             nFID = poFeature->GetFID();
 
         //store features in array for speed
-		m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding);
+        m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem);
 		m_nCurrentFID++;
 
         //fill extent
@@ -764,7 +781,7 @@ wxGISFeature wxGISFeatureDatasetCached::GetFeatureByID(long nFID)
 		    OGRFeature* pFeature = m_poLayer->GetFeature(nFID);
 		    if(pFeature)
 		    {
-                ret = wxGISFeature(pFeature, m_Encoding);
+                ret = wxGISFeature(pFeature, m_Encoding, m_bRecodeToSystem);
 			    m_omFeatures[nFID] = ret;
 		    }
 	    }
@@ -786,277 +803,22 @@ OGREnvelope wxGISFeatureDatasetCached::GetEnvelope(void)
     return m_stExtent;
 }
 
-/*
-
-wxFeatureCursorSPtr wxGISFeatureDataset::Search(wxGISQueryFilter* pQFilter, bool bOnlyFirst)
+void wxGISFeatureDatasetCached::SetEncoding(const wxFontEncoding &oEncoding)
 {
-	//select by attributes
-	//filter by geometry
-	//return fullfill wxFeatureCursorSPtr
-	return wxGISTable::Search(pQFilter, bOnlyFirst);
+    if (IsCached())
+    {
+        m_omFeatures.clear();
+        m_bIsCached = false;
+    }
+
+    wxGISFeatureDataset::SetEncoding(oEncoding);
+
+    if (!IsCached())
+    {
+        Cache();
+    }
 }
 
-//wxGISGeometrySet* wxGISFeatureDataset::GetGeometrySet(wxGISQueryFilter* pQFilter, ITrackCancel* pTrackCancel)
-//{
-//    //spatial reference of pQFilter
-//	wxGISGeometrySet* pGISGeometrySet = NULL;
-//	if(pQFilter)
-//	{
-//		wxGISSpatialFilter* pSpaFil = dynamic_cast<wxGISSpatialFilter*>(pQFilter);
-//		if(pSpaFil)
-//		{
-//			OGREnvelope Env = pSpaFil->GetEnvelope();
-//            if(m_pQuadTree)
-//            {
-//			    int count(0);
-//			    CPLRectObj Rect = {Env.MinX, Env.MinY, Env.MaxX, Env.MaxY};
-//			    OGRGeometry** pGeometryArr = (OGRGeometry**)CPLQuadTreeSearch(m_pQuadTree, &Rect, &count);
-//                pGISGeometrySet = new wxGISGeometrySet(false);
-//			    for(int i = 0; i < count; ++i)
-//			    {
-//				    if(pTrackCancel && !pTrackCancel->Continue())
-//					    break;
-//				    pGISGeometrySet->AddGeometry(pGeometryArr[i], m_pGeometrySet->operator[](pGeometryArr[i]));
-//			    }
-//			    wxDELETEA( pGeometryArr );
-//                pGISGeometrySet->Reference();
-//                return pGISGeometrySet;
-//            }
-//		}
-//	}
-//	else
-//	{
-//        if(m_bIsGeometryLoaded)
-//            return GetGeometries();
-//        else
-//        {
-//            LoadGeometry();
-//            return GetGeometrySet(pQFilter, pTrackCancel);
-//        }
-//	}
-//	return pGISGeometrySet;
-//}
-
-//wxGISFeatureDataset::wxGISFeatureDataset(OGRDataSource *poDS, OGRLayer* poLayer, CPLString sPath, wxGISEnumVectorDatasetType nType) : wxGISDataset(sPath), m_poDS(NULL), m_psExtent(NULL), m_poLayer(NULL), m_bIsGeometryLoaded(false), m_pQuadTree(NULL), m_FieldCount(-1), m_pGeometrySet(NULL)
-//{
-//	m_bIsOpened = false;
-//	m_poDS = poDS;
-//	m_poLayer = poLayer;
-//    if(m_poLayer == NULL)
-//        m_nType = enumGISContainer;
-//    else
-//    {
-//        m_nType = enumGISFeatureDataset;
-//        m_bOLCStringsAsUTF8 = m_poLayer->TestCapability(OLCStringsAsUTF8);
-//    }
-//    m_nSubType = (int)nType;
-//
-//	m_bIsOpened = true;
-//
-//    if(m_nSubType == enumVecKML || m_nSubType == enumVecKMZ)
-//        m_Encoding = wxFONTENCODING_UTF8;
-//    else
-//        m_Encoding = wxFONTENCODING_DEFAULT;
-//}
-//
-//wxGISFeatureDataset::wxGISFeatureDataset(CPLString sPath, wxGISEnumVectorDatasetType nType) : wxGISDataset(sPath), m_poDS(NULL), m_psExtent(NULL), m_poLayer(NULL), m_bIsGeometryLoaded(false), m_pQuadTree(NULL), m_FieldCount(-1), m_pGeometrySet(NULL)
-//{
-//	m_bIsOpened = false;
-//
-//    m_nType = enumGISFeatureDataset;
-//    m_nSubType = (int)nType;
-//    if(m_nSubType == enumVecKML || m_nSubType == enumVecKMZ)
-//        m_Encoding = wxFONTENCODING_UTF8;
-//    else
-//        m_Encoding = wxFONTENCODING_DEFAULT;
-//}
-//
-//wxGISGeometrySet* wxGISFeatureDataset::GetGeometries(void)
-//{
-//    if(!m_bIsGeometryLoaded)
-//        return NULL;
-//    m_pGeometrySet->Reference();
-//    return m_pGeometrySet;
-//}
-//
-//OGRErr wxGISFeatureDataset::CreateFeature(OGRFeature* poFeature)
-//{
-//    wxCriticalSectionLocker locker(m_CritSect);
-//
-////open if closed
-// //   if(m_poDS)
-// //   {
-// //       DeleteQuadTree();
-// //       wsDELETE(m_pGeometrySet);
-// //       OGRDataSource::DestroyDataSource( m_poDS );
-// //       m_poDS = NULL;
-// //   }
-//	//if( m_poDS == NULL )
-// //      m_poDS = OGRSFDriverRegistrar::Open( (const char*) m_sPath.mb_str(*m_pPathEncoding), TRUE );
-//	//if( m_poDS == NULL )
-//	//	return false;
-//
-//
-//    OGRErr eErr = m_poLayer->CreateFeature(poFeature);
-//    if(eErr == OGRERR_NONE)
-//    {
-//        bool bOLCFastSetNextByIndex= m_poLayer->TestCapability(OLCFastSetNextByIndex);
-//        wxString sFIDColName = wgMB2WX(m_poLayer->GetFIDColumn());
-//        bool bHasFID = true;
-//        if(sFIDColName.IsEmpty())
-//            bHasFID = false;
-//
-//        long nFID;
-//        if(!bHasFID)
-//            nFID = m_poLayer->GetFeatureCount(false);
-//        else
-//            nFID = poFeature->GetFID();
-//
-//        OGRGeometry* pGeom(NULL);
-//        //store features in array for speed
-//        if(bOLCFastSetNextByIndex)
-//            pGeom = poFeature->StealGeometry();
-//        else
-//        {
-//            m_FeaturesMap[nFID] = poFeature;
-//            if(poFeature->GetGeometryRef())
-//                pGeom = poFeature->GetGeometryRef()->clone();
-//        }
-//
-//        if(m_pGeometrySet)
-//            m_pGeometrySet->AddGeometry(pGeom, nFID);
-//  //      if(bOLCFastGetExtent)
-//  //          CPLQuadTreeInsert(m_pQuadTree, (void*)pGeom);
-//  //      else
-//  //      {
-//  //          OGREnvelope Env;
-//  //          pGeom->getEnvelope(&Env);
-//  //          m_psExtent->Merge(Env);
-//  //      }
-//		//counter++;
-//        if(bOLCFastSetNextByIndex)
-//            OGRFeature::DestroyFeature(poFeature);
-//    }
-//    return eErr;
-//}
-//
-//void wxGISFeatureDataset::SetSpatialFilter(double dfMinX, double dfMinY, double dfMaxX, double dfMaxY)
-//{
-//	if(!m_bIsOpened)
-//		if(!Open(0))
-//			return;
-//	if(	m_poLayer )
-//	{
-		//bool bOLCFastSpatialFilter = m_poLayer->TestCapability(OLCFastSpatialFilter);
-//		m_poLayer->SetSpatialFilterRect(dfMinX, dfMinY, dfMaxX, dfMaxY);
-//	}
-//}
-//
-//wxGISFeatureSet* wxGISFeatureDataset::GetFeatureSet(IQueryFilter* pQFilter, ITrackCancel* pTrackCancel)
-//{
-//    //spatial reference of pQFilter
-//	wxGISFeatureSet* pGISFeatureSet = NULL;
-//	if(pQFilter)
-//	{
-//		wxGISSpatialFilter* pSpaFil = dynamic_cast<wxGISSpatialFilter*>(pQFilter);
-//		if(pSpaFil)
-//		{
-//			OGREnvelope Env = pSpaFil->GetEnvelope();
-//            if(m_pQuadTree)
-//            {
-//			    int count(0);
-//			    CPLRectObj Rect = {Env.MinX, Env.MinY, Env.MaxX, Env.MaxY};
-//			    OGRFeature** pFeatureArr = (OGRFeature**)CPLQuadTreeSearch(m_pQuadTree, &Rect, &count);
-//                pGISFeatureSet = new wxGISFeatureSet(m_FeaturesMap.size());
-//			    for(int i = 0; i < count; ++i)
-//			    {
-//				    if(pTrackCancel && !pTrackCancel->Continue())
-//					    break;
-//				    pGISFeatureSet->AddFeature(pFeatureArr[i]);
-//			    }
-//			    wxDELETEA( pFeatureArr );
-//                return pGISFeatureSet;
-//            }
-//            else
-//            {
-//                if(!m_bIsOpened)
-//                    if(!Open(0))
-//                        return NULL;
-//                if(m_poLayer)
-//                {
-// 		            bool bOLCFastSpatialFilter = m_poLayer->TestCapability(OLCFastSpatialFilter);
-//                    if(bOLCFastSpatialFilter)
-//                    {
-//                        m_poLayer->SetSpatialFilterRect(Env.MinX, Env.MinY, Env.MaxX, Env.MaxY);
-//                        pGISFeatureSet = new wxGISFeatureSet(m_poLayer->GetFeatureCount(true));
-//
-// 		                OGRFeature *poFeature;
-//		                while((poFeature = m_poLayer->GetNextFeature()) != NULL )
-//                        {
-//                            pGISFeatureSet->AddFeature(poFeature);
-//                            if(pTrackCancel && !pTrackCancel->Continue())
-//                                break;
-//                        }
-//                        return pGISFeatureSet;
-//                    }
-//                    else
-//                    {
-//                        LoadFeatures();
-//                        if(m_bIsFeaturesLoaded)
-//                            return GetFeatureSet(pQFilter, pTrackCancel);
-//                        else
-//                        {
-//                            pGISFeatureSet = new wxGISFeatureSet(m_poLayer->GetFeatureCount(true));
-//
-// 		                    OGRFeature *poFeature;
-//		                    while((poFeature = m_poLayer->GetNextFeature()) != NULL )
-//                            {
-//                                pGISFeatureSet->AddFeature(poFeature);
-//                                if(pTrackCancel && !pTrackCancel->Continue())
-//                                    break;
-//                            }
-//                            return pGISFeatureSet;
-//                        }
-//                    }
-//                }
-//            }
-//		}
-//	}
-//	else
-//	{
-//        if(m_FeaturesMap.empty())
-//        {
-//            LoadFeatures();
-//            if(m_bIsFeaturesLoaded)
-//                return GetFeatureSet(pQFilter, pTrackCancel);
-//            else
-//            {
-//                pGISFeatureSet = new wxGISFeatureSet(m_poLayer->GetFeatureCount(true));
-//
-//                OGRFeature *poFeature;
-//                while((poFeature = m_poLayer->GetNextFeature()) != NULL )
-//                {
-//                    pGISFeatureSet->AddFeature(poFeature);
-//                    if(pTrackCancel && !pTrackCancel->Continue())
-//                        break;
-//                }
-//                return pGISFeatureSet;
-//            }
-//        }
-//        else
-//        {
-//            pGISFeatureSet = new wxGISFeatureSet(m_FeaturesMap.size());
-//            for(Iterator IT = m_FeaturesMap.begin(); IT != m_FeaturesMap.end(); ++IT)
-//		    {
-//			    pGISFeatureSet->AddFeature(IT->second);
-//			    if(pTrackCancel && !pTrackCancel->Continue())
-//				    break;
-//		    }
-//	        return pGISFeatureSet;
-//        }
-//	}
-//	return pGISFeatureSet;
-//}
 
 		    //bool bOLCFastGetExtent = pOGRLayer->TestCapability(OLCFastGetExtent);
       //      if(bOLCFastGetExtent)
@@ -1096,19 +858,4 @@ wxFeatureCursorSPtr wxGISFeatureDataset::Search(wxGISQueryFilter* pQFilter, bool
 	    //	bool bOLCTransactions = pOGRLayer->TestCapability(OLCTransactions);
 	    //	wxString sFIDColName = wgMB2WX(pOGRLayer->GetFIDColumn());
 
-//TODO:
-//1. Переписать SetFilter -> HRESULT Search(
-//  IQueryFilter* filter,
-//  VARIANT_BOOL Recycling,
-//  IFeatureCursor** Cursor
-//); Блокировка получения данных по индексу или ОИД при выполнении операции
-//2. На выходе Cursor -> массив OID и ссылка на table/featureclass
-/*
-3. Переписать Search для FeatureClass с использованием RTree и возможностью выбора произвольной геометрией
-4. При загрузке в слой не создается копия RTree. Создается только при перепроецировании
-5. В RTree содержиться геометрия и ОИД. RTree сохраняется в отдельном файле rtr/sig ...
-6. При перепроецировании: а) перепроецируются все геомтерии с записью в новый массив; б) создается новое дерево RTree; в) многопоточно
-7. При загрузке грузим RTree из файла. Создаем при первом Search если не загрузили при зауске? многопоточно.
-8. При отрисовке: запрашивается по охвату (для окна или выделения) массив структуры геометрия* + ОИД. Если перепроецирование врублено - запрос идет у локальной копии массива
-9. По ОИД можно получить быстро геометрию или атрибуты.
-*/
+

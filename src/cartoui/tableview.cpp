@@ -243,7 +243,7 @@ BEGIN_EVENT_TABLE(wxGISTableView, wxPanel)
 	EVT_BUTTON(wxGISTableView::ID_PREV, wxGISTableView::OnBtnPrev)
 	EVT_BUTTON(wxGISTableView::ID_LAST, wxGISTableView::OnBtnLast)
 	EVT_TEXT_ENTER(wxGISTableView::ID_POS, wxGISTableView::OnSetPos)
-    EVT_COMBOBOX(ID_ENCODING, wxGISTableView::OnEncodingSelect)
+    EVT_COMBOBOX(wxGISTableView::ID_ENCODING, wxGISTableView::OnEncodingSelect)
 END_EVENT_TABLE();
 
 wxGISTableView::wxGISTableView(void)

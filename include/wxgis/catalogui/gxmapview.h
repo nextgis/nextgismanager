@@ -24,7 +24,7 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/gxeventui.h"
-#include "wxgis/cartoui/mapview.h"
+#include "wxgis/cartoui/drawingmap.h"
 #include "wxgis/core/format.h"
 #include "wxgis/framework/statusbar.h"
 #include "wxgis/catalogui/gxapplication.h"
@@ -66,7 +66,7 @@ protected:
  */
 
 class WXDLLIMPEXP_GIS_CLU wxGxMapView :
-	public wxGISMapView,
+    public wxGISDrawingMapView,
 	public wxGxView
 {
     DECLARE_DYNAMIC_CLASS(wxGxMapView)

@@ -3,7 +3,7 @@
  * Purpose:  vector dataset functions.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011 Bishop
+*   Copyright (C) 2009,2011,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ protected:
   
     @return True if success, false otherwise
 */
-WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, OGRwkbGeometryType eFilterGeomType = wkbUnknown, bool bToMulti = true, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITrackCancel* const pTrackCancel = NULL);
 
 /*bool WXDLLIMPEXP_GIS_GP Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, OGRSpatialReference* pNewSpaRef, ITrackCancel* pTrackCancel);
@@ -63,10 +63,10 @@ OGRGeometry WXDLLIMPEXP_GIS_GP *Intersection(OGRGeometry* pFeatureGeom, OGRPolyg
 bool WXDLLIMPEXP_GIS_GP GeometryVerticesToPoints(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGxObjectFilter* pFilter, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL);
 bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFeatureDatasetSPtr pDSet, OGRCoordinateTransformation *poCT, long &nFidCounter, ITrackCancel* pTrackCancel);
 */
-WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bToMulti = true, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
 
-WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bCreateEmpty = false, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bCreateEmpty = false, OGRwkbGeometryType eFilterGeomType = wkbUnknown, bool bToMulti = true, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bCreateEmpty = false, ITrackCancel* const pTrackCancel = NULL);
 
 /** 

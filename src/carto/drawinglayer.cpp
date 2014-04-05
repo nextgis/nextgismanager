@@ -1,6 +1,6 @@
 /******************************************************************************
 * Project:  wxGIS
-* Purpose:  wxGISDrawingMapView class.
+* Purpose:  DrawingLayer header
 * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 ******************************************************************************
 *   Copyright (C) 2014 Bishop
@@ -18,33 +18,39 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
-#pragma once
-
-#include "wxgis/cartoui/mapview.h"
 #include "wxgis/carto/drawinglayer.h"
+#include "wxgis/carto/mxevent.h"
 
 
-/** @class wxGISDrawingMapView
+//----------------------------------------------------------------------------
+// wxGISDrawingLayer
+//----------------------------------------------------------------------------
 
-    The MapView with support of drawing layers.
+IMPLEMENT_CLASS(wxGISDrawingLayer, wxGISLayer)
 
-    @library{cartoui}
-*/
-
-class WXDLLIMPEXP_GIS_CTU wxGISDrawingMapView :
-    public wxGISMapView
+wxGISDrawingLayer::wxGISDrawingLayer(const wxString &sName, wxGISDataset* pwxGISDataset) : wxGISLayer(sName, pwxGISDataset)
 {
-    DECLARE_CLASS(wxGISDrawingMapView)
-public:
-    wxGISDrawingMapView(void);
-    wxGISDrawingMapView(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE);
-    virtual ~wxGISDrawingMapView(void);
-    //wxGISExtentStack
-    virtual bool AddLayer(wxGISLayer* pLayer);
-    //wxGISDrawingMapView
-    virtual short GetCurrentDrawingLayer(void) const;
-    virtual void SetCurrentDrawingLayer(short nCurrentDrawingLayer);
-    virtual bool AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType eType);
-protected:
-    short m_nCurrentDrawingLayer;
-};
+}
+
+wxGISDrawingLayer::~wxGISDrawingLayer(void)
+{
+}
+
+bool wxGISDrawingLayer::Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel)
+{
+    return true;
+}
+
+bool wxGISDrawingLayer::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType eType)
+{
+    if (!Geom.IsOk())
+        return false;
+    //wxGISDrawingLayer *pLayer = wxDynamicCast(m_paLayers[m_nCurrentDrawingLayer], wxGISDrawingLayer);
+    //if (NULL == pLayer)
+    //    return false;
+    //return pLayer->AddShape(Geom, eType);
+
+    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+
+    return true;
+}

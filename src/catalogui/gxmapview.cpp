@@ -31,9 +31,9 @@
 // wxGxMapView
 //-------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGxMapView, wxGISMapView)
+IMPLEMENT_DYNAMIC_CLASS(wxGxMapView, wxGISDrawingMapView)
 
-BEGIN_EVENT_TABLE(wxGxMapView, wxGISMapView)
+BEGIN_EVENT_TABLE(wxGxMapView, wxGISDrawingMapView)
 	EVT_LEFT_DOWN(wxGxMapView::OnMouseDown)
 	EVT_MIDDLE_DOWN(wxGxMapView::OnMouseDown)
 	EVT_RIGHT_DOWN(wxGxMapView::OnMouseDown)
@@ -47,14 +47,14 @@ BEGIN_EVENT_TABLE(wxGxMapView, wxGISMapView)
 	EVT_GXSELECTION_CHANGED(wxGxMapView::OnSelectionChanged)
 END_EVENT_TABLE()
 
-wxGxMapView::wxGxMapView(void) : wxGISMapView(), wxGxView()
+wxGxMapView::wxGxMapView(void) : wxGISDrawingMapView(), wxGxView()
 {
     m_nPanCmdId = wxNOT_FOUND;
     m_nParentGxObjectID = wxNOT_FOUND;
     m_ConnectionPointSelectionCookie = m_ConnectionPointCatalogCookie = wxNOT_FOUND;
 }
 
-wxGxMapView::wxGxMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxGISMapView(parent, id, pos, size), m_pStatusBar(NULL)
+wxGxMapView::wxGxMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxGISDrawingMapView(parent, id, pos, size), m_pStatusBar(NULL)
 {
     m_nPanCmdId = wxNOT_FOUND;
     m_nParentGxObjectID = wxNOT_FOUND;
@@ -186,7 +186,7 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
         bool bIsCached = true;
         for(size_t i = 0; i < GetLayerCount(); ++i)
         {
-            wxGISLayer* const pLayer = GetLayer(i);
+            wxGISLayer* const pLayer = GetLayerByIndex(i);
             if(pLayer)
             {
                 wxGISDataset* pDSet = pLayer->GetDataset();
@@ -206,7 +206,7 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
     {
         for(size_t i = 0; i < GetLayerCount(); ++i)
         {
-            wxGISLayer* const pLayer = GetLayer(i);
+            wxGISLayer* const pLayer = GetLayerByIndex(i);
             if(pLayer)
             {
                 wxGISDataset* pDSet = pLayer->GetDataset();
@@ -332,6 +332,8 @@ void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
 void wxGxMapView::LoadData(long nGxObjectId)
 {
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(nGxObjectId);
+    if (NULL == pGxObject)
+        return;
 
 	if(m_pStatusBar)
     {

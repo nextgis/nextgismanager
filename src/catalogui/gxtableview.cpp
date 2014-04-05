@@ -3,7 +3,7 @@
  * Purpose:  wxGISTableView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,12 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/catalogui/gxapplication.h"
+
+#include <wx/fontmap.h>
+
+//------------------------------------------------------------
+// wxGxTableView
+//------------------------------------------------------------
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxTableView, wxGISTableView)
 
@@ -139,6 +145,8 @@ void wxGxTableView::OnSelectionChanged(wxGxSelectionEvent& event)
     }
     	
     LoadData(nLastSelID);
+
+    m_pEncodingsCombo->SetStringSelection(wxFontMapper::GetEncodingDescription(wxFONTENCODING_DEFAULT));
 }
 
 void wxGxTableView::LoadData(long nGxObjectId)

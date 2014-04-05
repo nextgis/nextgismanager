@@ -20,6 +20,10 @@
 ****************************************************************************/
 
 #include "wxgis/cartoui/drawingcmd.h"
+#include "wxgis/core/config.h"
+#include "wxgis/core/format.h"
+#include "wxgis/display/rubberband.h"
+#include "wxgis/display/displayop.h"
 
 #include "../../art/dr_circle.xpm"
 #include "../../art/dr_rectangle.xpm"
@@ -110,6 +114,8 @@ wxString wxGISDrawingTool::GetCaption(void)
         return wxString(_("Curve"));
     case enumGISDrawingToolFreeHand://
         return wxString(_("Freehand"));
+    case enumGISDrawingToolLayerSelector://
+        return wxString(_("Select drawing layer"));
     default:
         return wxEmptyString;
     }
@@ -127,6 +133,7 @@ wxString wxGISDrawingTool::GetCategory(void)
     case enumGISDrawingToolLine://
     case enumGISDrawingToolCurve://
     case enumGISDrawingToolFreeHand://
+    case enumGISDrawingToolLayerSelector://
         return wxString(_("Drawing"));
     default:
         return NO_CATEGORY;
@@ -146,7 +153,7 @@ bool wxGISDrawingTool::GetEnabled(void)
         for (size_t i = 0; i < WinIDsArr.GetCount(); ++i)
         {
             wxWindow* pWnd = wxWindow::FindWindowById(WinIDsArr[i]);
-            if (pWnd && pWnd->IsKindOf(wxCLASSINFO(wxGISMapView)))//TODO: wxGISDrawingMap
+            if (pWnd && pWnd->IsKindOf(wxCLASSINFO(wxGISDrawingMapView)))
             {
                 m_anMapWinIDs.Add(WinIDsArr[i]);
             }
@@ -163,12 +170,13 @@ bool wxGISDrawingTool::GetEnabled(void)
     case enumGISDrawingToolLine://
     case enumGISDrawingToolCurve://
     case enumGISDrawingToolFreeHand://
+    case enumGISDrawingToolLayerSelector://
         for (size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
         {
             wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);//TODO: wxGISDrawingMap
+            m_pMapView = wxDynamicCast(pWnd, wxGISDrawingMapView);
             if (m_pMapView && m_pMapView->IsShownOnScreen())
-                return true;
+                return m_pMapView->GetCurrentDrawingLayer() != wxNOT_FOUND;//m_pMapView->HasLayerType(enumGISDrawing) && 
         }
         return false;
     default:
@@ -190,6 +198,8 @@ wxGISEnumCommandKind wxGISDrawingTool::GetKind(void)
     case enumGISDrawingToolCurve://
     case enumGISDrawingToolFreeHand://
         return enumGISCommandCheck;
+    case enumGISDrawingToolLayerSelector://
+        return enumGISCommandControl;
     default:
         return enumGISCommandNormal;
     }
@@ -215,6 +225,8 @@ wxString wxGISDrawingTool::GetMessage(void)
         return wxString(_("The tool to draw curve"));
     case enumGISDrawingToolFreeHand://
         return wxString(_("The tool to draw freehand"));
+    case enumGISDrawingToolLayerSelector://
+        return wxString(_("Select layer to draw"));
     default:
         return wxEmptyString;
     }
@@ -232,6 +244,7 @@ void wxGISDrawingTool::OnClick(void)
     case enumGISDrawingToolLine://
     case enumGISDrawingToolCurve://
     case enumGISDrawingToolFreeHand://
+    case enumGISDrawingToolLayerSelector://
         break;
     default:
         break;
@@ -264,6 +277,8 @@ wxString wxGISDrawingTool::GetTooltip(void)
         return wxString(_("Draw curve"));
     case enumGISDrawingToolFreeHand://
         return wxString(_("Draw freehand"));
+    case enumGISDrawingToolLayerSelector://
+        return wxString(_("Select drawing layer"));
     default:
         return wxEmptyString;
     }
@@ -271,7 +286,7 @@ wxString wxGISDrawingTool::GetTooltip(void)
 
 unsigned char wxGISDrawingTool::GetCount(void)
 {
-    return 8;
+    return enumGISDrawingToolMax;
 }
 
 wxCursor wxGISDrawingTool::GetCursor(void)
@@ -291,6 +306,7 @@ wxCursor wxGISDrawingTool::GetCursor(void)
             m_CurDrawing = wxCursor(wxCURSOR_CROSS);
         }
         return m_CurDrawing;
+    case enumGISDrawingToolLayerSelector://
     default:
         return wxNullCursor;
     }
@@ -305,51 +321,93 @@ void wxGISDrawingTool::SetChecked(bool bCheck)
 
 void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
 {
+    wxGISAppConfig oConfig = GetConfig();
+    wxGISColor color(0, 255, 0, 255);
+    int nWidth(2);
+    if (oConfig.IsOk())
+    {
+        wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/drawing/rabberband")));
+        color = GetColorValue(pNode, wxT("color"), color);
+        nWidth = GetDecimalValue(pNode, wxT("width"), nWidth);
+    }
+
     event.Skip();
     switch (m_subtype)
     {
     case enumGISDrawingToolRectangle://
+    {
+        wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberEnvelope.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolMarker://
+        break;
     case enumGISDrawingToolCircle://
+    {
+        wxGISRubberCircle RubberCircle(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberCircle.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolEllipse://
+    {
+        wxGISRubberEllipse RubberEllipse(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberEllipse.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolPolygon://
+    {
+        wxPen oPen(color.GetColour(), nWidth);
+        oPen.SetCap(wxCAP_ROUND);
+        oPen.SetJoin(wxJOIN_ROUND);
+                                    
+        wxGISRubberPolygon RubberPolygon(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberPolygon.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolLine://
+    {
+        wxPen oPen(color.GetColour(), nWidth);
+        oPen.SetCap(wxCAP_ROUND);
+        oPen.SetJoin(wxJOIN_ROUND);
+                                    
+        wxGISRubberLine RubberLine(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberLine.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolCurve://
+    {
+        wxPen oPen(color.GetColour(), nWidth);
+        oPen.SetCap(wxCAP_ROUND);
+        oPen.SetJoin(wxJOIN_ROUND);
+                                    
+        wxGISRubberSpline RubberSpline(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberSpline.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
+        break;
+    }
     case enumGISDrawingToolFreeHand://
     {
-                //wxGISAppConfig oConfig = GetConfig();
-                //wxGISColor color(0, 0, 255, 255);
-                //int nWidth(2);
-                //if (oConfig.IsOk())
-                //{
-                //    wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));
-                //    color = GetColorValue(pNode, wxT("color"), color);
-                //    nWidth = GetDecimalValue(pNode, wxT("width"), nWidth);
-                //}
+        wxPen oPen(color.GetColour(), nWidth);
+        oPen.SetCap(wxCAP_ROUND); 
+        oPen.SetJoin(wxJOIN_ROUND);
 
-                //wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
-                //wxGISGeometry Geom = RubberEnvelope.TrackNew(event.GetX(), event.GetY());
-                //if (!Geom.IsOk())
-                //    break;
-                //OGREnvelope Env = Geom.GetEnvelope();
-                //if (IsDoubleEquil(Env.MaxX, Env.MinX) || IsDoubleEquil(Env.MaxY, Env.MinY))
-                //{
-                //    OGREnvelope CurrentEnv = m_pMapView->GetCurrentExtent();
-                //    double widthdiv4 = (CurrentEnv.MaxX - CurrentEnv.MinX) / 4;
-                //    double heightdiv4 = (CurrentEnv.MaxY - CurrentEnv.MinY) / 4;
-
-                //    Env.MinX -= widthdiv4;
-                //    Env.MinY -= heightdiv4;
-                //    Env.MaxX += widthdiv4;
-                //    Env.MaxY += heightdiv4;
-                //}
-
-                //wxDC* pDC = new wxClientDC(m_pMapView);
-                //if (m_pMapView->GetScaleRatio(Env, *pDC) > 1.0)
-                //    m_pMapView->Do(Env);
-                //wxDELETE(pDC);
-    }
+        wxGISRubberFreeHand RubberFreeHand(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISGeometry Geom = RubberFreeHand.TrackNew(event.GetX(), event.GetY());
+        if (!Geom.IsOk())
+            break;
         break;
+    }
     default:
         break;
     }
@@ -360,8 +418,10 @@ void wxGISDrawingTool::OnMouseUp(wxMouseEvent& event)
     //    event.Skip();
     switch (m_subtype)
     {
-    case enumGISDrawingToolRectangle://
     case enumGISDrawingToolMarker://
+        //put marker
+        break;
+    case enumGISDrawingToolRectangle://
     case enumGISDrawingToolCircle://
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
@@ -396,6 +456,43 @@ void wxGISDrawingTool::OnMouseMove(wxMouseEvent& event)
 void wxGISDrawingTool::OnMouseDoubleClick(wxMouseEvent& event)
 {
     event.Skip();
+}
+
+IToolBarControl* wxGISDrawingTool::GetControl(void)
+{
+    switch (m_subtype)
+    {
+    case enumGISDrawingToolLayerSelector:
+    {
+        wxArrayString ValuesArray;
+        wxGISDrawingLayersComboBox* pComboBox = new wxGISDrawingLayersComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(180, 22), ValuesArray);
+        return static_cast<IToolBarControl*>(pComboBox);
+    }
+    default:
+        return NULL;
+    }
+}
+
+wxString wxGISDrawingTool::GetToolLabel(void)
+{
+    switch (m_subtype)
+    {
+    case enumGISDrawingToolLayerSelector:
+        return wxString(_("Layer:  "));
+    default:
+        return wxEmptyString;
+    }
+}
+
+bool wxGISDrawingTool::HasToolLabel(void)
+{
+    switch (m_subtype)
+    {
+    case enumGISDrawingToolLayerSelector:
+        return true;
+    default:
+        return false;
+    }
 }
 
 //--------------------------------------------------
@@ -621,7 +718,7 @@ wxMenu* wxGISDrawingToolMenu::GetDropDownMenu(void)
     case enumGISDrawingToolMenu:
     {
         wxMenu* pMenu = new wxMenu();
-        for (size_t i = enumGISDrawingToolRectangle; i < enumGISDrawingToolMax; ++i)
+        for (size_t i = enumGISDrawingToolRectangle; i < enumGISDrawingToolMarker + 1; ++i)
         {
             wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISDrawingTool"), i);
             if (pCmd != NULL)
@@ -658,4 +755,86 @@ void wxGISDrawingToolMenu::OnDropDownCommand(int nID)
     m_pCurrentTool = wxDynamicCast(pCmd, wxGISDrawingTool);
     
     m_pApp->Command(this);// m_pCurrentTool);
+}
+
+
+//-----------------------------------------------------------------------------------------
+// wxGISDrawingLayersComboBox
+//-----------------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISDrawingLayersComboBox, wxComboBox)
+
+BEGIN_EVENT_TABLE(wxGISDrawingLayersComboBox, wxComboBox)
+EVT_MXMAP_LAYER_ADDED(wxGISDrawingLayersComboBox::OnLayerAdded)
+EVT_MXMAP_LAYER_REMOVED(wxGISDrawingLayersComboBox::OnLayerRemoved)
+END_EVENT_TABLE()
+
+wxGISDrawingLayersComboBox::wxGISDrawingLayersComboBox(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style, const wxValidator& validator, const wxString& name) : wxComboBox(parent, id, value, pos, size, choices, style, validator, name)
+{
+}
+
+wxGISDrawingLayersComboBox::~wxGISDrawingLayersComboBox(void)
+{
+}
+
+void wxGISDrawingLayersComboBox::Activate(wxGISApplicationBase* pApp)
+{
+    if (m_anMapWinIDs.empty())
+    {
+        WINDOWARRAY WinIDsArr = pApp->GetChildWindows();
+        for (size_t i = 0; i < WinIDsArr.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(WinIDsArr[i]);
+            if (pWnd && pWnd->IsKindOf(wxCLASSINFO(wxGISDrawingMapView)))
+            {
+                wxGISDrawingMapView* pMapView = wxDynamicCast(pWnd, wxGISDrawingMapView);
+                long nConnectionPointMapCookie = pMapView->Advise(this);
+                m_anMapWinIDs.push_back(std::make_pair(pWnd->GetId(), nConnectionPointMapCookie));
+            }
+        }
+    }
+}
+
+void wxGISDrawingLayersComboBox::Deactivate(void)
+{
+    for (size_t i = 0; i < m_anMapWinIDs.size(); ++i)
+    {
+        wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i].first);
+        wxGISDrawingMapView* pMapView = wxDynamicCast(pWnd, wxGISDrawingMapView);
+        if (pMapView)
+        {
+            pMapView->Unadvise(m_anMapWinIDs[i].second);
+        }
+    }
+}
+
+void wxGISDrawingLayersComboBox::UpdateLayersList(int nWinId)
+{
+    wxWindow* pWnd = wxWindow::FindWindowById(nWinId);
+    wxGISDrawingMapView* pMapView = wxDynamicCast(pWnd, wxGISDrawingMapView);
+    if (pMapView)
+    {
+        //clear
+        Clear(); //TODO: store selection in combo
+        for (size_t i = 0; i < pMapView->GetLayerCount(); ++i)
+        {
+            wxGISLayer* pLayer = pMapView->GetLayerByIndex(i);
+            if (NULL != pLayer && pLayer->GetType() == enumGISDrawing)
+            {
+                int nPos = Append(pLayer->GetName());
+                SetClientData(nPos, (void*)pLayer->GetId());
+            }
+        }
+        SetSelection(0);
+    }
+}
+
+void wxGISDrawingLayersComboBox::OnLayerAdded(wxMxMapViewUIEvent& event)
+{
+    UpdateLayersList(event.GetId());
+}
+
+void wxGISDrawingLayersComboBox::OnLayerRemoved(wxMxMapViewUIEvent& event)
+{
+    UpdateLayersList(event.GetId());
 }

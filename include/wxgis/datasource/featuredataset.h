@@ -86,7 +86,8 @@ public:
     virtual wxGISDataset* GetSubset(size_t nIndex);	
     virtual wxGISDataset* GetSubset(const wxString & sSubsetName); 
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
-//wxGISFeatureDataset
+    virtual void SetEncoding(const wxFontEncoding &oEncoding);
+    //wxGISFeatureDataset
 	virtual OGREnvelope GetEnvelope(void);
     /*
     virtual OGRErr SetFilter(wxGISQueryFilter* pQFilter);
