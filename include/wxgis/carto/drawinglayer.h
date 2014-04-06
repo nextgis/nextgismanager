@@ -97,6 +97,8 @@ public:
     virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISEnumDatasetType GetType(void) const { return enumGISDrawing; };
     virtual bool AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType eType);
+    virtual size_t GetShapeCount(void) const;
+    virtual wxGISShape* GetShape(size_t nIndex) const;
     virtual wxGISSymbol* GetSymbol(wxGISEnumShapeType eType);
     virtual void Clear();
 protected:

@@ -134,3 +134,23 @@ void wxGISColor::SetFromString(const wxString &sColorTxt)
     int nA = wxAtoi(saColors[3]);
     Set(nR, nG, nB, nA);
 }
+
+void wxGISColor::SetAlpha(ChannelType alpha)
+{
+    Set(Red(), Green(), Blue(), alpha);
+}
+
+void wxGISColor::SetRed(ChannelType red)
+{
+    Set(red, Green(), Blue(), Alpha());
+}
+
+void wxGISColor::SetGreen(ChannelType green)
+{
+    Set(Red(), green, Blue(), Alpha());
+}
+
+void wxGISColor::SetBlue(ChannelType blue)
+{
+    Set(Red(), Green(), blue, Alpha());
+}

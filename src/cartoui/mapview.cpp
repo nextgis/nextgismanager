@@ -1029,9 +1029,11 @@ void wxGISMapView::OnMapDrawing(wxMxMapViewUIEvent& event)
         if(m_nDrawingState != enumGISMapFlashing) //maybe m_nDrawingState == enumGISMapNone
         m_nDrawingState = enumGISMapDrawing;
 
-        wxCHECK_RET(m_pAni, wxT("Animation progress is not initiated"));
-        m_pAni->ShowProgress(true);
-        m_pAni->Play();
+        if (NULL != m_pAni)
+        {
+            m_pAni->ShowProgress(true);
+            m_pAni->Play();
+        }
     }
     else if(eType == wxMXMAP_DRAWING_STOP)
     {
@@ -1046,9 +1048,11 @@ void wxGISMapView::OnMapDrawing(wxMxMapViewUIEvent& event)
 	    //m_nDrawingState = enumGISMapNone;
 	    Refresh();
 
-        wxCHECK_RET(m_pAni, wxT("Animation progress is not initiated"));
-        m_pAni->Stop();
-        m_pAni->ShowProgress(false);
+        if (NULL != m_pAni)
+        {
+            m_pAni->Stop();
+            m_pAni->ShowProgress(false);
+        }
     }
 
     AddEvent(wxMxMapViewUIEvent(event));

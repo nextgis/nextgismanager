@@ -22,8 +22,11 @@
 
 #include "wxgis/display/display.h"
 
-/** \class wxGISColor color.h
-    \brief The color class
+/** @class wxGISColor
+
+    The color representation class
+
+    @library{display}
 */
 
 class WXDLLIMPEXP_GIS_DSP wxGISColor : public wxColour
@@ -44,6 +47,10 @@ public:
     void Set (ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha = wxALPHA_OPAQUE);
     virtual wxString GetAsString(long nFlags = wxC2S_NAME|wxC2S_CSS_SYNTAX) const;
     virtual void SetFromString(const wxString &sColorTxt);
+    virtual void SetAlpha(ChannelType alpha);
+    virtual void SetRed(ChannelType red);
+    virtual void SetGreen(ChannelType green);
+    virtual void SetBlue(ChannelType blue);
 protected:
     virtual void SetValues(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha); 
 protected:

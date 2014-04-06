@@ -67,20 +67,20 @@ wxIcon wxGISCartoMainCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			if(!m_IconFullExt.IsOk())
-				m_IconFullExt = wxIcon(fullext_xpm);
-			return m_IconFullExt;
-		case 1:
-			if(!m_IconPrevExt.IsOk())
-				m_IconPrevExt = wxIcon(prevext_xpm);
-			return m_IconPrevExt;
-		case 2:
-			if(!m_IconNextExt.IsOk())
-				m_IconNextExt = wxIcon(nextext_xpm);
-			return m_IconNextExt;
-		default:
-			return wxNullIcon;
+    case enumGISCartoMainCmdFullExtent:
+		if(!m_IconFullExt.IsOk())
+			m_IconFullExt = wxIcon(fullext_xpm);
+		return m_IconFullExt;
+    case enumGISCartoMainCmdPrevExtent:
+		if(!m_IconPrevExt.IsOk())
+			m_IconPrevExt = wxIcon(prevext_xpm);
+		return m_IconPrevExt;
+    case enumGISCartoMainCmdNextExtent:
+		if(!m_IconNextExt.IsOk())
+			m_IconNextExt = wxIcon(nextext_xpm);
+		return m_IconNextExt;
+	default:
+		return wxNullIcon;
 	}
 }
 
@@ -88,14 +88,14 @@ wxString wxGISCartoMainCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("&Full Extent"));
-		case 1:
-			return wxString(_("&Previous Extent"));
-		case 2:
-			return wxString(_("&Next Extent"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainCmdFullExtent:
+		return wxString(_("&Full Extent"));
+    case enumGISCartoMainCmdPrevExtent:
+		return wxString(_("&Previous Extent"));
+    case enumGISCartoMainCmdNextExtent:
+		return wxString(_("&Next Extent"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -103,12 +103,12 @@ wxString wxGISCartoMainCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-			return wxString(_("Geography"));
-		default:
-			return NO_CATEGORY;
+    case enumGISCartoMainCmdFullExtent:
+    case enumGISCartoMainCmdPrevExtent:
+    case enumGISCartoMainCmdNextExtent:
+		return wxString(_("Geography"));
+	default:
+		return NO_CATEGORY;
 	}
 }
 
@@ -116,12 +116,12 @@ bool wxGISCartoMainCmd::GetChecked(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-			return false;
-		default:
-			return false;
+    case enumGISCartoMainCmdFullExtent:
+    case enumGISCartoMainCmdPrevExtent:
+    case enumGISCartoMainCmdNextExtent:
+		return false;
+	default:
+		return false;
 	}
 }
 
@@ -153,35 +153,35 @@ bool wxGISCartoMainCmd::GetEnabled(void)
 
 	switch(m_subtype)
 	{
-		case 0:
-            for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen())// && pWnd->HasFocus()
-                    return true;
-            }
-			return false;
-		case 1:
-            for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
-                    return true;
-            }			
-            return false;
-		case 2:
-            for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
-                    return true;
-            }			
-            return false;
-        default:
-			return false;
+    case enumGISCartoMainCmdFullExtent:
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen())// && pWnd->HasFocus()
+                return true;
+        }
+		return false;
+    case enumGISCartoMainCmdPrevExtent:
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
+                return true;
+        }			
+        return false;
+    case enumGISCartoMainCmdNextExtent:
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
+                return true;
+        }			
+        return false;
+    default:
+		return false;
 	}
     return false;
 }
@@ -190,12 +190,12 @@ wxGISEnumCommandKind wxGISCartoMainCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Full Extent
-		case 1://Previous Extent
-		case 2://Next Extent
-			return enumGISCommandNormal;
-		default:
-			return enumGISCommandNormal;
+    case enumGISCartoMainCmdFullExtent://Full Extent
+    case enumGISCartoMainCmdPrevExtent://Previous Extent
+    case enumGISCartoMainCmdNextExtent://Next Extent
+		return enumGISCommandNormal;
+	default:
+		return enumGISCommandNormal;
 	}
 }
 
@@ -203,14 +203,14 @@ wxString wxGISCartoMainCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Full extent of the map"));
-		case 1:
-			return wxString(_("Previous extent of the map"));
-		case 2:
-			return wxString(_("Next extent of the map"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainCmdFullExtent:
+		return wxString(_("Full extent of the map"));
+    case enumGISCartoMainCmdPrevExtent:
+		return wxString(_("Previous extent of the map"));
+    case enumGISCartoMainCmdNextExtent:
+		return wxString(_("Next extent of the map"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -220,17 +220,17 @@ void wxGISCartoMainCmd::OnClick(void)
 
 	switch(m_subtype)
 	{
-		case 0:
-            if(m_pMapView)// && pWnd->HasFocus()
-                return m_pMapView->SetFullExtent();
-		case 1:
-            if(m_pMapView)// && m_pMapView->IsShown() && pMapView->CanUndo())// && pWnd->HasFocus()
-                return m_pMapView->Undo();
-		case 2:
-            if(m_pMapView)// && m_pMapView->IsShown() && m_pMapView->CanRedo())// && pWnd->HasFocus()
-                return m_pMapView->Redo();
-		default:
-			break;
+    case enumGISCartoMainCmdFullExtent:
+        if(m_pMapView)// && pWnd->HasFocus()
+            return m_pMapView->SetFullExtent();
+    case enumGISCartoMainCmdPrevExtent:
+        if(m_pMapView)// && m_pMapView->IsShown() && pMapView->CanUndo())// && pWnd->HasFocus()
+            return m_pMapView->Undo();
+    case enumGISCartoMainCmdNextExtent:
+        if(m_pMapView)// && m_pMapView->IsShown() && m_pMapView->CanRedo())// && pWnd->HasFocus()
+            return m_pMapView->Redo();
+	default:
+		break;
 	}
 }
 
@@ -244,20 +244,20 @@ wxString wxGISCartoMainCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Full Extent"));
-		case 1:
-			return wxString(_("Previous Extent"));
-		case 2:
-			return wxString(_("Next Extent"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainCmdFullExtent:
+		return wxString(_("Full Extent"));
+    case enumGISCartoMainCmdPrevExtent:
+		return wxString(_("Previous Extent"));
+    case enumGISCartoMainCmdNextExtent:
+		return wxString(_("Next Extent"));
+	default:
+		return wxEmptyString;
 	}
 }
 
 unsigned char wxGISCartoMainCmd::GetCount(void)
 {
-	return 3;
+    return enumGISCartoMainCmdMax;
 }
 
 //--------------------------------------------------
@@ -289,24 +289,24 @@ wxIcon wxGISCartoMainTool::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			if(!m_IconZoomIn.IsOk())
-				m_IconZoomIn = wxIcon(zoomin_xpm);
-			return m_IconZoomIn;
-		case 1:
-			if(!m_IconZoomOut.IsOk())
-				m_IconZoomOut = wxIcon(zoomout_xpm);
-			return m_IconZoomOut;
-		case 2:
-			if(!m_IconPan.IsOk())
-				m_IconPan = wxIcon(pan1_cur_xpm);
-			return m_IconPan;
-		case 3:
-			if(!m_IconInfo.IsOk())
-				m_IconInfo = wxIcon(info_xpm);
-			return m_IconInfo;
-		default:
-			return wxNullIcon;
+    case enumGISCartoMainToolZoomIn:
+		if(!m_IconZoomIn.IsOk())
+			m_IconZoomIn = wxIcon(zoomin_xpm);
+		return m_IconZoomIn;
+    case enumGISCartoMainToolZoomOut:
+		if(!m_IconZoomOut.IsOk())
+			m_IconZoomOut = wxIcon(zoomout_xpm);
+		return m_IconZoomOut;
+    case enumGISCartoMainToolPan:
+		if(!m_IconPan.IsOk())
+			m_IconPan = wxIcon(pan1_cur_xpm);
+		return m_IconPan;
+    case enumGISCartoMainToolIdentify:
+		if(!m_IconInfo.IsOk())
+			m_IconInfo = wxIcon(info_xpm);
+		return m_IconInfo;
+	default:
+		return wxNullIcon;
 	}
 }
 
@@ -314,16 +314,16 @@ wxString wxGISCartoMainTool::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Zoom &In"));
-		case 1:
-			return wxString(_("Zoom &Out"));
-		case 2:
-			return wxString(_("&Pan"));
-		case 3:
-			return wxString(_("&Information"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainToolZoomIn:
+		return wxString(_("Zoom &In"));
+    case enumGISCartoMainToolZoomOut:
+		return wxString(_("Zoom &Out"));
+    case enumGISCartoMainToolPan:
+		return wxString(_("&Pan"));
+    case enumGISCartoMainToolIdentify:
+		return wxString(_("&Information"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -331,13 +331,13 @@ wxString wxGISCartoMainTool::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-			return wxString(_("Geography"));
-		default:
-			return NO_CATEGORY;
+    case enumGISCartoMainToolZoomIn:
+    case enumGISCartoMainToolZoomOut:
+    case enumGISCartoMainToolPan:
+    case enumGISCartoMainToolIdentify:
+		return wxString(_("Geography"));
+	default:
+		return NO_CATEGORY;
 	}
 }
 
@@ -375,28 +375,28 @@ bool wxGISCartoMainTool::GetEnabled(void)
 
 	switch(m_subtype)
 	{
-		case 0://zoom in
-		case 1://zoom out
-		case 2://pan
+    case enumGISCartoMainToolZoomIn://zoom in
+    case enumGISCartoMainToolZoomOut://zoom out
+    case enumGISCartoMainToolPan://pan
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen())// && pWnd->HasFocus()
+                return true;
+        }
+        return false;
+    case enumGISCartoMainToolIdentify://info
             for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen())// && pWnd->HasFocus()
-                    return true;
-            }
-            return false;
-		case 3://info
-             for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pIdentifyView)// && pWnd->HasFocus()
-                    return true;
-            }
-            return false;          
-		default:
-			return false;
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pIdentifyView)// && pWnd->HasFocus()
+                return true;
+        }
+        return false;          
+	default:
+		return false;
 	}
     return false;
 }
@@ -405,13 +405,13 @@ wxGISEnumCommandKind wxGISCartoMainTool::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://ZoomIn
-		case 1://ZoomOut
-		case 2://Pan
-		case 3://Information
-			return enumGISCommandCheck;
-		default:
-			return enumGISCommandNormal;
+    case enumGISCartoMainToolZoomIn://ZoomIn
+    case enumGISCartoMainToolZoomOut://ZoomOut
+    case enumGISCartoMainToolPan://Pan
+    case enumGISCartoMainToolIdentify://Information
+		return enumGISCommandCheck;
+	default:
+		return enumGISCommandNormal;
 	}
 }
 
@@ -419,16 +419,16 @@ wxString wxGISCartoMainTool::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Zoom map in"));
-		case 1:
-			return wxString(_("Zoom map out"));
-		case 2:
-			return wxString(_("Pan map"));
-		case 3:
-			return wxString(_("Feature information"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainToolZoomIn:
+		return wxString(_("Zoom map in"));
+    case enumGISCartoMainToolZoomOut:
+		return wxString(_("Zoom map out"));
+    case enumGISCartoMainToolPan:
+		return wxString(_("Pan map"));
+    case enumGISCartoMainToolIdentify:
+		return wxString(_("Feature information"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -436,13 +436,13 @@ void wxGISCartoMainTool::OnClick(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-			break;
-		default:
-			break;
+    case enumGISCartoMainToolZoomIn:
+    case enumGISCartoMainToolZoomOut:
+    case enumGISCartoMainToolPan:
+    case enumGISCartoMainToolIdentify:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -456,66 +456,66 @@ wxString wxGISCartoMainTool::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Zoom In"));
-		case 1:
-			return wxString(_("Zoom Out"));
-		case 2:
-			return wxString(_("Pan"));
-		case 3:
-			return wxString(_("Information"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoMainToolZoomIn:
+		return wxString(_("Zoom In"));
+    case enumGISCartoMainToolZoomOut:
+		return wxString(_("Zoom Out"));
+    case enumGISCartoMainToolPan:
+		return wxString(_("Pan"));
+    case enumGISCartoMainToolIdentify:
+		return wxString(_("Information"));
+	default:
+		return wxEmptyString;
 	}
 }
 
 unsigned char wxGISCartoMainTool::GetCount(void)
 {
-	return 4;
+    return enumGISCartoMainToolMax;
 }
 
 wxCursor wxGISCartoMainTool::GetCursor(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	//z_in
-			if(!m_CurZoomIn.IsOk())
-			{
-				wxImage CursorImage = wxBitmap(zoom_in_cur_xpm).ConvertToImage();
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 6);
-				m_CurZoomIn = wxCursor(CursorImage);
-			}
-			return m_CurZoomIn;
-		case 1:	//z_out
-			if(!m_CurZoomIn.IsOk())
-			{
-				wxImage CursorImage = wxBitmap(zoom_out_cur_xpm).ConvertToImage();
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 6);
-				m_CurZoomOut = wxCursor(CursorImage);
-			}
-			return m_CurZoomOut;
-		case 2:	//pan
-			if(!m_CurPan1.IsOk())
-			{
-				wxImage CursorImage = wxBitmap(pan1_cur_xpm).ConvertToImage();
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 7);
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 7);
-				m_CurPan1 = wxCursor(CursorImage);
-			}
-			return m_CurPan1;
-		case 3:	//inf
-			if(!m_CurInfo.IsOk())
-			{
-				wxImage CursorImage = wxBitmap(get_info_cur_xpm).ConvertToImage();
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 0);
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 0);
-				m_CurInfo = wxCursor(CursorImage);
-			}
-			return m_CurInfo;
-		default:
-			return wxNullCursor;
+    case enumGISCartoMainToolZoomIn:	//z_in
+		if(!m_CurZoomIn.IsOk())
+		{
+			wxImage CursorImage = wxBitmap(zoom_in_cur_xpm).ConvertToImage();
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 6);
+			m_CurZoomIn = wxCursor(CursorImage);
+		}
+		return m_CurZoomIn;
+    case enumGISCartoMainToolZoomOut:	//z_out
+		if(!m_CurZoomIn.IsOk())
+		{
+			wxImage CursorImage = wxBitmap(zoom_out_cur_xpm).ConvertToImage();
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 6);
+			m_CurZoomOut = wxCursor(CursorImage);
+		}
+		return m_CurZoomOut;
+    case enumGISCartoMainToolPan:	//pan
+		if(!m_CurPan1.IsOk())
+		{
+			wxImage CursorImage = wxBitmap(pan1_cur_xpm).ConvertToImage();
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 7);
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 7);
+			m_CurPan1 = wxCursor(CursorImage);
+		}
+		return m_CurPan1;
+    case enumGISCartoMainToolIdentify:	//inf
+		if(!m_CurInfo.IsOk())
+		{
+			wxImage CursorImage = wxBitmap(get_info_cur_xpm).ConvertToImage();
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 0);
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 0);
+			m_CurInfo = wxCursor(CursorImage);
+		}
+		return m_CurInfo;
+	default:
+		return wxNullCursor;
 	}
 }
 
@@ -535,7 +535,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
     event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//z_in
+    case enumGISCartoMainToolZoomIn:	//z_in
 		{
             if(oConfig.IsOk())
             {
@@ -567,7 +567,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
             wxDELETE(pDC);
 		}
 		break;
-		case 1:	//z_out
+    case enumGISCartoMainToolZoomOut:	//z_out
 		{
             if(oConfig.IsOk())
             {
@@ -590,7 +590,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
             m_pMapView->Do(NewEnv);
 		}
 		break;
-		case 2:	//pan
+    case enumGISCartoMainToolPan:	//pan
 			if(!m_CurPan2.IsOk())
 			{
 				wxImage CursorImage = wxBitmap(pan2_cur_xpm).ConvertToImage();
@@ -601,7 +601,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 			m_pMapView->SetCursor(m_CurPan2);
 			m_pMapView->PanStart(event.GetPosition());
 			break;
-		case 3:	//inf
+    case enumGISCartoMainToolIdentify:	//inf
 		{
             if(oConfig.IsOk())
             {
@@ -621,8 +621,8 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 				m_pIdentifyView->Identify(m_pMapView, Geom);
 		}
 		break;
-		default:
-			break;
+	default:
+		break;
 	}
 }
 
@@ -631,18 +631,18 @@ void wxGISCartoMainTool::OnMouseUp(wxMouseEvent& event)
 //    event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//z_in
-			break;
-		case 1:	//z_out
-			break;
-		case 2:	//pan
-			m_pMapView->PanStop(event.GetPosition());
-			m_pMapView->SetCursor(GetCursor());
-			break;
-		case 3:	//inf
-			break;
-		default:
-			break;
+    case enumGISCartoMainToolZoomIn:	//z_in
+		break;
+    case enumGISCartoMainToolZoomOut:	//z_out
+		break;
+    case enumGISCartoMainToolPan:	//pan
+		m_pMapView->PanStop(event.GetPosition());
+		m_pMapView->SetCursor(GetCursor());
+		break;
+    case enumGISCartoMainToolIdentify:	//inf
+		break;
+	default:
+		break;
 	}
 }
 
@@ -651,18 +651,18 @@ void wxGISCartoMainTool::OnMouseMove(wxMouseEvent& event)
     //event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//z_in
-			break;
-		case 1:	//z_out
-			break;
-		case 2:	//pan
-			if(event.Dragging())
-				m_pMapView->PanMoveTo(event.GetPosition());
-			break;
-		case 3:	//inf
-			break;
-		default:
-			break;
+    case enumGISCartoMainToolZoomIn:	//z_in
+		break;
+    case enumGISCartoMainToolZoomOut:	//z_out
+		break;
+    case enumGISCartoMainToolPan:	//pan
+		if(event.Dragging())
+			m_pMapView->PanMoveTo(event.GetPosition());
+		break;
+    case enumGISCartoMainToolIdentify:	//inf
+		break;
+	default:
+		break;
 	}
 }
 
@@ -695,17 +695,17 @@ wxIcon wxGISCartoFrameTool::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			if(!m_IconRotate.IsOk())
-				m_IconRotate = wxIcon(map_rotate_xpm);
-			return m_IconRotate;
-		case 1:
-			if(!m_IconCancelRotate.IsOk())
-				m_IconCancelRotate = wxIcon(cancel_map_rotate_xpm);
-			return m_IconCancelRotate;
-		case 2:
-		default:
-			return wxNullIcon;
+    case enumGISCartoFrameToolRotate:
+		if(!m_IconRotate.IsOk())
+			m_IconRotate = wxIcon(map_rotate_xpm);
+		return m_IconRotate;
+    case enumGISCartoFrameToolCancelRotate:
+		if(!m_IconCancelRotate.IsOk())
+			m_IconCancelRotate = wxIcon(cancel_map_rotate_xpm);
+		return m_IconCancelRotate;
+    case enumGISCartoFrameToolInputRotateAngle:
+	default:
+		return wxNullIcon;
 	}
 }
 
@@ -713,14 +713,14 @@ wxString wxGISCartoFrameTool::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("&Rotate"));
-		case 1:
-			return wxString(_("Cancel rotate"));
-		case 2:
-			return wxString(_("Input rotate angle"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoFrameToolRotate:
+		return wxString(_("&Rotate"));
+    case enumGISCartoFrameToolCancelRotate:
+		return wxString(_("Cancel rotate"));
+    case enumGISCartoFrameToolInputRotateAngle:
+		return wxString(_("Input rotate angle"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -728,12 +728,12 @@ wxString wxGISCartoFrameTool::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-			return wxString(_("View"));
-		default:
-			return NO_CATEGORY;
+    case enumGISCartoFrameToolRotate:
+    case enumGISCartoFrameToolCancelRotate:
+    case enumGISCartoFrameToolInputRotateAngle:
+		return wxString(_("View"));
+	default:
+		return NO_CATEGORY;
 	}
 }
 
@@ -761,20 +761,20 @@ bool wxGISCartoFrameTool::GetEnabled(void)
 
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
+    case enumGISCartoFrameToolRotate:
+    case enumGISCartoFrameToolCancelRotate:
 			//check if angle == 0
-		case 2:
-            for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
-            {
-                wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
-                m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
-                if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanRotate())
-                    return true;
-            }
-            return false;
-		default:
-			return false;
+    case enumGISCartoFrameToolInputRotateAngle:
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        {
+            wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
+            m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
+            if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanRotate())
+                return true;
+        }
+        return false;
+	default:
+		return false;
 	}
 }
 
@@ -782,14 +782,14 @@ wxGISEnumCommandKind wxGISCartoFrameTool::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Rotate
-			return enumGISCommandCheck;
-		case 1://Cancel rotate
-			return enumGISCommandNormal;
-    	case 2://Input rotate
-			return enumGISCommandControl;
-		default:
-			return enumGISCommandNormal;
+    case enumGISCartoFrameToolRotate://Rotate
+		return enumGISCommandCheck;
+    case enumGISCartoFrameToolCancelRotate://Cancel rotate
+		return enumGISCommandNormal;
+    case enumGISCartoFrameToolInputRotateAngle://Input rotate
+		return enumGISCommandControl;
+	default:
+		return enumGISCommandNormal;
 	}
 }
 
@@ -797,14 +797,14 @@ wxString wxGISCartoFrameTool::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Rotate map frame"));
-		case 1:
-			return wxString(_("Cancel rotate map frame"));
-		case 2:
-			return wxString(_("Input map frame rotate angle"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoFrameToolRotate:
+		return wxString(_("Rotate map frame"));
+    case enumGISCartoFrameToolCancelRotate:
+		return wxString(_("Cancel rotate map frame"));
+    case enumGISCartoFrameToolInputRotateAngle:
+		return wxString(_("Input map frame rotate angle"));
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -812,18 +812,18 @@ void wxGISCartoFrameTool::OnClick(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			break;
-		case 1:
-			if(m_pMapView)
-			{
-				m_pMapView->SetRotate(0.0);
-			}
-			break;
-		case 2:
-			break;
-		default:
-			break;
+    case enumGISCartoFrameToolRotate:
+		break;
+    case enumGISCartoFrameToolCancelRotate:
+		if(m_pMapView)
+		{
+			m_pMapView->SetRotate(0.0);
+		}
+		break;
+    case enumGISCartoFrameToolInputRotateAngle:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -838,37 +838,37 @@ wxString wxGISCartoFrameTool::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-			return wxString(_("Rotate map frame"));
-		case 1:
-			return wxString(_("Cancel rotate map frame"));
-		case 2:
-			return wxString(_("Input map frame rotate angle"));
-		default:
-			return wxEmptyString;
+    case enumGISCartoFrameToolRotate:
+		return wxString(_("Rotate map frame"));
+    case enumGISCartoFrameToolCancelRotate:
+		return wxString(_("Cancel rotate map frame"));
+    case enumGISCartoFrameToolInputRotateAngle:
+		return wxString(_("Input map frame rotate angle"));
+	default:
+		return wxEmptyString;
 	}
 }
 
 unsigned char wxGISCartoFrameTool::GetCount(void)
 {
-	return 3;
+    return enumGISCartoFrameToolMax;
 }
 
 wxCursor wxGISCartoFrameTool::GetCursor(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	//rotate
-			if(!m_CurRotate.IsOk())
-			{
-				wxImage CursorImage = wxBitmap(rotate_cur_xpm).ConvertToImage();
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 7);
-				CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 7);
-				m_CurRotate = wxCursor(CursorImage);
-			}
-			return m_CurRotate;
-		default:
-			return wxNullCursor;
+    case enumGISCartoFrameToolRotate:	//rotate
+		if(!m_CurRotate.IsOk())
+		{
+			wxImage CursorImage = wxBitmap(rotate_cur_xpm).ConvertToImage();
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 7);
+			CursorImage.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 7);
+			m_CurRotate = wxCursor(CursorImage);
+		}
+		return m_CurRotate;
+	default:
+		return wxNullCursor;
 	}
 }
 
@@ -884,11 +884,11 @@ void wxGISCartoFrameTool::OnMouseDown(wxMouseEvent& event)
     event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//rotate
-			m_pMapView->RotateStart(event.GetPosition());
-			break;
-		default:
-			break;
+    case enumGISCartoFrameToolRotate:	//rotate
+		m_pMapView->RotateStart(event.GetPosition());
+		break;
+	default:
+		break;
 	}
 }
 
@@ -897,12 +897,12 @@ void wxGISCartoFrameTool::OnMouseUp(wxMouseEvent& event)
 //    event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//rotate
-			m_pMapView->RotateStop(event.GetPosition());
-			m_pMapView->SetCursor(GetCursor());
-			break;
-		default:
-			break;
+    case enumGISCartoFrameToolRotate:	//rotate
+		m_pMapView->RotateStop(event.GetPosition());
+		m_pMapView->SetCursor(GetCursor());
+		break;
+	default:
+		break;
 	}
 }
 
@@ -911,16 +911,14 @@ void wxGISCartoFrameTool::OnMouseMove(wxMouseEvent& event)
     //event.Skip();
 	switch(m_subtype)
 	{
-		case 0:	//rotate
-			if(event.Dragging())
-			{
-				m_pMapView->RotateBy(event.GetPosition());
-			}
-			break;
-		case 2:
-			break;
-		default:
-			break;
+    case enumGISCartoFrameToolRotate:	//rotate
+		if(event.Dragging())
+		{
+			m_pMapView->RotateBy(event.GetPosition());
+		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -933,15 +931,15 @@ IToolBarControl* wxGISCartoFrameTool::GetControl(void)
 {
 	switch(m_subtype)
 	{
-		case 2:
-			//if(!m_pRotationComboBox)
-			{
-				wxArrayString ValuesArray;
-				wxGISRotationComboBox* pRotationComboBox = new wxGISRotationComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 65, 22 ), ValuesArray);
-				return static_cast<IToolBarControl*>(pRotationComboBox);
-			}
-		default:
-			return NULL;
+    case enumGISCartoFrameToolInputRotateAngle:
+		//if(!m_pRotationComboBox)
+		{
+			wxArrayString ValuesArray;
+			wxGISRotationComboBox* pRotationComboBox = new wxGISRotationComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 65, 22 ), ValuesArray);
+			return static_cast<IToolBarControl*>(pRotationComboBox);
+		}
+	default:
+		return NULL;
 	}
 }
 
@@ -949,10 +947,10 @@ wxString wxGISCartoFrameTool::GetToolLabel(void)
 {
 	switch(m_subtype)
 	{
-		case 2:
-			return wxEmptyString;
-		default:
-			return wxEmptyString;
+    case enumGISCartoFrameToolInputRotateAngle:
+		return wxEmptyString;
+	default:
+		return wxEmptyString;
 	}
 }
 
@@ -960,10 +958,10 @@ bool wxGISCartoFrameTool::HasToolLabel(void)
 {
 	switch(m_subtype)
 	{
-		case 2:
-			return false;
-		default:
-			return false;
+    case enumGISCartoFrameToolInputRotateAngle:
+		return false;
+	default:
+		return false;
 	}
 }
 

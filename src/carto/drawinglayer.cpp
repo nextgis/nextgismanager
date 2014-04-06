@@ -250,9 +250,24 @@ bool wxGISDrawingLayer::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType e
         m_oLayerExtent = pNewShape->GetBounds();
     }
 
+
+    pNewShape->Draw(m_pDisplay);
+
     AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
 
     return true;
+}
+
+size_t wxGISDrawingLayer::GetShapeCount(void) const
+{
+    return m_aoShapes.size();
+}
+
+wxGISShape* wxGISDrawingLayer::GetShape(size_t nIndex) const
+{
+    if (nIndex >= m_aoShapes.size())
+        return NULL;
+    return m_aoShapes[nIndex];
 }
 
 void wxGISDrawingLayer::Clear()

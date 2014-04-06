@@ -55,6 +55,14 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+enum wxGISEnumCartoMainCmdType{
+    enumGISCartoMainCmdFullExtent = 0,
+    enumGISCartoMainCmdPrevExtent,
+    enumGISCartoMainCmdNextExtent,
+    enumGISCartoMainCmdMax
+};
+
+
 /** @class wxGISCartoMainCmd
     
     The carto main commands.
@@ -86,6 +94,14 @@ private:
 	wxIcon m_IconFullExt, m_IconNextExt, m_IconPrevExt;
 	wxGISMapView* m_pMapView;    
     WINDOWARRAY m_anMapWinIDs;
+};
+
+enum wxGISEnumCartoMainToolType{
+    enumGISCartoMainToolZoomIn = 0,
+    enumGISCartoMainToolZoomOut,
+    enumGISCartoMainToolPan,
+    enumGISCartoMainToolIdentify,
+    enumGISCartoMainToolMax
 };
 
 /** @class wxGISCartoMainTool
@@ -130,6 +146,14 @@ private:
     wxAxIdentifyView* m_pIdentifyView;
 	bool m_bCheck;
 };
+
+enum wxGISEnumCartoFrameToolType{
+    enumGISCartoFrameToolRotate = 0,
+    enumGISCartoFrameToolCancelRotate,
+    enumGISCartoFrameToolInputRotateAngle,
+    enumGISCartoFrameToolMax
+};
+
 
 /** @class wxGISCartoFrameTool
 
