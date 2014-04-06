@@ -52,8 +52,8 @@ public:
 	virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel = NULL) = 0;
     virtual void SetRenderer(wxGISRenderer* pRenderer);
     virtual wxGISRenderer* GetRenderer(void);
-	virtual size_t GetCacheID(void) const {return m_nCacheID;};
-	virtual void SetCacheID(size_t nCacheID){m_nCacheID = nCacheID;};
+	virtual size_t GetCacheId(void) const {return m_nCacheId;};
+	virtual void SetCacheId(size_t nCacheId) {m_nCacheId = nCacheId;};
 	virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
     virtual void SetDisplay(wxGISDisplay *pDisplay) { m_pDisplay = pDisplay; };
     virtual wxGISDataset* GetDataset() {wsGET(m_pwxGISDataset);};
@@ -68,7 +68,7 @@ protected:
     double m_dMaxScale, m_dMinScale;
     bool m_bVisible;
     wxString m_sName;
-    size_t m_nCacheID;
+    size_t m_nCacheId;
     short m_nId;
     //renderer
     wxGISRenderer* m_pRenderer;

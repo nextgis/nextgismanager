@@ -56,9 +56,13 @@ wxGISApplicationBase::~wxGISApplicationBase()
 
 wxGISCommand* wxGISApplicationBase::GetCommand(long CmdID) const
 {
-	for(size_t i = 0; i < m_CommandArray.size(); ++i)
-		if(m_CommandArray[i] && m_CommandArray[i]->GetID() == CmdID)
+    for (size_t i = 0; i < m_CommandArray.size(); ++i)
+    {
+        if (m_CommandArray[i] && m_CommandArray[i]->GetId() == CmdID)
+        {
 			return m_CommandArray[i];
+        }
+    }
 	return NULL;
 }
 
@@ -213,7 +217,7 @@ void wxGISApplicationBase::LoadCommands(wxXmlNode* pRootNode)
 					wxGISCommand *pNewCmd = dynamic_cast<wxGISCommand*>(newobj);//wxDynamicCast(newobj, wxGISCommand);//
 					if(pNewCmd && pNewCmd->OnCreate(this))
 					{
-						pNewCmd->SetID(ID_PLUGINCMD + nCmdCounter);
+						pNewCmd->SetId(ID_PLUGINCMD + nCmdCounter);
 						pNewCmd->SetSubType(i);
 						//TODO: check doubles
                         m_CommandArray.Add(pNewCmd);

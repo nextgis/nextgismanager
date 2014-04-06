@@ -68,7 +68,7 @@ void wxGISToolBarMenu::Update(void)
 	wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), 2);
     if (NULL != pCmd)
     {
-		m_delitems.push_back(Append(pCmd->GetID(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
+		m_delitems.push_back(Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
     }
 }
 

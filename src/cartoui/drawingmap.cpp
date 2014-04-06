@@ -29,6 +29,7 @@ IMPLEMENT_CLASS(wxGISDrawingMapView, wxGISMapView)
 
 wxGISDrawingMapView::wxGISDrawingMapView(void) : wxGISMapView()
 {
+    m_nCurrentDrawingLayer = wxNOT_FOUND;
 }
 
 wxGISDrawingMapView::wxGISDrawingMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISMapView(parent, id, pos, size, style)
@@ -44,16 +45,11 @@ wxGISDrawingMapView::~wxGISDrawingMapView()
 bool wxGISDrawingMapView::AddLayer(wxGISLayer* pLayer)
 {
     bool bRes = true;
+    bool bAddBaseDrawingLayer = false;
     //if map is empty add base drawing layer
     if (m_paLayers.empty())
     {
-        wxGISLayer* pBaseDrawingLayer = new wxGISDrawingLayer(_("Base drawing layer"));
-        pBaseDrawingLayer->SetSpatialReference(GetSpatialReference());
-        bRes = wxGISMapView::AddLayer(pBaseDrawingLayer);
-        if (bRes == false)
-        {
-            return bRes;
-        }
+        bAddBaseDrawingLayer = true;
     }
 
     //add layer
@@ -63,22 +59,43 @@ bool wxGISDrawingMapView::AddLayer(wxGISLayer* pLayer)
         return bRes;
     }
 
+    if (bAddBaseDrawingLayer)
+    {
+        wxGISLayer* pBaseDrawingLayer = new wxGISDrawingLayer(_("Base drawing layer"));
+        pBaseDrawingLayer->SetSpatialReference(GetSpatialReference());
+        bRes = wxGISMapView::AddLayer(pBaseDrawingLayer);
+        if (bRes == false)
+        {
+            return bRes;
+        }
+        m_nCurrentDrawingLayer = m_paLayers.size() - 1;
+    }
+
+
     //if layer is drawing and no drawign layers exist store layer index
     size_t nLayerIndex = m_paLayers.size() - 1;
     if (pLayer->GetType() == enumGISDrawing)
     {
         pLayer->SetSpatialReference(GetSpatialReference());
+        if (m_nCurrentDrawingLayer == wxNOT_FOUND)
+            m_nCurrentDrawingLayer = m_paLayers.size() - 1;
         return true;
     }
     //if layer is not drawing or drawing order changed
     //move it after drawing layers from top of the map
-    for (int i = m_paLayers.size() - 1; i >= 0; --i)
+    bool bMove = false;
+    for (int i = m_paLayers.size() - 2; i >= 0; --i)
     {
-        if (m_paLayers[i]->GetType() != enumGISDrawing)
+        if (m_paLayers[i]->GetType() == enumGISDrawing)
+        {//we have at list one drawing layer
+            bMove = true;
+        }
+        else if (bMove)
         {
             ChangeLayerOrder(nLayerIndex, i);
             break;
-        }            
+        }
+        
     }
     return true;
 }
@@ -101,4 +118,40 @@ bool wxGISDrawingMapView::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType
     if (NULL == pLayer)
         return false;
     return pLayer->AddShape(Geom, eType);
+}
+
+void wxGISDrawingMapView::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
+{
+    //check if m_nCurrentDrawingLayer changed
+    if (nOldIndex == m_nCurrentDrawingLayer)
+    {
+        m_nCurrentDrawingLayer = nNewIndex;
+        return wxGISMapView::ChangeLayerOrder(nOldIndex, nNewIndex);
+    }
+    else if (nOldIndex < m_nCurrentDrawingLayer)
+    {
+        if (nNewIndex < m_nCurrentDrawingLayer)
+        {
+            return wxGISMapView::ChangeLayerOrder(nOldIndex, nNewIndex);
+        }
+        else if (nNewIndex > m_nCurrentDrawingLayer)
+        {
+            m_nCurrentDrawingLayer--;
+            return wxGISMapView::ChangeLayerOrder(nOldIndex, nNewIndex);
+        }
+    }
+    else if (nOldIndex > m_nCurrentDrawingLayer)
+    {
+        if (nNewIndex < m_nCurrentDrawingLayer)
+        {
+            m_nCurrentDrawingLayer++;
+            return wxGISMapView::ChangeLayerOrder(nOldIndex, nNewIndex);
+        }
+        else if (nNewIndex > m_nCurrentDrawingLayer)
+        {
+            return wxGISMapView::ChangeLayerOrder(nOldIndex, nNewIndex);
+        }
+    }
+
+    wxASSERT_MSG(1, wxT("Should never happened"));
 }

@@ -169,7 +169,7 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 	//create folder
 	pwxGISCatalogMainCmd = new wxGISCatalogMainCmd();
 	pwxGISCatalogMainCmd->OnCreate(this);
-    pwxGISCatalogMainCmd->SetID(ID_PLUGINCMD + nCmdCounter);
+    pwxGISCatalogMainCmd->SetId(ID_PLUGINCMD + nCmdCounter);
 	pwxGISCatalogMainCmd->SetSubType(7);
 	m_CommandArray.push_back(pwxGISCatalogMainCmd);
     nCmdCounter++;
@@ -177,7 +177,7 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 	//rename
 	pwxGISCatalogMainCmd = new wxGISCatalogMainCmd();
 	pwxGISCatalogMainCmd->OnCreate(this);
-    pwxGISCatalogMainCmd->SetID(ID_PLUGINCMD + nCmdCounter);
+    pwxGISCatalogMainCmd->SetId(ID_PLUGINCMD + nCmdCounter);
 	pwxGISCatalogMainCmd->SetSubType(8);
 	m_CommandArray.push_back(pwxGISCatalogMainCmd);
     nCmdCounter++;
@@ -185,7 +185,7 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 	//refresh
 	pwxGISCatalogMainCmd = new wxGISCatalogMainCmd();
 	pwxGISCatalogMainCmd->OnCreate(this);
-    pwxGISCatalogMainCmd->SetID(ID_PLUGINCMD + nCmdCounter);
+    pwxGISCatalogMainCmd->SetId(ID_PLUGINCMD + nCmdCounter);
 	pwxGISCatalogMainCmd->SetSubType(9);
 	m_CommandArray.push_back(pwxGISCatalogMainCmd);
 

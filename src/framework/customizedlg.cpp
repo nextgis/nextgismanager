@@ -229,7 +229,7 @@ void wxGISToolBarPanel::LoadCommands(void)
 			wxString sName = wxStripMenuCodes(pCommand->GetCaption());
 			wxString sMessage = pCommand->GetMessage();
 
-			wxString sKeyCode = m_pApp->GetGISAcceleratorTable()->GetText(pCommand->GetID());
+			wxString sKeyCode = m_pApp->GetGISAcceleratorTable()->GetText(pCommand->GetId());
 			long pos = m_buttonslist->InsertItem(i, sName);
 			wxIcon oIcon = pCommand->GetBitmap();
 			if(oIcon.IsOk())
@@ -243,7 +243,7 @@ void wxGISToolBarPanel::LoadCommands(void)
             }
 			m_buttonslist->SetItem(pos, 1, sMessage);
 			m_buttonslist->SetItem(pos, 2, sKeyCode);
-			m_buttonslist->SetItemData(pos, pCommand->GetID());
+			m_buttonslist->SetItemData(pos, pCommand->GetId());
 		}
 		m_buttonslist->Update();
 	}
@@ -465,7 +465,7 @@ void wxGISToolBarPanel::OnCreateCommandBar(wxCommandEvent& event)
 					item.SetKind(wxITEM_SEPARATOR);
 					append_items.Add(item);
 					item.SetKind(pCmd->GetKind());
-					item.SetId(pCmd->GetID());
+					item.SetId(pCmd->GetId());
 					item.SetLabel(pCmd->GetCaption());
 					append_items.Add(item);
 				}
@@ -781,7 +781,7 @@ void wxGISCommandPanel::OnListboxSelect(wxCommandEvent& event)
 	{
 		wxString sName = wxStripMenuCodes(CommandArray[i]->GetCaption());
 		wxString sMessage = CommandArray[i]->GetMessage();
-		wxString sKeyCode = m_pApp->GetGISAcceleratorTable()->GetText(CommandArray[i]->GetID());
+		wxString sKeyCode = m_pApp->GetGISAcceleratorTable()->GetText(CommandArray[i]->GetId());
 		long pos = m_listCtrl3->InsertItem(i, sName);
 		wxIcon oIcon = CommandArray[i]->GetBitmap();
 		if(oIcon.IsOk())
@@ -795,7 +795,7 @@ void wxGISCommandPanel::OnListboxSelect(wxCommandEvent& event)
         }
 		m_listCtrl3->SetItem(pos, 1, sMessage);
 		m_listCtrl3->SetItem(pos, 2, sKeyCode);
-		m_listCtrl3->SetItemData(pos,  CommandArray[i]->GetID());
+		m_listCtrl3->SetItemData(pos,  CommandArray[i]->GetId());
 	}
 	m_listCtrl3->Update();
 }

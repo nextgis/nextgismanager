@@ -111,7 +111,7 @@ bool wxGxMapView::Activate(IApplication* const pApplication, wxXmlNode* const pC
 
     //find pan cmd
     wxGISCommand *pPanCmd = m_pApp->GetCommand(wxT("wxGISCartoMainTool"), 2);
-    m_nPanCmdId = pPanCmd->GetID();
+    m_nPanCmdId = pPanCmd->GetId();
 	return true;
 }
 

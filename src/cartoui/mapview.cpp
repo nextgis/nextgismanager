@@ -393,15 +393,15 @@ void wxGISMapView::OnDraw(wxGISEnumDrawPhase nPhase)
 
 		if(!pLayer->GetVisible())
 			continue; //not visible
-		if(m_pGISDisplay->IsCacheDerty(pLayer->GetCacheID()))
+		if(m_pGISDisplay->IsCacheDerty(pLayer->GetCacheId()))
 		{
 			//erase bk if layer no 0
 			if(i == 0)
 				m_pGISDisplay->OnEraseBackground();
 
-			if(m_pGISDisplay->GetDrawCache() != pLayer->GetCacheID())
+			if(m_pGISDisplay->GetDrawCache() != pLayer->GetCacheId())
             {
-				m_pGISDisplay->SetDrawCache(pLayer->GetCacheID());
+				m_pGISDisplay->SetDrawCache(pLayer->GetCacheId());
             }
 
 			if(pLayer->Draw(nPhase, m_pTrackCancel))
@@ -410,7 +410,7 @@ void wxGISMapView::OnDraw(wxGISEnumDrawPhase nPhase)
                 //if(i < m_paLayers.size() - 1 && m_paLayers[i + 1]->GetCacheID() != pLayer->GetCacheID())
                 //    m_pGISDisplay->SetCacheDerty(pLayer->GetCacheID(), false);
                 //else if(i == m_paLayers.size() - 1)
-                m_pGISDisplay->SetCacheDerty(pLayer->GetCacheID(), false);
+                m_pGISDisplay->SetCacheDerty(pLayer->GetCacheId(), false);
             }
 		}
 	}
@@ -438,9 +438,9 @@ bool wxGISMapView::AddLayer(wxGISLayer* pLayer)
 	{
 		//Create cache if needed
 		if(pLayer->IsCacheNeeded())
-			pLayer->SetCacheID(m_pGISDisplay->AddCache());
+			pLayer->SetCacheId(m_pGISDisplay->AddCache());
 		else
-			pLayer->SetCacheID(m_pGISDisplay->GetLastCacheID());
+			pLayer->SetCacheId(m_pGISDisplay->GetLastCacheID());
 	}
 
     pLayer->Advise(this); //by now we don't need unadvise as layer will always destruct before map
@@ -1130,7 +1130,7 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
     wxGISLayer *pLayer = GetLayerById(event.GetLayerId());
     if (NULL == pLayer)
         return;
-    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheID());
+    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheId());
     if(sp.GetMilliseconds() > TM_LAYER_UPDATE_REFRESH)
     {
         m_dtNow = wxDateTime::Now();
@@ -1150,6 +1150,6 @@ void wxGISMapView::OnLayerLoading(wxMxMapViewEvent& event)
     wxGISLayer *pLayer = GetLayerById(event.GetLayerId());
     if (NULL == pLayer)
         return;
-    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheID());//TODO: this will draw current caches directly to map. Changes in one will be overwite by upper
+    m_pGISDisplay->SetUpperCachesDerty(pLayer->GetCacheId());//TODO: this will draw current caches directly to map. Changes in one will be overwrite by upper
     Refresh();
 }

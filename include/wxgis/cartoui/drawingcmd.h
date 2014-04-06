@@ -30,10 +30,13 @@ enum wxGISEnumDrawingToolType{
     enumGISDrawingToolCircle,
     enumGISDrawingToolEllipse,
     enumGISDrawingToolLine,
+#ifdef wxGIS_USE_SPLINE        
     enumGISDrawingToolCurve,
+#endif //wxGIS_USE_SPLINE
     enumGISDrawingToolFreeHand,
     enumGISDrawingToolMarker,
     enumGISDrawingToolLayerSelector,
+    enumGISDrawingToolLayerClear,
     enumGISDrawingToolMax
 };
 
@@ -107,6 +110,7 @@ public:
 private:
     wxGISApplicationBase* m_pApp;
     wxIcon m_IconPolygon, m_IconLine, m_IconMarker, m_IconCircle, m_IconEllipse, m_IconCurve, m_IconRectangle, m_IconFreeHand;
+    wxIcon m_IconEditClear;
     wxCursor m_CurDrawing;
     wxGISDrawingMapView* m_pMapView;
     WINDOWARRAY m_anMapWinIDs;

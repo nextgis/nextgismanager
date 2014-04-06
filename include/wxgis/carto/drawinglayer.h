@@ -21,6 +21,7 @@
 #pragma once
 
 #include "wxgis/carto/layer.h"
+#include "wxgis/display/symbol.h"
 //#include "wxgis/carto/featurerenderer.h"
 //#include "wxgis/carto/rasterrenderer.h"
 
@@ -37,7 +38,9 @@ enum wxGISEnumShapeType{
     enumGISShapeTypeCircle,
     enumGISShapeTypeEllipse,
     enumGISShapeTypeLine,
+#ifdef wxGIS_USE_SPLINE        
     enumGISShapeTypeCurve,
+#endif // wxGIS_USE_SPLINE        
     enumGISShapeTypeFreeHand,
     enumGISShapeTypeMarker,
     enumGISShapeTypeMax
@@ -57,20 +60,24 @@ enum wxGISEnumShapeState{
     
     @library{carto}
 */
-
-/*
 class wxGISShape : public wxObject
 {
     DECLARE_CLASS(wxGISShape)
 public:
-    wxGISShape(const wxGISGeometry &Geom, wxGISEnumShapeType eType, wxGISSymbol* pSymbol);
+    wxGISShape(const wxString &sName, const wxGISGeometry &Geom, wxGISEnumShapeType eType, wxGISSymbol* pSymbol);
     virtual ~wxGISShape();
     virtual wxGISEnumShapeType GetType() const;
     virtual wxGISEnumShapeState GetState() const;
+    virtual void Draw(wxGISDisplay *pDisplay);
+    virtual OGREnvelope GetBounds() const;
 protected:
-    //wxGISSymbol* m_pSymbol;
+    wxGISGeometry m_oGeom;
+    wxGISSymbol* m_pSymbol;
+    wxGISEnumShapeState m_eState;
+    wxGISEnumShapeType m_eType;
+    wxString m_sName;
 };
-*/
+
 
 /** @class wxGISDrawingLayer
 
@@ -90,7 +97,16 @@ public:
     virtual bool Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISEnumDatasetType GetType(void) const { return enumGISDrawing; };
     virtual bool AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType eType);
+    virtual wxGISSymbol* GetSymbol(wxGISEnumShapeType eType);
+    virtual void Clear();
 protected:
-//    wxVector<wxGISShape> m_aoShapes;
-    wxGISSpatialTree *pTree;
+    wxGISSimpleEllipseSymbol* m_pEllipseSymbol;
+    wxGISSimpleCircleSymbol* m_pCircleSymbol;
+    wxGISSimpleMarkerSymbol *m_pMarkerSymbol;
+    wxGISSimpleLineSymbol *m_pLineSymbol;
+    wxGISSimpleFillSymbol *m_pFillSymbol;
+    wxVector<wxGISShape*> m_aoShapes;
+//    wxGISSpatialTree *pTree;
+    wxCriticalSection m_CritSect;
+    OGREnvelope m_oLayerExtent;
 };

@@ -351,20 +351,8 @@ void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
     CDC.SetPen(m_oPen);
     CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
     CDC.SetLogicalFunction(wxOR_REVERSE);
-        
-    /*wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 1];
-    int nCounter = 0;
-    paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
-    size_t i;
-    for (i = 0; i < m_aoPoints.size(); ++i)
-    {
-        paoPoints[nCounter++] = m_aoPoints[i];
-    }
 
-    CDC.DrawLines(nCounter, paoPoints);
-
-    wxDELETEA(paoPoints);*/
-
+#ifdef wxGIS_USE_SPLINE        
     if (m_aoPoints.empty())
     {
         CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
@@ -385,7 +373,20 @@ void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
 
         wxDELETEA(paoPoints);
     }
+#else
+    wxPoint *paoPoints = new wxPoint[m_aoPoints.size() + 1];
+    int nCounter = 0;
+    paoPoints[nCounter++] = wxPoint(m_StartX, m_StartY);
+    size_t i;
+    for (i = 0; i < m_aoPoints.size(); ++i)
+    {
+    paoPoints[nCounter++] = m_aoPoints[i];
+    }
 
+    CDC.DrawLines(nCounter, paoPoints);
+
+    wxDELETEA(paoPoints);
+#endif //wxGIS_USE_SPLINE
 
 }
 
@@ -403,6 +404,8 @@ void wxGISRubberFreeHand::OnMouseUp(wxMouseEvent& event)
     {
         dX1 = m_aoPoints[i].x;
         dY1 = m_aoPoints[i].y;
+        m_pDisp->DC2World(&dX1, &dY1);
+
         pLine->addPoint(dX1, dY1);
     }
 
@@ -413,6 +416,39 @@ void wxGISRubberFreeHand::OnMouseUp(wxMouseEvent& event)
 
     OnUnlock();
 }
+
+//----------------------------------------------------
+// class wxGISRubberMarker
+//----------------------------------------------------
+IMPLEMENT_CLASS(wxGISRubberMarker, wxGISRubberBand)
+
+wxGISRubberMarker::wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+{
+}
+
+wxGISRubberMarker::~wxGISRubberMarker()
+{
+}
+
+void wxGISRubberMarker::OnMouseUp(wxMouseEvent& event)
+{
+    event.Skip();
+
+
+    int EvX = event.GetX(), EvY = event.GetY();
+
+    double dX1 = event.GetX();
+    double dY1 = event.GetY();
+    m_pDisp->DC2World(&dX1, &dY1);
+    OGRPoint* pPt = new OGRPoint(dX1, dY1);
+
+    if (m_SpaRef.IsOk())
+        pPt->assignSpatialReference(m_SpaRef);
+    m_RetGeom = wxGISGeometry(static_cast<OGRGeometry*>(pPt));
+
+    OnUnlock();
+}
+
 
 //----------------------------------------------------
 // class wxGISRubberLine
@@ -484,6 +520,7 @@ void wxGISRubberLine::OnMouseDoubleClick(wxMouseEvent& event)
     {
         dX1 = m_aoPoints[i].x;
         dY1 = m_aoPoints[i].y;
+        m_pDisp->DC2World(&dX1, &dY1);
         pLine->addPoint(dX1, dY1);
     }
 
@@ -558,6 +595,7 @@ void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
     {
         dX1 = m_aoPoints[i].x;
         dY1 = m_aoPoints[i].y;
+        m_pDisp->DC2World(&dX1, &dY1);
         ring.addPoint(dX1, dY1);
     }
     ring.closeRings();
@@ -572,6 +610,7 @@ void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
     OnUnlock();
 }
 
+#ifdef wxGIS_USE_SPLINE        
 
 //----------------------------------------------------
 // class wxGISRubberSpline
@@ -621,4 +660,5 @@ void wxGISRubberSpline::OnMouseMove(wxMouseEvent& event)
     }
 }
 
+#endif // wxGIS_USE_SPLINE        
 

@@ -46,14 +46,14 @@ wxGISCommand::~wxGISCommand(void)
 {
 }
 
-void wxGISCommand::SetID(long nID)
+void wxGISCommand::SetId(long nId)
 {
-    m_CommandID = nID;
+    m_CommandId = nId;
 }
 
-long wxGISCommand::GetID(void) const 
+long wxGISCommand::GetId(void) const 
 {
-    return m_CommandID;
+    return m_CommandId;
 }
 
 void wxGISCommand::SetSubType(unsigned char SubType)

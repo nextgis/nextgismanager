@@ -156,15 +156,20 @@ void wxGISFeatureRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumD
     if (NULL != pTrackCancel)
     {
         pProgress = pTrackCancel->GetProgressor();
-        pProgress->SetRange(Cursor.size());
     }
 
+    if (NULL != pProgress)
+    {
+        pProgress->SetRange(Cursor.size());
+    }
 
     wxGISSpatialTreeCursor::const_iterator iter;
     for(iter = Cursor.begin(); iter != Cursor.end(); ++iter)
     {
         if (NULL != pProgress)
+        {
             pProgress->SetValue(nCounter++);
+        }
 
         wxGISSpatialTreeData *current = *iter;
         if(!current)

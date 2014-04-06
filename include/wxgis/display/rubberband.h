@@ -141,6 +141,23 @@ protected:
     wxVector<wxPoint> m_aoPoints;
 };
 
+/** @class wxGISRubberMarker
+
+    The class to drawing marker on window while mouse dragging.
+
+    @library{display}
+*/
+
+class WXDLLIMPEXP_GIS_DSP wxGISRubberMarker :
+    public wxGISRubberBand
+{
+    DECLARE_CLASS(wxGISRubberMarker)
+public:
+    wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    virtual ~wxGISRubberMarker(void);
+    virtual void OnMouseUp(wxMouseEvent& event);
+};
+
 /** @class wxGISRubberLine
 
     The class to drawing line on window while mouse dragging.
@@ -180,6 +197,8 @@ public:
     virtual void OnMouseDoubleClick(wxMouseEvent& event);
 };
 
+#ifdef wxGIS_USE_SPLINE        
+
 /** @class wxGISRubberSpline
 
     The class to drawing spline on window while mouse dragging.
@@ -196,4 +215,5 @@ public:
     virtual ~wxGISRubberSpline(void);
     virtual void OnMouseMove(wxMouseEvent& event);
 };
+#endif // wxGIS_USE_SPLINE        
 

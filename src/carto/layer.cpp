@@ -33,7 +33,7 @@ wxGISLayer::wxGISLayer(const wxString &sName, wxGISDataset* pwxGISDataset)
     m_dMaxScale = wxNOT_FOUND;
     m_dMinScale = wxNOT_FOUND;
     m_bVisible = true;
-    m_nCacheID = 0;
+    m_nCacheId = 0;
     m_nId = wxNOT_FOUND;
 
     if(m_pwxGISDataset)

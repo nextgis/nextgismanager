@@ -53,7 +53,7 @@ wxGISAcceleratorTable::wxGISAcceleratorTable(wxGISApplicationBase* pApp) : bHasC
                 wxDword Flags = GetFlags(sFlags);
 				wxString sKey = child->GetAttribute(wxT("keycode"), wxT("A"));
 				int nKey = GetKeyCode(sKey);
-				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetID()));
+				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetId()));
 			}
 			child = child->GetNext();
 		}
@@ -72,7 +72,7 @@ wxGISAcceleratorTable::wxGISAcceleratorTable(wxGISApplicationBase* pApp) : bHasC
                 wxDword Flags = GetFlags(sFlags);
 				wxString sKey = child->GetAttribute(wxT("keycode"), wxT("A"));
 				int nKey = GetKeyCode(sKey);
-				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetID()));
+				Add(wxAcceleratorEntry(Flags, nKey, pCmd->GetId()));
 			}
 			child = child->GetNext();
 		}

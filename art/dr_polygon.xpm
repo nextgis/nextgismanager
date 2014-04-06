@@ -3,10 +3,10 @@ const static char *polygon_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16      256            2",
 /* colors */
-"`` c None",
+"`` c #ffffff",
 "`. c #b3b6b6",
 "`# c #ebebeb",
-"`a c #ffffff",
+"`a c None",
 "`b c #fefefe",
 "`c c #d3d6d6",
 "`d c #9d9fa1",

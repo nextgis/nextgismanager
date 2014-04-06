@@ -3,7 +3,7 @@
  * Purpose:  symbols for feature renderer
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -57,14 +57,6 @@ void wxGISSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
     m_pDisplay = pDisplay;
     
 }
-
-//void wxGISSymbol::SetStyleToDisplay()
-//{
-//    //set colors and etc.
-//	//pDisplay->SetColor(enumGISDrawStyleFill, m_stFillColour);
-//	//pDisplay->SetColor(enumGISDrawStyleOutline, m_stLineColour);
-//	//pDisplay->SetColor(enumGISDrawStylePoint, m_stPointColour);
-//}
 
 //-------------------------------------------------------------------------------
 // wxGISSimpleLineSymbol
@@ -211,6 +203,11 @@ bool wxGISSimpleLineSymbol::DrawPreserved(const OGRLineString* pLine, bool bIsRi
 	return m_pDisplay->DrawLine(pOGRRawPoints, nPointCount, true, 0, 0, bIsRing);
 }
 
+wxGISSimpleLineSymbol* wxGISSimpleLineSymbol::Clone() const
+{
+    return new wxGISSimpleLineSymbol(*this);
+}
+
 //-------------------------------------------------------------------------------
 // wxGISSimpleFillSymbol
 //-------------------------------------------------------------------------------
@@ -329,6 +326,158 @@ void wxGISSimpleFillSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
     wxGISSymbol::SetupDisplay(pDisplay);
 }
 
+wxGISSimpleFillSymbol* wxGISSimpleFillSymbol::Clone() const
+{
+    return new wxGISSimpleFillSymbol(GetColor(), m_pLineSymbol->Clone());
+}
+
+//-------------------------------------------------------------------------------
+// wxGISSimpleCircleSymbol
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISSimpleCircleSymbol, wxGISSimpleFillSymbol)
+
+wxGISSimpleCircleSymbol::wxGISSimpleCircleSymbol() : wxGISSimpleFillSymbol()
+{
+}
+
+wxGISSimpleCircleSymbol::wxGISSimpleCircleSymbol(const wxGISColor& Color, wxGISSimpleLineSymbol *pLineSymbol) : wxGISSimpleFillSymbol(Color, pLineSymbol)
+{
+}
+
+wxGISSimpleCircleSymbol::~wxGISSimpleCircleSymbol()
+{
+}
+
+void wxGISSimpleCircleSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
+{
+    if (!Geometry.IsOk() || !m_pDisplay)
+        return;
+
+    OGRwkbGeometryType eGeomType = wkbFlatten(Geometry.GetType());
+    if (eGeomType != wkbMultiPoint)
+        return;
+
+    OGREnvelope Env;
+    OGRGeometry *pGeom = Geometry;
+
+    OGRMultiPoint* pMPT = (OGRMultiPoint*)pGeom;
+    OGRPoint* pCenterPt = (OGRPoint*)pMPT->getGeometryRef(0);
+    OGRPoint* pOriginPt = (OGRPoint*)pMPT->getGeometryRef(1);
+    double dfRadius = sqrt((pCenterPt->getX() - pOriginPt->getX())*(pCenterPt->getX() - pOriginPt->getX()) + (pCenterPt->getY() - pOriginPt->getY())*(pCenterPt->getY() - pOriginPt->getY()));
+    Env.MaxX = pCenterPt->getX() + dfRadius;
+    Env.MinX = pCenterPt->getX() - dfRadius;
+    Env.MaxY = pCenterPt->getY() + dfRadius;
+    Env.MinY = pCenterPt->getY() - dfRadius;
+
+    if (!m_pDisplay->CanDraw(Env))
+        return;
+
+    wxCriticalSectionLocker lock(m_pDisplay->GetLock());
+
+    if (!m_pDisplay->CheckDrawAsPoint(Env, m_pLineSymbol->GetWidth()))
+    {
+        if (!m_pDisplay->DrawCircle(pCenterPt->getX(), pCenterPt->getY(), 0, 0, dfRadius))
+        {
+            return;
+        }
+
+        if (m_Color.Alpha() > 0)
+        {
+            switch (m_eFillRule)
+            {
+            case enumGISFillRuleWinding:
+                m_pDisplay->SetFillRule(CAIRO_FILL_RULE_WINDING);
+                break;
+            case enumGISFillRuleOdd:
+                m_pDisplay->SetFillRule(CAIRO_FILL_RULE_EVEN_ODD);
+                break;
+            }
+            m_pDisplay->SetColor(m_Color);
+            m_pDisplay->FillPreserve();
+        }
+
+    }
+
+    m_pLineSymbol->SetStyleToDisplay();
+
+    m_pDisplay->Stroke();
+}
+
+wxGISSimpleCircleSymbol* wxGISSimpleCircleSymbol::Clone() const
+{
+    return new wxGISSimpleCircleSymbol(GetColor(), m_pLineSymbol->Clone());
+}
+
+//-------------------------------------------------------------------------------
+// wxGISSimpleEllipseSymbol
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISSimpleEllipseSymbol, wxGISSimpleFillSymbol)
+
+wxGISSimpleEllipseSymbol::wxGISSimpleEllipseSymbol() : wxGISSimpleFillSymbol()
+{
+}
+
+wxGISSimpleEllipseSymbol::wxGISSimpleEllipseSymbol(const wxGISColor& Color, wxGISSimpleLineSymbol *pLineSymbol) : wxGISSimpleFillSymbol(Color, pLineSymbol)
+{
+}
+
+wxGISSimpleEllipseSymbol::~wxGISSimpleEllipseSymbol()
+{
+}
+
+void wxGISSimpleEllipseSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
+{
+    if (!Geometry.IsOk() || !m_pDisplay)
+        return;
+
+    OGRwkbGeometryType eGeomType = wkbFlatten(Geometry.GetType());
+    if (eGeomType != wkbPolygon)
+        return;
+
+    OGREnvelope Env = Geometry.GetEnvelope();
+    if (!m_pDisplay->CanDraw(Env))
+        return;
+
+    wxCriticalSectionLocker lock(m_pDisplay->GetLock());
+
+    if (!m_pDisplay->CheckDrawAsPoint(Env, m_pLineSymbol->GetWidth()))
+    {
+
+        if (!m_pDisplay->DrawEllipse(Env.MinX, Env.MinY, 0, 0, Env.MaxX - Env.MinX, Env.MaxY - Env.MinY))
+        {
+            return;
+        }
+
+        if (m_Color.Alpha() > 0)
+        {
+            switch (m_eFillRule)
+            {
+            case enumGISFillRuleWinding:
+                m_pDisplay->SetFillRule(CAIRO_FILL_RULE_WINDING);
+                break;
+            case enumGISFillRuleOdd:
+                m_pDisplay->SetFillRule(CAIRO_FILL_RULE_EVEN_ODD);
+                break;
+            }
+            m_pDisplay->SetColor(m_Color);
+            m_pDisplay->FillPreserve();
+        }
+
+    }
+
+    m_pLineSymbol->SetStyleToDisplay();
+
+    m_pDisplay->Stroke();
+
+}
+
+wxGISSimpleEllipseSymbol* wxGISSimpleEllipseSymbol::Clone() const
+{
+    return new wxGISSimpleEllipseSymbol(GetColor(), m_pLineSymbol->Clone());
+}
+
 //-------------------------------------------------------------------------------
 // wxGISSimpleMarkerSymbol
 //-------------------------------------------------------------------------------
@@ -429,6 +578,11 @@ double wxGISSimpleMarkerSymbol::GetOutlineSize() const
     return m_dfOutlineSize;
 }
 
+wxGISSimpleMarkerSymbol* wxGISSimpleMarkerSymbol::Clone() const
+{
+    return new wxGISSimpleMarkerSymbol(*this);
+}
+
 //-------------------------------------------------------------------------------
 // wxGISSimpleCollectionSymbol
 //-------------------------------------------------------------------------------
@@ -511,6 +665,28 @@ void wxGISSimpleCollectionSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
     }
 
 }
+
+
+wxGISSimpleCollectionSymbol* wxGISSimpleCollectionSymbol::Clone() const
+{
+    return new wxGISSimpleCollectionSymbol(*this);
+}
+
+wxGISSimpleMarkerSymbol* wxGISSimpleCollectionSymbol::GetMarkerSymbol() const
+{
+    return m_pMarkerSymbol;
+}
+
+wxGISSimpleLineSymbol* wxGISSimpleCollectionSymbol::GetLineSymbol() const
+{
+    return m_pLineSymbol;
+}
+
+wxGISSimpleFillSymbol* wxGISSimpleCollectionSymbol::GetFillSymbol() const
+{
+    return m_pFillSymbol;
+}
+
 /*
 
 			{

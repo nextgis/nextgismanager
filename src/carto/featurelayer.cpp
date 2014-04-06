@@ -50,35 +50,10 @@ wxGISFeatureLayer::wxGISFeatureLayer(const wxString &sName, wxGISDataset* pwxGIS
 
         m_SpatialReference = m_pwxGISFeatureDataset->GetSpatialReference();
 		m_FullEnvelope = m_pwxGISFeatureDataset->GetEnvelope();
-		//m_PreviousEnvelope = m_FullEnvelope;
 
-            //create new renderer
+        //create new renderer
         m_pFeatureRenderer = new wxGISFeatureRenderer(this);
 		m_pRenderer = wxStaticCast(m_pFeatureRenderer, wxGISRenderer);
-
- //   wxGISUniqueValueRenderer* pRenderer = new wxGISUniqueValueRenderer(this);
-
- //   wxGISSimpleFillSymbol* pFill1 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(0,0,255,255), 1)); //blue
- //   pRenderer->AddValue(0, wxT("QB02"), wxStaticCast(pFill1, wxGISSymbol));
-
- //   wxGISSimpleFillSymbol* pFill2 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(255,255,0,255), 1)); //yellow
- //   pRenderer->AddValue(0, wxT("WV01"), wxStaticCast(pFill2, wxGISSymbol));
-
- //   wxGISSimpleFillSymbol* pFill3 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(255,0,255,255), 1)); //magenta
- //   pRenderer->AddValue(0, wxT("WV02"), wxStaticCast(pFill3, wxGISSymbol));
-
- //   wxGISSimpleFillSymbol* pFill4 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(255,0,0,255), 1)); //red
- //   pRenderer->AddValue(0, wxT("IK-2"), wxStaticCast(pFill4, wxGISSymbol));
-
- //   wxGISSimpleFillSymbol* pFill5 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(0,255,0,255), 1)); //green
- //   pRenderer->AddValue(0, wxT("GE-1"), wxStaticCast(pFill5, wxGISSymbol));
-
-
- //   wxGISSimpleFillSymbol* pFill6 = new wxGISSimpleFillSymbol(wxColor(0,0,255,0), new wxGISSimpleLineSymbol(wxColor(128,128,128,255), 1)); //grey
- //   pRenderer->SetSymbol(wxStaticCast(pFill6, wxGISSymbol));
-
- //   m_pFeatureRenderer = wxStaticCast(pRenderer, wxGISFeatureRenderer);
-	//m_pRenderer = wxStaticCast(pRenderer, wxGISRenderer);
 
         m_nConnectionPointDSCookie = m_pwxGISFeatureDataset->Advise(this);
 	}

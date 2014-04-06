@@ -39,6 +39,8 @@ public:
     wxGISDrawingMapView(void);
     wxGISDrawingMapView(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE);
     virtual ~wxGISDrawingMapView(void);
+    //wxGISMap
+    virtual void ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex);
     //wxGISExtentStack
     virtual bool AddLayer(wxGISLayer* pLayer);
     //wxGISDrawingMapView

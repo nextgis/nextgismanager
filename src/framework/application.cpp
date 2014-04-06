@@ -98,8 +98,8 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
 {
     if (NULL == pCmd)
         return;
-    ITool* pTool(NULL);
-    if ((pTool = dynamic_cast<ITool*>(pCmd)) != NULL)//pCmd->GetKind() == enumGISCommandCheck && 
+    ITool* pTool = dynamic_cast<ITool*>(pCmd);
+    if (pCmd->GetKind() != enumGISCommandNormal && pTool != NULL)
     {
         //check
         pTool->SetChecked(true);
@@ -119,7 +119,7 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
                         
                         if (m_CurrentTool != pTool)
                         {
-                            pAuiTool  = pToolbar->FindTool(m_CurrentTool->GetID());
+                            pAuiTool  = pToolbar->FindTool(m_CurrentTool->GetId());
                             if (pAuiTool)
                             {
                                 pAuiTool->SetState(wxAUI_BUTTON_STATE_NORMAL);
@@ -127,7 +127,7 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
                             }
                         }
 
-                        pAuiTool = pToolbar->FindTool(pTool->GetID());
+                        pAuiTool = pToolbar->FindTool(pTool->GetId());
                         if (pAuiTool)
                         {
                             wxIcon Bmp = pCmd->GetBitmap();

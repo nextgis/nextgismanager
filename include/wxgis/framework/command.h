@@ -72,14 +72,14 @@ public:
 	virtual bool OnCreate(wxGISApplicationBase* pApp) = 0;
 	virtual wxString GetTooltip(void) = 0;
 	virtual unsigned char GetCount(void) = 0;
-	virtual void SetID(long nID);
-	virtual long GetID(void) const;
+	virtual void SetId(long nId);
+	virtual long GetId(void) const;
 	//
 	virtual void SetSubType(unsigned char SubType);
 	virtual unsigned char GetSubType(void) const;
 protected:
 	unsigned char m_subtype;
-	long m_CommandID;
+	long m_CommandId;
 };
 
 /** \def vector<wxGISCommand*> COMMANDARRAY
