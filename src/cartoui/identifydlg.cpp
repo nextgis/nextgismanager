@@ -898,12 +898,18 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
     {
     case 0://get top layer
         //TODO: check group layer 	
+        for (size_t i = m_pMapView->GetLayerCount() - 1; i >= 0; --i)
         {
-	        wxGISLayer* const pTopLayer = m_pMapView->GetLayerByIndex(m_pMapView->GetLayerCount() - 1);
-            if(pTopLayer)
+            wxGISLayer* const pLayer = m_pMapView->GetLayerByIndex(i);
+            if (NULL == pLayer)
             {
-                FILLTREEDATA stdata = {pTopLayer, wxNullSpatialTreeCursor};
+                continue;
+            }
+            else if (pLayer->GetType() == enumGISFeatureDataset || pLayer->GetType() == enumGISRasterDataset)
+            {
+                FILLTREEDATA stdata = { pLayer, wxNullSpatialTreeCursor };
                 data.push_back(stdata);
+                break;
             }
         }
         break;
@@ -912,9 +918,13 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
         for(size_t i = 0; i < m_pMapView->GetLayerCount(); ++i)
         {
             wxGISLayer* const pLayer = m_pMapView->GetLayerByIndex(i);
-            if(pLayer)
+            if (NULL == pLayer)
             {
-                FILLTREEDATA stdata = {pLayer, wxNullSpatialTreeCursor};
+                continue;
+            }
+            else if (pLayer->GetType() == enumGISFeatureDataset || pLayer->GetType() == enumGISRasterDataset)
+            {
+                FILLTREEDATA stdata = { pLayer, wxNullSpatialTreeCursor };
                 data.push_back(stdata);
             }
         }
