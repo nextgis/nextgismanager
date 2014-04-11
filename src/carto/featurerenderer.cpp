@@ -171,6 +171,9 @@ void wxGISFeatureRenderer::Draw(const wxGISSpatialTreeCursor& Cursor, wxGISEnumD
             pProgress->SetValue(nCounter++);
         }
 
+        if (m_pSymbol == NULL)
+            break;
+
         wxGISSpatialTreeData *current = *iter;
         if(!current)
             continue;

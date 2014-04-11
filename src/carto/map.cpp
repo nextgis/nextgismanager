@@ -161,6 +161,15 @@ void wxGISMap::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
     IT = m_paLayers.begin();
     std::advance(IT, nNewIndex);
     m_paLayers.insert(IT, pLayer);
+
+    //update layer cache id
+    //we assume that no layers share the same cache
+    //TODO: check this issue
+
+    for (size_t i = 0; i < m_paLayers.size(); ++i)
+    {
+        m_paLayers[i]->SetCacheId(i);
+    }
 }
 
 bool wxGISMap::HasLayerType(wxGISEnumDatasetType eType) const

@@ -198,6 +198,20 @@ wxGISTaskManager::~wxGISTaskManager()
 
 void wxGISTaskManager::StartTaskManagerServer()
 {
+    //try to connect
+    if (m_pConn && m_pConn->Connect())
+    {
+        int nCounter = 0;
+        while(!m_pConn->IsConnected() && nCounter < 100)
+        {
+            wxYieldIfNeeded();
+            wxMilliSleep(10);
+            nCounter++;
+        }
+
+        if (m_pConn->IsConnected())
+            return;
+    }
 #ifdef __WXMSW__
     wxString sTaskMngrServerPath(wxT("wxgistaskmanager.exe"));
 #else

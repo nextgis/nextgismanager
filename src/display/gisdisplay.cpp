@@ -84,6 +84,8 @@ wxGISDisplay::~wxGISDisplay(void)
 
 void wxGISDisplay::Clear()
 {
+    wxCriticalSectionLocker locker(m_CritSect);
+
     wxCHECK_RET(m_saLayerCaches.size() - m_nLastCacheID == m_nSysCacheCount, wxT("Draw caches inconsistent"));
 
     if (m_saLayerCaches.size() > m_nSysCacheCount)
@@ -201,6 +203,7 @@ void wxGISDisplay::Output(cairo_surface_t *pSurface, wxDC* pDC)
 
 bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
     cairo_paint(m_cr_tmp);
 
@@ -699,7 +702,8 @@ size_t wxGISDisplay::GetDrawCache(void) const
 
 void wxGISDisplay::SetColor(double dRed, double dGreen, double dBlue, double dAlpha)
 {
-	cairo_set_source_rgba(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dRed, dGreen, dBlue, dAlpha);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_set_source_rgba(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dRed, dGreen, dBlue, dAlpha);
 }
 
 void wxGISDisplay::SetColor(const wxGISColor &Color)
@@ -709,22 +713,26 @@ void wxGISDisplay::SetColor(const wxGISColor &Color)
 
 void wxGISDisplay::Stroke()
 {
-	cairo_stroke (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_stroke(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 }
 
 void wxGISDisplay::FillPreserve()
 {
-	cairo_fill_preserve (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_fill_preserve(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 }
 
 bool wxGISDisplay::DrawCircle(double dX, double dY, double dOffsetX, double dOffsetY, double dfRadius, double angle1, double angle2)
 {
-	cairo_arc (m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY, dfRadius, angle1, angle2);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_arc(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY, dfRadius, angle1, angle2);
 	return true;
 }
 
 bool wxGISDisplay::DrawEllipse(double dX, double dY, double dOffsetX, double dOffsetY, double dfWidth, double dfHeight)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     cairo_save(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
     cairo_translate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + dfWidth / 2., dY + dOffsetY + dfHeight / 2.);
     cairo_scale(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dfWidth / 2., dfHeight / 2.);
@@ -736,7 +744,8 @@ bool wxGISDisplay::DrawEllipse(double dX, double dY, double dOffsetX, double dOf
 
 bool wxGISDisplay::DrawPointFast(double dX, double dY, double dOffsetX, double dOffsetY)
 {
-	cairo_move_to (m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY);
 	cairo_close_path (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 	return true;
 }
@@ -744,31 +753,36 @@ bool wxGISDisplay::DrawPointFast(double dX, double dY, double dOffsetX, double d
 //TODO: move to cache class
 void wxGISDisplay::SetLineCap(cairo_line_cap_t line_cap)
 {
-	cairo_set_line_cap(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_cap);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_set_line_cap(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_cap);
 }
 
 //TODO: move to cache class
 void wxGISDisplay::SetLineJoin(cairo_line_join_t line_join)
 {
-	cairo_set_line_join(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_join);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_set_line_join(m_saLayerCaches[m_nCurrentLayer].pCairoContext, line_join);
 }
 
 //TODO: move to cache class
 void wxGISDisplay::SetLineWidth(double dWidth)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     cairo_set_line_width(m_saLayerCaches[m_nCurrentLayer].pCairoContext, GetScaledWidth(dWidth));
 }
 
 //TODO: move to cache class
 void wxGISDisplay::SetMiterLimit(double dMiterLimit)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     cairo_set_miter_limit(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dMiterLimit);
 }
 
 //TODO: move to cache class
 void wxGISDisplay::SetFillRule(cairo_fill_rule_t fill_rule)
 {
-	cairo_set_fill_rule(m_saLayerCaches[m_nCurrentLayer].pCairoContext, fill_rule);
+    wxCriticalSectionLocker locker(m_CritSect);
+    cairo_set_fill_rule(m_saLayerCaches[m_nCurrentLayer].pCairoContext, fill_rule);
 }
 
 bool wxGISDisplay::CanDraw(OGREnvelope &Env)
@@ -783,7 +797,7 @@ bool wxGISDisplay::CanDraw(OGREnvelope &Env)
 
 bool wxGISDisplay::DrawLine(OGRRawPoint* pOGRRawPoints, int nPointCount, bool bOwn, double dOffsetX, double dOffsetY, bool bIsRing)
 {
-	if(NULL == pOGRRawPoints)
+    if (NULL == pOGRRawPoints)
     {
         if(bOwn)
             wxDELETEA(pOGRRawPoints);
@@ -796,6 +810,7 @@ bool wxGISDisplay::DrawLine(OGRRawPoint* pOGRRawPoints, int nPointCount, bool bO
 
 	for(int i = 1; i < nPointCount; ++i)
 	{
+        wxCriticalSectionLocker locker(m_CritSect);
         cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, pOGRRawPoints[i].x + dOffsetX, pOGRRawPoints[i].y + dOffsetY);
 	}
 
@@ -826,6 +841,8 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
 	{
 		if(	EnvWidth >= MINPOLYAREA && EnvHeight >= MINPOLYAREA )
 		{
+            wxCriticalSectionLocker locker(m_CritSect);
+
 			cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MinX + dOffsetX, Envelope.MinY + dOffsetY);
 			cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MaxX + dOffsetX, Envelope.MaxY + dOffsetY);
 		}
@@ -857,6 +874,8 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGRLineString* pLine, double dfLineWid
     EnvHeight = fabs(EnvHeight);
     if (EnvWidth <= MINPOLYDRAWAREA && EnvHeight <= MINPOLYDRAWAREA)
     {
+        wxCriticalSectionLocker locker(m_CritSect);
+
         cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, stpt.getX(), stpt.getY());
         cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, fspt.getX(), fspt.getY());
         return true;
@@ -944,3 +963,4 @@ wxCriticalSection &wxGISDisplay::GetLock()
 {
     return m_CritSect;
 }
+
