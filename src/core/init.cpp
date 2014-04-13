@@ -24,6 +24,9 @@
 #include "wxgis/core/config.h"
 #include "wxgis/version.h"
 
+#include <wx/config.h>
+#include <process.h>
+
 //-----------------------------------------------------------------------------
 // wxGISAppWithLibs
 //-----------------------------------------------------------------------------
@@ -286,3 +289,418 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 
     return true;
 }
+
+//-----------------------------------------------------------------------------
+// wxGISService
+//-----------------------------------------------------------------------------
+wxGISService* wxGISService::m_pThis = NULL;
+
+wxGISService::wxGISService()
+{
+    m_pThis = this;
+
+    m_hEventSource = 0;
+    m_bServiceIsRunning = false;
+    m_nMinLogLevel = LOG_WARNING;
+}
+
+wxGISService::~wxGISService()
+{
+#ifdef _WIN32
+    if (m_hEventSource)
+    {
+        DeregisterEventSource(m_hEventSource);
+    }
+#endif // _WIN32
+}
+
+void wxGISService::LogMessage(wxString msg, int level)
+{
+#ifdef _WIN32
+    if (m_hEventSource)
+    {
+        LPCTSTR *tmp;
+
+        tmp = (LPCTSTR *)malloc(sizeof(LPCTSTR));
+        tmp[0] = _wcsdup(msg.wc_str());
+
+        switch (level)
+        {
+        case LOG_DEBUG:
+            if (m_nMinLogLevel >= LOG_DEBUG)
+                ReportEvent(m_hEventSource, EVENTLOG_INFORMATION_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            break;
+
+        case LOG_WARNING:
+            if (m_nMinLogLevel >= LOG_WARNING)
+                ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            break;
+
+        case LOG_ERROR:
+            ReportEvent(m_hEventSource, EVENTLOG_ERROR_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+
+            break;
+
+            // Log startup/connection warnings (valid for any log level)
+        case LOG_STARTUP:
+            ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            break;
+        }
+    }
+    else
+    {
+        switch (level)
+        {
+        case LOG_DEBUG:
+            if (m_nMinLogLevel >= LOG_DEBUG)
+                wxPrintf(_("DEBUG: %s\n"), msg);
+            break;
+        case LOG_WARNING:
+            if (m_nMinLogLevel >= LOG_WARNING)
+                wxPrintf(_("WARNING: %s\n"), msg);
+            break;
+        case LOG_ERROR:
+            wxPrintf(_("ERROR: %s\n"), msg);
+            break;
+            // Log startup/connection warnings (valid for any log level)
+        case LOG_STARTUP:
+            wxPrintf(_("WARNING: %s\n"), msg);
+            break;
+        }
+    }
+#else //_WIN32
+    wxFFile file;
+    if (logFile.IsEmpty())
+    {
+        file.Attach(stdout);
+    }
+    else
+    {
+        file.Open(logFile.c_str(), wxT("a"));
+    }
+
+    if (!file.IsOpened())
+    {
+        wxFprintf(stderr, _("Can not open the logfile!"));
+        return;
+    }
+
+    switch (level)
+    {
+    case LOG_DEBUG:
+        if (m_nMinLogLevel >= LOG_DEBUG)
+            file.Write(_("DEBUG: ") + msg + wxT("\n"));
+        break;
+    case LOG_WARNING:
+        if (m_nMinLogLevel >= LOG_WARNING)
+            file.Write(_("WARNING: ") + msg + wxT("\n"));
+        break;
+    case LOG_ERROR:
+        file.Write(_("ERROR: ") + msg + wxT("\n"));
+//        exit(1);
+        break;
+    case LOG_STARTUP:
+        file.Write(_("WARNING: ") + msg + wxT("\n"));
+        break;
+    }
+
+    if (logFile.IsEmpty())
+    {
+        file.Detach();
+    }
+    else
+    {
+        file.Close();
+    }
+#endif//_WIN32
+}
+
+#ifdef _WIN32
+
+bool wxGISService::StartService()
+{
+    SERVICE_TABLE_ENTRY st[] = {
+        { m_sServiceName.wchar_str(), ServiceMain },
+        { NULL, NULL }
+    };
+
+    return StartServiceCtrlDispatcher(st) == TRUE ? true : false;
+}
+
+void wxGISService::ServiceMain(DWORD dwArgc, LPTSTR* lpszArgv)
+{
+    // Get a pointer to the C++ object
+    wxGISService* pService = m_pThis;
+
+    // Register the control request handler
+    pService->m_ServiceStatus.dwCurrentState = SERVICE_START_PENDING;
+    pService->m_ServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
+    pService->m_ServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_PAUSE_CONTINUE;
+    pService->m_ServiceStatus.dwWin32ExitCode = 0;
+    pService->m_ServiceStatus.dwCheckPoint = 0;
+    pService->m_ServiceStatus.dwWaitHint = 15000;
+    pService->m_hServiceStatusHandle = RegisterServiceCtrlHandler(pService->m_sServiceName.c_str(), Handler);
+    if (pService->m_hServiceStatusHandle == NULL)
+    {
+        pService->LogMessage(_("Register service handler failed"), LOG_ERROR);
+        return;
+    }
+
+    // Start the initialisation
+    if (pService->Initialize())
+    {
+        // Do the real work. 
+        // When the Run function returns, the service has stopped.
+        pService->m_bServiceIsRunning = true;
+        pService->m_ServiceStatus.dwWaitHint = 1000;
+        pService->SetStatus(SERVICE_RUNNING);
+        pService->LogMessage(_("Service started successfuly"), LOG_STARTUP);
+        pService->Run();
+    }
+
+    // Tell the service manager we are stopped
+    pService->SetStatus(SERVICE_STOPPED);
+
+    wxExit();
+}
+
+void wxGISService::Handler(DWORD dwOpcode)
+{
+    // Get a pointer to the C++ object
+    wxGISService* pService = m_pThis;
+
+    switch (dwOpcode) 
+    {
+    case SERVICE_CONTROL_STOP: // 1
+        pService->m_ServiceStatus.dwCheckPoint++;
+        pService->SetStatus(SERVICE_STOP_PENDING);
+        pService->OnStop();
+        pService->m_bServiceIsRunning = false;
+        pService->LogMessage(_("Service stopped"), LOG_STARTUP);
+        break;
+
+    case SERVICE_CONTROL_PAUSE: // 2
+        pService->SetStatus(SERVICE_PAUSE_PENDING);
+        pService->OnPause();
+        pService->m_bServiceIsRunning = true;// false;
+        pService->LogMessage(_("Service paused"), LOG_STARTUP);
+        break;
+
+    case SERVICE_CONTROL_CONTINUE: // 3
+        pService->SetStatus(SERVICE_CONTINUE_PENDING);
+        pService->OnContinue();
+        pService->m_bServiceIsRunning = true;
+        pService->LogMessage(_("Service continue"), LOG_STARTUP);
+        break;
+
+    case SERVICE_CONTROL_INTERROGATE: // 4
+        pService->OnInterrogate();
+        break;
+
+    case SERVICE_CONTROL_SHUTDOWN: // 5
+        pService->OnShutdown();
+        break;
+
+    default:
+        pService->LogMessage(_("Bad request"), LOG_ERROR);
+        break;
+    }
+
+    SetServiceStatus(pService->m_hServiceStatusHandle, &pService->m_ServiceStatus);
+}
+
+void wxGISService::SetStatus(DWORD dwState)
+{
+    m_ServiceStatus.dwCurrentState = dwState;
+    SetServiceStatus(m_hServiceStatusHandle, &m_ServiceStatus);
+}
+
+bool wxGISService::IsInstalled()
+{
+    bool bResult = false;
+
+    SC_HANDLE hSCM = OpenSCManager(
+        NULL, // local machine
+        NULL, // ServicesActive database
+        SC_MANAGER_ALL_ACCESS); // full access
+    if (hSCM) 
+    {
+        // Try to open the service
+        SC_HANDLE hService = OpenService(hSCM, m_sServiceName.c_str(), SERVICE_QUERY_CONFIG);
+        if (hService) 
+        {
+            bResult = true;
+            CloseServiceHandle(hService);
+        }
+        CloseServiceHandle(hSCM);
+    }
+
+    return bResult;
+}
+
+bool wxGISService::Install(const wxString &args, const wxString &user, const wxString &password)
+{
+    bool bResult = false;
+    SC_HANDLE hSCM = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+    if (!hSCM)
+    {
+        return bResult;
+    }
+
+    wxString sPath = wxStandardPaths::Get().GetExecutablePath();
+    wxString sCmd = sPath + wxT(" ") + args;
+    SC_HANDLE hService = NULL;
+    if (user.IsEmpty())
+    {
+        hService = CreateService(hSCM, m_sServiceName.c_str(), m_sServiceDisplayName.c_str(), SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, sCmd.c_str(), NULL, NULL, NULL, NULL, NULL);
+    }
+    else
+    {
+        wxString quser;
+        if (!user.Contains(wxT("\\")))
+            quser = wxT(".\\") + user;
+        else
+            quser = user;
+
+        // Create the service
+        hService = CreateService(hSCM, m_sServiceName.c_str(), m_sServiceDisplayName.c_str(), SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, sCmd.c_str(), NULL, NULL, NULL, quser.c_str(), password.c_str());
+    }
+    if (hService) 
+    {
+        CloseServiceHandle(hService);
+        bResult = true;
+    }
+    else
+    {
+        LPVOID lpMsgBuf;
+        DWORD dw = GetLastError();
+
+        FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL,
+            dw,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPTSTR)&lpMsgBuf,
+            0, NULL
+            );
+        wxString error;
+        error.Printf(wxT("%s"), lpMsgBuf);
+        LogMessage(error, LOG_ERROR);
+    }
+
+    CloseServiceHandle(hSCM);
+
+    // Setup the event message DLL
+    wxRegKey *msgKey = new wxRegKey(wxT("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\") + m_sServiceName);
+    if (!msgKey->Exists())
+    {
+        if (!msgKey->Create())
+            LogMessage(_("Could not open the message source registry key."), LOG_WARNING);
+    }
+
+    if (!msgKey->SetValue(wxT("EventMessageFile"), sPath))
+        LogMessage(_("Could not set the event message file registry value."), LOG_WARNING);
+
+    DWORD dwData = EVENTLOG_ERROR_TYPE | EVENTLOG_WARNING_TYPE | EVENTLOG_INFORMATION_TYPE;
+
+    if (!msgKey->SetValue(wxT("TypesSupported"), dwData))
+        LogMessage(_("Could not set the supported types."), LOG_WARNING);
+
+    LogMessage(_("Service installed"), LOG_STARTUP);
+
+    return bResult;
+}
+
+bool wxGISService::Uninstall()
+{
+    // Open the Service Control Manager
+    SC_HANDLE hSCM = OpenSCManager( NULL, NULL, SC_MANAGER_CONNECT); 
+    if (!hSCM)
+    {
+        return false;
+    }
+
+    bool bResult = false;
+    SC_HANDLE hService = OpenService(hSCM, m_sServiceName.c_str(), SERVICE_QUERY_STATUS | DELETE);
+
+    if (hService) {
+        SERVICE_STATUS serviceStatus;
+        ControlService(hService, SERVICE_CONTROL_STOP, &serviceStatus);
+
+        int retries;
+        for (retries = 0; retries < 5; retries++)
+        {
+            if (QueryServiceStatus(hService, &serviceStatus))
+            {
+                if (serviceStatus.dwCurrentState == SERVICE_STOPPED)
+                {
+                    DeleteService(hService);
+                    LogMessage(_("Service uninstalled"), LOG_STARTUP);
+                    bResult = true;
+                    break;
+                }
+                Sleep(1000L);
+            }
+        }
+        CloseServiceHandle(hService);
+    }
+
+    CloseServiceHandle(hSCM);
+
+    // Remove the event message DLL
+    wxRegKey *msgKey = new wxRegKey(wxT("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\") + m_sServiceName);
+    msgKey->DeleteSelf();
+
+    return bResult;
+}
+
+void wxGISService::OnStop()
+{
+    m_ServiceStatus.dwCheckPoint = 0;
+    //SetStatus(SERVICE_STOP);
+}
+
+void wxGISService::OnPause()
+{
+    SetStatus(SERVICE_PAUSED);
+}
+
+void wxGISService::OnContinue()
+{
+    SetStatus(SERVICE_RUNNING);
+}
+
+void wxGISService::OnInterrogate()
+{
+    SetStatus(SERVICE_INTERROGATE);
+}
+
+void wxGISService::OnShutdown()
+{
+}
+
+#else //_WIN32
+void wxGISService::Daemonize(void)
+{
+    pid_t pid;
+
+    pid = fork();
+    if (pid == (pid_t)-1)
+    {
+        LogMessage(_("Cannot disassociate from controlling TTY"), LOG_ERROR);
+        exit(1);
+    }
+    else if (pid)
+        exit(0);
+
+#ifdef HAVE_SETSID
+    if (setsid() < 0)
+    {
+        LogMessage(_("Cannot disassociate from controlling TTY"), LOG_ERROR);
+        exit(1);
+    }
+#endif
+
+}
+#endif //_WIN32

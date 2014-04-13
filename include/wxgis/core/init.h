@@ -3,7 +3,7 @@
  * Purpose:  Initializer class for logs, locale, libs and etc.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Bishop
+*   Copyright (C) 2010-2012,2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -34,9 +34,12 @@
 #include <wx/dynlib.h>
 #include <wx/cmdline.h> 
 
-/** \class wxGISAppWithLibs init.h
-    \brief The library loader and unloader class.
-*/
+/** @class wxGISAppWithLibs
+
+    The library loader and unloader class.
+
+    @library{core}
+ */
 
 class WXDLLIMPEXP_GIS_CORE wxGISAppWithLibs
 {
@@ -54,10 +57,12 @@ protected:
     LIBMAP m_LibMap;
 };
 
-/** \class wxGISInitializer init.h
-    \brief The Initializer class for logs, locale, libs and etc.
+/** @class wxGISInitializer
 
+    The Initializer class for logs, locale, libs and etc.
 	This class load config from xml files, libraries from paths stored in config, initialize locale, log directory path and system directory path. In Stop method the loaded libraries unloaded.
+
+    @library{core}
 */
 
 /** \code The usage example of Initializer
@@ -95,5 +100,63 @@ protected:
     wxString m_sDecimalPoint;
 };
 
+// Log levels
+enum
+{
+    LOG_ERROR = 0,
+    LOG_WARNING,
+    LOG_DEBUG,
+    // NOTE:
+    //     "STARTUP" will be used to log messages for any LogLevel
+    //     Use it for logging database connection errors which we
+    //     don't want to abort the whole shebang.
+    LOG_STARTUP = 15
+};
 
- 
+
+/** @class wxGISService
+
+    The base class for service/daemon support.
+
+    @library{core}
+ */
+class WXDLLIMPEXP_GIS_CORE wxGISService
+{
+public:
+    wxGISService(void);
+    virtual ~wxGISService(void);
+    virtual void LogMessage(wxString msg, int level);
+#ifdef _WIN32
+    static void WINAPI ServiceMain(DWORD dwArgc, LPTSTR* lpszArgv);
+    static void WINAPI Handler(DWORD dwOpcode);
+    virtual bool IsInstalled();
+    virtual bool Install(const wxString &args, const wxString &user = wxEmptyString, const wxString &password = wxEmptyString);
+    virtual bool Uninstall();
+    virtual void Run() = 0;
+    virtual bool Initialize() = 0;
+    virtual void OnStop();
+    virtual void OnPause();
+    virtual void OnContinue();
+    virtual void OnInterrogate();
+    virtual void OnShutdown();
+#else //_WIN32
+    virtual void Daemonize(void)
+#endif //_WIN32
+protected:
+#ifdef _WIN32
+    virtual bool StartService();
+    virtual void SetStatus(DWORD dwState);
+#else //_WIN32
+#endif //_WIN32
+protected:
+    int m_nMinLogLevel;
+    wxString m_sServiceName;
+    wxString m_sServiceDisplayName;
+    bool m_bServiceIsRunning;
+#ifdef _WIN32
+    SERVICE_STATUS m_ServiceStatus;
+    SERVICE_STATUS_HANDLE m_hServiceStatusHandle;
+    HANDLE m_hEventSource;
+    static wxGISService* m_pThis;
+#endif //_WIN32
+};
