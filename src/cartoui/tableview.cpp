@@ -136,15 +136,22 @@ void wxGISGridTable::FillForPos(int nRow)
     wxGISFeature Feature = m_pGISDataset->GetFeature(nBeg);
     if (Feature.IsOk())
         m_moFeatures[nBeg] = Feature;
+    else
+        m_nRows--;
 
-    for (long i = nBeg + 1; i < nBeg + FILL_STEP; ++i)
+    int nEndPos = nBeg + FILL_STEP;
+    if (nEndPos > m_nRows)
+        nEndPos = m_nRows;
+
+    for (long i = nBeg + 1; i < nEndPos; ++i)
     {
         //if (m_moFeatures[i].IsOk())
         //    continue;
         Feature = m_pGISDataset->Next();
-        if (!Feature.IsOk())
-            break;
-        m_moFeatures[i] = Feature;
+        if (Feature.IsOk())
+            m_moFeatures[i] = Feature;
+        else
+            m_nRows--;
     }
 }
 
