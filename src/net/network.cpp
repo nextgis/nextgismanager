@@ -157,28 +157,34 @@ wxNetMessage INetConnection::SendNetMessageSync(wxNetMessage & msg)
 
 bool INetConnection::CreateAndRunThreads(void)
 {
-	m_pOutThread = new wxNetWriterThread(this);
-	if(!CreateAndRunThread(m_pOutThread, wxT("wxNetWriterThread"), wxT("NetWriterThread")))
-		return false;	
+    if (NULL == m_pOutThread)
+    {
+        m_pOutThread = new wxNetWriterThread(this);
+        if (!CreateAndRunThread(m_pOutThread, wxT("wxNetWriterThread"), wxT("NetWriterThread")))
+            return false;
+    }
 
     wxMilliSleep(SLEEP);
 
-    m_pInThread = new wxNetReaderThread(this);
-	if(!CreateAndRunThread(m_pInThread, wxT("wxNetReaderThread"), wxT("NetReaderThread")))
-		return false;
+    if (NULL == m_pInThread)
+    {
+        m_pInThread = new wxNetReaderThread(this);
+        if (!CreateAndRunThread(m_pInThread, wxT("wxNetReaderThread"), wxT("NetReaderThread")))
+            return false;
+    }
 
     return true;
 }
 
 void INetConnection::DestroyThreads(void)
 {
-    if (m_pInThread && m_pInThread->IsRunning())
+    if (NULL != m_pInThread && m_pInThread->IsRunning())
     {
         m_pInThread->Delete();
         m_pInThread = NULL;
     }
 
-    if (m_pOutThread && m_pOutThread->IsRunning())
+    if (NULL != m_pOutThread && m_pOutThread->IsRunning())
     {
         m_pOutThread->Delete();
         m_pOutThread = NULL;

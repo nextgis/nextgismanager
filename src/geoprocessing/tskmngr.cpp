@@ -69,7 +69,7 @@ wxGISLocalClientConnection::~wxGISLocalClientConnection(void)
 
 bool wxGISLocalClientConnection::Connect(void)
 {
-	if(m_bIsConnected)
+    if (m_bIsConnected || m_bIsConnecting)
 		return true;
 
     wxString sHost(HOST);
@@ -142,17 +142,11 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
         break;
         case wxSOCKET_LOST:
             wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
+            m_bIsConnecting = false;
+            m_bIsConnected = false;
             {
                 DestroyThreads();
                 wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHighest);
-                if(!m_bIsConnected && m_bIsConnecting)
-                {
-                    m_bIsConnecting = false;
-                }
-                else
-                {
-                    m_bIsConnected = false;
-                }
                 PostEvent(new wxGISNetEvent(wxNOT_FOUND, wxGISNET_MSG, msgin));
             }
         break;
@@ -198,34 +192,26 @@ wxGISTaskManager::~wxGISTaskManager()
 
 void wxGISTaskManager::StartTaskManagerServer()
 {
-    //try to connect
-    if (m_pConn && m_pConn->Connect())
-    {
-        int nCounter = 0;
-        while(!m_pConn->IsConnected() && nCounter < 100)
-        {
-            wxYieldIfNeeded();
-            wxMilliSleep(10);
-            nCounter++;
-        }
-
-        if (m_pConn->IsConnected())
-            return;
-    }
 #ifdef __WXMSW__
     wxString sTaskMngrServerPath(wxT("wxgistaskmanager.exe"));
 #else
     wxString sTaskMngrServerPath(wxT("wxgistaskmanager"));
 #endif
     wxGISAppConfig oConfig = GetConfig();
-    if(oConfig.IsOk())
+    bool bIsService = false;
+    if (oConfig.IsOk())
     {
         sTaskMngrServerPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/exe_path")), sTaskMngrServerPath);
+        bIsService = oConfig.ReadBool(enumGISHKLM, wxString(wxT("wxGISCommon/taskmngr/is_service")), bIsService);
     }
 
-    if(wxExecute(sTaskMngrServerPath + wxT(" -a"), wxEXEC_ASYNC | wxEXEC_HIDE_CONSOLE ) == 0)
+    //try to connect
+    if (!bIsService)
     {
-        wxLogError(_("Task Manager Server start failed. Path '%s'"), sTaskMngrServerPath.c_str());
+        if(wxExecute(sTaskMngrServerPath + wxT(" -a"), wxEXEC_ASYNC | wxEXEC_HIDE_CONSOLE ) == 0)
+        {
+            wxLogError(_("Task Manager Server start failed. Path '%s'"), sTaskMngrServerPath.c_str());
+        }
     }
     //start timer to connect task manager server
     m_timer.Start(5500, false); //2,5 sec. disconnect timer

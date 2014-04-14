@@ -73,13 +73,14 @@ protected:
     virtual wxThread::ExitCode Entry();
     bool CreateAndRunExitThread(void);
     void DestroyExitThread(void);
-private:
+protected:
     wxGISAppConfig m_oConfig;
 #ifdef wxUSE_SNGLINST_CHECKER
     wxSingleInstanceChecker *m_pChecker;
 #endif    
     wxCriticalSection m_ExitLock;
     wxGISTaskManager* m_pTaskManager;
+    bool m_bService;
 };
 
 DECLARE_APP(wxGISTaskManagerApp)

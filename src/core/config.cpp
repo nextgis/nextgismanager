@@ -244,7 +244,7 @@ wxXmlNode *wxGISConfig::GetConfigRootNode(wxGISEnumConfigKey Key, const wxString
 			}
 		}
 
-		//last chance - load from config directory near pplication executable
+		//last chance - load from config directory near application executable
         if(!pXmlDoc || !pXmlDoc->IsOk())
 		{
 			wxString sConfigFilePathNew = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxT("config") +  wxFileName::GetPathSeparator() + sFileName;

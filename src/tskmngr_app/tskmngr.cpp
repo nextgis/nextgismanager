@@ -85,7 +85,10 @@ void wxGISTaskManager::Exit(void)
     for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
     {
         wxGISTaskCategory* pTaskCategory = it->second;
-        pTaskCategory->OnDestroy();
+        if (pTaskCategory != NULL)
+        {
+            pTaskCategory->OnDestroy();
+        }
     }    
 
     for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
@@ -121,6 +124,7 @@ bool wxGISTaskManager::Init(void)
 
 void wxGISTaskManager::LoadCategories(const wxString &sPathToCategories)
 {
+    wxLogMessage(_("Read task categories from '%s'"), sPathToCategories.c_str());
     wxDir dir(sPathToCategories); 
     if( dir.IsOpened() )
     {
@@ -252,7 +256,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                 {
                     wxString sCategoryName = ReplaceForbiddenCharsInFileName(sCatName);
                     wxString sCatPath = m_sUserConfigDir + wxFileName::GetPathSeparator() + sCategoryName;
-                    if(wxDir::Make(sCatPath))
+                    if (wxDir::Make(sCatPath, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL))
                     {
                         wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatPath, this);
                         m_omCategories[sCategoryName] = pGISTaskCategory;
