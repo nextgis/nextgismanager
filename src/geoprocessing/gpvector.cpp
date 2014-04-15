@@ -269,14 +269,11 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             OGRFieldDefn *pFieldDefn = pFeatureDefn->GetFieldDefn(i);
             if (NULL != pFieldDefn)
             {
-                if (pSrcFeatureDefn->GetFieldCount() > i)
-//                int nSrcField = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
-//                if (nSrcField != wxNOT_FOUND)
-                {
-                    OGRFieldType eType = pFieldDefn->GetType();
-                    _st_field_map record = { i, i, eType };
-                    staFieldMap.push_back(record);
-                }
+                int nSrcFieldIndex = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
+
+                OGRFieldType eType = pFieldDefn->GetType();
+                _st_field_map record = { i, nSrcFieldIndex, eType };
+                staFieldMap.push_back(record);
             }
         }
     }
@@ -786,8 +783,30 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
                 OGRFeatureDefn *pNewDef = pDef->Clone();
                 pNewDef->SetGeomType(IT->first);
-                sType.Replace(" ", "");           
-                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, pTrackCancel))
+                sType.Replace(" ", "");         
+                //remove ogc_fid field for PG
+                if (nNewSubType == enumVecPostGIS)
+                {
+                    for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
+                    {
+                        OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
+                        if (NULL != pFieldDefn)
+                        {
+                            if (wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
+                            {
+                                pNewDef->DeleteFieldDefn(i);
+                                if (pTrackCancel)
+                                {
+                                    pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, pTrackCancel))
                 {
                     return false;
                 }
@@ -798,7 +817,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
     {
         //check if data have multi types
         bool bIsMulti = false;
-        OGRFeatureDefn *pNewDef = pDef;
+        OGRFeatureDefn *pNewDef = pDef->Clone();
 
 
         if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4 && nNewSubType == enumVecPostGIS)
@@ -834,7 +853,6 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
             if (bToMultiInPG)
             {
-                pNewDef = pDef->Clone();
                 pNewDef->SetGeomType((OGRwkbGeometryType)(eGeomType + 3));//set multi
                 if (pTrackCancel)
                 {
@@ -851,8 +869,28 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
         //}
 
+        if (nNewSubType == enumVecPostGIS)
+        {
+            for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
+            {
+                OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
+                if (NULL != pFieldDefn)
+                {
+                    if (wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
+                    {
+                        pNewDef->DeleteFieldDefn(i);
+                        if (pTrackCancel)
+                        {
+                            pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
+                        }
 
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, pTrackCancel))
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, pTrackCancel))
         {
             return false;
         }
