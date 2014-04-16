@@ -787,6 +787,7 @@ void wxGISCatalogMainCmd::OnClick(void)
         case 14:
             if (NULL != pSel && NULL != pCat)
             {
+#ifdef wxGIS_USE_EMAIL
                 //create temp zip
                 CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("email"), "zip");
                 void* hZIP = CPLCreateZip(szZipFileName, NULL);
@@ -794,7 +795,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 if (!hZIP) 
                 {
                     wxMessageBox(_("Create zip failed!"), _("Error"), wxICON_ERROR | wxOK );
-                    CPLError(CE_Failure, CPLE_NoWriteAccess, "ERROR creating %s", szZipFileName);
+                    CPLError(CE_Failure, CPLE_NoWriteAccess, "ERROR creating %s", szZipFileName.c_str());
                     return;
                 }
 
@@ -823,7 +824,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 wxEmail email;
 
                 email.Send(msg);
-
+#endif //wxGIS_USE_EMAIL
                 return;
             }
         case 3:

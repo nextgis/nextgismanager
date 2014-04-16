@@ -230,7 +230,7 @@ void wxGxShellConnections::LoadChildren(void)
 }
 
 #ifdef __WXGTK__
-void wxGxDBConnections::OnObjectAdded(wxGxCatalogEvent& event)
+void wxGxShellConnections::OnObjectAdded(wxGxCatalogEvent& event)
 {
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 	if(!pGxObject)

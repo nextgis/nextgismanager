@@ -247,7 +247,7 @@ void wxGxCatalog::EnableRootItem(size_t nItemId, bool bEnable)
 
 bool wxGxCatalog::Destroy(void)
 {
-    m_pPointsArray.clear();
+    //m_pPointsArray.clear();
 
     //store to config values
 	wxGISAppConfig oConfig = GetConfig();

@@ -253,8 +253,9 @@ wxGISSpatialTreeCursor wxGISFeatureLayer::Idetify(const wxGISGeometry &Geom)
 
 void wxGISFeatureLayer::OnDSClosed(wxFeatureDSEvent& event)
 {
-	wxDELETE(m_pSpatialTree);
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_DS_CLOSED, GetId()));
+    wxDELETE(m_pSpatialTree);
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_DS_CLOSED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 void wxGISFeatureLayer::OnDSFeaturesAdded(wxFeatureDSEvent& event)
@@ -291,7 +292,8 @@ void wxGISFeatureLayer::OnDSFeaturesAdded(wxFeatureDSEvent& event)
         m_pFeatureRenderer->Draw(event.GetCursor(), wxGISDPGeography, m_pDisplay);
     }
     //send event that layer is changed and redraw needed to upper layers and whole map
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_LOADING, GetId()));
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_LOADING, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 void wxGISFeatureLayer::OnDSFeatureAdded(wxFeatureDSEvent& event)
@@ -329,7 +331,8 @@ void wxGISFeatureLayer::OnDSFeatureAdded(wxFeatureDSEvent& event)
         m_pFeatureRenderer->FeatureChanged(Feature);
     }
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_CHANGED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 void wxGISFeatureLayer::OnDSFeatureDeleted(wxFeatureDSEvent& event)
@@ -338,7 +341,9 @@ void wxGISFeatureLayer::OnDSFeatureDeleted(wxFeatureDSEvent& event)
     {
         m_pSpatialTree->Remove(event.GetFID());
     }
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_CHANGED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
@@ -374,7 +379,8 @@ void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
         m_pFeatureRenderer->FeatureChanged(Feature);
     }
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_CHANGED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 void wxGISFeatureLayer::SetSpatialReference(const wxGISSpatialReference &SpatialReference)

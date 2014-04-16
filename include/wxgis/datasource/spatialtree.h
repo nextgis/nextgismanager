@@ -155,7 +155,7 @@ protected:
 	    double m_dfArea;
 	    explicit SortBoundedItemsByAreaEnlargement(const OGREnvelope &Env)
         {
-            m_dfArea = std::fabs((Env.MaxX - Env.MinX) * (Env.MaxY - Env.MinY));
+            m_dfArea = fabs((Env.MaxX - Env.MinX) * (Env.MaxY - Env.MinY));
         }
 
 	    bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const 
@@ -173,10 +173,10 @@ protected:
 	    {
             OGREnvelope IntersectEnv = n1->GetBounds();
             IntersectEnv.Intersect(m_Env);
-            double dfArea1 = std::fabs((IntersectEnv.MaxX - IntersectEnv.MinX) * (IntersectEnv.MaxY - IntersectEnv.MinY));
+            double dfArea1 = fabs((IntersectEnv.MaxX - IntersectEnv.MinX) * (IntersectEnv.MaxY - IntersectEnv.MinY));
             IntersectEnv = n2->GetBounds();
             IntersectEnv.Intersect(m_Env);
-            double dfArea2 = std::fabs((IntersectEnv.MaxX - IntersectEnv.MinX) * (IntersectEnv.MaxY - IntersectEnv.MinY));
+            double dfArea2 = fabs((IntersectEnv.MaxX - IntersectEnv.MinX) * (IntersectEnv.MaxY - IntersectEnv.MinY));
             
 		    return dfArea1 < dfArea2;
 	    }

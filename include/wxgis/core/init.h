@@ -113,6 +113,11 @@ enum
     LOG_STARTUP = 15
 };
 
+#ifdef _WIN32
+    typedef HANDLE EventSource;
+#else //_WIN32
+    typedef int EventSource;
+#endif //_WIN32
 
 /** @class wxGISService
 
@@ -140,7 +145,7 @@ public:
     virtual void OnInterrogate();
     virtual void OnShutdown();
 #else //_WIN32
-    virtual void Daemonize(void)
+    virtual void Daemonize(void);
 #endif //_WIN32
 protected:
 #ifdef _WIN32
@@ -156,7 +161,8 @@ protected:
 #ifdef _WIN32
     SERVICE_STATUS m_ServiceStatus;
     SERVICE_STATUS_HANDLE m_hServiceStatusHandle;
-    HANDLE m_hEventSource;
-    static wxGISService* m_pThis;
+
 #endif //_WIN32
+    EventSource m_hEventSource;
+    static wxGISService* m_pThis;
 };

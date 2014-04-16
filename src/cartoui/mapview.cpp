@@ -448,7 +448,10 @@ bool wxGISMapView::AddLayer(wxGISLayer* pLayer)
 	bool bRes = wxGISExtentStack::AddLayer(pLayer);
 
     if (bRes)
-        AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_LAYER_ADDED, pLayer->GetId()));
+    {
+        wxMxMapViewUIEvent wxMxMapViewUIEvent_(GetId(), wxMXMAP_LAYER_ADDED, pLayer->GetId());
+        AddEvent(wxMxMapViewUIEvent_);
+    }
 
     return bRes;
 }
@@ -459,7 +462,8 @@ void wxGISMapView::Clear(void)
 	//Clear caches
 	m_pGISDisplay->Clear();
 	wxGISExtentStack::Clear();
-    AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_CLEARED));
+    wxMxMapViewUIEvent wxMxMapViewUIEvent_(GetId(), wxMXMAP_CLEARED);
+    AddEvent(wxMxMapViewUIEvent_);
 }
 
 void wxGISMapView::OnMouseWheel(wxMouseEvent& event)
@@ -713,7 +717,8 @@ void wxGISMapView::RotateBy(wxPoint MouseLocation)
 				m_dCurrentAngle += DOUBLEPI;
 			DrawToolTip(CDC, wxString::Format(_("%.4f degree"), m_dCurrentAngle * DEGPI));
 
-            AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
+            wxMxMapViewUIEvent wxMxMapViewUIEvent_(GetId(), wxMXMAP_ROTATED);
+            AddEvent(wxMxMapViewUIEvent_);
 		}
 	}
 }
@@ -754,7 +759,8 @@ void wxGISMapView::SetRotate(double dAngleRad)
 	if(m_dCurrentAngle < 0)
 		m_dCurrentAngle += DOUBLEPI;
 
-	AddEvent(wxMxMapViewUIEvent(GetId(), wxMXMAP_ROTATED));
+    wxMxMapViewUIEvent wxMxMapViewUIEvent_(GetId(), wxMXMAP_ROTATED);
+    AddEvent(wxMxMapViewUIEvent_);
 
     CreateAndRunDrawThread();
 }
@@ -1055,7 +1061,8 @@ void wxGISMapView::OnMapDrawing(wxMxMapViewUIEvent& event)
         }
     }
 
-    AddEvent(wxMxMapViewUIEvent(event));
+    wxMxMapViewUIEvent wxMxMapViewUIEvent_(event);
+    AddEvent(wxMxMapViewUIEvent_);
 }
 
 wxThread::ExitCode wxGISMapView::Entry()

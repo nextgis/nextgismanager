@@ -253,7 +253,8 @@ bool wxGISDrawingLayer::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType e
 
     pNewShape->Draw(m_pDisplay);
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_CHANGED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 
     return true;
 }
@@ -280,7 +281,8 @@ void wxGISDrawingLayer::Clear()
     //clear cache
     m_pDisplay->ClearCache(GetCacheId());
 
-    AddEvent(wxMxMapViewEvent(wxMXMAP_LAYER_CHANGED, GetId()));
+    wxMxMapViewEvent wxMxMapViewEvent_(wxMXMAP_LAYER_CHANGED, GetId());
+    AddEvent(wxMxMapViewEvent_);
 }
 
 wxGISSymbol* wxGISDrawingLayer::GetSymbol(wxGISEnumShapeType eType)

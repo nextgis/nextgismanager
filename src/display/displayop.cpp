@@ -28,8 +28,8 @@
 #endif
 
 #ifdef __WXGTK__
-	#include <gdk/gdk.h>
-	#include <gtk/gtk.h>
+    //#include <gdk/gdk.h>
+    //#include <gtk/gtk.h>
 #endif
 
 void SetColorValue(wxXmlNode* pNode, const wxString &sAttrName, const wxGISColor &oColor)

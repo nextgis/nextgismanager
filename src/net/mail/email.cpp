@@ -56,7 +56,6 @@ wxEmail::Send(wxMailMessage& message,
 {
     wxASSERT_MSG( !message.m_to.IsEmpty(), _T("no recipients to send mail to") ) ;
 
-
     // The 'from' field is optionally supplied by the app; it's not needed
     // by MAPI, and on Unix, will be guessed if not supplied.
     wxString from = message.m_from;

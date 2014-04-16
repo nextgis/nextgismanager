@@ -50,7 +50,7 @@ public:
 protected:
 	//wxGISMapView* m_pMapView;
 	//long m_nConnectionPointMapCookie;
-    wxVector<std::pair<wxWindowID, long>> m_anMapWinIDs;
+    wxVector< std::pair<wxWindowID, long> > m_anMapWinIDs;
 private:
     DECLARE_EVENT_TABLE()
 };

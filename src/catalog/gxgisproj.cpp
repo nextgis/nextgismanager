@@ -53,15 +53,6 @@ void wxGxQGISProjFile::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
         return;
 
-    struct _pg_data{
-        wxString sName;
-        wxString sPass;
-        wxString sPort;
-        wxString sAddres;
-        wxString sDBName;
-        wxArrayString saTables;
-    };
-
     wxString sPath = wxString::FromUTF8(m_sPath);
     wxFileName oFProjPath(sPath);
     wxXmlDocument oProjectFile(sPath);

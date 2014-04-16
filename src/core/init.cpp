@@ -25,7 +25,10 @@
 #include "wxgis/version.h"
 
 #include <wx/config.h>
-#include <process.h>
+
+#ifdef _WIN32
+    #include <process.h>
+#endif //_WIN32
 
 //-----------------------------------------------------------------------------
 // wxGISAppWithLibs
@@ -369,6 +372,7 @@ void wxGISService::LogMessage(wxString msg, int level)
         }
     }
 #else //_WIN32
+    const wxString logFile;
     wxFFile file;
     if (logFile.IsEmpty())
     {

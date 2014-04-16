@@ -646,8 +646,8 @@ bool wxGISRasterRenderer::Draw(wxGISEnumDrawPhase DrawPhase, wxGISDisplay* const
 
 	//get width & height in pixels of draw area
 	pDisplay->World2DCDist(&dOutWidth, &dOutHeight, false);
-    dOutWidth = std::abs(dOutWidth);
-    dOutHeight = std::abs(dOutHeight);
+    dOutWidth = abs(dOutWidth);
+    dOutHeight = abs(dOutHeight);
 
 	//round float pixel to int using ceil
 	int nOutWidth = ceil(dOutWidth);

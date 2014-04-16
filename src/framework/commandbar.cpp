@@ -242,17 +242,23 @@ void wxGISMenu::AddCommand(wxGISCommand* pCmd)
 		break;
 	case enumGISCommandCheck:
 	case enumGISCommandRadio:
+        {
+            wxMenuItem *item = new wxMenuItem(this, pCmd->GetId(), pCmd->GetCaption(), pCmd->GetMessage(), (wxItemKind)pCmd->GetKind());
+            Append(item);
+        }
+        break;
     case enumGISCommandNormal:
 		{
 			wxMenuItem *item = new wxMenuItem(this, pCmd->GetId(), pCmd->GetCaption(), pCmd->GetMessage(), (wxItemKind)pCmd->GetKind());
-#ifdef __WIN32__
             wxBitmap Bmp = pCmd->GetBitmap();
+#ifdef __WIN32__
 			if(Bmp.IsOk())
             {
                 wxImage Img = Bmp.ConvertToImage();                //Img.RotateHue(-0.1);
 				item->SetBitmaps(Bmp, Img.ConvertToGreyscale());
             }
 #else
+            if(Bmp.IsOk())
             {
                 item->SetBitmap(Bmp);
             }

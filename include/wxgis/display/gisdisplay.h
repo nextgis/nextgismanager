@@ -32,8 +32,8 @@
 #endif
 
 #ifdef __WXGTK__
-    #include <gdk/gdk.h>
-	#include <gtk/gtk.h>
+    //#include <gdk/gdk.h>
+    //#include <gtk/gtk.h>
 #endif
 
 WX_DEFINE_ARRAY(wxRealPoint*, wxGISPointsArray);

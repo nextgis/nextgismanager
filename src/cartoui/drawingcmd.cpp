@@ -786,14 +786,15 @@ wxMenu* wxGISDrawingToolMenu::GetDropDownMenu(void)
             {
                 wxMenuItem *item = new wxMenuItem(pMenu, ID_MENUCMD + i, pCmd->GetCaption(), pCmd->GetMessage(), (wxItemKind)pCmd->GetKind());
                 item->Enable(pCmd->GetEnabled());
-#ifdef __WIN32__
                 wxBitmap Bmp = pCmd->GetBitmap();
+#ifdef __WIN32__
                 if (Bmp.IsOk())
                 {
                     wxImage Img = Bmp.ConvertToImage();                //Img.RotateHue(-0.1);
                     item->SetBitmaps(Bmp, Img.ConvertToGreyscale());
                 }
 #else
+                if (Bmp.IsOk())
                 {
                     item->SetBitmap(Bmp);
                 }

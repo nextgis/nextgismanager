@@ -63,7 +63,7 @@ public:
     virtual void Activate(wxGISApplicationBase* pApp);
     virtual void Deactivate(void);
 protected:
-    wxVector<std::pair<wxWindowID, long>> m_anMapWinIDs;
+    wxVector< std::pair<wxWindowID, long> > m_anMapWinIDs;
 private:
     DECLARE_EVENT_TABLE()
 };

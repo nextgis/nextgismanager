@@ -20,6 +20,7 @@
  ****************************************************************************/
 
 #include "wxgis/catalog/gxdbconnections.h"
+#include "wxgis/catalog/gxdiscconnection.h"
 #include "wxgis/core/config.h"
 #include "wxgis/datasource/datasource.h"
 

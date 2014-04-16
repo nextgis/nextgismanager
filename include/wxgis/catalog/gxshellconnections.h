@@ -23,6 +23,7 @@
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxfolder.h"
 #include "wxgis/catalog/gxcatalog.h"
+#include "wxgis/catalog/gxevent.h"
 
 #include <wx/event.h>
 #include <wx/fswatcher.h>

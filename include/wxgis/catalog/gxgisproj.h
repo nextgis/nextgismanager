@@ -34,6 +34,16 @@ class WXDLLIMPEXP_GIS_CLT wxGxQGISProjFile :
     public IGxObjectNoFilter
 {
     DECLARE_CLASS(wxGxQGISProjFile)
+
+    struct _pg_data{
+        wxString sName;
+        wxString sPass;
+        wxString sPort;
+        wxString sAddres;
+        wxString sDBName;
+        wxArrayString saTables;
+    };
+
 public:
     wxGxQGISProjFile(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
     virtual ~wxGxQGISProjFile(void);
@@ -56,7 +66,8 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
 protected:
 	//wxGxQGISProjFile
-	virtual void LoadChildren(void);    
+    virtual void LoadChildren(void);
+
 protected:
 	bool m_bIsChildrenLoaded;
 };

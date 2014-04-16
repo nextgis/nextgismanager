@@ -324,7 +324,7 @@ wxGISRTreeNode::wxGISRTreeNode(unsigned short nMinChildItems, unsigned short nMa
         if(Geom.IsOk())
         {
             m_Env = Geom.GetEnvelope();
-            m_dfArea = std::fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
+            m_dfArea = fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
         }
     }
 }
@@ -400,7 +400,7 @@ void wxGISRTreeNode::Delete()
 void wxGISRTreeNode::StretchBounds(const OGREnvelope &Env)
 {
     m_Env.Merge(Env);
-    m_dfArea = std::fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
+    m_dfArea = fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
 }
 
 void wxGISRTreeNode::UpdateBounds(void)
@@ -412,7 +412,7 @@ void wxGISRTreeNode::UpdateBounds(void)
         m_Env.Merge(m_paNodes[i]->GetBounds());
     }
     
-    m_dfArea = std::fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
+    m_dfArea = fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
 }
 
 OGREnvelope wxGISRTreeNode::GetBounds() const
@@ -561,10 +561,10 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
             dfDeltaX2 = R2.MaxX - R2.MinX;
             dfDeltaY2 = R2.MaxY - R2.MinY;
             margin += dfDeltaX1 + dfDeltaY1 + dfDeltaX2 + dfDeltaY2;
-            area += std::fabs(dfDeltaX1 * dfDeltaY1) + std::fabs(dfDeltaX2 * dfDeltaY2);
+            area += fabs(dfDeltaX1 * dfDeltaY1) + fabs(dfDeltaX2 * dfDeltaY2);
             
             R1.Intersect(R2);
-            overlap = std::fabs(R1.MaxX - R1.MinX * R1.MaxY - R1.MinY); 
+            overlap = fabs(R1.MaxX - R1.MinX * R1.MaxY - R1.MinY);
                 
             // CSI1: Along the split axis, choose the distribution with the 
             // minimum overlap-value. Resolve ties by choosing the distribution
