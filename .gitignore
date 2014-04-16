@@ -24,3 +24,6 @@ lib
 bin
 
 include/wxgisdefs.h
+
+#compiled translation
+*.mo

@@ -332,103 +332,41 @@ void wxGISService::LogMessage(wxString msg, int level)
         case LOG_DEBUG:
             if (m_nMinLogLevel >= LOG_DEBUG)
                 ReportEvent(m_hEventSource, EVENTLOG_INFORMATION_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
-            wxLogDebug(msg);
             break;
 
         case LOG_WARNING:
             if (m_nMinLogLevel >= LOG_WARNING)
                 ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
-            wxLogMessage(msg);
             break;
 
         case LOG_ERROR:
             ReportEvent(m_hEventSource, EVENTLOG_ERROR_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
-            wxLogError(msg);
 
             break;
 
             // Log startup/connection warnings (valid for any log level)
         case LOG_STARTUP:
             ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
-            wxLogMessage(msg);
             break;
         }
     }
-    else
-    {
-        switch (level)
-        {
-        case LOG_DEBUG:
-            if (m_nMinLogLevel >= LOG_DEBUG)
-                wxPrintf(_("DEBUG: %s\n"), msg);
-            wxLogDebug(msg);
-            break;
-        case LOG_WARNING:
-            if (m_nMinLogLevel >= LOG_WARNING)
-                wxPrintf(_("WARNING: %s\n"), msg);
-            wxLogMessage(msg);
-            break;
-        case LOG_ERROR:
-            wxPrintf(_("ERROR: %s\n"), msg);
-            wxLogError(msg);
-            break;
-            // Log startup/connection warnings (valid for any log level)
-        case LOG_STARTUP:
-            wxPrintf(_("WARNING: %s\n"), msg);
-            wxLogMessage(msg);
-            break;
-        }
-    }
-#else //_WIN32
-    const wxString logFile;
-    wxFFile file;
-    if (logFile.IsEmpty())
-    {
-        file.Attach(stdout);
-    }
-    else
-    {
-        file.Open(logFile.c_str(), wxT("a"));
-    }
-
-    if (!file.IsOpened())
-    {
-        wxFprintf(stderr, _("Can not open the logfile!"));
-        return;
-    }
+#endif//_WIN32
 
     switch (level)
     {
     case LOG_DEBUG:
-        if (m_nMinLogLevel >= LOG_DEBUG)
-            file.Write(_("DEBUG: ") + msg + wxT("\n"));
         wxLogDebug(msg);
         break;
     case LOG_WARNING:
-        if (m_nMinLogLevel >= LOG_WARNING)
-            file.Write(_("WARNING: ") + msg + wxT("\n"));
         wxLogMessage(msg);
         break;
     case LOG_ERROR:
-        file.Write(_("ERROR: ") + msg + wxT("\n"));
-//        exit(1);
         wxLogError(msg);
         break;
     case LOG_STARTUP:
-        file.Write(_("WARNING: ") + msg + wxT("\n"));
         wxLogMessage(msg);
         break;
-    }
-
-    if (logFile.IsEmpty())
-    {
-        file.Detach();
-    }
-    else
-    {
-        file.Close();
-    }
-#endif//_WIN32
+    };
 }
 
 #ifdef _WIN32

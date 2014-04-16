@@ -21,20 +21,17 @@ msgstr ""
 "Project-Id-Version: PostgreSQL 9 current\n"
 "Report-Msgid-Bugs-To: pgsql-bugs@postgresql.org\n"
 "POT-Creation-Date: 2010-11-29 18:43+0000\n"
-"PO-Revision-Date: 2012-03-10 01:44+0400\n"
+"PO-Revision-Date: 2014-04-16 13:34+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: pgsql-rus\n"
-"Language: \n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.6.4\n"
 
-#: fe-auth.c:212
-#: fe-auth.c:432
-#: fe-auth.c:659
+#: fe-auth.c:212 fe-auth.c:432 fe-auth.c:659
 msgid "host name must be specified\n"
 msgstr "должно быть указано имя хоста\n"
 
@@ -43,8 +40,7 @@ msgstr "должно быть указано имя хоста\n"
 msgid "could not set socket to blocking mode: %s\n"
 msgstr "не удалось установить сокет в блокирующий режим: %s\n"
 
-#: fe-auth.c:260
-#: fe-auth.c:264
+#: fe-auth.c:260 fe-auth.c:264
 #, c-format
 msgid "Kerberos 5 authentication rejected: %*s\n"
 msgstr "аутентификация Kerberos 5 отклонена: %*s\n"
@@ -70,27 +66,11 @@ msgstr "GSSAPI ошибка импорта имени"
 msgid "SSPI continuation error"
 msgstr "SSPI ошибка возобновления"
 
-#: fe-auth.c:556
-#: fe-auth.c:630
-#: fe-auth.c:665
-#: fe-auth.c:762
-#: fe-connect.c:1970
-#: fe-connect.c:3369
-#: fe-connect.c:3586
-#: fe-connect.c:4002
-#: fe-connect.c:4011
-#: fe-connect.c:4148
-#: fe-connect.c:4194
-#: fe-connect.c:4212
-#: fe-connect.c:4291
-#: fe-connect.c:4361
-#: fe-connect.c:4407
-#: fe-connect.c:4425
-#: fe-exec.c:3121
-#: fe-exec.c:3286
-#: fe-lobj.c:696
-#: fe-protocol2.c:1027
-#: fe-protocol3.c:1425
+#: fe-auth.c:556 fe-auth.c:630 fe-auth.c:665 fe-auth.c:762 fe-connect.c:1970
+#: fe-connect.c:3369 fe-connect.c:3586 fe-connect.c:4002 fe-connect.c:4011
+#: fe-connect.c:4148 fe-connect.c:4194 fe-connect.c:4212 fe-connect.c:4291
+#: fe-connect.c:4361 fe-connect.c:4407 fe-connect.c:4425 fe-exec.c:3121
+#: fe-exec.c:3286 fe-lobj.c:696 fe-protocol2.c:1027 fe-protocol3.c:1425
 msgid "out of memory\n"
 msgstr "недостаточно памяти\n"
 
@@ -135,7 +115,8 @@ msgstr "неверное значение sslmode: \"%s\"\n"
 #: fe-connect.c:780
 #, c-format
 msgid "sslmode value \"%s\" invalid when SSL support is not compiled in\n"
-msgstr "значение sslmode \"%s\" неверно, если поддержка SSL не скомпилирована\n"
+msgstr ""
+"значение sslmode \"%s\" неверно, если поддержка SSL не скомпилирована\n"
 
 #: fe-connect.c:963
 #, c-format
@@ -202,11 +183,15 @@ msgstr "не удалось преобразовать имя хоста \"%s\" 
 #: fe-connect.c:1321
 #, c-format
 msgid "could not translate Unix-domain socket path \"%s\" to address: %s\n"
-msgstr "не удалось преобразовать название директории сокетов UNIX-домена \"%s\" в адрес: %s\n"
+msgstr ""
+"не удалось преобразовать название директории сокетов UNIX-домена \"%s\" в "
+"адрес: %s\n"
 
 #: fe-connect.c:1531
 msgid "invalid connection state, probably indicative of memory corruption\n"
-msgstr "неверное состояние соединения, возможный указатель на нарушение целостности памяти\n"
+msgstr ""
+"неверное состояние соединения, возможный указатель на нарушение целостности "
+"памяти\n"
 
 #: fe-connect.c:1572
 #, c-format
@@ -221,7 +206,9 @@ msgstr "не удалось установить сокет в неблокир�
 #: fe-connect.c:1607
 #, c-format
 msgid "could not set socket to close-on-exec mode: %s\n"
-msgstr "не удалось установить сокет в режим закрытия-на-выполнение (close-on-exec): %s\n"
+msgstr ""
+"не удалось установить сокет в режим закрытия-на-выполнение (close-on-exec): "
+"%s\n"
 
 #: fe-connect.c:1625
 msgid "keepalives parameter must be an integer\n"
@@ -242,9 +229,7 @@ msgstr "не удалось получить статус ошибки соке�
 msgid "could not get client address from socket: %s\n"
 msgstr "не удалось получить адрес клиента из сокета: %s\n"
 
-#: fe-connect.c:1849
-#: fe-connect.c:1863
-#: fe-connect.c:1875
+#: fe-connect.c:1849 fe-connect.c:1863 fe-connect.c:1875
 #, c-format
 msgid "could not get peer credentials: %s\n"
 msgstr "не удалось получить удостоверение peer-a: %s\n"
@@ -262,7 +247,8 @@ msgstr "локальный пользователь с ID %d не существ
 #: fe-connect.c:1906
 #, c-format
 msgid "requirepeer specifies \"%s\", but actual peer user name is \"%s\"\n"
-msgstr "requirepeer задан как \"%s\", но настоящее имя пользователя peer-а \"%s\"\n"
+msgstr ""
+"requirepeer задан как \"%s\", но настоящее имя пользователя peer-а \"%s\"\n"
 
 #: fe-connect.c:1912
 msgid "requirepeer parameter is not supported on this platform\n"
@@ -278,8 +264,7 @@ msgstr "не удалось отправить пакет согласовани
 msgid "could not send startup packet: %s\n"
 msgstr "не удалось отправить начальный пакет: %s\n"
 
-#: fe-connect.c:2050
-#: fe-connect.c:2069
+#: fe-connect.c:2050 fe-connect.c:2069
 msgid "server does not support SSL, but SSL was required\n"
 msgstr "сервер не поддерживает SSL, но наличие SSL было необходимо\n"
 
@@ -288,8 +273,7 @@ msgstr "сервер не поддерживает SSL, но наличие SSL 
 msgid "received invalid response to SSL negotiation: %c\n"
 msgstr "получен неверный ответ на согласование по SSL: %c\n"
 
-#: fe-connect.c:2161
-#: fe-connect.c:2194
+#: fe-connect.c:2161 fe-connect.c:2194
 #, c-format
 msgid "expected authentication request from server, but received %c\n"
 msgstr "ожидался запрос аутентификации от сервера, но было получено: %c\n"
@@ -306,10 +290,11 @@ msgstr "неожиданное сообщение от сервера при з�
 #: fe-connect.c:2548
 #, c-format
 msgid "invalid connection state %d, probably indicative of memory corruption\n"
-msgstr "неверное состояние соединения %d, возможно, это признак нарушения целостности памяти\n"
+msgstr ""
+"неверное состояние соединения %d, возможно, это признак нарушения "
+"целостности памяти\n"
 
-#: fe-connect.c:2977
-#: fe-connect.c:3037
+#: fe-connect.c:2977 fe-connect.c:3037
 #, c-format
 msgid "PGEventProc \"%s\" failed during PGEVT_CONNRESET event\n"
 msgstr "PGEventProc \"%s\" потерпел неудачу во время события PGEVT_CONNRESET\n"
@@ -324,17 +309,16 @@ msgstr "некорректный LDAP URL \"%s\": схема должна быт
 msgid "invalid LDAP URL \"%s\": missing distinguished name\n"
 msgstr "не корректный LDAP URL \"%s\": отсутствует уникальное имя\n"
 
-#: fe-connect.c:3408
-#: fe-connect.c:3461
+#: fe-connect.c:3408 fe-connect.c:3461
 #, c-format
 msgid "invalid LDAP URL \"%s\": must have exactly one attribute\n"
 msgstr "не корректный LDAP URL \"%s\": должен быть только один аттрибут\n"
 
-#: fe-connect.c:3418
-#: fe-connect.c:3475
+#: fe-connect.c:3418 fe-connect.c:3475
 #, c-format
 msgid "invalid LDAP URL \"%s\": must have search scope (base/one/sub)\n"
-msgstr "не корректный LDAP URL \"%s\": должна быть границы поиска (base/one/sub)\n"
+msgstr ""
+"не корректный LDAP URL \"%s\": должна быть границы поиска (base/one/sub)\n"
 
 #: fe-connect.c:3429
 #, c-format
@@ -359,38 +343,33 @@ msgstr "поиск на LDAP сервере закончился неудачн�
 msgid "more than one entry found on LDAP lookup\n"
 msgstr "более одного вхождения обнаружено при LDAP поиске\n"
 
-#: fe-connect.c:3538
-#: fe-connect.c:3550
+#: fe-connect.c:3538 fe-connect.c:3550
 msgid "no entry found on LDAP lookup\n"
 msgstr "ни одного вхождения не обнаружено при LDAP поиске\n"
 
-#: fe-connect.c:3561
-#: fe-connect.c:3574
+#: fe-connect.c:3561 fe-connect.c:3574
 msgid "attribute has no values on LDAP lookup\n"
 msgstr "аттрибут не имеет значения при LDAP поиске\n"
 
-#: fe-connect.c:3625
-#: fe-connect.c:3643
-#: fe-connect.c:4050
+#: fe-connect.c:3625 fe-connect.c:3643 fe-connect.c:4050
 #, c-format
 msgid "missing \"=\" after \"%s\" in connection info string\n"
 msgstr "отсутствует \"=\" после \"%s\" в строке соединения\n"
 
-#: fe-connect.c:3706
-#: fe-connect.c:4132
-#: fe-connect.c:4316
+#: fe-connect.c:3706 fe-connect.c:4132 fe-connect.c:4316
 #, c-format
 msgid "invalid connection option \"%s\"\n"
 msgstr "неверный параметр соединения \"%s\"\n"
 
-#: fe-connect.c:3719
-#: fe-connect.c:4099
+#: fe-connect.c:3719 fe-connect.c:4099
 msgid "unterminated quoted string in connection info string\n"
 msgstr "неоконченная строка (не хватает кавычки) в строке соединения\n"
 
 #: fe-connect.c:3758
 msgid "could not get home directory to locate service definition file"
-msgstr "не удалось получить домашнюю директорию, чтобы найти файл со служебными определениями"
+msgstr ""
+"не удалось получить домашнюю директорию, чтобы найти файл со служебными "
+"определениями"
 
 #: fe-connect.c:3791
 #, c-format
@@ -407,8 +386,7 @@ msgstr "служебный файл \"%s\" не найден\n"
 msgid "line %d too long in service file \"%s\"\n"
 msgstr "строка %d слишком длинная в служебном файле \"%s\"\n"
 
-#: fe-connect.c:3898
-#: fe-connect.c:3925
+#: fe-connect.c:3898 fe-connect.c:3925
 #, c-format
 msgid "syntax error in service file \"%s\", line %d\n"
 msgstr "синтаксическая ошибка в служебном файле \"%s\", строка %d\n"
@@ -424,8 +402,12 @@ msgstr "ВНИМАНИЕ: файл паролей \"%s\" не обычный т�
 
 #: fe-connect.c:4874
 #, c-format
-msgid "WARNING: password file \"%s\" has group or world access; permissions should be u=rw (0600) or less\n"
-msgstr "ВНИМАНИЕ: файл с паролями \"%s\" имеет права на чтение для всех или для группы; права должны быть u=rw (0600) или меньше\n"
+msgid ""
+"WARNING: password file \"%s\" has group or world access; permissions should "
+"be u=rw (0600) or less\n"
+msgstr ""
+"ВНИМАНИЕ: файл с паролями \"%s\" имеет права на чтение для всех или для "
+"группы; права должны быть u=rw (0600) или меньше\n"
 
 #: fe-connect.c:4962
 #, c-format
@@ -436,21 +418,15 @@ msgstr "пароль получен из файла \"%s\"\n"
 msgid "NOTICE"
 msgstr "NOTICE"
 
-#: fe-exec.c:1014
-#: fe-exec.c:1071
-#: fe-exec.c:1111
+#: fe-exec.c:1014 fe-exec.c:1071 fe-exec.c:1111
 msgid "command string is a null pointer\n"
 msgstr "командная строка является нулевым указателем\n"
 
-#: fe-exec.c:1104
-#: fe-exec.c:1199
+#: fe-exec.c:1104 fe-exec.c:1199
 msgid "statement name is a null pointer\n"
 msgstr "имя команды является нулевым указателем\n"
 
-#: fe-exec.c:1119
-#: fe-exec.c:1273
-#: fe-exec.c:1928
-#: fe-exec.c:2125
+#: fe-exec.c:1119 fe-exec.c:1273 fe-exec.c:1928 fe-exec.c:2125
 msgid "function requires at least protocol version 3.0\n"
 msgstr "функция требует как минимум версию протокола 3.0\n"
 
@@ -488,10 +464,7 @@ msgstr "Сначала, состояние COPY IN должно завершит
 msgid "COPY OUT state must be terminated first\n"
 msgstr "Сначала, состояние COPY OUT должно завершиться\n"
 
-#: fe-exec.c:2016
-#: fe-exec.c:2082
-#: fe-exec.c:2167
-#: fe-protocol2.c:1172
+#: fe-exec.c:2016 fe-exec.c:2082 fe-exec.c:2167 fe-protocol2.c:1172
 #: fe-protocol3.c:1561
 msgid "no COPY in progress\n"
 msgstr "COPY не выполняется\n"
@@ -504,8 +477,7 @@ msgstr "соединение в неправильном состоянии\n"
 msgid "invalid ExecStatusType code"
 msgstr "неверный код ExecStatusType"
 
-#: fe-exec.c:2454
-#: fe-exec.c:2477
+#: fe-exec.c:2454 fe-exec.c:2477
 #, c-format
 msgid "column number %d is out of range 0..%d"
 msgstr "номер колонки %d вне диапазона 0..%d"
@@ -525,8 +497,7 @@ msgstr "номер параметра %d вне диапазона 0..%d"
 msgid "could not interpret result from server: %s"
 msgstr "не в состоянии интерпретировать ответ сервера: %s"
 
-#: fe-exec.c:3019
-#: fe-exec.c:3103
+#: fe-exec.c:3019 fe-exec.c:3103
 msgid "incomplete multibyte character\n"
 msgstr "неполный мультибайтовый символ\n"
 
@@ -538,8 +509,7 @@ msgstr "не в состоянии определить OID функции lo_tr
 msgid "cannot determine OID of function lo_create\n"
 msgstr "не в состоянии определить OID функции lo_create\n"
 
-#: fe-lobj.c:525
-#: fe-lobj.c:624
+#: fe-lobj.c:525 fe-lobj.c:624
 #, c-format
 msgid "could not open file \"%s\": %s\n"
 msgstr "не в состоянии открыть файл \"%s\": %s\n"
@@ -549,15 +519,15 @@ msgstr "не в состоянии открыть файл \"%s\": %s\n"
 msgid "could not read from file \"%s\": %s\n"
 msgstr "не в состоянии произвести чтение из файла \"%s\": %s\n"
 
-#: fe-lobj.c:639
-#: fe-lobj.c:663
+#: fe-lobj.c:639 fe-lobj.c:663
 #, c-format
 msgid "could not write to file \"%s\": %s\n"
 msgstr "не в состоянии призвести запись в файл \"%s\": %s\n"
 
 #: fe-lobj.c:744
 msgid "query to initialize large object functions did not return data\n"
-msgstr "запрос об инициализации функций для больших объектов (LOs) не вернул данных\n"
+msgstr ""
+"запрос об инициализации функций для больших объектов (LOs) не вернул данных\n"
 
 #: fe-lobj.c:785
 msgid "cannot determine OID of function lo_open\n"
@@ -601,19 +571,16 @@ msgstr "тип integer длиной %lu байт не поддерживаетс
 msgid "integer of size %lu not supported by pqPutInt"
 msgstr "тип integer длиной %lu байт не поддерживается функцией pqPutInt"
 
-#: fe-misc.c:578
-#: fe-misc.c:780
+#: fe-misc.c:578 fe-misc.c:780
 msgid "connection not open\n"
 msgstr "соединение не открыто\n"
 
-#: fe-misc.c:643
-#: fe-misc.c:733
+#: fe-misc.c:643 fe-misc.c:733
 #, c-format
 msgid "could not receive data from server: %s\n"
 msgstr "ошибка при получении данных с сервера: %s\n"
 
-#: fe-misc.c:750
-#: fe-misc.c:828
+#: fe-misc.c:750 fe-misc.c:828
 msgid ""
 "server closed the connection unexpectedly\n"
 "\tThis probably means the server terminated abnormally\n"
@@ -644,15 +611,17 @@ msgstr "select() не удался: %s\n"
 #: fe-protocol2.c:89
 #, c-format
 msgid "invalid setenv state %c, probably indicative of memory corruption\n"
-msgstr "неверное состояние setenv %c, возможный указатель на нарушение целостности памяти\n"
+msgstr ""
+"неверное состояние setenv %c, возможный указатель на нарушение целостности "
+"памяти\n"
 
 #: fe-protocol2.c:330
 #, c-format
 msgid "invalid state %c, probably indicative of memory corruption\n"
-msgstr "неверное состояние %c, возможный указатель на нарушение целостности памяти\n"
+msgstr ""
+"неверное состояние %c, возможный указатель на нарушение целостности памяти\n"
 
-#: fe-protocol2.c:419
-#: fe-protocol3.c:186
+#: fe-protocol2.c:419 fe-protocol3.c:186
 #, c-format
 msgid "message type 0x%02x arrived from server while idle"
 msgstr "сообщение типа 0x%02x прибыло от сервера во время простоя"
@@ -663,26 +632,31 @@ msgid "unexpected character %c following empty query response (\"I\" message)"
 msgstr "неожиданный символ %c вслед за пустым ответом (сообщение \"I\")"
 
 #: fe-protocol2.c:516
-msgid "server sent data (\"D\" message) without prior row description (\"T\" message)"
-msgstr "сервер отправил данные (сообщение \"D\") без предварительного строки описания (сообщение \"T\")"
+msgid ""
+"server sent data (\"D\" message) without prior row description (\"T\" "
+"message)"
+msgstr ""
+"сервер отправил данные (сообщение \"D\") без предварительного строки "
+"описания (сообщение \"T\")"
 
 #: fe-protocol2.c:532
-msgid "server sent binary data (\"B\" message) without prior row description (\"T\" message)"
-msgstr "сервер отправил двоичные данные (сообщение \"B\") без предварительного строки описания (сообщение \"T\")"
+msgid ""
+"server sent binary data (\"B\" message) without prior row description (\"T\" "
+"message)"
+msgstr ""
+"сервер отправил двоичные данные (сообщение \"B\") без предварительного "
+"строки описания (сообщение \"T\")"
 
-#: fe-protocol2.c:547
-#: fe-protocol3.c:382
+#: fe-protocol2.c:547 fe-protocol3.c:382
 #, c-format
 msgid "unexpected response from server; first received character was \"%c\"\n"
 msgstr "неожиданный ответ сервера; первый полученный символ: \"%c\"\n"
 
-#: fe-protocol2.c:768
-#: fe-protocol3.c:701
+#: fe-protocol2.c:768 fe-protocol3.c:701
 msgid "out of memory for query result\n"
 msgstr "недостаточно памяти для результата запроса\n"
 
-#: fe-protocol2.c:1215
-#: fe-protocol3.c:1629
+#: fe-protocol2.c:1215 fe-protocol3.c:1629
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -691,16 +665,18 @@ msgstr "%s"
 msgid "lost synchronization with server, resetting connection"
 msgstr "потеряна синхронизация с сервером; переустановка соединения"
 
-#: fe-protocol2.c:1361
-#: fe-protocol2.c:1393
-#: fe-protocol3.c:1832
+#: fe-protocol2.c:1361 fe-protocol2.c:1393 fe-protocol3.c:1832
 #, c-format
 msgid "protocol error: id=0x%x\n"
 msgstr "ошибка протокола: id=0x%x\n"
 
 #: fe-protocol3.c:344
-msgid "server sent data (\"D\" message) without prior row description (\"T\" message)\n"
-msgstr "сервер отправил данные (сообщение \"D\") без предварительного строки описания (сообщение \"T\")\n"
+msgid ""
+"server sent data (\"D\" message) without prior row description (\"T\" "
+"message)\n"
+msgstr ""
+"сервер отправил данные (сообщение \"D\") без предварительного строки "
+"описания (сообщение \"T\")\n"
 
 #: fe-protocol3.c:403
 #, c-format
@@ -710,15 +686,15 @@ msgstr "содержимое сообщения не согласуется с �
 #: fe-protocol3.c:424
 #, c-format
 msgid "lost synchronization with server: got message type \"%c\", length %d\n"
-msgstr "потеряна синхронизация с сервером: получено сообщение типа \"%c\", длина %d\n"
+msgstr ""
+"потеряна синхронизация с сервером: получено сообщение типа \"%c\", длина %d\n"
 
 #: fe-protocol3.c:646
 msgid "unexpected field count in \"D\" message\n"
 msgstr "неожиданное число полей в собщении \"D\"\n"
 
 #. translator: %s represents a digit string
-#: fe-protocol3.c:792
-#: fe-protocol3.c:811
+#: fe-protocol3.c:792 fe-protocol3.c:811
 #, c-format
 msgid " at character %s"
 msgstr " у символа %s"
@@ -771,29 +747,21 @@ msgstr "PQgetline: не производится текстовый COPY OUT\n"
 msgid "could not establish SSL connection: %s\n"
 msgstr "не удалось установить SSL-соединение: %s\n"
 
-#: fe-secure.c:349
-#: fe-secure.c:436
-#: fe-secure.c:1162
+#: fe-secure.c:349 fe-secure.c:436 fe-secure.c:1162
 #, c-format
 msgid "SSL SYSCALL error: %s\n"
 msgstr "ошибка SSL SYSCALL: %s\n"
 
-#: fe-secure.c:355
-#: fe-secure.c:442
-#: fe-secure.c:1166
+#: fe-secure.c:355 fe-secure.c:442 fe-secure.c:1166
 msgid "SSL SYSCALL error: EOF detected\n"
 msgstr "ошибка SSL SYSCALL: обнаружен конец файла (EOF)\n"
 
-#: fe-secure.c:367
-#: fe-secure.c:453
-#: fe-secure.c:1175
+#: fe-secure.c:367 fe-secure.c:453 fe-secure.c:1175
 #, c-format
 msgid "SSL error: %s\n"
 msgstr "ошибка SSL: %s\n"
 
-#: fe-secure.c:377
-#: fe-secure.c:463
-#: fe-secure.c:1184
+#: fe-secure.c:377 fe-secure.c:463 fe-secure.c:1184
 #, c-format
 msgid "unrecognized SSL error code: %d\n"
 msgstr "нераспознанный код ошибки SSL: %d\n"
@@ -814,15 +782,16 @@ msgstr "не удалось создать контекст SSL: %s\n"
 
 #: fe-secure.c:843
 msgid "could not get home directory to locate client certificate files\n"
-msgstr "не удалось получить домашнюю директорию, чтобы найти файлы с клиентскими сертификатами\n"
+msgstr ""
+"не удалось получить домашнюю директорию, чтобы найти файлы с клиентскими "
+"сертификатами\n"
 
 #: fe-secure.c:868
 #, c-format
 msgid "could not open certificate file \"%s\": %s\n"
 msgstr "не в состоянии открыть файл сертификата \"%s\": %s\n"
 
-#: fe-secure.c:893
-#: fe-secure.c:903
+#: fe-secure.c:893 fe-secure.c:903
 #, c-format
 msgid "could not read certificate file \"%s\": %s\n"
 msgstr "не в состоянии считать файл сертификата \"%s\": %s\n"
@@ -854,8 +823,12 @@ msgstr "сертификат присутствует, но нет файла с
 
 #: fe-secure.c:1025
 #, c-format
-msgid "private key file \"%s\" has group or world access; permissions should be u=rw (0600) or less\n"
-msgstr "файл приватного ключа \"%s\" имеет права на чтение для всех или для группы; права должны быть u=rw (0600) или меньше\n"
+msgid ""
+"private key file \"%s\" has group or world access; permissions should be "
+"u=rw (0600) or less\n"
+msgstr ""
+"файл приватного ключа \"%s\" имеет права на чтение для всех или для группы; "
+"права должны быть u=rw (0600) или меньше\n"
 
 #: fe-secure.c:1036
 #, c-format
@@ -881,10 +854,12 @@ msgstr "Библиотека SSL не поддерживает CRL сертиф�
 #, c-format
 msgid ""
 "root certificate file \"%s\" does not exist\n"
-"Either provide the file or change sslmode to disable server certificate verification.\n"
+"Either provide the file or change sslmode to disable server certificate "
+"verification.\n"
 msgstr ""
 "корневой файл сертификата \"%s\" не существует\n"
-"Предоставьте файл с сертификатом или измените sslmode, чтобы отключить проверку сертификата.\n"
+"Предоставьте файл с сертификатом или измените sslmode, чтобы отключить "
+"проверку сертификата.\n"
 
 #: fe-secure.c:1203
 #, c-format

@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-15 17:32+0400\n"
+"PO-Revision-Date: 2014-04-15 17:32+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: NextGIS <polimax@mail.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\projects\\wxGIS\\include\\wxgis\\tskmngr_app\n"
+"X-Poedit-SearchPath-1: D:\\work\\projects\\wxGIS\\src\\tskmngr_app\n"
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:49
+msgid "wxGISLocalNetworkService: Error initializing plugin wxGISLocalNetworkPlugin"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:52
+msgid "wxGISLocalNetworkService: Service started"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:108
+#, c-format
+msgid "%s: Plugin is started..."
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:116
+#, c-format
+msgid "%s: Plugin is shutdown..."
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:131
+msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_INPUT in wxSocketServer"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:134
+msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_OUTPUT in wxSocketServer"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:147
+msgid "wxGISLocalNetworkPlugin: cannot get peer info"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:151
+#, c-format
+msgid "wxGISLocalNetworkPlugin: Got connection from %s:%d"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:160
+msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_LOST in wxSocketServer"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:182
+#, c-format
+msgid "wxGISLocalNetworkPlugin: Invalid address - %s"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:192
+#, c-format
+msgid "wxGISLocalNetworkPlugin: Could not listen at the specified port! Port number - %d"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:197
+#, c-format
+msgid "Server listening at port %d, waiting for connections"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:228
+msgid "Cannot bind listening socket"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:275
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:284
+msgid "Invalid input message"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:316
+#, c-format
+msgid "User #%d is disconnected"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:320
+#, c-format
+msgid "User #%d from %s:%d is disconnected"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:302
+msgid "Start succeeded"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:317
+msgid "Stop succeeded"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:353
+msgid "Delete succeeded"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:391
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:403
+msgid "Children get succeeded"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:461
+msgid "Delete failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:477
+msgid "Start failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:485
+msgid "Stop failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:629
+msgid "Task changed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:644
+msgid "Task new message"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:1025
+msgid "Add succeeded"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:1033
+#, c-format
+msgid "Save changes to file '%s' failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:69
+msgid "Exiting\n"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:127
+#, c-format
+msgid "Read task categories from '%s'"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:252
+msgid "The category name is empty or category is already exist"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:273
+msgid "Create category directory failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:45
+msgid " service"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:62
+msgid "Another program instance is already running, aborting."
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:110
+msgid "Press 'q' to quit.\n"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:128
+msgid "Could not create the thread!"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:135
+msgid "Could not run the thread!"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:151
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:172
+msgid "The version of this program"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:152
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:173
+msgid "Run the wxGIS task manager in standalone mode. Press 'q' to quit."
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:154
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:175
+msgid "Install wxGIS task manager as service"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:155
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:176
+msgid "Uninstall wxGIS task manager service"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:157
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:178
+msgid "Start wxGIS task manager service"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:158
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:179
+msgid "Start wxGIS task manager from client application"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:160
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:181
+#, c-format
+msgid ""
+"%s (%s)\n"
+"Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
+"Copyright (c) 2012-%d"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:165
+#, c-format
+msgid ""
+"%s (%s)\n"
+"Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
+"Copyright (c) 2012-%d\n"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:220
+msgid "install service failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:230
+msgid "uninstall service failed"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:280
+#, c-format
+msgid "%s %s is initializing..."
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:307
+#, c-format
+msgid "%s %s run"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:316
+#, c-format
+msgid "%s %s exit run state"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:321
+#, c-format
+msgid "%s %s initialize"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:327
+#, c-format
+msgid "%s %s stop"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:335
+#, c-format
+msgid "%s %s pause"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:342
+#, c-format
+msgid "%s %s continue"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:358
+#, c-format
+msgid "%s %s interrogate"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:365
+#, c-format
+msgid "%s %s shutdown"
+msgstr ""
+
+#: D:\work\projects\wxGIS\include\wxgis\tskmngr_app/tskmngrapp.h:68
+msgid "Task Manager"
+msgstr ""
+

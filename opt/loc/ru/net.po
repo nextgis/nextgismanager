@@ -1,0 +1,240 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-15 17:32+0400\n"
+"PO-Revision-Date: 2014-04-16 18:00+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: NextGIS <polimax@mail.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Language: ru_RU\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SearchPath-0: D:\\work\\projects\\wxGIS\\include\\wxgis\\net\n"
+"X-Poedit-SearchPath-1: D:\\work\\projects\\wxGIS\\src\\net\n"
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:59
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:103
+msgid "Cannot bind listening socket"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:114
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:121
+#: D:\work\projects\wxGIS\src\net/network.cpp:306
+#: D:\work\projects\wxGIS\src\net/network.cpp:313
+msgid "Invalid input message"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:141
+#, c-format
+msgid "wxGISNetServerConnection: New client connection accepted from %s:%d"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:144
+msgid "Connection accepted"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:149
+#, c-format
+msgid ""
+"wxGISNetServerConnection: To many connections! Connection to address - %s is "
+"not established"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:151
+msgid "To many connections or login/password is incorrect!"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:189
+#, c-format
+msgid "User #%d is disconnected"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:193
+#, c-format
+msgid "User #%d from %s:%d is disconnected"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:218
+#, c-format
+msgid "User #%d is disconnected by timer"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:222
+#, c-format
+msgid "User #%d from %s:%d is disconnected by timer"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:251
+msgid "Failed to send network message"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:347
+msgid "SendUDP: failed to create UDP socket"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:356
+msgid "SendUDP: invalid net message"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:373
+msgid "SendUDP: failed to send data"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:385
+msgid "wxSOCKET_NOERROR"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:388
+msgid "wxSOCKET_INVOP"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:391
+msgid "wxSOCKET_IOERR"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:394
+msgid "wxSOCKET_INVADDR"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:397
+msgid "wxSOCKET_NOHOST"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:400
+msgid "wxSOCKET_INVPORT"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:403
+msgid "wxSOCKET_WOULDBLOCK"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:406
+msgid "wxSOCKET_TIMEDOUT"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:409
+msgid "wxSOCKET_MEMERR"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/network.cpp:412
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:89
+msgid "wxGISNetworkService: Error get config"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:111
+msgid "wxGISNetworkService: Service started"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:125
+#, c-format
+msgid "wxGISNetworkService: Plugin already loaded %s"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:135
+#, c-format
+msgid "wxGISNetworkService: Plugin %s initialize"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:138
+#, c-format
+msgid "wxGISNetworkService: Error initializing plugin %s"
+msgstr ""
+
+#: D:\work\projects\wxGIS\src\net/servernet.cpp:148
+msgid "wxGISNetworkService: Service stopped"
+msgstr "wxGISNetworkService: Сервис остановлен"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:55
+#, c-format
+msgid "%s: Plugin is started..."
+msgstr "%s: Моуль запущен..."
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:66
+#, c-format
+msgid "%s: Plugin is shutdown..."
+msgstr "%s: Моуль остановлен..."
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:93
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:219
+#, c-format
+msgid "wxServerTCPNetworkPlugin: Invalid address - %s"
+msgstr "wxServerTCPNetworkPlugin: Неверный адрес - %s"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:126
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:326
+#, c-format
+msgid "Read error (%d): %s"
+msgstr "Ошибка чтения (%d): %s"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:173
+msgid "wxServerTCPNetworkPlugin: Unexpected wxSOCKET_INPUT in wxSocketServer"
+msgstr ""
+"wxServerTCPNetworkPlugin: Неожиданное сообщение wxSOCKET_INPUT в "
+"wxSocketServer"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:176
+msgid "wxServerTCPNetworkPlugin: Unexpected wxSOCKET_OUTPUT in wxSocketServer"
+msgstr ""
+"wxServerTCPNetworkPlugin: Неожиданное сообщение wxSOCKET_OUTPUT в "
+"wxSocketServer"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:189
+msgid "wxServerTCPNetworkPlugin: cannot get peer info"
+msgstr "wxServerTCPNetworkPlugin: не удалось получить инфомрацию о подключении"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:193
+#, c-format
+msgid "wxServerTCPNetworkPlugin: Got connection from %s:%d"
+msgstr "wxServerTCPNetworkPlugin: Подключение с %s:%d"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:202
+msgid "wxServerTCPNetworkPlugin: Unexpected wxSOCKET_LOST in wxSocketServer"
+msgstr ""
+"wxServerTCPNetworkPlugin: Неожиданное сообщение wxSOCKET_LOST в "
+"wxSocketServer"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:229
+#, c-format
+msgid ""
+"wxServerTCPNetworkPlugin: Could not listen at the specified port! Port "
+"number - %d"
+msgstr "wxServerTCPNetworkPlugin: Не удалось открыть порт! Порт - %d"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:233
+#, c-format
+msgid "Server listening at port %d, waiting for connections"
+msgstr "Сервер запущен на порту %d, ожидание подключений"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:279
+#, c-format
+msgid "wxClientTCPNetFactory: Invalid address - %s"
+msgstr "wxClientTCPNetFactory: Неверный адрес - %s"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:290
+msgid "wxClientTCPNetFactory: Cannot bind listening socket"
+msgstr "wxClientTCPNetFactory: Не удалось подключиться к сокету"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:433
+msgid "New connection"
+msgstr "Новое подключение"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:489
+#, c-format
+msgid "Error (%d): %s"
+msgstr "Ошибка (%d): %s"
+
+#: D:\work\projects\wxGIS\src\net/tcp.cpp:527
+msgid "Could not connect to remote server"
+msgstr "Не удалось выполнить подключение к серверу"
+
+#: D:\work\projects\wxGIS\include\wxgis\net/tcp.h:121
+msgid "TCP/IP Network"
+msgstr "Сеть TCP/IP"
