@@ -259,7 +259,7 @@ void wxGISTable::SetInternalValues()
 
     if(m_bOLCFastFeatureCount)
     {
-        m_nFeatureCount = m_poLayer->GetFeatureCount(0);
+        m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
     }
 
     m_bHasFID = !GetFIDColumn().IsEmpty();

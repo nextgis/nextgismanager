@@ -332,21 +332,25 @@ void wxGISService::LogMessage(wxString msg, int level)
         case LOG_DEBUG:
             if (m_nMinLogLevel >= LOG_DEBUG)
                 ReportEvent(m_hEventSource, EVENTLOG_INFORMATION_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            wxLogDebug(msg);
             break;
 
         case LOG_WARNING:
             if (m_nMinLogLevel >= LOG_WARNING)
                 ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            wxLogMessage(msg);
             break;
 
         case LOG_ERROR:
             ReportEvent(m_hEventSource, EVENTLOG_ERROR_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            wxLogError(msg);
 
             break;
 
             // Log startup/connection warnings (valid for any log level)
         case LOG_STARTUP:
             ReportEvent(m_hEventSource, EVENTLOG_WARNING_TYPE, 0, 0, NULL, 1, 0, tmp, NULL);
+            wxLogMessage(msg);
             break;
         }
     }
@@ -357,17 +361,21 @@ void wxGISService::LogMessage(wxString msg, int level)
         case LOG_DEBUG:
             if (m_nMinLogLevel >= LOG_DEBUG)
                 wxPrintf(_("DEBUG: %s\n"), msg);
+            wxLogDebug(msg);
             break;
         case LOG_WARNING:
             if (m_nMinLogLevel >= LOG_WARNING)
                 wxPrintf(_("WARNING: %s\n"), msg);
+            wxLogMessage(msg);
             break;
         case LOG_ERROR:
             wxPrintf(_("ERROR: %s\n"), msg);
+            wxLogError(msg);
             break;
             // Log startup/connection warnings (valid for any log level)
         case LOG_STARTUP:
             wxPrintf(_("WARNING: %s\n"), msg);
+            wxLogMessage(msg);
             break;
         }
     }
@@ -394,17 +402,21 @@ void wxGISService::LogMessage(wxString msg, int level)
     case LOG_DEBUG:
         if (m_nMinLogLevel >= LOG_DEBUG)
             file.Write(_("DEBUG: ") + msg + wxT("\n"));
+        wxLogDebug(msg);
         break;
     case LOG_WARNING:
         if (m_nMinLogLevel >= LOG_WARNING)
             file.Write(_("WARNING: ") + msg + wxT("\n"));
+        wxLogMessage(msg);
         break;
     case LOG_ERROR:
         file.Write(_("ERROR: ") + msg + wxT("\n"));
 //        exit(1);
+        wxLogError(msg);
         break;
     case LOG_STARTUP:
         file.Write(_("WARNING: ") + msg + wxT("\n"));
+        wxLogMessage(msg);
         break;
     }
 
@@ -576,43 +588,54 @@ bool wxGISService::Install(const wxString &args, const wxString &user, const wxS
     }
     else
     {
-        LPVOID lpMsgBuf;
+        WCHAR buffer[1024];
         DWORD dw = GetLastError();
 
-        FormatMessage(
-            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FormatMessage(            
             FORMAT_MESSAGE_FROM_SYSTEM,
             NULL,
             dw,
             MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-            (LPTSTR)&lpMsgBuf,
-            0, NULL
+            buffer,
+            1024, NULL
             );
-        wxString error;
-        error.Printf(wxT("%s"), lpMsgBuf);
+        wxString error(buffer);
         LogMessage(error, LOG_ERROR);
     }
 
     CloseServiceHandle(hSCM);
 
-    // Setup the event message DLL
-    wxRegKey *msgKey = new wxRegKey(wxT("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\") + m_sServiceName);
-    if (!msgKey->Exists())
+    if (bResult)
     {
-        if (!msgKey->Create())
-            LogMessage(_("Could not open the message source registry key."), LOG_WARNING);
+        // Setup the event message DLL
+        wxRegKey *msgKey = new wxRegKey(wxT("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\") + m_sServiceName);
+        if (!msgKey->Exists())
+        {
+            if (!msgKey->Create())
+                LogMessage(_("Could not open the message source registry key."), LOG_WARNING);
+        }
+
+        if (!msgKey->SetValue(wxT("EventMessageFile"), sPath))
+            LogMessage(_("Could not set the event message file registry value."), LOG_WARNING);
+
+        DWORD dwData = EVENTLOG_ERROR_TYPE | EVENTLOG_WARNING_TYPE | EVENTLOG_INFORMATION_TYPE;
+
+        if (!msgKey->SetValue(wxT("TypesSupported"), dwData))
+            LogMessage(_("Could not set the supported types."), LOG_WARNING);
+
+        LogMessage(_("Service installed"), LOG_STARTUP);
+
+        //add to config
+
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+        {
+            if (oConfig.Write(enumGISHKLM, wxString(wxT("wxGISCommon/taskmngr/is_service")), true))
+            {
+                oConfig.Save();
+            }
+        }
     }
-
-    if (!msgKey->SetValue(wxT("EventMessageFile"), sPath))
-        LogMessage(_("Could not set the event message file registry value."), LOG_WARNING);
-
-    DWORD dwData = EVENTLOG_ERROR_TYPE | EVENTLOG_WARNING_TYPE | EVENTLOG_INFORMATION_TYPE;
-
-    if (!msgKey->SetValue(wxT("TypesSupported"), dwData))
-        LogMessage(_("Could not set the supported types."), LOG_WARNING);
-
-    LogMessage(_("Service installed"), LOG_STARTUP);
-
     return bResult;
 }
 
@@ -656,13 +679,23 @@ bool wxGISService::Uninstall()
     wxRegKey *msgKey = new wxRegKey(wxT("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\") + m_sServiceName);
     msgKey->DeleteSelf();
 
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        if(oConfig.Write(enumGISHKLM, wxString(wxT("wxGISCommon/taskmngr/is_service")), false))
+        {
+            oConfig.Save();
+        }
+    }
+
+
     return bResult;
 }
 
 void wxGISService::OnStop()
 {
     m_ServiceStatus.dwCheckPoint = 0;
-    //SetStatus(SERVICE_STOP);
+    m_bServiceIsRunning = false;
 }
 
 void wxGISService::OnPause()

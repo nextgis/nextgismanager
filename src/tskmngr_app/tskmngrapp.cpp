@@ -45,6 +45,7 @@ wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxThreadHelper(
     m_sServiceDisplayName = m_appDisplayName + wxString(_(" service"));
 
     m_pTaskManager = NULL;
+    m_bService = false;
 }
 
 wxGISTaskManagerApp::~wxGISTaskManagerApp(void)
@@ -98,23 +99,25 @@ int wxGISTaskManagerApp::OnExit()
 // Loop until user enters q or Q
 wxThread::ExitCode wxGISTaskManagerApp::Entry()
 {
-    // IMPORTANT:
-    // this function gets executed in the secondary thread context!
-    // here we do our long task, periodically calling TestDestroy():
-    while (!GetThread()->TestDestroy())
+    if (m_bService)
     {
-        wxFprintf(stdout, wxString(_("Press 'q' to quit.\n")));
-        int nChar = getchar();
-        if(nChar == 'q' || nChar == 'Q')
+        StartService();
+    }
+    else
+    {
+        while (!GetThread()->TestDestroy())
         {
-            wxExit(); 
-            break;
+            wxFprintf(stdout, wxString(_("Press 'q' to quit.\n")));
+            int nChar = getchar();
+            if(nChar == 'q' || nChar == 'Q')
+            {
+                wxExit(); 
+                break;
+            }
+            wxThread::Sleep(QUIT_CHAR_DELAY);
         }
-        wxThread::Sleep(QUIT_CHAR_DELAY);
     }
 
-    // TestDestroy() returned true (which means the main thread asked us
-    // to terminate as soon as possible) or we ended the long task...
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
 }
 
@@ -197,6 +200,8 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         if (!m_pTaskManager)
             return false;
 
+        m_bService = false;
+
         CreateAndRunExitThread();
         //wxGISServer Server;
 		if(!m_pTaskManager->Init())
@@ -245,13 +250,12 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
             m_pTaskManager->Exit();
             return false;
         }
+        m_pTaskManager->SetExitState(enumGISNetCmdStNoExit);
 
         wxLogMessage(wxT("Starting service..."));
 
-        StartService();
-
-        wxLogMessage(wxT("Service started"));
-
+        m_bService = true;
+        CreateAndRunExitThread();
 	}
     else
     {
@@ -308,6 +312,7 @@ void wxGISTaskManagerApp::Run()
     }
 
     wxThread::Sleep(QUIT_CHAR_DELAY);
+    
     wxLogMessage(_("%s %s exit run state"), m_sServiceDisplayName.c_str(), GetAppVersionString().c_str());
 }
 
@@ -323,8 +328,6 @@ void wxGISTaskManagerApp::OnStop()
     wxDELETE(m_pTaskManager);
 
     wxGISService::OnStop();
-
-//    m_bServiceIsRunning = false;
 }
 
 void wxGISTaskManagerApp::OnPause()
@@ -344,6 +347,9 @@ void wxGISTaskManagerApp::OnContinue()
         m_pTaskManager->Exit();
         return;
     }
+    
+    m_pTaskManager->SetExitState(enumGISNetCmdStNoExit);
+
     wxGISService::OnContinue();
 }
 
