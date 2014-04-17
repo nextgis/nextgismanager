@@ -18,7 +18,6 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/datasource/sysop.h"
 
@@ -169,7 +168,11 @@ void wxGISVectorPropertyPage::FillGrid(void)
         AppendProperty(pdssid, new wxIntProperty(_("Layer Count"), wxPG_LABEL, pDataSource->GetLayerCount()) );  
         AppendProperty(pdssid, new wxStringProperty(_("Create Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateLayer) == TRUE ? _("true") : _("false")) ); 
         AppendProperty(pdssid, new wxStringProperty(_("Delete Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCDeleteLayer) == TRUE ? _("true") : _("false")));
+
+#if GDAL_VERSION_NUM > 1100100
         AppendProperty(pdssid, new wxStringProperty(_("Create Geom Field After Create Layer"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateGeomFieldAfterCreateLayer) == TRUE ? _("true") : _("false")));
+#endif
+
     }
 
     if(pDataSource)
@@ -257,7 +260,11 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
     AppendProperty(pcapid, new wxStringProperty(_("Delete Field"), wxString::Format(wxT("Delete Field_%d"), iLayer), poLayer->TestCapability(OLCDeleteField) == TRUE ? _("true") : _("false")));
     AppendProperty(pcapid, new wxStringProperty(_("Reorder Fields"), wxString::Format(wxT("Reorder Fields_%d"), iLayer), poLayer->TestCapability(OLCReorderFields) == TRUE ? _("true") : _("false")));
     AppendProperty(pcapid, new wxStringProperty(_("Alter Field Definition"), wxString::Format(wxT("Alter Field Definition_%d"), iLayer), poLayer->TestCapability(OLCAlterFieldDefn) == TRUE ? _("true") : _("false")));
-    AppendProperty(pcapid, new wxStringProperty(_("Create Geometry Field"), wxString::Format(wxT("Create Geometry Field_%d"), iLayer), poLayer->TestCapability(OLCCreateGeomField) == TRUE ? _("true") : _("false")));
+
+#if GDAL_VERSION_NUM > 1100100
+        AppendProperty(pcapid, new wxStringProperty(_("Create Geometry Field"), wxString::Format(wxT("Create Geometry Field_%d"), iLayer), poLayer->TestCapability(OLCCreateGeomField) == TRUE ? _("true") : _("false")));
+#endif
+
     AppendProperty(pcapid, new wxStringProperty(_("Delete Feature"), wxString::Format(wxT("Delete Feature_%d"), iLayer), poLayer->TestCapability(OLCDeleteFeature) == TRUE ? _("true") : _("false")));
     AppendProperty(pcapid, new wxStringProperty(_("Strings As UTF8"), wxString::Format(wxT("Strings As UTF8_%d"), iLayer), poLayer->TestCapability(OLCStringsAsUTF8) == TRUE ? _("true") : _("false")));
     AppendProperty(pcapid, new wxStringProperty(_("Transactions"), wxString::Format(wxT("Transactions_%d"), iLayer), poLayer->TestCapability(OLCTransactions) == TRUE ? _("true") : _("false")));
