@@ -105,7 +105,8 @@ int wxGISSplashScreen::FilterEvent(wxEvent& event)
 
     wxFont font_n(16, wxFONTFAMILY_DEFAULT , wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false);
     dc.SetFont(font_n);
-    wxString sName = wxString::Format(wxT("%s"), m_pApp->GetUserAppNameShort().c_str());
+    //wxString sName = wxString::Format(wxT("%s"), m_pApp->GetUserAppNameShort().c_str());
+    wxString sName = wxString::Format(wxT("%s"), m_pApp->GetAppDisplayNameShort().c_str());
     dc.GetTextExtent(sName, &width, &height);
     dc.DrawText(sName, wxPoint(nHCenter  - width / 2, nVCenter - height / 2 - 5));
 

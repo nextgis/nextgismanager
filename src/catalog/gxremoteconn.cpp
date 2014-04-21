@@ -20,16 +20,17 @@
  ****************************************************************************/
 
 #include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/datasource/sysop.h"
+#include "wxgis/catalog/gxcatalog.h"
+#include "wxgis/net/curl.h"
+#include "wxgis/core/json/jsonreader.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
-#include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/gxpostgisdataset.h"
 #include "wxgis/datasource/postgisdataset.h"
-#include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/catalog/gxdbconnfactory.h"
-#include "wxgis/net/curl.h"
-#include "wxgis/core/json/jsonreader.h"
+
 
 //--------------------------------------------------------------
 //class wxGxRemoteConnection

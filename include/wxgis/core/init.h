@@ -156,6 +156,8 @@ protected:
     SERVICE_STATUS m_ServiceStatus;
     SERVICE_STATUS_HANDLE m_hServiceStatusHandle;
     HANDLE m_hEventSource;
-    static wxGISService* m_pThis;
+#else
+    int m_hEventSource;
 #endif //_WIN32
+    static wxGISService* m_pThis;
 };
