@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-15 17:32+0400\n"
-"PO-Revision-Date: 2014-04-15 17:32+0400\n"
+"PO-Revision-Date: 2014-04-17 01:29+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "MIME-Version: 1.0\n"
@@ -11,197 +11,207 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: D:\\work\\projects\\wxGIS\\include\\wxgis\\tskmngr_app\n"
+"Language: ru_RU\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SearchPath-0: D:\\work\\projects\\wxGIS\\include\\wxgis"
+"\\tskmngr_app\n"
 "X-Poedit-SearchPath-1: D:\\work\\projects\\wxGIS\\src\\tskmngr_app\n"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:49
-msgid "wxGISLocalNetworkService: Error initializing plugin wxGISLocalNetworkPlugin"
+msgid ""
+"wxGISLocalNetworkService: Error initializing plugin wxGISLocalNetworkPlugin"
 msgstr ""
+"wxGISLocalNetworkService: Не удалось инициализировать wxGISLocalNetworkPlugin"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:52
 msgid "wxGISLocalNetworkService: Service started"
-msgstr ""
+msgstr "wxGISLocalNetworkService: Сервис запущен"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:108
 #, c-format
 msgid "%s: Plugin is started..."
-msgstr ""
+msgstr "%s: Модуль запускается..."
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:116
 #, c-format
 msgid "%s: Plugin is shutdown..."
-msgstr ""
+msgstr "%s: Модуль останавливается..."
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:131
 msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_INPUT in wxSocketServer"
 msgstr ""
+"wxGISLocalNetworkPlugin: Неожиданное сообщение wxSOCKET_INPUT в "
+"wxSocketServer"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:134
 msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_OUTPUT in wxSocketServer"
 msgstr ""
+"wxGISLocalNetworkPlugin: Неожиданное сообщение wxSOCKET_OUTPUT в "
+"wxSocketServer"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:147
 msgid "wxGISLocalNetworkPlugin: cannot get peer info"
-msgstr ""
+msgstr "wxGISLocalNetworkPlugin: Не удалось получить информацию о подключении"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:151
 #, c-format
 msgid "wxGISLocalNetworkPlugin: Got connection from %s:%d"
-msgstr ""
+msgstr "wxGISLocalNetworkPlugin: Подключение с %s:%d"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:160
 msgid "wxGISLocalNetworkPlugin: Unexpected wxSOCKET_LOST in wxSocketServer"
 msgstr ""
+"wxGISLocalNetworkPlugin: Неожиданное сообщение wxSOCKET_LOST в wxSocketServer"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:182
 #, c-format
 msgid "wxGISLocalNetworkPlugin: Invalid address - %s"
-msgstr ""
+msgstr "wxGISLocalNetworkPlugin: Не верный адрес - %s"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:192
 #, c-format
-msgid "wxGISLocalNetworkPlugin: Could not listen at the specified port! Port number - %d"
-msgstr ""
+msgid ""
+"wxGISLocalNetworkPlugin: Could not listen at the specified port! Port number "
+"- %d"
+msgstr "wxGISLocalNetworkPlugin: Не удалось открыть порт! Порт - %d"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:197
 #, c-format
 msgid "Server listening at port %d, waiting for connections"
-msgstr ""
+msgstr "Сервер открыл порт %d, ожидание подключений"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:228
 msgid "Cannot bind listening socket"
-msgstr ""
+msgstr "Не удалось подключится к сокету"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:275
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:284
 msgid "Invalid input message"
-msgstr ""
+msgstr "Входное сообщение не верно"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:316
 #, c-format
 msgid "User #%d is disconnected"
-msgstr ""
+msgstr "Пользователь №%d отключился"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/net.cpp:320
 #, c-format
 msgid "User #%d from %s:%d is disconnected"
-msgstr ""
+msgstr "Пользователь №%d с %s:%d отключился"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:302
 msgid "Start succeeded"
-msgstr ""
+msgstr "Запуск выполнен"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:317
 msgid "Stop succeeded"
-msgstr ""
+msgstr "Остановка выполнена"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:353
 msgid "Delete succeeded"
-msgstr ""
+msgstr "Удаление выполнено"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:391
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:403
 msgid "Children get succeeded"
-msgstr ""
+msgstr "Получен список задач"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:461
 msgid "Delete failed"
-msgstr ""
+msgstr "Не удалось удалить"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:477
 msgid "Start failed"
-msgstr ""
+msgstr "Не удалось запустить"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:485
 msgid "Stop failed"
-msgstr ""
+msgstr "Не удалось остановить"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:629
 msgid "Task changed"
-msgstr ""
+msgstr "Задача изменена"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:644
 msgid "Task new message"
-msgstr ""
+msgstr "Новое сообщение от задачи"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:1025
 msgid "Add succeeded"
-msgstr ""
+msgstr "Добавление прошло удачно"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/task.cpp:1033
 #, c-format
 msgid "Save changes to file '%s' failed"
-msgstr ""
+msgstr "Не удалось сохранить изменения в файл '%s'."
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:69
 msgid "Exiting\n"
-msgstr ""
+msgstr "Выход\n"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:127
 #, c-format
 msgid "Read task categories from '%s'"
-msgstr ""
+msgstr "Чтение категорий задач из '%s'"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:252
 msgid "The category name is empty or category is already exist"
-msgstr ""
+msgstr "Имя категории отсутствует или категория уже создана"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngr.cpp:273
 msgid "Create category directory failed"
-msgstr ""
+msgstr "Не удалось создать папку для категории"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:45
 msgid " service"
-msgstr ""
+msgstr "служба"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:62
 msgid "Another program instance is already running, aborting."
-msgstr ""
+msgstr "Программа уже запущена, выход."
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:110
 msgid "Press 'q' to quit.\n"
-msgstr ""
+msgstr "Нажмите 'q' для выхода.\n"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:128
 msgid "Could not create the thread!"
-msgstr ""
+msgstr "Не удалось создать поток!"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:135
 msgid "Could not run the thread!"
-msgstr ""
+msgstr "Не удалось запустить поток!"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:151
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:172
 msgid "The version of this program"
-msgstr ""
+msgstr "Версия программы"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:152
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:173
 msgid "Run the wxGIS task manager in standalone mode. Press 'q' to quit."
-msgstr ""
+msgstr "Выполнение менеджера задач как приложения. Нажмите 'q' для выхода. "
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:154
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:175
 msgid "Install wxGIS task manager as service"
-msgstr ""
+msgstr "Установка сервиса менеджера задач"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:155
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:176
 msgid "Uninstall wxGIS task manager service"
-msgstr ""
+msgstr "Удаление сервиса менеджера задач"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:157
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:178
 msgid "Start wxGIS task manager service"
-msgstr ""
+msgstr "Запуск менеджера задач как сервиса"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:158
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:179
 msgid "Start wxGIS task manager from client application"
-msgstr ""
+msgstr "Запуск менеджера задач из приложения"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:160
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:181
@@ -211,6 +221,9 @@ msgid ""
 "Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
 "Copyright (c) 2012-%d"
 msgstr ""
+"%s (%s)\n"
+"Автор: Барышников Дмитрий (Bishop), polimax@mail.ru\n"
+"Copyright (c) 2012-%d"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:165
 #, c-format
@@ -219,61 +232,63 @@ msgid ""
 "Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
 "Copyright (c) 2012-%d\n"
 msgstr ""
+"%s (%s)\n"
+"Автор: Барышников Дмитрий (Bishop), polimax@mail.ru\n"
+"Copyright (c) 2012-%d\n"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:220
 msgid "install service failed"
-msgstr ""
+msgstr "не удалось установить сервис "
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:230
 msgid "uninstall service failed"
-msgstr ""
+msgstr "не удалось удалить сервис "
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:280
 #, c-format
 msgid "%s %s is initializing..."
-msgstr ""
+msgstr "%s %s инициализация..."
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:307
 #, c-format
 msgid "%s %s run"
-msgstr ""
+msgstr "%s %s старт"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:316
 #, c-format
 msgid "%s %s exit run state"
-msgstr ""
+msgstr "%s %s зывершение"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:321
 #, c-format
 msgid "%s %s initialize"
-msgstr ""
+msgstr "%s %s инициализация"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:327
 #, c-format
 msgid "%s %s stop"
-msgstr ""
+msgstr "%s %s остановка"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:335
 #, c-format
 msgid "%s %s pause"
-msgstr ""
+msgstr "%s %s пауза"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:342
 #, c-format
 msgid "%s %s continue"
-msgstr ""
+msgstr "%s %s возобновление"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:358
 #, c-format
 msgid "%s %s interrogate"
-msgstr ""
+msgstr "%s %s interrogate"
 
 #: D:\work\projects\wxGIS\src\tskmngr_app/tskmngrapp.cpp:365
 #, c-format
 msgid "%s %s shutdown"
-msgstr ""
+msgstr "%s %s выключение"
 
 #: D:\work\projects\wxGIS\include\wxgis\tskmngr_app/tskmngrapp.h:68
 msgid "Task Manager"
-msgstr ""
-
+msgstr "Менеджер задач"

@@ -280,6 +280,12 @@ void wxGISFeatureDataset::SetInternalValues()
         m_eGeomType = pDef->GetGeomType();
     }
 
+    OGRSpatialReference* pSpaRef = m_poLayer->GetSpatialRef();
+    if (NULL != pSpaRef)
+    {
+        m_SpatialReference = wxGISSpatialReference(pSpaRef);
+    }
+
     //fill extent if fast
     m_bOLCFastGetExtent = m_poLayer->TestCapability(OLCFastGetExtent) == TRUE;
     if (m_bOLCFastGetExtent)

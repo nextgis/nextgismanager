@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxWidgets-2.6.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-24 09:31+0200\n"
-"PO-Revision-Date: 2014-04-16 13:32+0400\n"
+"PO-Revision-Date: 2014-04-17 01:33+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: wx-translators <wx-translators@wxwidgets.org>\n"
 "MIME-Version: 1.0\n"
@@ -81,22 +81,22 @@ msgstr "Конверт #9, 3 7/8 x 8 7/8 дюйма"
 #: ../src/common/filename.cpp:2368
 #, c-format
 msgid "%.*f GB"
-msgstr ""
+msgstr "%.*f Гб"
 
 #: ../src/common/filename.cpp:2366
 #, c-format
 msgid "%.*f MB"
-msgstr ""
+msgstr "%.*f Мб"
 
 #: ../src/common/filename.cpp:2370
 #, c-format
 msgid "%.*f TB"
-msgstr ""
+msgstr "%.*f Тб"
 
 #: ../src/common/filename.cpp:2364
 #, c-format
 msgid "%.*f kB"
-msgstr ""
+msgstr "%.*f Кб"
 
 #: ../src/html/helpwnd.cpp:1047 ../src/html/helpwnd.cpp:1049
 #: ../src/html/helpwnd.cpp:1681 ../src/html/helpwnd.cpp:1719
@@ -125,7 +125,7 @@ msgstr "%s (или %s)"
 #: ../src/common/filename.cpp:2362
 #, c-format
 msgid "%s B"
-msgstr ""
+msgstr "%s байт"
 
 #: ../src/generic/logg.cpp:285
 #, c-format
@@ -635,7 +635,7 @@ msgstr "(Помощь)"
 #: ../src/richtext/richtextliststylepage.cpp:483
 #: ../src/richtext/richtextbulletspage.cpp:281
 msgid "(None)"
-msgstr ""
+msgstr "(Нет)"
 
 #: ../src/richtext/richtextsymboldlg.cpp:493
 msgid "(Normal text)"
@@ -793,7 +793,7 @@ msgstr "<Любой телетайп>"
 
 #: ../src/mac/carbon/fontdlg.cpp:582
 msgid "<Any>"
-msgstr ""
+msgstr "<Любой>"
 
 #: ../src/generic/filectrlg.cpp:285 ../src/generic/filectrlg.cpp:308
 msgid "<DIR>"
@@ -1610,7 +1610,6 @@ msgstr "Кельтский (ISO-8859-14)"
 
 #: ../src/richtext/richtextliststylepage.cpp:348
 #: ../src/richtext/richtextindentspage.cpp:170
-#, fuzzy
 msgid "Cen&tred"
 msgstr "Центрированный"
 
@@ -1624,23 +1623,20 @@ msgstr "Центрально-европейский (ISO-8859-2)"
 
 #: ../src/richtext/richtextliststylepage.cpp:249
 #: ../src/richtext/richtextbulletspage.cpp:198
-#, fuzzy
 msgid "Centre"
-msgstr "Центрированный"
+msgstr "Центр"
 
 #: ../src/richtext/richtextliststylepage.cpp:350
 #: ../src/richtext/richtextliststylepage.cpp:352
 #: ../src/richtext/richtextindentspage.cpp:172
 #: ../src/richtext/richtextindentspage.cpp:174
-#, fuzzy
 msgid "Centre text."
-msgstr "Невозможно создать мутекс."
+msgstr "Центрировать текст"
 
 #: ../src/richtext/richtextliststylepage.cpp:279
 #: ../src/richtext/richtextbulletspage.cpp:230
-#, fuzzy
 msgid "Ch&oose..."
-msgstr "&Перейти..."
+msgstr "&Выберите..."
 
 #: ../src/richtext/richtextbuffer.cpp:2685
 msgid "Change List Style"
@@ -1897,9 +1893,8 @@ msgid "Close this window"
 msgstr "Закрыть это окно"
 
 #: ../src/richtext/richtextformatdlg.cpp:524
-#, fuzzy
 msgid "Colour"
-msgstr "&Цвет:"
+msgstr "Цвет"
 
 #: ../src/msw/colordlg.cpp:155
 #, fuzzy, c-format
@@ -1907,9 +1902,8 @@ msgid "Colour selection dialog failed with error %0lx."
 msgstr "Выполнение команды '%s' завершено с ошибкой: %ul"
 
 #: ../src/mac/carbon/fontdlg.cpp:542
-#, fuzzy
 msgid "Colour:"
-msgstr "&Цвет:"
+msgstr "Цвет:"
 
 #: ../src/mac/carbon/dataview.cpp:1064 ../src/mac/carbon/dataview.cpp:1184
 #, fuzzy
@@ -2000,14 +1994,12 @@ msgid "Copies:"
 msgstr "Копии:"
 
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:426
-#, fuzzy
 msgid "Copy"
-msgstr "&Копировать"
+msgstr "Копировать"
 
 #: ../src/common/stockitem.cpp:203
-#, fuzzy
 msgid "Copy selection"
-msgstr "Разделы"
+msgstr "Копировать выделение"
 
 #: ../src/mac/carbon/dataview.cpp:1061 ../src/mac/carbon/dataview.cpp:1181
 msgid "Could not add column to internal structures."
@@ -2223,9 +2215,8 @@ msgid "Create new directory"
 msgstr "Создать новый каталог"
 
 #: ../src/common/accelcmn.cpp:296
-#, fuzzy
 msgid "Ctrl-"
-msgstr "ctrl"
+msgstr "Ctrl-"
 
 #: ../src/common/stockitem.cpp:118 ../src/richtext/richtextctrl.cpp:2595
 #: ../src/msw/textctrl.cpp:2151 ../src/mac/carbon/textctrl.cpp:1064
@@ -2242,14 +2233,12 @@ msgid "Custom size"
 msgstr "размер шрифта"
 
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:425
-#, fuzzy
 msgid "Cut"
-msgstr "&Вырезать"
+msgstr "Вырезать"
 
 #: ../src/common/stockitem.cpp:204
-#, fuzzy
 msgid "Cut selection"
-msgstr "Разделы"
+msgstr "Вырезать выделенное"
 
 #: ../src/common/fmapbase.cpp:112
 msgid "Cyrillic (ISO-8859-5)"
@@ -2338,9 +2327,8 @@ msgid "Default encoding"
 msgstr "Кодировка по-умолчанию"
 
 #: ../src/dfb/fontmgr.cpp:184
-#, fuzzy
 msgid "Default font"
-msgstr "Принтер по-умолчанию"
+msgstr "Шрифт по-умолчанию"
 
 #: ../src/generic/prntdlgg.cpp:515
 msgid "Default printer"
@@ -2348,33 +2336,28 @@ msgstr "Принтер по-умолчанию"
 
 #: ../src/richtext/richtextbuffer.cpp:5343
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:428
-#, fuzzy
 msgid "Delete"
-msgstr "&Удалить"
+msgstr "Удалить"
 
 #: ../src/richtext/richtexttabspage.cpp:148
-#, fuzzy
 msgid "Delete A&ll"
-msgstr "Выделить вс&е"
+msgstr "Удалить вс&е"
 
 #: ../src/richtext/richtextstyledlg.cpp:734
-#, fuzzy
 msgid "Delete Style"
-msgstr "Удалить элемент"
+msgstr "Удалить стиль"
 
 #: ../src/richtext/richtextctrl.cpp:639 ../src/richtext/richtextctrl.cpp:687
-#, fuzzy
 msgid "Delete Text"
-msgstr "Удалить элемент"
+msgstr "Удалить текст"
 
 #: ../src/generic/editlbox.cpp:274
 msgid "Delete item"
 msgstr "Удалить элемент"
 
 #: ../src/common/stockitem.cpp:205
-#, fuzzy
 msgid "Delete selection"
-msgstr "Разделы"
+msgstr "Удалить выделенное"
 
 #: ../src/richtext/richtextstyledlg.cpp:734
 #, fuzzy, c-format
@@ -2421,9 +2404,8 @@ msgid "DirectFB error %d occured."
 msgstr ""
 
 #: ../src/motif/filedlg.cpp:219
-#, fuzzy
 msgid "Directories"
-msgstr "Декоративный"
+msgstr "Папки"
 
 #: ../src/common/filefn.cpp:1290
 #, c-format
@@ -2542,9 +2524,8 @@ msgid "Edit item"
 msgstr "Редактировать элемент"
 
 #: ../src/generic/progdlgg.cpp:198
-#, fuzzy
 msgid "Elapsed time:"
-msgstr "Затраченное время : "
+msgstr "Прошедшее время:"
 
 #: ../src/richtext/richtextstyledlg.cpp:568
 msgid "Enter a character style name"
@@ -2638,9 +2619,8 @@ msgid "Esperanto (ISO-8859-3)"
 msgstr "Эсперанто (ISO-8859-3)"
 
 #: ../src/generic/progdlgg.cpp:206
-#, fuzzy
 msgid "Estimated time:"
-msgstr "Расчетное время : "
+msgstr "Расчетное время:"
 
 #: ../src/generic/dbgrptg.cpp:230
 msgid "Executable files (*.exe)|*.exe|All files (*.*)|*.*||"
@@ -3222,9 +3202,8 @@ msgid "File name exists already."
 msgstr "Имя файла уже существует."
 
 #: ../src/motif/filedlg.cpp:220
-#, fuzzy
 msgid "Files"
-msgstr "Файл"
+msgstr "Файлы"
 
 #: ../src/common/filefn.cpp:1835
 #, c-format
@@ -3232,9 +3211,8 @@ msgid "Files (%s)"
 msgstr "Файлы (%s)"
 
 #: ../src/motif/filedlg.cpp:218
-#, fuzzy
 msgid "Filter"
-msgstr "Файл"
+msgstr "Фильтр"
 
 #: ../src/html/helpwnd.cpp:486
 msgid "Find"
@@ -3271,9 +3249,8 @@ msgid "Font st&yle:"
 msgstr "Размер шрифта:"
 
 #: ../src/mac/carbon/fontdlg.cpp:491
-#, fuzzy
 msgid "Font:"
-msgstr "Размер шрифта:"
+msgstr "Шрифт:"
 
 #: ../src/dfb/fontmgr.cpp:202
 #, c-format
@@ -3417,7 +3394,7 @@ msgid "Help"
 msgstr "Помощь"
 
 #: ../src/html/htmlhelp.cpp:87
-#, fuzzy, c-format
+#, c-format
 msgid "Help : %s"
 msgstr "Помощь: %s"
 
@@ -3625,9 +3602,8 @@ msgid "Initialization failed in post init, aborting."
 msgstr ""
 
 #: ../src/richtext/richtextsymboldlg.cpp:470
-#, fuzzy
 msgid "Insert"
-msgstr "Отступ"
+msgstr "Вставить"
 
 #: ../src/richtext/richtextbuffer.cpp:5244
 #: ../src/richtext/richtextbuffer.cpp:6024
@@ -4139,9 +4115,8 @@ msgstr ""
 #: ../src/richtext/richtextstyledlg.cpp:775
 #: ../src/richtext/richtextstyledlg.cpp:843
 #: ../src/richtext/richtextstyledlg.cpp:851
-#, fuzzy
 msgid "New Style"
-msgstr "Новый элемент"
+msgstr "Новый стиль"
 
 #: ../src/generic/dirdlgg.cpp:103
 msgid "New directory"
@@ -4315,9 +4290,8 @@ msgid "Note, 8 1/2 x 11 in"
 msgstr "Note, 8 1/2 x 11 дюйма"
 
 #: ../src/generic/notifmsgg.cpp:101
-#, fuzzy
 msgid "Notice"
-msgstr "&Заметки:"
+msgstr "Заметка"
 
 #: ../src/richtext/richtextliststylepage.cpp:489
 #: ../src/richtext/richtextbulletspage.cpp:287
@@ -5100,9 +5074,8 @@ msgid "Select &All"
 msgstr "Выделить вс&е"
 
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:430
-#, fuzzy
 msgid "Select All"
-msgstr "Выделить вс&е"
+msgstr "Выделить все"
 
 #: ../src/common/docview.cpp:1744
 msgid "Select a document template"
@@ -5128,9 +5101,8 @@ msgid "Select underlining or no underlining."
 msgstr ""
 
 #: ../src/motif/filedlg.cpp:220
-#, fuzzy
 msgid "Selection"
-msgstr "Разделы"
+msgstr "Выделение"
 
 #: ../src/richtext/richtextliststylepage.cpp:186
 #: ../src/richtext/richtextliststylepage.cpp:188
@@ -5234,9 +5206,8 @@ msgid "Size"
 msgstr "Размер"
 
 #: ../src/mac/carbon/fontdlg.cpp:501
-#, fuzzy
 msgid "Size:"
-msgstr "Размер"
+msgstr "Размер:"
 
 #: ../src/generic/progdlgg.cpp:226 ../src/generic/progdlgg.cpp:611
 msgid "Skip"
@@ -5813,9 +5784,8 @@ msgstr "Тип"
 
 #: ../src/richtext/richtextfontpage.cpp:138
 #: ../src/richtext/richtextfontpage.cpp:140
-#, fuzzy
 msgid "Type a font name."
-msgstr "Название шрифта."
+msgstr "Введите название шрифта."
 
 #: ../src/richtext/richtextfontpage.cpp:156
 #: ../src/richtext/richtextfontpage.cpp:158
@@ -5836,18 +5806,16 @@ msgid "US Std Fanfold, 14 7/8 x 11 in"
 msgstr "US Std Fanfold, 14 7/8 x 11 дюйма"
 
 #: ../src/common/fmapbase.cpp:153
-#, fuzzy
 msgid "US-ASCII"
-msgstr "ASCII"
+msgstr "US-ASCII"
 
 #: ../src/gtk/app.cpp:494
 msgid "Unable to initialize GTK+, is DISPLAY set properly?"
 msgstr ""
 
 #: ../src/gtk/app.cpp:330
-#, fuzzy
 msgid "Unable to initialize Hildon program"
-msgstr "Невозможно инициализировать OpenGL"
+msgstr "Невозможно инициализировать Hildon"
 
 #: ../src/html/htmlwin.cpp:534
 #, c-format
@@ -5865,14 +5833,12 @@ msgstr "Отмена удаления"
 #: ../src/richtext/richtextfontpage.cpp:272
 #: ../src/richtext/richtextfontpage.cpp:344
 #: ../src/richtext/richtextfontpage.cpp:588 ../src/mac/carbon/fontdlg.cpp:532
-#, fuzzy
 msgid "Underlined"
-msgstr "&Подчеркивание"
+msgstr "Не определено"
 
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:422
-#, fuzzy
 msgid "Undo"
-msgstr "&Отменить"
+msgstr "Отменить"
 
 #: ../src/common/stockitem.cpp:210
 msgid "Undo last action"
@@ -5889,9 +5855,8 @@ msgid "Unexpected parameter '%s'"
 msgstr "Неожиданный параметр '%s'"
 
 #: ../src/richtext/richtextsymboldlg.cpp:452
-#, fuzzy
 msgid "Unicode"
-msgstr "Убрать &отступ"
+msgstr "Юникод"
 
 #: ../src/common/fmapbase.cpp:142 ../src/common/fmapbase.cpp:148
 msgid "Unicode 16 bit (UTF-16)"
@@ -5926,7 +5891,6 @@ msgid "Unicode 8 bit (UTF-8)"
 msgstr "8-битный юникод (UTF-8)"
 
 #: ../src/generic/progdlgg.cpp:597
-#, fuzzy
 msgid "Unknown"
 msgstr "неизвестный"
 
@@ -6026,9 +5990,9 @@ msgid "Validation conflict"
 msgstr "Конфликт проверки"
 
 #: ../src/msw/aboutdlg.cpp:54 ../src/mac/carbon/aboutdlg.cpp:74
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s"
-msgstr "Разрешения"
+msgstr "Версия %s"
 
 #: ../src/generic/filedlgg.cpp:218
 msgid "View files as a detailed view"
@@ -6130,9 +6094,9 @@ msgid "Windows Baltic (CP 1257)"
 msgstr "Балтийский Windows (CP 1257)"
 
 #: ../src/msw/utils.cpp:1084
-#, fuzzy, c-format
+#, c-format
 msgid "Windows CE (%d.%d)"
-msgstr "Windows 9x (%d.%d)"
+msgstr "Windows CE (%d.%d)"
 
 #: ../src/common/fmapbase.cpp:130
 msgid "Windows Central European (CP 1250)"
@@ -6217,18 +6181,18 @@ msgid "XPM: Malformed pixel data!"
 msgstr "XPM: Неверно сформированные данные пикселов!"
 
 #: ../src/common/xpmdecod.cpp:707
-#, fuzzy, c-format
+#, c-format
 msgid "XPM: incorrect colour description in line %d"
-msgstr "XPM: неверное сформированное определение цвета '%s'!"
+msgstr "XPM: неверное сформированное определение цвета на строке %d!"
 
 #: ../src/common/xpmdecod.cpp:682
 msgid "XPM: incorrect header format!"
 msgstr ""
 
 #: ../src/common/xpmdecod.cpp:718 ../src/common/xpmdecod.cpp:727
-#, fuzzy, c-format
+#, c-format
 msgid "XPM: malformed colour definition '%s' at line %d!"
-msgstr "XPM: неверное сформированное определение цвета '%s'!"
+msgstr "XPM: неверное сформированное определение цвета '%s' на строке %d!"
 
 #: ../src/common/xpmdecod.cpp:757
 msgid "XPM: no colors left to use for mask!"
@@ -6245,9 +6209,9 @@ msgid "XRC resource '%s' (class '%s') not found!"
 msgstr "Ресурс XRC '%s' (класс '%s') не найден!"
 
 #: ../src/xrc/xmlres.cpp:1181 ../src/xrc/xmlres.cpp:1193
-#, fuzzy, c-format
+#, c-format
 msgid "XRC resource: Cannot create animation from '%s'."
-msgstr "Ресурс XRC: Невозможно создать изображение из '%s'."
+msgstr "Ресурс XRC: Невозможно создать анимацию из '%s'."
 
 #: ../src/xrc/xmlres.cpp:1149 ../src/xrc/xmlres.cpp:1161
 #, c-format
@@ -6255,7 +6219,7 @@ msgid "XRC resource: Cannot create bitmap from '%s'."
 msgstr "Ресурс XRC: Невозможно создать изображение из '%s'."
 
 #: ../src/xrc/xmlres.cpp:1107
-#, fuzzy, c-format
+#, c-format
 msgid "XRC resource: Incorrect colour specification '%s' for attribute '%s'."
 msgstr "Ресурс XRC: Неверная спецификация цвета '%s' для свойства '%s'."
 
@@ -6264,9 +6228,8 @@ msgid "Yes"
 msgstr "Да"
 
 #: ../src/mac/carbon/overlay.cpp:158
-#, fuzzy
 msgid "You cannot Clear an overlay that is not inited"
-msgstr "Вы не можете добавить новый каталог в эту секцию."
+msgstr "Вы не можете очистить непроинициализированный оверлей."
 
 #: ../src/dfb/overlay.cpp:62 ../src/mac/carbon/overlay.cpp:110
 msgid "You cannot Init an overlay twice"

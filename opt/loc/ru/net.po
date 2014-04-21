@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-15 17:32+0400\n"
-"PO-Revision-Date: 2014-04-16 18:00+0400\n"
+"PO-Revision-Date: 2014-04-17 01:04+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "MIME-Version: 1.0\n"
@@ -20,23 +20,23 @@ msgstr ""
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:59
 #: D:\work\projects\wxGIS\src\net/tcp.cpp:103
 msgid "Cannot bind listening socket"
-msgstr ""
+msgstr "Не удалось подключиться к сокету"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:114
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:121
 #: D:\work\projects\wxGIS\src\net/network.cpp:306
 #: D:\work\projects\wxGIS\src\net/network.cpp:313
 msgid "Invalid input message"
-msgstr ""
+msgstr "Входное сообщение не валидно"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:141
 #, c-format
 msgid "wxGISNetServerConnection: New client connection accepted from %s:%d"
-msgstr ""
+msgstr "wxGISNetServerConnection: Новое подключение с %s:%d"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:144
 msgid "Connection accepted"
-msgstr ""
+msgstr "Подключение установлено"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:149
 #, c-format
@@ -44,46 +44,48 @@ msgid ""
 "wxGISNetServerConnection: To many connections! Connection to address - %s is "
 "not established"
 msgstr ""
+"wxGISNetServerConnection: Слишком много подключений! Подключение для адреса "
+"%s сброшено"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:151
 msgid "To many connections or login/password is incorrect!"
-msgstr ""
+msgstr "Слишком много подключений или логин/пароль не верны!"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:189
 #, c-format
 msgid "User #%d is disconnected"
-msgstr ""
+msgstr "Пользователь №%d отключился"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:193
 #, c-format
 msgid "User #%d from %s:%d is disconnected"
-msgstr ""
+msgstr "Пользователь №%d с %s:%d отключился"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:218
 #, c-format
 msgid "User #%d is disconnected by timer"
-msgstr ""
+msgstr "Пользователь №%d отключен по таймеру"
 
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:222
 #, c-format
 msgid "User #%d from %s:%d is disconnected by timer"
-msgstr ""
+msgstr "Пользователь №%d с %s:%d отключен по таймеру"
 
 #: D:\work\projects\wxGIS\src\net/network.cpp:251
 msgid "Failed to send network message"
-msgstr ""
+msgstr "Ошибка отправки сообщения по сети"
 
 #: D:\work\projects\wxGIS\src\net/network.cpp:347
 msgid "SendUDP: failed to create UDP socket"
-msgstr ""
+msgstr "SendUDP: не удалось создать сокет UDP"
 
 #: D:\work\projects\wxGIS\src\net/network.cpp:356
 msgid "SendUDP: invalid net message"
-msgstr ""
+msgstr "SendUDP: сообщение не валидно"
 
 #: D:\work\projects\wxGIS\src\net/network.cpp:373
 msgid "SendUDP: failed to send data"
-msgstr ""
+msgstr "SendUDP: не удалось отправить данные"
 
 #: D:\work\projects\wxGIS\src\net/network.cpp:385
 msgid "wxSOCKET_NOERROR"
@@ -127,26 +129,26 @@ msgstr "Неизвестно"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:89
 msgid "wxGISNetworkService: Error get config"
-msgstr ""
+msgstr "wxGISNetworkService: Не удалось получить конфигурацию"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:111
 msgid "wxGISNetworkService: Service started"
-msgstr ""
+msgstr "wxGISNetworkService: Сервис запущен"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:125
 #, c-format
 msgid "wxGISNetworkService: Plugin already loaded %s"
-msgstr ""
+msgstr "wxGISNetworkService: Модуль уже загружен %s"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:135
 #, c-format
 msgid "wxGISNetworkService: Plugin %s initialize"
-msgstr ""
+msgstr "wxGISNetworkService: Модуль %s инициализируется"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:138
 #, c-format
 msgid "wxGISNetworkService: Error initializing plugin %s"
-msgstr ""
+msgstr "wxGISNetworkService: Не удалось инициализировать модуль %s"
 
 #: D:\work\projects\wxGIS\src\net/servernet.cpp:148
 msgid "wxGISNetworkService: Service stopped"
