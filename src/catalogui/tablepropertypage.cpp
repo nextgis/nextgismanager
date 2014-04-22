@@ -62,9 +62,11 @@ bool wxGISTablePropertyPage::Create(wxGxTableDataset* pGxDataset, wxWindow* pare
     m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISTable);
     if(!m_pDataset)
         return false;
-	if(!m_pDataset->IsOpened())
-		if(!m_pDataset->Open(0, 0, false))
-			return false;
+    if (!m_pDataset->IsOpened())
+    {
+        if (!m_pDataset->Open(0, TRUE, false))
+            return false;
+    }
 
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );

@@ -535,7 +535,7 @@ void wxGISToolExecuteView::OnBeginDrag(wxListEvent& event)
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_nParentGxObjectId);
     if(!pGxObject)
         return;
-    wxGISTaskDataObject DragData(wxThread::GetMainId(), wxDataFormat(wxT("application/x-vnd.wxgis.gxtask-id")));
+    wxGISTaskDataObject DragData(wxThread::GetMainId(), wxDataFormat(wxGIS_DND_ID));
 
 
     long nItem = wxNOT_FOUND;

@@ -660,11 +660,15 @@ void wxGISCatalogMainCmd::OnClick(void)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
 
-                wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+                wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxGIS_DND_NAME));
                 pDragData->Add(pNamesData, true);
 
                 wxFileDataObject *pFileData = new wxFileDataObject();
                 pDragData->Add(pFileData, false);
+
+                wxTextDataObject *pTextData = new wxTextDataObject();
+                wxString sText;
+                pDragData->Add(pTextData, false);
 
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
                 {
@@ -675,8 +679,14 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                         pFileData->AddFile(sSystemPath);
                         pNamesData->AddString(pGxObject->GetFullName());
+
+                        sText.Append(sSystemPath);
+                        sText.Append(wxT("\n"));
                     }
                 }
+
+                pTextData->SetText(sText);
+
                 //! Lock clipboard
                 wxClipboardLocker locker;
                 if(!locker)
@@ -695,7 +705,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
 
-                wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+                wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxGIS_DND_NAME));
                 pDragData->Add(pNamesData, true);
 
                 wxFileDataObject *pFileData = new wxFileDataObject();
@@ -746,7 +756,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                             bMove = true;
                     }
 
-                    wxGISStringDataObject data_names(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+                    wxGISStringDataObject data_names(wxDataFormat(wxGIS_DND_NAME));
                     if(wxTheClipboard->GetData( data_names ))
                     {
                         pTarget->Drop(data_names.GetStrings(), bMove);

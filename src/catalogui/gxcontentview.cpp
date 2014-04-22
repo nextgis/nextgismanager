@@ -977,7 +977,7 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
     //TODO: wxDELETE(pDragData) somethere
     wxDataObjectComposite *pDragData = new wxDataObjectComposite();
 
-    wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+    wxGISStringDataObject *pNamesData = new wxGISStringDataObject(wxDataFormat(wxGIS_DND_NAME));
     pDragData->Add(pNamesData, true);
 
     wxFileDataObject *pFileData = new wxFileDataObject();
@@ -1263,7 +1263,7 @@ wxGxObject* const wxGxContentView::GetParentGxObject(void) const
 bool wxGxContentView::CanPaste()
 {            
     wxClipboardLocker lockClip;
-    return wxTheClipboard->IsSupported(wxDF_FILENAME) | wxTheClipboard->IsSupported(wxDataFormat(wxT("application/x-vnd.wxgis.gxobject-name")));
+    return wxTheClipboard->IsSupported(wxDF_FILENAME) | wxTheClipboard->IsSupported(wxDataFormat(wxGIS_DND_NAME));
     //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML
 }
 

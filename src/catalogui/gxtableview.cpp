@@ -165,8 +165,10 @@ void wxGxTableView::LoadData(long nGxObjectId)
 
 	m_nParentGxObjectID = pGxObject->GetId();    
 
-    if(!pGISTable->IsOpened())
-        pGISTable->Open(0, 0, false);
+    if (!pGISTable->IsOpened())
+    {
+        pGISTable->Open(0, TRUE, false);
+    }
     if(pGISTable->IsCaching())
         pGISTable->StopCaching();
 	wxGISGridTable* pTable = new wxGISGridTable(pwxGISDataset);

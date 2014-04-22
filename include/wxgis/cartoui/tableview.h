@@ -71,6 +71,10 @@ public:
 	virtual wxString GetRowLabelValue(int row);
     virtual wxGISTable* GetDataset() const;
     virtual void ClearFeatures(void);
+    virtual bool DeleteCols(size_t  pos = 0, size_t numCols = 1);
+    virtual void SetEncoding(const wxFontEncoding &oEncoding);
+    virtual bool CanDeleteField(void) const;
+    virtual wxGridCellAttr *GetAttr(int row, int col, wxGridCellAttr::wxAttrKind kind);
 protected:
     virtual void FillForPos(int nRow);
 private:
@@ -79,6 +83,7 @@ private:
 	int m_nCols;          // columns from dataSet
     int m_nRows;          // rows initially returned by dataSet
     wxGISFeatureMap m_moFeatures;
+    std::map<int, int> m_mnAlign;
 };
 
 /**
@@ -92,17 +97,36 @@ private:
 class WXDLLIMPEXP_GIS_CTU wxGridCtrl:
 	public wxGrid
 {
+    enum
+    {
+        ID_DELETE = wxID_HIGHEST + 5001,
+        ID_SORT_ASC,
+        ID_SORT_DESC,
+        ID_ADVANCED_SORTING,
+        ID_FIELD_CALCULATOR,
+        ID_CALCULATE_GEOMETRY,
+        ID_TURN_FIELD_OFF,
+        ID_FREESE_COLUMN,
+        ID_PROPERTIES,
+        ID_STATISTICS,
+        ID_MAX
+    };
 	DECLARE_DYNAMIC_CLASS(wxGridCtrl)
-protected:
-	virtual void DrawRowLabel(wxDC& dc, int row);
-    virtual void OnLabelLeftClick(wxGridEvent& event);
-    virtual void OnSelectCell(wxGridEvent& event);
 public:
 	wxGridCtrl();
 	virtual ~wxGridCtrl(void);
 	wxGridCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = wxPanelNameStr);
     virtual void SetEncoding(const wxFontEncoding &eEnc);
-
+protected:
+	virtual void DrawRowLabel(wxDC& dc, int row);
+    virtual void OnLabelLeftClick(wxGridEvent& event);
+    virtual void OnLabelRightClick(wxGridEvent& event);
+    virtual void OnSelectCell(wxGridEvent& event);
+    virtual void OnMenu(wxCommandEvent& event);
+    virtual void OnMenuUpdateUI(wxUpdateUIEvent& event);
+protected:
+    wxMenu *m_pMenu;
+private:
     DECLARE_EVENT_TABLE();
 };
 

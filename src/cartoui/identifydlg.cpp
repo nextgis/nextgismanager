@@ -189,6 +189,7 @@ void wxGISFeatureDetailsPanel::FillPanel(const OGRPoint *pPt)
 
 void wxGISFeatureDetailsPanel::FillPanel(wxGISFeature &Feature)
 {
+    //TODO: rewrite using OLCIgnoreFields
 	m_Feature = Feature;
 	Clear();
 	for(int i = 0; i < Feature.GetFieldCount(); ++i)

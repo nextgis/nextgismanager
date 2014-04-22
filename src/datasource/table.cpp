@@ -112,8 +112,18 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
 
 		m_poDS = OGRSFDriverRegistrar::Open( m_sPath, bUpdate );
 		//bug in FindFileInZip() [gdal-root\port\cpl_vsil_gzip.cpp]
-		if( m_poDS == NULL )
-			m_poDS = OGRSFDriverRegistrar::Open( FixPathSeparator(m_sPath), bUpdate );
+        if (m_poDS == NULL)
+        {
+            if (m_bIsReadOnly)
+            {
+			    m_poDS = OGRSFDriverRegistrar::Open( FixPathSeparator(m_sPath), bUpdate );
+            }
+            else
+            {
+		        m_poDS = OGRSFDriverRegistrar::Open( m_sPath, FALSE );
+                m_bIsReadOnly = true;
+            }
+        }
 
 		if( m_poDS == NULL )
 		{
@@ -337,12 +347,32 @@ size_t wxGISTable::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel
     return 0;
 }
 
-bool wxGISTable::CanDeleteFeature(void)
+bool wxGISTable::CanDeleteFeature(void) const
 {
     if(!IsOpened())
         return false;
 	return m_nSubType != enumTableQueryResult && m_poLayer && m_poLayer->TestCapability(OLCDeleteFeature);
 }
+
+bool wxGISTable::CanDeleteField(void) const
+{
+    if(!IsOpened())
+        return false;
+    return m_nSubType != enumTableQueryResult && m_poLayer && m_poLayer->TestCapability(OLCDeleteField);
+}
+
+OGRErr wxGISTable::DeleteField(int nIndex)
+{
+    if (!CanDeleteField())
+		return OGRERR_UNSUPPORTED_OPERATION;
+    OGRErr eErr = m_poLayer->DeleteField(nIndex);
+
+    //PostEvent(new wxFeatureDSEvent(wxDS_FEATURE_DELETED, nIndex)); TODO:
+
+    return eErr;
+
+}
+
 
 OGRErr wxGISTable::DeleteFeature(long nFID)
 {

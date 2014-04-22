@@ -25,6 +25,8 @@
 
 #ifdef wxUSE_DRAG_AND_DROP
 
+#define wxGIS_DND_ID wxT("application/x-vnd.nextgis_manager.gxobject-id") 
+
 /** \class wxGISTaskDropTarget droptarget.h
     \brief A DropTarget for wxGIS tasks.
 */

@@ -32,7 +32,7 @@
 wxGISTaskDropTarget::wxGISTaskDropTarget(wxGISToolExecuteView *pOwner)
 {
     m_pOwner = pOwner;
-    SetDataObject(new wxGISTaskDataObject(wxNOT_FOUND, wxDataFormat(wxT("application/x-vnd.wxgis.gxtask-id"))));
+    SetDataObject(new wxGISTaskDataObject(wxNOT_FOUND, wxDataFormat(wxGIS_DND_ID)));
 }
 
 wxGISTaskDropTarget::~wxGISTaskDropTarget(void)

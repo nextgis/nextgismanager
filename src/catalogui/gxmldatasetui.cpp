@@ -154,7 +154,7 @@ wxGISDataset* const wxGxMLDatasetUI::GetDataset(bool bCache, ITrackCancel* const
 
     if(pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {
-        if(!pwxGISFeatureDataset->Open(0, 0, bCache, pTrackCancel))
+        if (!pwxGISFeatureDataset->Open(0, TRUE, bCache, pTrackCancel))
         {
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());

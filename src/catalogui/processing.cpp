@@ -566,7 +566,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
         {
             if (!apFeatureDatasets[j]->IsOpened())
             {
-                if (!apFeatureDatasets[j]->Open(0, 0, false, &ProgressDlg))
+                if (!apFeatureDatasets[j]->Open(0, TRUE, false, &ProgressDlg))
                 {
                     wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
                     wxLogError(ProgressDlg.GetLastMessage());

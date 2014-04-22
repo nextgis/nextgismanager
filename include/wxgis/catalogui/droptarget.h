@@ -26,6 +26,8 @@
 
 #ifdef wxUSE_DRAG_AND_DROP
 
+#define wxGIS_DND_NAME wxT("application/x-vnd.nextgis_manager.gxobject-name") 
+
 /** @class wxGISDropTarget
     
 	Add drag and drop capability for inherited windows.

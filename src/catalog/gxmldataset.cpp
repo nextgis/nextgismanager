@@ -103,7 +103,7 @@ wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const p
 
     if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {
-        if(!pwxGISFeatureDataset->Open(0, 0, bCache, pTrackCancel))
+        if (!pwxGISFeatureDataset->Open(0, TRUE, bCache, pTrackCancel))
         {
             wsDELETE(pwxGISFeatureDataset);
 		    const char* err = CPLGetLastErrorMsg();

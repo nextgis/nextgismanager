@@ -46,7 +46,7 @@ public:
     virtual wxString GetName(void) const;
 	virtual void Close(void);
 	//wxGISTable
-	virtual bool Open(int iLayer = 0, int bUpdate = 0, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool Open(int iLayer = 0, int bUpdate = TRUE, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
     virtual size_t GetSubsetsCount(void) const;
     virtual wxGISDataset* GetSubset(size_t nIndex);
     virtual wxGISDataset* GetSubset(const wxString & sSubsetName);    
@@ -55,7 +55,7 @@ public:
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     //rowop
 	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
-	virtual bool CanDeleteFeature(void);
+    virtual bool CanDeleteFeature(void) const;
 	virtual OGRErr DeleteFeature(long nFID);    
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
 	virtual wxGISFeature CreateFeature(void);
@@ -63,6 +63,9 @@ public:
     virtual OGRErr CommitTransaction(void);
     virtual OGRErr StartTransaction(void);
     virtual OGRErr RollbackTransaction(void);
+    //colop
+	virtual bool CanDeleteField(void) const;
+    virtual OGRErr DeleteField(int nIndex);
     //
     virtual void Reset(void);
     virtual wxGISFeature Next(void);

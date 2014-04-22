@@ -47,7 +47,7 @@ public:
     virtual wxGISDataset* GetSubset(size_t nIndex);
     virtual wxGISDataset* GetSubset(const wxString &sTableName);
     virtual wxString GetName(void) const;
-    virtual bool Open(int bUpdate = FALSE);
+    virtual bool Open(int bUpdate = TRUE);
 	//wxGISPostGISDataset
     bool ExecuteSQL(const wxString &sStatement);
     wxGISDataset* ExecuteSQL2(const wxString &sStatement, const wxString &sDialect = wxT("OGRSQL"));

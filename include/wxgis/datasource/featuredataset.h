@@ -38,7 +38,7 @@ public:
 //wxGISTable
     virtual const wxGISSpatialReference GetSpatialReference(void);
     virtual void Close(void);
-	virtual bool Open(int iLayer = 0, int bUpdate = 0, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool Open(int iLayer = 0, int bUpdate = TRUE, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISDataset* GetSubset(size_t nIndex);	
     virtual wxGISDataset* GetSubset(const wxString & sSubsetName); 
     virtual bool IsCached(void) const; 
