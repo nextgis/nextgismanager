@@ -328,7 +328,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
                 {
                     wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
-					IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObject);
+                    IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObject);
                     if(pGxObjectEdit && pGxObjectEdit->CanCopy(""))
                         return true;
                 }
@@ -367,7 +367,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                         {
                             if(data.GetText() == wxString(wxT("cut")))
                                 bMove = true;
-                        }                    
+                        }
                     }
 
                     for(size_t i = 0; i < pSel->GetCount(); ++i)
@@ -743,33 +743,55 @@ void wxGISCatalogMainCmd::OnClick(void)
                 IGxDropTarget* pTarget = dynamic_cast<IGxDropTarget*>(pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId()));
                 if(!pTarget)
                     return;
-                wxClipboardLocker locker;
-                if(!locker)
-                    wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
-                else
+
+                bool bMove(false);
+
+                if(wxTheClipboard->Open())
                 {
                     wxTextDataObject data;
-                    bool bMove(false);
+
                     if(wxTheClipboard->GetData( data ))
                     {
                         if(data.GetText() == wxString(wxT("cut")))
                             bMove = true;
                     }
+                    wxTheClipboard->Close();
+                }
+                else
+                {
+                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                }
 
+                if(wxTheClipboard->Open())
+                {
                     wxGISStringDataObject data_names(wxDataFormat(wxGIS_DND_NAME));
                     if(wxTheClipboard->GetData( data_names ))
                     {
+                        wxTheClipboard->Close();
                         pTarget->Drop(data_names.GetStrings(), bMove);
                         return;
                     }                    
+                }
+                else
+                {
+                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                }
 
+                if(wxTheClipboard->Open())
+                {
                     wxFileDataObject filedata;
                     if( wxTheClipboard->GetData( filedata ) )
                     {
+                        wxTheClipboard->Close();
                         pTarget->Drop(wxGISDropTarget::PathsToNames(filedata.GetFilenames()), bMove);
                         return;
                     }
                 }
+                else
+                {
+                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                }
+
             }
             return;
         case 7:
