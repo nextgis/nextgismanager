@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-11-20 04:24+0400\n"
+"Last-Translator: Bishop (aka Barishnikov Dmitriy) <polimax@mail.ru>\n"
+"Language-Team: Bishop <polimax@mail.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\remoteserver\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\remoteserver\n"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/gxremoteservers.cpp:177
+#, c-format
+msgid "wxGxRemoteServers: Network connection factory %s loaded"
+msgstr "wxGxRemoteServers: Фабрика сетевых подключений %s загружена"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/gxremoteservers.cpp:181
+#, c-format
+msgid "wxGxRemoteServers: Network connection factory %s load failed!"
+msgstr "wxGxRemoteServers: Фабрика сетевых подключений %s загружена"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:41
+msgid "wxClientUDPNotifier: Invalid address"
+msgstr "wxClientUDPNotifier: Неверный адрес"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:127
+msgid "255.255.255.255"
+msgstr "255.255.255.255"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:169
+#, c-format
+msgid "%s: Wait %s Thread 0x%lx started (priority = %u)"
+msgstr "%s: Поток ожидания %s 0x%lx запущен (приоритет = %u)"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:276
+msgid "wxClientTCPNetConnection: Trying to connect (timeout = 5 sec) ..."
+msgstr "wxClientTCPNetConnection: Попытка подключения (ожидание = 5 сек) ..."
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:298
+msgid "wxClientTCPNetFactory: Connected"
+msgstr "wxClientTCPNetFactory: Подключено"
+
+#: D:\work\Projects\wxGIS\src\remoteserver/tcpnetfactory.cpp:344
+#, c-format
+msgid "wxClientTCPNetFactory: Server %s disconnected"
+msgstr "wxClientTCPNetFactory: Сервер %s отключился"
+
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/gxremoteserver.h:43
+msgid "Remote Server"
+msgstr "Удаленный Сервер"
+
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/gxremoteservers.h:40
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/gxremoteservers.h:43
+msgid "Remote Servers"
+msgstr "Удаленные Серверы"
+
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/rxobjectclient.h:37
+msgid "Remote item"
+msgstr "Удаленный элемент"
+
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/rxobjectclient.h:67
+msgid "Remote container"
+msgstr "Удаленный контейнер"
+
+#: D:\work\Projects\wxGIS\include\wxgis\remoteserver/tcpnetfactory.h:55
+msgid "TCP/IP Network"
+msgstr "Сеть TCP/IP"
+
