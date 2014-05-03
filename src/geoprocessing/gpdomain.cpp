@@ -53,7 +53,7 @@ size_t wxGISGPValueDomain::GetCount(void) const
 
 wxVariant wxGISGPValueDomain::GetValue(size_t nIndex) const
 { 
-	wxASSERT(nIndex < m_asoData.size());
+    wxCHECK_MSG(nIndex < m_asoData.size(), wxVariant(), wxT("The index is out of the domain value scope"));
 	return m_asoData[nIndex]; 
 }
 

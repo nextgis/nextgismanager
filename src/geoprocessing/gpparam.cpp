@@ -251,7 +251,8 @@ void wxGISGPParameter::SetSelDomainValue(int nNewSelection)
         case enumGISGPParamDTIntegerChoice:
         case enumGISGPParamDTDoubleChoice:
         case enumGISGPParamDTStringChoiceEditable:
-            SetValue(m_pDomain->GetValue(nNewSelection));
+            if (m_pDomain->GetCount() > 0)
+                SetValue(m_pDomain->GetValue(nNewSelection));
 			break;
 		case enumGISGPParamDTStringList:
 		case enumGISGPParamDTPathArray:
