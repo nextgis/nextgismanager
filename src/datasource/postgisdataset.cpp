@@ -248,6 +248,70 @@ bool wxGISPostgresDataSource::MoveTable(const wxString &sTableName, const wxStri
     return false;
 }
 
+bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxString &sTemplate, const wxString &sOwner, const wxString &sEncoding)
+{
+    if (sTemplate.IsEmpty())
+    {
+        wxString sCreateDb = wxString::Format(wxT("CREATE DATABASE %s WITH OWNER = %s ENCODING = '%s' TABLESPACE = pg_default;"), sDBName.c_str(), sOwner.c_str(), sEncoding.c_str(), sTemplate.c_str() );
+        //TODO: SET EXTENSION
+        OGRPGDataSource *pPGDS = (OGRPGDataSource*)(m_poDS);//dynamic_cast<OGRPGDataSource*>(m_poDS);
+        if (pPGDS != NULL)
+        {
+            PGresult* hResult = PQexec(pPGDS->GetPGConn(), sCreateDb.mb_str());
+            if (hResult)
+            {
+                bool bRes = PQresultStatus(hResult) == PGRES_COMMAND_OK;
+                PQclear(hResult);
+                if (!bRes)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                CPLError(CE_Failure, CPLE_AppDefined, "PGresult is null");
+            }
+            //reconnect to new db
+            //execute extenstion ...
+        }
+        else
+        {
+            CPLError(CE_Failure, CPLE_AppDefined, "Dynamic cast to OGRPGDataSource failed");
+        }    
+    }
+    else
+    {
+        wxString sCreateDb = wxString::Format(wxT("CREATE DATABASE %s WITH OWNER = %s ENCODING = '%s' TEMPLATE=%s TABLESPACE = pg_default;"), sDBName.c_str(), sOwner.c_str(), sEncoding.c_str(), sTemplate.c_str() );
+        OGRPGDataSource *pPGDS = (OGRPGDataSource*)(m_poDS);//dynamic_cast<OGRPGDataSource*>(m_poDS);
+        if (pPGDS != NULL)
+        {
+            PGresult* hResult = PQexec(pPGDS->GetPGConn(), sCreateDb.mb_str());
+            if (hResult)
+            {
+                bool bRes = PQresultStatus(hResult) == PGRES_COMMAND_OK;
+                if (!bRes)
+                {
+                    CPLError(CE_Failure, CPLE_AppDefined, "%s", PQerrorMessage(pPGDS->GetPGConn()));
+                }
+                PQclear(hResult);
+                return bRes;
+            }
+            else
+            {
+                CPLError(CE_Failure, CPLE_AppDefined, "PGresult is null");
+            }
+        }
+        else
+        {
+            CPLError(CE_Failure, CPLE_AppDefined, "Dynamic cast to OGRPGDataSource failed");
+        }
+    }
+
+    return false;
+}
+
 bool wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement)
 {
     wxCriticalSectionLocker locker(m_CritSect);

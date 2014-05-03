@@ -25,9 +25,61 @@
 #ifdef wxGIS_USE_POSTGRES
 
 //#include "gdal/ogr_pg.h"
-
+#include "libpq-fe.h"
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/filter.h"
+
+class OGRPGDataSource : public OGRDataSource
+{
+    typedef struct
+    {
+        int nMajor;
+        int nMinor;
+        int nRelease;
+    } PGver;
+
+    void   **papoLayers;
+    int                 nLayers;
+
+    char               *pszName;
+    char               *pszDBName;
+
+    int                 bDSUpdate;
+    int                 bHavePostGIS;
+    int                 bHaveGeography;
+
+    int                 nSoftTransactionLevel;
+
+    PGconn              *hPGConn;
+
+    int                 DeleteLayer(int iLayer);
+
+    Oid                 nGeometryOID;
+    Oid                 nGeographyOID;
+
+    // We maintain a list of known SRID to reduce the number of trips to
+    // the database to get SRSes.
+    int                 nKnownSRID;
+    int                 *panSRID;
+    OGRSpatialReference **papoSRS;
+
+    void     *poLayerInCopyMode;
+
+    CPLString           osCurrentSchema;
+
+    int                 nUndefinedSRID;
+
+public:
+    PGver               sPostgreSQLVersion;
+    PGver               sPostGISVersion;
+
+    int                 bUseBinaryCursor;
+    int                 bBinaryTimeFormatIsInt8;
+    int                 bUseEscapeStringSyntax;
+
+public:
+    PGconn              *GetPGConn() { return hPGConn; }
+};
 
 /** \class wxGISPostgresDataSource postgisdataset.h
     \brief The PostGIS DataSource class.
@@ -50,9 +102,11 @@ public:
     virtual bool Open(int bUpdate = TRUE);
 	//wxGISPostGISDataset
     bool ExecuteSQL(const wxString &sStatement);
+    bool CreateDatabase(const wxString &sDBName, const wxString &sTemplate = wxT("template_postgis"), const wxString &sOwner = wxT("postgres"), const wxString &sEncoding = wxT("UTF8"));
     wxGISDataset* ExecuteSQL2(const wxString &sStatement, const wxString &sDialect = wxT("OGRSQL"));
     //the geometry in spatial filter should have the same SpaRef as the target layer 
     wxGISDataset* ExecuteSQL2(const wxGISSpatialFilter &SpatialFilter, const wxString &sDialect = wxT("OGRSQL"));
+
     //bool PGExecuteSQL(const wxString &sStatement);
     bool CreateSchema(const wxString &sSchemaName);
     bool DeleteSchema(const wxString &sSchemaName);
