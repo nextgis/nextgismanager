@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wxGISCommon>
+  <splash show="yes" timeout="4000"/>
+  <curl proxy="" headers="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4|Accept-Encoding: gzip,deflate,sdch|User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36|Connection: keep-alive" dns_cache_timeout="180" connect_timeout="30" timeout="1000"/>
   <coordinate_mask>
     <mask text="d.dddddd[tab]d.dddddd"/>
     <mask text="dd-mm-ss.ss [W][ ]dd-mm-ss.ss [W]"/>
@@ -10,16 +12,12 @@
     <mask text="d.ddd[ ]d.ddd"/>
   </coordinate_mask>
   <GDAL cachemax="128"/>
-  <debug mode="no"/>
+  <debug mode="yes"/>
   <libs>
-    <lib path="wxgisgeoprocessing05d.dll" name="wxgisgeoprocessing"/>    
-    <lib path="/usr/local/lib/libwxgisgeoprocessing.so" name="wxgisgeoprocessing"/> 
-    <lib path="wxgisgeoprocessingui05d.dll" name="wxgisgeoprocessingui"/>    
-    <lib path="/usr/local/lib/libwxgisgeoprocessingui.so" name="wxgisgeoprocessingui"/>
-    <lib path="wxgisremoteserver05d.dll" name="wxgisremoteserverd"/>    
-    <lib path="/usr/local/lib/libwxgisremoteserver.so" name="wxgisremoteserver"/>
-    <lib path="wxgisremoteserverui05d.dll" name="wxgisremoteserveruid"/>    
-    <lib path="/usr/local/lib/libwxgisremoteserverui.so" name="wxgisremoteserverui"/>
+    <lib path="wxgisgeoprocessingui05d.dll" name="wxgisgeoprocessingui05d"/>
+    <lib path="wxgisgeoprocessingui05.dll" name="wxgisgeoprocessingui05"/>
+    <lib path="wxgisgeoprocessing05d.dll" name="wxgisgeoprocessing05d"/>
+    <lib path="wxgisgeoprocessing05.dll" name="wxgisgeoprocessing05"/>
   </libs>
-  <tasks exe_path="/usr/local/bin/wxgistaskmanager"/>
+  <taskmngr exe_path="wxgistaskmanager.exe"/>
 </wxGISCommon>
