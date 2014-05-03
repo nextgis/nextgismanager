@@ -211,11 +211,15 @@ wxJSONWriter::wxJSONWriter( int style, int indent, int step )
         m_noUtf8 = true;
     }
 #endif
+
+    m_pszCurLocale = setlocale(LC_NUMERIC, NULL);
+    setlocale(LC_NUMERIC, "C");
 }
 
 //! Dtor - does nothing
 wxJSONWriter::~wxJSONWriter()
 {
+    setlocale(LC_NUMERIC, m_pszCurLocale);
 }
 
 //! Write the JSONvalue object to a JSON text.
@@ -1020,6 +1024,7 @@ wxJSONWriter::WriteDoubleValue( wxOutputStream& os, const wxJSONValue& value )
     wxJSONRefData* data = value.GetRefData();
     wxASSERT( data );
     snprintf( buffer, 32, m_fmt, data->m_value.m_valDouble );
+
     size_t len = strlen( buffer );
     os.Write( buffer, len );
     if ( os.GetLastError() != wxSTREAM_NO_ERROR )    {

@@ -270,9 +270,26 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         int numErrors = reader.Parse( sIn, &value );
 #endif // USE_STREAMS
+
+#ifdef _DEBUG
+        //wxString sOut;
+        //wxJSONWriter writer(wxJSONWRITER_NONE);
+        //writer.SetDoubleFmtString("%.10f");
+        //writer.Write(value, sOut);
+        //wxLogMessage(sOut);
+#endif // _DEBUG
+
         if ( numErrors > 0 )  
         {
-            wxLogDebug(_("Invalid input message"));
+            const wxArrayString& errors = reader.GetErrors();
+            wxString sErrMsg(_("Invalid input message"));
+            for (size_t i = 0; i < errors.GetCount(); ++i)
+            {
+                wxString sErr = errors[i];
+                sErrMsg.Append(wxT("\n"));
+                sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            }
+            wxLogVerbose(sErrMsg);
             return false;
         }
 
@@ -281,7 +298,7 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         wxNetMessage msg(value);
         if(!msg.IsOk())
         {
-            wxLogDebug(_("Invalid input message"));
+            wxLogVerbose(_("Invalid input net message"));
             return false;
         }
 

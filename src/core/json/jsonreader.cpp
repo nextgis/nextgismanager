@@ -19,8 +19,6 @@
 #include <wx/debug.h>
 #include <wx/log.h>
 
-
-
 /*! \class wxJSONReader
  \brief The JSON parser
 
@@ -246,11 +244,14 @@ wxJSONReader::wxJSONReader( int flags, int maxErrors )
     }
 #endif
 
+    m_pszCurLocale = setlocale(LC_NUMERIC, NULL);
+    setlocale(LC_NUMERIC, "C");
 }
 
 //! Dtor - does nothing
 wxJSONReader::~wxJSONReader()
 {
+    setlocale(LC_NUMERIC, m_pszCurLocale);
 }
 
 //! Parse the JSON document.

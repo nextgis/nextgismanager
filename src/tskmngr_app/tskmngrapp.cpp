@@ -34,7 +34,7 @@ IMPLEMENT_APP_CONSOLE(wxGISTaskManagerApp)
 
 wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxThreadHelper(), wxGISService()
 {
-    m_vendorName = wxString(wxT("wxGIS"));
+    m_vendorName = wxString(VENDOR);
     m_vendorDisplayName = wxString(wxT("wxGIS"));
 
     m_appName = wxString(wxT("wxGISTaskManager"));
@@ -188,8 +188,9 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 	if( pParser.Found( wxT( "v" ) ) )
 	{
 	    OnAppAbout();
-
-        return false;
+        OnExit();
+        exit(EXIT_SUCCESS);
+        return true;
 	}
 
 	else if( pParser.Found( wxT( "r" ) ) || pParser.Found( wxT( "a" ) ))
@@ -218,9 +219,12 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         if (!bRes)
         {
             wxFprintf(stderr, _("install service failed"));
+            return false;
         }
-        return false;
-	}
+        OnExit();
+        exit(EXIT_SUCCESS);
+        return true;
+    }
 
  	else if( pParser.Found( wxT( "u" ) ) )
 	{
@@ -228,15 +232,20 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         if (!bRes)
         {
             wxFprintf(stderr, _("uninstall service failed"));
+            return false;
         }
-        return false;
+        OnExit();
+        exit(EXIT_SUCCESS);
+        return true;
     }
    
  	else if( pParser.Found( wxT( "h" ) ) )
 	{
 		pParser.Usage();
-        return false;
-	}
+        OnExit();
+        exit(EXIT_SUCCESS);
+        return true;
+    }
  	else if( pParser.Found( wxT( "s" ) ) )
 	{
         if (!Initialize(wxT("wxGISTaskManager"), wxT("tskmngr_")))
@@ -260,7 +269,9 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
     else
     {
 		pParser.Usage();
-		return false;
+        OnExit();
+        exit(EXIT_SUCCESS);
+        return true;
     }
 
 #endif //_WIN32

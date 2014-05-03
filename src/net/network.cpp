@@ -148,6 +148,7 @@ wxNetMessage INetConnection::SendNetMessageSync(wxNetMessage & msg)
 
         wxTheApp->Yield(true);
         sp = wxDateTime::Now() - dtNow;
+        wxMilliSleep(WAITFOR);
     };
 
     wxCriticalSectionLocker lock(m_msgCS);
@@ -233,6 +234,13 @@ bool INetConnection::ProcessOutputNetMessage(void)
         writer.SetDoubleFmtString("%.10f");
 
 #ifdef USE_STREAMS
+#ifdef _DEBUG
+        //wxString sOut;
+        //writer.Write(msgout.GetInternalValue(), sOut);
+        //wxLogMessage(sOut);
+#endif //_DEBUG
+
+
         wxSocketOutputStream out(*m_pSock);
         writer.Write( msgout.GetInternalValue(), out );
         //write EOF
@@ -303,14 +311,22 @@ bool INetConnection::ProcessInputNetMessage(void)
 #endif
         if ( numErrors > 0 )  
         {
-            wxLogDebug(_("Invalid input message"));
+            const wxArrayString& errors = reader.GetErrors();
+            wxString sErrMsg(_("Invalid input message"));
+            for (size_t i = 0; i < errors.GetCount(); ++i)
+            {
+                wxString sErr = errors[i];
+                sErrMsg.Append(wxT("\n"));
+                sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            }
+            wxLogVerbose(sErrMsg);
             return false;
         }
 
         wxNetMessage msg(value);
         if(!msg.IsOk())
         {
-            wxLogDebug(_("Invalid input message"));
+            wxLogVerbose(_("Invalid input net message"));
             return false;
         }
 

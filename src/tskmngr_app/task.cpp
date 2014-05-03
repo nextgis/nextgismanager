@@ -1016,6 +1016,7 @@ void wxGISTaskCategory::SendNetMessage(wxGISNetCommand eCmd, wxGISNetCommandStat
 
 bool wxGISTaskCategory::AddTask(const wxJSONValue &TaskConfig, long nMessageId, int nUserId)
 {
+    wxLogMessage(_("Create new task in category '%s'"), GetName().c_str());
     wxGISTask *pTask = new wxGISTask(this, GetNewStorePath(wxString::Format(wxT("%d"), wxNewId())));
 
     //store in file
@@ -1032,6 +1033,7 @@ bool wxGISTaskCategory::AddTask(const wxJSONValue &TaskConfig, long nMessageId, 
     {
         m_sLastError = wxString::Format(_("Save changes to file '%s' failed"), pTask->GetStorePath().c_str());
         wxDELETE(pTask);
+        wxLogError(_("Create new task in category '%s' failed. %s"), GetName().c_str(), m_sLastError.c_str());
         return false;
     }
 }
