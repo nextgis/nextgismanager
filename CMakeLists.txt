@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013-2014 Bishop
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -261,6 +261,7 @@ else(WIN32)#UNIX
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/wxgis DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE)
     install(DIRECTORY ${WXGIS_CURRENT_BINARY_DIR} DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE PATTERN "src" EXCLUDE)
     install(FILES ${CMAKE_SOURCE_DIR}/cmake/wxgis.conf DESTINATION /etc/ld.so.conf.d)
+    #no need - use sudo lddconfig in install script
 #    COMMAND "ldconfig"
 endif(WIN32)
 

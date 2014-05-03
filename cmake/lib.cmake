@@ -10,7 +10,7 @@ endif(WIN32)
 message(STATUS "${PROJECT_NAME} lib name ${LIB_NAME}")
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/version_dll.h "//Copyright (C) 2013 Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\n#pragma once\n#define wxGIS_FILENAME \"${PROJECT_NAME}\" \n\n" )
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/version_dll.h "//Copyright (C) 2009-2014 Baryshnikov Dmitry (aka Bishop), polimax@mail.ru\n#pragma once\n#define wxGIS_FILENAME \"${PROJECT_NAME}\" \n\n" )
 
 if(MSVC)
   set(CMAKE_DEBUG_POSTFIX "d")
