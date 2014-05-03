@@ -57,8 +57,16 @@ void wxGxSpatialReferencesFolder::Init(wxXmlNode* const pConfigNode)
     if(m_sInternalPath.IsEmpty() || m_sInternalPath == wxString(NON))
     {
         //example: /vsizip/c:/wxGIS/sys/cs.zip/cs
-        wxString sExeDirPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath());
-        m_sInternalPath = wxT("/vsizip/") + sExeDirPath + wxT("/sys/cs.zip/cs");
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+        {
+            m_sInternalPath = wxT("/vsizip/") + oConfig.GetSysDir() + wxT("/cs.zip/cs");
+        }
+        else
+        {
+            wxString sExeDirPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath());
+            m_sInternalPath = wxT("/vsizip/") + sExeDirPath + wxT("/sys/cs.zip/cs");
+        }
     }
 
     m_sInternalPath.Replace(wxT("\\"), wxT("/"));

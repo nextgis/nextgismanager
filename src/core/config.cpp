@@ -3,7 +3,7 @@
  * Purpose:  wxGISConfig class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Bishop
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -82,11 +82,18 @@ void wxGISConfig::Create(bool bPortable)
     }
     else
     {
-
+#ifdef __WINDOWS__
+        //we assume that exe is located at bin and log should be at the same directory
         ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
         ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = wxStandardPaths::Get().GetConfigDir();
         if(((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.Find(sExeAppName) != wxNOT_FOUND)
             ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.Replace(sExeAppName + wxFileName::GetPathSeparator(), wxString(wxT("")));
+
+#else //linux
+        //TODO: set real path to share and set symlink to gdal directory
+        sDefaultOut = wxString(wxT("/etc/"));
+        sDefaultOut.Append(wxTheApp->GetVendorName());
+#endif
 
 	    //if(!wxDirExists(m_sUserConfigDir))
 		   // wxFileName::Mkdir(m_sUserConfigDir, 0755, wxPATH_MKDIR_FULL);
@@ -247,7 +254,8 @@ wxXmlNode *wxGISConfig::GetConfigRootNode(wxGISEnumConfigKey Key, const wxString
 		//last chance - load from config directory near application executable
         if(!pXmlDoc || !pXmlDoc->IsOk())
 		{
-			wxString sConfigFilePathNew = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxT("config") +  wxFileName::GetPathSeparator() + sFileName;
+            wxFileName oFName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
+            wxString sConfigFilePathNew = oFName.GetPath() + wxFileName::GetPathSeparator() + wxT("config") + wxFileName::GetPathSeparator() + sFileName;
 			if(wxFileName::FileExists(sConfigFilePathNew))
 				pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
 		}
@@ -613,9 +621,25 @@ wxString wxGISAppConfig::GetLocale(void)
 wxString wxGISAppConfig::GetLocaleDir(void)
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
-    wxString sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
-    if(((wxGISConfigRefData *)m_refData)->m_bPortable)
+    wxString sDefaultOut;
+    
+    
+    if (((wxGISConfigRefData *)m_refData)->m_bPortable)
+    {
+        sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
         return sDefaultOut;
+    }
+    else
+    {
+#ifdef __WINDOWS__
+        //we assume that exe is located at bin and log should be at the same directory
+        wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
+        sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
+#else //linux
+        //TODO: set real path to locale
+        sDefaultOut = wxString::Format(wxT("/usr/share/%s/locale"), wxTheApp->GetVendorName().c_str());
+#endif
+    }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/loc/path")), sDefaultOut);
 }
 
@@ -623,7 +647,21 @@ wxString wxGISAppConfig::GetLogDir(void)
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
 	wxLogNull noLog;
-    wxString sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("log"));
+
+    wxString sDefaultOut;
+    if (((wxGISConfigRefData *)m_refData)->m_bPortable)
+    {
+        sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("log"));
+    }
+    else
+    {
+#ifdef __WINDOWS__
+        sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable + wxFileName::GetPathSeparator() + wxString(wxT("log"));
+#else //linux
+        sDefaultOut = wxString(wxT("/var/log/"));
+        sDefaultOut.Append(wxTheApp->GetVendorName());
+#endif
+    }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/log/path")), sDefaultOut);
 }
 
@@ -631,9 +669,24 @@ wxString wxGISAppConfig::GetLogDir(void)
 wxString wxGISAppConfig::GetSysDir(void)
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
-    wxString sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
+    wxString sDefaultOut;   
+    
     if(((wxGISConfigRefData *)m_refData)->m_bPortable)
+    {
+        sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
         return sDefaultOut;
+    }
+    else
+    {
+#ifdef __WINDOWS__
+        //we assume that exe is located at bin and log should be at the same directory
+        wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
+        sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
+#else //linux
+        //TODO: set real path to share and set symlink to gdal directory
+        sDefaultOut = wxString::Format(wxT("/usr/share/%s/sys"), wxTheApp->GetVendorName().c_str());
+#endif
+    }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/sys/path")), sDefaultOut);
 }
 
