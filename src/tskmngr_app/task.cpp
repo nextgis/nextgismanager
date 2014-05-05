@@ -89,7 +89,7 @@ bool wxGISTaskBase::Save(void)
     }
 
     wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );  
-    writer.SetDoubleFmtString("%.10f");
+    //writer.SetDoubleFmtString("%.10f");
     wxString  sJSONText;
 
     writer.Write( GetStoreConfig(), sJSONText );
