@@ -75,7 +75,8 @@ void wxGxCatalog::LoadChildren(void)
 
 void wxGxCatalog::LoadChildren(wxXmlNode* const pNode)
 {
-    wxCHECK_RET(pNode, wxT("Intput config xml node is null"));
+    if (NULL == pNode)
+        return;    
 
 	wxXmlNode* pChildren = pNode->GetChildren();
 	while(pChildren)

@@ -42,12 +42,39 @@ IF(WIN32 AND NOT ANDROID)
   ENDIF (NOT POSTGRES_INCLUDE_DIR)
 
   IF (NOT POSTGRES_LIBRARY)
-    FIND_LIBRARY(POSTGRES_LIBRARY NAMES pq libpq libpqdll PATHS 
-      /usr/local/lib 
-      /usr/lib 
-      c:/msys/local/lib
-      "$ENV{LIB_DIR}/lib"
-      )
+  
+    find_library(POSTGRES_RELEASE
+        NAMES
+          pq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib      
+          libpq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib          
+          libpqdll${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib          
+        PATHS 
+            /usr/local/lib 
+            /usr/lib 
+            c:/msys/local/lib
+            "$ENV{LIB_DIR}/lib"
+    )	
+    find_library(POSTGRES_DEBUG
+        NAMES
+          pq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
+          libpq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
+          libpqdll${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
+        PATHS
+            /usr/local/lib 
+            /usr/lib 
+            c:/msys/local/lib
+            "$ENV{LIB_DIR}/lib"
+    )  
+  
+  
+    if(NOT POSTGRES_RELEASE AND POSTGRES_DEBUG)
+        set(POSTGRES_RELEASE ${POSTGRES_DEBUG})
+    endif(NOT POSTGRES_RELEASE AND POSTGRES_DEBUG)
+	
+    LIST(APPEND POSTGRES_LIBRARY
+        debug ${POSTGRES_DEBUG} optimized ${POSTGRES_RELEASE}
+    )
+        
   ENDIF (NOT POSTGRES_LIBRARY)
 
 ELSE(WIN32)
