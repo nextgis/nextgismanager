@@ -243,15 +243,11 @@ wxJSONReader::wxJSONReader( int flags, int maxErrors )
         m_noUtf8 = true;
     }
 #endif
-
-    m_pszCurLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
 }
 
 //! Dtor - does nothing
 wxJSONReader::~wxJSONReader()
 {
-    setlocale(LC_NUMERIC, m_pszCurLocale);
 }
 
 //! Parse the JSON document.
@@ -1483,7 +1479,7 @@ wxJSONReader::ReadValue( wxInputStream& is, int ch, wxJSONValue& val )
     }
 
     if ( tDouble )    {
-        r = s.ToDouble( &d );
+        r = s.ToCDouble( &d );
         wxLogTrace( traceMask, _T("(%s) convert to double result=%d"),
                  __PRETTY_FUNCTION__, r );
         if ( r )  {

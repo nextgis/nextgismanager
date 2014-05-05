@@ -212,14 +212,11 @@ wxJSONWriter::wxJSONWriter( int style, int indent, int step )
     }
 #endif
 
-    m_pszCurLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
 }
 
 //! Dtor - does nothing
 wxJSONWriter::~wxJSONWriter()
 {
-    setlocale(LC_NUMERIC, m_pszCurLocale);
 }
 
 //! Write the JSONvalue object to a JSON text.
@@ -1020,13 +1017,39 @@ wxJSONWriter::WriteDoubleValue( wxOutputStream& os, const wxJSONValue& value )
 {
     int r = 0;
 
-    char buffer[32];
+    //char buffer[32];
     wxJSONRefData* data = value.GetRefData();
     wxASSERT( data );
-    snprintf( buffer, 32, m_fmt, data->m_value.m_valDouble );
+    //snprintf( buffer, 32, m_fmt, data->m_value.m_valDouble );
 
-    size_t len = strlen( buffer );
-    os.Write( buffer, len );
+    char* writeBuff = 0;
+
+    // the buffer that has to be written is either UTF-8 or ANSI c_str() depending
+    // on the 'm_noUtf8' flag
+    wxCharBuffer utf8CB = wxString::FromCDouble(data->m_value.m_valDouble, 10).ToUTF8();        // the UTF-8 buffer
+#if !defined( wxJSON_USE_UNICODE )
+    wxCharBuffer ansiCB(str.c_str());        // the ANSI buffer
+
+    if (m_noUtf8)    {
+        writeBuff = ansiCB.data();
+    }
+    else    {
+        writeBuff = utf8CB.data();
+    }
+#else
+    writeBuff = utf8CB.data();
+#endif
+
+    // NOTE: in ANSI builds UTF-8 conversion may fail (see samples/test5.cpp,
+    // test 7.3) although I do not know why
+    if (writeBuff == 0)    {
+        const char* err = "<wxJSONWriter::WriteComment(): error converting the double to UTF-8>";
+        os.Write(err, strlen(err));
+        return 0;
+    }
+    size_t len = strlen(writeBuff);
+
+    os.Write(writeBuff, len);
     if ( os.GetLastError() != wxSTREAM_NO_ERROR )    {
         r = -1;
     }
