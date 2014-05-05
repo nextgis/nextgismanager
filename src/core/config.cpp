@@ -7,7 +7,7 @@
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
+*    the Free Software Foundation, either version 2 of the License, or
 *    (at your option) any later version.
 *
 *    This program is distributed in the hope that it will be useful,
@@ -91,7 +91,7 @@ void wxGISConfig::Create(bool bPortable)
 
 #else //linux
         //TODO: set real path to share and set symlink to gdal directory
-        sDefaultOut = wxString(wxT("/etc/"));
+        wxString sDefaultOut = wxString(wxT("/etc/"));
         sDefaultOut.Append(wxTheApp->GetVendorName());
 #endif
 
