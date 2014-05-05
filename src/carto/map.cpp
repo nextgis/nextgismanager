@@ -146,18 +146,13 @@ void wxGISMap::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
 {
     if (nOldIndex == nNewIndex)
         return;
-    bool bAddToIndex = nNewIndex > nOldIndex;
+    //bool bAddToIndex = nNewIndex > nOldIndex;
     wxVector<wxGISLayer*>::iterator IT = m_paLayers.begin();
     std::advance(IT, nOldIndex);
     //remove layer from array
     wxGISLayer* pLayer = m_paLayers[nOldIndex];
     m_paLayers.erase(IT);
 
-    //insert layer to new index
-    if (bAddToIndex)
-    {
-        nNewIndex--;
-    }
     IT = m_paLayers.begin();
     std::advance(IT, nNewIndex);
     m_paLayers.insert(IT, pLayer);
