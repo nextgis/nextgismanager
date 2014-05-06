@@ -7,7 +7,7 @@
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
+*    the Free Software Foundation, either version 2 of the License, or
 *    (at your option) any later version.
 *
 *    This program is distributed in the hope that it will be useful,
@@ -146,13 +146,18 @@ void wxGISMap::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
 {
     if (nOldIndex == nNewIndex)
         return;
-    //bool bAddToIndex = nNewIndex > nOldIndex;
+    bool bAddToIndex = nNewIndex > nOldIndex;
     wxVector<wxGISLayer*>::iterator IT = m_paLayers.begin();
     std::advance(IT, nOldIndex);
     //remove layer from array
     wxGISLayer* pLayer = m_paLayers[nOldIndex];
     m_paLayers.erase(IT);
 
+    //insert layer to new index
+    if (bAddToIndex)
+    {
+        nNewIndex--;
+    }
     IT = m_paLayers.begin();
     std::advance(IT, nNewIndex);
     m_paLayers.insert(IT, pLayer);

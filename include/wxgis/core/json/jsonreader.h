@@ -142,7 +142,9 @@ protected:
 
     //! ANSI: do not convert UTF-8 strings
     bool        m_noUtf8;
-    
+
+    char        *m_pszCurLocale;
+
 };
 
 

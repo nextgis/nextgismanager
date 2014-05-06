@@ -111,6 +111,7 @@ private:
     // The format string for printing doubles
     char* m_fmt;
 
+    char        *m_pszCurLocale;
 };
 
 

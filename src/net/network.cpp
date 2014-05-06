@@ -7,7 +7,7 @@
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
+*    the Free Software Foundation, either version 2 of the License, or
 *    (at your option) any later version.
 *
 *    This program is distributed in the hope that it will be useful,
@@ -231,7 +231,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         wxNetMessage msgout = m_aoMessages.top();
         wxJSONWriter writer( wxJSONWRITER_NONE ); 
-        //writer.SetDoubleFmtString("%.10f");
+        writer.SetDoubleFmtString("%.10f");
 
 #ifdef USE_STREAMS
 #ifdef _DEBUG
@@ -380,7 +380,7 @@ bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
     }
 
     wxJSONWriter writer;
-    //writer.SetDoubleFmtString("%.10f");
+    writer.SetDoubleFmtString("%.10f");
     wxString sVal;
     writer.Write(val, sVal);
     int nSize = sVal.Len() * sizeof(sVal.GetChar(0));

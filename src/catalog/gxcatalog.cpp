@@ -7,7 +7,7 @@
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
+*    the Free Software Foundation, either version 2 of the License, or
 *    (at your option) any later version.
 *
 *    This program is distributed in the hope that it will be useful,
@@ -75,8 +75,7 @@ void wxGxCatalog::LoadChildren(void)
 
 void wxGxCatalog::LoadChildren(wxXmlNode* const pNode)
 {
-    if (NULL == pNode)
-        return;    
+    wxCHECK_RET(pNode, wxT("Intput config xml node is null"));
 
 	wxXmlNode* pChildren = pNode->GetChildren();
 	while(pChildren)

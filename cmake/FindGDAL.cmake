@@ -97,8 +97,16 @@ find_path(GDAL_INCLUDE_DIR
     "local/include/gdal"
 )
 
-if (GDAL_INCLUDE_DIR) 
-    file(READ "${GDAL_INCLUDE_DIR}/gcore/gdal_version.h" _gdal_VERSION_H_CONTENTS)
+message(STATUS "GDAL_INCLUDE_DIR=[${GDAL_INCLUDE_DIR}]")
+
+if (GDAL_INCLUDE_DIR)
+
+    if(WIN32)
+        file(READ "${GDAL_INCLUDE_DIR}/gcore/gdal_version.h" _gdal_VERSION_H_CONTENTS)
+    else(WIN32)
+	file(READ "${GDAL_INCLUDE_DIR}/gdal_version.h" _gdal_VERSION_H_CONTENTS)
+    endif(WIN32)
+
     string(REGEX MATCH "GDAL_VERSION_MAJOR[ \t]+([0-9]+)" GDAL_MAJOR_VERSION ${_gdal_VERSION_H_CONTENTS})
     string(REGEX MATCH "([0-9]+)" GDAL_MAJOR_VERSION ${GDAL_MAJOR_VERSION})
     string(REGEX MATCH "GDAL_VERSION_MINOR[ \t]+([0-9]+)" GDAL_MINOR_VERSION ${_gdal_VERSION_H_CONTENTS})
@@ -114,9 +122,10 @@ endif (GDAL_INCLUDE_DIR)
 
 find_library(GDAL_RELEASE
     NAMES
-      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib      
-      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.so          
-      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.a          
+      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib
+      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.so
+      gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.a
+      libgdal.so
     PATHS 
 		${_GDAL_ROOT_PATHS}
 		${GDAL_INCLUDE_DIR}
@@ -129,6 +138,7 @@ find_library(GDAL_DEBUG
       gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
       gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.so   
       gdal${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.a   
+      libgdald.so
     PATHS
 		${_GDAL_ROOT_PATHS}
 		${GDAL_INCLUDE_DIR}
@@ -141,6 +151,10 @@ if(NOT GDAL_RELEASE AND GDAL_DEBUG)
 	set(GDAL_RELEASE ${GDAL_DEBUG})
 endif(NOT GDAL_RELEASE AND GDAL_DEBUG)
 	
+if(NOT GDAL_DEBUG AND GDAL_RELEASE)
+        set(GDAL_DEBUG ${GDAL_RELEASE})
+endif(NOT GDAL_DEBUG AND GDAL_RELEASE)
+
 LIST(APPEND GDAL_LIBRARIES
         debug ${GDAL_DEBUG} optimized ${GDAL_RELEASE}
         )
