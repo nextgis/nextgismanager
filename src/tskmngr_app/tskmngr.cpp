@@ -196,6 +196,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
 {
     //check if command for some category
     wxJSONValue val = msg.GetValue();
+
     if(val.IsValid() && val.HasMember(wxT("cat")))
     {
         wxString sCategory = val[wxT("cat")].AsString();

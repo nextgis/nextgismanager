@@ -45,9 +45,9 @@ IF(WIN32 AND NOT ANDROID)
   
     find_library(POSTGRES_RELEASE
         NAMES
-          pq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib      
-          libpq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib          
-          libpqdll${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}.lib          
+          pq.lib      
+          libpq.lib          
+          libpqdll.lib          
         PATHS 
             /usr/local/lib 
             /usr/lib 
@@ -56,9 +56,9 @@ IF(WIN32 AND NOT ANDROID)
     )	
     find_library(POSTGRES_DEBUG
         NAMES
-          pq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
-          libpq${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
-          libpqdll${GDAL_MAJOR_VERSION}${GDAL_MINOR_VERSION}d.lib   
+          pqd.lib   
+          libpqd.lib   
+          libpqdlld.lib   
         PATHS
             /usr/local/lib 
             /usr/lib 

@@ -184,10 +184,11 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
             }
 
             wxGISSpatialTreeData *pData(NULL);
+            long nFid = Feature.GetFID();
             if(Feature.GetRefData()->GetRefCount() > 1)
-                pData = new wxGISSpatialTreeData(Geom, Feature.GetFID());//appologise the feature is buffered in m_pDSet
+                pData = new wxGISSpatialTreeData(Geom, nFid);//appologise the feature is buffered in m_pDSet
             else
-                pData = new wxGISSpatialTreeData(Geom.Copy(), Feature.GetFID());
+                pData = new wxGISSpatialTreeData(Geom.Copy(), nFid);
 
             Insert(pData);
             m_paCachedData.push_back(pData);

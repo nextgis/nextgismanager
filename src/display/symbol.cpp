@@ -148,7 +148,7 @@ void wxGISSimpleLineSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
     else
     {
         OGRLineString* pLine = (OGRLineString*)pGeom;
-        if (!m_pDisplay->CheckDrawAsPoint(pLine, m_dfWidth))
+        if (!m_pDisplay->CheckDrawAsPoint(Env, m_dfWidth))
         {
             if(!DrawPreserved(pLine))
 		        return;

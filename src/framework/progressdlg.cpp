@@ -43,8 +43,8 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
 
     wxBoxSizer* bMainSizer = new wxBoxSizer(wxVERTICAL);
 
-    m_staticText = new wxStaticText(this, wxID_ANY, m_sLastMessage, wxDefaultPosition, wxDefaultSize, 0);
-    m_staticText->Wrap(-1);
+    m_staticText = new wxStaticText(this, wxID_ANY, m_sLastMessage, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
+    //m_staticText->Wrap(-1);
     bMainSizer->Add(m_staticText, 1, wxALL | wxEXPAND, 5);
 
     wxGISProgressor* pProgressBar = new wxGISProgressor(this, wxID_ANY);

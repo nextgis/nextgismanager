@@ -857,32 +857,6 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
 	return false;
 }
 
-bool wxGISDisplay::CheckDrawAsPoint(const OGRLineString* pLine, double dfLineWidth)
-{
-    if (NULL == pLine)
-        return false;
-
-    OGRPoint stpt, fspt;
-    pLine->StartPoint(&stpt);
-    pLine->EndPoint(&fspt);
-
-    double EnvWidth = fspt.getX() - stpt.getX();
-    double EnvHeight = fspt.getY() - stpt.getY();
-
-    World2DCDist(&EnvWidth, &EnvHeight);
-    EnvWidth = fabs(EnvWidth);
-    EnvHeight = fabs(EnvHeight);
-    if (EnvWidth <= MINPOLYDRAWAREA && EnvHeight <= MINPOLYDRAWAREA)
-    {
-        wxCriticalSectionLocker locker(m_CritSect);
-
-        cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, stpt.getX(), stpt.getY());
-        cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, fspt.getX(), fspt.getY());
-        return true;
-    }
-    return false;
-}
-
 void wxGISDisplay::DrawRaster(cairo_surface_t *surface, const OGREnvelope& Envelope, bool bDrawEnvelope)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
