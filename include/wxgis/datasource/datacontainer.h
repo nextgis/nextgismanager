@@ -3,7 +3,8 @@
  * Purpose:  datacontainer Folder, GeoDatabase & etc.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,5 +22,41 @@
 
 #pragma once
 
-#include "wxgis/datasource/datasource.h"
+#include "wxgis/datasource/dataset.h"
 
+/** @class wxGISDataSource
+
+    The DataSource class.
+
+    @library{datasource}
+*/
+class WXDLLIMPEXP_GIS_DS wxGISDataSource :
+    public wxGISDataset
+{
+    DECLARE_CLASS(wxGISDataSource)
+public:
+    wxGISDataSource(const CPLString &szPath);
+    virtual ~wxGISDataSource(void);
+
+    //wxGISDataset
+    virtual void Close(void);
+    virtual size_t GetSubsetsCount(void) const;
+    virtual wxGISDataset* GetSubset(size_t nIndex);
+    virtual wxGISDataset* GetSubset(const wxString &sTableName);
+    virtual wxString GetName(void) const;
+    virtual bool Open(int bUpdate = TRUE);
+
+    //wxGISDataset
+    virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
+    virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
+    virtual char **GetFileList();
+    //
+    virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
+protected:
+    wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
+protected:
+    OGRDataSource *m_poDS;
+    wxString m_sDBName;
+};

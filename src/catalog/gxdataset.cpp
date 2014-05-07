@@ -328,6 +328,11 @@ void wxGxDatasetContainer::FillMetadata(bool bForce)
     wsDELETE(pDSet);
 }
 
+bool wxGxDatasetContainer::IsMetadataFilled() const
+{
+    return m_bIsMetadataFilled;
+}
+
 bool wxGxDatasetContainer::CanDelete(void)
 {
     return true;

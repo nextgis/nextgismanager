@@ -74,8 +74,8 @@ int wxCALLBACK GxObjectCVCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPt
                 return 0;
         }
 
-        bool bContainerDst1 = pGxObject1->IsKindOf(wxCLASSINFO(wxGxDataset));
-        bool bContainerDst2 = pGxObject2->IsKindOf(wxCLASSINFO(wxGxDataset));
+        bool bContainerDst1 = pGxObject1->IsKindOf(wxCLASSINFO(wxGxDataset)) || pGxObject1->IsKindOf(wxCLASSINFO(wxGxDatasetContainer));
+        bool bContainerDst2 = pGxObject2->IsKindOf(wxCLASSINFO(wxGxDataset)) || pGxObject2->IsKindOf(wxCLASSINFO(wxGxDatasetContainer));
         bool bContainer1 = pGxObject1->IsKindOf(wxCLASSINFO(wxGxObjectContainer));
         bool bContainer2 = pGxObject2->IsKindOf(wxCLASSINFO(wxGxObjectContainer));
         if(bContainer1 && !bContainerDst1 && bContainerDst2)
@@ -101,8 +101,8 @@ int wxCALLBACK GxObjectCVCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPt
                 return 0;
             else
             {
-                wxGxDataset* pDSt1 = wxDynamicCast(pGxObject1, wxGxDataset);
-                wxGxDataset* pDSt2 = wxDynamicCast(pGxObject2, wxGxDataset);
+                IGxDataset* pDSt1 = dynamic_cast<IGxDataset*>(pGxObject1);
+                IGxDataset* pDSt2 = dynamic_cast<IGxDataset*>(pGxObject2);
                 long diff = long(pDSt1->GetSize().ToULong()) - long(pDSt2->GetSize().ToULong());
                 return diff * (psortdata->bSortAsc == 0 ? -1 : 1);
             }
@@ -117,8 +117,8 @@ int wxCALLBACK GxObjectCVCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPt
                 return 0;
             else
             {
-                wxGxDataset* pDSt1 = wxDynamicCast(pGxObject1, wxGxDataset);
-                wxGxDataset* pDSt2 = wxDynamicCast(pGxObject2, wxGxDataset);
+                IGxDataset* pDSt1 = dynamic_cast<IGxDataset*>(pGxObject1);
+                IGxDataset* pDSt2 = dynamic_cast<IGxDataset*>(pGxObject2);
                 return (pDSt1->GetModificationDate() - pDSt2->GetModificationDate()).GetSeconds().ToLong() * (psortdata->bSortAsc == 0 ? -1 : 1);
             }
         }
@@ -396,11 +396,11 @@ bool wxGxContentView::AddObject(wxGxObject* const pObject)
 	if(m_current_style == enumGISCVReport)
 	{
 		SetItem(ListItemID, 1, sType);
-        wxGxDataset* pDSet = wxDynamicCast(pObject, wxGxDataset);
+        IGxDataset* pDSet = dynamic_cast<IGxDataset*>(pObject);
         if(pDSet)
         {
             wxCriticalSectionLocker locker(m_CritSectFillMeta);
-            m_anFillMetaIDs.Add(pDSet->GetId());
+            m_anFillMetaIDs.Add(pObject->GetId());
         }
 	}
 	SetItemPtrData(ListItemID, (wxUIntPtr) pData);
@@ -853,7 +853,7 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
                     bItemsHaveChanges = true;
                 }
             }
-            wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
+            IGxDataset* pDSet = dynamic_cast<IGxDataset*>(pGxObject);
             if(pDSet)
             {
                 if (pDSet->IsMetadataFilled())
@@ -866,7 +866,7 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
                 else
                 {
                     wxCriticalSectionLocker locker(m_CritSectFillMeta);
-                    m_anFillMetaIDs.Add(pDSet->GetId());
+                    m_anFillMetaIDs.Add(pGxObject->GetId());
                 }
             }
 	    }
@@ -1309,7 +1309,7 @@ wxThread::ExitCode wxGxContentView::Entry()
         }
         else
         {
-            wxGxDataset* pDSet = wxDynamicCast(m_pCatalog->GetRegisterObject(nID), wxGxDataset);
+            IGxDataset* pDSet = dynamic_cast<IGxDataset*>(m_pCatalog->GetRegisterObject(nID));
             if (NULL != pDSet)
             {
                 pDSet->FillMetadata(true);

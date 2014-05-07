@@ -57,6 +57,8 @@ enum wxGISEnumVectorDatasetType
     enumVecWFS,
     enumVecMem,
     enumVecSXF,
+    enumVecS57,
+    enumVecFileDBLayer,
     enumVecMAX
 };
 
@@ -78,6 +80,7 @@ enum wxGISEnumRasterDatasetType
     enumRasterWMS,
     enumRasterWMSTMS,
     enumRasterPostGIS,
+    enumRasterFileDBLayer,
     enumRasterMAX
 };
 
@@ -93,6 +96,7 @@ enum wxGISEnumTableDatasetType
     enumTableMapinfoTab,
     enumTableMapinfoMif,
     enumTableCSV,
+    enumTableFileDBLayer,
     enumTableMAX
 };
 

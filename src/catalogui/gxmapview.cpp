@@ -136,7 +136,7 @@ bool wxGxMapView::Applies(wxGxSelection* const Selection)
 	for(size_t i = 0; i < Selection->GetCount(); ++i)
 	{
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(Selection->GetSelectedObjectId(i));
-		wxGxDataset* pGxDataset = wxDynamicCast(pGxObject, wxGxDataset);
+        IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pGxObject);
 		if(pGxDataset != NULL)
 		{
 			wxGISEnumDatasetType type = pGxDataset->GetType();
@@ -150,21 +150,6 @@ bool wxGxMapView::Applies(wxGxSelection* const Selection)
 				break;
 			}
 		}
- 		wxGxDatasetContainer* pGxDatasetContainer = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-		if(pGxDatasetContainer != NULL)
-		{
-			wxGISEnumDatasetType type = pGxDatasetContainer->GetType();
-			switch(type)
-			{
-			case enumGISRasterDataset:
-			case enumGISFeatureDataset:
-			case enumGISContainer:
-				return true;
-			case enumGISTableDataset:
-				break;
-			}
-		}
-       
 	}
 	return false;
 }

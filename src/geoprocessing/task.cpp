@@ -351,10 +351,10 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
 
         m_Params = TaskConfig[wxT("params")];
 #ifdef _DEBUG
-        wxJSONWriter writer( wxJSONWRITER_NONE );  
-        wxString sOut;
-        writer.Write( m_Params, sOut );
-        wxLogDebug(wxT("task %d params: %s"), m_nId, sOut);
+//        wxJSONWriter writer( wxJSONWRITER_NONE );  
+//        wxString sOut;
+//        writer.Write( m_Params, sOut );
+//        wxLogDebug(wxT("task %d params: %s"), m_nId, sOut);
 #endif
 
         if(TaskConfig.HasMember(wxT("subtasks")))

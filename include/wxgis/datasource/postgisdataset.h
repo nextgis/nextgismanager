@@ -81,8 +81,11 @@ public:
     PGconn              *GetPGConn() { return hPGConn; }
 };
 
-/** \class wxGISPostgresDataSource postgisdataset.h
-    \brief The PostGIS DataSource class.
+/** @class wxGISPostgresDataSource
+
+    The PostGIS DataSource class.
+
+    @library{datasource}
 */
 class WXDLLIMPEXP_GIS_DS wxGISPostgresDataSource :
 	public wxGISDataset
@@ -133,8 +136,11 @@ protected:
     wxFontEncoding m_Encoding;
 };
 
-/** \class wxGISPostgresDataSource postgisdataset.h
-    \brief The PostGIS DataSource class.
+/** @class wxGISPostgresFeatureDataset
+
+    The PostGIS Feature dataset class.
+
+    @library{datasource}
 */
 class WXDLLIMPEXP_GIS_DS wxGISPostgresFeatureDataset :
 	public wxGISFeatureDataset

@@ -144,8 +144,8 @@ int GxObjectCompareFunction(wxGxObject* const pObject1, wxGxObject* const pObjec
             return 0;
     }
 
-	bool bContainerDst1 = pObject1->IsKindOf(wxCLASSINFO(wxGxDataset));
-    bool bContainerDst2 = pObject2->IsKindOf(wxCLASSINFO(wxGxDataset));
+    bool bContainerDst1 = pObject1->IsKindOf(wxCLASSINFO(wxGxDataset)) || pObject1->IsKindOf(wxCLASSINFO(wxGxDatasetContainer));
+    bool bContainerDst2 = pObject2->IsKindOf(wxCLASSINFO(wxGxDataset)) || pObject2->IsKindOf(wxCLASSINFO(wxGxDatasetContainer));
     bool bContainer1 = pObject1->IsKindOf(wxCLASSINFO(wxGxObjectContainer));
     bool bContainer2 = pObject2->IsKindOf(wxCLASSINFO(wxGxObjectContainer));
     if(bContainer1 && !bContainerDst1 && bContainerDst2)

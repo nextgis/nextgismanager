@@ -865,6 +865,49 @@ void wxGISCatalogMainCmd::OnClick(void)
 	}
 }
 
+void wxGISCatalogMainCmd::AddFileToZip(const CPLString &szPath, void* hZIP, GByte **pabyBuffer, size_t nBufferSize, const CPLString &szPrependPath, const wxString &sCharset)
+{
+    int nRet = 0;
+    size_t nBytesRead;
+    VSILFILE *fp;
+
+    CPLString szName;
+    if (szPrependPath.empty())
+    {
+        szName = CPLGetFilename(szPath);
+    }
+    else
+    {
+        szName += szPrependPath;
+        szName += "/";
+        szName += CPLGetFilename(szPath);
+    }
+
+    szName = CPLString(wxString(szName, wxConvUTF8).mb_str(wxCSConv(sCharset)));
+
+    fp = VSIFOpenL(szPath, "rb");
+    if (fp == NULL)
+        return;
+
+    if (CPLCreateFileInZip(hZIP, szName, NULL) == CE_None)
+    {
+        do {
+            nBytesRead = VSIFReadL(*pabyBuffer, 1, nBufferSize, fp);
+            if (long(nBytesRead) < 0)
+                nRet = -1;
+
+            if (nRet == 0 && CPLWriteFileInZip(hZIP, *pabyBuffer, nBytesRead) != CE_None)
+                nRet = -1;
+        } while (nRet == 0 && nBytesRead == nBufferSize);
+
+    }
+
+    //    CPLError(CE_Failure, CPLE_FileIO, "ERROR adding %s to zip", szName);
+    CPLCloseFileInZip(hZIP);
+    VSIFCloseL(fp);
+
+}
+
 bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath)
 {
     if (NULL == pGxObject)
@@ -886,6 +929,12 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
             return false;
         }
 
+        wxGISDataset* pDS = pGxDS->GetDataset(false);
+        if (NULL == pDS)
+        {
+            return false;
+        }
+
         wxString sCharset(wxT("cp-866"));
         wxGISAppConfig oConfig = GetConfig();
         if (oConfig.IsOk())
@@ -894,61 +943,61 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
         wxString sName = pGxDS->GetName();
         saPaths.Add(sName);
 
-        wxGISDataset* pDS = pGxDS->GetDataset(false);
-        if (NULL == pDS)
-        {
-            return false;
-        }
-
-        VSILFILE *fp;
         size_t nBufferSize = 1024 * 1024;
         GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
-        size_t nBytesRead;
         
         char** papszFileList = pDS->GetFileList();
         papszFileList = CSLAddString(papszFileList, pDS->GetPath());
         for (int i = 0; papszFileList[i] != NULL; ++i)
         {
-            int nRet = 0;
-
-            CPLString szName;
-            if (szPath.empty())
-            {
-                szName = CPLGetFilename(papszFileList[i]);
-            }
-            else
-            {
-                szName += szPath;
-                szName += "/";
-                szName += CPLGetFilename(papszFileList[i]);
-            }
-
-            szName = CPLString(wxString(szName, wxConvUTF8).mb_str(wxCSConv(sCharset)));
-
-            fp = VSIFOpenL(papszFileList[i], "rb");
-            if (fp == NULL)
-                continue;
-
-            if (CPLCreateFileInZip(hZIP, szName, NULL) == CE_None)
-            {
-                do {
-                    nBytesRead = VSIFReadL(pabyBuffer, 1, nBufferSize, fp);
-                    if (long(nBytesRead) < 0)
-                        nRet = -1;
-
-                    if (nRet == 0 && CPLWriteFileInZip(hZIP, pabyBuffer, nBytesRead) != CE_None)
-                        nRet = -1;
-                } while (nRet == 0 && nBytesRead == nBufferSize);
-
-            }
-                
-            //    CPLError(CE_Failure, CPLE_FileIO, "ERROR adding %s to zip", szName);
-            CPLCloseFileInZip(hZIP);
-            VSIFCloseL(fp);
+            AddFileToZip(papszFileList[i], hZIP, &pabyBuffer, nBufferSize, szPath, sCharset);
         }
 
         CPLFree(pabyBuffer);
         CSLDestroy(papszFileList);
+    }
+    else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+    {
+        wxGxDatasetContainer* pGxDS = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+        if (NULL == pGxDS)
+        {
+            return false;
+        }
+        
+        if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
+        {
+            return false;
+        }
+
+        wxString sCharset(wxT("cp-866"));
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+
+        if (pGxDS->GetType() == enumGISFeatureDataset && (pGxDS->GetSubType() == enumVecKML || pGxDS->GetSubType() == enumVecKMZ || pGxDS->GetSubType() == enumVecGML))
+        {
+            size_t nBufferSize = 1024 * 1024;
+            GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+            AddFileToZip(pGxObject->GetPath(), hZIP, &pabyBuffer, nBufferSize, szPath, sCharset);
+            CPLFree(pabyBuffer);
+        }
+        else if (pGxDS->GetType() == enumContGDBFolder)
+        {
+            CPLString szNewPath;
+            szNewPath = CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+
+            size_t nBufferSize = 1024 * 1024;
+            GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+            char** papszFileList = CPLReadDir(pGxObject->GetPath());
+            for (int i = 0; papszFileList[i] != NULL; ++i)
+            {
+                AddFileToZip(papszFileList[i], hZIP, &pabyBuffer, nBufferSize, szNewPath, sCharset);
+            }
+
+            CPLFree(pabyBuffer);
+            CSLDestroy(papszFileList);
+        }
+
     }
     else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
     {

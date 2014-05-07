@@ -97,6 +97,7 @@ public:
     virtual wxULongLong GetSize(void) const = 0;
     virtual wxDateTime GetModificationDate(void) const = 0;
     virtual void FillMetadata(bool bForce = false) = 0;
+    virtual bool IsMetadataFilled() const = 0;
 };
 
 /** @class IGxObjectNoFilter

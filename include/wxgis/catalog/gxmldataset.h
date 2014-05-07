@@ -25,8 +25,11 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/dataset.h"
 
-/** \class wxGxMLDataset gxmldataset.h
-    \brief A markup language GxObject.
+/** @class wxGxMLDataset
+
+    A markup language GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxMLDataset :
@@ -58,8 +61,11 @@ protected:
 	wxGISEnumVectorDatasetType m_eType;
 };
 
-/** \class wxGxMLSubDataset gxmldataset.h
-    \brief A ml layer GxObject.
+/** @class wxGxMLSubDataset
+
+    A markup language layer GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxMLSubDataset :

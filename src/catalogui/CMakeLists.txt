@@ -135,7 +135,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxshellconnfactoryui.h
     ${LIB_HEADERS}/gxgisprojui.h
     ${LIB_HEADERS}/gxgisprojfactoryui.h
-)
+    ${LIB_HEADERS}/gxlocaldbfactoryui.h
+    ${LIB_HEADERS}/gxlocaldbui.h)
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/catalogcmd.cpp
@@ -194,6 +195,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxshellconnfactoryui.cpp
     ${LIB_SOURCES}/gxgisprojui.cpp
     ${LIB_SOURCES}/gxgisprojfactoryui.cpp
+    ${LIB_SOURCES}/gxlocaldbfactoryui.cpp
+    ${LIB_SOURCES}/gxlocaldbui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)
