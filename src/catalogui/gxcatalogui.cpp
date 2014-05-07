@@ -101,6 +101,10 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     if(GxObjectPaths.GetCount() == 0)
         return false;
 
+    //TODO: check input object type and output object type
+    //if different types - export
+    //dialog with wxGIS and choices for output types (raster and vector data) 
+
     //create progress dialog
     wxString sTitle = wxString::Format(_("%s %d objects (files)"), bMove == true ? _("Move") : _("Copy"), GxObjectPaths.GetCount());
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());

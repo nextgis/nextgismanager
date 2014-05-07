@@ -463,7 +463,7 @@ wxString wxGISCartoMainTool::GetTooltip(void)
     case enumGISCartoMainToolPan:
 		return wxString(_("Pan"));
     case enumGISCartoMainToolIdentify:
-		return wxString(_("Information"));
+		return wxString(_("Identify"));
 	default:
 		return wxEmptyString;
 	}
