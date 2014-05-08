@@ -38,6 +38,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxRemoteConnectionUI :
 	public IGxObjectUI,
     public IGxObjectEditUI,
     public IGxObjectWizard,
+    public IGxDropTarget,
     public wxGxAutoRenamer
 {
     DECLARE_CLASS(wxGxRemoteConnectionUI)
@@ -55,6 +56,9 @@ public:
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
+    //IGxDropTarget
+    virtual wxDragResult CanDrop(wxDragResult def);
+    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:
     //wxGxRemoteConnection
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
