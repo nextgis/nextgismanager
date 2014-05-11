@@ -52,6 +52,13 @@ bool wxGISDrawingMapView::AddLayer(wxGISLayer* pLayer)
         bAddBaseDrawingLayer = true;
     }
 
+    bool bMoveDrawingLayerOnTop = false;
+    //if the drawing layer is on top - stay it on top
+    if (m_nCurrentDrawingLayer == m_paLayers.size() - 1)
+    {
+        bMoveDrawingLayerOnTop = true;
+    }
+
     //add layer
     bRes = wxGISMapView::AddLayer(pLayer);
     if (bRes == false)
@@ -73,7 +80,6 @@ bool wxGISDrawingMapView::AddLayer(wxGISLayer* pLayer)
 
 
     //if layer is drawing and no drawign layers exist store layer index
-    size_t nLayerIndex = m_paLayers.size() - 1;
     if (pLayer->GetType() == enumGISDrawing)
     {
         pLayer->SetSpatialReference(GetSpatialReference());
@@ -81,22 +87,13 @@ bool wxGISDrawingMapView::AddLayer(wxGISLayer* pLayer)
             m_nCurrentDrawingLayer = m_paLayers.size() - 1;
         return true;
     }
-    //if layer is not drawing or drawing order changed
-    //move it after drawing layers from top of the map
-    bool bMove = false;
-    for (int i = m_paLayers.size() - 2; i >= 0; --i)
+
+    //if drawing layer on top let's stay it there
+    if (bMoveDrawingLayerOnTop)
     {
-        if (m_paLayers[i]->GetType() == enumGISDrawing)
-        {//we have at list one drawing layer
-            bMove = true;
-        }
-        else if (bMove)
-        {
-            ChangeLayerOrder(nLayerIndex, i);
-            break;
-        }
-        
+        ChangeLayerOrder(m_nCurrentDrawingLayer, m_paLayers.size() - 1);
     }
+
     return true;
 }
 
@@ -122,6 +119,11 @@ bool wxGISDrawingMapView::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType
 
 void wxGISDrawingMapView::ChangeLayerOrder(size_t nOldIndex, size_t nNewIndex)
 {
+    if (nOldIndex == nNewIndex)
+    {
+        return;
+    }
+
     //check if m_nCurrentDrawingLayer changed
     if (nOldIndex == m_nCurrentDrawingLayer)
     {

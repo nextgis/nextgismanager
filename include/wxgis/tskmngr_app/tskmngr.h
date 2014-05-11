@@ -34,8 +34,9 @@
 class wxGISTaskCategory;
 WX_DECLARE_STRING_HASH_MAP(wxGISTaskCategory*, wxGISTaskCategoryMap);
 
-/** \class wxGISTaskManager tskmngr.h
-    \brief The main task manager class.
+/** @class wxGISTaskManager
+
+    The main task manager class.
 */
 
 class wxGISTaskManager : 
@@ -64,17 +65,6 @@ protected:
     virtual void OnExit(void);
     virtual wxJSONValue GetChildrenAsJSON(wxJSONValue &val);
     virtual wxJSONValue GetParamsAsJSON(wxJSONValue &val);
-
-    //bool AddTask(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    //bool DelTask(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    //bool ChangeTask(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    //bool StartTask(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    //bool StopTask(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    ////bool ChangeTasksPriority(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg); TODO:
-    //bool GetTasks(const wxXmlNode* pTaskNode, int nId, wxString &sErrMsg);
-    //void GetTaskDetails(const wxXmlNode* pTaskNode, int nId);
-    //bool ValidateTask(const wxXmlNode* pTaskNode);
-    //int GetNewId(void);
     virtual wxString GetNewStorePath(const wxString &sAddToName, const wxString &sSubDir = wxEmptyString);
     static wxString ReplaceForbiddenCharsInFileName(const wxString &name, const wxString &ch = wxT("_") );
 protected:
@@ -83,10 +73,4 @@ protected:
     wxString m_sUserConfigDir;
     wxGISTaskCategoryMap m_omCategories;
     int m_nMaxExecTasks;
- //   wxFFile m_LogFile;
- //   wxLocale* m_pLocale; // locale we'll be using
-	////char* m_pszOldLocale;
- //   wxCriticalSection m_TaskLock;
- //   wxCriticalSection m_CounterLock;
- //   int m_nIdCounter;
 };

@@ -89,7 +89,6 @@ bool wxGISTaskBase::Save(void)
     }
 
     wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );  
-    writer.SetDoubleFmtString("%.10f");
     wxString  sJSONText;
 
     writer.Write( GetStoreConfig(), sJSONText );
@@ -683,7 +682,6 @@ long wxGISTask::Execute(void)
             if(Param.IsArray())
             {
                 //wxJSONWriter writer( wxJSONWRITER_NONE );
-                //writer.SetDoubleFmtString("%.10f");
                 //writer.Write( Param, sParam );
                 continue;
             }

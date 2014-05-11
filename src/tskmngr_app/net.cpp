@@ -274,7 +274,6 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
 #ifdef _DEBUG
         //wxString sOut;
         //wxJSONWriter writer(wxJSONWRITER_NONE);
-        //writer.SetDoubleFmtString("%.10f");
         //writer.Write(value, sOut);
         //wxLogMessage(sOut);
 #endif // _DEBUG

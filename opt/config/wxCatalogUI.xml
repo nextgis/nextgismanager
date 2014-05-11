@@ -15,6 +15,7 @@
     <objectfactories>
       <objectfactory factory_name="wxGxShapeFactoryUI" is_enabled="t"/>
       <objectfactory factory_name="wxGxRasterFactoryUI" is_enabled="t"/>
+      <objectfactory factory_name="wxGxLocalDBFactoryUI" is_enabled="t"/>
       <objectfactory factory_name="wxGxFolderFactoryUI" is_enabled="t"/>
       <objectfactory factory_name="wxGxDBConnectionFactoryUI" is_enabled="t" load_system_tables_schemes="f"/>
       <objectfactory factory_name="wxGxWebConnectionFactoryUI" is_enabled="t"/>

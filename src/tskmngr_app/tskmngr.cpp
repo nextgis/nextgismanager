@@ -232,7 +232,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                 wxGISNetCommandState nExitSt = (wxGISNetCommandState)val.Get(wxT("exit_state"), wxJSONValue(m_nExitState)).AsLong();                
                 SetExitState(nExitSt);
 
-                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdSetParam, enumGISPriorityNormal);
+                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdSetParam, enumGISPriorityNormal,  msg.GetId());
                 msgout.SetValue(GetParamsAsJSON(msgout.GetValue()));
                 SendNetMessage(msgout, nUserId);                
             }
@@ -262,7 +262,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                         wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatPath, this);
                         m_omCategories[sCategoryName] = pGISTaskCategory;
                         
-                        wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdStAdd, enumGISPriorityNormal);
+                        wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdStAdd, enumGISPriorityNormal, msg.GetId());
                         wxJSONValue val;
                         val[wxT("name")] = sCatName;
                         msgout.SetValue(val);

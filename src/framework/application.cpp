@@ -566,10 +566,6 @@ bool wxGISApplication::SetupSys(const wxString &sSysPath)
 bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 {
     wxLogMessage(_("wxGISApplication: Initialize locale"));
-
- //   if(m_pszOldLocale != NULL)
-	//	setlocale(LC_NUMERIC, m_pszOldLocale);
-	//wxDELETE(m_pszOldLocale);
     wxDELETE(m_pLocale);
 
 	//init locale
@@ -627,11 +623,6 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 		}
 	#endif
 	}
-
-	//support of dot in doubles and floats
-	//m_pszOldLocale = strdup(setlocale(LC_NUMERIC, NULL));
- //   if( setlocale(LC_NUMERIC,"C") == NULL )
- //       m_pszOldLocale = NULL;
 
     m_sDecimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
 

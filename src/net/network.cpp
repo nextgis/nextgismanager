@@ -231,7 +231,6 @@ bool INetConnection::ProcessOutputNetMessage(void)
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         wxNetMessage msgout = m_aoMessages.top();
         wxJSONWriter writer( wxJSONWRITER_NONE ); 
-        writer.SetDoubleFmtString("%.10f");
 
 #ifdef USE_STREAMS
 #ifdef _DEBUG
@@ -380,7 +379,6 @@ bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
     }
 
     wxJSONWriter writer;
-    writer.SetDoubleFmtString("%.10f");
     wxString sVal;
     writer.Write(val, sVal);
     int nSize = sVal.Len() * sizeof(sVal.GetChar(0));
