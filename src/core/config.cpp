@@ -256,7 +256,7 @@ wxXmlNode *wxGISConfig::GetConfigRootNode(wxGISEnumConfigKey Key, const wxString
 		{
             wxFileName oFName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
             wxString sConfigFilePathNew = oFName.GetPath() + wxFileName::GetPathSeparator() + wxT("config") + wxFileName::GetPathSeparator() + sFileName;
-			if(wxFileName::FileExists(sConfigFilePathNew))
+            if(wxFileName::FileExists(sConfigFilePathNew))
 				pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
 		}
 
@@ -506,6 +506,14 @@ void wxGISConfig::Save(const wxGISEnumConfigKey Key)
     wxCHECK_RET( IsOk(), wxT("Invalid wxGISConfig") );
     return ((wxGISConfigRefData *)m_refData)->Save(Key);
 }
+
+void wxGISConfig::ReportPaths(void)
+{
+    wxLogMessage(wxT("Executable Dir: %s"), ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath.c_str());
+    wxLogMessage(wxT("Local config Dir: %s"), ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath.c_str());
+    wxLogMessage(wxT("Global config Dir: %s"), ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.c_str());
+}
+
 
 //---------------------------------------------------------------
 // wxGISConfigRefData

@@ -319,7 +319,18 @@ bool wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement)
     if (NULL == m_poDS)
         return false;
 
-    m_poDS->ExecuteSQL(sStatement.ToUTF8(), NULL, NULL);
+    try
+    {
+        m_poDS->ExecuteSQL(sStatement.ToUTF8(), NULL, NULL);
+    }
+    catch (...)
+    {
+        CPLError(CE_Failure, CPLE_AppDefined, "Unexpected error");
+        wxLogError(wxT("wxGISPostgresDataSource: Unexpected error"));
+
+        return false;
+    }
+    
     if (CPLGetLastErrorNo() != CE_None)
     {
         CPLError(CE_Failure, CPLE_AppDefined, CPLGetLastErrorMsg());
@@ -338,7 +349,10 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL2(const wxString &sStatement, c
     if (NULL != m_poDS4SQL)
 	{
         CPLString szStatement(sStatement.mb_str(wxConvUTF8));
-        OGRLayer * poLayer = m_poDS4SQL->ExecuteSQL(szStatement, NULL, sDialect.mb_str(wxConvUTF8));
+        const char* szDialect = NULL;
+        if (!sDialect.IsEmpty())
+            szDialect = sDialect.mb_str(wxConvUTF8);
+        OGRLayer * poLayer = m_poDS4SQL->ExecuteSQL(szStatement, NULL, szDialect);
 		if(	poLayer )
 		{
             poLayer->ResetReading();

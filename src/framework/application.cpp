@@ -577,6 +577,7 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 		{
 			iLocale = loc_info->Language;
 			wxLogMessage(_("wxGISApplication: Language is set to %s"), loc_info->Description.c_str());
+            wxLogMessage(_("wxGISApplication: Language locale files path '%s'"), sLocPath.c_str());
 		}
 
         // don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
@@ -596,10 +597,11 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
     // in the default locations, but when the program is not installed the
     // catalogs are in the build directory where we wouldn't find them by
     // default
-	wxString sLocalePath = sLocPath;// + wxFileName::GetPathSeparator() + sLoc;
+	wxString sLocalePath = sLocPath + wxFileName::GetPathSeparator() + sLoc;//;//
 	if(wxDirExists(sLocalePath))
 	{
-		wxLocale::AddCatalogLookupPathPrefix(sLocalePath);
+        wxFileName oParent(sLocalePath);
+        wxLocale::AddCatalogLookupPathPrefix(oParent.GetPath());
 
 		// Initialize the catalogs we'll be using
 		//load multicat from locale

@@ -153,4 +153,5 @@ public:
     wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
     virtual ~wxGISTableQuery(void);
     virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
+	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
 };

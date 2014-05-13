@@ -42,6 +42,7 @@ public:
     wxGISConfig(void);
 	wxGISConfig(bool bPortable);
     void Create(bool bPortable = false);
+    void ReportPaths(void);
 
     bool IsOk() const { return m_refData != NULL; };
 

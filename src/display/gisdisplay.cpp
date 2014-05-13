@@ -208,8 +208,8 @@ bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
     cairo_paint(m_cr_tmp);
 
     unsigned char *pData = cairo_image_surface_get_data(m_surface_tmp);
-    int nWidth = cairo_image_surface_get_width(m_surface_tmp);
-    int nHeight = cairo_image_surface_get_height(m_surface_tmp);
+    int nWidth = MIN(cairo_image_surface_get_width(m_surface_tmp), pGDALDataset->GetRasterXSize());
+    int nHeight = MIN(cairo_image_surface_get_height(m_surface_tmp), pGDALDataset->GetRasterYSize());
 
     int anBandMap[4] = {3,2,1,4};
 

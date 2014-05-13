@@ -137,6 +137,7 @@ bool wxGISInitializer::Initialize(const wxString &sAppName, const wxString &sLog
 	wxString sLogDir = oConfig.GetLogDir();
 	if(!SetupLog(sLogDir, sLogFilePrefix))
         return false;
+    oConfig.ReportPaths();
 	wxLogMessage(_("wxGISInitializer: %s %s is initializing..."), sAppName.c_str(), wxString(wxGIS_VERSION_NUM_DOT_STRING_T).c_str());
 
 	if(!SetupLoc(oConfig.GetLocale(), oConfig.GetLocaleDir()))
@@ -202,7 +203,7 @@ bool wxGISInitializer::SetupLog(const wxString &sLogPath, const wxString &sNameP
 		wxFileName::Mkdir(sLogPath, 0777, wxPATH_MKDIR_FULL);
 
 	wxDateTime dt(wxDateTime::Now());
-    wxString logfilename = sLogPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%slog_%.4d%.2d%.2d.log"),sNamePrefix.c_str(), dt.GetYear(), dt.GetMonth() + 1, dt.GetDay());
+    wxString logfilename = sLogPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%slog_%.4d%.2d%.2d.log"), sNamePrefix.c_str(), dt.GetYear(), dt.GetMonth() + 1, dt.GetDay());
 
 	if(!m_LogFile.Open(logfilename.GetData(), wxT("a+")))
 		wxLogError(_("wxGISInitializer: Failed to open log file %s"), logfilename.c_str());
@@ -223,6 +224,7 @@ bool wxGISInitializer::SetupLog(const wxString &sLogPath, const wxString &sNameP
 	wxLogMessage(_("HOST '%s': OS desc - %s, free memory - %s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sSize.c_str());
 	wxLogMessage(_("wxGISInitializer: Log file: %s"), logfilename.c_str());
 
+
     return true;
 }
 
@@ -241,6 +243,8 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 		{
 			iLocale = loc_info->Language;
 			wxLogMessage(_("wxGISInitializer: Language is set to %s"), loc_info->Description.c_str());
+            wxLogMessage(_("wxGISInitializer: Language locale files path '%s'"), sLocPath.c_str());
+
 		}
 
         // don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
@@ -263,7 +267,8 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 	wxString sLocalePath = sLocPath + wxFileName::GetPathSeparator() + sLoc;
 	if(wxDirExists(sLocalePath))
 	{
-		wxLocale::AddCatalogLookupPathPrefix(sLocalePath);
+        wxFileName oParent(sLocalePath);
+        wxLocale::AddCatalogLookupPathPrefix(oParent.GetPath());
 
 		// Initialize the catalogs we'll be using
 		//load multicat from locale

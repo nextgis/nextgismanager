@@ -94,6 +94,7 @@ bool wxGISCatalogApp::OnInit()
         wxLogError(_("The log directory '%s' is not valid"), sLogDir.c_str());
         return false;
     }
+    oConfig.ReportPaths();
 
 	//setup locale
 	wxString sLocale = oConfig.GetLocale();

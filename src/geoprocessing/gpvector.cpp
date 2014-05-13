@@ -269,11 +269,24 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             OGRFieldDefn *pFieldDefn = pFeatureDefn->GetFieldDefn(i);
             if (NULL != pFieldDefn)
             {
-                int nSrcFieldIndex = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
-
-                OGRFieldType eType = pFieldDefn->GetType();
-                _st_field_map record = { i, nSrcFieldIndex, eType };
-                staFieldMap.push_back(record);
+                int nSrcFieldIndex = -1;
+                if (pDstDataSet->GetSubType() == enumVecESRIShapefile) // if the shape is dest the field names cut to 8 chars and so the field names are differes
+                {
+                    if (EQUALN(pSrcFeatureDefn->GetFieldDefn(i)->GetNameRef(), pFieldDefn->GetNameRef(), 8))
+                    {
+                        nSrcFieldIndex = i;
+                    }
+                }
+                else
+                {
+                    nSrcFieldIndex = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
+                }
+                if (nSrcFieldIndex != -1)
+                {
+                    OGRFieldType eType = pFieldDefn->GetType();
+                    _st_field_map record = { i, nSrcFieldIndex, eType };
+                    staFieldMap.push_back(record);
+                }
             }
         }
     }

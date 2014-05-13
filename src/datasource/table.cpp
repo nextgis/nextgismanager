@@ -1199,3 +1199,9 @@ void wxGISTableQuery::Cache(ITrackCancel* const pTrackCancel)
         m_poDS = NULL;
     }
 }
+
+size_t wxGISTableQuery::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+    return m_nFeatureCount;
+}
