@@ -135,6 +135,7 @@ public:
     void SetFrom(const wxString& from);
 
 public:
+    wxArrayString  m_to;               //Recipients
     wxString       m_from;             //The From: email address (optional)
     wxString       m_subject;          //The Subject of the message
     wxString       m_body;             //The Body of the message
