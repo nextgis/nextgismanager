@@ -386,6 +386,12 @@ wxString wxGxFeatureDatasetFilter::GetName(void) const
 	    return wxString(_("WFS"));
 	case enumVecMem:
 	    return wxString(_("Memory"));
+    case enumVecSXF:
+	    return wxString(_("Panorama SXF (*.sxf)"));
+    case enumVecS57:
+	    return wxString(_("s57 format (*.000)"));
+    case enumVecFileDBLayer:
+	    return wxString(_("GeoDatabase Feature class"));
     default:
 	    return wxString(_("Any feature classes (*.*)"));
     }
@@ -410,11 +416,16 @@ wxString wxGxFeatureDatasetFilter::GetExt(void) const
 	case enumVecWFS:
 	case enumVecMem:
 	case enumVecPostGIS:
+    case enumVecFileDBLayer:
 	    return wxEmptyString;
 	case enumVecGML:
 	    return wxString(wxT("gml"));
 	case enumVecGeoJSON:
 	    return wxString(wxT("geojson"));
+    case enumVecSXF:
+	    return wxString(wxT("sxf"));
+    case enumVecS57:
+	    return wxString(wxT("000"));
     default:
         return wxEmptyString;
     }
@@ -580,6 +591,8 @@ wxString wxGxRasterDatasetFilter::GetName(void) const
         return wxString(_("Tile map service"));
     case enumRasterPostGIS:
         return wxString(_("PostGIS raster"));
+    case enumRasterFileDBLayer:
+        return wxString(_("GDB raster"));
     default:
         return wxString(_("Any rasters (*.*)"));
     }
@@ -610,6 +623,7 @@ wxString wxGxRasterDatasetFilter::GetExt(void) const
     case enumRasterWMS:
     case enumRasterWMSTMS:
     case enumRasterPostGIS:
+    case enumRasterFileDBLayer:
         return wxEmptyString;
     default:
         return wxEmptyString;
@@ -767,6 +781,7 @@ wxString wxGxTableDatasetFilter::GetName(void) const
     case enumTableCSV:
  	    return wxString(_("Comma Separated Values (*.csv)"));
     case enumTablePostgres:
+    case enumTableFileDBLayer:
  	    return wxString(_("Database table"));
     default:
 	    return wxString(_("Any feature classes (*.*)"));
@@ -786,6 +801,7 @@ wxString wxGxTableDatasetFilter::GetExt(void) const
     case enumTableCSV:
         return wxString(wxT("csv"));
     case enumTablePostgres:
+    case enumTableFileDBLayer:
         return wxEmptyString;
     default:
         return wxEmptyString;
