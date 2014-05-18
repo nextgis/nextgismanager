@@ -259,7 +259,7 @@ void wxGISDTPath::OnOpen(wxCommandEvent& event)
 
             wxString sExt = pDomain->GetFilter(m_pParam->GetSelDomainValue())->GetExt();
             wxFileName FName(sPath);
-            FName.SetExt(sExt.Right(sExt.Len() - 1));
+            FName.SetExt(sExt);
             sPath = FName.GetFullPath();
 
             m_pParam->SetAltered(true);

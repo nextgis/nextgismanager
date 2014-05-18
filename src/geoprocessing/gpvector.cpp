@@ -1663,7 +1663,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     CPLString szFullPath = sPath;
     if (!sName.IsEmpty())
     {
-        szFullPath  = CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), pFilter->GetExt().mb_str(wxConvUTF8));
+        szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
     }
 
     OGRDataSource *poDS = NULL;

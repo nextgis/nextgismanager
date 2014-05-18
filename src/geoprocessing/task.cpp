@@ -540,7 +540,7 @@ void wxGISTask::NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val)
 
 wxGISTaskMessage wxGISTask::GetMessage(long nMessageId) const
 {
-    for(size_t i = 0; i < m_oaMessages.size(); ++i)
+    for(size_t i = 0; i < m_oaMessages.GetCount(); ++i)
     {
         if(m_oaMessages[i].m_nId == nMessageId)
         {
@@ -552,7 +552,7 @@ wxGISTaskMessage wxGISTask::GetMessage(long nMessageId) const
 
 void wxGISTask::AddMessage(wxGISTaskMessage* pMessage)
 {
-    for(size_t i = 0; i < m_oaMessages.size(); ++i)
+    for (size_t i = 0; i < m_oaMessages.GetCount(); ++i)
     {
         if(m_oaMessages[i].m_nId == pMessage->m_nId)
         {
@@ -560,7 +560,7 @@ void wxGISTask::AddMessage(wxGISTaskMessage* pMessage)
             return;
         }
     }
-    m_oaMessages.push_back(pMessage);
+    m_oaMessages.Add(pMessage);
     
     AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_MESSAGEADDED, pMessage->m_nId));
 }

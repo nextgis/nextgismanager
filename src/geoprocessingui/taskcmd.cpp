@@ -90,9 +90,9 @@ wxString wxGISTaskCmd::GetCaption(void)
 		case 1:
 			return wxString(_("Show execution dialog"));
 		case 2:
-			return wxString(_("Start"));
+			return wxString(_("Start task"));
 		case 3:
-			return wxString(_("Stop"));
+			return wxString(_("Stop task"));
 		default:
 		return wxEmptyString;
 	}

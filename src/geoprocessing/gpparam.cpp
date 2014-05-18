@@ -269,8 +269,7 @@ void wxGISGPParameter::SetSelDomainValue(int nNewSelection)
                         if(!oName.HasExt()) //set sel domain
                         {
                             wxGxObjectFilter* poFilter = poDomain->GetFilter(GetSelDomainValue());
-                            wxString sExt = poFilter->GetExt();
-                            oName.SetExt(sExt.Right(sExt.Len() - 1));
+                            oName.SetExt(poFilter->GetExt());
                             SetValue(wxVariant(oName.GetFullPath(), wxT("path")));
                         }
                     }
