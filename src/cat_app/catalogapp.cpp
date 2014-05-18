@@ -117,6 +117,9 @@ bool wxGISCatalogApp::OnInit()
 	bool bDebugMode = oConfig.GetDebugMode();
     m_pMainFrame->SetDebugMode(bDebugMode);
 
+    //disable loading drivers on GDAL_DRIVER_PATH env value
+    CPLSetConfigOption("GDAL_DRIVER_PATH", "disabled");
+
 	OGRRegisterAll();
 	GDALAllRegister();
 
