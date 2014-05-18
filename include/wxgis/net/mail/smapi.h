@@ -51,7 +51,6 @@ public:
     LPMAPIFREEBUFFER    m_lpfnMAPIFreeBuffer; //MAPIFreeBuffer function pointer
 };
 
-#endif //__WINDOWS__
 
 //The class which encapsulates the MAPI connection
 class WXDLLIMPEXP_GIS_NET wxMapiSession
@@ -83,5 +82,6 @@ protected:
     wxMapiData* m_data;    
 };
 
+#endif //__WINDOWS__
 
 #endif //wxGIS_USE_EMAIL

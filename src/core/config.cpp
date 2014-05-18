@@ -91,8 +91,10 @@ void wxGISConfig::Create(bool bPortable)
 
 #else //linux
         //TODO: set real path to share and set symlink to gdal directory
-        wxString sDefaultOut = wxString(wxT("/etc/"));
-        sDefaultOut.Append(wxTheApp->GetVendorName());
+        //wxString sDefaultOut = wxString(wxT("/etc/"));
+        //sDefaultOut.Append(wxTheApp->GetVendorName());
+        ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
+        ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = wxStandardPaths::Get().GetConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
 #endif
 
 	    //if(!wxDirExists(m_sUserConfigDir))
