@@ -39,14 +39,10 @@ m_bIsValid(false), m_bUseProxy(false), slist(NULL)
 		headstruct.size = 0;
 		headstruct.memory = NULL;
 
-		wxStringTokenizer tkz(sHeaders, wxString(wxT("|")), wxTOKEN_RET_EMPTY );
-		while ( tkz.HasMoreTokens() )
-		{
-			wxString token = tkz.GetNextToken();
-			slist = curl_slist_append(slist, token.mb_str());
-		}
-
 		m_sHeaders = sHeaders;
+		
+        SetDefaultHeader();
+
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, slist);
 		curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1);
 		curl_easy_setopt(curl, CURLOPT_AUTOREFERER, 1);
@@ -103,7 +99,7 @@ void wxGISCurl::SetDefaultHeader(void)
 	curl_slist_free_all(slist);
 	slist = NULL;
 
-	wxStringTokenizer tkz(m_sHeaders, wxString(wxT("|")), wxTOKEN_RET_EMPTY );
+	wxStringTokenizer tkz(m_sHeaders, wxT("|"), wxTOKEN_RET_EMPTY );
 	while ( tkz.HasMoreTokens() )
 	{
 		wxString token = tkz.GetNextToken();

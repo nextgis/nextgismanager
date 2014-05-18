@@ -24,6 +24,8 @@
 #include "wxgis/core/config.h"
 
 #include <wx/filename.h>
+#include <wx/tokenzr.h>
+
 #include "gdal_rat.h"
 #include "gdalwarper.h"
 
@@ -219,6 +221,34 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
 		return true;
 
 	wxCriticalSectionLocker locker(m_CritSect);
+
+    if (m_nSubType == enumRasterWMSTMS)
+    {
+        CPLSetConfigOption("CPL_CURL_GZIP", "ON");
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+        {
+            if ( oConfig.GetDebugMode() )
+            {
+                CPLSetConfigOption("CPL_CURL_VERBOSE", "ON");
+            }
+
+            wxString sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), wxEmptyString);
+            wxStringTokenizer tkz(sHeaders, wxT("|"), wxTOKEN_RET_EMPTY);
+            while (tkz.HasMoreTokens())
+            {
+                wxString sUA;
+                wxString token = tkz.GetNextToken();
+                if (token.StartsWith(wxT("User-Agent: "), &sUA))
+                {
+                    //TODO: there is a bug in gdal ignoring GDAL_HTTP_USERAGENT
+                    CPLSetConfigOption("GDAL_HTTP_USERAGENT", sUA.mb_str());
+                    break;
+                }
+            }
+        }
+    }
+
 
 
     m_poDataset = (GDALDataset *) GDALOpenShared( m_sPath, bReadOnly == true ? GA_ReadOnly : GA_Update );
