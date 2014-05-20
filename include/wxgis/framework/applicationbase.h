@@ -28,12 +28,14 @@
 #include <wx/window.h>
 #include <wx/dynarray.h>
 
-/** \enum wxGISPluginIDs applicationbase.h
-    \brief A plugin command or menu command ID enumerator.
+/** @enum wxGISPluginIDs
 
+    A plugin command or menu command ID enumerator.
     New command ID from user plugin will be set from wxID_HIGHEST + 1 to wxID_HIGHEST + 1049
     New menu item ID from user plugin will be set from wxID_HIGHEST + 1050 to wxID_HIGHEST + 2049
-*/
+
+    @library{framework}
+ */
 enum wxGISPluginIDs
 {
 	ID_PLUGINCMD = wxID_HIGHEST + 2001,
@@ -44,16 +46,20 @@ enum wxGISPluginIDs
     ID_MENUCMDMAX = ID_MENUCMD + 255
 };	
 
-/** \def typedef wxArrayInt WINDOWARRAY applicationbase.h
-    \brief A wxWindow IDs array.
-*/
+/** @def typedef wxArrayInt WINDOWARRAY
+    
+    A wxWindow IDs array.
+
+    @library{framework}
+ */
 typedef wxArrayInt WINDOWARRAY;
 
-/** \class wxGISApplicationBase applicationbase.h
-    \brief wxGISApplicationBase class.
+/** @class wxGISApplicationBase
 
     This is base class for framed applicaton.    
-*/
+
+    @library{framework}
+ */
 class WXDLLIMPEXP_GIS_FRW wxGISApplicationBase : public IApplication
 {
     DECLARE_CLASS(wxGISApplicationBase)

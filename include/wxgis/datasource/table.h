@@ -3,7 +3,7 @@
  * Purpose:  Table class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Bishop
+*   Copyright (C) 2010-2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -27,10 +27,12 @@
 
 #include <ogrsf_frmts.h>
 
-/** \class wxGISTable table.h
-    \brief A GIS Table class.
+/** @class wxGISTable
 
+    A GIS Table class.
     This class support basic operations on datasource. No spatial data avaliable, but the OGRFeature is main part of this class, so it's posible to get some spatial information (not recommended).
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISTable : 
@@ -104,10 +106,12 @@ protected:
 
 //#define MAXSTRINGSTORE 1000000
 
-/** \class wxGISTableCached table.h
-    \brief A GIS cached Table class.
-
+/** @class wxGISTableCached
+    
+    A GIS cached Table class.
     The table with caching rows for future fast fetch.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISTableCached : 

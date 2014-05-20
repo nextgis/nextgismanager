@@ -84,6 +84,7 @@ protected:
 			if(m_pPointsArray[i] != NULL)
 				m_pPointsArray[i]->AddPendingEvent(event);
 		}
+        wxWakeUpIdle();
 	};
     virtual void PostEvent(wxEvent *event)
     {
@@ -94,6 +95,7 @@ protected:
 				m_pPointsArray[i]->QueueEvent(event->Clone());
 		}    
         wxDELETE(event);
+        wxWakeUpIdle();
     };
 protected:
 	wxVector<wxEvtHandler*> m_pPointsArray;

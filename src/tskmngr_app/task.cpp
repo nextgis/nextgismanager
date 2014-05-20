@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Task and TaskCategoryList classes.
- * Author:   Bishop (aka Barishnikov Dmitriy), polimax@mail.ru
+ * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Bishop
+*   Copyright (C) 2012-2013 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -1090,10 +1090,17 @@ void wxGISTaskCategory::GetChildren(long nMessageId, int nUserId)
 
 void wxGISTaskCategory::StartNextQueredTask()
 {
-    if(GetRunningTaskCount() >= m_nMaxTasks)
+    wxGISQueredTasksArray oaTasks;
+    GetQueredTasks(oaTasks);
+    if (GetRunningTaskCount() == 0 && oaTasks.IsEmpty()) //no more tasks
+    {
+        m_pTaskManager->OnCategoryExecutionFinished(this);
+    
+    }
+    if(GetRunningTaskCount() >= m_nMaxTasks) //to many tasks
         return;
 
-    for(short i = 0; i < m_nMaxTasks; ++i)
+    for(short i = 0; i < m_nMaxTasks; ++i) //try to start some tasks
     {
         if(GetRunningTaskCount() >= m_nMaxTasks)
             return;

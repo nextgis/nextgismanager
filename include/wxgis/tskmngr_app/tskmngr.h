@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Task manager class.
- * Author:   Bishop (aka Barishnikov Dmitriy), polimax@mail.ru
+ * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Bishop
+*   Copyright (C) 2012-2013 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ public:
     virtual int GetExecTaskCount(void) const;
     virtual int GetMaxExecTaskCount(void) const;
     virtual void SetMaxExecTaskCount(int nMaxExecTasks);
-
+    virtual void OnCategoryExecutionFinished(const wxGISTaskCategory* pCat);
     //INetEventProcessor
     virtual void ProcessNetEvent(wxGISNetEvent& event);
 protected:
@@ -73,4 +73,5 @@ protected:
     wxString m_sUserConfigDir;
     wxGISTaskCategoryMap m_omCategories;
     int m_nMaxExecTasks;
+    bool m_bExitState;
 };

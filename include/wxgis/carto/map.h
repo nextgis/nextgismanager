@@ -3,7 +3,7 @@
  * Purpose:  wxGISMap class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,11 +23,12 @@
 #include "wxgis/carto/carto.h"
 #include "wxgis/carto/layer.h"
 
-/** \class wxGISMap map.h
-    \brief The Map class - array of layers.
+/** @class wxGISMap
 
-    This class stores array of layers.
-*/
+    The Map class - array of layers. This class stores array of layers.
+
+    @library{carto}
+ */
 class WXDLLIMPEXP_GIS_CRT wxGISMap
 {
 public:
@@ -58,9 +59,12 @@ protected:
 	wxCriticalSection m_CritSect;
 };
 
-/** \class wxGISExtentStack map.h
-    \brief The class keep history of map bounds changes.
-*/
+/** @class wxGISExtentStack
+
+    The class keep history of map bounds changes.
+
+    @library{carto}
+ */
 class WXDLLIMPEXP_GIS_CRT wxGISExtentStack : 
     public wxGISMap
 {

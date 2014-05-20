@@ -1,7 +1,7 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Network classes.
- * Author:   Bishop (aka Barishnikov Dmitriy), polimax@mail.ru
+ * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2012 Bishop
 *
