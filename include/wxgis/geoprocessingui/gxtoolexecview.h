@@ -3,7 +3,7 @@
  * Purpose:  wxGxToolExecuteView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -36,8 +36,11 @@
 
 WXDLLIMPEXP_GIS_GPU int wxCALLBACK GxTaskCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPtr sortData);
 
-/** \class wxGISToolExecuteView gxtoolexecview.h
-    \brief The tasks execution view class.
+/** @class wxGISToolExecuteView
+    
+    The tasks execution view class.
+
+    @library{geoprocessingui}
 */
 
 class WXDLLIMPEXP_GIS_GPU wxGISToolExecuteView :

@@ -207,6 +207,8 @@ void wxGISTaskBase::OnSubTaskChanged(int nId)
 
 void wxGISTaskBase::NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val)
 {
+    if (!val.HasMember(wxT("msg")))
+        return;
     wxString sMsg = val[wxT("msg")].AsString();
     switch(eCmdState)
     {
@@ -518,7 +520,9 @@ void wxGISTask::NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val)
     switch(eCmdState)
     {
     case enumGISCmdNoteMsg:
+        if (val.HasMember(wxT("msg")) && val.HasMember(wxT("date")) && val.HasMember(wxT("type")) && val.HasMember(wxT("msg_id")))
         {
+
             wxString sMsg = val[wxT("msg")].AsString();
             wxDateTime dtm = GetDateValue(val, wxT("date"), wxDateTime::Now());
             wxGISEnumMessageType eType = (wxGISEnumMessageType)val[wxT("type")].AsLong();
