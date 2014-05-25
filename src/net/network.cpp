@@ -325,7 +325,7 @@ bool INetConnection::ProcessInputNetMessage(void)
         wxNetMessage msg(value);
         if(!msg.IsOk())
         {
-            wxLogVerbose(_("Invalid input net message"));
+            wxLogVerbose(_("Invalid input message"));
             return false;
         }
 

@@ -2,21 +2,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 17:32+0400\n"
-"PO-Revision-Date: 2014-04-16 12:58+0400\n"
+"POT-Creation-Date: 2014-05-26 02:32+0400\n"
+"PO-Revision-Date: 2014-05-26 02:42+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"Language: ru_RU\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\datasource\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis"
 "\\datasource\n"
+
+#: D:\work\Projects\wxGIS\src\datasource/datacontainer.cpp:153
+#, c-format
+msgid "Connect failed! GDAL error: %s"
+msgstr "Не удалось выполнить подключение! Ошибка GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\datasource/datacontainer.cpp:161
+#, c-format
+msgid "Connect succeeded! Path '%s'"
+msgstr "Подключение выполнено удачно. Папка '%s'"
 
 #: D:\work\Projects\wxGIS\src\datasource/dataset.cpp:193
 msgid "No files to rename"
@@ -27,27 +37,27 @@ msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
 #: D:\work\Projects\wxGIS\src\datasource/dataset.cpp:277
-#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:535
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:565
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
-#: D:\work\Projects\wxGIS\src\datasource/featuredataset.cpp:567
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:803
+#: D:\work\Projects\wxGIS\src\datasource/featuredataset.cpp:573
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:838
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:289
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:312
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:367
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:390
 #, c-format
 msgid "ExecuteSQL failed! GDAL error: %s"
 msgstr "Не удалось выполнить ExecuteSQL! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:342
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:420
 #, c-format
 msgid "Try to connect: host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Попытка подключения: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:347
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:425
 #, c-format
 msgid ""
 "Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"
@@ -55,48 +65,48 @@ msgstr ""
 "Ошибка подключения! Ошибка GDAL: %s, хост='%s' база данных='%s' порт='%s' "
 "логин='%s'"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:360
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:438
 #, c-format
 msgid "Connect succeeded! Host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Подключение выполнено: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:467
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:545
 #, c-format
 msgid "Operation '%s' failed! No Layer %s found to delete"
 msgstr "Не удалось выполнить '%s'! Слой %s не обнаружен"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:467
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:477
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:486
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:545
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:555
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:564
 msgid "Delete"
 msgstr "Удалить"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:477
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:555
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Не удалось выполнить '%s'! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:486
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:564
 #, c-format
 msgid "Operation '%s' succeeded!"
 msgstr "Операция '%s' выполнена успешно! "
 
-#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:233
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:263
 #, c-format
 msgid "Raster open failed! Path '%s'. GDAL error: %s"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:380
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:410
 #, c-format
 msgid "Raster open failed! Path '%s'. Raster has no bands"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
 
-#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:649
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:679
 #, c-format
 msgid "RasterIO failed! GDAL error: %s"
 msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:684
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:714
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"
@@ -105,11 +115,11 @@ msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDA
 msgid "PreLoad Geometry of "
 msgstr "Предварительная загрузка геометрии из "
 
-#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:217
+#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:223
 msgid "Cancel"
 msgstr "Отмена"
 
-#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:257
+#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:263
 msgid "Done"
 msgstr "Выполнено"
 
@@ -163,15 +173,15 @@ msgstr "Не возможно открыть входной файл! Ошибк
 msgid "Error create the output file '%s'! OGR error: "
 msgstr "Не возможно создать выходной файл '%s'! Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:124
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:135
 #, c-format
 msgid "Table open failed! Path '%s'. OGR error: %s"
 msgstr "Не удалось открыть таблицу! Путь '%s'.Ошибка OGR: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:532
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:576
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:1035
-#: D:\work\Projects\wxGIS\src\datasource/table.cpp:1081
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:565
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:609
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:1070
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:1116
 msgid "Interrupted by user"
 msgstr "Отменено пользователем"
 

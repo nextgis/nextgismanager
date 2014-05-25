@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: wxWidgets-2.6.1\n"
+"Project-Id-Version: wxWidgets-3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-24 09:31+0200\n"
-"PO-Revision-Date: 2014-04-17 01:33+0400\n"
+"PO-Revision-Date: 2014-05-26 02:48+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: wx-translators <wx-translators@wxwidgets.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Language: ru\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 
 #: ../src/common/debugrpt.cpp:578
 msgid ""
@@ -4598,14 +4598,12 @@ msgstr "Передача неизвестного объекта в GetObject"
 
 #: ../src/richtext/richtextctrl.cpp:2234
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:427
-#, fuzzy
 msgid "Paste"
-msgstr "Вст&авить"
+msgstr "Вставить"
 
 #: ../src/common/stockitem.cpp:207
-#, fuzzy
 msgid "Paste selection"
-msgstr "Разделы"
+msgstr "Вставить выделенное"
 
 #: ../src/richtext/richtextliststylepage.cpp:221
 #: ../src/richtext/richtextbulletspage.cpp:170
@@ -4798,9 +4796,8 @@ msgid "Question"
 msgstr "Вопрос"
 
 #: ../src/common/stockitem.cpp:208
-#, fuzzy
 msgid "Quit this program"
-msgstr "Напечатать эту страницу"
+msgstr "Выйти из программы"
 
 #: ../src/common/accelcmn.cpp:52
 msgid "RETURN"
@@ -4873,7 +4870,6 @@ msgid "Relevant entries:"
 msgstr "Подходящие записи:"
 
 #: ../src/generic/progdlgg.cpp:214
-#, fuzzy
 msgid "Remaining time:"
 msgstr "Оставшееся время : "
 
@@ -4904,18 +4900,16 @@ msgid "Rep&lace"
 msgstr "За&менить"
 
 #: ../src/richtext/richtextctrl.cpp:2375
-#, fuzzy
 msgid "Replace"
-msgstr "&Заменить"
+msgstr "Заменить"
 
 #: ../src/generic/fdrepdlg.cpp:183
 msgid "Replace &all"
 msgstr "Заменить вс&е"
 
 #: ../src/common/stockitem.cpp:206
-#, fuzzy
 msgid "Replace selection"
-msgstr "Заменить вс&е"
+msgstr "Заменить выделенное"
 
 #: ../src/generic/fdrepdlg.cpp:125
 msgid "Replace with:"
@@ -5005,9 +4999,8 @@ msgid "Save As"
 msgstr "Сохранить как"
 
 #: ../src/common/stockitem.cpp:212
-#, fuzzy
 msgid "Save current document"
-msgstr "Выберите вид документа"
+msgstr "Сохранить текущий документ"
 
 #: ../src/common/stockitem.cpp:213
 msgid "Save current document with a different filename"
@@ -5045,9 +5038,8 @@ msgid "Search in all books"
 msgstr "Поиск во всех книгах"
 
 #: ../src/html/htmlhelp.cpp:593
-#, fuzzy
 msgid "Search!"
-msgstr "Поиск"
+msgstr "Искать!"
 
 #: ../src/html/htmlhelp.cpp:383 ../src/html/htmlhelp.cpp:441
 #: ../src/html/helpwnd.cpp:875
@@ -5290,18 +5282,16 @@ msgid "String To Colour : Incorrect colour specification : %s"
 msgstr "Строка в цвет : Неверная спецификация цвета : %s"
 
 #: ../src/richtext/richtextformatdlg.cpp:269
-#, fuzzy
 msgid "Style"
-msgstr "&Стиль:"
+msgstr "Стиль"
 
 #: ../include/wx/richtext/richtextstyledlg.h:45
 msgid "Style Organiser"
 msgstr ""
 
 #: ../src/mac/carbon/fontdlg.cpp:510
-#, fuzzy
 msgid "Style:"
-msgstr "&Стиль:"
+msgstr "Стиль:"
 
 #: ../src/xrc/xmlres.cpp:813
 #, c-format
