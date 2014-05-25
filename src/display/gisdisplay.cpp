@@ -208,8 +208,8 @@ bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
     cairo_paint(m_cr_tmp);
 
     unsigned char *pData = cairo_image_surface_get_data(m_surface_tmp);
-    int nWidth = MIN(cairo_image_surface_get_width(m_surface_tmp), pGDALDataset->GetRasterXSize());
-    int nHeight = MIN(cairo_image_surface_get_height(m_surface_tmp), pGDALDataset->GetRasterYSize());
+    int nWidth = wxMin(cairo_image_surface_get_width(m_surface_tmp), pGDALDataset->GetRasterXSize());
+    int nHeight = wxMin(cairo_image_surface_get_height(m_surface_tmp), pGDALDataset->GetRasterYSize());
 
     int anBandMap[4] = {3,2,1,4};
 
@@ -225,7 +225,7 @@ void wxGISDisplay::ZoomingDraw(const wxRect& rc, wxDC* pDC)
 	double dScaleX = double(rc.GetWidth()) / m_oDeviceFrameRect.GetWidth();
 	double dScaleY = double(rc.GetHeight()) / m_oDeviceFrameRect.GetHeight();
 #ifdef PROPORTIONAL_ZOOM
-    double dZoom = MIN(dScaleX,dScaleY);
+    double dZoom = wxMin(dScaleX,dScaleY);
 #endif
     double dFrameCenterX = rc.GetWidth() / 2;
     double dFrameCenterY = rc.GetHeight() / 2;
@@ -564,7 +564,7 @@ void wxGISDisplay::InitTransformMatrix(void)
 	//get scale
 	double dScaleX = fabs(m_dFrameCenterX / dWorldCenterX);
 	double dScaleY = fabs(m_dFrameCenterY / dWorldCenterY);
-	m_dScale = std::min(dScaleX, dScaleY);
+    m_dScale = wxMin(dScaleX, dScaleY);
 
 	double dWorldDeltaX = dWorldCenterX + m_CurrentBounds.MinX;
 	double dWorldDeltaY = dWorldCenterY + m_CurrentBounds.MinY;
@@ -905,10 +905,10 @@ OGREnvelope wxGISDisplay::TransformRect(wxRect &rect)
 	dY1 = dYCenter - dHHalf;
 	dY2 = dYCenter + dHHalf;
 
-    out.MinX = std::min(dX1, dX2);
-	out.MinY = std::min(dY1, dY2);
-	out.MaxX = std::max(dX1, dX2);
-	out.MaxY = std::max(dY1, dY2);
+    out.MinX = wxMin(dX1, dX2);
+    out.MinY = wxMin(dY1, dY2);
+    out.MaxX = wxMax(dX1, dX2);
+    out.MaxY = wxMax(dY1, dY2);
 	return out;
 }
 

@@ -160,8 +160,8 @@ void wxGISRubberEnvelope::OnMouseMove(wxMouseEvent& event)
 	int width, height, X, Y;
 	width = abs(EvX - m_StartX);
 	height = abs(EvY - m_StartY);
-	X = std::min(m_StartX, EvX);
-	Y = std::min(m_StartY, EvY);
+    X = wxMin(m_StartX, EvX);
+    Y = wxMin(m_StartY, EvY);
 
 	wxClientDC CDC(m_pWnd);
 	m_pDisp->Output(&CDC);
@@ -177,10 +177,10 @@ void wxGISRubberEnvelope::OnMouseUp(wxMouseEvent& event)
 {
     event.Skip();
 
-	double dX1 = std::min(m_StartX, event.GetX());
-	double dY1 = std::max(m_StartY, event.GetY());
-	double dX2 = std::max(m_StartX, event.GetX());
-	double dY2 = std::min(m_StartY, event.GetY());
+    double dX1 = wxMin(m_StartX, event.GetX());
+	double dY1 = wxMax(m_StartY, event.GetY());
+    double dX2 = wxMax(m_StartX, event.GetX());
+    double dY2 = wxMin(m_StartY, event.GetY());
 
 	double dfX1(dX1), dfX2(dX2), dfX3(dX2), dfX4(dX1);
 	double dfY1(dY1), dfY2(dY1), dfY3(dY2), dfY4(dY2);
@@ -289,8 +289,8 @@ void wxGISRubberEllipse::OnMouseMove(wxMouseEvent& event)
     int width, height, X, Y;
     width = abs(EvX - m_StartX);
     height = abs(EvY - m_StartY);
-    X = std::min(m_StartX, EvX);
-    Y = std::min(m_StartY, EvY);
+    X = wxMin(m_StartX, EvX);
+    Y = wxMin(m_StartY, EvY);
 
     wxClientDC CDC(m_pWnd);
     m_pDisp->Output(&CDC);

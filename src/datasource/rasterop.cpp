@@ -53,7 +53,7 @@ CPLString GetWorldFilePath(const CPLString &soPath)
 
 int GetOverviewLevels(wxGISRasterDatasetSPtr pwxGISRasterDataset, int* anOverviewList)
 {
-	int nSize = std::min(pwxGISRasterDataset->GetHeight(), pwxGISRasterDataset->GetWidth());
+	int nSize = wxMin(pwxGISRasterDataset->GetHeight(), pwxGISRasterDataset->GetWidth());
 	int nLevel(1);
 	int nLevelCount(0);
 	while(1)

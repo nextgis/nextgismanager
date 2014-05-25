@@ -43,7 +43,7 @@ wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon>
     m_pImageListSmall = pImageListSmall;
     m_pImageListLarge = pImageListLarge;
     if(m_pImageListSmall && m_pImageListLarge)
-        m_nImageCount = MIN(m_pImageListSmall->size(), m_pImageListLarge->size());
+        m_nImageCount = wxMin(m_pImageListSmall->size(), m_pImageListLarge->size());
     else
         m_nImageCount = 0;
     m_timer.Start(UPDATE_TIMER);

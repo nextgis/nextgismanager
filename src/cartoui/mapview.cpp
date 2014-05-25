@@ -544,8 +544,8 @@ double wxGISMapView::GetScaleRatio(OGREnvelope& Bounds, wxDC& dc)
 		w_h = w_h * PIDEG * m_SpatialReference->GetSemiMinor();
 	}
 
-	double screen = std::min(screen_w, screen_h);
-	double world = std::min(w_w, w_h);
+	double screen = wxMin(screen_w, screen_h);
+    double world = wxMin(w_w, w_h);
 
 	return (world * 100) / screen;
 }
