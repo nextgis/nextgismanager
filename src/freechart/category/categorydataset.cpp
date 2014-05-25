@@ -29,20 +29,20 @@ bool CategoryDataset::HasValue(size_t WXUNUSED(index), size_t WXUNUSED(serie))
 	return true;
 }
 
-double CategoryDataset::GetMinValue(bool WXUNUSED(verticalAxis))
+double CategoryDataset::GetMinValue(bool verticalAxis)
 {
 	if (GetRenderer() == NULL) {
 		return 0;
 	}
-	return GetRenderer()->GetMinValue(this);
+    return GetRenderer()->GetMinValue(this, verticalAxis);
 }
 
-double CategoryDataset::GetMaxValue(bool WXUNUSED(verticalAxis))
+double CategoryDataset::GetMaxValue(bool verticalAxis)
 {
 	if (GetRenderer() == NULL) {
 		return 0;
 	}
-	return GetRenderer()->GetMaxValue(this);
+    return GetRenderer()->GetMaxValue(this, verticalAxis);
 }
 
 double CategoryDataset::GetX(size_t index, size_t WXUNUSED(serie))

@@ -42,8 +42,8 @@ public:
 	//
 	// Called from BarRenderer. Don't call from programs.
 	//
-	virtual double GetMinValue(CategoryDataset *dataset);
-	virtual double GetMaxValue(CategoryDataset *dataset);
+    virtual double GetMinValue(CategoryDataset *dataset, bool verticalAxis);
+    virtual double GetMaxValue(CategoryDataset *dataset, bool verticalAxis);
 
 protected:
 	/**
@@ -101,8 +101,8 @@ public:
 	StackedBarType(int barWidth, double base);
 	virtual ~StackedBarType();
 
-	virtual double GetMinValue(CategoryDataset *dataset);
-	virtual double GetMaxValue(CategoryDataset *dataset);
+    virtual double GetMinValue(CategoryDataset *dataset, bool verticalAxis);
+    virtual double GetMaxValue(CategoryDataset *dataset, bool verticalAxis);
 
 protected:
 	virtual void GetBarGeometry(CategoryDataset *dataset, size_t item, size_t serie,
@@ -192,8 +192,8 @@ public:
 	 */
 	AreaDraw *GetBarDraw(size_t serie);
 
-	double GetMinValue(CategoryDataset *dataset);
-	double GetMaxValue(CategoryDataset *dataset);
+    double GetMinValue(CategoryDataset *dataset, bool verticalAxis);
+    double GetMaxValue(CategoryDataset *dataset, bool verticalAxis);
 
 private:
 	BarType *m_barType;

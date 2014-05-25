@@ -82,7 +82,7 @@ void BarType::Draw(BarRenderer *barRenderer, wxDC &dc, wxRect rc,
 	}
 }
 
-double BarType::GetMinValue(CategoryDataset *dataset)
+double BarType::GetMinValue(CategoryDataset *dataset, bool WXUNUSED(verticalAxis))
 {
 	if (dataset->GetCount() == 0)
 		return 0;
@@ -97,7 +97,7 @@ double BarType::GetMinValue(CategoryDataset *dataset)
 	return wxMin(minValue, m_base);
 }
 
-double BarType::GetMaxValue(CategoryDataset *dataset)
+double BarType::GetMaxValue(CategoryDataset *dataset, bool WXUNUSED(verticalAxis))
 {
 	if (dataset->GetCount() == 0)
 		return 0;
@@ -168,26 +168,38 @@ void StackedBarType::GetBarGeometry(CategoryDataset *dataset, size_t item, size_
 	}
 }
 
-double StackedBarType::GetMinValue(CategoryDataset *WXUNUSED(dataset))
+double StackedBarType::GetMinValue(CategoryDataset *WXUNUSED(dataset), bool WXUNUSED(verticalAxis))
 {
 	return m_base;
 }
 
-double StackedBarType::GetMaxValue(CategoryDataset *dataset)
+double StackedBarType::GetMaxValue(CategoryDataset *dataset, bool verticalAxis)
 {
 	if (dataset->GetCount() == 0)
 		return 0;
 
 	double maxValue = 0;
-
-	for (size_t n = 0; n < dataset->GetCount(); n++) {
-		double sum = m_base;
-
+    if (verticalAxis)
+    {
 		FOREACH_SERIE(serie, dataset) {
-			sum += dataset->GetValue(n, serie);
-		}
-		maxValue = wxMax(maxValue, sum);
-	}
+		    double sum = m_base;
+	        for (size_t n = 0; n < dataset->GetCount(); n++) {
+			    sum += dataset->GetValue(n, serie);
+		    }
+		    maxValue = wxMax(maxValue, sum);
+	    }
+    }
+    else
+    {
+	    for (size_t n = 0; n < dataset->GetCount(); n++) {
+		    double sum = m_base;
+
+		    FOREACH_SERIE(serie, dataset) {
+			    sum += dataset->GetValue(n, serie);
+		    }
+		    maxValue = wxMax(maxValue, sum);
+	    }
+    }
 	return maxValue;
 }
 
@@ -270,12 +282,12 @@ void BarRenderer::Draw(wxDC &dc, wxRect rc, Axis *horizAxis, Axis *vertAxis, boo
 	}
 }
 
-double BarRenderer::GetMinValue(CategoryDataset *dataset)
+double BarRenderer::GetMinValue(CategoryDataset *dataset, bool verticalAxis)
 {
-	return m_barType->GetMinValue(dataset);
+    return m_barType->GetMinValue(dataset, verticalAxis);
 }
 
-double BarRenderer::GetMaxValue(CategoryDataset *dataset)
+double BarRenderer::GetMaxValue(CategoryDataset *dataset, bool verticalAxis)
 {
-	return m_barType->GetMaxValue(dataset);
+    return m_barType->GetMaxValue(dataset, verticalAxis);
 }
