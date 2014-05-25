@@ -256,7 +256,7 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
         wsDELETE(it->second);
     m_omSymbols.clear();
 
-    long nFeaturesCount = m_pwxGISFeatureDataset->GetFeatureCount(TRUE, pTrackCancel);
+    long nFeaturesCount = m_pwxGISFeatureDataset->GetFeatureCount(FALSE, pTrackCancel);
     if (nFeaturesCount == 0)
     {
         return true;     // success
@@ -266,7 +266,7 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
     if (pTrackCancel)
     {
         pTrackCancel->Reset();
-        pTrackCancel->PutMessage(wxString(_("Apply renderer for ")) + m_pwxGISFeatureLayer->GetName(), -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Apply renderer for")) + wxT(" ") + m_pwxGISFeatureLayer->GetName(), -1, enumGISMessageInfo);
         pProgress = pTrackCancel->GetProgressor();
     }
 
@@ -277,7 +277,9 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
     } 
     
     //set needed fields
-    wxArrayString saIgnoredFields = m_pwxGISFeatureDataset->GetFieldNames();
+    wxArrayString saIgnoredFields;
+    if (!m_pwxGISFeatureDataset->HasFilter())
+        saIgnoredFields = m_pwxGISFeatureDataset->GetFieldNames();
     saIgnoredFields.Add(wxT("OGR_STYLE"));
     saIgnoredFields.Add(wxT("GEOMETRY"));
 

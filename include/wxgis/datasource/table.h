@@ -78,6 +78,7 @@ public:
     virtual wxFontEncoding GetEncoding(void) const;
     virtual void SetEncoding(const wxFontEncoding &oEncoding);
     virtual bool HasFID(void) const {return m_bHasFID;};
+    virtual bool HasFilter(void) const { return m_bHasFilter; };
     virtual wxArrayString GetFieldNames(void) const;
     virtual wxString GetFieldName(int nIndex) const;
     //
@@ -102,6 +103,7 @@ protected:
     bool m_bOLCStringsAsUTF8;
     bool m_bOLCFastFeatureCount;
     bool m_bHasFID;
+    bool m_bHasFilter;
 };
 
 //#define MAXSTRINGSTORE 1000000

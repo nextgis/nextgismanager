@@ -147,9 +147,6 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 
     long nItemCounter(0);
 
-    //get only geometries
-    wxArrayString saIgnoredFields = m_pDSet->GetFieldNames();
-    saIgnoredFields.Add(wxT("OGR_STYLE"));
 
 	if(pProgress)
     {
@@ -158,7 +155,15 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
     } 
 
     m_pDSet->Reset();
-    m_pDSet->SetIgnoredFields(saIgnoredFields);
+
+    //get only geometries if no filter is set
+    wxArrayString saIgnoredFields;
+    if (!m_pDSet->HasFilter())
+    {
+        saIgnoredFields = m_pDSet->GetFieldNames();
+        saIgnoredFields.Add(wxT("OGR_STYLE"));
+        m_pDSet->SetIgnoredFields(saIgnoredFields);
+    }
 
     //reprojecion
     OGRCoordinateTransformation *poCT = NULL;

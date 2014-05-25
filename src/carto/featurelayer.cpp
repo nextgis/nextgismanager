@@ -385,16 +385,16 @@ void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
 
 void wxGISFeatureLayer::SetSpatialReference(const wxGISSpatialReference &SpatialReference)
 {
+    if(m_SpatialReference->IsSame(SpatialReference))
+        return;
+    m_SpatialReference = SpatialReference;
     m_FullEnvelope = m_pwxGISFeatureDataset->GetEnvelope();
     //delete previous quadtree
     if(m_pSpatialTree)
     {
         wxDELETE(m_pSpatialTree);
     }    
-    if(m_SpatialReference->IsSame(SpatialReference))
-        return;
 
-    m_SpatialReference = SpatialReference;
     wxGISGeometry newGeom = EnvelopeToGeometry(m_FullEnvelope, m_pwxGISFeatureDataset->GetSpatialReference());
     if(newGeom.IsOk() && newGeom.Project(SpatialReference))
     {
