@@ -38,6 +38,8 @@ wxGISMapBitmap::wxGISMapBitmap(int nWidth, int nHeight) : wxGISExtentStack()
     m_nHeight = nHeight;
     wxRect rc(0, 0, nWidth, nHeight);
     m_pGISDisplay->SetDeviceFrame(rc);
+
+    m_dfCurrentAngleRad = 0;
 }
 
 wxGISMapBitmap::~wxGISMapBitmap(void)

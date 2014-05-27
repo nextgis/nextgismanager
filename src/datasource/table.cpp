@@ -47,6 +47,7 @@ wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, 
     m_bIsCached = false;
 
 	m_bHasFID = false;
+    m_bHasFilter = false;
     m_nCurrentFID = wxNOT_FOUND;
     m_nFeatureCount = wxNOT_FOUND;
 
@@ -185,7 +186,7 @@ wxGISDataset* wxGISTable::GetSubset(const wxString & sSubsetName)
 {
     if(m_poDS)
     {
-        CPLString szSubsetName(sSubsetName.mb_str(wxConvUTF8));
+        CPLString szSubsetName(sSubsetName.ToUTF8());
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {
@@ -310,6 +311,8 @@ void wxGISTable::Close(void)
 	    m_Encoding = wxLocale::GetSystemEncoding();
 
 	    m_bHasFID = false;
+        m_bHasFilter = false;
+
         m_nFeatureCount = wxNOT_FOUND;
 
         m_bOLCFastFeatureCount = false;
@@ -593,7 +596,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
 		//	sFilter.Prepend(wxT("(") + m_sCurrentFilter + wxT(") AND ("));
 		//	sFilter.Append(wxT(")"));
 		//}
-        eErr = m_poLayer->SetAttributeFilter(sFilter.mb_str());
+        eErr = m_poLayer->SetAttributeFilter(sFilter.ToUTF8());
 		if(eErr != OGRERR_NONE)
 			return oOutCursor;
 		//create and fill cursor
@@ -697,13 +700,15 @@ OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
         eErr = m_poLayer->SetAttributeFilter(NULL);
         m_nFeatureCount = wxNOT_FOUND;
         GetFeatureCount(true);
+        m_bHasFilter = false;
         return eErr;
     }
     else
 	{
-        eErr = m_poLayer->SetAttributeFilter(QFilter.GetWhereClause().mb_str(wxConvUTF8));
+        eErr = m_poLayer->SetAttributeFilter(QFilter.GetWhereClause().ToUTF8());
         m_nFeatureCount = wxNOT_FOUND;
         GetFeatureCount(true);
+        m_bHasFilter = true;
         return eErr;
 	}
 }
@@ -719,7 +724,7 @@ OGRErr wxGISTable::SetIgnoredFields(const wxArrayString &saIgnoredFields)
 
         char **papszIgnoredFields = NULL;
         for(size_t i = 0; i < saIgnoredFields.GetCount(); ++i)
-            papszIgnoredFields = CSLAddString( papszIgnoredFields, saIgnoredFields[i].mb_str(wxConvUTF8) );
+            papszIgnoredFields = CSLAddString( papszIgnoredFields, saIgnoredFields[i].ToUTF8() );
 
         OGRErr eErr = m_poLayer->SetIgnoredFields((const char**)papszIgnoredFields);
         CSLDestroy( papszIgnoredFields );
@@ -1098,7 +1103,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
         //	sFilter.Prepend(wxT("(") + m_sCurrentFilter + wxT(") AND ("));
         //	sFilter.Append(wxT(")"));
         //}
-        eErr = m_poLayer->SetAttributeFilter(sFilter.mb_str());
+        eErr = m_poLayer->SetAttributeFilter(sFilter.ToUTF8());
         if (eErr != OGRERR_NONE)
             return oOutCursor;
         //create and fill cursor

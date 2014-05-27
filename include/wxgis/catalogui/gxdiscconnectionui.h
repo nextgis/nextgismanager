@@ -40,9 +40,6 @@ public:
     wxGxDiscConnectionUI(void);
 	wxGxDiscConnectionUI(wxGxObject *oParent, int nStoreId, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &SmallIco = wxNullIcon, const wxIcon &LargeIco = wxNullIcon, const wxIcon &SmallIcoDsbl = wxNullIcon, const wxIcon &LargeIcoDsbl = wxNullIcon);
 	virtual ~wxGxDiscConnectionUI(void);
-    //wxGxObjectContainer
-    virtual bool HasChildren(void);
-    virtual void Refresh(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);

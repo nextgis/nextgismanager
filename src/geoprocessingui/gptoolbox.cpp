@@ -320,7 +320,7 @@ void wxGxFavoritesToolbox::LoadChildren(void)
         wxGISGPToolManager* pGPToolManager = m_pRootToolbox->GetGPToolManager();
         if(pGPToolManager)
         {
-			int nCount = std::min(pGPToolManager->GetToolCount(), m_nMaxCount);
+			int nCount = wxMin(pGPToolManager->GetToolCount(), m_nMaxCount);
             for(size_t i = 0; i < nCount; ++i)
             {
                 wxGxTool* pTool = new wxGxTool(m_pRootToolbox, pGPToolManager->GetPopularTool(i), m_LargeToolIcon, m_SmallToolIcon);

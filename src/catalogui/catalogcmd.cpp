@@ -842,13 +842,13 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                 CPLCloseZip(hZIP);
 
-                wxString sContents(_("This e-mail include spatial data in archive : \r\n"));
+                wxString sContents(_("This e-mail include spatial data in archive : \n"));
                 for (size_t i = 0; i < saPaths.GetCount(); ++i)
                 {
                     sContents += saPaths[i];
                     sContents.Append(wxT("\r\n"));
                 }
-                sContents.Append(wxT("--------------------------------------------\r\n"));
+                sContents.Append(wxT("--------------------------------------------\n"));
                 sContents.Append(_("Created by NextGIS Manager"));
                 //send zip via e-mail
                 wxString sArchiveName = wxDateTime::Now().Format(wxT("spatial_data_%Y%m%d.zip"));

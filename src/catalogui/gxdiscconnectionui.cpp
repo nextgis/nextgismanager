@@ -58,29 +58,25 @@ bool wxGxDiscConnectionUI::CheckReadable(void)
 //before exit we assume that folder is not readable
 wxThread::ExitCode wxGxDiscConnectionUI::Entry()
 {
-    bool bIsOk = wxIsReadable(wxString(m_sPath, wxConvUTF8));
-    m_nIsReadable = bIsOk == true ? 1 : 0;
+    while (!GetThread()->TestDestroy())
+    {
+        bool bIsOk = wxIsReadable(wxString(m_sPath, wxConvUTF8));
+        char nIsReadable = bIsOk == true ? 1 : 0;
+        if (nIsReadable != m_nIsReadable)
+        {
+            m_nIsReadable = nIsReadable;
+            if (m_nIsReadable == FALSE)
+            {
+                wxGxDiscConnection::DestroyChildren();
+            }
 
-    wxGIS_GXCATALOG_EVENT(ObjectChanged);
+            wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        }
+
+        wxThread::Sleep(TM_CHECKING);
+    }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
-}
-
-bool wxGxDiscConnectionUI::HasChildren(void)
-{
-    bool bHasChildren = wxGxDiscConnection::HasChildren();
-    if(bHasChildren && m_nIsReadable < 1)
-    {
-        m_nIsReadable = 1;
-        wxGIS_GXCATALOG_EVENT(ObjectChanged);
-    }
-    return bHasChildren;
-}
-
-void wxGxDiscConnectionUI::Refresh(void)
-{
-    m_nIsReadable = wxNOT_FOUND;
-    wxGxDiscConnection::Refresh();
 }
 
 bool wxGxDiscConnectionUI::CreateAndRunCheckThread(void)

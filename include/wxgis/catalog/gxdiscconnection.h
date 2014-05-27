@@ -32,6 +32,9 @@
     wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
 #endif
 
+#define TM_CHECKING 950
+
+
 WX_DECLARE_HASH_MAP( long, wxArrayString, wxIntegerHash , wxIntegerEqual, GxPathAccum );
 
 /** \class wxGxDiscConnection gxdiscconnection.h

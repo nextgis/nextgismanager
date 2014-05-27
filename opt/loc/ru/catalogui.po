@@ -2,18 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 17:31+0400\n"
-"PO-Revision-Date: 2014-04-16 12:58+0400\n"
+"POT-Creation-Date: 2014-05-26 02:32+0400\n"
+"PO-Revision-Date: 2014-05-26 02:40+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"Language: ru_RU\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\catalogui\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\catalogui\n"
 
@@ -63,13 +63,21 @@ msgstr "Обновить"
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:69
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:132
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:206
+#: D:\work\Projects\wxGIS\src\catalogui/gxfileui.cpp:76
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:66
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:203
+#: D:\work\Projects\wxGIS\src\catalogui/gxpostgisdatasetui.cpp:68
+#: D:\work\Projects\wxGIS\src\catalogui/gxpostgisdatasetui.cpp:114
+#: D:\work\Projects\wxGIS\src\catalogui/gxpropertypages.cpp:66
+#: D:\work\Projects\wxGIS\src\catalogui/gxpropertypages.cpp:95
+#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:592
 msgid "Properties"
 msgstr "Свойства"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:196
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:105
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:115
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:153
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
 msgid "Copy"
 msgstr "Копировать"
 
@@ -86,15 +94,19 @@ msgid "e-mail to..."
 msgstr "отправить по почте..."
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:219
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxcatalogui.h:38
 msgid "Catalog"
 msgstr "Каталог"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:221
 #: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:94
+#: D:\work\Projects\wxGIS\src\catalogui/newmenu.cpp:46
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/newmenu.h:42
 msgid "Create"
 msgstr "Создать"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:227
+#: D:\work\Projects\wxGIS\src\catalogui/viewscmd.cpp:93
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -111,17 +123,17 @@ msgid "Select parent element"
 msgstr "Выбрать родительский элемент"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:431
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:970
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1052
 msgid "Connect folder"
 msgstr "Связь с папкой"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:433
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:972
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1054
 msgid "Disconnect folder"
 msgstr "Отсоединить папку"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:435
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:974
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1056
 msgid "Set or get location"
 msgstr "Получить или установить местоположение"
 
@@ -130,12 +142,12 @@ msgid "Delete item"
 msgstr "Удалить элемент"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:439
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:989
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1071
 msgid "Go to previous location"
 msgstr "Перейти к предыдущему расположению"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:441
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1002
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1084
 msgid "Go to next location"
 msgstr "Перейти к следующему расположению"
 
@@ -179,20 +191,41 @@ msgstr "Не удалось создать связь с папкой"
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:525
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:598
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:602
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:683
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:688
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:720
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:725
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:738
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:781
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:796
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:693
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:698
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:730
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:735
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:762
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:777
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:792
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:813
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:829
 #: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:238
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:137
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:153
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:727
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:92
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:166
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:249
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:902
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:1067
+#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:106
+#: D:\work\Projects\wxGIS\src\catalogui/gxtreeview.cpp:691
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:179
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:369
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:447
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:457
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:494
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:504
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:560
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:571
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:580
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:614
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:174
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:199
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:208
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:227
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:237
 msgid "Error"
 msgstr "Ошибка"
 
@@ -231,82 +264,84 @@ msgstr ""
 "Невозможно удалить '%s'\n"
 "Продолжить?"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:683
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:720
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:738
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:693
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:730
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:762
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:777
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:792
 msgid "Can't open clipboard"
 msgstr "Не могу открыть буфер обмена"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:688
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:725
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:698
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:735
 msgid "Can't copy file(s) to the clipboard"
 msgstr "Не могу скопировать файл(ы) в буфер обмена"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:777
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:809
 msgid "New folder"
 msgstr "Новая папка"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:781
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:813
 msgid "Create folder failed!"
 msgstr "Ошибка создания папки!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:796
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:829
 msgid "Create zip failed!"
 msgstr "Ошибка создания архива!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:812
-msgid "This e-mail include spatial data in archive : \r\n"
-msgstr "Данное сообщение содержит геоданные в архиве: \r\n"
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:845
+msgid "This e-mail include spatial data in archive : \n"
+msgstr "Данное сообщение содержит геоданные в архиве: \n"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:819
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:852
 msgid "Created by NextGIS Manager"
 msgstr "Создано в NextGIS Manager"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:822
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:855
 msgid "Send: spatial data archive"
 msgstr "Отправка: архив с геоданными"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:968
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1050
 msgid "Up One Level"
 msgstr "Вверх на один уровень"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:976
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1058
 msgid "Delete selected item"
 msgstr "Удалить выбранный элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1004
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1086
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1006
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1088
 msgid "Rename selected item"
 msgstr "Переименовать выбранные элементы"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1008
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1090
 msgid "Refresh selected item"
 msgstr "Обновить выбранный элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1010
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1092
 msgid "Show properties of selected item"
 msgstr "Показать свойства выбранного элемента"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1012
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1094
 msgid "Copy selected item(s)"
 msgstr "Копировать выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1014
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1096
 msgid "Cut selected item(s)"
 msgstr "Вырезать выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1016
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1098
 msgid "Paste selected item(s)"
 msgstr "Вставить выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1018
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1100
 msgid "Send selected item(s) by e-mail"
 msgstr "Отправить выбранный(е) элемент(ы) по почте"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1048
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1130
 msgid "Path:   "
 msgstr "Путь:"
 
@@ -380,33 +415,36 @@ msgstr "wxGxApplication: Ошибка создания вида %s"
 msgid "wxGxApplication: Creation complete"
 msgstr "wxGxApplication: Создание завершено"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:105
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
 #, c-format
 msgid "%s %d objects (files)"
 msgstr "%s %d объектов (файлов)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:105
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:115
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:137
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
 msgid "Move"
 msgstr "Переместить"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:108
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:112
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:438
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:485
+#: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:527
 msgid "Begin operation..."
 msgstr "Начать операцию..."
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:115
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
 #, c-format
 msgid "%s %d object (file) from %d"
 msgstr "%s %d объект (файл) из %d"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:137
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:153
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
 #, c-format
 msgid "%s failed. Path: %s"
 msgstr "%s не удалось. Путь: %s"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:147
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:151
 #, c-format
 msgid ""
 "Cannot move path: %s.\n"
@@ -415,7 +453,8 @@ msgstr ""
 "Перенос не возможен: %s.\n"
 "Но можно выполнить копирование. Продолжить?"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:147
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:151
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:1072
 msgid "Question"
 msgstr "Вопрос"
 
@@ -424,6 +463,7 @@ msgid "Select export format"
 msgstr "Выбор формата экспорта"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:134
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:561
 msgid "Combo!"
 msgstr "Combo!"
 
@@ -432,22 +472,48 @@ msgid "Select"
 msgstr "Выбрать"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:158
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:564
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:152
 msgid "Cancel"
 msgstr "Отмена"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:330
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:731
 msgid "All listed filters"
 msgstr "Все фильтры"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:332
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:733
 msgid "All items"
 msgstr "Все элементы"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:249
+#: D:\work\Projects\wxGIS\src\catalogui/gxlocationcombobox.cpp:79
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:160
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:167
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:178
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:215
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:223
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:233
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:238
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:246
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:255
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:264
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:267
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:275
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:282
+#: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:303
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:208
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:224
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:212
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:232
 msgid "Name"
 msgstr "Имя"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:250
+#: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:451
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:225
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:233
 msgid "Type"
 msgstr "Тип"
 
@@ -456,6 +522,9 @@ msgid "Size"
 msgstr "Размер"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:252
+#: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:207
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:161
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:156
 msgid "Modification date"
 msgstr "Дата изменения"
 
@@ -471,17 +540,22 @@ msgstr "Переименование не удалось!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1274
 #: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:90
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:139
+#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:476
 msgid "Could not create the thread!"
 msgstr "Не удалось создать  поток!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1280
 #: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:96
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:145
+#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:492
 msgid "Could not run the thread!"
 msgstr "Не удалось запустить поток!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:91
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:165
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:248
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:160
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
@@ -489,6 +563,11 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:91
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:165
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:248
+#: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:160
+#: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:683
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:226
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxcontdialog.h:97
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxobjdialog.h:167
 msgid "Open"
 msgstr "Открыть"
 
@@ -544,6 +623,8 @@ msgid "Item exists! Overwrite?"
 msgstr "Элемент существует! Перезаписать?"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxpending.cpp:108
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxpending.h:44
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxpending.h:47
 msgid "Waiting..."
 msgstr "Ожидание..."
 
@@ -576,7 +657,7 @@ msgstr "Показать скрытые элементы"
 msgid "Connect failed!"
 msgstr "Подключение не удалось!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:568
+#: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:672
 msgid "Layers"
 msgstr "Слои"
 
@@ -682,65 +763,66 @@ msgid "Overviews"
 msgstr "Пирамиды"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:122
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:104
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:99
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:106
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:100
 msgid "Item"
 msgstr "Элемент"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:131
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:126
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:133
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:127
 msgid "Data Source"
 msgstr "Источник данных"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:175
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/rasterpropertypage.h:55
 msgid "Raster"
 msgstr "Растр"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:181
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:138
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:133
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:140
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:134
 msgid "Folder"
 msgstr "Папка"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:191
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:195
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:143
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:147
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:138
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:142
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:145
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:149
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:139
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:143
 msgid "Files"
 msgstr "Файлы"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:191
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:143
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:138
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:145
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:139
 msgid "None associated"
 msgstr "Нет связанных"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:199
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:151
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:146
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:153
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:147
 #, c-format
 msgid "File %d"
 msgstr "Файл %d"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:206
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:158
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:154
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:160
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:155
 msgid "Total size"
 msgstr "Полный размер"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:211
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:167
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:163
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:169
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:164
 msgid "Driver"
 msgstr "Драйвер"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:220
 #: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:231
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:179
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:177
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:181
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:182
 msgid "Information"
 msgstr "Информация"
 
@@ -778,58 +860,58 @@ msgid "Extent %s"
 msgstr "Охват %s"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:269
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:281
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:290
 msgid "(Projected)"
 msgstr "(Проекционные)"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:272
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:291
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:284
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:303
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:293
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:312
 msgid "Top"
 msgstr "Верх"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:273
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:292
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:231
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:236
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:285
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:304
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:233
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:241
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:294
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:313
 msgid "Left"
 msgstr "Лево"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:274
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:293
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:234
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:239
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:287
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:306
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:236
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:244
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:296
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:315
 msgid "Right"
 msgstr "Право"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:275
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:294
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:286
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:305
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:295
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:314
 msgid "Bottom"
 msgstr "Низ"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:277
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:296
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:289
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:308
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:298
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:317
 msgid "Center X"
 msgstr "Центр X"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:278
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:297
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:290
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:309
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:299
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:318
 msgid "Center Y"
 msgstr "Центр Y"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:290
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:302
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:311
 msgid "(Geographic)"
 msgstr "(Географические)"
 
@@ -872,8 +954,8 @@ msgstr "Проекция контрольных точек (GCP)"
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:422
 #: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:160
 #: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:303
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:227
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:232
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:229
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:237
 msgid "Undefined"
 msgstr "Неопределено"
 
@@ -1137,21 +1219,20 @@ msgstr "Долгота"
 msgid "To WGS parameters"
 msgstr "Переход к WGS84"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:132
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:134
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/tablepropertypage.h:47
 msgid "Table"
 msgstr "Таблица"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:169
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:165
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:171
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:176
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:166
 msgid "Create DataSource"
 msgstr "Создать источник данных"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:169
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:170
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:244
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:245
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:171
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:172
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:176
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:246
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:247
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:248
@@ -1162,16 +1243,13 @@ msgstr "Создать источник данных"
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:253
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:254
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:255
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:165
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:256
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:257
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:166
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:170
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:167
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:171
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:172
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:249
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:250
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:251
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:252
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:253
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:175
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:254
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:255
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:256
@@ -1183,14 +1261,17 @@ msgstr "Создать источник данных"
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:262
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:263
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:264
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:267
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:270
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:271
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:272
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:273
 msgid "true"
 msgstr "да"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:169
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:170
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:244
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:245
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:171
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:172
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:176
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:246
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:247
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:248
@@ -1201,16 +1282,13 @@ msgstr "да"
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:253
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:254
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:255
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:165
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:256
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:257
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:166
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:170
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:167
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:171
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:172
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:249
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:250
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:251
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:252
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:253
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:175
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:254
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:255
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:256
@@ -1222,170 +1300,176 @@ msgstr "да"
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:262
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:263
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:264
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:267
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:270
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:271
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:272
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:273
 msgid "false"
 msgstr "нет"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:170
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:166
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:172
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:167
 msgid "Delete DataSource"
 msgstr "Удалить источник данных"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:172
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:168
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:174
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:169
 msgid "DataSource"
 msgstr "Источник данных"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:173
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:169
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:175
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:170
 msgid "Layer Count"
 msgstr "Количество слоев"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:198
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:199
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:200
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:204
 #, c-format
 msgid "Layer #%d"
 msgstr "Слой №%d"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:208
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:210
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:210
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:215
 msgid "Feature count"
 msgstr "Количество записей"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:212
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:214
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:214
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:219
 msgid "FID Column"
 msgstr "Поле FID"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:217
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:222
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:219
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:227
 #, c-format
 msgid "Layer #%d Fields (%d)"
 msgstr "Слой №%d Поля (%d)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:224
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:229
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:226
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:234
 msgid "Width"
 msgstr "Ширина"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:225
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:230
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:227
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:235
 msgid "Precision"
 msgstr "Точность"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:237
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:242
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:239
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:247
 msgid "Justify"
 msgstr "Выравнивание"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:243
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:248
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:245
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:253
 #, c-format
 msgid "Layer #%d Capability"
 msgstr "Возможности слоя №%d"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:244
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:249
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:246
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:254
 msgid "Random Read"
 msgstr "Случайное чтение"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:245
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:250
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:247
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:255
 msgid "Sequential Write"
 msgstr "Последовательная запись"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:246
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:251
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:248
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:256
 msgid "Random Write"
 msgstr "Случайная запись"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:247
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:252
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:249
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:257
 msgid "Fast Spatial Filter"
 msgstr "Быстрый пространственный фильтр"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:248
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:253
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:250
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:258
 msgid "Fast Feature Count"
 msgstr "Быстрый подстчет записей"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:249
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:254
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:251
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:259
 msgid "Fast Get Extent"
 msgstr "Быстрое определение охвата"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:250
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:255
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:252
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:260
 msgid "Fast Set Next By Index"
 msgstr "Быстрый курсор на запись"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:251
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:256
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:253
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:261
 msgid "Create Field"
 msgstr "Создать поле"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:252
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:261
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:254
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:270
 msgid "Delete Feature"
 msgstr "Удалить элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:253
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:262
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:255
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:271
 msgid "Strings As UTF8"
 msgstr "Строки в кодировке UTF-8"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:254
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:263
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:256
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:272
 msgid "Transactions"
 msgstr "Транзакции"
 
-#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:255
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:264
+#: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:257
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:273
 msgid "Ignore Fields"
 msgstr "Игнорировать поля"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:127
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:128
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/vectorpropertypage.h:47
 msgid "Vector"
 msgstr "Вектор"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:170
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:171
 msgid "Create Layer"
 msgstr "Создать слой"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:171
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:172
 msgid "Delete Layer"
 msgstr "Удалить слой"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:172
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:175
 msgid "Create Geom Field After Create Layer"
 msgstr "Создать поле геометрии после создания слоя"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:208
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:213
 msgid "Geometry type"
 msgstr "Тип геометрии"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:217
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:222
 msgid "Geometry Column"
 msgstr "Поле геометрии"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:257
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:262
 msgid "Delete Field"
 msgstr "Удалить поле"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:258
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:263
 msgid "Reorder Fields"
 msgstr "Изменить порядок полей"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:259
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:264
 msgid "Alter Field Definition"
 msgstr "Изменитьописание поля"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:260
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:267
 msgid "Create Geometry Field"
 msgstr "Создать поле с геометрией"
 
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:281
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:283
-#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:302
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:290
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:292
+#: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:311
 #, c-format
 msgid "Layer #%d Extent %s"
 msgstr "Слой №%d Охват %s"

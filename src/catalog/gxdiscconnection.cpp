@@ -3,7 +3,7 @@
  * Purpose:  wxGxDiscConnection class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2010,2012,2013  Bishop
+*   Copyright (C) 2009,2010,2012,2013  Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,8 +26,6 @@
 //---------------------------------------------------------------------------
 // wxGxDiscConnection
 //---------------------------------------------------------------------------
-
-#define TM_CHECKING 950
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxDiscConnection, wxGxFolder)
 
