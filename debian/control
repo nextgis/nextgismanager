@@ -1,0 +1,15 @@
+Source: ngm
+Section: science
+Priority: extra
+Maintainer: alisovenko <alexander.lisovenko@gmail.com>
+Build-Depends: 
+  debhelper (>= 8.0.0), 
+  cmake (>= 2.8),
+  libgdal-dev (>= 1.10.0)  
+Standards-Version: 3.9.2
+Homepage: http://nextgis.ru/
+
+Package: ngm
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: NextGIS Manager
