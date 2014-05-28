@@ -597,10 +597,11 @@ bool wxGISTask::Start(void)
 {
     m_dfPrevDone = 0;
     bool bReturn = wxGISProcess::Start();
-    if(bReturn)
+    if (!bReturn)
     {
-        ChangeTask();
+        m_nState = enumGISTaskError;
     }
+    ChangeTask();
     return bReturn;
 }
 
