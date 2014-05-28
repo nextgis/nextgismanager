@@ -3,7 +3,7 @@
  * Purpose:  wxGxDiscConnectionUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Bishop
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalog/gxdiscconnection.h"
 
-/** \class wxGxDiscConnectionUI gxdiscconnectionui.h
-    \brief A Disc Connection GxObject.
+/** @class wxGxDiscConnectionUI
+
+    A Disc Connection GxObject.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxDiscConnectionUI :

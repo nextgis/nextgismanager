@@ -3,7 +3,7 @@
  * Purpose:  wxGxDiscConnection class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2010,2012,2013  Bishop
+*   Copyright (C) 2009,2010,2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@
 
 #define TM_CHECKING 950
 
+/** @class wxGxDiscConnection
 
-WX_DECLARE_HASH_MAP( long, wxArrayString, wxIntegerHash , wxIntegerEqual, GxPathAccum );
+    A Disc Connection GxObject.
 
-/** \class wxGxDiscConnection gxdiscconnection.h
-    \brief A Disc Connection GxObject.
-*/
+    @library{catalog}
+ */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDiscConnection :
 	public wxGxFolder
@@ -63,7 +63,6 @@ public:
 	virtual bool Rename(const wxString& NewName);
     virtual int GetStoreId(void) const {return m_nStoreId;};
 //events
-    virtual void OnTimer( wxTimerEvent & event);
     virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
 #ifdef __WXGTK__
     virtual void OnObjectAdded(wxGxCatalogEvent& event);
@@ -75,8 +74,6 @@ protected:
 
 protected:
     wxCriticalSection m_CritSect;
-    GxPathAccum m_maPaths;
-	wxTimer m_timer;
     int m_nStoreId;
     wxFileSystemWatcher *m_pWatcher;
     wxGxCatalog* m_pCatalog;
