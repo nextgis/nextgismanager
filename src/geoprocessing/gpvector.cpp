@@ -345,7 +345,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 
             if (eGeoFieldtype != eGeomType)
             {
-                switch (eGeoFieldtype)
+                switch (wkbFlatten(eGeoFieldtype))
                 {
                 case wkbLineString:
                     pNewGeom = OGRGeometryFactory::forceToLineString(Geom.Copy());

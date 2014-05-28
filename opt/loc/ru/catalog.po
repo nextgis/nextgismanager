@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-26 02:32+0400\n"
-"PO-Revision-Date: 2014-05-26 02:40+0400\n"
+"POT-Creation-Date: 2014-05-28 01:48+0400\n"
+"PO-Revision-Date: 2014-05-28 01:48+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -233,8 +233,8 @@ msgstr "wxGxDBConnections: Путь установлен в '%s'"
 
 #: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:131
 #: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:147
-#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:127
-#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:143
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:120
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:136
 #: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:68
 #: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:131
 #: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:147
@@ -359,7 +359,7 @@ msgstr "Папка"
 
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:465
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:479
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnection.h:54
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnection.h:57
 msgid "Folder connection"
 msgstr "Подключение"
 

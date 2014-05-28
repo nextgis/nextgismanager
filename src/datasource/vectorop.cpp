@@ -69,12 +69,17 @@ void SetEnvelopeRatio(OGREnvelope &Env, double dRatio)
 		Env.MinY = dCenterY - dHeight;
 	}
 
+#ifdef _DEBUG
 	dWidth = (Env.MaxX - Env.MinX) / 2;
 	dHeight = (Env.MaxY - Env.MinY) / 2;
 	dCenterX = Env.MinX + dWidth;
 	dCenterY = Env.MinY + dHeight;
 
 	dEnvRatio = dWidth / dHeight;
+
+//    wxASSERT(IsDoubleEquil(dRatio, dEnvRatio));
+#endif //_DEBUG
+
 }
 
 wxGISGeometry EnvelopeToGeometry(const OGREnvelope &Env, const wxGISSpatialReference &SpaRef)

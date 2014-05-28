@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-26 02:32+0400\n"
-"PO-Revision-Date: 2014-05-26 02:40+0400\n"
+"POT-Creation-Date: 2014-05-28 01:48+0400\n"
+"PO-Revision-Date: 2014-05-28 01:48+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -539,14 +539,14 @@ msgid "Rename failed!"
 msgstr "Переименование не удалось!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1274
-#: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:90
+#: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:86
 #: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:139
 #: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:476
 msgid "Could not create the thread!"
 msgstr "Не удалось создать  поток!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1280
-#: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:96
+#: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:92
 #: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:145
 #: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:492
 msgid "Could not run the thread!"

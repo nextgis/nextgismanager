@@ -804,7 +804,7 @@ wxGISSymbol* wxAxIdentifyView::GetDrawSymbol(OGRwkbGeometryType eType) const
     }
 
     wxGISSymbol* pSymbol = NULL;
-	switch(eType)
+    switch (wkbFlatten(eType))
 	{
 	case wkbMultiPoint:
 	case wkbPoint:

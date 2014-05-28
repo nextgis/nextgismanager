@@ -813,6 +813,9 @@ OGREnvelope wxGISMapView::GetFullExtent(void)
 
 void wxGISMapView::AddFlashGeometry(const wxGISGeometry& Geometry, wxGISSymbol* const pSymbol, unsigned char nPhase)
 {
+    if (NULL == pSymbol || !Geometry.IsOk())
+        return;
+
     wxCriticalSectionLocker locker(m_FlashCritSect);
     pSymbol->Reference();
     FLASH_GEOMETRY fgeom = {Geometry, nPhase, pSymbol};
