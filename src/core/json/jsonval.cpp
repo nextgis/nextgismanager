@@ -23,6 +23,7 @@
 #include <wx/log.h>
 #include <wx/debug.h>
 #include <wx/arrimpl.cpp>
+#include <wx/utils.h>
 
 #include <wxgis/core/json/jsonval.h>
 
