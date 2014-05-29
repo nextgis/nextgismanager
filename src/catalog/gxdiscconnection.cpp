@@ -3,7 +3,7 @@
  * Purpose:  wxGxDiscConnection class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2010,2012,2013  Dmitry Baryshnikov
+*   Copyright (C) 2009,2010,2012-2014  Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxDiscConnection, wxGxFolder)
 
 BEGIN_EVENT_TABLE(wxGxDiscConnection, wxGxFolder)
     EVT_FSWATCHER(wxID_ANY, wxGxDiscConnection::OnFileSystemEvent)
-    EVT_TIMER( TIMER_ID, wxGxDiscConnection::OnTimer )
 #ifdef __WXGTK__
     EVT_GXOBJECT_ADDED(wxGxDiscConnection::OnObjectAdded)
 #endif
@@ -59,10 +58,6 @@ wxGxDiscConnection::wxGxDiscConnection(wxGxObject *oParent, int nStoreId, const 
     m_pWatcher = new wxFileSystemWatcher();
     m_pWatcher->SetOwner(this);
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-
-    //set timer for compound objects
-    m_timer.SetOwner(this, TIMER_ID);
-    m_timer.Start(TM_CHECKING);
 
 #ifdef __WXGTK__
     m_ConnectionPointCatalogCookie = wxNOT_FOUND;
@@ -146,33 +141,6 @@ void wxGxDiscConnection::StartWatcher(void)
 #endif
 } 
 
-void wxGxDiscConnection::OnTimer( wxTimerEvent& event )
-{
-    //wxCriticalSectionLocker locker(m_CritSect);
-    if(m_maPaths.empty())
-        return;
-    for(GxPathAccum::const_iterator it = m_maPaths.begin(); it != m_maPaths.end(); ++it)
-    {
-        char **papszFileList = NULL; 
-        wxArrayString saPaths = it->second;
-        for(size_t i = 0; i < saPaths.GetCount(); ++i)
-        {
-            CPLString szPath(saPaths[i].mb_str(wxConvUTF8));
-            papszFileList = CSLAddString( papszFileList, szPath );
-        }
-
-	    if(m_pCatalog)
-        {
-            wxArrayLong ChildrenIds;
-            m_pCatalog->CreateChildren(m_pCatalog->GetRegisterObject(it->first), papszFileList, ChildrenIds);
-            for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                m_pCatalog->ObjectAdded(ChildrenIds[i]);
-	    }
-        CSLDestroy( papszFileList );
-    }
-    m_maPaths.clear();
-}
-
 void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
     wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
@@ -190,7 +158,21 @@ void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
                 return;
 
             //wxCriticalSectionLocker locker(m_CritSect);
-            m_maPaths[parent->GetId()].Add(oName.GetFullPath());
+
+            if (m_pCatalog)
+            {
+                wxArrayLong ChildrenIds;
+                char **papszFileList = NULL;
+                CPLString szPath(oName.GetFullPath().ToUTF8());
+                papszFileList = CSLAddString(papszFileList, szPath);
+
+                m_pCatalog->CreateChildren(parent, papszFileList, ChildrenIds);
+                for (size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+                    m_pCatalog->ObjectAdded(ChildrenIds[i]);
+
+                CSLDestroy(papszFileList);
+            }
+
         }
         break;
     case wxFSW_EVENT_DELETE:

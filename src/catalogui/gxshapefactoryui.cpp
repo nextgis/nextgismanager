@@ -27,6 +27,10 @@
 #include "../../art/table_dbf_16.xpm"
 #include "../../art/table_dbf_48.xpm"
 
+static const char *shape_filter_exts[] = {
+    "dbf", "prj", "qpj", NULL
+};
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxShapeFactoryUI, wxGxShapeFactory)
 
@@ -49,6 +53,28 @@ wxGxObject* wxGxShapeFactoryUI::GetGxObject(wxGxObject* pParent, const wxString 
     {
     case enumGISFeatureDataset:
         {
+            //remove dbf, prj if exist
+            CPLString sTestPath;
+            wxGxObject *pCompoundObjectPart = NULL;
+            wxGxObjectContainer* pParentCont = wxDynamicCast(pParent, wxGxObjectContainer);
+
+            for (int j = 0; shape_filter_exts[j] != NULL; ++j)
+            {
+                sTestPath = (char*)CPLResetExtension(szPath, shape_filter_exts[j]);
+
+                wxGxObjectList::const_iterator iter;
+                for (iter = pParentCont->GetChildren().begin(); iter != pParentCont->GetChildren().end(); ++iter)
+                {
+                    wxGxObject *current = *iter;
+                    if (wxGISEQUAL(current->GetPath(), sTestPath))
+                    {
+                        current->Destroy();
+                        break;
+                    }
+                }
+            }
+
+
             if(!m_SmallSHPIcon.IsOk())
                 m_SmallSHPIcon = wxIcon(shp_dset_16_xpm);
             if(!m_LargeSHPIcon.IsOk())

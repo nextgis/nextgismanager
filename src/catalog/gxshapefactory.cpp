@@ -94,7 +94,7 @@ bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxAr
             }
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
-        else if(wxGISEQUAL(szExt, "prj") || wxGISEQUAL(szExt, "qrj"))
+        else if(wxGISEQUAL(szExt, "prj") || wxGISEQUAL(szExt, "qpj"))
         {
             bool bHasShp(false);
 			if(pFileNames)

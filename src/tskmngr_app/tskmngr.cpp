@@ -42,8 +42,8 @@ wxGISTaskManager::wxGISTaskManager(void)
     wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
     {
-        m_nExitState = (wxGISNetCommandState)oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISMon/app/exit_state")), enumGISNetCmdStExit);
-        m_nMaxExecTasks = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISMon/app/max_exec_tasks")), m_nMaxExecTasks);
+        m_nExitState = (wxGISNetCommandState)oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISTaskNamager/app/exit_state")), enumGISNetCmdStExit);
+        m_nMaxExecTasks = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISTaskNamager/app/max_exec_tasks")), m_nMaxExecTasks);
    }
     //m_nIdCounter = 0;
 }
