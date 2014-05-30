@@ -3,7 +3,7 @@
  * Purpose:  PropertyPages of Catalog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Bishop
+*   Copyright (C) 2010,2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -44,10 +44,11 @@
 #include "wxgis/core/config.h"
 
 
-/** \class IPropertyPage framework.h
-    \brief A IPropertyPage interface class for property pages in options dialogs.
+/** @class IPropertyPage
 
-    This is base class for property page in options dialog.    
+    A IPropertyPage interface class for property pages in options dialogs. This is base class for property page in options dialog.    
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW IPropertyPage : public wxPanel
@@ -83,8 +84,11 @@ public:
     virtual void Apply(void) = 0;
 };
 
-/** \class wxGISMiscPropertyPage framework.h
-    \brief The miscellaneous property page.  
+/** @class wxGISMiscPropertyPage
+
+    The miscellaneous property page.  
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISMiscPropertyPage : public IPropertyPage
@@ -93,7 +97,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISMiscPropertyPage : public IPropertyPage
 public:
     wxGISMiscPropertyPage(void);
 	~wxGISMiscPropertyPage();
-    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Misc_Panel"));
+    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Misc_Panel"));
 //  IPropertyPage
     virtual wxString GetPageName(void){return wxString(_("Miscellaneous"));};
     virtual void Apply(void);
@@ -144,8 +148,11 @@ protected:
 };
 
 
-/** \class wxGISGDALConfPropertyPage framework.h
-    \brief The GDAL Configuration Options property page.  
+/** @class wxGISGDALConfPropertyPage
+
+    The GDAL Configuration Options property page.  
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISGDALConfPropertyPage : public IPropertyPage
@@ -154,7 +161,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISGDALConfPropertyPage : public IPropertyPage
 public:
     wxGISGDALConfPropertyPage(void);
 	~wxGISGDALConfPropertyPage();
-    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("GDAL_conf_Panel"));
+    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("GDAL_conf_Panel"));
 //  IPropertyPage
     virtual wxString GetPageName(void){return wxString(_("GDAL Configuration"));};
     virtual void Apply(void);

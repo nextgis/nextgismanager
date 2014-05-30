@@ -108,7 +108,7 @@ wxGxTaskExecDlg::wxGxTaskExecDlg(wxGISGPToolManager* pToolManager, wxWindow* par
     m_bMainSizer->Add(m_pHtmlWindow, 1, wxEXPAND | wxALL, 5);
     m_pHtmlWindow->Show(false);
 
-   	this->SetSizer( m_bMainSizer );
+   	this->SetSizerAndFit( m_bMainSizer );
 	this->Layout();
 
     Fit();

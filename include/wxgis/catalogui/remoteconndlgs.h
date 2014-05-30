@@ -3,7 +3,7 @@
  * Purpose:  Create Remote Database connection dialog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011.2013 Bishop
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -28,16 +28,14 @@
 
 #include <wx/statline.h>
 
-/** \class wxGISRemoteConnDlg remoteconndlg.h
-    \brief The dialog to configure remote database connection, test it and store in connection file (*.xconn)
-*/
-#ifdef __WXMSW___
-    #define REMOTECONNDLG_MAX_HEIGHT 400
-#else
-    #define REMOTECONNDLG_MAX_HEIGHT 440
-#endif
+/** @class wxGISRemoteConnDlg
+    
+    The dialog to configure remote database connection, test it and store in connection file (*.xconn)
 
-class wxGISRemoteConnDlg : public wxDialog
+    @library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGISRemoteConnDlg : public wxDialog
 {
 protected:
 	enum
@@ -54,7 +52,8 @@ protected:
 		ID_TESTBUTTON,
 	};
 public:
-	wxGISRemoteConnDlg( CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+    wxGISRemoteConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+    wxGISRemoteConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISRemoteConnDlg();
 	virtual CPLString GetPath(void);
 	virtual wxString GetName(void);
@@ -90,6 +89,8 @@ protected:
 	wxString m_sPass;
     bool m_bIsBinaryCursor;
 	bool m_bCreateNew;
+    bool m_bIsFile;
+    wxXmlNode* m_pConnectionNode;
 
 	wxString m_sOutputPath;
 	CPLString m_sOriginOutput;

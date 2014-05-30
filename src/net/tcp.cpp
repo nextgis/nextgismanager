@@ -3,7 +3,7 @@
  * Purpose:  TCP network classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012 Bishop
+*   Copyright (C) 2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ void wxServerTCPNetworkPlugin::OnUDPServerEvent(wxSocketEvent& event)
 			
                 if(msg.GetCommand() == enumGISNetCmdHello)
                 {
-                    wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStOk, enumGISPriorityHighest);
+                    wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStOk, enumGISPriorityHigh);
                     wxJSONValue val;
                     val[wxT("info")][wxT("port")] = m_nPort;
                     val[wxT("info")][wxT("name")] = m_pNetService->GetServerName();
@@ -261,7 +261,7 @@ bool wxClientTCPNetFactory::StartServerSearch()
     IPaddress addrPeer;
     addrPeer.BroadcastAddress();
     addrPeer.Service(m_nAdvPort);
-    wxNetMessage msg(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHighest);
+    wxNetMessage msg(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHigh);
 
     if(!m_udp_socket)
     {
@@ -508,7 +508,7 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
             m_bIsConnected = true;
             m_bIsConnecting = false;
             {
-                wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStAuth, enumGISPriorityHighest);
+                wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStAuth, enumGISPriorityHigh);
                 wxJSONValue val = msgout.GetValue();
                 val[wxT("auth")][wxT("user")] = m_sUserName;
                 wxString sOutPass;
@@ -521,7 +521,7 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
         case wxSOCKET_LOST:
             wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
             {
-                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHighest);
+                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHigh);
                 if(!m_bIsConnected && m_bIsConnecting)
                 {
                     msgin.SetMessage(_("Could not connect to remote server"));

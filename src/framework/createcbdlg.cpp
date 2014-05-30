@@ -3,7 +3,7 @@
  * Purpose:  create menu or toolbar dialog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009  Bishop
+*   Copyright (C) 2009,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,9 @@
 #include "wxgis/framework/createcbdlg.h"
 #include <wx/valgen.h>
 
-///////////////////////////////////////////////////////////////////////////
+//-------------------------------------------------------------------------------
+// wxGISCreateCommandBarDlg
+//-------------------------------------------------------------------------------
 
 wxGISCreateCommandBarDlg::wxGISCreateCommandBarDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
@@ -94,7 +96,7 @@ wxGISCreateCommandBarDlg::wxGISCreateCommandBarDlg( wxWindow* parent, wxWindowID
 	m_sdbSizer1->Realize();
 	bSizer1->Add( m_sdbSizer1, 0, wxEXPAND|wxALL, 5 );
 	
-	this->SetSizer( bSizer1 );
+	this->SetSizerAndFit( bSizer1 );
 	this->Layout();
 	
 	this->Centre( wxBOTH );

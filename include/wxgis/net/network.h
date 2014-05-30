@@ -3,7 +3,7 @@
  * Purpose:  network classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012-2014 Bishop
+*   Copyright (C) 2010,2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "wxgis/net/message.h"
+#include "wxgis/core/pointer.h"
 
 #include "wx/thread.h"
 #include "wx/socket.h"
@@ -32,8 +33,11 @@
 
 class WXDLLIMPEXP_GIS_NET INetConnection;
 
-/** \class wxNetReaderThread network.h
- *  \brief The network connection reader thread.
+/** @class wxNetReaderThread
+
+    The network connection reader thread.
+
+    @library{net}
  */
 class WXDLLIMPEXP_GIS_NET wxNetReaderThread : public wxThread
 {
@@ -45,8 +49,11 @@ protected:
     INetConnection* m_pNetConnection;
 };
 
-/** \class wxNetWriterThread network.h
- *  \brief The network connection writer thread.
+/** @class wxNetWriterThread
+
+    The network connection writer thread.
+
+    @library{net}
  */
 class WXDLLIMPEXP_GIS_NET wxNetWriterThread : public wxThread
 {
@@ -58,8 +65,11 @@ protected:
     INetConnection* m_pNetConnection;
 };
 
-/** \class INetConnection network.h
-    \brief The network connection interface class.
+/** @class INetConnection
+
+    The network connection interface class.
+
+    @library{net}
 */
 class WXDLLIMPEXP_GIS_NET INetConnection : 
     public wxGISConnectionPointContainer,

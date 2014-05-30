@@ -78,9 +78,9 @@ bool wxGISLocalClientConnection::Connect(void)
     wxGISAppConfig oConfig = GetConfig();
     if(oConfig.IsOk())
     {
-        sHost = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/host")), sHost);
-        nPort = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/port")), nPort);
-        nTimeOut = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/timeout")), nTimeOut);
+        sHost = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/net/host")), sHost);
+        nPort = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/net/port")), nPort);
+        nTimeOut = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/net/timeout")), nTimeOut);
     }
 
 	//start conn
@@ -116,7 +116,7 @@ bool wxGISLocalClientConnection::Disconnect(void)
 
 wxString wxGISLocalClientConnection::GetLastError(void) const
 {
-    return wxString::Format(_("Error (%d): %s"), m_pSock->LastError(), GetSocketErrorMsg(m_pSock->LastError()));
+    return wxString::Format(_("Error (%d): %s"), m_pSock->LastError(), GetSocketErrorMsg(m_pSock->LastError()).c_str());
 }
 
 void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
@@ -136,7 +136,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
             m_bIsConnected = true;
             m_bIsConnecting = false;
             {
-            wxNetMessage msgin(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHighest);
+                wxNetMessage msgin(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHigh);
             PostEvent(new wxGISNetEvent(wxNOT_FOUND, wxGISNET_MSG, msgin));
             }
         break;
@@ -146,7 +146,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
             m_bIsConnected = false;
             {
                 DestroyThreads();
-                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHighest);
+                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHigh);
                 PostEvent(new wxGISNetEvent(wxNOT_FOUND, wxGISNET_MSG, msgin));
             }
         break;
@@ -192,21 +192,23 @@ wxGISTaskManager::~wxGISTaskManager()
 
 void wxGISTaskManager::StartTaskManagerServer()
 {
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     wxString sTaskMngrServerPath(wxT("wxgistaskmanager.exe"));
 #else
     wxString sTaskMngrServerPath(wxT("wxgistaskmanager"));
 #endif
     wxGISAppConfig oConfig = GetConfig();
     bool bIsService = false;
+    bool bIsRemote = false;
     if (oConfig.IsOk())
     {
         sTaskMngrServerPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/exe_path")), sTaskMngrServerPath);
         bIsService = oConfig.ReadBool(enumGISHKLM, wxString(wxT("wxGISCommon/taskmngr/is_service")), bIsService);
+        bIsRemote = !oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/taskmngr/net/host")), HOST).IsSameAs(HOST);
     }
 
     //try to connect
-    if (!bIsService)
+    if (!(bIsService || bIsRemote))
     {
         if(wxExecute(sTaskMngrServerPath + wxT(" -a"), wxEXEC_ASYNC | wxEXEC_HIDE_CONSOLE ) == 0)
         {
@@ -243,7 +245,7 @@ void wxGISTaskManager::OnGISNetEvent(wxGISNetEvent& event)
             StartTaskManagerServer();
             break;
         case enumGISNetCmdHello:
-            SendNetMessageAsync(wxNetMessage(enumGISNetCmdCmd, enumGISCmdDetails, enumGISPriorityHighest));
+            SendNetMessageAsync(wxNetMessage(enumGISNetCmdCmd, enumGISCmdDetails, enumGISPriorityHigh));
             break;
         case enumGISNetCmdNote:
             NetNote(msg);
@@ -332,8 +334,8 @@ void wxGISTaskManager::NetCommand(const wxNetMessage &msg)
         FillDetails(msg.GetValue());
         break;
     case enumGISCmdSetParam:
-        m_eExitState = (wxGISNetCommandState)msg.GetValue()[wxT("exit_state")].AsLong();
-        m_nMaxExecTasks = msg.GetValue()[wxT("max_exec_task_count")].AsInt();
+        m_eExitState = (wxGISNetCommandState)msg.GetValue().Get(wxT("exit_state"), m_eExitState).AsLong();
+        m_nMaxExecTasks = msg.GetValue().Get(wxT("max_exec_task_count"), m_nMaxExecTasks).AsInt();
         for(wxGISTaskCategoryMap::iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
         {
             if(it->second)
@@ -365,22 +367,25 @@ void wxGISTaskManager::DeleteCategory(wxGISTaskCategory* pCategory)
 
 void wxGISTaskManager::FillDetails(const wxJSONValue &val)
 {
-    if(m_bDetailesFilled)
+    if (m_bDetailesFilled || !val.IsValid())
         return;
-    m_eExitState = (wxGISNetCommandState)val[wxT("exit_state")].AsLong();
-    m_nMaxExecTasks = val[wxT("max_exec_task_count")].AsInt();    
-    wxJSONValue oCategories = val[wxT("categories")];
-    for( int i = 0; i < oCategories.Size(); ++i )
+    m_eExitState = (wxGISNetCommandState)val.Get(wxT("exit_state"), m_eExitState).AsLong();
+    m_nMaxExecTasks = val.Get(wxT("max_exec_task_count"), m_nMaxExecTasks).AsInt();
+    if (val.HasMember(wxT("categories")))
     {
-        wxString sCatName = oCategories[i].AsString();
-        wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatName, this);
-        m_omCategories[sCatName] = pGISTaskCategory;
-        //request category tasks asynchronously
-        wxNetMessage msg_gettasks(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh);
-        wxJSONValue val;
-        val[wxT("cat")] = sCatName;
-        msg_gettasks.SetValue(val);
-        SendNetMessageAsync(msg_gettasks);
+        wxJSONValue oCategories = val[wxT("categories")];
+        for( int i = 0; i < oCategories.Size(); ++i )
+        {
+            wxString sCatName = oCategories[i].AsString();
+            wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatName, this);
+            m_omCategories[sCatName] = pGISTaskCategory;
+            //request category tasks asynchronously
+            wxNetMessage msg_gettasks(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh);
+            wxJSONValue val;
+            val[wxT("cat")] = sCatName;
+            msg_gettasks.SetValue(val);
+            SendNetMessageAsync(msg_gettasks);
+        }
     }
     m_bDetailesFilled = true;
     PostEvent(new wxGISTaskManagerEvent(wxGISTASKMNGR_CONNECT));

@@ -21,9 +21,9 @@
 #pragma once
 
 #include "wxgis/framework/framework.h"
-
 #include "wxgis/framework/statusbar.h"
 #include "wxgis/framework/command.h"
+#include "wxgis/core/pointer.h"
 
 #include <wx/aui/aui.h>
 #include <wx/menu.h> 

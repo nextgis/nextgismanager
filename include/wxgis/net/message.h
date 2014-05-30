@@ -74,6 +74,7 @@ public:
     void SetValue(wxJSONValue val);
     wxJSONValue GetValue(void) const;
     wxJSONValue GetInternalValue() const;
+    wxNetMessage Clone() const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;

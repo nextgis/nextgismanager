@@ -3,7 +3,7 @@
  * Purpose:  add command in command bar dialog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010,2013  Bishop
+*   Copyright (C) 2009-2010,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ wxGISAddCommandDlg::wxGISAddCommandDlg( wxGISApplication* pGxApp, wxWindow* pare
 
 	bSizer5->Add( m_sdbSizer, 0, wxALL|wxEXPAND, 5 );
 
-	this->SetSizer( bSizer5 );
+	this->SetSizerAndFit( bSizer5 );
 	this->Layout();
 
 	m_ListBox->Select(0);

@@ -760,6 +760,13 @@ OGRwkbGeometryType wxGISGeometry::GetType() const
     return ((wxGISGeometryRefData *)m_refData)->m_poGeom->getGeometryType();
 }
 
+wxGISGeometry wxGISGeometry::Clone() const
+{
+    wxCHECK_MSG(m_refData && ((wxGISGeometryRefData *)m_refData)->m_poGeom, wxGISGeometry(), wxT("OGRGeometry pointer is null"));
+    wxGISGeometry geom(((wxGISGeometryRefData *)m_refData)->m_poGeom->clone());
+    return geom;
+}
+
 bool wxGISGeometry::Project(const wxGISSpatialReference &SpaRef)
 {
     wxCHECK_MSG(m_refData && ((wxGISGeometryRefData *)m_refData)->m_poGeom, false, wxT("OGRGeometry pointer is null"));

@@ -3,7 +3,7 @@
  * Purpose:  wxGISTablePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2012 Bishop
+*   Copyright (C) 2011-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ bool wxGISTablePropertyPage::Create(wxGxTableDataset* pGxDataset, wxWindow* pare
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
-	this->SetSizer( bMainSizer );
+	this->SetSizerAndFit( bMainSizer );
 	this->Layout();
 
     return true;

@@ -566,7 +566,7 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bMainSizer->Add( fgCeilSizer, 0, wxEXPAND, 5 );
 
-	this->SetSizer( bMainSizer );
+    this->SetSizerAndFit(bMainSizer);
 	this->Layout();
 }
 

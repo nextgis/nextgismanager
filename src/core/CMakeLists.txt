@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013,2014 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/crypt.h
     ${LIB_HEADERS}/event.h
     ${LIB_HEADERS}/format.h
+    ${LIB_HEADERS}/pointer.h
     ${LIB_HEADERS}/app.h
     ${LIB_HEADERS}/init.h
     ${LIB_HEADERS}/process.h
@@ -72,6 +73,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/crypt.cpp
     ${LIB_SOURCES}/event.cpp
     ${LIB_SOURCES}/format.cpp
+    ${LIB_SOURCES}/pointer.cpp
     ${LIB_SOURCES}/app.cpp
     ${LIB_SOURCES}/init.cpp
     ${LIB_SOURCES}/process.cpp

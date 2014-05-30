@@ -3,7 +3,7 @@
  * Purpose:  core header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Bishop
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,9 +22,6 @@
 
 #include "wxgis/base.h"
 
-//#include <wx/process.h>
-#include <wx/vector.h>
-
 #define wgDELETE(p,func) if(p != NULL) {p->func; delete p; p = NULL;}
 #define wsDELETE(p) if(p != NULL) {p->Release(); p = NULL;}
 #define wsSET(mp, p) if(p != NULL) { mp = p; mp->Reference();}else{mp = NULL;}
@@ -36,8 +33,11 @@
 
 #define VENDOR wxT("wxgis")
 
-/** \enum wxGISEnumConfigKey core.h
- *  \brief The config key type.
+/** @enum wxGISEnumConfigKey
+
+    The config key type.
+
+    @library{core}
  */
 
 enum wxGISEnumConfigKey
@@ -50,59 +50,11 @@ enum wxGISEnumConfigKey
 	enumGISHKAny = enumGISHKLM | enumGISHKCU
 };
 
-/** \class wxGISConnectionPointContainer core.h
-    \brief The class for event connection store.
-*/
+/** @enum wxGISEnumMessageType
+    
+    The process message type.
 
-class wxGISConnectionPointContainer
-{
-public:
-	virtual ~wxGISConnectionPointContainer(void)
-    {
-    }
-	virtual long Advise(wxEvtHandler* pEvtHandler)
-	{
-		wxCHECK(pEvtHandler, wxNOT_FOUND);
-
-		wxVector<wxEvtHandler*>::const_iterator pos = std::find(m_pPointsArray.begin(), m_pPointsArray.end(), pEvtHandler);
-		if(pos != m_pPointsArray.end())
-			return pos - m_pPointsArray.begin();
-		m_pPointsArray.push_back(pEvtHandler);
-		return m_pPointsArray.size() - 1;
-	}
-
-	virtual void Unadvise(long nCookie)
-	{
-		wxCHECK_RET(nCookie >= 0 && nCookie < m_pPointsArray.size(), wxT("Wrong cookie index"));
-		m_pPointsArray[nCookie] = NULL;
-	}
-protected:
-	virtual void AddEvent(wxEvent &event)
-	{
-		for(size_t i = 0; i < m_pPointsArray.size(); ++i)
-		{
-			if(m_pPointsArray[i] != NULL)
-				m_pPointsArray[i]->AddPendingEvent(event);
-		}
-        wxWakeUpIdle();
-	};
-    virtual void PostEvent(wxEvent *event)
-    {
-        wxCHECK_RET(event, wxT("Input event pointer is NULL"));
-		for(size_t i = 0; i < m_pPointsArray.size(); ++i)
-		{
-			if(m_pPointsArray[i] != NULL)
-				m_pPointsArray[i]->QueueEvent(event->Clone());
-		}    
-        wxDELETE(event);
-        wxWakeUpIdle();
-    };
-protected:
-	wxVector<wxEvtHandler*> m_pPointsArray;
-};
-
-/** \enum wxGISEnumMessageType core.h
- *  \brief The process message type.
+    @library{core}
  */
 
 enum wxGISEnumMessageType
@@ -125,10 +77,11 @@ typedef struct _message
     wxString sMessage;
 } MESSAGE;
 
-/** \class IProgressor core.h
-    \brief A progressor interface class.
+/** @class IProgressor
 
-    This is base class for progressors.
+    A progressor interface class. This is base class for progressors.
+
+    @library{core}
 */
 class IProgressor
 {
@@ -234,8 +187,11 @@ static bool CreateAndRunThread(wxThread* const pThread, wxString sClassName = wx
 	return true;
 }
 
-/** \enum wxGISEnumTaskStateType core.h
- *  \brief The process task state.
+/** @enum wxGISEnumTaskStateType
+
+    The process task state.
+
+    @library{core}
  */
 enum wxGISEnumTaskStateType
 {
@@ -247,8 +203,11 @@ enum wxGISEnumTaskStateType
     enumGISTaskError
 };
 
-/** \enum wxGISEnumReturnType core.h
- *  \brief The function return state.
+/** @enum wxGISEnumReturnType
+
+    The function return state.
+
+    @library{core}
  */
 enum wxGISEnumReturnType
 {
@@ -258,9 +217,6 @@ enum wxGISEnumReturnType
     enumGISReturnTimeout
 };
 
-//#define DEFINE_SHARED_PTR(x) typedef boost::shared_ptr<x> x##SPtr
-//#define DEFINE_WEAK_PTR(x) typedef boost::weak_ptr<x> x##WPtr
-
 //FLT_EPSILON DBL_EPSILON
 inline bool IsDoubleEquil( double a, double b, double epsilon = EPSILON )
 {
@@ -268,39 +224,3 @@ inline bool IsDoubleEquil( double a, double b, double epsilon = EPSILON )
   return diff > -epsilon && diff <= epsilon;
 }
 
-
-/** \class wxGISPointer core.h
-    \brief A simple smart pointer class.
-*/
-class wxGISPointer
-{
-public:    
-    wxGISPointer()
-    {
-        m_RefCount = 0;
-    }
-
-    virtual ~wxGISPointer(void)
-    {
-    }
-
-    //ref count
-	virtual wxInt32 Reference(void)
-    {
-        return m_RefCount++;
-    };
-	virtual wxInt32 Dereference(void){return m_RefCount--;};
-	virtual wxInt32 Release(void)
-	{
-		Dereference();
-		if(m_RefCount <= 0)
-		{
-			delete this;
-			return 0;
-		}
-		else
-			return m_RefCount;
-	};
-protected:
-	wxInt32 m_RefCount;
-};

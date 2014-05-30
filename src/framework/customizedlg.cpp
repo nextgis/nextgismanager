@@ -3,7 +3,7 @@
  * Purpose:  customize dialog class. Customize menues & toolbars
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ wxGISToolBarPanel::wxGISToolBarPanel(wxGISApplicationEx* pApp, wxWindow* parent,
 #endif
 	m_pContextMenu->Append(item);
 
-	this->SetSizer( bSizer );
+	this->SetSizerAndFit( bSizer );
 	this->Layout();
 
 	//load toolbars & menues
@@ -735,7 +735,7 @@ wxGISCommandPanel::wxGISCommandPanel( wxGISApplicationEx* pApp, wxWindow* parent
 #endif
 	m_pContextMenu->Append(item);
 
-	this->SetSizer( bSizer5 );
+    this->SetSizerAndFit(bSizer5);
 	this->Layout();
 
 	m_listBox1->Select(0);
@@ -884,7 +884,7 @@ wxGISCustomizeDlg::wxGISCustomizeDlg( wxWindow* parent, wxWindowID id, const wxS
 	m_sdbSizer->Realize();
 	bSizerMain->Add( m_sdbSizer, 0, wxALL|wxEXPAND, 5 );
 
-	this->SetSizer( bSizerMain );
+    this->SetSizerAndFit(bSizerMain);
 	this->Layout();
 
     SerializeFramePos(false);

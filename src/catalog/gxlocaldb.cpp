@@ -3,7 +3,7 @@
 * Purpose:  local db (sqlite, gdab, mdb) classes.
 * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 ******************************************************************************
-*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 Dmitry Baryshnikov
 *   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -325,6 +325,12 @@ bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTra
     }
 
     return true;
+}
+
+bool wxGxOpenFileGDB::HasChildren(void)
+{
+    LoadChildren();
+    return wxGxDatasetContainer::HasChildren();
 }
 
 //--------------------------------------------------------------

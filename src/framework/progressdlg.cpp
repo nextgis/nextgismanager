@@ -68,7 +68,7 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
     m_sdbSizer->Realize();
     bMainSizer->Add(m_sdbSizer, 0, wxEXPAND | wxALL, 5);
 
-    this->SetSizer(bMainSizer);
+    this->SetSizerAndFit(bMainSizer);
     this->Layout();
 
     this->Centre(wxBOTH);

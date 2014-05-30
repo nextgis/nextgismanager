@@ -3,7 +3,7 @@
  * Purpose:  PropertyPages of Catalog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012  Bishop
+*   Copyright (C) 2010,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -39,8 +39,11 @@
 #include <wx/checkbox.h>
 #include <wx/panel.h>
 
-/** \class wxGISCatalogGeneralPropertyPage gxpropertypages.h
-    \brief The catalog application propeties.
+/** @class wxGISCatalogGeneralPropertyPage
+
+    The catalog application propeties.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISCatalogGeneralPropertyPage : 
@@ -56,7 +59,7 @@ class WXDLLIMPEXP_GIS_CLU wxGISCatalogGeneralPropertyPage :
 public:
     wxGISCatalogGeneralPropertyPage(void);
 	~wxGISCatalogGeneralPropertyPage();
-    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,540 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("General_Panel"));
+    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("General_Panel"));
 //  IPropertyPage    
     virtual wxString GetPageName(void){return wxString(_("General"));};
     virtual void Apply(void);

@@ -3,7 +3,7 @@
  * Purpose:  wxGISDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,9 +22,13 @@
 #pragma once
 
 #include "wxgis/datasource/gdalinh.h"
+#include "wxgis/core/pointer.h"
 
-/** \class wxGISDataset dataset.h
-    \brief The base class for datasets.
+/** @class wxGISDataset
+
+    The base class for datasets.
+
+    @library{datasource}
 */
 class WXDLLIMPEXP_GIS_DS wxGISDataset : 
     public wxObject,

@@ -37,9 +37,9 @@ public:
     wxGISTaskManagerEvent(wxEventType eventType = wxGISTASKMNGR_CONNECT) : wxEvent(wxNOT_FOUND, eventType)
 	{        
 	}
-	wxGISTaskManagerEvent(const wxGISTaskManagerEvent& event) : wxEvent(event)
-	{        
-	}
+	//wxGISTaskManagerEvent(const wxGISTaskManagerEvent& event) : wxEvent(event)
+	//{        
+	//}
     virtual wxEvent *Clone() const { return new wxGISTaskManagerEvent(*this); }
 private:
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxGISTaskManagerEvent)

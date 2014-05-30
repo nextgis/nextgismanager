@@ -25,8 +25,11 @@
 
 #include "wx/propgrid/propgrid.h"
 
-/** \class wxGISSpatialReferencePropertyPage spatrefpropertypage.h
-    \brief The tab of spatial reference properties.
+/** @class wxGISSpatialReferencePropertyPage
+
+    The tab of spatial reference properties.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage : 

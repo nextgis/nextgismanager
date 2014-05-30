@@ -348,7 +348,7 @@ void wxGISFeatureLayer::OnDSFeatureDeleted(wxFeatureDSEvent& event)
 
 void wxGISFeatureLayer::OnDSFeatureChanged(wxFeatureDSEvent& event)
 {
-    wxLogDebug(wxT("changed: %d"), event.GetFID());
+    //wxLogDebug(wxT("changed: %d"), event.GetFID());
     wxGISFeature Feature = m_pwxGISFeatureDataset->GetFeatureByID(event.GetFID());
     if(m_pSpatialTree)
     {

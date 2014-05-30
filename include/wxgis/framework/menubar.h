@@ -3,7 +3,7 @@
  * Purpose:  wxGISMenuBar class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012  Bishop
+*   Copyright (C) 2009,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -31,6 +31,13 @@
 #define HELPSTR _("&Help")
 #define WINDOWSSTR _("&Windows")
 #define TOOLSSTR _("&Tools")
+
+/** @class wxGISMenuBar
+    
+    The main application menu.
+    
+    @library{framework}
+ */
 
 class WXDLLIMPEXP_GIS_FRW wxGISMenuBar : public wxMenuBar
 {

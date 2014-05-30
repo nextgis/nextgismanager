@@ -3,7 +3,7 @@
  * Purpose:  local db (sqlite, gdab, mdb) classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 Dmitry Baryshnikov
 *   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ public:
 	//wxGxObjectContainer
     virtual bool CanCreate(long nDataType, long DataSubtype);
     virtual bool AreChildrenViewable(void) const;
+    virtual bool HasChildren(void);
     //IGxDataset
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISEnumDatasetType GetType(void) const;

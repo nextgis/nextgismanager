@@ -160,7 +160,7 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 
 	bMainSizer->Add( bFooterSizer, 0, wxEXPAND, 8 );
 
-	this->SetSizer( bMainSizer );
+	this->SetSizerAndFit( bMainSizer );
 	this->Layout();
 
 	wxGISCatalogMainCmd* pwxGISCatalogMainCmd(NULL);

@@ -3,8 +3,8 @@
  * Purpose:  customize dialog class. Customize menues & toolbars
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Bishop
-*
+ *   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
+ *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation, either version 2 of the License, or
@@ -40,8 +40,11 @@
 #include "wx/treectrl.h"
 #include "wx/panel.h"
 
-/** \class wxBarTreeItemData customizedlg.h
-    \brief wxBarTreeItemData class. 
+/** @class wxBarTreeItemData
+
+    wxBarTreeItemData class. 
+
+    @library{framework}
 */
 class wxBarTreeItemData : public wxTreeItemData
 {
@@ -58,8 +61,11 @@ public:
 	wxGISCommandBar* m_pBar;
 };
 
-/** \class wxGISToolBarPanel customizedlg.h
-    \brief wxGISToolBarPanel class. 
+/** @class wxGISToolBarPanel
+
+    wxGISToolBarPanel class. 
+
+    @library{framework}
 */
 class wxGISToolBarPanel : public wxPanel
 {
@@ -77,7 +83,7 @@ class wxGISToolBarPanel : public wxPanel
 		ID_MOVECONTROLDOWN
 	};
 public:
-	wxGISToolBarPanel(wxGISApplicationEx* pApp, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,400 ), long style = wxTAB_TRAVERSAL );
+    wxGISToolBarPanel(wxGISApplicationEx* pApp, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL);
 	~wxGISToolBarPanel();
 	void SplitterOnIdle( wxIdleEvent& )
 	{
@@ -132,9 +138,12 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISCommandPanel customizedlg.h
-    \brief wxGISCommandPanel class. 
-*/
+/** @class wxGISCommandPanel
+
+    wxGISCommandPanel class. 
+
+    @library{framework}
+ */
 class wxGISCommandPanel : public wxPanel
 {
 	enum
@@ -159,7 +168,7 @@ protected:
 	int m_CurSelection;
 
 public:
-	wxGISCommandPanel( wxGISApplicationEx* pApp, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,400 ), long style = wxTAB_TRAVERSAL );
+    wxGISCommandPanel(wxGISApplicationEx* pApp, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL);
 	~wxGISCommandPanel();
 	void m_splitter2OnIdle( wxIdleEvent& )
 	{
@@ -183,13 +192,16 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISCustomizeDlg customizedlg.h
-    \brief wxGISCustomizeDlg class. 
-*/
+/** @class wxGISCustomizeDlg
+
+    wxGISCustomizeDlg class. 
+
+    @library{framework}
+ */
 class WXDLLIMPEXP_GIS_FRW wxGISCustomizeDlg : public wxDialog
 {
 public:
-	wxGISCustomizeDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Customize"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 540,400 ), long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER );
+	wxGISCustomizeDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Customize"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER );
 	~wxGISCustomizeDlg();
     //events
     virtual void EndModal (int retCode);

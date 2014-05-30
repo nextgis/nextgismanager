@@ -292,6 +292,7 @@ wxJSONValue wxGISTask::GetAsJSON(void)
 
 bool wxGISTask::StartTask(long nMessageId, int nUserId)
 {
+    wxLogDebug(wxT("Quered %s"), GetName());
     m_nState = enumGISTaskQuered;
  
     if(m_pParentTask)
@@ -626,7 +627,7 @@ void wxGISTask::ChangeTask()
     val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
     val[wxT("beg")] = SetDateValue(m_dtBeg);
     val[wxT("end")] = SetDateValue(m_dtEstEnd);
-    m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHighest, val, _("Task changed"), wxNOT_FOUND);
+    m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHigh, val, _("Task changed"), wxNOT_FOUND);
 }
 
 void wxGISTask::ChangeTaskMsg(wxGISEnumMessageType nType, const wxString &sInfoData)
@@ -847,11 +848,13 @@ bool wxGISTaskCategory::Load(void)
             wxGISTaskBase* pGISTask = new wxGISTask(this, m_sStoragePath + wxFileName::GetPathSeparator() + sTaskName);
             if(pGISTask->Load())
             {
+                wxLogMessage(_("The task '%s' loaded"), pGISTask->GetName().c_str());
                 m_omSubTasks[pGISTask->GetId()] = pGISTask;
             }
             else
             {
-                wxDELETE(pGISTask);   
+                wxLogError(_("The task from '%s' load failed "), sTaskName.c_str());
+                wxDELETE(pGISTask);
             }
             bContinue = dir.GetNext(&sTaskName);
         }

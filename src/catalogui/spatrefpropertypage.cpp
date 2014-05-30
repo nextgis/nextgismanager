@@ -3,7 +3,7 @@
  * Purpose:  wxGISSpatialReferencePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ bool wxGISSpatialReferencePropertyPage::Create(const wxGISSpatialReference &oSRS
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
-	this->SetSizer( bMainSizer );
+	this->SetSizerAndFit( bMainSizer );
 	this->Layout();
 
     return true;

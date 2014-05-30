@@ -3,7 +3,7 @@
  * Purpose:  wxGISTask and wxGISTaskCategories classes
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -108,22 +108,23 @@ void wxGISTaskBase::NetMessage(wxGISNetCommand eCmd, wxGISNetCommandState eCmdSt
     if(val.HasMember(wxT("subtask")))
     {
         int nId = val[wxT("subtask")][wxT("id")].AsInt();
-        if(m_omSubTasks[nId])
-            m_omSubTasks[nId]->NetMessage(eCmd, eCmdState, val[wxT("subtask")]);
-    }
-    else
-    {
-        switch(eCmd)
+        if (m_omSubTasks[nId])
         {
-        case enumGISNetCmdCmd:
-            NetCommand(eCmdState, val);
-            break;
-        case enumGISNetCmdNote:
-            NetNote(eCmdState, val);
-            break;
-        default:
-            break;
+            m_omSubTasks[nId]->NetMessage(eCmd, eCmdState, val[wxT("subtask")]);
+            return;
         }
+    }
+
+    switch(eCmd)
+    {
+    case enumGISNetCmdCmd:
+        NetCommand(eCmdState, val);
+        break;
+    case enumGISNetCmdNote:
+        NetNote(eCmdState, val);
+        break;
+    default:
+        break;
     }
 }
 
@@ -351,7 +352,8 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
         m_nVolume = TaskConfig.Get(wxT("vol"), wxJSONValue(wxUint64(0))).AsUInt64();
         m_dfDone = TaskConfig.Get(wxT("done"), wxJSONValue(0.0)).AsDouble();
 
-        m_Params = TaskConfig[wxT("params")];
+        if (TaskConfig.HasMember(wxT("params")))
+            m_Params = TaskConfig[wxT("params")];
 #ifdef _DEBUG
 //        wxJSONWriter writer( wxJSONWRITER_NONE );  
 //        wxString sOut;
@@ -707,25 +709,26 @@ void wxGISTaskCategory::ProcessNetMessage(const wxNetMessage &msg)
 {
     //TODO: check if this the subtask created
     wxJSONValue val = msg.GetValue();
-    int nTaskId = val[wxT("task")].Get(wxT("id"), wxJSONValue(wxNOT_FOUND)).AsInt();
-    if(wxNOT_FOUND == nTaskId || msg.GetState() == enumGISCmdStAdd)
+    if (val.HasMember(wxT("task")))
     {
-        switch(msg.GetCommand())
+        int nTaskId = val[wxT("task")].Get(wxT("id"), wxJSONValue(wxNOT_FOUND)).AsInt();
+        if (m_omSubTasks[nTaskId])
         {
-        case enumGISNetCmdNote:
-            NetNote(msg);
-            break;
-        case enumGISNetCmdCmd: //do something usefull
-            NetCommand(msg);
-            break;
-        default:
-            break;
+            m_omSubTasks[nTaskId]->NetMessage(msg.GetCommand(), msg.GetState(), msg.GetValue()[wxT("task")]);
+            return;
         }
     }
-    else
+
+    switch(msg.GetCommand())
     {
-        if(m_omSubTasks[nTaskId])
-            m_omSubTasks[nTaskId]->NetMessage(msg.GetCommand(), msg.GetState(), msg.GetValue()[wxT("task")]);
+    case enumGISNetCmdNote:
+        NetNote(msg);
+        break;
+    case enumGISNetCmdCmd: //do something usefull
+        NetCommand(msg);
+        break;
+    default:
+        break;
     }
 }
 

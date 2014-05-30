@@ -43,6 +43,7 @@ public:
 	virtual long GetFID(void) const;
 	virtual wxGISGeometry GetGeometry(void) const;
 	virtual void SetGeometry(const wxGISGeometry &oGeom);
+    virtual wxGISSpatialTreeData* Clone() const;
 protected:
     wxGISGeometry m_Geom;
     long m_nFID;    

@@ -44,6 +44,7 @@ public:
 	{
         m_nLayerId = nLayerId;
 	}
+
 	wxMxMapViewEvent(const wxMxMapViewEvent& event) : wxEvent(event)
 	{
         m_nLayerId = event.m_nLayerId;

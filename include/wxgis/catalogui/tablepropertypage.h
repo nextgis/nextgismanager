@@ -3,7 +3,7 @@
  * Purpose:  wxGISTablePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2012 Bishop
+*   Copyright (C) 2011-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,8 +26,11 @@
 
 #include "wx/propgrid/propgrid.h"
 
-/** \class wxGISTablePropertyPage tablepropertypage.h
-    \brief The tab of table properties.
+/** @class wxGISTablePropertyPage
+
+    The tab of table properties.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISTablePropertyPage : 

@@ -3,7 +3,7 @@
  * Purpose:  Network classes.
  * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012 Bishop
+*   Copyright (C) 2012,2014 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -86,9 +86,10 @@ wxGISLocalNetworkPlugin::~wxGISLocalNetworkPlugin(void)
 bool wxGISLocalNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* pConfig)
 {
     m_pNetService = pNetService;
+    m_sAddr = wxString(wxT("127.0.0.1"));
     if(pConfig)
     {
-        m_sAddr = pConfig->GetAttribute(wxT("addr"), wxT("127.0.0.1"));
+        m_sAddr = pConfig->GetAttribute(wxT("addr"), m_sAddr);
 	    m_nPort = wxAtoi(pConfig->GetAttribute(wxT("port"), wxT("9980")));
     }
     else
@@ -96,12 +97,8 @@ bool wxGISLocalNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* p
         wxGISAppConfig oConfig = GetConfig();
         if(oConfig.IsOk())
         {
-            m_sAddr = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/tasks/host")), wxT("127.0.0.1"));
-            m_nPort = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/tasks/port")), 9980);
-        }
-        else
-        {
-            m_sAddr = wxString(wxT("127.0.0.1"));
+            m_sAddr = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISTaskNamager/net/host")), m_sAddr);
+            m_nPort = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISTaskNamager/net/port")), 9980);
         }
     }
 
@@ -245,18 +242,26 @@ wxGISLocalServerConnection::~wxGISLocalServerConnection(void)
 
 bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
 {
-        if(!m_pSock || m_pSock->IsDisconnected())
-        {
-            return false;
-        }
+    if(!m_pSock || m_pSock->IsDisconnected())
+    {
+        return false;
+    }
 
-    if(m_pSock->WaitForRead(WAITFOR))
+    if (m_pSock->WaitForRead(0, WAITFOR))
     {
         wxJSONValue  value;
         wxJSONReader reader;
 #ifdef USE_STREAMS
         wxSocketInputStream in(*m_pSock);
         int numErrors = reader.Parse( in, &value );
+
+#ifdef _DEBUG
+        //wxString sOut;
+        //wxJSONWriter writer(wxJSONWRITER_NONE);
+        //writer.Write(value, sOut);
+        //wxLogMessage(sOut);
+#endif // _DEBUG
+
 #else
         RtlZeroMemory(m_Buffer, sizeof(m_Buffer));
         wxUint32 nRead(0);
@@ -271,12 +276,6 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         int numErrors = reader.Parse( sIn, &value );
 #endif // USE_STREAMS
 
-#ifdef _DEBUG
-        //wxString sOut;
-        //wxJSONWriter writer(wxJSONWRITER_NONE);
-        //writer.Write(value, sOut);
-        //wxLogMessage(sOut);
-#endif // _DEBUG
 
         if ( numErrors > 0 )  
         {
@@ -338,7 +337,7 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
 
                 m_bIsConnected = false;
                 //send bye to the app
-                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHighest);
+                wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHigh);
                 PostEvent(new wxGISNetEvent(m_nUserId, wxGISNET_MSG, msgin));
 
                 //as connection is lost we destroy itself

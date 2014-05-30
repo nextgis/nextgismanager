@@ -3,7 +3,7 @@
  * Purpose:  PropertyPages of Catalog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2011,2012 Bishop
+*   Copyright (C) 2010,2011,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ bool wxGISCatalogGeneralPropertyPage::Create(wxGISApplicationBase* application, 
 	
 	bMainSizer->Add( m_checkBoxHidden, 0, wxALL, 5 );
 	
-	this->SetSizer( bMainSizer );
+    this->SetSizerAndFit(bMainSizer);
 	this->Layout();
 
     return true;

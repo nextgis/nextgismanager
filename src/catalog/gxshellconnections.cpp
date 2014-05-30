@@ -154,7 +154,7 @@ void wxGxShellConnections::StartWatcher(void)
 
 void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
-    wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
+    //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
     switch(event.GetChangeType())
     {
     case wxFSW_EVENT_CREATE:

@@ -3,7 +3,7 @@
  * Purpose:  wxGISRasterPropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Bishop
+*   Copyright (C) 2010-2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ bool wxGISRasterPropertyPage::Create(wxGxRasterDataset* pGxDataset, wxWindow* pa
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
-	this->SetSizer( bMainSizer );
+	this->SetSizerAndFit( bMainSizer );
 	this->Layout();
 
     return true;
@@ -717,7 +717,7 @@ bool wxGISRasterHistogramPropertyPage::Create(wxGxRasterDataset* pGxDataset, wxW
 
     bMainSizer->Add(m_pChartPanel, 1, wxEXPAND | wxALL, 5);
 
-    this->SetSizer(bMainSizer);
+    this->SetSizerAndFit(bMainSizer);
     this->Layout();
 
     return true;

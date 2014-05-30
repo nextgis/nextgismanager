@@ -57,9 +57,6 @@ wxGISConfig::wxGISConfig(bool bPortable)
 
 void wxGISConfig::Create(bool bPortable)
 {
-    if(m_refData)
-        return;
-
     wxString sVendorName = wxTheApp->GetVendorName();
 
     m_refData = new wxGISConfigRefData();

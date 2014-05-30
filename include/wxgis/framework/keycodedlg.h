@@ -3,7 +3,7 @@
  * Purpose:  key code input dialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010  Bishop
+*   Copyright (C) 2009-2010,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -37,11 +37,12 @@
 #include <wx/dialog.h>
 #include <wx/valtext.h>
 
-///////////////////////////////////////////////////////////////////////////
+/** @class wxKeyCodeCtrl
 
-///////////////////////////////////////////////////////////////////////////////
-/// Class wxKeyCodeCtrl
-///////////////////////////////////////////////////////////////////////////////
+    Control to add keys for shortcuts
+
+    @library{framework}
+ */
 
 class wxKeyCodeCtrl : public wxTextCtrl
 {
@@ -57,9 +58,13 @@ public:
 	DECLARE_EVENT_TABLE()
 };
 
-///////////////////////////////////////////////////////////////////////////////
-/// Class wxKeyCodeDlg
-///////////////////////////////////////////////////////////////////////////////
+/** @class wxKeyCodeDlg    
+
+    Dialog to add keys for shortcuts
+
+    @library{framework}
+ */
+
 class WXDLLIMPEXP_GIS_FRW wxKeyCodeDlg : public wxDialog
 {
 private:
@@ -69,7 +74,7 @@ protected:
 	wxButton* m_button;
 
 public:
-	wxKeyCodeDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Enter key code"), const wxPoint& pos = wxPoint( -1,-1 ), const wxSize& size = wxSize( 260,70 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+    wxKeyCodeDlg(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Enter key code"), const wxPoint& pos = wxPoint(-1, -1), const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	~wxKeyCodeDlg();
 	static wxBitmap GetBitmap(){return wxBitmap(character_map_xpm);};
 	//events

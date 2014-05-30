@@ -3,7 +3,7 @@
  * Purpose:  Table class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "wxgis/datasource/cursor.h"
 #include "wxgis/datasource/filter.h"
 #include "wxgis/datasource/spatialtree.h"
+#include "wxgis/core/pointer.h"
 
 #include <ogrsf_frmts.h>
 

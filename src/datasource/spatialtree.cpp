@@ -76,6 +76,12 @@ void wxGISSpatialTreeData::SetGeometry(const wxGISGeometry &oGeom)
     m_Geom = oGeom; 
 }
 
+wxGISSpatialTreeData* wxGISSpatialTreeData::Clone() const
+{
+    return new wxGISSpatialTreeData(m_Geom.Clone(), m_nFID);
+}
+
+
 //-----------------------------------------------------------------------------
 // wxGISSpatialTree
 //----------------------------------------------------------------------------

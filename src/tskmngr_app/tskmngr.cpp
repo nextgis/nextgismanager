@@ -137,10 +137,12 @@ void wxGISTaskManager::LoadCategories(const wxString &sPathToCategories)
             wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sPathToCategories + wxFileName::GetPathSeparator() + sCategoryName, this);
             if(pGISTaskCategory->Load())
             {
+                wxLogMessage(_("The category '%s' loaded"), sCategoryName.c_str());
                 m_omCategories[sCategoryName] = pGISTaskCategory;
             }
             else
             {
+                wxLogError(_("The category '%s' load failed "), sCategoryName.c_str());
                 wxDELETE(pGISTaskCategory);   
             }
             bContinue = dir.GetNext(&sCategoryName);
@@ -212,7 +214,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
     {
         case enumGISCmdDetails://Get manager details - properties + category list
             {
-                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdDetails, enumGISPriorityHighest,  msg.GetId());
+                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdDetails, enumGISPriorityHigh, msg.GetId());
                 msgout.SetValue(GetParamsAsJSON(msgout.GetValue()));
                 msgout.SetValue(GetChildrenAsJSON(msgout.GetValue()));
                 SendNetMessage(msgout, nUserId);                
@@ -220,7 +222,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
             break; 
         case enumGISCmdChildren://Get category list
             {
-                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHighest,  msg.GetId());
+                wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh, msg.GetId());
                 msgout.SetValue(GetChildrenAsJSON(msgout.GetValue()));
                 SendNetMessage(msgout, nUserId);                
             }
@@ -250,7 +252,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                 wxString sCatName = val[wxT("name")].AsString();   
                 if(sCatName.IsEmpty() || m_omCategories[sCatName])
                 {
-                    wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityHighest,  msg.GetId());
+                    wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
                     msgout.SetMessage(_("The category name is empty or category is already exist"));
                     SendNetMessage(msgout, nUserId);                
                 }

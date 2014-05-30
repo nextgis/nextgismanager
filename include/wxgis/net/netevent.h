@@ -34,16 +34,17 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_NET, wxGISNET_MSG, wxGISNetEvent);
 class WXDLLIMPEXP_GIS_NET wxGISNetEvent : public wxEvent
 {
 public:
-    wxGISNetEvent(int nUserId = 0, wxEventType eventType = wxGISNET_MSG, wxNetMessage msg = wxNetMessage()) : wxEvent(nUserId, eventType)
+    wxGISNetEvent(int nUserId = 0, wxEventType eventType = wxGISNET_MSG, const wxNetMessage &msg = wxNetMessage()) : wxEvent(nUserId, eventType)
 	{
         m_msg = msg;
 	}
+
 	wxGISNetEvent(const wxGISNetEvent& event) : wxEvent(event)
 	{
-        m_msg = event.m_msg;
+        m_msg = event.m_msg.Clone();
 	}
 
-    void SetNetMessage(wxNetMessage msg) { m_msg = msg; }
+    void SetNetMessage(const wxNetMessage &msg) { m_msg = msg; }
     wxNetMessage GetNetMessage() const { return m_msg; }
 
     virtual wxEvent *Clone() const { return new wxGISNetEvent(*this); }

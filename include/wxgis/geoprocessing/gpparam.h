@@ -47,8 +47,9 @@ public:
 
     wxGISGPParamEvent(const wxGISGPParamEvent& event) : wxEvent(event)
 	{
-		m_Value = event.m_Value;
-		m_sName = event.m_sName;
+        m_Value = event.m_Value;
+        m_Value.UnShare();
+		m_sName = event.m_sName.Clone();
 	}
 
     wxVariant GetParamValue() const { return m_Value; }

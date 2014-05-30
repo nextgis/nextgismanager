@@ -3,7 +3,7 @@
  * Purpose:  Catalog Create New Commands class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2012 Bishop
+*   Copyright (C) 2011-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,12 +19,16 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #pragma once
+
 #include "wxgis/framework/command.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/catalogui/gxapplication.h"
 
-/** \class wxGISCreateNewCmd createnewcmd.h
-    \brief The new commands for create various data types.
+/** @class wxGISCreateNewCmd
+
+    The new commands for create various data types.
+
+    @library{catalogui}
 */
 
 class wxGISCreateNewCmd :

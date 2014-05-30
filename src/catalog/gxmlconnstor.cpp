@@ -158,7 +158,7 @@ wxGxJSONConnectionStorage::~wxGxJSONConnectionStorage(void)
 void wxGxJSONConnectionStorage::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
     //reread conn.json file
-    wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
+    //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
     if(event.GetPath().GetFullName().CmpNoCase(m_sStorageName) == 0)
         LoadConnectionsStorage();
 

@@ -52,7 +52,11 @@ public:
 	}
 	wxFeatureDSEvent(const wxFeatureDSEvent& event) : wxEvent(event)
 	{
-        m_Cursor = event.m_Cursor;
+        for (size_t i = 0; i < event.m_Cursor.GetCount(); ++i)
+        {
+            if (event.m_Cursor[i])
+                m_Cursor.Add(event.m_Cursor[i]->Clone());
+        }
         m_nFid = event.m_nFid;
 	}
 

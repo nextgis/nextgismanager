@@ -3,7 +3,7 @@
  * Purpose:  symbols for feature renderer
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013-2014 Bishop
+*   Copyright (C) 2013-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "wxgis/display/gisdisplay.h"
 #include "wxgis/display/color.h"
 #include "wxgis/datasource/gdalinh.h"
+#include "wxgis/core/pointer.h"
 
 /** @class wxGISSymbol
 

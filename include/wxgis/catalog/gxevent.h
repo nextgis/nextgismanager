@@ -36,11 +36,14 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CLT, wxGXOBJECT_REFRESHED, wxGxCatalogE
 class WXDLLIMPEXP_GIS_CLT wxGxCatalogEvent : public wxEvent
 {
 public:
-    wxGxCatalogEvent(wxEventType eventType = wxGXOBJECT_ADDED, long nObjectID = wxNOT_FOUND) : wxEvent(0, eventType), m_nObjectID(nObjectID)
+    wxGxCatalogEvent(wxEventType eventType = wxGXOBJECT_ADDED, long nObjectID = wxNOT_FOUND) : wxEvent(0, eventType)
 	{
+        m_nObjectID = nObjectID;
 	}
-	wxGxCatalogEvent(const wxGxCatalogEvent& event) : wxEvent(event), m_nObjectID(event.m_nObjectID)
+	
+    wxGxCatalogEvent(const wxGxCatalogEvent& event) : wxEvent(event)
 	{
+        m_nObjectID = event.m_nObjectID;
 	}
 
     void SetObjectID(long nObjectID) { m_nObjectID = nObjectID; }

@@ -225,8 +225,6 @@ bool INetConnection::ProcessOutputNetMessage(void)
 
     if(m_pSock->WaitForWrite(0, WAITFOR))
     {
-        if(!m_pSock)
-            return true;
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         wxNetMessage msgout = m_aoMessages.top();
@@ -284,15 +282,20 @@ bool INetConnection::ProcessInputNetMessage(void)
 
     if(m_pSock->WaitForRead(0, WAITFOR))
     {
-        if(!m_pSock)
-            return true;
-
         wxJSONValue  value;
         wxJSONReader reader;
 
 #ifdef USE_STREAMS
         wxSocketInputStream in(*m_pSock);
         int numErrors = reader.Parse( in, &value );
+
+#ifdef _DEBUG
+        //wxString sOut;
+        //wxJSONWriter writer(wxJSONWRITER_NONE);
+        //writer.Write(value, sOut);
+        //wxLogMessage(sOut);
+#endif // _DEBUG
+
 #else
         RtlZeroMemory(m_Buffer, sizeof(m_Buffer));
         wxUint32 nRead(0);
@@ -308,6 +311,8 @@ bool INetConnection::ProcessInputNetMessage(void)
 
         int numErrors = reader.Parse( sIn, &value );
 #endif
+
+
         if ( numErrors > 0 )  
         {
             const wxArrayString& errors = reader.GetErrors();

@@ -264,8 +264,11 @@ void wxGISTaskCmd::OnClick(void)
                 {
                     wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
                     IGxTask* pGxTask = dynamic_cast<IGxTask*>(pGxObject);
-                    if(pGxTask)
+                    if (pGxTask)
+                    {
                         pGxTask->StartTask();
+                        wxTheApp->Yield();
+                    }
                 }
             }
 			break;
@@ -276,8 +279,11 @@ void wxGISTaskCmd::OnClick(void)
                 {
                     wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
                     IGxTask* pGxTask = dynamic_cast<IGxTask*>(pGxObject);
-                    if(pGxTask)
+                    if (pGxTask)
+                    {
                         pGxTask->StopTask();
+                        wxTheApp->Yield();
+                    }
                 }
             }
 			break;

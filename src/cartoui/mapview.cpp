@@ -1129,7 +1129,7 @@ void wxGISMapView::DestroyDrawThread(void)
 
 void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
 {
-    wxLogDebug(wxT("changed layer: %d"), event.GetLayerId());
+    //wxLogDebug(wxT("changed layer: %d"), event.GetLayerId());
     //if(m_nDrawingState != enumGISMapNone)
     //    return;
     //TODO: update extents

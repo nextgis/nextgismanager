@@ -3,7 +3,7 @@
  * Purpose:  wxGISVectorPropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Bishop
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,8 +26,11 @@
 
 #include "wx/propgrid/propgrid.h"
 
-/** \class wxGISVectorPropertyPage vectorpropertypage.h
-    \brief The tab of vector dataset properties.
+/** @class wxGISVectorPropertyPage
+
+    The tab of vector dataset properties.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISVectorPropertyPage : 

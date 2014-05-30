@@ -271,6 +271,7 @@ public:
     static  int      CompareMemoryBuff( const wxMemoryBuffer& buff1, const void* buff2 );
     static wxMemoryBuffer ArrayToMemoryBuff( const wxJSONValue& value );
 
+    void            UnShare();
 protected:
     wxJSONValue*  Find( unsigned index ) const;
     wxJSONValue*  Find( const wxString& key ) const;
@@ -286,7 +287,6 @@ protected:
     void            SetRefData(wxJSONRefData* data);
     void            Ref(const wxJSONValue& clone);
     void            UnRef();
-    void            UnShare();
     void            AllocExclusive();
 
     //! the referenced data

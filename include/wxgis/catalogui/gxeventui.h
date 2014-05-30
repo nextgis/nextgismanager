@@ -40,8 +40,10 @@ public:
     wxGxSelectionEvent(wxEventType eventType = wxGXSELECTION_CHANGED, wxGxSelection* pSelection = NULL, long nInitiator = wxNOT_FOUND) : wxEvent(0, eventType), m_nInitiator(nInitiator), m_pSelection(pSelection)
 	{
 	}
-	wxGxSelectionEvent(const wxGxSelectionEvent& event) : wxEvent(event), m_nInitiator(event.m_nInitiator), m_pSelection(event.m_pSelection)
+	wxGxSelectionEvent(const wxGxSelectionEvent& event) : wxEvent(event)
 	{
+        m_nInitiator = event.m_nInitiator;
+        m_pSelection = event.m_pSelection;
 	}
 
     void SetInitiator(long nInitiator) { m_nInitiator = nInitiator; }

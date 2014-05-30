@@ -3,7 +3,7 @@
  * Purpose:  network server class.
  * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2008-2010  Bishop
+*   Copyright (C) 2008-2010,2014 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/net/netconn.h"
 #include "wxgis/net/netevent.h"
 
-/** \class INetPlugin servernet.h
-    \brief A Server side INetPlugin interface.
+/** @class INetPlugin
+
+    A Server side INetPlugin interface.
+
+    @library{net}
 */
 class WXDLLIMPEXP_GIS_NET INetPlugin : public wxEvtHandler
 {
@@ -37,8 +40,11 @@ public:
 
 WX_DECLARE_LIST_2(wxGISNetServerConnection, wxGISNetServerConnectionList, wxGISNetServerConnectionNode, class WXDLLIMPEXP_GIS_NET);
 
-/** \class wxGISNetworkService servernet.h
-    \brief A Server side Network Service.
+/** @class wxGISNetworkService
+
+    A Server side Network Service.
+
+    @library{net}
 */
 class WXDLLIMPEXP_GIS_NET wxGISNetworkService : 
     public wxEvtHandler,
@@ -79,8 +85,11 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \fn wxGISNetworkService* const GetNetworkService(void)
- *  \brief Global NetworkService getter.
+/** @fn wxGISNetworkService* const GetNetworkService(void)
+ *
+ *  Global NetworkService getter.
+ *
+ *  @library{net}
  */	
 
 WXDLLIMPEXP_GIS_NET wxGISNetworkService* const GetNetworkService(void);
