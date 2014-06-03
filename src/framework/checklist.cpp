@@ -71,6 +71,31 @@ long wxGISCheckList::GetItemData(long item) const
         return 0;
 }
 
+void wxGISCheckList::CheckAll()
+{
+    for (size_t i = 0; i < GetItemCount(); ++i)
+    {
+        SetItemCheckState(i, 1);
+    }
+}
+
+void wxGISCheckList::UnCheckAll()
+{
+    for (size_t i = 0; i < GetItemCount(); ++i)
+    {
+        SetItemCheckState(i, 0);
+    }
+}
+
+void wxGISCheckList::InvertCheck()
+{
+    for (size_t i = 0; i < GetItemCount(); ++i)
+    {
+        int nState = GetItemCheckState(i) == 1 ? 0 : 1;
+        SetItemCheckState(i, nState);
+    }
+}
+
 void wxGISCheckList::OnLeftDown(wxMouseEvent& event)
 {
 	event.Skip();

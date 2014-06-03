@@ -190,6 +190,7 @@ public:
     virtual void SetPriority(long nPriority);
     virtual double GetDone(void) const;
     virtual void SetState(wxGISEnumTaskStateType eState);
+    virtual int GetChildrenCount() const;
     /**\fn
      * \brief Get the Task parameters. Any additional values, to standard Name, Description, DateBegin, DateEnd, etc. 
      */
@@ -204,8 +205,8 @@ public:
     virtual wxGISTaskMessagesArray GetMessages(void) const;
     virtual wxGISTaskMessage GetMessage(long nMessageId) const;
     virtual void AddMessage(wxGISTaskMessage* pMessage);
-    virtual bool StartTask();
-    virtual bool StopTask();
+    virtual bool StartTask(bool bWait = false);
+    virtual bool StopTask(bool bWait = false);
 protected:
     virtual void NetNote(wxGISNetCommandState eCmdState, const wxJSONValue &val);
 protected:
@@ -218,6 +219,7 @@ protected:
     double m_dfDone;
     wxJSONValue m_Params;
     wxGISTaskMessagesArray m_oaMessages;
+    int m_nChildrenCount;
 };
 
 /** @class wxGISTaskEdit

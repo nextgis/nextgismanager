@@ -3,7 +3,7 @@
  * Purpose:  Task and TaskCategoryList classes.
  * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Dmitry Barishnikov
+*   Copyright (C) 2012-2014 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -33,8 +33,11 @@ class wxGISTaskBase;
 WX_DECLARE_HASH_MAP( int, wxGISTaskBase*, wxIntegerHash, wxIntegerEqual, wxGISTaskMap );
 
 
-/** \class wxGISTaskBase task.h
-    \brief The base task class.
+/** @class wxGISTaskBase
+
+    The base task class.
+
+    @library{gp}
 */
 
 class wxGISTaskBase : 
@@ -81,8 +84,11 @@ class wxGISTask;
 
 WX_DEFINE_ARRAY(wxGISTask *, wxGISQueredTasksArray);
 
-/** \class wxGISTask task.h
-    \brief The task class.
+/** @class wxGISTask
+
+    The task class.
+
+    @library{gp}
 */
 
 class wxGISTask : 
@@ -149,8 +155,11 @@ protected:
     //wxVector<MESSAGE> m_staMessages;
 };
 
-/** \class wxGISTaskCategory task.h
-    \brief The tasks category class.
+/** @class wxGISTaskCategory
+
+    The tasks category class.
+
+    @libray{gp}
 */
 
 class wxGISTaskCategory : 

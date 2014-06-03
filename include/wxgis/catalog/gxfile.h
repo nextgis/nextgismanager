@@ -3,7 +3,7 @@
  * Purpose:  wxGxFile classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Bishop
+*   Copyright (C) 2009-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/datasource/datasource.h"
 #include "wxgis/datasource/gdalinh.h"
 
-/** \class wxGxFile gxfileui.h
-    \brief A file GxObject.
+/** @class wxGxFile
+
+    A file GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFile :
@@ -37,17 +40,20 @@ public:
 	virtual ~wxGxFile(void);
 	//IGxObjectEdit
 	virtual bool Delete(void);
-	virtual bool CanDelete(void){return true;};
+    virtual bool CanDelete(void) { return true; };
 	virtual bool Rename(const wxString& NewName);
-	virtual bool CanRename(void){return true;};
+    virtual bool CanRename(void) { return true; };
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanCopy(const CPLString &szDestPath){return true;};
+    virtual bool CanCopy(const CPLString &szDestPath) { return true; };
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanMove(const CPLString &szDestPath){return CanCopy(szDestPath) & CanDelete();};
+	virtual bool CanMove(const CPLString &szDestPath) {return CanCopy(szDestPath) & CanDelete();};
 };
 
-/** \class wxGxPrjFile gxfileui.h
-    \brief A proj file GxObject.
+/** @class wxGxPrjFile
+
+    A proj file GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPrjFile :
@@ -66,8 +72,11 @@ protected:
 	wxGISSpatialReference m_SpatialReference;
 };
 
-/** \class wxGxTextFile gxfileui.h
-    \brief A text file GxObject.
+/** @class wxGxTextFile
+
+    A text file GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTextFile :

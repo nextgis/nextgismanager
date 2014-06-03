@@ -3,7 +3,7 @@
  * Purpose:  GIS Prolect classes
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -55,11 +55,11 @@ public:
 	virtual bool Delete(void);
 	virtual bool CanDelete(void);
 	virtual bool Rename(const wxString &sNewName);
-	virtual bool CanRename(void);
+    virtual bool CanRename(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool CanCopy(const CPLString &szDestPath);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const;
 	virtual bool HasChildren(void);

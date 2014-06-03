@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolder class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Bishop
+*   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 
 #include <wx/dir.h>
 
-/** \class wxGxFolder gxfolder.h
-    \brief The Folder GxObject.
+/** @class wxGxFolder
+
+    A Folder GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFolder :
@@ -45,11 +48,11 @@ public:
 	virtual bool Delete(void);
 	virtual bool CanDelete(void);
 	virtual bool Rename(const wxString &sNewName);
-	virtual bool CanRename(void);
+    virtual bool CanRename(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool CanCopy(const CPLString &szDestPath);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const;
 	virtual bool HasChildren(void);

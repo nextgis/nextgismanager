@@ -3,7 +3,7 @@
  * Purpose:  GxDataset classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,8 +26,11 @@
 #include "wxgis/datasource/table.h"
 #include "wxgis/datasource/featuredataset.h"
 
-/** \class wxGxDataset gxdataset.h
-    \brief A base GxDataset class.
+/** @class wxGxDataset
+
+    A base GxDataset class.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDataset :
@@ -49,10 +52,10 @@ public:
     //wxGxObject
     virtual void SetPath(const CPLString &soPath);
     //IGxObjectEdit
-	virtual bool CanDelete(void);
-	virtual bool CanRename(void);
+    virtual bool CanDelete(void);
+    virtual bool CanRename(void);
     virtual bool CanCopy(const CPLString &szDestPath);
-	virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
 	virtual bool Delete(void);
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
@@ -67,8 +70,11 @@ protected:
     bool m_bIsMetadataFilled;
 };
 
-/** \class wxGxContainerDataset gxdataset.h
-    \brief A base container GxDataset class.
+/** @class wxGxContainerDataset
+
+    A base container GxDataset class.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDatasetContainer :
@@ -91,9 +97,9 @@ public:
     virtual void SetPath(const CPLString &soPath);
     //IGxObjectEdit
 	virtual bool CanDelete(void);
-	virtual bool CanRename(void);
+    virtual bool CanRename(void);
     virtual bool CanCopy(const CPLString &szDestPath);
-	virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
 	virtual bool Delete(void);
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
@@ -108,8 +114,11 @@ protected:
     bool m_bIsMetadataFilled;
 };
 
-/** \class wxGxTableDataset gxdataset.h
-    \brief A Table Dataset GxObject.
+/** @class wxGxTableDataset
+
+    A Table Dataset GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTableDataset :
@@ -132,8 +141,11 @@ protected:
     wxGISEnumTableDatasetType m_eType;
 };
 
-/** \class wxGxFeatureDataset gxdataset.h
-    \brief A Feature Dataset GxObject.
+/** @class wxGxFeatureDataset
+
+    A Feature Dataset GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxFeatureDataset :
@@ -155,8 +167,11 @@ protected:
 	wxGISEnumVectorDatasetType m_eType;
 };
 
-/** \class wxGxRasterDataset gxdataset.h
-    \brief A Raster Dataset GxObject.
+/** @class wxGxRasterDataset
+
+    A Raster Dataset GxObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRasterDataset :

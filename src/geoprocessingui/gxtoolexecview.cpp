@@ -3,7 +3,7 @@
  * Purpose:  wxGISToolExecuteView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -69,6 +69,8 @@ WXDLLIMPEXP_GIS_GPU int wxCALLBACK GxTaskCompareFunction(wxIntPtr item1, wxIntPt
 IMPLEMENT_CLASS(wxGISToolExecuteView, wxListCtrl)
 
 BEGIN_EVENT_TABLE(wxGISToolExecuteView, wxListCtrl)
+    EVT_LIST_BEGIN_LABEL_EDIT(LISTCTRLID, wxGISToolExecuteView::OnBeginLabelEdit)
+    EVT_LIST_END_LABEL_EDIT(LISTCTRLID, wxGISToolExecuteView::OnEndLabelEdit)
     EVT_LIST_ITEM_SELECTED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnSelected)
     EVT_LIST_ITEM_DESELECTED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnDeselected)
     EVT_LIST_ITEM_ACTIVATED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnActivated)
@@ -695,6 +697,7 @@ void wxGISToolExecuteView::OnLeave()
 {
     SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
 }
+
 
 /*
 #include "wxgis/geoprocessingui/gptoolbox.h"

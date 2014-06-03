@@ -56,9 +56,9 @@ public:
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
 	virtual bool CanDelete(void);
-	virtual bool CanRename(void);
+    virtual bool CanRename(void);
     virtual bool CanCopy(const CPLString &szDestPath);
-	virtual bool CanMove(const CPLString &szDestPath);
+    virtual bool CanMove(const CPLString &szDestPath);
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL) = 0;
     virtual void StopCaching(void);
     virtual char **GetFileList() = 0;

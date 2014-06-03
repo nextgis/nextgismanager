@@ -74,6 +74,7 @@ protected:
 	wxDateTime m_dtEstEnd;
     wxGISEnumTaskStateType m_nState;
     double m_dfDone;
+    bool m_bKill;
 };
 
 /*

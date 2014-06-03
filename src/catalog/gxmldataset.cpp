@@ -97,6 +97,7 @@ wxGISDataset* const wxGxMLDataset::GetDatasetFast(void)
     wsGET(m_pwxGISDataset);
 }
 
+
 wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);

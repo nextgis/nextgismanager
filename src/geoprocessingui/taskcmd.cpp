@@ -267,7 +267,7 @@ void wxGISTaskCmd::OnClick(void)
                     if (pGxTask)
                     {
                         pGxTask->StartTask();
-                        wxTheApp->Yield();
+//                        wxTheApp->Yield();
                     }
                 }
             }
@@ -282,7 +282,7 @@ void wxGISTaskCmd::OnClick(void)
                     if (pGxTask)
                     {
                         pGxTask->StopTask();
-                        wxTheApp->Yield();
+//                        wxTheApp->Yield();
                     }
                 }
             }

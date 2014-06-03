@@ -3,7 +3,7 @@
  * Purpose:  wxGxArchiveUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Bishop
+*   Copyright (C) 2010-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalog/gxarchfolder.h"
 
-/** \class wxGxArchiveUI gxarchfolderui.h
-    \brief An archive GxObject.
+/** @class wxGxArchiveUI
+
+    An archive GxObject.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxArchiveUI :
@@ -50,8 +53,11 @@ protected:
     wxIcon m_oLargeIcon, m_oSmallIcon;
 };
 
-/** \class wxGxArchiveFolderUI gxarchfolderui.h
-    \brief An archive folder GxObject.
+/** @class wxGxArchiveFolderUI
+
+    An archive folder GxObject.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxArchiveFolderUI :

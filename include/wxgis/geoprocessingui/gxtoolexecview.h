@@ -3,7 +3,7 @@
  * Purpose:  wxGxToolExecuteView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -74,7 +74,9 @@ public:
     virtual void OnContextMenu(wxContextMenuEvent& event);
 	virtual void ShowContextMenu(const wxPoint& pos);
     virtual void OnActivated(wxListEvent& event);
-	virtual void OnSelected(wxListEvent& event);
+    virtual void OnBeginLabelEdit(wxListEvent& event) = 0;
+    virtual void OnEndLabelEdit(wxListEvent& event) = 0;
+    virtual void OnSelected(wxListEvent& event);
 	virtual void OnDeselected(wxListEvent& event);
     virtual void OnChar(wxKeyEvent& event);
     virtual void OnBeginDrag(wxListEvent& event);

@@ -154,10 +154,13 @@ void wxGISTaskBase::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue
                     wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                     m_omSubTasks[pTask->GetId()] = pTask;
 
-                    //request subtasks asynchronously
-                    wxJSONValue outval;
-                    outval[wxT("id")] = pTask->GetId();
-                    SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                    if (pTask->GetChildrenCount() > 0)
+                    {
+                        //request subtasks asynchronously
+                        wxJSONValue outval;
+                        outval[wxT("id")] = pTask->GetId();
+                        SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                    }
                         
                     AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
                 }
@@ -182,10 +185,13 @@ void wxGISTaskBase::AddTask(const wxJSONValue &val)
             wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
             m_omSubTasks[pTask->GetId()] = pTask;
 
-            //request subtasks asynchronously
-            wxJSONValue outval;
-            outval[wxT("id")] = m_nId;
-            SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+            if (pTask->GetChildrenCount() > 0)
+            {
+                //request subtasks asynchronously
+                wxJSONValue outval;
+                outval[wxT("id")] = m_nId;
+                SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+            }
 
             AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
         }
@@ -352,6 +358,8 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
         m_nVolume = TaskConfig.Get(wxT("vol"), wxJSONValue(wxUint64(0))).AsUInt64();
         m_dfDone = TaskConfig.Get(wxT("done"), wxJSONValue(0.0)).AsDouble();
 
+        m_nChildrenCount = TaskConfig.Get(wxT("subtask_count"), 0).AsInt();
+
         if (TaskConfig.HasMember(wxT("params")))
             m_Params = TaskConfig[wxT("params")];
 #ifdef _DEBUG
@@ -363,6 +371,7 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
 
         if(TaskConfig.HasMember(wxT("subtasks")))
         {
+            m_nChildrenCount = 0;
             wxJSONValue subtasks = TaskConfig[wxT("subtasks")];
             for(size_t i = 0; i < subtasks.Size(); ++i)
             {
@@ -383,6 +392,11 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
 
 wxGISTask::~wxGISTask(void)
 {
+}
+
+int wxGISTask::GetChildrenCount() const
+{
+    return m_nChildrenCount;
 }
 
 void wxGISTask::AddSubTask(wxGISTask* pTask)
@@ -586,6 +600,7 @@ wxJSONValue wxGISTask::GetConfig(void)
     val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
     val[wxT("done")] = m_dfDone;
     val[wxT("params")] = m_Params;
+    //val[wxT("subtask_count")] = m_nChildrenCount;
 
     int nCount(0);
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
@@ -595,26 +610,42 @@ wxJSONValue wxGISTask::GetConfig(void)
     return val;
 }
 
-bool wxGISTask::StartTask()
+bool wxGISTask::StartTask(bool bWait)
 {
     wxJSONValue val;
     val[wxT("id")] = m_nId;
-    if(m_pParentTask->SendNetMessageSync(enumGISNetCmdCmd, enumGISCmdStStart, val) == enumGISCmdStStart)
+    if (bWait)
     {
+        if(m_pParentTask->SendNetMessageSync(enumGISNetCmdCmd, enumGISCmdStStart, val) == enumGISCmdStStart)
+        {
+            return true;
+        }
+        return false;
+    }
+    else
+    {
+        m_pParentTask->SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdStStart, val);
         return true;
     }
-    return false;
 }
 
-bool wxGISTask::StopTask()
+bool wxGISTask::StopTask(bool bWait)
 {
     wxJSONValue val;
     val[wxT("id")] = m_nId;
-    if(m_pParentTask->SendNetMessageSync(enumGISNetCmdCmd, enumGISCmdStStop, val) == enumGISCmdStStop)
+    if (bWait)
     {
+        if (m_pParentTask->SendNetMessageSync(enumGISNetCmdCmd, enumGISCmdStStop, val) == enumGISCmdStStop)
+        {
+            return true;
+        }
+        return false;
+    }
+    else
+    {
+        m_pParentTask->SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdStStop, val);
         return true;
     }
-    return false;
 }
 
 //void wxGISTask::LoadMessages(wxXmlNode* const pMessages)
@@ -794,10 +825,13 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                     wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                     m_omSubTasks[pTask->GetId()] = pTask;
 
-                    //request subtasks asynchronously
-                    wxJSONValue outval;
-                    outval[wxT("id")] = pTask->GetId();
-                    SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                    if (pTask->GetChildrenCount() > 0)
+                    {
+                        //request subtasks asynchronously
+                        wxJSONValue outval;
+                        outval[wxT("id")] = pTask->GetId();
+                        SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                    }
 
                     AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
                 }
@@ -818,10 +852,13 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                 wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                 m_omSubTasks[pTask->GetId()] = pTask;
 
-                //request subtasks asynchronously
-                wxJSONValue outval;
-                outval[wxT("id")] = pTask->GetId();
-                SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                if (pTask->GetChildrenCount() > 0)
+                {
+                    //request subtasks asynchronously
+                    wxJSONValue outval;
+                    outval[wxT("id")] = pTask->GetId();
+                    SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+                }
 
                 AddEvent(wxGISTaskEvent(pTask->GetId(), wxGISTASK_ADD));
             }

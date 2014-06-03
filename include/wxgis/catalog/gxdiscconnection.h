@@ -59,7 +59,7 @@ public:
     virtual void Refresh(void);
 	//IGxObjectEdit
 	virtual bool Delete(void);
-	virtual bool CanDelete(void){return false;};
+	virtual bool CanDelete(void) const {return false;};
 	virtual bool Rename(const wxString& NewName);
     virtual int GetStoreId(void) const {return m_nStoreId;};
 //events

@@ -3,7 +3,7 @@
  * Purpose:  GxDataset classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -136,7 +136,7 @@ bool wxGxDataset::CanCopy(const CPLString &szDestPath)
     return bRet;
 }
 
-bool wxGxDataset::CanMove(const CPLString &szDestPath) 
+bool wxGxDataset::CanMove(const CPLString &szDestPath)
 {
     return CanCopy(szDestPath) & CanDelete();
 }
@@ -348,7 +348,7 @@ bool wxGxDatasetContainer::CanCopy(const CPLString &szDestPath)
     return true;
 }
 
-bool wxGxDatasetContainer::CanMove(const CPLString &szDestPath) 
+bool wxGxDatasetContainer::CanMove(const CPLString &szDestPath)
 {
     return CanCopy(szDestPath) & CanDelete();
 }

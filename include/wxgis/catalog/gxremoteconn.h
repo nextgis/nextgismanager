@@ -3,7 +3,7 @@
  * Purpose:  Remote Connection classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013,2014 Bishop
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -63,13 +63,13 @@ public:
     virtual bool IsConnected(void);
 	//IGxObjectEdit
 	virtual bool Delete(void);
-	virtual bool CanDelete(void){return true;};
+	virtual bool CanDelete(void) {return true;};
 	virtual bool Rename(const wxString& NewName);
-	virtual bool CanRename(void){return true;};
+    virtual bool CanRename(void) { return true; };
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanCopy(const CPLString &szDestPath){return true;};
+    virtual bool CanCopy(const CPLString &szDestPath) { return true; };
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-	virtual bool CanMove(const CPLString &szDestPath){return CanCopy(szDestPath) & CanDelete();};
+    virtual bool CanMove(const CPLString &szDestPath) { return CanCopy(szDestPath) & CanDelete(); };
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const {return true;};
 	//virtual bool HasChildren(void);
@@ -134,7 +134,7 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //IGxObjectEdit
 	virtual bool Delete(void);
-	virtual bool CanDelete(void);
+    virtual bool CanDelete(void);
 	virtual bool Rename(const wxString& NewName);
     virtual bool CanRename(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
@@ -220,13 +220,13 @@ public:
     virtual bool IsConnected(void);
     //IGxObjectEdit
     virtual bool Delete(void);
-    virtual bool CanDelete(void){ return true; };
+    virtual bool CanDelete(void) { return true; };
     virtual bool Rename(const wxString& NewName);
-    virtual bool CanRename(void){ return true; };
+    virtual bool CanRename(void) { return true; };
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-    virtual bool CanCopy(const CPLString &szDestPath){ return true; };
+    virtual bool CanCopy(const CPLString &szDestPath) { return true; };
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-    virtual bool CanMove(const CPLString &szDestPath){ return CanCopy(szDestPath) & CanDelete(); };
+    virtual bool CanMove(const CPLString &szDestPath) { return CanCopy(szDestPath) & CanDelete(); };
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);

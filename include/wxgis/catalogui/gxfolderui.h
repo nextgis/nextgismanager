@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Bishop
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/catalog/gxfolder.h"
 #include "wxgis/catalogui/gxview.h"
 
-/** \class wxGxFolderUI gxfolderui.h
-    \brief A folder GxObject.
+/** @class wxGxFolderUI
+
+    A folder GxObjectUI.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxFolderUI :
