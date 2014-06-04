@@ -27,12 +27,12 @@
 #include "wxgis/catalogui/gxeventui.h"
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalogui/gxapplication.h"
+#include "wxgis/geoprocessingui/geoprocessingui.h"
 
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
 
-#define TOOLEXECVIEWSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_AUTOARRANGE)
-#define TOOLEXECUTECTRLID WXGISHIGHEST + 1
+#define TOOLEXECVIEWSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_EDIT_LABELS | wxLC_AUTOARRANGE)
 
 WXDLLIMPEXP_GIS_GPU int wxCALLBACK GxTaskCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPtr sortData);
 

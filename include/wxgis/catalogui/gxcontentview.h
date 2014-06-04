@@ -3,7 +3,7 @@
  * Purpose:  wxGxContentView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2014 Bishop
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 
 class wxGxApplication;
 
-#define LISTSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_EDIT_LABELS |wxLC_SORT_ASCENDING | wxLC_AUTOARRANGE) //wxLC_LIST
+#define LISTSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_EDIT_LABELS | wxLC_AUTOARRANGE) //wxLC_LIST|wxLC_SORT_ASCENDING
 
 //TODO: Fix mouse selection dragging linux
 

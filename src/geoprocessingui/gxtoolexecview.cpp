@@ -69,8 +69,8 @@ WXDLLIMPEXP_GIS_GPU int wxCALLBACK GxTaskCompareFunction(wxIntPtr item1, wxIntPt
 IMPLEMENT_CLASS(wxGISToolExecuteView, wxListCtrl)
 
 BEGIN_EVENT_TABLE(wxGISToolExecuteView, wxListCtrl)
-    EVT_LIST_BEGIN_LABEL_EDIT(LISTCTRLID, wxGISToolExecuteView::OnBeginLabelEdit)
-    EVT_LIST_END_LABEL_EDIT(LISTCTRLID, wxGISToolExecuteView::OnEndLabelEdit)
+    EVT_LIST_BEGIN_LABEL_EDIT(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnBeginLabelEdit)
+    EVT_LIST_END_LABEL_EDIT(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnEndLabelEdit)
     EVT_LIST_ITEM_SELECTED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnSelected)
     EVT_LIST_ITEM_DESELECTED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnDeselected)
     EVT_LIST_ITEM_ACTIVATED(TOOLEXECUTECTRLID, wxGISToolExecuteView::OnActivated)
