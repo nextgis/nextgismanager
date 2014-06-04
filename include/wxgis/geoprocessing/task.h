@@ -146,6 +146,7 @@ public:
     virtual int GetRunTaskCount(void) const;
     virtual void ChangeTask(const wxJSONValue &val);
     virtual void AddTask(const wxJSONValue &val);
+    virtual bool RenameTask(const wxString& sNewName);
     //
     virtual void OnSubTaskChanged(int nId);
     //NET messages

@@ -207,6 +207,12 @@ void wxGISTaskBase::ChangeTask(const wxJSONValue &val)
     m_pParentTask->OnSubTaskChanged(GetId());
 }
 
+bool wxGISTaskBase::RenameTask(const wxString& sNewName)
+{
+    //check if name is already exist
+    return false;
+}
+
 void wxGISTaskBase::OnSubTaskChanged(int nId)
 {
     AddEvent(wxGISTaskEvent(GetId(), wxGISTASK_CHNG));
