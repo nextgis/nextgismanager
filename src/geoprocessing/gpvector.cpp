@@ -444,8 +444,8 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 //                    break;
                 default:
                     //TODO: recode to output encoding if pDstDataSet encoding diffes from src
-                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
-//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
+//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
+                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
                     break;
                 };
             }
@@ -539,7 +539,26 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
         return false;
     }
 
+    //remove filter
+    pSrsDataSet->SetFilter();
+
+    CPLErrorReset();
     eErr = pDstDataSet->CommitTransaction();
+    if (CPLGetLastErrorType() != OGRERR_NONE)
+    {
+        pDstDataSet->Close();
+
+        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
+        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        sFullErr += CPLGetLastErrorMsg();
+        CPLError(CE_Failure, CPLE_FileIO, sFullErr);
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
+        }
+        return false;
+    }
+
 
     pDstDataSet->Close();
 
@@ -627,7 +646,22 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     //remove filter
     pSrsDataSet->SetFilter();
 
+    CPLErrorReset();
     eErr = pDstDataSet->CommitTransaction();
+    if (CPLGetLastErrorType() != OGRERR_NONE)
+    {
+        pDstDataSet->Close();
+
+        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
+        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        sFullErr += CPLGetLastErrorMsg();
+        CPLError( CE_Failure, CPLE_FileIO, sFullErr );
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
+        }
+        return false;
+    }
 
     pDstDataSet->Close();
 
