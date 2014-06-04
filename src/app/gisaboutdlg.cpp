@@ -136,21 +136,9 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
     wxString sPQStr = wxString::Format(_("Version of the libpq library in use %d"), PQlibVersion());
 #endif
 
-    wxString sGDALStr = wxString(GDAL_RELEASE_NAME, wxConvLocal);
-    wxString sWXStr = wxVERSION_STRING;
-    wxString wxVer( wxVERSION_STRING );
+    wxString sGDALStr = wxString(GDALVersionInfo("--version"), wxConvLocal);
+    wxString sWXStr = wxGetLibraryVersionInfo().GetVersionString();
 
-#if defined(__WXMSW__)
-    sWXStr << wxT("-Windows");
-#elif defined(__UNIX__)
-    sWXStr << wxT("-Linux");
-#endif
-
-#if wxUSE_UNICODE
-    sWXStr << wxT("-Unicode build");
-#else
-    sWXStr << wxT("-ANSI build");
-#endif // wxUSE_UNICODE
 
 #ifdef wxGIS_USE_CAIRO
     wxString sCAIROStr = wxString(cairo_version_string(), wxConvLocal);
@@ -186,7 +174,7 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 		sOgrDrivers += sDrvName;
 		sOgrDrivers += wxT("\n");
 	}
-	wxString sAboutSys = wxString::Format(_("HOST '%s'\n\nOS desc - %s\n\nFree memory - %s\n\nLibs:\n\nGDAL %s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sFreeMem.c_str(), sGDALStr.c_str() );
+	wxString sAboutSys = wxString::Format(_("HOST '%s'\n\nOS desc - %s\n\nFree memory - %s\n\nLibs:\n\%s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sFreeMem.c_str(), sGDALStr.c_str() );
 #ifdef wxGIS_USE_GEOS
     sAboutSys += wxT("\nGEOS ");
     sAboutSys += sGEOSStr;

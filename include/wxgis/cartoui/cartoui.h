@@ -3,7 +3,7 @@
  * Purpose:  wxGISCartoUI main header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009 Bishop
+*   Copyright (C) 2009,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,11 @@
 #pragma once
 
 #include "wxgis/carto/carto.h"
+
+#include "wxgisdefs.h"
+#ifndef wxGIS_USE_CAIRO
+#error Cairo required
+#endif
 
 /** \enum wxGISEnumMapToolState
     \brief The map tool state enumerator.

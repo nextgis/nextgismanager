@@ -3,7 +3,7 @@
  * Purpose:  display header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011 Bishop
+*   Copyright (C) 2009,2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,11 @@
 #include "wxgis/datasource/datasource.h"
 
 #include "wx/image.h"
+
+#include "wxgisdefs.h"
+#ifndef wxGIS_USE_CAIRO
+    #error Cairo required
+#endif
 
 #define MINPOLYAREA 0.25
 #define MINPOLYDRAWAREA 2.2
