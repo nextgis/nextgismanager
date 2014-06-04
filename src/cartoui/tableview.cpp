@@ -613,9 +613,13 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		m_grid->SetGridCursor(0,0);
 		m_grid->MakeCellVisible(0,0);
 		m_position->Clear();
-		(*m_position) << 1;
 
-		m_staticText2->SetLabel(wxString::Format(_("of %u"), m_grid->GetNumberRows()));
+        if (m_grid->GetNumberRows() > 0)
+        {
+		    (*m_position) << 1;
+
+		    m_staticText2->SetLabel(wxString::Format(_("of %u"), m_grid->GetNumberRows()));
+        }
 
         //TODO: Set grid encoding selection in combobox
         

@@ -25,6 +25,7 @@
 #include "wxgis/geoprocessing/geoprocessing.h"
 
 #define SASHCTRLID	1012
+#define TOOLEXECUTECTRLID 1013
 //#define TOOLBOXVIEWCTRLID	1014
 #define TOOLVIEWCTRLID	1015
 #define TASKSVIEWCTRLID	1016
