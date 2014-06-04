@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -165,3 +165,4 @@ endif(GDAL_FOUND)
 target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISDATASOURCE_LIB_NAME} ${WXGISNET_LIB_NAME})
 
 include(installlib)
+

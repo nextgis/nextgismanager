@@ -44,6 +44,7 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
     wxBoxSizer* bMainSizer = new wxBoxSizer(wxVERTICAL);
 
     m_staticText = new wxStaticText(this, wxID_ANY, m_sLastMessage, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
+    m_staticText->SetLabel(wxT("                                                              \n                                                              "));
     //m_staticText->Wrap(-1);
     bMainSizer->Add(m_staticText, 1, wxALL | wxEXPAND, 5);
 
@@ -193,7 +194,7 @@ void wxGISProgressDlg::SetValue(int value)
 
     if (nDone % 1 != 0)
         return;
-    
+
     long dMSec = double(Elapsed.GetMilliseconds().ToDouble() * dfToDo) / dfDone;
     wxTimeSpan Remains = wxTimeSpan(0, 0, 0, dMSec);
 
@@ -246,7 +247,7 @@ void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGIS
         sNewLastMessage = sMsg.Left(255) + wxT("...");
     else
         sNewLastMessage = sMsg;
-    
+
     m_sLastMessage = sNewLastMessage;
 
     if (NULL != m_staticText)
@@ -265,7 +266,7 @@ void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGIS
             m_staticText->SetLabel(m_sLastMessage);
         }
     }
-        
+
     //Fit();
 
     wxTheApp->Yield(true);

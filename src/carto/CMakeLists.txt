@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -37,14 +37,14 @@ if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
 endif(wxWidgets_FOUND)
 
-if(UNIX)
-    find_package(GTK2 REQUIRED)
-    if(GTK2_FOUND)
-        include_directories(${GTK2_INCLUDE_DIRS})
-        add_definitions(-DHAVE_GTK2)
-    endif(GTK2_FOUND)
-    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
-endif()
+#if(UNIX)
+#    find_package(GTK2 REQUIRED)
+#    if(GTK2_FOUND)
+#        include_directories(${GTK2_INCLUDE_DIRS})
+#        add_definitions(-DHAVE_GTK2)
+#    endif(GTK2_FOUND)
+#    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+#endif()
 
 find_package(CAIRO REQUIRED)
 if(CAIRO_FOUND)
@@ -93,10 +93,6 @@ if(wxWidgets_FOUND)
    target_link_libraries(${LIB_NAME} ${wxWidgets_LIBRARIES})
 endif(wxWidgets_FOUND)
 
-if(WXGISGDAL_FOUND)
-    target_link_libraries(${LIB_NAME} ${WXGISGDAL_LIBRARIES})
-endif(WXGISGDAL_FOUND) 
-
 if(GDAL_FOUND)
     target_link_libraries(${LIB_NAME} ${GDAL_LIBRARIES})
 endif(GDAL_FOUND) 
@@ -105,11 +101,11 @@ if(CAIRO_FOUND)
     target_link_libraries(${LIB_NAME} ${CAIRO_LIBRARIES})
 endif(CAIRO_FOUND)
 
-if(UNIX)
-    if(GTK2_FOUND)
-        target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
-    endif(GTK2_FOUND)
-endif(UNIX)
+#if(UNIX)
+#    if(GTK2_FOUND)
+#        target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
+#    endif(GTK2_FOUND)
+#endif(UNIX)
 
 target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISDATASOURCE_LIB_NAME} ${WXGISFRAMEWORK_LIB_NAME} ${WXGISDISPLAY_LIB_NAME})
 

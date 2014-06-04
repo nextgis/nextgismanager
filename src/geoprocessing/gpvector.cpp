@@ -66,14 +66,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
     }
 
     //TODO: move field map to create dataset and export function as input param
-    struct _st_field_map
-    {
-        unsigned nDstFieldNo;
-        unsigned nSrsFieldNo;
-        OGRFieldType eFieldType;
-    };
-
-    wxVector<_st_field_map> staFieldMap;
+    wxVector<ST_FIELD_MAP> staFieldMap;
 
     OGRFeatureDefn *pSrcFeatureDefn = pSrcDataSet->GetDefinition();
     for (size_t i = 0; i < pFeatureDefn->GetFieldCount(); ++i)
@@ -86,7 +79,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
                 //                if (nSrcField != wxNOT_FOUND)
             {
                 OGRFieldType eType = pFieldDefn->GetType();
-                _st_field_map record = { i, i, eType };
+                ST_FIELD_MAP record = { i, i, eType };
                 staFieldMap.push_back(record);
             }
         }
@@ -195,7 +188,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
     const wxGISSpatialReference oSrcSRS = pSrcDataSet->GetSpatialReference();
     const wxGISSpatialReference oDstSRS = pDstDataSet->GetSpatialReference();
     OGRCoordinateTransformation *poCT = NULL;
-    
+
     if (oSrcSRS.IsOk() && oDstSRS.IsOk() && !oSrcSRS.IsSame(oDstSRS))
     {
         poCT = OGRCreateCoordinateTransformation(oSrcSRS, oDstSRS);
@@ -231,14 +224,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
     }
 
     //TODO: move field map to create dataset and export function as input param
-    struct _st_field_map
-    {
-        unsigned nDstFieldNo;
-        unsigned nSrsFieldNo;
-        OGRFieldType eFieldType;
-    };
-
-    wxVector<_st_field_map> staFieldMap;
+    wxVector<ST_FIELD_MAP> staFieldMap;
 
     OGRFeatureDefn *pSrcFeatureDefn = pSrcDataSet->GetDefinition();
     if (pDstDataSet->GetSubType() == enumVecDXF)
@@ -255,7 +241,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                 {
                     if (sName.StartsWith(wxT("name")) || sName.StartsWith(wxT("desc")) || sName.StartsWith(wxT("label")))
                     {
-                        _st_field_map record = { wxNOT_FOUND, i, OFTString };
+                        ST_FIELD_MAP record = { wxNOT_FOUND, i, OFTString };
                         staFieldMap.push_back(record);
                     }
                 }
@@ -284,7 +270,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                 if (nSrcFieldIndex != -1)
                 {
                     OGRFieldType eType = pFieldDefn->GetType();
-                    _st_field_map record = { i, nSrcFieldIndex, eType };
+                    ST_FIELD_MAP record = { i, nSrcFieldIndex, eType };
                     staFieldMap.push_back(record);
                 }
             }
@@ -318,7 +304,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 
 
         wxGISFeature newFeature = pDstDataSet->CreateFeature();
-        
+
         //set geometry
         wxGISGeometry Geom = Feature.GetGeometry();
         if (Geom.IsOk())
@@ -367,7 +353,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                     pNewGeom = Geom.Copy();
                     break;
                 };
-                
+
             }
             else
             {
@@ -377,7 +363,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             if (NULL != poCT)
             {
                 if (Geom.GetType() != wkbUnknown && Geom.GetType() != wkbNone)
-                {                    
+                {
                     OGRErr eErr = pNewGeom->transform(poCT);
                     if (eErr != OGRERR_NONE)
                     {
@@ -387,7 +373,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             }
             newFeature.SetGeometryDirectly(wxGISGeometry(pNewGeom, false));
         }
-        
+
         if (pDstDataSet->GetSubType() == enumVecDXF)
         {
             wxString sFieldText;
@@ -789,14 +775,14 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         {
             pTrackCancel->PutMessage(_("Get feature count"), wxNOT_FOUND, enumGISMessageNorm);
             pProgressor = pTrackCancel->GetProgressor();
-        }   
+        }
 
         int nCounter(0);
         if (pProgressor)
         {
             pProgressor->SetRange(pSrsDataSet->GetFeatureCount(false, pTrackCancel));
         }
-        
+
         wxGISFeature Feature;
         while ((Feature = pSrsDataSet->Next()).IsOk())
         {
@@ -830,7 +816,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 
                 OGRFeatureDefn *pNewDef = pDef->Clone();
                 pNewDef->SetGeomType(IT->first);
-                sType.Replace(" ", "");         
+                sType.Replace(" ", "");
                 //remove ogc_fid field for PG
                 if (nNewSubType == enumVecPostGIS)
                 {
@@ -1808,7 +1794,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     wxGISConfigOptionReset reset_shp("SHAPE_ENCODING", "", CPL_ENC_ASCII);
     wxGISConfigOptionReset reset_dxf("DXF_ENCODING", "", CPL_ENC_ASCII);
 #endif
-    
+
     //TODO: test if vertical srs can storing in output format
     if (oSpatialRef.IsOk())
         oSpatialRef->StripVertical();
@@ -1839,7 +1825,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                 pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageWarning);
             }
         }
-        else 
+        else
         {
             for (size_t i = 0; i < poFields->GetFieldCount(); ++i)
             {

@@ -27,6 +27,13 @@
 #include "wxgis/core/format.h"
 #include "wxgis/catalog/gxfilters.h"
 
+typedef struct _st_field_map
+{
+    unsigned nDstFieldNo;
+    unsigned nSrsFieldNo;
+    OGRFieldType eFieldType;
+}ST_FIELD_MAP;
+
 class wxGISConfigOptionReset
 {
 public:
@@ -45,10 +52,12 @@ protected:
     CPLString m_sName, m_sSetValue, m_sResetValue;
 };
 
-/** 
+/**
     Copy rows from one format (file) to another.
-  
+
     @return True if success, false otherwise
+
+    @library{gp}
 */
 WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, OGRwkbGeometryType eFilterGeomType = wkbUnknown, bool bToMulti = true, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITrackCancel* const pTrackCancel = NULL);
@@ -69,12 +78,12 @@ WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLStr
 WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bCreateEmpty = false, OGRwkbGeometryType eFilterGeomType = wkbUnknown, bool bToMulti = true, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter, OGRFeatureDefn* const poFields = NULL, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, bool bCreateEmpty = false, ITrackCancel* const pTrackCancel = NULL);
 
-/** 
+/**
     Create new table or feature class.
 
     @param sPath
         Path in file system
-    
+
     @param sName
         The new table or feature class name
 
@@ -98,9 +107,9 @@ WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLS
 
     @return The pointer on created dataset
 
-    @library {gp}
-  */	
-WXDLLIMPEXP_GIS_GP wxGISDataset *CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL); 
+    @library{gp}
+  */
+WXDLLIMPEXP_GIS_GP wxGISDataset *CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef = wxNullSpatialReference, char ** papszDataSourceOptions = NULL, char ** papszLayerOptions = NULL, ITrackCancel* const pTrackCancel = NULL);
 
 /** \fn bool GeometryVerticesToTextFile(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, const CPLString &osFrmt, bool bSwapXY = false, wxGISQueryFilter* pQFilter = NULL, ITrackCancel* pTrackCancel = NULL)
   *  \brief Write shape coordinates to text file.

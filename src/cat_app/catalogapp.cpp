@@ -76,10 +76,10 @@ bool wxGISCatalogApp::OnInit()
 
     //check time out and show splash
     wxXmlNode* pSplashNode = oConfig.GetConfigNode(enumGISHKCU, wxT("wxGISCommon/splash"));
-    bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);
+    bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);//false;//
     if(bShowSplash)
     {
-        long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 20000);
+        long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
         wxGISSplashScreen *pSplash = new wxGISSplashScreen(nTimeout, m_pMainFrame);
     #if !defined(__WXGTK20__)
         // we don't need it at least on wxGTK with GTK+ 2.12.9

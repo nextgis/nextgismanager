@@ -3,7 +3,7 @@
  * Purpose:  Main application class.
  * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012,2014 Bishop
+*   Copyright (C) 2010-2012,2014 Dmitry Barishnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ bool wxGISTaskManagerApp::OnInit()
     }
 #endif
 
- 
+
 #ifdef _WIN32
 	wxLogDebug(wxT("wxSocketBase::Initialize"));
     wxSocketBase::Initialize();
@@ -90,7 +90,7 @@ int wxGISTaskManagerApp::OnExit()
 #endif
 
 #ifdef wxUSE_SNGLINST_CHECKER
-    wxDELETE( m_pChecker ); 
+    wxDELETE( m_pChecker );
 #endif
 
     return wxAppConsole::OnExit();//success == true ? EXIT_SUCCESS : EXIT_FAILURE;
@@ -101,7 +101,11 @@ wxThread::ExitCode wxGISTaskManagerApp::Entry()
 {
     if (m_bService)
     {
+#ifdef _WIN32
         StartService();
+#else
+        Daemonize();
+#endif
     }
     else
     {
@@ -111,7 +115,7 @@ wxThread::ExitCode wxGISTaskManagerApp::Entry()
             int nChar = getchar();
             if(nChar == 'q' || nChar == 'Q')
             {
-                wxExit(); 
+                wxExit();
                 break;
             }
             wxThread::Sleep(QUIT_CHAR_DELAY);
@@ -238,7 +242,7 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         exit(EXIT_SUCCESS);
         return true;
     }
-   
+
  	else if( pParser.Found( wxT( "h" ) ) )
 	{
 		pParser.Usage();
@@ -313,6 +317,7 @@ bool wxGISTaskManagerApp::SetupSys(const wxString &sSysPath)
     return true;
 }
 
+#ifdef _WIN32
 void wxGISTaskManagerApp::Run()
 {
     wxLogMessage(_("%s %s run"), m_sServiceDisplayName.c_str(), GetAppVersionString().c_str());
@@ -323,7 +328,7 @@ void wxGISTaskManagerApp::Run()
     }
 
     wxThread::Sleep(QUIT_CHAR_DELAY);
-    
+
     wxLogMessage(_("%s %s exit run state"), m_sServiceDisplayName.c_str(), GetAppVersionString().c_str());
 }
 
@@ -358,7 +363,7 @@ void wxGISTaskManagerApp::OnContinue()
         m_pTaskManager->Exit();
         return;
     }
-    
+
     m_pTaskManager->SetExitState(enumGISNetCmdStNoExit);
 
     wxGISService::OnContinue();
@@ -378,5 +383,5 @@ void wxGISTaskManagerApp::OnShutdown()
     wxGISService::OnShutdown();
     wxExit();
 }
-
+#endif // _WIN32
 

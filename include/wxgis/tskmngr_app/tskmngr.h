@@ -39,8 +39,8 @@ WX_DECLARE_STRING_HASH_MAP(wxGISTaskCategory*, wxGISTaskCategoryMap);
     The main task manager class.
 */
 
-class wxGISTaskManager : 
-    public wxObject, 
+class wxGISTaskManager :
+    public wxObject,
     public INetEventProcessor
 {
     DECLARE_CLASS(wxGISTaskManager)
@@ -52,7 +52,7 @@ public:
     //void LoadTasks(const wxString & sPath);
     virtual bool Init(void);
     virtual void Exit(void);
-    virtual void SendNetMessage(const wxNetMessage &msg, int nUserId = wxNOT_FOUND); 
+    virtual void SendNetMessage(const wxNetMessage &msg, int nUserId = wxNOT_FOUND);
     virtual int GetExecTaskCount(void) const;
     virtual int GetMaxExecTaskCount(void) const;
     virtual void SetMaxExecTaskCount(int nMaxExecTasks);
@@ -63,8 +63,8 @@ protected:
     virtual void LoadCategories(const wxString &sPathToCategories);
     virtual void ProcessNetCommand(const wxNetMessage &msg, int nUserId);
     virtual void OnExit(void);
-    virtual wxJSONValue GetChildrenAsJSON(wxJSONValue &val);
-    virtual wxJSONValue GetParamsAsJSON(wxJSONValue &val);
+    virtual wxJSONValue GetChildrenAsJSON(const wxJSONValue &val);
+    virtual wxJSONValue GetParamsAsJSON(const wxJSONValue &val);
     virtual wxString GetNewStorePath(const wxString &sAddToName, const wxString &sSubDir = wxEmptyString);
     static wxString ReplaceForbiddenCharsInFileName(const wxString &name, const wxString &ch = wxT("_") );
 protected:

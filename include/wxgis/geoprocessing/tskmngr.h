@@ -35,10 +35,10 @@ class WXDLLIMPEXP_GIS_GP wxGISTaskManagerEvent : public wxEvent
 {
 public:
     wxGISTaskManagerEvent(wxEventType eventType = wxGISTASKMNGR_CONNECT) : wxEvent(wxNOT_FOUND, eventType)
-	{        
+	{
 	}
 	//wxGISTaskManagerEvent(const wxGISTaskManagerEvent& event) : wxEvent(event)
-	//{        
+	//{
 	//}
     virtual wxEvent *Clone() const { return new wxGISTaskManagerEvent(*this); }
 private:
@@ -58,7 +58,7 @@ typedef void (wxEvtHandler::*wxGISTaskManagerEventFunction)(wxGISTaskManagerEven
     \brief The connection to communicate with local Task Manager Server.
 */
 
-class wxGISLocalClientConnection : 
+class wxGISLocalClientConnection :
 	public INetConnection
 {
     DECLARE_CLASS(wxGISLocalClientConnection)
@@ -86,7 +86,7 @@ WX_DECLARE_STRING_HASH_MAP(wxGISTaskCategory*, wxGISTaskCategoryMap);
 /** \class wxGISTaskManager tskmngr.h
     \brief Task Manager Server communicate class.
 */
-class WXDLLIMPEXP_GIS_GP wxGISTaskManager : 
+class WXDLLIMPEXP_GIS_GP wxGISTaskManager :
     public wxEvtHandler,
 	public wxGISConnectionPointContainer,
     public wxGISPointer
@@ -114,10 +114,10 @@ protected:
     virtual void NetNote(const wxNetMessage &msg);
     virtual void NetCommand(const wxNetMessage &msg);
     virtual void FillDetails(const wxJSONValue &val);
-    virtual void SendNetMessageAsync(wxNetMessage& msg);
-    virtual wxNetMessage SendNetMessageSync(wxNetMessage& msg);
+    virtual void SendNetMessageAsync(const wxNetMessage& msg);
+    virtual wxNetMessage SendNetMessageSync(const wxNetMessage& msg);
     //events
-    virtual void OnGISNetEvent(wxGISNetEvent& event);
+    virtual void OnGISNetEvent(wxGISNetEvent & event);
     virtual void OnTimer( wxTimerEvent & event);
 protected:
     wxGISTaskCategoryMap m_omCategories;
@@ -134,6 +134,6 @@ private:
 
 /** \fn wxGISTaskManager* const GetTaskManager(void)
  *  \brief Global wxGISTaskManager getter.
- */	
+ */
 
 WXDLLIMPEXP_GIS_GP wxGISTaskManager* const GetTaskManager(void);

@@ -28,6 +28,7 @@
     #include "proj_api.h"
 #endif
 
+#include "gdal.h"
 #include "cpl_string.h"
 
 //-----------------------------------------------
@@ -72,7 +73,7 @@ void wxGISApplicationEx::Customize(void)
 	}
 }
 
-void wxGISApplicationEx::RemoveCommandBar(wxGISCommandBar* pBar) 
+void wxGISApplicationEx::RemoveCommandBar(wxGISCommandBar* pBar)
 {
 	for(size_t i = 0; i < m_CommandBarArray.GetCount(); ++i)
 	{
@@ -222,15 +223,39 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 {
     if(!wxGISApplication::SetupSys(sSysPath))
         return false;
+#ifdef __WINDOWS__
 	wxString sGdalDataDir = sSysPath + wxFileName::GetPathSeparator() + wxString(wxT("gdal")) + wxFileName::GetPathSeparator();
-	CPLSetConfigOption("GDAL_DATA", sGdalDataDir.mb_str(wxConvUTF8) );
-#ifdef wxGIS_USE_PROJ
-	sGdalDataDir = sSysPath + wxFileName::GetPathSeparator() + wxString(wxT("proj")) + wxFileName::GetPathSeparator();
-	//CPLSetConfigOption("PROJ_LIB", sGdalDataDir.mb_str(wxConvUTF8) );
-    CPLString pszPROJ_LIB(sGdalDataDir.mb_str(wxConvUTF8));
-    const char *path = pszPROJ_LIB.c_str();
-    pj_set_searchpath(1, &path);
-#endif
+	CPLSetConfigOption("GDAL_DATA", sGdalDataDir.ToUTF8() );
+    #ifdef wxGIS_USE_PROJ
+        sGdalDataDir = sSysPath + wxFileName::GetPathSeparator() + wxString(wxT("proj")) + wxFileName::GetPathSeparator();
+        //CPLSetConfigOption("PROJ_LIB", sGdalDataDir.mb_str(wxConvUTF8) );
+        CPLString pszPROJ_LIB(sGdalDataDir.mb_str(wxConvUTF8));
+        const char *path = pszPROJ_LIB.c_str();
+        pj_set_searchpath(1, &path);
+    #endif // wxGIS_USE_PROJ
+#else
+    wxString sGdalDataDir = wxString::Format(wxT("/usr/share/gdal/%s"), GDALVersionInfo("RELEASE_NAME"));
+    if(!wxDirExists(sGdalDataDir))
+    {
+        sGdalDataDir = wxString(wxT("/usr/share/gdal"));
+        if(!wxDirExists(sGdalDataDir))
+        {
+            sGdalDataDir = wxString::Format(wxT("/usr/local/share/gdal/%s"), GDALVersionInfo("RELEASE_NAME"));
+            if(!wxDirExists(sGdalDataDir))
+            {
+                sGdalDataDir = wxString(wxT("/usr/local/share/gdal"));
+                if(!wxDirExists(sGdalDataDir))
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    CPLSetConfigOption("GDAL_DATA", sGdalDataDir.ToUTF8() );
+    //TODO: set path to proj lib
+    #ifdef wxGIS_USE_PROJ
+    #endif // wxGIS_USE_PROJ
+#endif //__WINDOWS__
 
 #ifndef CPL_RECODE_ICONV
     //the gdal compiled without iconv support

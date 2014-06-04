@@ -117,14 +117,15 @@ void INetConnection::SendNetMessageAsync(const wxNetMessage & msg)
     m_aoMessages.push(msg);
 }
 
-wxNetMessage INetConnection::SendNetMessageSync(wxNetMessage & msg)
+wxNetMessage INetConnection::SendNetMessageSync(const wxNetMessage & msg)
 {
+    wxNetMessage ret = msg;
     m_dataCS.Enter();
     long nWaitId = wxNewId();
-    msg.SetId(nWaitId);
+    ret.SetId(nWaitId);
     //push message and wait the results from server for NET_WAIT_TIMEOUT sec.
     m_laWaitIds.Add(nWaitId);
-    m_aoMessages.push(msg);
+    m_aoMessages.push(ret);
     m_dataCS.Leave();
 
     //can be work in parallel threads
@@ -139,7 +140,7 @@ wxNetMessage INetConnection::SendNetMessageSync(wxNetMessage & msg)
                 wxNetMessage out = m_oaSyncMessages[i];
                 wxCriticalSectionLocker lock(m_msgCS);
                 m_oaSyncMessages.erase(m_oaSyncMessages.begin() + i);
-                
+
                 m_laWaitIds.Remove(nWaitId);
 
                 return out;
@@ -190,7 +191,7 @@ void INetConnection::DestroyThreads(void)
         m_pOutThread->Delete();
         m_pOutThread = NULL;
     }
-       
+
     if(m_pSock)
     {
         if( m_pSock->Destroy() )
@@ -217,7 +218,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
         return false;
     }
 
-    wxCriticalSectionLocker lock(m_dataCS);   
+    wxCriticalSectionLocker lock(m_dataCS);
     if(m_aoMessages.empty())
     {
         return false;
@@ -228,7 +229,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         wxNetMessage msgout = m_aoMessages.top();
-        wxJSONWriter writer( wxJSONWRITER_NONE ); 
+        wxJSONWriter writer( wxJSONWRITER_NONE );
 
 #ifdef USE_STREAMS
 #ifdef _DEBUG
@@ -304,7 +305,7 @@ bool INetConnection::ProcessInputNetMessage(void)
 #ifdef _DEBUG
         wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
 #endif
-        //wxCriticalSectionLocker lock(m_msgCS);            
+        //wxCriticalSectionLocker lock(m_msgCS);
 
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
@@ -313,7 +314,7 @@ bool INetConnection::ProcessInputNetMessage(void)
 #endif
 
 
-        if ( numErrors > 0 )  
+        if ( numErrors > 0 )
         {
             const wxArrayString& errors = reader.GetErrors();
             wxString sErrMsg(_("Invalid input message"));
@@ -336,11 +337,11 @@ bool INetConnection::ProcessInputNetMessage(void)
 
         if(msg.GetId() != wxNOT_FOUND && m_laWaitIds.Index(msg.GetId()) != wxNOT_FOUND)
         {
-            wxCriticalSectionLocker lock(m_msgCS);            
+            wxCriticalSectionLocker lock(m_msgCS);
             m_oaSyncMessages.push_back(msg);
         }
         else
-        {                
+        {
             //wxGISNetEvent event(m_nUserId, wxGISNET_MSG, msg);
             //PostEvent(event);
             PostEvent(new wxGISNetEvent(m_nUserId, wxGISNET_MSG, msg));
@@ -359,7 +360,7 @@ bool INetConnection::ProcessInputNetMessage(void)
 bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
 {
     IPaddress addrLocal;
-    addrLocal.Hostname();	
+    addrLocal.Hostname();
 	// Set up a temporary UDP socket for sending datagrams
 	wxDatagramSocket send_udp(addrLocal, (broadcast ? wxSOCKET_BROADCAST | wxSOCKET_NOBIND : wxSOCKET_NOBIND));// | wxSOCKET_NOWAIT | wxSOCKET_NOWAIT
     if ( !send_udp.IsOk() )
@@ -367,7 +368,7 @@ bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
         wxLogError(_("SendUDP: failed to create UDP socket"));
         return false;
     }
-    
+
     wxLogDebug(wxT("SendUDP: Created UDP socket at %s:%u"), addrLocal.IPAddress(), addrLocal.Service());
     wxLogDebug(wxT("SendUDP: Testing UDP with peer at %s:%u"), addr.IPAddress(), addr.Service());
 
@@ -391,7 +392,7 @@ bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
     {
         wxLogError(_("SendUDP: failed to send data"));
         return false;
-    }    
+    }
 
     return true;
 }

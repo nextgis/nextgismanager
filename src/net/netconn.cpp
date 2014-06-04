@@ -109,14 +109,14 @@ bool wxGISNetServerConnection::ProcessInputNetMessage(void)
 #ifdef _DEBUG
         wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
 #endif //_DEBUG
-        //wxCriticalSectionLocker lock(m_msgCS);            
+        //wxCriticalSectionLocker lock(m_msgCS);
 
         //m_pSock->SetTimeout(SLEEP);
         //m_pSock->SetFlags(wxSOCKET_WAITALL | wxSOCKET_BLOCK);
         int numErrors = reader.Parse( sIn, &value );
 #endif //USE_STREAMS
 
-        if ( numErrors > 0 )  
+        if ( numErrors > 0 )
         {
             wxLogDebug(_("Invalid input message"));
             return false;
@@ -140,13 +140,13 @@ bool wxGISNetServerConnection::ProcessInputNetMessage(void)
 
             IPaddress addr;
             m_pSock->GetPeer(addr);
-            
+
 			if(m_pNetService->CanConnect(sUser, sPass))
 			{
                 m_timer.Stop(); //stop disconnect timer
 
                 wxLogMessage(_("wxGISNetServerConnection: New client connection accepted from %s:%d"), addr.IPAddress().c_str(), addr.Service());
-        
+
                 wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStAccept, enumGISPriorityHigh);
                 msgout.SetMessage(_("Connection accepted"));
                 SendNetMessageAsync(msgout);
@@ -180,7 +180,7 @@ void wxGISNetServerConnection::OnSocketEvent(wxSocketEvent& event)
             //send event to advisers
             wxLogDebug(wxT("wxGISNetServerConnection: INPUT"));
             break;
-        case wxSOCKET_OUTPUT:            
+        case wxSOCKET_OUTPUT:
             wxLogDebug(wxT("wxGISNetServerConnection: OUTPUT"));
             //ProcessNetMessage();
             break;
@@ -194,8 +194,8 @@ void wxGISNetServerConnection::OnSocketEvent(wxSocketEvent& event)
                 if (!m_pSock->GetPeer(addr))
                 {
                     wxLogMessage(_("User #%d is disconnected"), m_nUserId);
-                } 
-                else 
+                }
+                else
                 {
                     wxLogMessage(_("User #%d from %s:%d is disconnected"), m_nUserId, addr.IPAddress().c_str(), addr.Service());
                 }
@@ -223,8 +223,8 @@ void wxGISNetServerConnection::OnTimer( wxTimerEvent & event)
     if (!m_pSock->GetPeer(addr))
     {
         wxLogMessage(_("User #%d is disconnected by timer"), m_nUserId);
-    } 
-    else 
+    }
+    else
     {
         wxLogMessage(_("User #%d from %s:%d is disconnected by timer"), m_nUserId, addr.IPAddress().c_str(), addr.Service());
     }
@@ -246,13 +246,17 @@ wxGISNetClientConnection::~wxGISNetClientConnection(void)
 {
 }
 
-wxJSONValue wxGISNetClientConnection::GetAttributes(void) const
+wxString wxGISNetClientConnection::GetLastError(void) const
 {
-    return NULL;
+    return wxEmptyString;
 }
 
-bool wxGISNetClientConnection::SetAttributes(const wxJSONValue &oProperties)
+wxString wxGISNetClientConnection::GetName(void) const
 {
-    return true;
+    return wxEmptyString;
 }
 
+bool wxGISNetClientConnection::HasAttributes(void) const
+{
+    return false;
+}

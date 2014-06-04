@@ -39,7 +39,7 @@ public:
     virtual long Advise(wxEvtHandler* pEvtHandler);
     virtual void Unadvise(long nCookie);
 protected:
-	virtual void AddEvent(wxEvent &event);
+	virtual void AddEvent(const wxEvent &event);
     virtual void PostEvent(wxEvent *event);
 protected:
 	wxVector<wxEvtHandler*> m_pPointsArray;
@@ -54,7 +54,7 @@ protected:
 */
 class WXDLLIMPEXP_GIS_CORE wxGISPointer
 {
-public:    
+public:
     wxGISPointer();
     virtual ~wxGISPointer(void);
     //ref count

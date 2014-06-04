@@ -54,7 +54,7 @@ protected:
     //events
     virtual void OnSocketEvent(wxSocketEvent& event);
     virtual void OnTimer( wxTimerEvent & event);
-protected:    
+protected:
     virtual bool ProcessInputNetMessage(void);
 protected:
     INetService* m_pNetService;
@@ -72,7 +72,7 @@ class INetService
 public:
     virtual ~INetService(void){};
     virtual bool Start(void) = 0;
-    virtual bool Stop(void) = 0;    
+    virtual bool Stop(void) = 0;
     virtual wxString GetServerName(void) const = 0;
     virtual bool CanConnect(const wxString &sName, const wxString &sPass) = 0;
     virtual void AddConnection(wxGISNetServerConnection* pConn) = 0;
@@ -91,26 +91,24 @@ class WXDLLIMPEXP_GIS_NET wxGISNetClientConnection : public INetConnection
 public:
     wxGISNetClientConnection(void);
     virtual ~wxGISNetClientConnection(void);
-    virtual bool HasAttributes(void) const {return false;};
+    virtual bool HasAttributes(void) const;
 	//pure virtual
     /** \fn wxXmlNode* GetAttributes(void)
      *  \brief Get Properties of plugin.
      *  \return The properties of the plugin
 	 *
 	 *  It should be the new wxXmlNode (not a copy of setted properties)
-     */ 	
-	virtual wxJSONValue GetAttributes(void) const;
+     */
+	virtual wxJSONValue GetAttributes(void) const = 0;
     /** \fn void SetAttributes(const wxXmlNode* pProp)
      *  \brief Set Properties of plugin.
      *  \param pProp The properties of the plugin
 	 *
-	 *  Executed while LoadChildren (after connection class created). 
-     */ 
-	virtual bool SetAttributes(const wxJSONValue& oProperties);
-    
-    virtual wxString GetName(void) const {return wxEmptyString;};
-    /*virtual wxString GetUser(void) = 0;
-    virtual wxString GetCryptPasswd(void) = 0;*/
-    virtual wxString GetLastError(void) const {return wxEmptyString;};
+	 *  Executed while LoadChildren (after connection class created).
+     */
+	virtual bool SetAttributes(const wxJSONValue& oProperties) = 0;
+
+    virtual wxString GetName(void) const;
+    virtual wxString GetLastError(void) const;
  };
 

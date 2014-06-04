@@ -71,7 +71,7 @@ protected:
 
     @library{net}
 */
-class WXDLLIMPEXP_GIS_NET INetConnection : 
+class WXDLLIMPEXP_GIS_NET INetConnection :
     public wxGISConnectionPointContainer,
     public wxEvtHandler
 {
@@ -85,7 +85,7 @@ public:
 	virtual bool Disconnect(void){return false;};
 	virtual bool IsConnected(void){return m_bIsConnected;};
     virtual void SendNetMessageAsync(const wxNetMessage & msg);
-    virtual wxNetMessage SendNetMessageSync(wxNetMessage & msg);
+    virtual wxNetMessage SendNetMessageSync(const wxNetMessage & msg);
     typedef std::priority_queue< wxNetMessage, std::deque<wxNetMessage> > WXGISMSGQUEUE;
 	virtual int GetId(void) const {return m_nUserId;};
 	virtual void SetId(const int nUserId){m_nUserId = nUserId;};
@@ -96,7 +96,7 @@ protected:
     virtual bool ProcessInputNetMessage(void);
 protected:
     WXGISMSGQUEUE m_aoMessages;
-	int m_nUserId;	//user ID for server, and -1 for client	
+	int m_nUserId;	//user ID for server, and -1 for client
     wxCriticalSection m_dataCS; // protects field above
     wxCriticalSection m_msgCS; // protects field above
 	bool m_bIsConnected, m_bIsConnecting;

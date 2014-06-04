@@ -29,7 +29,7 @@
 
 #include <wx/app.h>
 #include <wx/snglinst.h>
-#include <wx/cmdline.h> 
+#include <wx/cmdline.h>
 
 /** @class wxGISTaskManagerApp
 
@@ -40,7 +40,7 @@
 class wxGISTaskManagerApp :
 	public wxAppConsole,
     public wxThreadHelper,
-    public wxGISInitializer, 
+    public wxGISInitializer,
     public wxGISService
 {
 public:
@@ -54,6 +54,7 @@ public:
     // wxGISInitializer
 	virtual bool Initialize(const wxString &sAppName, const wxString &sLogFilePrefix);//, wxCmdLineParser& parser
     // wxGISService
+#ifdef _WIN32
     virtual void Run();
     virtual bool Initialize();
     virtual void OnStop();
@@ -61,6 +62,7 @@ public:
     virtual void OnContinue();
     virtual void OnInterrogate();
     virtual void OnShutdown();
+#endif // _WIN32
     // IApplication
     virtual bool SetupSys(const wxString &sSysPath);
     virtual wxString GetAppName(void) const {return m_appName;};
@@ -77,7 +79,7 @@ protected:
     wxGISAppConfig m_oConfig;
 #ifdef wxUSE_SNGLINST_CHECKER
     wxSingleInstanceChecker *m_pChecker;
-#endif    
+#endif
     wxCriticalSection m_ExitLock;
     wxGISTaskManager* m_pTaskManager;
     bool m_bService;

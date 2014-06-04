@@ -61,7 +61,7 @@ void wxGISConfig::Create(bool bPortable)
 
     m_refData = new wxGISConfigRefData();
 
-    wxStandardPaths::Get().UseAppInfo(wxStandardPathsBase::AppInfo_VendorName); 
+    wxStandardPaths::Get().UseAppInfo(wxStandardPathsBase::AppInfo_VendorName);
 
 	((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath());
 
@@ -87,20 +87,18 @@ void wxGISConfig::Create(bool bPortable)
             ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.Replace(sExeAppName + wxFileName::GetPathSeparator(), wxString(wxT("")));
 
 #else //linux
-        //TODO: set real path to share and set symlink to gdal directory
-        //wxString sDefaultOut = wxString(wxT("/etc/"));
-        //sDefaultOut.Append(wxTheApp->GetVendorName());
-        ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
-        ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = wxStandardPaths::Get().GetConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
+        wxString sLocalConfigDirPath = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT(".")) + sVendorName;
+        ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = sLocalConfigDirPath;
+        wxString sGlobalConfigDirPath = wxStandardPaths::Get().GetConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
+        ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = sGlobalConfigDirPath;
 #endif
-
-	    //if(!wxDirExists(m_sUserConfigDir))
-		   // wxFileName::Mkdir(m_sUserConfigDir, 0755, wxPATH_MKDIR_FULL);
-//	    if(!wxDirExists(m_sSysConfigDir))
-//		    wxFileName::Mkdir(m_sSysConfigDir, 0775, wxPATH_MKDIR_FULL);
     }
 
+#ifdef __WINDOWS__
 	((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
+#else //linux
+	((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT(".")) + sVendorName;
+#endif
 }
 
 wxObjectRefData *wxGISConfig::CreateRefData() const
@@ -629,8 +627,8 @@ wxString wxGISAppConfig::GetLocaleDir(void)
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
     wxString sDefaultOut;
-    
-    
+
+
     if (((wxGISConfigRefData *)m_refData)->m_bPortable)
     {
         sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
@@ -643,8 +641,7 @@ wxString wxGISAppConfig::GetLocaleDir(void)
         wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
         sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
 #else //linux
-        //TODO: set real path to locale
-        sDefaultOut = wxString::Format(wxT("/usr/share/%s/locale"), wxTheApp->GetVendorName().c_str());
+        sDefaultOut = wxStandardPaths::Get().GetResourcesDir() + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
 #endif
     }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/loc/path")), sDefaultOut);
@@ -662,12 +659,7 @@ wxString wxGISAppConfig::GetLogDir(void)
     }
     else
     {
-#ifdef __WINDOWS__
         sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable + wxFileName::GetPathSeparator() + wxString(wxT("log"));
-#else //linux
-        sDefaultOut = wxString(wxT("/var/log/"));
-        sDefaultOut.Append(wxTheApp->GetVendorName());
-#endif
     }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/log/path")), sDefaultOut);
 }
@@ -676,8 +668,8 @@ wxString wxGISAppConfig::GetLogDir(void)
 wxString wxGISAppConfig::GetSysDir(void)
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
-    wxString sDefaultOut;   
-    
+    wxString sDefaultOut;
+
     if(((wxGISConfigRefData *)m_refData)->m_bPortable)
     {
         sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
@@ -690,8 +682,7 @@ wxString wxGISAppConfig::GetSysDir(void)
         wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
         sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
 #else //linux
-        //TODO: set real path to share and set symlink to gdal directory
-        sDefaultOut = wxString::Format(wxT("/usr/share/%s/sys"), wxTheApp->GetVendorName().c_str());
+        sDefaultOut = wxStandardPaths::Get().GetResourcesDir() + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
 #endif
     }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/sys/path")), sDefaultOut);

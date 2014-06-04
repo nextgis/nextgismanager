@@ -49,7 +49,7 @@ void wxGISConnectionPointContainer::Unadvise(long nCookie)
     m_pPointsArray[nCookie] = NULL;
 }
 
-void wxGISConnectionPointContainer::AddEvent(wxEvent &event)
+void wxGISConnectionPointContainer::AddEvent(const wxEvent &event)
 {
     wxLogNull logNo;
     for (size_t i = 0; i < m_pPointsArray.size(); ++i)
@@ -58,7 +58,7 @@ void wxGISConnectionPointContainer::AddEvent(wxEvent &event)
             m_pPointsArray[i]->AddPendingEvent(event);
     }
 }
-    
+
 void wxGISConnectionPointContainer::PostEvent(wxEvent *event)
 {
     wxLogNull logNo;
@@ -91,7 +91,7 @@ wxInt32 wxGISPointer::Reference(void)
 }
 
 wxInt32 wxGISPointer::Dereference(void)
-{ 
+{
     return m_RefCount--;
 }
 

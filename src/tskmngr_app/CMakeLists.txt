@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Baryshnikov Dmitriy (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -40,10 +40,6 @@ find_package(wxWidgets 2.9 REQUIRED base net xml)
 if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
     add_definitions("-DwxUSE_GUI=0")
-#    if(UNIX)
-#      add_definitions("-D${wxWidgets_DEFINITIONS}") #wxWidgets_DEFINITIONS_DEBUG
-#      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS}")
-#    endif(UNIX)
 endif(wxWidgets_FOUND)
 
 

@@ -264,12 +264,12 @@ void wxGISTaskManager::OnGISNetEvent(wxGISNetEvent& event)
     }
 }
 
-void wxGISTaskManager::SendNetMessageAsync(wxNetMessage& msg)
+void wxGISTaskManager::SendNetMessageAsync(const wxNetMessage& msg)
 {
     m_pConn->SendNetMessageAsync(msg);
 }
 
-wxNetMessage wxGISTaskManager::SendNetMessageSync(wxNetMessage& msg)
+wxNetMessage wxGISTaskManager::SendNetMessageSync(const wxNetMessage& msg)
 {
     return m_pConn->SendNetMessageSync(msg);
 }
@@ -281,7 +281,7 @@ bool wxGISTaskManager::SetMaxTaskExec(int nMaxExecTaskCount)
     val[wxT("max_exec_task_count")] = nMaxExecTaskCount;
     val[wxT("exit_state")] = m_eExitState;
     msg.SetValue(val);
-    wxNetMessage msgout = SendNetMessageSync(msg);    
+    wxNetMessage msgout = SendNetMessageSync(msg);
     if(msgout.GetState() == enumGISCmdSetParam)
     {
         m_nMaxExecTasks = nMaxExecTaskCount;
@@ -297,7 +297,7 @@ bool wxGISTaskManager::SetExecState(wxGISNetCommandState eExitState)
     val[wxT("max_exec_task_count")] = m_nMaxExecTasks;
     val[wxT("exit_state")] = eExitState;
     msg.SetValue(val);
-    wxNetMessage msgout = SendNetMessageSync(msg);    
+    wxNetMessage msgout = SendNetMessageSync(msg);
     if(msgout.GetState() == enumGISCmdSetParam)
     {
         m_eExitState = eExitState;
@@ -399,11 +399,11 @@ void wxGISTaskManager::OnTimer( wxTimerEvent & event)
         m_timer.Stop();
         return;
     }
-    
+
     m_pConn->Connect();
 }
 
-wxGISTaskCategory* const wxGISTaskManager::GetCategory(const wxString& sName) 
+wxGISTaskCategory* const wxGISTaskManager::GetCategory(const wxString& sName)
 {
     return m_omCategories[sName];
 }

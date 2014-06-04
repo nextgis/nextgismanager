@@ -60,7 +60,7 @@ void wxGISTaskManager::Exit(void)
     {
 
         m_pNetworkService->Stop();
-        SetNetworkService(NULL);        
+        SetNetworkService(NULL);
         m_pNetworkService = NULL;
     }
 
@@ -79,7 +79,7 @@ void wxGISTaskManager::Exit(void)
             wxFprintf(stdout, wxString::Format(wxT("%d sec.\r"), nTest));
             nSec = nTest;
         }
-        
+
     }
 
     wxGISTaskCategoryMap::iterator it;
@@ -90,20 +90,20 @@ void wxGISTaskManager::Exit(void)
         {
             pTaskCategory->OnDestroy();
         }
-    }    
+    }
 
     for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
     {
         //save and delete
         wxGISTaskCategory* pTaskCategory = it->second;
         wxDELETE(pTaskCategory);
-    }    
+    }
 }
 
 bool wxGISTaskManager::Init(void)
 {
     //load tasks and etc.
-    
+
 	wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
 	{
@@ -126,11 +126,11 @@ bool wxGISTaskManager::Init(void)
 void wxGISTaskManager::LoadCategories(const wxString &sPathToCategories)
 {
     wxLogMessage(_("Read task categories from '%s'"), sPathToCategories.c_str());
-    wxDir dir(sPathToCategories); 
+    wxDir dir(sPathToCategories);
     if( dir.IsOpened() )
     {
         wxString sCategoryName;
-        
+
         bool bContinue = dir.GetFirst(&sCategoryName, wxEmptyString, wxDIR_DIRS);
         while ( bContinue )
         {
@@ -143,7 +143,7 @@ void wxGISTaskManager::LoadCategories(const wxString &sPathToCategories)
             else
             {
                 wxLogError(_("The category '%s' load failed "), sCategoryName.c_str());
-                wxDELETE(pGISTaskCategory);   
+                wxDELETE(pGISTaskCategory);
             }
             bContinue = dir.GetNext(&sCategoryName);
         }
@@ -174,25 +174,27 @@ void wxGISTaskManager::ProcessNetEvent(wxGISNetEvent& event)
     }
 }
 
-wxJSONValue wxGISTaskManager::GetParamsAsJSON(wxJSONValue &val)
+wxJSONValue wxGISTaskManager::GetParamsAsJSON(const wxJSONValue &val)
 {
-    val[wxT("max_exec_task_count")] = m_nMaxExecTasks;
-    val[wxT("exit_state")] = m_nExitState;
-    return val;
+    wxJSONValue out = val;
+    out[wxT("max_exec_task_count")] = m_nMaxExecTasks;
+    out[wxT("exit_state")] = m_nExitState;
+    return out;
 }
 
-wxJSONValue wxGISTaskManager::GetChildrenAsJSON(wxJSONValue &val)
+wxJSONValue wxGISTaskManager::GetChildrenAsJSON(const wxJSONValue &val)
 {
+    wxJSONValue out = val;
     short nCounter(0);
     for(wxGISTaskCategoryMap::iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
     {
         wxGISTaskCategory *pCat = it->second;
         if(pCat)
         {
-            val[wxT("categories")][nCounter++] = pCat->GetName();
+            out[wxT("categories")][nCounter++] = pCat->GetName();
         }
     }
-    return val;
+    return out;
 }
 
 void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
@@ -205,10 +207,10 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
         wxString sCategory = val[wxT("cat")].AsString();
         if(m_omCategories[sCategory])
         {
-            return m_omCategories[sCategory]->NetMessage(msg.GetCommand(), msg.GetState(), val, msg.GetId(), nUserId);            
+            return m_omCategories[sCategory]->NetMessage(msg.GetCommand(), msg.GetState(), val, msg.GetId(), nUserId);
         }
     }
-    
+
     //if command for manager - process it
     switch(msg.GetState())
     {
@@ -217,44 +219,44 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                 wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdDetails, enumGISPriorityHigh, msg.GetId());
                 msgout.SetValue(GetParamsAsJSON(msgout.GetValue()));
                 msgout.SetValue(GetChildrenAsJSON(msgout.GetValue()));
-                SendNetMessage(msgout, nUserId);                
+                SendNetMessage(msgout, nUserId);
             }
-            break; 
+            break;
         case enumGISCmdChildren://Get category list
             {
                 wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh, msg.GetId());
                 msgout.SetValue(GetChildrenAsJSON(msgout.GetValue()));
-                SendNetMessage(msgout, nUserId);                
+                SendNetMessage(msgout, nUserId);
             }
-            break; 
-        case enumGISCmdSetParam://Set max parallel executed tasks in each category  
+            break;
+        case enumGISCmdSetParam://Set max parallel executed tasks in each category
             {
-                int nMaxExec = val.Get(wxT("max_exec_task_count"), wxJSONValue(m_nMaxExecTasks)).AsInt();                
+                int nMaxExec = val.Get(wxT("max_exec_task_count"), wxJSONValue(m_nMaxExecTasks)).AsInt();
                 SetMaxExecTaskCount(nMaxExec);
 
-                wxGISNetCommandState nExitSt = (wxGISNetCommandState)val.Get(wxT("exit_state"), wxJSONValue(m_nExitState)).AsLong();                
+                wxGISNetCommandState nExitSt = (wxGISNetCommandState)val.Get(wxT("exit_state"), wxJSONValue(m_nExitState)).AsLong();
                 SetExitState(nExitSt);
 
                 wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdSetParam, enumGISPriorityNormal,  msg.GetId());
                 msgout.SetValue(GetParamsAsJSON(msgout.GetValue()));
-                SendNetMessage(msgout, nUserId);                
+                SendNetMessage(msgout, nUserId);
             }
             break;
         case enumGISCmdGetParam:
             {
                 wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdGetParam, enumGISPriorityNormal,  msg.GetId());
                 msgout.SetValue(GetParamsAsJSON(msgout.GetValue()));
-                SendNetMessage(msgout, nUserId);                
+                SendNetMessage(msgout, nUserId);
             }
             break;
         case enumGISCmdStAdd:
             {
-                wxString sCatName = val[wxT("name")].AsString();   
+                wxString sCatName = val[wxT("name")].AsString();
                 if(sCatName.IsEmpty() || m_omCategories[sCatName])
                 {
                     wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
                     msgout.SetMessage(_("The category name is empty or category is already exist"));
-                    SendNetMessage(msgout, nUserId);                
+                    SendNetMessage(msgout, nUserId);
                 }
                 else
                 {
@@ -264,18 +266,18 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                     {
                         wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatPath, this);
                         m_omCategories[sCategoryName] = pGISTaskCategory;
-                        
+
                         wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdStAdd, enumGISPriorityNormal, msg.GetId());
                         wxJSONValue val;
                         val[wxT("name")] = sCatName;
                         msgout.SetValue(val);
-                        SendNetMessage(msgout, nUserId);                
+                        SendNetMessage(msgout, nUserId);
                     }
                     else
                     {
                         wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityHigh,  msg.GetId());
                         msgout.SetMessage(_("Create category directory failed"));
-                        SendNetMessage(msgout, nUserId);                
+                        SendNetMessage(msgout, nUserId);
                     }
                 }
             }
@@ -286,7 +288,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
        case enumGISCmdStChng:
            //TODO:
            break;
-        default:            
+        default:
            break;
     }
 }
@@ -307,7 +309,7 @@ void wxGISTaskManager::OnExit(void)
     }
     //stop all tasks, and then exit
     for(wxGISTaskCategoryMap::const_iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
-    {        
+    {
         wxGISTaskCategory *pCat = it->second;
         if(pCat)
         {
@@ -322,7 +324,7 @@ int wxGISTaskManager::GetExecTaskCount(void) const
 {
     int nRes(0);
     for(wxGISTaskCategoryMap::const_iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
-    {        
+    {
         wxGISTaskCategory *pCat = it->second;
         if(pCat)
         {
@@ -333,7 +335,7 @@ int wxGISTaskManager::GetExecTaskCount(void) const
 }
 
 int wxGISTaskManager::GetMaxExecTaskCount(void) const
-{ 
+{
     return m_nMaxExecTasks;
 }
 
@@ -341,7 +343,7 @@ void wxGISTaskManager::SetMaxExecTaskCount(int nMaxExecTasks)
 {
     m_nMaxExecTasks = nMaxExecTasks;
     for(wxGISTaskCategoryMap::const_iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
-    {        
+    {
         wxGISTaskCategory *pCat = it->second;
         if(pCat)
         {
@@ -398,7 +400,7 @@ bool wxGISTaskManager::AddTask(const wxXmlNode* pTaskNode, int nId, wxString &sE
         return false;
     }
     wxCriticalSectionLocker locker(m_TaskLock);
-    
+
     wxString sCat = pTaskNode->GetAttribute(wxT("cat"), wxT("default"));
     wxLogMessage(_("Add task to category '%s' "), sCat);
     if(!m_omCategories[sCat])
@@ -408,7 +410,7 @@ bool wxGISTaskManager::AddTask(const wxXmlNode* pTaskNode, int nId, wxString &sE
         int nMaxTaskExec = GetDecimalValue(pTaskNode, wxT("cat_max_task_exec"), wxThread::GetCPUCount());
         if(!m_omCategories[sCat]->SetMaxExecTasks(nMaxTaskExec, sErrMsg))
             return false;
-    }    
+    }
     return m_omCategories[sCat]->AddTask(pTaskNode, nId, sErrMsg);
 }
 
@@ -518,7 +520,7 @@ void wxGISTaskManager::GetTaskDetails(const wxXmlNode* pTaskNode, int nId)
 
     wxString sCat = pTaskNode->GetAttribute(wxT("cat"), wxEmptyString);
     int nTaskId = GetDecimalValue(pTaskNode, wxT("id"), wxNOT_FOUND);
-    
+
     if(m_omCategories[sCat])
     {
         m_omCategories[sCat]->GetTaskMessages(nTaskId, nId);

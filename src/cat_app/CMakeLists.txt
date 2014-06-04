@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Bishop
+# *   Copyright (C) 2013 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -38,10 +38,6 @@ find_package(wxWidgets 2.9 REQUIRED core base)
 # wxWidgets include (this will do all the magic to configure everything)
 if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
-#    if(UNIX)
-#      add_definitions("-D${wxWidgets_DEFINITIONS}") #wxWidgets_DEFINITIONS_DEBUG
-#      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS}")
-#    endif(UNIX)
 endif(wxWidgets_FOUND)
 
 option(wxGIS_USE_POSTGRES "Set OFF to build without PostGIS support" OFF)
@@ -90,12 +86,6 @@ if(CAIRO_FOUND)
     set(wxGIS_USE_CAIRO ON)
 endif(CAIRO_FOUND)
 
-# if(GDAL_FOUND)
-    # include_directories(${GDAL_INCLUDE_DIR}/ogr/ogrsf_frmts)
-# endif(GDAL_FOUND)
-
-
-
 include_directories(${APP_HEADERS})
 
 set(PROJECT_HHEADERS ${PROJECT_HHEADERS}  
@@ -125,10 +115,6 @@ endif(wxWidgets_FOUND)
 if(OPENSSL_FOUND)
     target_link_libraries(${APP_NAME} ${OPENSSL_LIBRARIES})
 endif(OPENSSL_FOUND) 
-
-# if(GDAL_FOUND)
-    # target_link_libraries(${APP_NAME} ${GDAL_LIBRARIES})
-# endif(GDAL_FOUND) 
 
 if(PROJ_FOUND)
     target_link_libraries(${APP_NAME} ${PROJ_LIBRARY})
