@@ -3,7 +3,7 @@
  * Purpose:  wxGxRasterFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2010,2013,2014  Bishop
+*   Copyright (C) 2009-2010,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #include "wxgis/catalog/gxobjectfactory.h"
 #include "wxgis/datasource/datasource.h"
 
-/** \class wxGxRasterFactory gxrasterfactory.h
-    \brief A raster GxObject factory.
+/** @class wxGxRasterFactory
+
+    A raster GxObject factory.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRasterFactory :

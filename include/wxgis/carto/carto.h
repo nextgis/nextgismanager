@@ -3,7 +3,7 @@
  * Purpose:  wxGISCarto main header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Bishop
+*   Copyright (C) 2009,2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,8 +25,11 @@
 #include "wxgis/datasource/spatialtree.h"
 #include "wxgis/datasource/rasterdataset.h"
 
-/** \enum wxGISEnumRendererType rasterrenderer.h
-    \brief A renderer color interpretation type
+/** @enum wxGISEnumRendererType
+
+    A renderer color interpretation type
+
+    @library{carto}
 */
 enum wxGISEnumRendererType
 {

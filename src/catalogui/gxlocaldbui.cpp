@@ -3,7 +3,7 @@
 * Purpose:  local db (sqlite, gdab, mdb) ui classes.
 * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 ******************************************************************************
-*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 Dmitry Barishnikov
 *   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify

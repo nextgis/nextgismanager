@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS
  * Purpose:  Drag'n'Drop wxGIS implementations.
- * Author:   Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Bishop
+*   Copyright (C) 2010-2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by

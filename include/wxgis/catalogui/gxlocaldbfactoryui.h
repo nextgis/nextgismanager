@@ -3,7 +3,7 @@
  * Purpose:  wxGxLocalDBFactoryUI class. Create new local databases GxObjectsUI
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2014 Bishop
+*   Copyright (C) 2014 Dmitry Baryshnikov
 *   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
