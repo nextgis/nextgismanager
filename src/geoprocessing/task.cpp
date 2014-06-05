@@ -209,7 +209,17 @@ void wxGISTaskBase::ChangeTask(const wxJSONValue &val)
 
 bool wxGISTaskBase::RenameTask(const wxString& sNewName)
 {
-    //check if name is already exist
+    if (m_sName == sNewName)
+        return true;
+
+    wxJSONValue val;
+    val[wxT("id")] = m_nId;
+    val[wxT("name")] = sNewName;
+    if (m_pParentTask->SendNetMessageSync(enumGISNetCmdCmd, enumGISCmdStChng, val) == enumGISCmdStChng)
+    {
+        NetCommand(enumGISCmdStChng, val);
+        return true;
+    }
     return false;
 }
 

@@ -50,7 +50,7 @@ find_package(CAIRO REQUIRED)
 if(CAIRO_FOUND)
     include_directories(${CAIRO_INCLUDE_DIR})
     add_definitions(-DHAVE_CAIRO)
-    set(wxGIS_USE_CAIRO ON)
+    set(wxGIS_USE_CAIRO ON PARENT_SCOPE)
 endif(CAIRO_FOUND)
 
 include_directories(${LIB_HEADERS})

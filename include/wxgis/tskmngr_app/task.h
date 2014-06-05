@@ -51,6 +51,7 @@ public:
     virtual int GetId(void) const;
     virtual int GetNewId(void);
     virtual void Delete(wxGISTaskBase *pTask);
+    virtual bool HasName(const wxString &sName) const;
     //start/stop
     virtual void OnDestroy(void);
     virtual void StartNextQueredTask(void);
@@ -101,10 +102,11 @@ public:
     virtual ~wxGISTask(void);
     virtual int GetGroupId(void) const;
     virtual bool Load(void);
-    virtual bool Delete(long nMessageId, int nUserId);
+    virtual bool Delete(long nMessageId = -2, int nUserId = -2);
     virtual void GetChildren(long nMessageId, int nUserId);
     virtual bool StartTask(long nMessageId, int nUserId);
     virtual bool StopTask(long nMessageId, int nUserId);
+    virtual bool ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUserId);
     virtual bool Create(const wxJSONValue& TaskConfig);
     virtual wxJSONValue GetAsJSON(void);
     virtual long GetCommonPriority(void);

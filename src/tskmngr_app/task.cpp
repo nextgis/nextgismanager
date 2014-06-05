@@ -126,6 +126,21 @@ void wxGISTaskBase::OnDestroy(void)
     }
 }
 
+bool wxGISTaskBase::HasName(const wxString &sName) const
+{
+    for (wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+    {
+        if (NULL != it->second)
+        {
+            if (it->second->GetName() == sName)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 //------------------------------------------------------------------------------
 // wxGISTask
 //------------------------------------------------------------------------------
@@ -338,7 +353,7 @@ bool wxGISTask::Delete(long nMessageId, int nUserId)
         wxGISTask* pTask = dynamic_cast<wxGISTask*>(it->second);
         if(pTask)
         {
-            if(!pTask->Delete(-2, -2))
+            if(!pTask->Delete())
                 return false;
         }
     }
@@ -469,13 +484,13 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
                 m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Delete failed"), nMessageId, nUserId);
             }
             break;       
-        case enumGISCmdStChng://TODO: Change subtask by TaskId. Return result of operation
-//            if(!ChangeTask(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
-//            {
-//                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
-//                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
-//            }
+        case enumGISCmdStChng:
+            if (!ChangeTask(val, nMessageId, wxNOT_FOUND) && m_pParentTask)
+            {
+                wxJSONValue idval;
+                idval[wxT("id")] = m_nId;
+                m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Change task failed"), nMessageId, nUserId);
+            }
             break; 
         case enumGISCmdStStart:
             if (!StartTask(nMessageId, wxNOT_FOUND) && m_pParentTask)
@@ -653,6 +668,100 @@ void wxGISTask::ChangeTaskMsg(wxGISEnumMessageType nType, const wxString &sInfoD
     m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISCmdNoteMsg, enumGISPriorityLow, val, _("Task new message"), wxNOT_FOUND);
 }
 
+bool wxGISTask::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUserId)
+{
+    if (!m_pParentTask)
+        return false;
+
+    wxJSONValue val;
+    val[wxT("id")] = m_nId;
+
+    bool nHaveChanges = false;
+    wxString sName = TaskVal.Get(wxT("name"), m_sName).AsString();
+    if (m_sName != sName)
+    {
+        if (m_pParentTask->HasName(sName)) //TODO: error message
+            return false;
+        m_sName = sName;
+        val[wxT("name")] = m_sName;
+        nHaveChanges = true;
+    }
+
+    wxString sDescription = TaskVal.Get(wxT("desc"), m_sDescription).AsString();
+    if (m_sDescription != sDescription)
+    {
+        m_sDescription = sDescription;
+        val[wxT("desc")] = m_sDescription;
+        nHaveChanges = true;
+    }
+
+    int nGroupId = TaskVal.Get(wxT("groupid"), m_nGroupId).AsInt();
+    if (m_nGroupId != nGroupId)
+    {
+        m_nGroupId = nGroupId;
+        val[wxT("groupid")] = m_nGroupId;
+        nHaveChanges = true;
+    }
+    
+    int nPriority = TaskVal.Get(wxT("prio"), m_nPriority).AsLong();
+    if (m_nPriority != nPriority)
+    {
+        m_nPriority = nPriority;
+        val[wxT("prio")] = m_nPriority;
+        nHaveChanges = true;
+    }
+
+    if (TaskVal.HasMember(wxT("params")))
+    {
+        m_Params = TaskVal[wxT("params")];
+        val[wxT("params")] = m_Params;
+        nHaveChanges = true;
+    }
+
+    wxString sExecPath = TaskVal.Get(wxT("exec"), m_sExecPath).AsString();
+    if (m_sExecPath != sExecPath)
+    {
+        m_sExecPath = sExecPath;
+        val[wxT("exec")] = m_sExecPath;
+        nHaveChanges = true;
+    }
+
+    if (TaskVal.HasMember(wxT("subtasks")))
+    {
+        //delete exist subtasks
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            wxGISTask* pTask = dynamic_cast<wxGISTask*>(it->second);
+            if (pTask)
+            {
+                if (!pTask->Delete())
+                    return false;
+            }
+        }
+        m_omSubTasks.clear();
+
+        wxJSONValue subtasks = TaskVal[wxT("subtasks")];
+        for (size_t i = 0; i < subtasks.Size(); ++i)
+        {
+            wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
+            if (pTask->Load())
+            {
+                m_omSubTasks[pTask->GetId()] = pTask;
+            }
+            else
+            {
+                wxDELETE(pTask);
+            }
+        }
+        val[wxT("subtasks")] = subtasks;
+        nHaveChanges = true;
+    }
+
+    if (nHaveChanges)
+        m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHigh, val, _("Task changed"), nMessageId, nUserId);
+
+    return true;
+}
 
 bool wxGISTask::IsGroupIdExecuting(int nGroupId) const
 {
