@@ -29,6 +29,8 @@
 #include "ogr_api.h"
 #include "gdal_priv.h"
 
+#include "../../art/splash.xpm"
+
 IMPLEMENT_APP(wxGISCatalogApp)
 
 wxGISCatalogApp::wxGISCatalogApp(void) : wxApp()
@@ -80,11 +82,12 @@ bool wxGISCatalogApp::OnInit()
     if(bShowSplash)
     {
         long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
-        wxGISSplashScreen *pSplash = new wxGISSplashScreen(nTimeout, m_pMainFrame);
-    #if !defined(__WXGTK20__)
+        wxBitmap splash_bmp = PrepareSplashScreen(m_pMainFrame, 0, 10);
+        wxSplashScreen* pSplash = new wxSplashScreen(splash_bmp, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, nTimeout, m_pMainFrame, wxID_ANY);
+    //#if !defined(__WXGTK20__)
         // we don't need it at least on wxGTK with GTK+ 2.12.9
         wxYield();
-    #endif
+    //#endif
     }
 
 	//setup loging

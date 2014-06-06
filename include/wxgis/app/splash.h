@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS
- * Purpose:  Splash scree class.
+ * Purpose:  Splash screen functions.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Dmitry Baryshnikov
+*   Copyright (C) 2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,20 +23,8 @@
 #include "wxgis/core/app.h"
 #include <wx/splash.h>
 
-/** \class wxGISSplashScreen splash.h
- *  \brief Standard splash for wxGIS applications
+/** @fn PrepareSplashScreen
+
+    Draw a text on bitmap and black border
  */
-class wxGISSplashScreen : public wxSplashScreen
-{
-	enum
-	{
-		ID_CHECK = wxID_HIGHEST + 1
-	};
-public:
-	wxGISSplashScreen( int milliseconds = 6000, wxWindow *parent = NULL, wxWindowID id = wxID_ANY, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize, long style = wxBORDER_NONE|wxFRAME_NO_TASKBAR|wxSTAY_ON_TOP );
-	virtual ~wxGISSplashScreen();
-    virtual int FilterEvent(wxEvent& event);
-protected:
-    wxCheckBox* m_checkBoxShow;
-    IApplication* m_pApp;
-};
+wxBitmap PrepareSplashScreen(const IApplication *pApp, int nDeltH = 0, int nDeltaV = 0);
