@@ -553,7 +553,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 {
                     //show ask dialog
                     wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
-                    wxString sMessage = wxString::Format(_("Do you really want to delete %d item(s)"), pSel->GetCount());
+                    wxString sMessage = wxString::Format(_("Do you really want to delete %ld item(s)"), pSel->GetCount());
                     if (pSel->GetCount() > 0)
                     {
                         sMessage.Append(wxT("\n"));

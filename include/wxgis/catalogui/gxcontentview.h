@@ -33,13 +33,18 @@ class wxGxApplication;
 
 #define LISTSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_EDIT_LABELS | wxLC_AUTOARRANGE) //wxLC_LIST|wxLC_SORT_ASCENDING
 
-//TODO: Fix mouse selection dragging linux
+#if defined __WINDOWS__
+    #define wxGISLIST_STATE_DROPHILITED wxLIST_STATE_DROPHILITED
+#elif defined __WXGTK__
+    #define wxGISLIST_STATE_DROPHILITED wxLIST_STATE_SELECTED
+#else //wxMAC
+#endif // defined
 
 /** @struct wxGxToolBarArt gxcontentview.h
-    
+
     The struct needed for sort data in content view.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 typedef struct _sortdata
 {
@@ -48,10 +53,10 @@ typedef struct _sortdata
 } SORTDATA, *LPSORTDATA;
 
 /** @class wxGxContentView gxcontentview.h
-    
+
     The catalog content view class.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class WXDLLIMPEXP_GIS_CLU wxGxContentView :
 	public wxListCtrl,
@@ -72,6 +77,7 @@ public:
     virtual void SelectAll(void);
     virtual bool Show(bool show = true);
 	virtual void RefreshAll(void);
+    virtual long HitTest( const wxPoint& point, int& flags, long *pSubItem = NULL ) const;
 // wxGxView
     virtual bool Create(wxWindow* parent, wxWindowID id = LISTCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = LISTSTYLE, const wxString& name = wxT("ContentView"));
 	virtual bool Activate(IApplication* const pApplication, wxXmlNode* const pConf);

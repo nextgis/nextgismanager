@@ -1213,10 +1213,11 @@ int wxGxContentView::GetIconPos(wxIcon icon_small, wxIcon icon_large)
 
 wxDragResult wxGxContentView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
 {
-    SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
+    SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     wxPoint pt(x, y);
 	unsigned long nFlags(0);
 	long nItemId = HitTest(pt, (int &)nFlags);
+
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
         wxSize sz = GetClientSize();
@@ -1226,7 +1227,7 @@ wxDragResult wxGxContentView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
             ScrollLines(1);
 
         m_HighLightItem = nItemId;
-        SetItemState(m_HighLightItem, wxLIST_STATE_DROPHILITED, wxLIST_STATE_DROPHILITED);
+        SetItemState(m_HighLightItem, wxGISLIST_STATE_DROPHILITED, wxGISLIST_STATE_DROPHILITED);
 
     }
     return def;
@@ -1236,7 +1237,7 @@ bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& G
 {
     bool bMove = !wxGetKeyState(WXK_CONTROL);
 
-    SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
+    SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     //SetItemState(m_HighLightItem, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     wxPoint pt(x, y);
 	unsigned long nFlags(0);
@@ -1261,7 +1262,11 @@ bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& G
 
 void wxGxContentView::OnLeave()
 {
-    SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
+    if(m_HighLightItem < 0 && m_HighLightItem >= GetItemCount())
+    {
+        return;
+    }
+    SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
 }
 
 wxGxObject* const wxGxContentView::GetParentGxObject(void) const
@@ -1329,4 +1334,27 @@ wxThread::ExitCode wxGxContentView::Entry()
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;     // success
+}
+
+long wxGxContentView::HitTest( const wxPoint& point, int& flags, long *pSubItem) const
+{
+    wxPoint TestPt = point;
+#ifdef __WXGTK__
+    if(HasHeader())
+    {
+        //TODO: find out header height
+        int nHHeight = 20;
+        //wxListHeaderWindow* pWnd = wxListCtrl::m_headerWin;
+        //if(pWnd != NULL)
+        //{
+        //    wxSize size = pWnd->GetSize();
+            TestPt.y -= nHHeight;
+        //}
+    }
+#endif // __WXGTK__
+
+    long ret = wxListCtrl::HitTest(TestPt, flags, pSubItem);
+    if(ret < wxNOT_FOUND)
+        ret = wxNOT_FOUND;
+    return ret;
 }
