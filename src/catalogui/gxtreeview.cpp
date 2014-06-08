@@ -161,7 +161,7 @@ void wxGxTreeViewBase::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
 
     if(NULL != pGxObjectAttr && pGxObjectAttr->ShowCount())
     {
-        sName.Append(wxString::Format(wxT(" [%d]"), pGxObjectAttr->GetCount()));
+        sName.Append(wxString::Format(wxT(" [%ld]"), pGxObjectAttr->GetCount()));
     }
 
 
@@ -368,8 +368,7 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
                     for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
                     {
                         wxGxObject *current = *iter;
-                        //wxLogDebug(wxT("TreeCtrl Expand %d '%s'"), current->GetId(), current->GetFullName());
-						AddTreeItem(current, item);//false
+ 						AddTreeItem(current, item);//false
                         m_pCatalog->ObjectAdded(current->GetId());
                     }
 					pData->m_bExpandedOnce = true;
@@ -538,7 +537,7 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
 
                 if (NULL != pGxObjectAttr && pGxObjectAttr->ShowCount())
                 {
-                    sName.Append(wxString::Format(wxT(" [%d]"), pGxObjectAttr->GetCount()));
+                    sName.Append(wxString::Format(wxT(" [%ld]"), pGxObjectAttr->GetCount()));
                 }
                 SetItemText(TreeItemId, sName);
             }

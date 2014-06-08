@@ -139,7 +139,7 @@ void wxGxDiscConnection::StartWatcher(void)
         }
     }
 #endif
-} 
+}
 
 void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
@@ -196,11 +196,14 @@ void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
                 wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
 
 #ifdef __WXGTK__
-                m_pWatcher->Remove(event.GetPath());
+                if(IsPathWatched(event.GetPath().GetFullPath()))
+                {
+                    m_pWatcher->Remove(event.GetPath());
+                }
+
                 if(!IsPathWatched(event.GetNewPath().GetFullPath()))
                 {
                     m_pWatcher->Add(event.GetNewPath());
-
                 }
 #endif
                 return;
@@ -259,4 +262,3 @@ void wxGxDiscConnection::Refresh(void)
 	LoadChildren();
     wxGIS_GXCATALOG_EVENT(ObjectRefreshed);
 }
-    

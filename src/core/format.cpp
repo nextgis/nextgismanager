@@ -134,7 +134,7 @@ float GetFloatValue(const wxXmlNode* pNode, const wxString &sAttrName, float dfD
 
 void SetDecimalValue(wxXmlNode* pNode, const wxString &sAttrName, long nVal)
 {
-    wxString sVal = wxString::Format(wxT("%d"), nVal);
+    wxString sVal = wxString::Format(wxT("%ld"), nVal);
     pNode->AddAttribute(sAttrName, sVal);
 }
 
@@ -148,7 +148,7 @@ long GetDecimalValue(const wxXmlNode* pNode, const wxString &sAttrName, long nDe
 {
     if(!pNode)
         return nDefVal;
-    wxString sDefVal = wxString::Format(wxT("%d"), nDefVal);
+    wxString sDefVal = wxString::Format(wxT("%ld"), nDefVal);
     wxString sVal = pNode->GetAttribute(sAttrName, sDefVal);
     return wxAtol(sVal);
 }

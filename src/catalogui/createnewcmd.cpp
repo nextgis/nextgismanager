@@ -104,7 +104,6 @@ bool wxGISCreateNewCmd::GetChecked(void)
 
 bool wxGISCreateNewCmd::GetEnabled(void)
 {
-    wxLogDebug(wxT("wxGISCreateNewCmd::GetEnabled"));
     wxCHECK_MSG(m_pGxApp && m_pApp, false, wxT("Application pointer is null"));
 
     wxGxSelection* pSel = m_pGxApp->GetGxSelection();
@@ -133,7 +132,7 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                     return true;
                 }
             }
-            return false;		
+            return false;
 		case 2://Create database schema
             if(pCat && pSel)
             {
@@ -144,7 +143,7 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                     return true;
                 }
             }
-            return false;		
+            return false;
         default:
 			return false;
 	}
@@ -183,7 +182,7 @@ void wxGISCreateNewCmd::OnClick(void)
 
     wxGxSelection* pSel = m_pGxApp->GetGxSelection();
     wxGxCatalogBase* pCat = GetGxCatalog();
-    
+
 	switch(m_subtype)
 	{
 		case 0:

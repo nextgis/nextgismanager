@@ -898,7 +898,7 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
     switch(nSelection)
     {
     case 0://get top layer
-        //TODO: check group layer 	
+        //TODO: check group layer
         for (size_t i = m_pMapView->GetLayerCount() - 1; i >= 0; --i)
         {
             wxGISLayer* const pLayer = m_pMapView->GetLayerByIndex(i);
@@ -949,7 +949,7 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
 
                 wxGISSpatialTreeCursor::const_iterator iter;
                 for(iter = Cursor.begin(); iter != Cursor.end(); ++iter)
-                {    
+                {
                     wxGISSpatialTreeData *current = *iter;
                     if(current)
                     {
@@ -1006,11 +1006,11 @@ void wxAxIdentifyView::FillTree(const wxVector<FILLTREEDATA> &data)
 
                 wxGISSpatialTreeCursor::const_iterator iter;
                 for(iter = data[i].Cursor.begin(); iter != data[i].Cursor.end(); ++iter)
-                {    
+                {
                     wxGISSpatialTreeData *current = *iter;
                     if(current)
                     {
-                        wxTreeItemId nFeatureId = m_pTreeCtrl->AppendItem(nLayerId, wxString::Format(wxT("%d"), current->GetFID()), 2);
+                        wxTreeItemId nFeatureId = m_pTreeCtrl->AppendItem(nLayerId, wxString::Format(wxT("%ld"), current->GetFID()), 2);
 		                m_pTreeCtrl->SetItemData(nFeatureId, new wxIdentifyTreeItemData(pDataset, current->GetFID(), current->GetGeometry()));
         //		        if(iter == data[i].Cursor.begin())
         //			        nFirstFeatureId = nFeatureId;

@@ -86,11 +86,11 @@ OGREnvelope wxGISShape::GetBounds() const
         oReturnBounds.MinY = pCenterPt->getY() - dfRadius;
         break;
     }
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISShapeTypeCurve://TODO:
     case enumGISShapeTypeFreeHand:
         break;
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISShapeTypeFreeHand:
         oReturnBounds = m_oGeom.GetEnvelope();
         break;
@@ -200,41 +200,41 @@ bool wxGISDrawingLayer::AddShape(const wxGISGeometry &Geom, wxGISEnumShapeType e
     switch (eType)
     {
     case enumGISShapeTypeRectangle:
-        sShapeName = wxString::Format(_("Rectangle %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Rectangle %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pFillSymbol->Clone(), wxGISSymbol);
         break;
     case enumGISShapeTypePolygon:
-        sShapeName = wxString::Format(_("Polygon %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Polygon %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pFillSymbol->Clone(), wxGISSymbol);
         break;
     case enumGISShapeTypeCircle:
-        sShapeName = wxString::Format(_("Circle %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Circle %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pCircleSymbol->Clone(), wxGISSymbol);
         break;
     case enumGISShapeTypeEllipse:
-        sShapeName = wxString::Format(_("Ellipse %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Ellipse %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pEllipseSymbol->Clone(), wxGISSymbol);
         break;
     case enumGISShapeTypeLine:
-        sShapeName = wxString::Format(_("Line %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Line %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pLineSymbol->Clone(), wxGISSymbol);
         break;
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISShapeTypeCurve:
-        sShapeName = wxString::Format(_("Curve %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Curve %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pLineSymbol->Clone(), wxGISSymbol);
         break;
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISShapeTypeFreeHand:
-        sShapeName = wxString::Format(_("FreeHand %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("FreeHand %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pLineSymbol->Clone(), wxGISSymbol);
         break;
     case enumGISShapeTypeMarker:
-        sShapeName = wxString::Format(_("Marker %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Marker %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pMarkerSymbol->Clone(), wxGISSymbol);
         break;
     default:
-        sShapeName = wxString::Format(_("Shape %d"), m_aoShapes.size() + 1);
+        sShapeName = wxString::Format(_("Shape %ld"), m_aoShapes.size() + 1);
         pSymbol = wxStaticCast(m_pFillSymbol->Clone(), wxGISSymbol);
         break;
     };
@@ -300,10 +300,10 @@ wxGISSymbol* wxGISDrawingLayer::GetSymbol(wxGISEnumShapeType eType)
         return wxStaticCast(m_pEllipseSymbol, wxGISSymbol);
     case enumGISShapeTypeLine:
         return wxStaticCast(m_pLineSymbol, wxGISSymbol);
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISShapeTypeCurve:
         return wxStaticCast(m_pLineSymbol, wxGISSymbol);
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISShapeTypeFreeHand:
         return wxStaticCast(m_pLineSymbol, wxGISSymbol);
     case enumGISShapeTypeMarker:

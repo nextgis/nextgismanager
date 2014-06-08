@@ -468,7 +468,7 @@ void wxGxContentView::OnSelected(wxListEvent& event)
     {
         if(nCount > 1)
         {
-            pStatusBar->SetMessage(wxString::Format(_("%d objects selected"), nCount));
+            pStatusBar->SetMessage(wxString::Format(_("%ld objects selected"), nCount));
         }
         else
         {

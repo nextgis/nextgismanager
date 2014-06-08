@@ -40,8 +40,8 @@ WXDLLIMPEXP_GIS_GPU int wxCALLBACK GxTaskCompareFunction(wxIntPtr item1, wxIntPt
 {
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     if(!pCatalog)
-        return 0;	
-    
+        return 0;
+
 //    LPSORTDATA psortdata = (LPSORTDATA)sortData;
 
     IGxTask* pGxTask1 = dynamic_cast<IGxTask*>(pCatalog->GetRegisterObject(item1));
@@ -173,8 +173,8 @@ bool wxGISToolExecuteView::Activate(IApplication* const pApplication, wxXmlNode*
 
 void wxGISToolExecuteView::Deactivate(void)
 {
-    Serialize(m_pXmlConf, true);	
-    
+    Serialize(m_pXmlConf, true);
+
     if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
     if(m_ConnectionPointSelectionCookie != wxNOT_FOUND && m_pSelection)
@@ -261,7 +261,7 @@ void wxGISToolExecuteView::OnSelected(wxListEvent& event)
     {
         if(nCount > 1)
         {
-            pStatusBar->SetMessage(wxString::Format(_("%d objects selected"), nCount));
+            pStatusBar->SetMessage(wxString::Format(_("%ld objects selected"), nCount));
         }
         else
         {
@@ -493,18 +493,18 @@ void wxGISToolExecuteView::OnChar(wxKeyEvent& event)
             long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
             if(nSelItem == wxNOT_FOUND)
                 SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            else 
+            else
             {
                 SetItemState(nSelItem, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
                 if(nSelItem == 0)
-                {             
+                {
                     SetItemState(GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
                 }
                 else
                 {
                     SetItemState(nSelItem - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
                 }
-            }            
+            }
         }
         break;
     case WXK_DOWN:
@@ -516,7 +516,7 @@ void wxGISToolExecuteView::OnChar(wxKeyEvent& event)
             {
                 SetItemState(nSelItem, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
                 if(nSelItem == GetItemCount() - 1)
-                {             
+                {
                     SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
                 }
                 else
@@ -553,7 +553,7 @@ void wxGISToolExecuteView::OnBeginDrag(wxListEvent& event)
 
     wxDropSource dragSource( this );
 	dragSource.SetData( DragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );  
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
 }
 
 
@@ -608,7 +608,7 @@ bool wxGISToolExecuteView::OnDropObjects(wxCoord x, wxCoord y, long nParentPoint
         nInsertPoint = nItemId;// - 1;
         pBeforeTask = dynamic_cast<IGxTask*>(m_pCatalog->GetRegisterObject(GetItemData(nInsertPoint)));
     }
- 
+
     //1. Read all items to map sortig using priority, but not adding moving items
     m_bDropping = true;
     std::map<long, IGxTask*> ItemsMap;

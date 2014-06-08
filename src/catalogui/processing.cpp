@@ -530,7 +530,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
     for (size_t i = 0; i < paDatasets.size(); ++i)
     {
-        ProgressDlg.SetTitle(wxString::Format(_("Proceed %d of %d..."), i + 1, paDatasets.size()));
+        ProgressDlg.SetTitle(wxString::Format(_("Proceed %ld of %ld..."), i + 1, paDatasets.size()));
         wxGISDataset* pDataset = paDatasets[i].pDSet->GetDataset(false, &ProgressDlg);
         wxVector<wxGISFeatureDataset*> apFeatureDatasets;
         if (pDataset->GetSubsetsCount() == 0)
@@ -585,7 +585,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
             wsDELETE(apFeatureDatasets[j]);
         }
     }
-    
+
     if (ProgressDlg.GetWarningCount() > 0)
     {
         ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());

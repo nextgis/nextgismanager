@@ -322,7 +322,7 @@ bool INetConnection::ProcessInputNetMessage(void)
             {
                 wxString sErr = errors[i];
                 sErrMsg.Append(wxT("\n"));
-                sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+                sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
             }
             wxLogVerbose(sErrMsg);
             return false;

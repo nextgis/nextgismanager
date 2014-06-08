@@ -164,7 +164,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
         OGRErr eErr = pDstDataSet->StoreFeature(newFeature);
         if (eErr != OGRERR_NONE)
         {
-            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%d\nOGR error: "), Feature.GetFID());
+            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
             CPLString sFullErr(sErr.mb_str(wxConvUTF8));
             sFullErr += CPLGetLastErrorMsg();
             CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
@@ -367,7 +367,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                     OGRErr eErr = pNewGeom->transform(poCT);
                     if (eErr != OGRERR_NONE)
                     {
-                        pTrackCancel->PutMessage(wxString::Format(_("Geometry transform failed\nFeature id %d"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
+                        pTrackCancel->PutMessage(wxString::Format(_("Geometry transform failed\nFeature id %ld"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
                     }
                 }
             }
@@ -440,7 +440,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         OGRErr eErr = pDstDataSet->StoreFeature(newFeature);
         if(eErr != OGRERR_NONE)
         {
-            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%d\nOGR error: "), Feature.GetFID());
+            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
             CPLString sFullErr(sErr.mb_str(wxConvUTF8));
             sFullErr += CPLGetLastErrorMsg();
             CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
@@ -1148,7 +1148,7 @@ bool Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGx
             //{
                 if(pGeom->transform( poCT ) != OGRERR_NONE)
                 {
-                    pTrackCancel->PutMessage(wxString::Format(_("Error project feature #%d"), pFeature->GetFID()), wxNOT_FOUND, enumGISMessageWarning);
+                    pTrackCancel->PutMessage(wxString::Format(_("Error project feature #%ld"), pFeature->GetFID()), wxNOT_FOUND, enumGISMessageWarning);
                     wxDELETE(pGeom);
                     continue;
                 }
@@ -1162,7 +1162,7 @@ bool Project(wxGISFeatureDatasetSPtr pDSet, CPLString sPath, wxString sName, IGx
             //        pFeature->SetGeometryDirectly(pCutGeom);
             //    else
             //    {
-            //        pTrackCancel->PutMessage(wxString::Format(_("Error project feature #%d"), pFeature->GetFID()), wxNOT_FOUND, enumGISMessageWarning);
+            //        pTrackCancel->PutMessage(wxString::Format(_("Error project feature #%ld"), pFeature->GetFID()), wxNOT_FOUND, enumGISMessageWarning);
             //        wxDELETE(pGeom);
             //        continue;
             //    }
@@ -1626,7 +1626,7 @@ bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFea
 
 					if(pDSet->StoreFeature(pFeature) != OGRERR_NONE)
 						if(pTrackCancel)
-							pTrackCancel->PutMessage(wxString::Format(_("Failed add point No. %d"), i), wxNOT_FOUND, enumGISMessageWarning);
+							pTrackCancel->PutMessage(wxString::Format(_("Failed add point No. %ld"), i), wxNOT_FOUND, enumGISMessageWarning);
 				}
 
 				if(pProgressor)
@@ -1998,7 +1998,7 @@ CPLString GeometryToText(long nGeomFID, OGRGeometry* pGeom, wxGISCoordinatesForm
 		return osOutput;
 
 	CPLString osTmp;
-	osOutput += CPLSPrintf("Geometry %d (%s)\n", (int)nGeomFID, pGeom->getGeometryName());//CPLString().Printf
+	osOutput += CPLSPrintf("Geometry %ld (%s)\n", nGeomFID, pGeom->getGeometryName());//CPLString().Printf
 	OGRwkbGeometryType type = wkbFlatten(pGeom->getGeometryType());
 	switch(type)
 	{

@@ -83,7 +83,7 @@ wxGISDataset* const wxGxRemoteConnection::GetDatasetFast(void)
 bool wxGxRemoteConnection::Delete(void)
 {
 	wxGISDataset* pDSet = GetDatasetFast();
-    
+
     if (NULL == pDSet)
     {
         return false;
@@ -96,7 +96,7 @@ bool wxGxRemoteConnection::Delete(void)
     {
         const char* err = CPLGetLastErrorMsg();
 		wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
-		return false;	
+		return false;
     }
     return true;
 }
@@ -114,7 +114,7 @@ bool wxGxRemoteConnection::Rename(const wxString &sNewName)
 		const char* err = CPLGetLastErrorMsg();
 		wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
 		return false;
-	}	
+	}
     else
     {
         m_sPath = szNewPath;
@@ -132,7 +132,7 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
         pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
 
 	wxGISDataset* pDSet = GetDatasetFast();
-    
+
     if(NULL == pDSet)
     {
         if (pTrackCancel)
@@ -152,9 +152,9 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
 		wxLogError(sErr);
         if(pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-		return false;	
+		return false;
     }
-	
+
     return true;
 }
 
@@ -166,7 +166,7 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
     }
 
 	wxGISDataset* pDSet = GetDatasetFast();
-    
+
     if(NULL == pDSet)
     {
         if (pTrackCancel)
@@ -187,8 +187,8 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
 		wxLogError(sErr);
         if(pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-		return false;	
-    } 
+		return false;
+    }
 
     return true;
 }
@@ -355,7 +355,7 @@ wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
             wxGISDBShemaMap saCurrentSchemas = FillSchemaNames(pInfoSchema);
             wsDELETE(pInfoSchema);
 
-             
+
             for (wxGISDBShemaMap::iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
             {
                 wxGISDBShemaMap::iterator cit = saCurrentSchemas.find(it->first);
@@ -564,7 +564,7 @@ bool wxGxRemoteDBSchema::HasChildren(void)
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren(); 
+    return wxGxObjectContainer::HasChildren();
 }
 
 void wxGxRemoteDBSchema::Refresh(void)
@@ -593,13 +593,13 @@ bool wxGxRemoteDBSchema::CanCreate(long nDataType, long DataSubtype)
 }
 
 bool wxGxRemoteDBSchema::CanDelete(void)
-{ 
+{
     //TODO: check permissions
     return m_pwxGISRemoteConn != NULL;
 }
 
 bool wxGxRemoteDBSchema::CanRename(void)
-{ 
+{
     //TODO: check permissions
     return m_pwxGISRemoteConn != NULL;
 }
@@ -615,22 +615,22 @@ bool wxGxRemoteDBSchema::Rename(const wxString &sNewName)
 }
 
 bool wxGxRemoteDBSchema::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
-{ 
-    return false; 
+{
+    return false;
 }
 
 bool wxGxRemoteDBSchema::CanCopy(const CPLString &szDestPath)
-{ 
+{
     return false;
 }
 
 bool wxGxRemoteDBSchema::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
-{ 
-    return false; 
+{
+    return false;
 }
 
 bool wxGxRemoteDBSchema::CanMove(const CPLString &szDestPath)
-{ 
+{
     return false;
 }
 
@@ -718,7 +718,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
 
     if (m_saTables.IsEmpty())
         return;
-    
+
     if(m_bHasGeog)
     {
         //remove table name from tables list
@@ -742,7 +742,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
             wsDELETE( pTableList );
         }
     }
-        
+
     if (m_saTables.IsEmpty())
         return;
 
@@ -770,7 +770,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
         }
     }
 
-    
+
     for (size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
         int nIndex2 = saLoaded.Index(m_saTables[i]);
@@ -785,7 +785,7 @@ void wxGxRemoteDBSchema::CheckChanges()
 {
     wxArrayString saCurrentTables = FillTableNames();
 
-    //delete 
+    //delete
     for (size_t i = 0; i < m_saTables.GetCount(); ++i)
     {
         if (saCurrentTables.Index(m_saTables[i]) == wxNOT_FOUND)
@@ -1033,7 +1033,7 @@ wxGxObject* wxGxRemoteDBSchema::AddTable(const wxString &sTableName, const wxGIS
         }*/
 }
 
-wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, const wxString& sAdd, int nCounter) const 
+wxString wxGxRemoteDBSchema::CheckUniqTableName(const wxString& sTableName, const wxString& sAdd, int nCounter) const
 {
     wxString sResultName;
     if (nCounter > 0)
@@ -1087,7 +1087,7 @@ void wxGxTMSWebService::FillMetadata(bool bForce)
     {
         m_nSize += BufL.st_size;
         m_dtMod = wxDateTime(BufL.st_mtime);
-    } 
+    }
 }
 
 //--------------------------------------------------------------
@@ -1124,7 +1124,7 @@ bool wxGxNGWService::Delete(void)
     Disconnect();
 
     bool bRet = DeleteFile(m_sPath);
- 
+
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
@@ -1162,7 +1162,7 @@ bool wxGxNGWService::Rename(const wxString &sNewName)
 bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     bool bRet = CopyFile(m_sPath, szDestPath, pTrackCancel);
-    
+
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
@@ -1370,7 +1370,7 @@ void wxGxNGWRoot::LoadChildren(void)
         {
             wxString sErr = errors[i];
             sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
         }
         wxLogError(sErrMsg);
         return;

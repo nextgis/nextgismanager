@@ -311,7 +311,7 @@ void wxGISGPToolDlg::OnOkUI(wxUpdateUIEvent& event)
 		    if(sMsg == m_sCurrentErrMsg && m_nCurrentErrField == i)
 			    break;//continue;
 
-		    m_pInfoBar->ShowMessage(sMsg + wxString(wxT(" ")) + wxString::Format(_("(Field No %d)"), i + 1), nIco);
+		    m_pInfoBar->ShowMessage(sMsg + wxString(wxT(" ")) + wxString::Format(_("(Field No %ld)"), i + 1), nIco);
 		    m_sCurrentErrMsg = sMsg;
 		    m_nCurrentErrField = i;
 		    break;
@@ -333,7 +333,7 @@ void wxGISGPToolDlg::OnOkUI(wxUpdateUIEvent& event)
             if(!m_pControlsArray[i]->Validate())
 				return;
 
-	//set OK button enabled 
+	//set OK button enabled
     event.Enable(true);
 
 	if(nErrCount == 0)
@@ -407,7 +407,7 @@ void wxGISGPToolDlg::SerializeFramePos(bool bSave)
 			int y = oConfig.ReadInt(enumGISHKCU, TOOLBX_NAME + wxString(wxT("/tooldlg/ypos")), 50);
 			int w = oConfig.ReadInt(enumGISHKCU, TOOLBX_NAME + wxString(wxT("/tooldlg/width")), 450);
 			int h = oConfig.ReadInt(enumGISHKCU, TOOLBX_NAME + wxString(wxT("/tooldlg/height")), 650);
-			
+
 			Move(x, y);
 			SetClientSize(w, h);
 		}

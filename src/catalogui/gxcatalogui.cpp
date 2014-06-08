@@ -106,7 +106,8 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     //dialog with wxGIS and choices for output types (raster and vector data)
 
     //create progress dialog
-    wxString sTitle = wxString::Format(_("%s %d objects (files)"), bMove == true ? _("Move") : _("Copy"), (int)GxObjectPaths.GetCount());
+    wxString sOper(bMove == true ? _("Move") : _("Copy"));
+    wxString sTitle = wxString::Format(_("%s %ld objects (files)"), sOper.c_str(), GxObjectPaths.GetCount());
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
 
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd);
@@ -116,13 +117,14 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
 
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {
-		wxString sMessage = wxString::Format(_("%s %d object (file) from %d"), bMove == true ? _("Move") : _("Copy"), int(i + 1), (int)GxObjectPaths.GetCount());
+		wxString sMessage = wxString::Format(_("%s %ld object (file) from %ld"), sOper.c_str(), i + 1, GxObjectPaths.GetCount());
 //		ProgressDlg.SetTitle(sMessage);
 		ProgressDlg.PutMessage(sMessage);
         if(!ProgressDlg.Continue())
             break;
 
-        wxGxObject* pGxObj = pCatalog->FindGxObject(GxObjectPaths[i]);
+        wxString sPath = GxObjectPaths[i];
+        wxGxObject* pGxObj = pCatalog->FindGxObject(sPath);
         IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);
         if(pGxObjectEdit)
         {

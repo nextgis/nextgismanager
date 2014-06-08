@@ -24,8 +24,11 @@
 
 #ifdef wxUSE_DRAG_AND_DROP
 
-/** \class wxGISStringDataObject dataobject.h
-    \brief A wxGISStringDataObject represents string data that can be copied to or from the clipboard, or dragged and dropped.
+/** @class wxGISStringDataObject
+
+    A wxGISStringDataObject represents string data that can be copied to or from the clipboard, or dragged and dropped.
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISStringDataObject : public wxDataObjectSimple
@@ -52,8 +55,11 @@ private:
     wxDECLARE_NO_COPY_CLASS(wxGISStringDataObject);
 };
 
-/** \class wxGISDecimalDataObject dataobject.h
-    \brief A wxGISDecimalDataObject represents decimal data that can be copied to or from the clipboard, or dragged and dropped.
+/** @class wxGISDecimalDataObject
+
+    A wxGISDecimalDataObject represents decimal data that can be copied to or from the clipboard, or dragged and dropped.
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISDecimalDataObject : public wxDataObjectSimple
@@ -82,8 +88,11 @@ private:
 };
 
 
-/** \class wxGISDecimalDataObject dataobject.h
-    \brief A wxGISDecimalDataObject represents decimal data that can be copied to or from the clipboard, or dragged and dropped.
+/** @class wxGISDecimalDataObject
+
+    A wxGISDecimalDataObject represents decimal data that can be copied to or from the clipboard, or dragged and dropped.
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISTaskDataObject : public wxGISDecimalDataObject
@@ -105,6 +114,5 @@ protected:
 private:
     wxDECLARE_NO_COPY_CLASS(wxGISTaskDataObject);
 };
-
 
 #endif // wxUSE_DRAG_AND_DROP

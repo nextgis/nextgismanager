@@ -184,7 +184,7 @@ void wxGxJSONConnectionStorage::LoadConnectionsStorage(void)
         {
             wxString sErr = errors[i];
             sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
         }
         wxLogError(sErrMsg);
         return CreateConnectionsStorage();
@@ -283,7 +283,7 @@ bool wxGxJSONConnectionStorage::DeleteItemById(int nStoreId)
         {
             wxString sErr = errors[i];
             sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
         }
         wxLogError(sErrMsg);
         return false;
@@ -301,7 +301,7 @@ bool wxGxJSONConnectionStorage::DeleteItemById(int nStoreId)
         }
     }
 
-    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );    
+    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );
     wxString  sJSONText;
 
     writer.Write( oStorageRoot, sJSONText );
@@ -311,7 +311,7 @@ bool wxGxJSONConnectionStorage::DeleteItemById(int nStoreId)
         oStorageFile.Close();
         return false;
     }
-    
+
     return oStorageFile.Close();
 }
 
@@ -335,7 +335,7 @@ bool wxGxJSONConnectionStorage::RenameItemById(int nStoreId, const wxString& New
         {
             wxString sErr = errors[i];
             sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
         }
         wxLogError(sErrMsg);
         return false;
@@ -351,7 +351,7 @@ bool wxGxJSONConnectionStorage::RenameItemById(int nStoreId, const wxString& New
         }
     }
 
-    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );    
+    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );
     wxString  sJSONText;
 
     writer.Write( oStorageRoot, sJSONText );
@@ -361,7 +361,7 @@ bool wxGxJSONConnectionStorage::RenameItemById(int nStoreId, const wxString& New
         oStorageFile.Close();
         return false;
     }
-    
+
     return oStorageFile.Close();
 }
 
@@ -385,7 +385,7 @@ bool wxGxJSONConnectionStorage::AddItem(int nStoreId, const wxString& sName, con
         {
             wxString sErr = errors[i];
             sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%d. %s"), i, sErr.c_str()));
+            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
         }
         wxLogError(sErrMsg);
         return false;
@@ -398,7 +398,7 @@ bool wxGxJSONConnectionStorage::AddItem(int nStoreId, const wxString& sName, con
     oStorageConnections[nNewItem][wxT("path")] = sPath;
     oStorageConnections[nNewItem][wxT("id")] = nStoreId;
 
-    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );    
+    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );
     wxString  sJSONText;
 
     writer.Write( oStorageRoot, sJSONText );
@@ -408,6 +408,6 @@ bool wxGxJSONConnectionStorage::AddItem(int nStoreId, const wxString& sName, con
         oStorageFile.Close();
         return false;
     }
-    
+
     return oStorageFile.Close();
 }
