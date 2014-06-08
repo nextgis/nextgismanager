@@ -46,8 +46,8 @@ bool wxGxApplication::CreateApp(void)
 {
 
     m_pCatalog = new wxGxCatalogUI();
-    SetGxCatalog(m_pCatalog);    
-    
+    SetGxCatalog(m_pCatalog);
+
     if(!m_pCatalog->Init())
     {
         wxDELETE(m_pCatalog);
@@ -60,7 +60,7 @@ bool wxGxApplication::CreateApp(void)
     m_CommandBarArray.Add(m_pNewMenu);
     m_pNewMenu->Reference();
     m_CommandArray.Add(m_pNewMenu);
-    
+
     wxGISApplicationEx::CreateApp();
 
 	wxLogMessage(_("wxGxApplication: Start. Creating main application frame..."));
@@ -176,12 +176,6 @@ bool wxGxApplication::CreateApp(void)
         }
 	}
 
-#ifdef __WXGTK__
-    for(size_t i = 0; i < m_CommandArray.size(); ++i)
-    {
-        m_CommandArray[i]->GetEnabled();
-    }
-#endif
 	wxLogMessage(_("wxGxApplication: Creation complete"));
 
 	return true;
@@ -211,7 +205,7 @@ void wxGxApplication::OnClose(wxCloseEvent& event)
 	}
 
     wxGISApplicationEx::OnClose(event);
-    
+
     //if(m_pTreeView)
     //{
     //    UnRegisterChildWindow(m_pTreeView->GetId());

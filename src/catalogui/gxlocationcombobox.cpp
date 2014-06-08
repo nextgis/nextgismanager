@@ -307,6 +307,7 @@ wxString wxListViewComboPopup::GetStringValue() const
 
 void wxListViewComboPopup::OnMouseClick(wxMouseEvent& event)
 {
+    event.Skip();
     //SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
     wxPoint pt = event.GetPosition();
 	unsigned long nFlags(0);
@@ -322,7 +323,6 @@ void wxListViewComboPopup::OnMouseClick(wxMouseEvent& event)
 
 void wxListViewComboPopup::OnChar(wxKeyEvent& event)
 {
-    event.Skip();
 	if(event.GetModifiers() & wxMOD_ALT)
 		return;
 	if(event.GetModifiers() & wxMOD_CONTROL)
@@ -386,7 +386,7 @@ void wxListViewComboPopup::OnChar(wxKeyEvent& event)
         if(m_HighLightItem != wxNOT_FOUND)
         {
             m_sVal = GetItemText(m_HighLightItem);
-            GetComboCtrl()->SetText(m_sVal);
+            GetComboCtrl()->SetValue(m_sVal);//>SetText(m_sVal);
         }
         break;
     case WXK_RETURN:
@@ -399,6 +399,7 @@ void wxListViewComboPopup::OnChar(wxKeyEvent& event)
     default:
         break;
     }
+    event.Skip();
 }
 
 //---------------------------------------------------------------------------------
@@ -709,7 +710,7 @@ void wxGxLocationComboBox::Activate(wxGISApplicationBase* pApp)
 
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
 
-//#ifdef __WXMSW__
+//#ifdef __WINDOWS__
     UseAltPopupWindow(true);
 //#else
 //    UseAltPopupWindow(false);

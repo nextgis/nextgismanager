@@ -65,7 +65,7 @@
 
 //	0	Up One Level
 //	1	Connect Folder
-//	2	Disconnect Folder - duplicate Delete command 
+//	2	Disconnect Folder - duplicate Delete command
 //	3	Location
 //  4   Delete Item
 //  5   Back
@@ -242,7 +242,7 @@ bool wxGISCatalogMainCmd::GetChecked(void)
 bool wxGISCatalogMainCmd::GetEnabled(void)
 {
     wxCHECK_MSG(m_pGxApp, false, wxT("Application pointer is null"));
- 
+
     wxGxSelection* pSel = m_pGxApp->GetGxSelection();
     wxGxCatalogBase* pCat = GetGxCatalog();
 
@@ -347,6 +347,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
              }
              return false;
         case 13://Paste
+            #ifdef __WINDOWS__
         {
             IViewDropTarget* pViewDropTarget = dynamic_cast<IViewDropTarget*>(wxWindow::FindFocus());
             if(pViewDropTarget)
@@ -361,8 +362,8 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                     }
                     else
                     {
-                    
-                        wxTextDataObject data;                        
+
+                        wxTextDataObject data;
                         if(wxTheClipboard->GetData( data ))
                         {
                             if(data.GetText() == wxString(wxT("cut")))
@@ -380,6 +381,9 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
             }
         }
              return false;
+             #else //LINUX
+             return true;
+             #endif // __WINDOWS__
         case 14://e-mail
             if (pCat && pSel)
             {
@@ -466,7 +470,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
     wxGxSelection* pSel = m_pGxApp->GetGxSelection();
     wxGxCatalogBase* pCat = GetGxCatalog();
-    
+
     switch(m_subtype)
 	{
 		case 0:
@@ -474,7 +478,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 if(!pGxObject)
-                    return; 
+                    return;
 				wxGxObject* pParentGxObject = pGxObject->GetParent();
                 if(pParentGxObject)
                 {
@@ -510,7 +514,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 			}
 			return;
 		}
-		case 2://	2	Disconnect Folder - duplicate Delete command 
+		case 2://	2	Disconnect Folder - duplicate Delete command
 		{
 			if (NULL != pSel && NULL != pCat)
             {
@@ -565,7 +569,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                                 sMessage.Append(wxT("\n"));
                             else if (i < pSel->GetCount() - 1)
                                 sMessage.Append(wxT(", "));
-                        }                        
+                        }
                     }
 
                     wxRichMessageDialog dlg(pWnd, sMessage, wxString(_("Delete confirm")), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION | wxSTAY_ON_TOP | wxCENTRE);
@@ -614,7 +618,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 if(pSel->CanUndo())
                 {
                     nSelId = pSel->Undo(wxNOT_FOUND);
-                } 
+                }
                 if(pCat->GetRegisterObject(nSelId))
 		        {
 			        pSel->Select(nSelId, false, wxGxSelection::INIT_ALL);
@@ -628,13 +632,13 @@ void wxGISCatalogMainCmd::OnClick(void)
                 if(pSel->CanRedo())
                 {
                     nSelId = pSel->Redo(wxNOT_FOUND);
-                } 
+                }
                 if(pCat->GetRegisterObject(nSelId))
 		        {
 			        pSel->Select(nSelId, false, wxGxSelection::INIT_ALL);
 		        }
             }
-            return; 
+            return;
         case 9:
 			if (NULL != pSel && NULL != pCat)
             {
@@ -643,7 +647,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
 					if(pGxObject)
                         pGxObject->Refresh();
-                }           
+                }
             }
             return;
         case 10:
@@ -770,7 +774,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                         wxTheClipboard->Close();
                         pTarget->Drop(data_names.GetStrings(), bMove);
                         return;
-                    }                    
+                    }
                 }
                 else
                 {
@@ -824,7 +828,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("email"), "zip");
                 void* hZIP = CPLCreateZip(szZipFileName, NULL);
 
-                if (!hZIP) 
+                if (!hZIP)
                 {
                     wxMessageBox(_("Create zip failed!"), _("Error"), wxICON_ERROR | wxOK );
                     CPLError(CE_Failure, CPLE_NoWriteAccess, "ERROR creating %s", szZipFileName.c_str());
@@ -923,7 +927,7 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
             return false;
         }
 
-        
+
         if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
         {
             return false;
@@ -945,7 +949,7 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
 
         size_t nBufferSize = 1024 * 1024;
         GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
-        
+
         char** papszFileList = pDS->GetFileList();
         papszFileList = CSLAddString(papszFileList, pDS->GetPath());
         for (int i = 0; papszFileList[i] != NULL; ++i)
@@ -963,7 +967,7 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
         {
             return false;
         }
-        
+
         if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
         {
             return false;
@@ -1066,7 +1070,7 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
                     wxString sPath = pGxObject->GetFullName();
                     if(!sPath.IsEmpty())
                         return sPath;
-                }            
+                }
             }
 			return wxString(_("Go to previous location"));
 		case 6:
@@ -1223,7 +1227,7 @@ void wxGISCatalogMainCmd::OnDropDownCommand(int nID)
     {
         int nPos = pSel->GetDoPos();
         int nNewPos = nID - ID_MENUCMD;
-        long nSelId = wxNOT_FOUND; 
+        long nSelId = wxNOT_FOUND;
         if(nNewPos > nPos)
         {
             if(pSel->CanRedo())

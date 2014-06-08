@@ -41,8 +41,8 @@ int wxCALLBACK GxObjectCVCompareFunction(wxIntPtr item1, wxIntPtr item2, wxIntPt
 {
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     if(!pCatalog)
-        return 0;	
-    
+        return 0;
+
     wxGxContentView::LPITEMDATA pItem1 = (wxGxContentView::LPITEMDATA)item1;
  	wxGxContentView::LPITEMDATA pItem2 = (wxGxContentView::LPITEMDATA)item2;
     LPSORTDATA psortdata = (LPSORTDATA)sortData;
@@ -159,7 +159,7 @@ wxGxContentView::wxGxContentView(void) : wxListCtrl()
 
 wxGxContentView::wxGxContentView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 {
-    Create(parent, id, pos, size, style, wxT("ContentView")); 
+    Create(parent, id, pos, size, style, wxT("ContentView"));
 }
 
 wxGxContentView::~wxGxContentView(void)
@@ -170,7 +170,7 @@ wxGxContentView::~wxGxContentView(void)
 }
 
 bool wxGxContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
-{  
+{
     m_HighLightItem = wxNOT_FOUND;
     m_pCatalog = NULL;
     m_bSortAsc = true;
@@ -342,7 +342,7 @@ void wxGxContentView::Serialize(wxXmlNode* pRootNode, bool bStore)
 	    {
 		    wxString token = tkz_ord.GetNextToken();
 		    //token.Replace(wxT("|"), wxT(""));
-		    m_anOrder.Add( wxAtoi(token) );          
+		    m_anOrder.Add( wxAtoi(token) );
 	    }
 #endif
 
@@ -623,7 +623,7 @@ void wxGxContentView::SetStyle(wxGISEnumContentsViewStyle style)
 {
     if(m_current_style == style)
         return;
-    
+
 
     if(m_current_style == enumGISCVReport)
     {
@@ -642,7 +642,7 @@ void wxGxContentView::SetStyle(wxGISEnumContentsViewStyle style)
 	switch(m_current_style)
 	{
 	case enumGISCVReport:
-        SetSingleStyle(wxLC_REPORT);        
+        SetSingleStyle(wxLC_REPORT);
 
         InitColumns();
 
@@ -651,9 +651,9 @@ void wxGxContentView::SetStyle(wxGISEnumContentsViewStyle style)
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
         SetColumnsOrder(m_anOrder);
 #endif
-                
+
         SetColumnImage(m_currentSortCol, m_bSortAsc ? 0 : 1);
-        
+
 		break;
 	case enumGISCVSmall:
         SetSingleStyle(wxLC_SMALL_ICON);
@@ -665,7 +665,7 @@ void wxGxContentView::SetStyle(wxGISEnumContentsViewStyle style)
         SetSingleStyle(wxLC_LIST);
 		break;
 	}
-    
+
     RefreshAll();
 }
 
@@ -795,7 +795,9 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
 		{
 			wxBusyCursor wait;
 			if(GetItemCount() > 0 && !pObjectContainer->HasChildren())
-				ResetContents();
+			{
+			    ResetContents();
+			}
 			else if(GetItemCount() == 0 && pObjectContainer->HasChildren())
 			{
 				RefreshAll();
@@ -823,7 +825,9 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
 			icon_large = pObjUI->GetLargeImage();
 		}
 
+        bool bChangeIcon = false;
         int pos = GetIconPos(icon_small, icon_large);
+        bChangeIcon = pItemData->iImageIndex != pos;
 		pItemData->iImageIndex = pos;
 
 		wxString sName;
@@ -841,6 +845,10 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
             {
                 bItemsHaveChanges = true;
             }
+        }
+        else if(bChangeIcon)
+        {
+            SetItemImage(i, pos);
         }
 
         if(m_current_style == enumGISCVReport)
@@ -861,7 +869,7 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
                     if (pDSet->GetSize() > 0)
                         SetItem(i, 2, wxFileName::GetHumanReadableSize(pDSet->GetSize()));
                     if (pDSet->GetModificationDate().IsValid())
-                        SetItem(i, 3, pDSet->GetModificationDate().Format()); 
+                        SetItem(i, 3, pDSet->GetModificationDate().Format());
                 }
                 else
                 {
@@ -879,7 +887,8 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
     	SetColumnImage(m_currentSortCol, m_bSortAsc ? 0 : 1);
     }
 
-	//wxListCtrl::Refresh();
+//	wxListCtrl::Refresh();
+
 }
 
 void wxGxContentView::OnObjectRefreshed(wxGxCatalogEvent& event)
@@ -1010,7 +1019,7 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
 
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
 	    if(pGxObject == NULL)
-            continue;        
+            continue;
         wxString sSystemPath(pGxObject->GetPath(), wxConvUTF8);
 
         pFileData->AddFile(sSystemPath);
@@ -1020,7 +1029,7 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
 
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );  
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
 }
 
 
@@ -1037,19 +1046,19 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
     long nSelItemNextAdd = nChar == WXK_DOWN ? 1 : -1;
     long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
     if (bShift)
-    {   
+    {
         if (nSelItem == wxNOT_FOUND && m_HighLightItem == wxNOT_FOUND)
         {
             SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
         }
 
         bool bSwitchDirection = false;
-            
+
         if (m_bPrevChar == WXK_UP || m_bPrevChar == WXK_DOWN)
         {
             bSwitchDirection = m_bPrevChar != nChar;
         }
-             
+
         if (bSwitchDirection)
         {
             nSelItemNextAdd = 0;
@@ -1066,7 +1075,7 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
             nSelItemNextNorm = m_HighLightItem + nSelItemNextAdd;
         }
         m_HighLightItem = nSelItemNextNorm;
-                
+
         if (nSelItemNextNorm == -1 || nSelItemNextNorm == GetItemCount())
             return;
 
@@ -1261,7 +1270,7 @@ wxGxObject* const wxGxContentView::GetParentGxObject(void) const
 }
 
 bool wxGxContentView::CanPaste()
-{            
+{
     wxClipboardLocker lockClip;
     return wxTheClipboard->IsSupported(wxDF_FILENAME) | wxTheClipboard->IsSupported(wxDataFormat(wxGIS_DND_NAME));
     //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML

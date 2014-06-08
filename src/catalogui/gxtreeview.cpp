@@ -23,10 +23,10 @@
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/framework/dataobject.h"
 
-#include <wx/datstrm.h> 
-#include <wx/stream.h> 
-#include <wx/sstream.h> 
-#include <wx/mstream.h> 
+#include <wx/datstrm.h>
+#include <wx/stream.h>
+#include <wx/sstream.h>
+#include <wx/mstream.h>
 #include <wx/clipbrd.h>
 
 #include "../../art/document_16.xpm"
@@ -146,7 +146,7 @@ void wxGxTreeViewBase::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
 		pos = 0;//m_ImageListSmall.Add(m_ImageListSmall.GetIcon(2));//0 col img, 1 - col img
 
 	wxGxTreeItemData* pData = new wxGxTreeItemData(pGxObject->GetId(), pos, false);
-    
+
     IGxObjectTreeAttr* pGxObjectAttr = dynamic_cast<IGxObjectTreeAttr*>(pGxObject);
 
     wxString sName;
@@ -178,7 +178,7 @@ void wxGxTreeViewBase::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
     if(NULL != pGxObjectAttr)
     {
         SetItemBold(NewTreeItem, pGxObjectAttr->IsBold());
-        SetItemTextColour(NewTreeItem, pGxObjectAttr->GetColor());                    
+        SetItemTextColour(NewTreeItem, pGxObjectAttr->GetColor());
     }
 
     SortChildren(hParent);
@@ -203,7 +203,7 @@ bool wxGxTreeViewBase::Activate(IApplication* const pApplication, wxXmlNode* con
         return false;
 	}
     m_pGxApp = dynamic_cast<wxGxApplication*>(pApplication);
- 
+
     if (NULL == GetGxCatalog())
 		return false;
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
@@ -375,7 +375,7 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
 					pData->m_bExpandedOnce = true;
                     SetItemHasChildren(item, GetChildrenCount(item, false) > 0);
                     SortChildren(item);
-					return;                    
+					return;
                 }
 				else
 					return;
@@ -407,10 +407,10 @@ void wxGxTreeViewBase::OnChar(wxKeyEvent& event)
             m_pDeleteCmd->OnClick();
         break;
     case WXK_UP:
-        SelectItem(GetPrevVisible(GetSelection()));        
+        SelectItem(GetPrevVisible(GetSelection()));
         break;
     case WXK_DOWN:
-        SelectItem(GetNextVisible(GetSelection())); 
+        SelectItem(GetNextVisible(GetSelection()));
         break;
     default:
         break;
@@ -574,18 +574,18 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
 				wxBusyCursor wait;
 				bool bItemHasChildren = pGxObjectContainer->HasChildren();
 				if(ItemHasChildren(TreeItemId) && !bItemHasChildren)
-				{						
+				{
 					CollapseAndReset(TreeItemId);
 					pData->m_bExpandedOnce = false;
                     UpdateGxSelection();
 				}
 				SetItemHasChildren(TreeItemId, bItemHasChildren && pGxObjectContainer->AreChildrenViewable());
 			}
-                
+
             if(NULL != pGxObjectAttr)
             {
                 SetItemBold(TreeItemId, pGxObjectAttr->IsBold());
-                SetItemTextColour(TreeItemId, pGxObjectAttr->GetColor());                    
+                SetItemTextColour(TreeItemId, pGxObjectAttr->GetColor());
             }
 				//wxTreeCtrl::Refresh();
 		}
@@ -640,7 +640,7 @@ void wxGxTreeView::OnBeginLabelEdit(wxTreeEvent& event)
 		event.Veto();
 		return;
 	}
-     
+
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 	IGxObjectEdit* pObjEdit =  dynamic_cast<IGxObjectEdit*>(pGxObject);
 	IGxObjectTreeAttr* pObjAttr =  dynamic_cast<IGxObjectTreeAttr*>(pGxObject);
@@ -659,7 +659,7 @@ void wxGxTreeView::OnBeginLabelEdit(wxTreeEvent& event)
 void wxGxTreeView::OnEndLabelEdit(wxTreeEvent& event)
 {
     if ( event.GetLabel().IsEmpty() )
-    {        
+    {
         event.Veto();
 		return;
     }
@@ -676,7 +676,7 @@ void wxGxTreeView::OnEndLabelEdit(wxTreeEvent& event)
 		event.Veto();
 		return;
 	}
-    
+
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 	IGxObjectEdit* pObjEdit =  dynamic_cast<IGxObjectEdit*>(pGxObject);
 	if(NULL == pObjEdit)
@@ -755,7 +755,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 	    if(NULL == pGxObject)
-            continue;        
+            continue;
         wxString sSystemPath(pGxObject->GetPath(), wxConvUTF8);
 
         pFileData->AddFile(sSystemPath);
@@ -765,7 +765,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );  
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
 
 //    IGxObject* pParentGxObject(NULL);
 //    for(size_t i = 0; i < count; ++i)
@@ -813,7 +813,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
  //   }
  //   wxDropSource dragSource( this );
 	//dragSource.SetData( my_data );
-	//wxDragResult result = dragSource.DoDragDrop(  );  
+	//wxDragResult result = dragSource.DoDragDrop(  );
 }
 
 void wxGxTreeView::OnActivated(wxTreeEvent& event)
@@ -854,7 +854,7 @@ void wxGxTreeView::BeginRename(long nObjectID)
 	if(!ItemId.IsOk())
     {
         SetItemHasChildren(GetSelection());
-        Expand(GetSelection());  
+        Expand(GetSelection());
         ItemId = m_TreeMap[nObjectID];
     }
 
@@ -942,7 +942,7 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
 		if (NULL == pData)
 		    return wxDragNone;
         //check drop capability
-        
+
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
         IGxDropTarget* pTarget = dynamic_cast<IGxDropTarget*>(pGxObject);
 		if (NULL == pTarget)
@@ -974,7 +974,7 @@ bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxOb
             wxDragResult res(bMove == true ? wxDragMove : wxDragCopy);
             if(wxIsDragResultOk(pTarget->CanDrop(res)))
                 return pTarget->Drop(GxObjects, bMove);
-        } 
+        }
     }
     return false;
 }
@@ -988,7 +988,7 @@ void wxGxTreeView::OnLeave()
 }
 
 bool wxGxTreeView::CanPaste()
-{            
+{
     wxClipboardLocker lockClip;
     return wxTheClipboard->IsSupported(wxDF_FILENAME) | wxTheClipboard->IsSupported(wxDataFormat(wxGIS_DND_NAME));
     //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML

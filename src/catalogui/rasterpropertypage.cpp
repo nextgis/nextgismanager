@@ -119,7 +119,7 @@ wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid,
     //TODO: split item name by points eg. BAND_R.ULLat
     int nPos = sMeta.Find('=');
     if(nPos == wxNOT_FOUND)
-		return AppendProperty( new wxStringProperty(_("Item"), wxString::Format(wxT("Item_%d"), ++m_nCounter), sMeta) );
+		return AppendProperty( new wxStringProperty(_("Item"), wxString::Format(wxT("Item_%ld"), ++m_nCounter), sMeta) );
     else
     {
         wxString sName = sMeta.Left(nPos);
@@ -138,9 +138,9 @@ wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid,
         if(!pCatProp)
             pCatProp = pid;
         if(sCleanVal.Len() > 250)
-            return m_pg->AppendIn(pCatProp, new wxLongStringProperty(sSubName1, wxString::Format(wxT("%s_%d"), sName.c_str(), ++m_nCounter), sCleanVal) );
+            return m_pg->AppendIn(pCatProp, new wxLongStringProperty(sSubName1, wxString::Format(wxT("%s_%ld"), sName.c_str(), ++m_nCounter), sCleanVal) );
         else
-            return AppendProperty(pCatProp, new wxStringProperty(sSubName1, wxString::Format(wxT("%s_%d"), sName.c_str(), ++m_nCounter), sCleanVal) );
+            return AppendProperty(pCatProp, new wxStringProperty(sSubName1, wxString::Format(wxT("%s_%ld"), sName.c_str(), ++m_nCounter), sCleanVal) );
     }
 }
 
@@ -201,7 +201,7 @@ void wxGISRasterPropertyPage::FillGrid(void)
         }
         CSLDestroy( papszFileList );
 
-        //size    
+        //size
         m_pGxDataset->FillMetadata();
         AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
         AppendProperty(pid, new wxDateProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate()) );

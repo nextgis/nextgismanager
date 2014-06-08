@@ -931,7 +931,7 @@ wxJSONValue::AsDouble() const
 
  \li if the value is of type wxJSONTYPE_INVALID, the literal string \b &lt;invalid&gt;
     is returned. Note that this is NOT a valid JSON text.
- 
+
  \li if the value is of type wxJSONTYPE_MEMORYBUFF the string returned contains the
     hexadecimal digits of the first 5 bytes preceeded by the length of the buffer,
     enclosed in parenthesis
@@ -1290,7 +1290,7 @@ wxJSONValue::AsDouble( double& d ) const
  only if \c IsString() returns TRUE.
  Also note that the string value is only stored in \c str if this object actually
  contains a \b string or \b c-string value.
- \c str will never contain a string representation of other types. 
+ \c str will never contain a string representation of other types.
 */
 bool
 wxJSONValue::AsString( wxString& str ) const
@@ -1329,7 +1329,7 @@ wxJSONValue::AsCString( wxChar* ch ) const
  type contains a valid, empty memory buffer.
  You have to use the IsMemoryBuff() function to known the type of the
  JSON value contained in this object, or the overloaded version of
- this function. 
+ this function.
 */
 wxMemoryBuffer
 wxJSONValue::AsMemoryBuff() const
@@ -1363,7 +1363,7 @@ wxJSONValue::AsMemoryBuff() const
  type contains a valid, empty memory buffer.
  You have to use the IsMemoryBuff() function to known the type of the
  JSON value contained in this object, or the overloaded version of
- this function. 
+ this function.
 */
 bool
 wxJSONValue::AsMemoryBuff( wxMemoryBuffer& buff ) const
@@ -2330,16 +2330,19 @@ wxJSONValue::GetInfo() const
     wxJSON_ASSERT( data );
 
     wxString s;
+    wxString sType = wxJSONValue::TypeToString( data->m_type );
+    int nSize = Size();
+    int nCommentCount = data->m_comments.GetCount();
 #if defined( WXJSON_USE_VALUE_CONTER )
     s.Printf( _T("Object: Progr=%d Type=%s Size=%d comments=%d\n"),
             data->m_progr,
-            wxJSONValue::TypeToString( data->m_type ).c_str(),
-            Size(),
-            data->m_comments.GetCount() );
+            sType.c_str(),
+            nSize,
+            nCommentCount );
 #else
     s.Printf( _T("Object: Type=%s Size=%d comments=%d\n"),
-            wxJSONValue::TypeToString( data->m_type ).c_str(),
-            Size(), data->m_comments.GetCount() );
+            sType.c_str(),
+            nSize, nCommentCount );
 #endif
     if ( data->m_type == wxJSONTYPE_OBJECT ) {
         wxArrayString arr = GetMemberNames();

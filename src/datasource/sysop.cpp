@@ -614,7 +614,7 @@ CPLString Transliterate(const char* str)
         int nInd = saFrom.Index(str[0]);
         if (nInd == wxNOT_FOUND)
         {
-            char Temp[2] = { str[0], 0 }; 
+            char Temp[2] = { str[0], 0 };
             sOut += &Temp[0];
         }
         else

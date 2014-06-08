@@ -49,13 +49,8 @@ bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wx
     return session.Send(message);
 }
 #elif defined(__UNIX__)
-bool
-wxEmail::Send(wxMailMessage& message,
-              const wxString& profileName,
-              const wxString& sendMail)
+bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wxString& sendMail)
 {
-    wxASSERT_MSG( !message.m_to.IsEmpty(), _T("no recipients to send mail to") ) ;
-
     // The 'from' field is optionally supplied by the app; it's not needed
     // by MAPI, and on Unix, will be guessed if not supplied.
     wxString from = message.m_from;
@@ -79,8 +74,7 @@ wxEmail::Send(wxMailMessage& message,
     msg << wxT("\n\n") << message.m_body;
 
     wxString filename;
-    filename.Printf(wxT("/tmp/msg-%ld-%ld-%ld.txt"), (long) getpid(), wxGetLocalTime(),
-        (long) rand());
+    filename.Printf(wxT("/tmp/msg-%ld-%ld-%ld.txt"), (long) getpid(), wxGetLocalTime(), (long) rand());
 
     {
         wxFileOutputStream stream(filename);

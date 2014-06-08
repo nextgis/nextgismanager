@@ -146,7 +146,7 @@ void wxGxDiscConnections::CreateConnectionsStorage(void)
 //      arr.Add(stp.GetDataDir());
 #endif
     //create
-    
+
     wxJSONValue  oStorageRoot;
     oStorageRoot[wxT("version")] = GetStorageVersion();
     for(size_t i = 0; i < arr.size(); ++i)
@@ -156,7 +156,7 @@ void wxGxDiscConnections::CreateConnectionsStorage(void)
         oStorageRoot[wxT("connections")][i][wxT("id")] = i;
 	}
 
-    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );    
+    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );
     wxString  sJSONText;
 
     writer.Write( oStorageRoot, sJSONText );
@@ -200,8 +200,8 @@ bool wxGxDiscConnections::ConnectFolder(const wxString &sPath)
 
 bool wxGxDiscConnections::DisconnectFolder(int nStoreId)
 {
-    wxCriticalSectionLocker locker(m_oCritSect);    
-    
+    wxCriticalSectionLocker locker(m_oCritSect);
+
     return DeleteItemById(nStoreId);
 }
 

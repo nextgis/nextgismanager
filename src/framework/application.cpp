@@ -116,7 +116,7 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
                     if (pToolbar && pCmd)
                     {
                         wxAuiToolBarItem* pAuiTool;
-                        
+
                         if (m_CurrentTool != pTool)
                         {
                             pAuiTool  = pToolbar->FindTool(m_CurrentTool->GetId());
@@ -148,7 +148,7 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
                                     pToolbar->RefreshRect(pToolbar->GetToolRect(pAuiTool->GetId()));
                                 }
                             }
-                        }                        
+                        }
                     }
                 }
             }

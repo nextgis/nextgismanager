@@ -31,7 +31,7 @@
 // wxGxCatalog
 // ----------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGxCatalogUI, wxGxCatalog); 
+IMPLEMENT_DYNAMIC_CLASS(wxGxCatalogUI, wxGxCatalog);
 
 wxGxCatalogUI::wxGxCatalogUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxCatalog(oParent, soName, soPath)
 {
@@ -103,10 +103,10 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
 
     //TODO: check input object type and output object type
     //if different types - export
-    //dialog with wxGIS and choices for output types (raster and vector data) 
+    //dialog with wxGIS and choices for output types (raster and vector data)
 
     //create progress dialog
-    wxString sTitle = wxString::Format(_("%s %d objects (files)"), bMove == true ? _("Move") : _("Copy"), GxObjectPaths.GetCount());
+    wxString sTitle = wxString::Format(_("%s %d objects (files)"), bMove == true ? _("Move") : _("Copy"), (int)GxObjectPaths.GetCount());
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
 
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), GxObjectPaths.GetCount(), pParentWnd);
@@ -116,7 +116,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
 
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {
-		wxString sMessage = wxString::Format(_("%s %d object (file) from %d"), bMove == true ? _("Move") : _("Copy"), i + 1, GxObjectPaths.GetCount());
+		wxString sMessage = wxString::Format(_("%s %d object (file) from %d"), bMove == true ? _("Move") : _("Copy"), int(i + 1), (int)GxObjectPaths.GetCount());
 //		ProgressDlg.SetTitle(sMessage);
 		ProgressDlg.PutMessage(sMessage);
         if(!ProgressDlg.Continue())
@@ -254,7 +254,7 @@ void wxGxCatalogUI::Init(IGxCatalog* pExtCat)
             }
         }
 
-         
+
 	    //loads current user and when local machine items
 
         //IGxObjectContainer* pGxObjectContainer = dynamic_cast<IGxObjectContainer*>(pExtCat);
