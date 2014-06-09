@@ -33,6 +33,7 @@ BEGIN_EVENT_TABLE(wxGxDiscConnection, wxGxFolder)
     EVT_FSWATCHER(wxID_ANY, wxGxDiscConnection::OnFileSystemEvent)
 #ifdef __UNIX__
     EVT_GXOBJECT_ADDED(wxGxDiscConnection::OnObjectAdded)
+    EVT_GXOBJECT_CHANGED(wxGxDiscConnection::OnObjectChanged)
 #endif
 END_EVENT_TABLE()
 
@@ -175,17 +176,15 @@ void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             if(current)
             {
                 current->SetName(event.GetNewPath().GetFullName());
-                current->SetPath( CPLString( event.GetNewPath().GetFullPath().mb_str(wxConvUTF8) ) );
+                current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8()) );
                 wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
 
-#ifdef __UNIX__
-                m_pCatalog->RemoveFSWatcherPath(event.GetPath());
-
-                if(current->IsKindOf(wxCLASSINFO(wxGxFolder)))
-                {
-                    m_pCatalog->AddFSWatcherPath(event.GetNewPath());
-                }
-#endif
+//#ifdef __UNIX__
+//                if(current->IsKindOf(wxCLASSINFO(wxGxFolder)))
+//                {
+//                    m_pCatalog->RemoveFSWatcherPath(event.GetPath());
+//                }
+//#endif
                 return;
             }
         }
@@ -207,6 +206,23 @@ void wxGxDiscConnection::LoadChildren(void)
 
 #ifdef __UNIX__
 void wxGxDiscConnection::OnObjectAdded(wxGxCatalogEvent& event)
+{
+    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
+	if(!pGxObject)
+		return;
+    wxString sPath(pGxObject->GetPath(), wxConvUTF8);
+    wxString sConnPath(GetPath(), wxConvUTF8);
+    if(sPath.StartsWith(sConnPath))
+    {
+        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+        {
+            wxFileName oFileName = wxFileName::DirName(sPath);
+            m_pCatalog->AddFSWatcherPath(oFileName);
+        }
+    }
+}
+
+void wxGxDiscConnection::OnObjectChanged(wxGxCatalogEvent& event)
 {
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 	if(!pGxObject)

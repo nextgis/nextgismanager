@@ -58,6 +58,7 @@ public:
     virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
 #ifdef __UNIX__
     virtual void OnObjectAdded(wxGxCatalogEvent& event);
+    virtual void OnObjectChanged(wxGxCatalogEvent& event);
 #endif
 protected:
     virtual void StartWatcher(void);

@@ -340,46 +340,53 @@ wxVector<wxGxObjectFactory*>* const wxGxCatalog::GetObjectFactories(void)
 
 bool wxGxCatalog::AddFSWatcherPath(const wxFileName& path, int events)
 {
+    wxCriticalSectionLocker lock(m_oCritFSSect);
     wxString sPath = path.GetFullPath();
     if(IsPathWatched(sPath))
+    {
         return false;
-    m_asWatchPaths.Add(sPath);
+    }
+    //m_asWatchPaths.Add(sPath);
+    wxLogDebug(wxT("Add watch path %s"), sPath.c_str());
     return m_pWatcher->Add(path, events);
 }
 
 bool wxGxCatalog::AddFSWatcherTree(const wxFileName& path, int events, const wxString& filespec)
 {
+    wxCriticalSectionLocker lock(m_oCritFSSect);
     if(IsPathWatched(path.GetFullPath()))
         return false;
-    m_asWatchPaths.Add(path.GetFullPath());
+    //m_asWatchPaths.Add(path.GetFullPath());
     return m_pWatcher->AddTree(path, events, filespec);
 }
 
 bool wxGxCatalog::RemoveFSWatcherPath(const wxFileName& path)
 {
+    wxCriticalSectionLocker lock(m_oCritFSSect);
     wxString sPath = path.GetFullPath();
     if(!IsPathWatched(sPath))
         return false;
-    m_asWatchPaths.Remove(sPath);
+    //m_asWatchPaths.Remove(sPath);
     return m_pWatcher->Remove(path);
 }
 
 bool wxGxCatalog::RemoveFSWatcherTree(const wxFileName& path)
 {
+    wxCriticalSectionLocker lock(m_oCritFSSect);
     if(!IsPathWatched(path.GetFullPath()))
         return false;
-    m_asWatchPaths.Remove(path.GetFullPath());
+    //m_asWatchPaths.Remove(path.GetFullPath());
     return m_pWatcher->RemoveTree(path);
 }
 
 bool wxGxCatalog::IsPathWatched(const wxString& sPath)
 {
-    wxArrayString sPaths = m_asWatchPaths;
- //   m_pWatcher->GetWatchedPaths(&sPaths);
-    for(size_t i = 0; i < m_asWatchPaths.GetCount(); ++i)
-    {
-        wxLogDebug(m_asWatchPaths[i]);
-    }
+    wxArrayString sPaths;// = m_asWatchPaths;
+    m_pWatcher->GetWatchedPaths(&sPaths);
+ //   for(size_t i = 0; i < m_asWatchPaths.GetCount(); ++i)
+ //   {
+ //       wxLogDebug(m_asWatchPaths[i]);
+ //   }
 #if defined(__WINDOWS__)
     for(size_t i = 0; i < sPaths.GetCount(); ++i)
     {
@@ -393,3 +400,4 @@ bool wxGxCatalog::IsPathWatched(const wxString& sPath)
     return sPaths.Index(sPath) != wxNOT_FOUND;//, false
 #endif // defined
 }
+

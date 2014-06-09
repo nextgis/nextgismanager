@@ -91,8 +91,8 @@ protected:
     wxVector<ROOTITEM> m_staRootitems;
 
     wxFileSystemWatcher *m_pWatcher;
-    wxArrayString m_asWatchPaths;
-//    wxCriticalSection m_oCritSect;
+//    wxArrayString m_asWatchPaths;
+    wxCriticalSection m_oCritFSSect;
 private:
     DECLARE_EVENT_TABLE()
 };
