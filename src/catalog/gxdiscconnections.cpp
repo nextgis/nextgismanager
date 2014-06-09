@@ -54,8 +54,14 @@ bool wxGxDiscConnections::Create(wxGxObject *oParent, const wxString &soName, co
 		m_sUserConfigDir = oConfig.GetLocalConfigDirNonPortable() + wxFileName::GetPathSeparator() + wxString(CONNDIR);
 		m_sStoragePath = m_sUserConfigDir + wxFileName::GetPathSeparator() + m_sStorageName;
 	}
-    m_pWatcher = new wxFileSystemWatcher();
-    m_pWatcher->SetOwner(this);
+
+    m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+    m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+
+    if(m_pCatalog)
+    {
+		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
+    }
 
     wxFileName oFileName = wxFileName::DirName(m_sUserConfigDir);
     //if dir is not exist create it
@@ -63,7 +69,7 @@ bool wxGxDiscConnections::Create(wxGxObject *oParent, const wxString &soName, co
         wxFileName::Mkdir(m_sUserConfigDir, 0755, wxPATH_MKDIR_FULL);
 
     wxLogDebug(wxT("monitoring dir is: %s"), oFileName.GetFullPath().c_str());
-    if(!m_pWatcher->Add(oFileName, wxFSW_EVENT_MODIFY))//bool bAdd = |wxFSW_EVENT_CREATE
+    if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_MODIFY))//bool bAdd = |wxFSW_EVENT_CREATE
     {
         wxLogError(_("Add File system watcher failed"));
         return false;
@@ -78,7 +84,9 @@ wxGxDiscConnections::~wxGxDiscConnections(void)
 
 bool wxGxDiscConnections::Destroy(void)
 {
-    wxDELETE(m_pWatcher);
+	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
+
     return wxGxJSONConnectionStorage::Destroy();
 }
 
@@ -121,14 +129,14 @@ bool wxGxDiscConnections::IsObjectExist(wxGxObject* const pObj, const wxJSONValu
     {
         pObj->SetPath(szPath);
         //ObjectChanged event
-        wxGIS_GXCATALOG_EVENT_ID(ObjectRefreshed, pObj->GetId());
+        m_pCatalog->ObjectRefreshed(pObj->GetId());
     }
 
     if(!pObj->GetName().IsSameAs( sName, false))
     {
         pObj->SetName(sName);
         //ObjectChanged event
-        wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, pObj->GetId());
+        m_pCatalog->ObjectChanged(pObj->GetId());
     }
     return true;
 }

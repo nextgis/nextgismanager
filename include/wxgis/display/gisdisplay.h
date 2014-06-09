@@ -31,11 +31,6 @@
 	#include <cairo-win32.h>
 #endif
 
-#ifdef __WXGTK__
-    //#include <gdk/gdk.h>
-    //#include <gtk/gtk.h>
-#endif
-
 WX_DEFINE_ARRAY(wxRealPoint*, wxGISPointsArray);
 
 /** \class wxGISDisplay gisdisplay.h

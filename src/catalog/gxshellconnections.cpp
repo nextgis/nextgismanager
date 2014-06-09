@@ -32,7 +32,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxShellConnections, wxGxFolder)
 
 BEGIN_EVENT_TABLE(wxGxShellConnections, wxGxFolder)
     EVT_FSWATCHER(wxID_ANY, wxGxShellConnections::OnFileSystemEvent)
-#ifdef __WXGTK__
+#ifdef __UNIX__
     EVT_GXOBJECT_ADDED(wxGxShellConnections::OnObjectAdded)
 #endif
 END_EVENT_TABLE()
@@ -50,17 +50,13 @@ bool wxGxShellConnections::Create(wxGxObject *oParent, const wxString &soName, c
         return false;
     }
 
-    m_pWatcher = new wxFileSystemWatcher();
-    m_pWatcher->SetOwner(this);
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-#ifdef __WXGTK__
     m_ConnectionPointCatalogCookie = wxNOT_FOUND;
 
     if(m_pCatalog)
     {
 		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
     }
-#endif
     return true;
 }
 
@@ -106,12 +102,9 @@ bool wxGxShellConnections::CanCreate(long nDataType, long DataSubtype)
 
 bool wxGxShellConnections::Destroy(void)
 {
-#ifdef __WXGTK__
 	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-#endif
 
-    wxDELETE(m_pWatcher);
     return wxGxFolder::Destroy();
 }
 
@@ -120,18 +113,16 @@ void wxGxShellConnections::StartWatcher(void)
     //add itself
     wxFileName oFileName = wxFileName::DirName(wxString(m_sPath, wxConvUTF8));
     wxString sPath = oFileName.GetFullPath();
-    if(!IsPathWatched(sPath))
-    {
-#ifdef __WXGTK__
-        if(!m_pWatcher->Add(oFileName, wxFSW_EVENT_ALL))
-#else ifdefined __WXMSW__
-        if(!m_pWatcher->AddTree(oFileName, wxFSW_EVENT_CREATE | wxFSW_EVENT_DELETE | wxFSW_EVENT_RENAME))
+#if defined(__UNIX__)
+    if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
+#elif defined(__WINDOWS__)
+    if(!m_pCatalog->AddFSWatcherTree(oFileName, wxFSW_EVENT_CREATE | wxFSW_EVENT_DELETE | wxFSW_EVENT_RENAME))
 #endif
-        {
-            wxLogError(_("Add File system watcher failed"));
-        }
+    {
+        wxLogError(_("Add File system watcher failed"));
     }
-#ifdef __WXGTK__
+
+#ifdef __UNIX__
     //add children
     wxGxObjectList::const_iterator iter;
     for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
@@ -140,17 +131,14 @@ void wxGxShellConnections::StartWatcher(void)
         if(current)
         {
             oFileName = wxFileName::DirName(wxString(current->GetPath(), wxConvUTF8));
-            if(!IsPathWatched(oFileName.GetFullPath()))
+           if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
             {
-               if(!m_pWatcher->Add(oFileName, wxFSW_EVENT_ALL))
-                {
-                    wxLogError(_("Add File system watcher failed"));
-                }
+                wxLogError(_("Add File system watcher failed"));
             }
         }
     }
 #endif
-} 
+}
 
 void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
@@ -170,7 +158,7 @@ void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
                 return;
 
             CPLString szPath(event.GetPath().GetFullPath().mb_str(wxConvUTF8));
-            char **papszFileList = NULL;  
+            char **papszFileList = NULL;
             papszFileList = CSLAddString( papszFileList, szPath );
 	        if(m_pCatalog)
             {
@@ -202,13 +190,9 @@ void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
                 current->SetPath( CPLString( event.GetNewPath().GetFullPath().mb_str(wxConvUTF8) ) );
                 wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
 
-#ifdef __WXGTK__
-                m_pWatcher->Remove(event.GetPath());
-                if(!IsPathWatched(event.GetNewPath().GetFullPath()))
-                {
-                    m_pWatcher->Add(event.GetNewPath());
-
-                }
+#ifdef __UNIX__
+                m_pCatalog->RemoveFSWatcherPath(event.GetPath());
+                m_pCatalog->AddFSWatcherPath(event.GetNewPath());
 #endif
                 return;
             }
@@ -229,7 +213,7 @@ void wxGxShellConnections::LoadChildren(void)
     StartWatcher();
 }
 
-#ifdef __WXGTK__
+#ifdef __UNIX__
 void wxGxShellConnections::OnObjectAdded(wxGxCatalogEvent& event)
 {
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
@@ -239,28 +223,17 @@ void wxGxShellConnections::OnObjectAdded(wxGxCatalogEvent& event)
     wxString sConnPath(GetPath(), wxConvUTF8);
     if(sPath.StartsWith(sConnPath))
     {
-        if(!IsPathWatched(sPath) && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
         {
             wxFileName oFileName = wxFileName::DirName(sPath);
-            m_pWatcher->Add(oFileName);
+            m_pCatalog->AddFSWatcherPath(oFileName);
         }
     }
 }
 #endif
 
-bool wxGxShellConnections::IsPathWatched(const wxString& sPath)
-{
-    wxArrayString sPaths;
-    m_pWatcher->GetWatchedPaths(&sPaths);
-
-    return sPaths.Index(sPath, false) != wxNOT_FOUND;
-}
-
 void wxGxShellConnections::Refresh(void)
 {
-#ifdef __WXGTK__
-    m_pWatcher->RemoveAll();
-#endif
 	DestroyChildren();
     m_bIsChildrenLoaded = false;
 	LoadChildren();

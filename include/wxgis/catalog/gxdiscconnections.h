@@ -21,14 +21,17 @@
 
 #pragma once
 
-#include "wxgis/catalog/catalog.h"
+#include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxmlconnstor.h"
 
 #define CONNCONF wxT("conn.json")
 
-/** \class wxGxDiscConnections gxdiscconnections.h
-    \brief The Disc Connections GxRootObject.
+/** @class wxGxDiscConnections
+
+    A Disc Connections GxRootObject.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDiscConnections :
@@ -62,8 +65,8 @@ protected:
     virtual int GetStorageVersion(void) const {return 2;};
 protected:
     wxString m_sUserConfigDir;
-    wxFileSystemWatcher *m_pWatcher;
-    wxCriticalSection m_oCritSect;
+    wxGxCatalog* m_pCatalog;
+    long m_ConnectionPointCatalogCookie;
 private:
     DECLARE_EVENT_TABLE()
 };

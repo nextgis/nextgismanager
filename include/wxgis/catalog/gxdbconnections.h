@@ -25,19 +25,11 @@
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/catalog/gxevent.h"
 
-#include <wx/event.h>
-#include <wx/fswatcher.h>
+/** @class wxGxDBConnections
 
-#if wxVERSION_NUMBER <= 2903// && !defined EVT_FSWATCHER(winid, func)
-#define EVT_FSWATCHER(winid, func) \
-    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
-#endif
+    The database connections root item. This root item can held connections (*.xconn) and folders items.
 
-
-/** \class wxGxDBConnections gxdbconnections.h
-    \brief The database connections root item.
-
-	This root item can held connections (*.xconn) and folders items
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxDBConnections :
@@ -54,7 +46,7 @@ public:
     virtual bool Destroy(void);
     virtual void Refresh(void);
 	//wxGxObjectContainer
-    virtual bool CanCreate(long nDataType, long DataSubtype);     
+    virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const {return true;};
     //IGxRootObjectProperties
@@ -62,20 +54,16 @@ public:
     virtual void Serialize(wxXmlNode* const pConfigNode);
 //events
     virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
-#ifdef __WXGTK__
+#ifdef __UNIX__
     virtual void OnObjectAdded(wxGxCatalogEvent& event);
 #endif
 protected:
     virtual void StartWatcher(void);
 	virtual void LoadChildren(void);
-    virtual bool IsPathWatched(const wxString& sPath);
 protected:
     wxString m_sInternalPath;
-    wxFileSystemWatcher *m_pWatcher;
     wxGxCatalog* m_pCatalog;
-#ifdef __WXGTK__
     long m_ConnectionPointCatalogCookie;
-#endif
 private:
     DECLARE_EVENT_TABLE()
 };

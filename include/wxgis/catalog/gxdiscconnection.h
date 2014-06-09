@@ -21,16 +21,8 @@
 #pragma once
 
 #include "wxgis/catalog/gxfolder.h"
-#include "wxgis/catalog/gxevent.h"
 #include "wxgis/catalog/gxcatalog.h"
-
-#include <wx/event.h>
-#include <wx/fswatcher.h>
-
-#if wxVERSION_NUMBER <= 2903// && !defined EVT_FSWATCHER(winid, func)
-#define EVT_FSWATCHER(winid, func) \
-    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
-#endif
+#include "wxgis/catalog/gxevent.h"
 
 #define TM_CHECKING 950
 
@@ -64,22 +56,18 @@ public:
     virtual int GetStoreId(void) const {return m_nStoreId;};
 //events
     virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
-#ifdef __WXGTK__
+#ifdef __UNIX__
     virtual void OnObjectAdded(wxGxCatalogEvent& event);
 #endif
 protected:
     virtual void StartWatcher(void);
 	virtual void LoadChildren(void);
-    virtual bool IsPathWatched(const wxString& sPath);
 
 protected:
     wxCriticalSection m_CritSect;
     int m_nStoreId;
-    wxFileSystemWatcher *m_pWatcher;
     wxGxCatalog* m_pCatalog;
-#ifdef __WXGTK__
     long m_ConnectionPointCatalogCookie;
-#endif
 private:
     DECLARE_EVENT_TABLE()
 };

@@ -33,11 +33,11 @@ class wxGxApplication;
 
 #define LISTSTYLE (wxLC_REPORT | wxBORDER_NONE | wxLC_EDIT_LABELS | wxLC_AUTOARRANGE) //wxLC_LIST|wxLC_SORT_ASCENDING
 
-#if defined __WINDOWS__
+#if defined(__WINDOWS__)
     #define wxGISLIST_STATE_DROPHILITED wxLIST_STATE_DROPHILITED
-#elif defined __WXGTK__
+#elif defined(__UNIX__)
     #define wxGISLIST_STATE_DROPHILITED wxLIST_STATE_SELECTED
-#else //wxMAC
+#else //MAC
 #endif // defined
 
 /** @struct wxGxToolBarArt gxcontentview.h

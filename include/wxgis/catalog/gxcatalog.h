@@ -25,6 +25,13 @@
 #include "wxgis/core/pointer.h"
 
 #include <wx/xml/xml.h>
+#include <wx/event.h>
+#include <wx/fswatcher.h>
+
+#if wxVERSION_NUMBER <= 2903// && !defined EVT_FSWATCHER(winid, func)
+#define EVT_FSWATCHER(winid, func) \
+    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
+#endif
 
 /** @class wxGxCatalog
 
@@ -32,7 +39,7 @@
 
     @library{catalog}
 */
-class WXDLLIMPEXP_GIS_CLT wxGxCatalog : 
+class WXDLLIMPEXP_GIS_CLT wxGxCatalog :
     public wxGxCatalogBase,
 	public wxGISConnectionPointContainer
 {
@@ -60,20 +67,34 @@ public:
 
     virtual wxVector<wxGxCatalog::ROOTITEM>* const GetRootItems(void);
     virtual wxVector<wxGxObjectFactory*>* const GetObjectFactories(void);
+    //watcher
+    virtual bool AddFSWatcherPath(const wxFileName& path, int events = wxFSW_EVENT_ALL);
+    virtual bool AddFSWatcherTree(const wxFileName& path, int events = wxFSW_EVENT_ALL, const wxString& filespec = wxEmptyString);
+    virtual bool RemoveFSWatcherPath(const wxFileName& path);
+    virtual bool RemoveFSWatcherTree(const wxFileName& path);
+//events
+    virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
 protected:
     //wxGxCatalogBase
 	virtual void LoadObjectFactories(const wxXmlNode* pNode);
 	virtual void LoadObjectFactories(void);
-    virtual void LoadChildren(void);    
+    virtual void LoadChildren(void);
     virtual void LoadChildren(wxXmlNode* const pNode);
 	virtual void EmptyObjectFactories(void);
     virtual void SerializePlugins(wxXmlNode* pNode, bool bStore = false);
 protected:
 	virtual wxString GetConfigName(void) const {return wxString(wxT("wxCatalog"));};
+	virtual bool IsPathWatched(const wxString& sPath);
 protected:
     wxArrayString m_CatalogRootItemArray;
     wxVector<wxGxObjectFactory*> m_ObjectFactoriesArray;
     wxVector<ROOTITEM> m_staRootitems;
+
+    wxFileSystemWatcher *m_pWatcher;
+    wxArrayString m_asWatchPaths;
+//    wxCriticalSection m_oCritSect;
+private:
+    DECLARE_EVENT_TABLE()
 };
 
 #define wxGIS_GXCATALOG_EVENT(x)  {  wxGxCatalogBase* pGxCatalog = GetGxCatalog(); \

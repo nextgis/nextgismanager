@@ -27,14 +27,21 @@
 // wxGxCatalog
 // ----------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGxCatalog, wxGxCatalogBase); 
+IMPLEMENT_DYNAMIC_CLASS(wxGxCatalog, wxGxCatalogBase);
+
+BEGIN_EVENT_TABLE(wxGxCatalog, wxGxCatalogBase)
+    EVT_FSWATCHER(wxID_ANY, wxGxCatalog::OnFileSystemEvent)
+END_EVENT_TABLE()
 
 wxGxCatalog::wxGxCatalog(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxCatalogBase(oParent, soName, soPath)
 {
+    m_pWatcher = new wxFileSystemWatcher();
+    m_pWatcher->SetOwner(this);
 }
 
 wxGxCatalog::~wxGxCatalog(void)
 {
+    wxDELETE(m_pWatcher);
 }
 
 void wxGxCatalog::ObjectDeleted(long nObjectID)
@@ -58,6 +65,11 @@ void  wxGxCatalog::ObjectChanged(long nObjectID)
 void  wxGxCatalog::ObjectRefreshed(long nObjectID)
 {
 	wxGxCatalogEvent event(wxGXOBJECT_REFRESHED, nObjectID);
+    AddEvent(event);
+}
+
+void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
+{
     AddEvent(event);
 }
 
@@ -154,7 +166,7 @@ void wxGxCatalog::LoadObjectFactories(const wxXmlNode* pNode)
 			wxObject *obj = wxCreateDynamicObject(sName);
 			wxGxObjectFactory *pFactory = dynamic_cast<wxGxObjectFactory*>(obj);
 			if(pFactory != NULL)
-			{				
+			{
 				pFactory->Serialize(pChildren, false);
 				m_ObjectFactoriesArray.push_back( pFactory );
 				wxLogMessage(_("wxGxCatalog: ObjectFactory %s initialize"), sName.c_str());
@@ -197,7 +209,7 @@ void wxGxCatalog::SerializePlugins(wxXmlNode* const pNode, bool bStore)
             pChildNode = pChildNode->GetNext();
         }
     }
- 
+
 }
 
 void wxGxCatalog::EmptyObjectFactories(void)
@@ -231,14 +243,14 @@ void wxGxCatalog::EnableRootItem(size_t nItemId, bool bEnable)
         {
             wxDELETE(obj);
 			wxLogError(_("wxGxCatalog: Root Object %s disabled"), m_staRootitems[nItemId].sName.c_str());
-        }        
+        }
     }
     else        //disable
     {
         for(size_t i = 0; i < m_Children.size(); ++i)
         {
             if(m_Children[i]->GetName().IsSameAs(m_staRootitems[nItemId].sName, false))
-            {    
+            {
                 DestroyChild(m_Children[i]);
                 break;
             }
@@ -326,4 +338,58 @@ wxVector<wxGxObjectFactory*>* const wxGxCatalog::GetObjectFactories(void)
     return &m_ObjectFactoriesArray;
 }
 
+bool wxGxCatalog::AddFSWatcherPath(const wxFileName& path, int events)
+{
+    wxString sPath = path.GetFullPath();
+    if(IsPathWatched(sPath))
+        return false;
+    m_asWatchPaths.Add(sPath);
+    return m_pWatcher->Add(path, events);
+}
 
+bool wxGxCatalog::AddFSWatcherTree(const wxFileName& path, int events, const wxString& filespec)
+{
+    if(IsPathWatched(path.GetFullPath()))
+        return false;
+    m_asWatchPaths.Add(path.GetFullPath());
+    return m_pWatcher->AddTree(path, events, filespec);
+}
+
+bool wxGxCatalog::RemoveFSWatcherPath(const wxFileName& path)
+{
+    wxString sPath = path.GetFullPath();
+    if(!IsPathWatched(sPath))
+        return false;
+    m_asWatchPaths.Remove(sPath);
+    return m_pWatcher->Remove(path);
+}
+
+bool wxGxCatalog::RemoveFSWatcherTree(const wxFileName& path)
+{
+    if(!IsPathWatched(path.GetFullPath()))
+        return false;
+    m_asWatchPaths.Remove(path.GetFullPath());
+    return m_pWatcher->RemoveTree(path);
+}
+
+bool wxGxCatalog::IsPathWatched(const wxString& sPath)
+{
+    wxArrayString sPaths = m_asWatchPaths;
+ //   m_pWatcher->GetWatchedPaths(&sPaths);
+    for(size_t i = 0; i < m_asWatchPaths.GetCount(); ++i)
+    {
+        wxLogDebug(m_asWatchPaths[i]);
+    }
+#if defined(__WINDOWS__)
+    for(size_t i = 0; i < sPaths.GetCount(); ++i)
+    {
+        if(sPath.StartsWith(sPaths[i]))
+            return true;
+        if(sPaths[i].StartsWith(sPath))
+            m_pWatcher->Remove(wxFileName::DirName(sPaths[i]));
+    }
+    return false;
+#elif defined(__UNIX__)
+    return sPaths.Index(sPath) != wxNOT_FOUND;//, false
+#endif // defined
+}

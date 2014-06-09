@@ -30,8 +30,11 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CLT, wxGXOBJECT_CHANGED, wxGxCatalogEve
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CLT, wxGXOBJECT_DELETED, wxGxCatalogEvent);
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_GIS_CLT, wxGXOBJECT_REFRESHED, wxGxCatalogEvent);
 
-/** \class wxGxCatalogEvent gxevent.h
-    \brief The GxCatalog class event.
+/** @class wxGxCatalogEvent
+
+    The GxCatalog class event.
+
+    @library{catalog}
 */
 class WXDLLIMPEXP_GIS_CLT wxGxCatalogEvent : public wxEvent
 {
@@ -40,7 +43,7 @@ public:
 	{
         m_nObjectID = nObjectID;
 	}
-	
+
     wxGxCatalogEvent(const wxGxCatalogEvent& event) : wxEvent(event)
 	{
         m_nObjectID = event.m_nObjectID;

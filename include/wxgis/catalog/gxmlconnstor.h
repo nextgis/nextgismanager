@@ -26,16 +26,13 @@
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
 
-#include <wx/event.h>
 #include <wx/fswatcher.h>
 
-#if wxVERSION_NUMBER <= 2903// && !defined EVT_FSWATCHER(winid, func)
-#define EVT_FSWATCHER(winid, func) \
-    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
-#endif
+/** @class wxGxXMLConnectionStorage
 
-/** \class wxGxXMLConnectionStorage gxremoteservers.h
-    \brief The class support for storing and updating xml file connections.
+    The class support for storing and updating xml file connections.
+
+    @library{catalog}
 */
 /*
 class WXDLLIMPEXP_GIS_CLT wxGxXMLConnectionStorage :
@@ -60,8 +57,11 @@ protected:
 };
 */
 
-/** \class wxGxJSONConnectionStorage gxremoteservers.h
-    \brief The class support for storing and updating json file connections.
+/** @class wxGxJSONConnectionStorage
+
+    The class support for storing and updating json file connections.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxJSONConnectionStorage :

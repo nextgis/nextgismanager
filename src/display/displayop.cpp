@@ -27,11 +27,6 @@
 	#include <cairo-win32.h>
 #endif
 
-#ifdef __WXGTK__
-    //#include <gdk/gdk.h>
-    //#include <gtk/gtk.h>
-#endif
-
 void SetColorValue(wxXmlNode* pNode, const wxString &sAttrName, const wxGISColor &oColor)
 {
     pNode->AddAttribute(sAttrName, oColor.GetAsString());
