@@ -114,6 +114,10 @@ if(UNIX)
 #    set(CMAKE_C_FLAGS_RELWITHDEBINFO   "-O0 -g")
 #    set(CMAKE_C_FLAGS_RELEASE          "-O")
 #    set(CMAKE_C_FLAGS_DEBUG            "-Wall -g -O2")
+    option(wxGIS_HAVE_GTK_INTEGRATION "Set ON to build with GTK integration" ON)
+    if(wxGIS_HAVE_GTK_INTEGRATION)
+        option(wxGIS_HAVE_UNITY_INTEGRATION "Set ON to build with Unity integration" ON)
+    endif()
 endif()
 
 #core

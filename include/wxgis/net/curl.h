@@ -1,6 +1,6 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  cURL class. This is smart clas for cURL handler
+ * Purpose:  cURL class. This is smart class for cURL handler
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2008,2010-2012 Dmitry Baryshnikov
@@ -36,6 +36,13 @@ typedef struct _perform_result
 	bool IsValid;
 } PERFORMRESULT;
 
+/** @class wxGISCurl
+
+    A smart class for cURL handler
+
+    @library{net}
+  */
+
 class WXDLLIMPEXP_GIS_NET wxGISCurl
 {
 public:
@@ -47,7 +54,7 @@ private:
 	bool m_bIsValid, m_bUseProxy;
 	CURL *curl;
 	CURLcode res;
-    struct MemoryStruct 
+    struct MemoryStruct
 	{
       char *memory;
       size_t size;
@@ -70,9 +77,9 @@ private:
 	{
            size_t realsize = size * nmemb;
            struct MemoryStruct *mem = (struct MemoryStruct *)data;
- 
+
            mem->memory = (char *)myrealloc(mem->memory, mem->size + realsize + 1);
-           if (mem->memory) 
+           if (mem->memory)
 		   {
              memcpy(&(mem->memory[mem->size]), ptr, realsize);
              mem->size += realsize;

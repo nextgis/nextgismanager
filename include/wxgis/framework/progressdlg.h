@@ -35,17 +35,25 @@
 #include <wx/button.h>
 #include <wx/dialog.h>
 
+
+#include "wxgisdefs.h"
+
 #ifdef __WXMSW__
-#include <shobjidl.h>
+    #include <shobjidl.h>
 #endif
 
-/** @class wxGISProgressDlg progressdlg.h
-    
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    #include <unity.h>
+    #define DESKTOP_FILE_NAME "ngm.desktop"
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
+
+/** @class wxGISProgressDlg
+
     The dialog showing progress and some buttons.
 
     @library {framework}
 */
-class WXDLLIMPEXP_GIS_FRW wxGISProgressDlg : 
+class WXDLLIMPEXP_GIS_FRW wxGISProgressDlg :
 	public wxDialog,
 	public ITrackCancel,
 	public IProgressor
@@ -90,6 +98,10 @@ protected:
 #ifdef __WXMSW__
     ITaskbarList3 *m_pTaskbarList;
 #endif
+
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    UnityLauncherEntry* m_pLauncher;
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
 private:
     DECLARE_EVENT_TABLE()
 };

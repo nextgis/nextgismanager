@@ -30,6 +30,6 @@ include/wxgisdefs.h
 *.mo
 
 #temp
-*.txt~
+*~
 *.~lock*
 *.save

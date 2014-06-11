@@ -17,20 +17,22 @@
 
 #ifdef wxGIS_USE_EMAIL
 
-/*
- * wxEmail
- * Miscellaneous email functions
+/** @class wxEmail
+
+    Miscellaneous email functions
+
+    @library{net}
  */
 
 class WXDLLIMPEXP_GIS_NET wxEmail
 {
 public:
     wxEmail(void);
-    
+
     // Send a message.
     // Specify profile, or leave it to wxWidgets to find the current user name
-    static bool Send(wxMailMessage& message, const wxString& profileName = wxEmptyString, const wxString& sendMail = wxT("/usr/sbin/sendmail -t"));
-    
+    static bool Send(const wxMailMessage& message);
+
 };
 
 #endif //wxGIS_USE_EMAIL

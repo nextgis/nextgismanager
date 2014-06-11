@@ -2,28 +2,26 @@
 // Name:        email.h
 // Purpose:     wxEmail: portable email client class
 // Author:      Julian Smart
-// Modified by:
+// Modified by: Dmitry Baryshnikov
 // Created:     2001-08-21
 // RCS-ID:      $Id$
 // Copyright:   (c) Julian Smart
+// Copyright:   (c) Dmitry Baryshnikov
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #include "wxgis/net/mail/email.h"
 
 #include "wx/string.h"
-#include "wxgis/net/mail/email.h"
+
+#include "wxgisdefs.h"
 
 #ifdef __WINDOWS__
 #include "wxgis/net/mail/smapi.h"
 #endif
 
 #ifdef __UNIX__
-#include "wx/filefn.h"
-#include "wx/timer.h"
-#include "wx/wfstream.h"
-#include "stdlib.h"
-#include "unistd.h"
+#include "wxgis/net/mail/mailto.h"
 #endif
 
 // Send a message.
@@ -32,25 +30,26 @@ wxEmail::wxEmail(void)
 {
 }
 
-#ifdef __WINDOWS__
-bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wxString& WXUNUSED(sendMail))
+#if defined(__WINDOWS__)
+bool wxEmail::Send(const wxMailMessage& message)
 {
-    wxString profile(profileName);
-    if (profile.IsEmpty())
-        profile = wxGetUserName();
-
+    wxString profile = wxGetUserName();
     wxMapiSession session;
 
     if (!session.MapiInstalled())
-        return FALSE;
+        return false;
     if (!session.Logon(profile))
-        return FALSE;
+        return false;
 
     return session.Send(message);
 }
 #elif defined(__UNIX__)
-bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wxString& sendMail)
+bool wxEmail::Send(const wxMailMessage& message)
 {
+   #ifdef wxGIS_HAVE_GTK_INTEGRATION
+    return false;
+   #else
+
     // The 'from' field is optionally supplied by the app; it's not needed
     // by MAPI, and on Unix, will be guessed if not supplied.
     wxString from = message.m_from;
@@ -87,6 +86,8 @@ bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wx
             return FALSE ;
         }
     }
+    }
+
 
     // TODO search for a suitable sendmail if sendMail is empty
     wxString sendmail(sendMail);
@@ -99,9 +100,9 @@ bool wxEmail::Send(wxMailMessage& message, const wxString& profileName, const wx
 
     wxRemoveFile(filename);
 
-    return TRUE;
+    return true;
+    #endif // wxGIS_HAVE_GTK_INTEGRATION
 }
-#else
-#error Send not yet implemented for this platform.
+//#else
+//#error Send not yet implemented for this platform.
 #endif
-

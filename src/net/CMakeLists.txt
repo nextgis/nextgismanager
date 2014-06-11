@@ -1,4 +1,4 @@
-# **************************************************************************** 
+# ****************************************************************************
 # * Project:  wxGIS
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -45,6 +45,15 @@ if(wxGIS_USE_CURL)
     endif(CURL_FOUND)
 endif(wxGIS_USE_CURL)
 
+if(wxGIS_HAVE_GTK_INTEGRATION)
+     find_package(GTK2 REQUIRED)
+     if(GTK2_FOUND)
+        include_directories(${GTK2_INCLUDE_DIRS})
+        add_definitions(-DHAVE_GTK2)
+    endif(GTK2_FOUND)
+    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+endif(wxGIS_HAVE_GTK_INTEGRATION)
+
 include_directories(${LIB_HEADERS})
 
 set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
@@ -75,11 +84,13 @@ if(wxGIS_USE_EMAIL)
 set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/mail/email.h
     ${LIB_HEADERS}/mail/smapi.h
+    ${LIB_HEADERS}/mail/mailto.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/mail/email.cpp
     ${LIB_SOURCES}/mail/smapi.cpp
+    ${LIB_SOURCES}/mail/mailto.cpp
 )
 endif(wxGIS_USE_EMAIL)
 
@@ -96,7 +107,11 @@ if(CURL_FOUND)
    target_link_libraries(${LIB_NAME} ${CURL_LIBRARIES})
 endif(CURL_FOUND)
 
-target_link_libraries( ${LIB_NAME} ${WXGISCORE_LIB_NAME} ) 
+if(GTK2_FOUND)
+   target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
+endif(GTK2_FOUND)
+
+target_link_libraries( ${LIB_NAME} ${WXGISCORE_LIB_NAME} )
 
 include(installlib)
 

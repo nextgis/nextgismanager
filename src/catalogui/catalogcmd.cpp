@@ -856,10 +856,13 @@ void wxGISCatalogMainCmd::OnClick(void)
                 sContents.Append(_("Created by NextGIS Manager"));
                 //send zip via e-mail
                 wxString sArchiveName = wxDateTime::Now().Format(wxT("spatial_data_%Y%m%d.zip"));
-                wxMailMessage msg(_("Send: spatial data archive"), sContents, wxEmptyString, wxString(szZipFileName, wxConvUTF8), sArchiveName);
+                wxString sZipFileName(szZipFileName, wxConvUTF8);
+                wxMailMessage msg(_("Send: spatial data archive"), sContents, wxEmptyString, sZipFileName, sArchiveName);
                 wxEmail email;
 
                 email.Send(msg);
+
+                wxRemoveFile(sZipFileName);
 #endif //wxGIS_USE_EMAIL
                 return;
             }

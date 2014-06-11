@@ -52,3 +52,8 @@
 #cmakedefine wxGIS_USE_EMAIL
 
 #cmakedefine wxGIS_HAVE_FREECHART
+
+#cmakedefine wxGIS_HAVE_GTK_INTEGRATION
+
+#cmakedefine wxGIS_HAVE_UNITY_INTEGRATION
+

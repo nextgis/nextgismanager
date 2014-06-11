@@ -20,8 +20,13 @@
  ****************************************************************************/
 #include "wxgis/framework/progressdlg.h"
 #include "wxgis/framework/progressor.h"
+#include "wxgis/framework/application.h"
 
 #include <wx/statline.h>
+#include <wx/stdpaths.h>
+#include <wx/filename.h>
+
+
 
 //------------------------------------------------------------------------------
 // wxGISProgressDlg
@@ -44,7 +49,7 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
     wxBoxSizer* bMainSizer = new wxBoxSizer(wxVERTICAL);
 
     m_staticText = new wxStaticText(this, wxID_ANY, m_sLastMessage, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
-    m_staticText->SetLabel(wxT("                                                              \n                                                              "));
+    m_staticText->SetLabel(wxT("................................................\n........................................................"));
     //m_staticText->Wrap(-1);
     bMainSizer->Add(m_staticText, 1, wxALL | wxEXPAND, 5);
 
@@ -82,7 +87,12 @@ wxGISProgressDlg::wxGISProgressDlg(const wxString &title, const wxString &messag
         NULL,
         CLSCTX_INPROC_SERVER,
         IID_PPV_ARGS(&m_pTaskbarList));
-#endif
+#endif // __WXMSW__
+
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    wxString sExeAppName = wxString(DESKTOP_FILE_NAME);
+    m_pLauncher = unity_launcher_entry_get_for_desktop_id(sExeAppName.mb_str());
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
 }
 
 wxGISProgressDlg::~wxGISProgressDlg(void)
@@ -92,6 +102,13 @@ wxGISProgressDlg::~wxGISProgressDlg(void)
     if (pMainFrame && m_pTaskbarList)
         m_pTaskbarList->SetProgressState((HWND)pMainFrame->GetHandle(), TBPF_NOPROGRESS);
 #endif
+
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    if(m_pLauncher)
+    {
+        unity_launcher_entry_set_progress_visible(m_pLauncher, false);
+    }
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
 
 }
 
@@ -105,19 +122,25 @@ bool wxGISProgressDlg::ShowProgress(bool bShow)
 
 void wxGISProgressDlg::SetRange(int range)
 {
-    if (NULL != m_pProgressBar)
-    {
-        m_pProgressBar->SetRange(range);
-        m_dtStart = wxDateTime::Now();
-        SetValue(0);
-    }
-
 #ifdef __WXMSW__
     wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
     if (pMainFrame && m_pTaskbarList)
         m_pTaskbarList->SetProgressState((HWND)pMainFrame->GetHandle(), TBPF_NORMAL);
 #endif
 
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    if(m_pLauncher)
+    {
+        unity_launcher_entry_set_progress_visible(m_pLauncher, true);
+    }
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
+
+    if (NULL != m_pProgressBar)
+    {
+        m_pProgressBar->SetRange(range);
+        m_dtStart = wxDateTime::Now();
+        SetValue(0);
+    }
 }
 
 int wxGISProgressDlg::GetRange(void) const
@@ -176,11 +199,21 @@ void wxGISProgressDlg::SetValue(int value)
         m_pTaskbarList->SetProgressValue((HWND)pMainFrame->GetHandle(), value, GetRange());
 #endif
 
+
+
     wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
     int nRange = GetRange();
     if (nRange < 1)
         nRange = 1;
     double dfDone = double(value) / nRange;
+
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+    if(m_pLauncher)
+    {
+        unity_launcher_entry_set_progress(m_pLauncher, dfDone);
+    }
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
+
     double dfToDo = 1.0 - dfDone;
     int nDone = dfDone * 100;
     if (m_nPrevDone == nDone)

@@ -3,7 +3,7 @@
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
-# *   Copyright (C) 2013 Dmitry Baryshnikov
+# *   Copyright (C) 2013-2014 Dmitry Baryshnikov
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,24 @@ if(wxGIS_USE_PROJ)
     endif(PROJ_FOUND)
 endif(wxGIS_USE_PROJ)
 
+if(wxGIS_HAVE_GTK_INTEGRATION)
+     find_package(GTK2 REQUIRED)
+     if(GTK2_FOUND)
+        include_directories(${GTK2_INCLUDE_DIRS})
+        add_definitions(-DHAVE_GTK2)
+    endif(GTK2_FOUND)
+    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+endif(wxGIS_HAVE_GTK_INTEGRATION)
+
+if(wxGIS_HAVE_UNITY_INTEGRATION)
+     find_package(UNITY REQUIRED)
+     if(UNITY_FOUND)
+        include_directories(${UNITY_INCLUDE_DIR})
+        add_definitions(-DHAVE_UNITY)
+    endif(UNITY_FOUND)
+    message(STATUS "UNITY libs=[${UNITY_LIBRARIES}] headers=[${UNITY_INCLUDE_DIR}]")
+endif(wxGIS_HAVE_UNITY_INTEGRATION)
+
 set(PROJECT_HHEADERS ${PROJECT_HHEADERS}    
     ${LIB_HEADERS}/accelerator.h
     ${LIB_HEADERS}/addcommanddlg.h
@@ -66,7 +84,6 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/statusbar.h
     ${LIB_HEADERS}/toolbarmenu.h
     ${LIB_HEADERS}/dataobject.h
-#    ${LIB_HEADERS}/droptarget.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -89,7 +106,6 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/statusbar.cpp
     ${LIB_SOURCES}/toolbarmenu.cpp
     ${LIB_SOURCES}/dataobject.cpp
-#    ${LIB_SOURCES}/droptarget.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_FRW -DwxUSE_GUI=1)
@@ -108,6 +124,14 @@ endif(GDAL_FOUND)
 if(PROJ_FOUND)
     target_link_libraries(${LIB_NAME} ${PROJ_LIBRARY})
 endif(PROJ_FOUND)
+
+if(GTK2_FOUND)
+   target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
+endif(GTK2_FOUND)
+
+if(UNITY_FOUND)
+   target_link_libraries(${LIB_NAME} ${UNITY_LIBRARIES})
+endif(UNITY_FOUND)
 
 target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME})
 
