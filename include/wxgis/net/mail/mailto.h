@@ -1,9 +1,11 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  cURL class. This is smart clas for cURL handler
+ * Purpose:  mail supported class for Linux
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2008,2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2004 Roberto Majadas
+*   Copyright (C) 2005-2013 Bastien Nocera
+*   Copyright (C) 2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -18,12 +20,11 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#pragma once
 
-#include "wx/filefn.h"
-#include "wx/timer.h"
-#include "wx/wfstream.h"
-#include "stdlib.h"
-#include "unistd.h"
+#include "wxgis/net/net.h"
+#include "wxgis/net/message.h"
+
 
 typedef enum {
 	MAILER_UNKNOWN,
@@ -32,3 +33,29 @@ typedef enum {
 	MAILER_SYLPHEED,
 	MAILER_THUNDERBIRD,
 } MailerType;
+
+/** @class wxGISMailer
+
+    Configurate execute command for specific mailer
+
+    @library{net}
+ */
+
+class wxGISMailer
+{
+public:
+    wxGISMailer(void);
+    virtual ~wxGISMailer(void);
+    virtual bool Init();
+    virtual bool Send(const wxMailMessage& message);
+protected:
+    virtual wxString GetEvoCmd() const;
+    wxString GetEvoMailto (const wxMailMessage& message) const;
+    wxString GetBalsaMailto (const wxMailMessage& message) const;
+    wxString GetThunderbirdMailto (const wxMailMessage& message) const;
+    wxString GetSylpheedMailto (const wxMailMessage& message) const;
+    wxString EscapeStrings(const wxString &sData) const;
+protected:
+    MailerType m_eType;
+    wxString m_sCmd;
+};

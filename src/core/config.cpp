@@ -239,7 +239,7 @@ wxXmlNode *wxGISConfig::GetConfigRootNode(wxGISEnumConfigKey Key, const wxString
 		if(Key == enumGISHKCU)
         {
 			if(!wxDirExists(((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath))
-				wxFileName::Mkdir(sConfigDirPath, 0755, wxPATH_MKDIR_FULL);
+				wxFileName::Mkdir(sConfigDirPath, 0777, wxPATH_MKDIR_FULL);
 			else
 			{
 				wxString sConfigFilePathNew = ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath + wxFileName::GetPathSeparator() + sFileName;
@@ -664,6 +664,22 @@ wxString wxGISAppConfig::GetLogDir(void)
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/log/path")), sDefaultOut);
 }
 
+wxString wxGISAppConfig::GetTempDir(void)
+{
+    wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
+    wxString sDefaultOut;
+
+    if(((wxGISConfigRefData *)m_refData)->m_bPortable)
+    {
+        sDefaultOut = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("tmp"));
+        return sDefaultOut;
+    }
+    else
+    {
+       sDefaultOut = wxStandardPaths::Get().GetTempDir() + wxFileName::GetPathSeparator() + wxTheApp->GetVendorName();
+    }
+	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/tmp/path")), sDefaultOut);
+}
 
 wxString wxGISAppConfig::GetSysDir(void)
 {

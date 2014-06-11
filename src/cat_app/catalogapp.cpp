@@ -123,6 +123,12 @@ bool wxGISCatalogApp::OnInit()
 
     //disable loading drivers on GDAL_DRIVER_PATH env value
     CPLSetConfigOption("GDAL_DRIVER_PATH", "disabled");
+    wxString sTempDir = oConfig.GetTempDir();
+    if(!wxDirExists(sTempDir))
+		wxFileName::Mkdir(sTempDir, 0777, wxPATH_MKDIR_FULL);
+
+    CPLSetConfigOption("CPL_TMPDIR", sTempDir.mb_str(wxConvUTF8));
+
 
 	OGRRegisterAll();
 	GDALAllRegister();

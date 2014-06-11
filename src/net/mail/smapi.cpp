@@ -202,7 +202,7 @@ bool wxMapiSession::Logoff()
     return bSuccess;
 }
 
-bool wxMapiSession::Send(wxMailMessage& message)
+bool wxMapiSession::Send(const wxMailMessage& message)
 {
     wxASSERT(MapiInstalled()); //MAPI must be installed
     wxASSERT(m_data->m_lpfnMAPISendMail); //Function pointer must be valid

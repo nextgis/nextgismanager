@@ -862,7 +862,6 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                 email.Send(msg);
 
-                wxRemoveFile(sZipFileName);
 #endif //wxGIS_USE_EMAIL
                 return;
             }

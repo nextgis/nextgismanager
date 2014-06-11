@@ -25,7 +25,7 @@
     #include <mapi.h>
 #endif
 
-class WXDLLIMPEXP_GIS_NET wxMapiData
+class wxMapiData
 {
 public:
     wxMapiData()
@@ -53,7 +53,7 @@ public:
 
 
 //The class which encapsulates the MAPI connection
-class WXDLLIMPEXP_GIS_NET wxMapiSession
+class wxMapiSession
 {
 public:
     //Constructors / Destructors
@@ -66,7 +66,7 @@ public:
     bool Logoff();
 
     //Send a message
-    bool Send(wxMailMessage& message);
+    bool Send(const wxMailMessage& message);
 
     //General MAPI support
     bool MapiInstalled() const;

@@ -30,9 +30,9 @@
 WX_DECLARE_STRING_HASH_MAP( wxXmlNode*, wxGISConfigNodesMap );
 
 /** @class wxGISConfig
-    
+
     The config main class. This is the wrapper around xml config files. wxGISConfig cached all opened xml config files for speed. All changes are stored to appropriate files before wxGISConfig class destructs on program exit.
-    
+
     @library {core}
 */
 class WXDLLIMPEXP_GIS_CORE wxGISConfig : public wxObject
@@ -125,6 +125,7 @@ public:
     wxString GetLocale(void);
     wxString GetLocaleDir(void);
     wxString GetSysDir(void);
+    wxString GetTempDir(void);
     wxString GetLogDir(void);
     bool GetDebugMode(void);
     void SetLocale(const wxString &sLocale);

@@ -31,6 +31,7 @@ wxEmail::wxEmail(void)
 }
 
 #if defined(__WINDOWS__)
+
 bool wxEmail::Send(const wxMailMessage& message)
 {
     wxString profile = wxGetUserName();
@@ -43,12 +44,17 @@ bool wxEmail::Send(const wxMailMessage& message)
 
     return session.Send(message);
 }
+
 #elif defined(__UNIX__)
+
 bool wxEmail::Send(const wxMailMessage& message)
 {
    #ifdef wxGIS_HAVE_GTK_INTEGRATION
-    return false;
-   #else
+   wxGISMailer mailer;
+   if(!mailer.Init())
+        return false;
+   return mailer.Send(message);
+   #else //wxGIS_HAVE_GTK_INTEGRATION
 
     // The 'from' field is optionally supplied by the app; it's not needed
     // by MAPI, and on Unix, will be guessed if not supplied.
@@ -103,6 +109,7 @@ bool wxEmail::Send(const wxMailMessage& message)
     return true;
     #endif // wxGIS_HAVE_GTK_INTEGRATION
 }
-//#else
-//#error Send not yet implemented for this platform.
+
+#else
+    #error Send not yet implemented for this platform.
 #endif

@@ -1,86 +1,275 @@
+/******************************************************************************
+ * Project:  wxGIS (GIS Catalog)
+ * Purpose:  mail supported class for Linux
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+ ******************************************************************************
+*   Copyright (C) 2004 Roberto Majadas
+*   Copyright (C) 2005-2013 Bastien Nocera
+*   Copyright (C) 2014 Dmitry Baryshnikov
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 2 of the License, or
+*    (at your option) any later version.
+*
+*    This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ****************************************************************************/
+#include "wxgis/net/mail/mailto.h"
 
+#include <gio/gio.h>
 
+//-------------------------------------------------------------------------------------
+// wxGISMailer
+//-------------------------------------------------------------------------------------
 
-/*
- * Copyright (C) 2004 Roberto Majadas
- * Copyright (C) 2005-2013 Bastien Nocera
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more av.
- *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301  USA.
- *
- * Author:  Roberto Majadas <roberto.majadas@openshine.com>
- *          Bastien Nocera <hadess@hadess.net>
- */
-/*
-//#include <glib/gi18n.h>
-//#include <glib/gstdio.h>
-//#include <gio/gio.h>
-//#include <wx/utils.h>
+wxGISMailer::wxGISMailer()
+{
+    m_eType = MAILER_UNKNOWN;
+}
 
-    wxString sCCD;
+wxGISMailer::~wxGISMailer()
+{
+
+}
+
+bool wxGISMailer::Init()
+{
+    wxString sCommandLine;
     GAppInfo *app_info = g_app_info_get_default_for_uri_scheme ("mailto");
     if (app_info) {
-		sCCD = wxString (g_app_info_get_commandline (app_info));
+		sCommandLine = wxString (g_app_info_get_commandline (app_info));
 		g_object_unref (app_info);
 	}
 
-    wxString wxstrLink = wxT("text/html");
-wxMimeTypesManager * mtm = new wxMimeTypesManager();
-wxFileType *ft = mtm->GetFileTypeFromMimeType(wxstrLink);
-wxString one;
-if (ft->GetMimeType(&one))
-            wxLogDebug(one);
-        wxString sOpen,sPrint;
-        if(ft->GetOpenCommand(&sOpen, wxFileType::MessageParameters ()))
-            wxLogDebug(sOpen);
-
-   wxstrLink = wxString(wxT("message/rfc822"));
-ft = mtm->GetFileTypeFromMimeType(wxstrLink);
-if (ft->GetMimeType(&one))
-            wxLogDebug(one);
-        wxString sDesc;
-        if(ft->GetDescription(&sDesc))
-            wxLogDebug(sDesc);
-        if(ft->GetOpenCommand(&sOpen, wxFileType::MessageParameters ()))
-            wxLogDebug(sOpen);
-        if(ft->GetPrintCommand(&sPrint, wxFileType::MessageParameters ()))
-            wxLogDebug(sPrint);
-
-    wxMimeTypesManager manager;
-    wxFileType *filetype = manager.GetFileTypeFromMimeType(wxT("message/rfc822"));//.GetFileTypeFromExtension(wxT("eml"));//
-    if(filetype)
+    if(sCommandLine.IsEmpty())
     {
-        wxString sDesc;
-        if(filetype->GetDescription(&sDesc))
-            wxLogDebug(sDesc);
-        wxString sOpen;
-        if(filetype->GetOpenCommand(&sOpen, wxFileType::MessageParameters ()))
-            wxLogDebug(sOpen);
-        //wxArrayString q1,q2;
+        m_eType = MAILER_EVO;
+        m_sCmd = GetEvoCmd();
+    }
+    else if(sCommandLine.Find(wxT("balsa")) != wxNOT_FOUND)
+    {
+        m_eType = MAILER_BALSA;
+        m_sCmd = sCommandLine;
+    }
+    else if(sCommandLine.Find(wxT("thunder")) != wxNOT_FOUND || sCommandLine.Find(wxT("seamonkey")) != wxNOT_FOUND || sCommandLine.Find(wxT("icedove")) != wxNOT_FOUND)
+    {
+        m_eType = MAILER_THUNDERBIRD;
+        m_sCmd = sCommandLine;
+    }
+    else if(sCommandLine.Find(wxT("sylpheed")) != wxNOT_FOUND || sCommandLine.Find(wxT("claws")) != wxNOT_FOUND)
+    {
+        m_eType = MAILER_SYLPHEED;
+        m_sCmd = sCommandLine;
+    }
+    else if(sCommandLine.Find(wxT("anjal")) != wxNOT_FOUND)
+    {
+        m_eType = MAILER_EVO;
+        m_sCmd = sCommandLine;
+    }
 
-        //size_t count = filetype->GetAllCommands(&q1, &q2,  wxFileType::MessageParameters ());
+    m_sCmd.Replace(wxT("%u"), wxT("%s"));
+    m_sCmd.Replace(wxT("%U"), wxT("%s"));
 
-        //wxLogDebug(command);
+    return !m_sCmd.IsEmpty();
+}
 
+wxString wxGISMailer::GetEvoCmd() const
+{
+    wxString sRet;
+    char* tmp = g_find_program_in_path ("evolution");
+	if (tmp != NULL)
+    {
+        sRet = wxString::Format(wxT("%s --component=mail %%s"), tmp);
+    }
+    g_free (tmp);
+
+    return sRet;
+}
+
+bool wxGISMailer::Send(const wxMailMessage& message)
+{
+    wxString sParam;
+    switch (m_eType) {
+	case MAILER_BALSA:
+		sParam = GetBalsaMailto(message);
+		break;
+	case MAILER_SYLPHEED:
+		sParam = GetSylpheedMailto(message);
+		break;
+	case MAILER_THUNDERBIRD:
+		sParam = GetThunderbirdMailto(message);
+		break;
+	case MAILER_EVO:
+	default:
+		sParam = GetEvoMailto(message);
+	}
+
+	wxString sExec = wxString::Format(m_sCmd, sParam);
+	wxExecute(sExec);
+
+	return true;
+}
+
+wxString wxGISMailer::GetEvoMailto (const wxMailMessage& message) const
+{
+    wxString sRet(wxT("mailto:"));
+    if(message.m_to.GetCount() > 0)
+    {
+        for(size_t i = 0; i < message.m_to.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT("\"%s\""), message.m_to[i].c_str());
+            if(i < message.m_to.GetCount() - 1)
+            {
+                sRet.Append(wxT(";"));
+            }
+        }
+    }
+    else
+    {
+        sRet.Append(wxT("\"\""));
+    }
+
+    if(message.m_attachments.GetCount() > 0)
+    {
+        sRet += wxString::Format(wxT("?attach=\"%s\""), EscapeStrings(message.m_attachments[0]).c_str());
+        for(size_t i = 1; i < message.m_attachments.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT("&attach=\"%s\""), EscapeStrings(message.m_attachments[i]).c_str());
+        }
+    }
+
+    return sRet;
+}
+
+wxString wxGISMailer::GetBalsaMailto (const wxMailMessage& message) const
+{
+    wxString sRet;
+    if(m_sCmd.Find(wxT(" -m ")) == wxNOT_FOUND && m_sCmd.Find(wxT(" --compose=")) == wxNOT_FOUND )
+    {
+        sRet.Append(wxT(" --compose="));
+    }
+
+    if(message.m_to.GetCount() > 0)
+    {
+        for(size_t i = 0; i < message.m_to.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT("\"%s\""), message.m_to[i].c_str());
+            if(i < message.m_to.GetCount() - 1)
+            {
+                sRet.Append(wxT(";"));
+            }
+        }
+    }
+    else
+    {
+        sRet.Append(wxT("\"\""));
+    }
+
+    if(message.m_attachments.GetCount() > 0)
+    {
+        for(size_t i = 0; i < message.m_attachments.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT(" --attach=\"%s\""), EscapeStrings(message.m_attachments[i]).c_str());
+        }
+    }
+
+    return sRet;
+}
+
+wxString wxGISMailer::GetThunderbirdMailto (const wxMailMessage& message) const
+{
+    wxString sRet(wxT("-compose \""));
+
+    if(message.m_to.GetCount() > 0)
+    {
+        sRet.Append(wxT("to='"));
+        for(size_t i = 0; i < message.m_to.GetCount(); ++i)
+        {
+            sRet += message.m_to[i];
+            if(i < message.m_to.GetCount() - 1)
+            {
+                sRet.Append(wxT(","));
+            }
+        }
+        sRet.Append(wxT("',"));
+    }
+
+    sRet += wxString::Format(wxT("subject='%s',body='%s'"), message.m_subject.c_str(), message.m_body.c_str());
+
+    if(message.m_attachments.GetCount() > 0)
+    {
+        sRet.Append(wxT(",attachment='"));
+        for(size_t i = 0; i < message.m_attachments.GetCount(); ++i)
+        {
+            sRet += message.m_attachments[i];
+            if(i < message.m_attachments.GetCount() - 1)
+            {
+                sRet.Append(wxT(","));
+            }
+        }
+        sRet.Append(wxT("'"));
+    }
+
+    sRet.Append(wxT("\""));
+    return sRet;
+}
+
+wxString wxGISMailer::GetSylpheedMailto (const wxMailMessage& message) const
+{
+    wxString sRet(wxT("--compose "));
+
+   if(message.m_to.GetCount() > 0)
+    {
+        for(size_t i = 0; i < message.m_to.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT("\"%s\""), message.m_to[i].c_str());
+            if(i < message.m_to.GetCount() - 1)
+            {
+                sRet.Append(wxT(";"));
+            }
+        }
+    }
+    else
+    {
+        sRet.Append(wxT("\"\""));
+    }
+
+    if(message.m_attachments.GetCount() > 0)
+    {
+        sRet += wxString::Format(wxT("--attach \"%s\""), EscapeStrings(message.m_attachments[0]).c_str());
+        for(size_t i = 1; i < message.m_attachments.GetCount(); ++i)
+        {
+            sRet += wxString::Format(wxT(" \"%s\""), EscapeStrings(message.m_attachments[i]).c_str());
+        }
+    }
+
+    return sRet;
+}
+
+wxString wxGISMailer::EscapeStrings(const wxString &sData) const
+{
+    wxString sRet = sData;
+    sRet.Replace(wxT("&"), wxT("%26"));
+    sRet.Replace(wxT(","), wxT("%2C"));
+    sRet.Replace(wxT(" "), wxT("%20"));
+
+    return sRet;
+}
+
+  /*
 
 #include "config.h"
 #include <string.h>
 #include <stdlib.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gio/gio.h>
+#include <gio/gio.h>*/
 
 /* Options *//*
 static char **filenames = NULL;
@@ -95,87 +284,6 @@ typedef struct {
 	char *mail_cmd;
 } NautilusSendto;
 
-static const GOptionEntry entries[] = {
-	{ "run-from-build-dir", 'b', 0, G_OPTION_ARG_NONE, &run_from_build_dir, N_("Run from build directory (ignored)"), NULL },
-	{ "xid", 'x', 0, G_OPTION_ARG_INT64, &xid, N_("Use XID as parent to the send dialogue (ignored)"), NULL },
-	{ G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, N_("Files to send"), "[FILES...]" },
-	{"version", 'v', 0, G_OPTION_ARG_NONE, &show_version, N_("Output version information and exit"), NULL},
-	{ NULL }
-};
-
-static char *
-get_evo_cmd (void)
-{
-	char *tmp, *retval;
-
-	tmp = g_find_program_in_path ("evolution");
-	if (tmp == NULL)
-		return NULL;
-
-	retval = g_strdup_printf ("%s --component=mail %%s", tmp);
-	g_free (tmp);
-
-	return retval;
-}
-
-static gboolean
-init_mailer (NautilusSendto *nst)
-{
-	GAppInfo *app_info;
-	char *needle;
-
-	nst->type = MAILER_UNKNOWN;
-
-	    wxFileName FName(m_pPage4->GetPath());
-        wxMimeTypesManager manager;
-        wxFileType *filetype = manager.GetFileTypeFromExtension(FName.GetExt());
-        wxString command = filetype->GetOpenCommand(m_pPage4->GetPath());
-        wxExecute(command);
-
-	app_info = g_app_info_get_default_for_uri_scheme ("mailto");
-	if (app_info) {
-		nst->mail_cmd = g_strdup (g_app_info_get_commandline (app_info));
-		g_object_unref (app_info);
-	} else {
-		nst->mail_cmd = NULL;
-	}
-
-	if (nst->mail_cmd == NULL || *nst->mail_cmd == '\0') {
-		g_free (nst->mail_cmd);
-		nst->mail_cmd = get_evo_cmd ();
-		nst->type = MAILER_EVO;
-	} else {
-		/* Find what the default mailer is *//*
-		if (strstr (nst->mail_cmd, "balsa"))
-			nst->type = MAILER_BALSA;
-		else if (strstr (nst->mail_cmd, "thunder") || strstr (nst->mail_cmd, "seamonkey") || strstr (nst->mail_cmd, "icedove")) {
-			char **strv;
-
-			nst->type = MAILER_THUNDERBIRD;
-
-			/* Thunderbird sucks, see
-			 * https://bugzilla.gnome.org/show_bug.cgi?id=614222 *//*
-			strv = g_strsplit (nst->mail_cmd, " ", -1);
-			g_free (nst->mail_cmd);
-			nst->mail_cmd = g_strdup_printf ("%s %%s", strv[0]);
-			g_strfreev (strv);
-		} else if (strstr (nst->mail_cmd, "sylpheed") || strstr (nst->mail_cmd, "claws"))
-			nst->type = MAILER_SYLPHEED;
-		else if (strstr (nst->mail_cmd, "anjal"))
-			nst->type = MAILER_EVO;
-	}
-
-	if (nst->mail_cmd == NULL)
-		return FALSE;
-
-	/* Replace %U by %s *//*
-	while ((needle = g_strrstr (nst->mail_cmd, "%U")) != NULL)
-		needle[1] = 's';
-	while ((needle = g_strrstr (nst->mail_cmd, "%u")) != NULL)
-		needle[1] = 's';
-
-	return TRUE;
-}
 
 static char *
 get_filename_from_list (GList *file_list)
@@ -546,50 +654,5 @@ nautilus_sendto_init (NautilusSendto *nst)
 	nst->file_list = g_list_reverse (nst->file_list);
 }
 
-int main (int argc, char **argv)
-{
-	GOptionContext *context;
-	GError *error = NULL;
-	NautilusSendto *nst;
-	int ret = 0;
-
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
-
-	context = g_option_context_new ("");
-	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-	if (g_option_context_parse (context, &argc, &argv, &error) == FALSE) {
-		g_print (_("Could not parse command-line options: %s\n"), error->message);
-		g_error_free (error);
-		return 1;
-	}
-
-        if (show_version) {
-		g_print ("%s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
-		return 0;
-	}
-
-	nst = g_new0 (NautilusSendto, 1);
-	nautilus_sendto_init (nst);
-	if (!init_mailer (nst)) {
-		g_print (_("No mail client installed, not sending files\n"));
-		goto out;
-	}
-
-
-	if (nst->file_list == NULL) {
-		g_print (_("Expects URIs or filenames to be passed as options\n"));
-		ret = 1;
-		goto out;
-	}
-
-	send_files (nst);
-
-out:
-	g_free (nst);
-
-	return ret;
-}
 */
 
