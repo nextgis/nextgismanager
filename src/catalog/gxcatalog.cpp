@@ -347,7 +347,6 @@ bool wxGxCatalog::AddFSWatcherPath(const wxFileName& path, int events)
         return false;
     }
     //m_asWatchPaths.Add(sPath);
-    wxLogDebug(wxT("Add watch path %s"), sPath.c_str());
     return m_pWatcher->Add(path, events);
 }
 

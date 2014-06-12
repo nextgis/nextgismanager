@@ -25,14 +25,15 @@
 #define NO_CATEGORY wxString(_("[No category]"))
 
 class WXDLLIMPEXP_GIS_FRW wxGISApplicationBase;
-/** \enum wxGISEnumCommandKind
-    \brief A command types.
+/** @enum wxGISEnumCommandKind
 
-    This is predefined command types.
+    A command types. This is predefined command types.
+
+    @library{framework}
 */
 enum wxGISEnumCommandKind
 {
-	enumGISCommandSeparator = wxITEM_SEPARATOR, /**< The type is separator */ 
+	enumGISCommandSeparator = wxITEM_SEPARATOR, /**< The type is separator */
 	enumGISCommandNormal = wxITEM_NORMAL,       /**< The type is normal command */
 	enumGISCommandCheck = wxITEM_CHECK,         /**< The type is check command */
 	enumGISCommandRadio = wxITEM_RADIO,         /**< The type is radio */
@@ -42,10 +43,11 @@ enum wxGISEnumCommandKind
     enumGISCommandDropDown                      /**< The type is drop down */
 };
 
-/** \class wxGISCommand command.h
-    \brief A wxGISCommand base abstract class for commnads.
+/** @class wxGISCommand
 
-    This is base class for command.    
+    A wxGISCommand base abstract class for commnads. This is base class for command.
+
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISCommand : public wxObject
@@ -54,7 +56,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISCommand : public wxObject
 public:
     /** \fn wxGISCommand(void)
      *  \brief A constructor.
-     */	
+     */
     wxGISCommand(void);
     /** \fn virtual ~wxGISCommand(void)
      *  \brief A destructor.
@@ -98,11 +100,13 @@ public:
 	virtual void Deactivate(void) = 0;
 };
 
-/** \class IToolControl command.h
-    \brief A IToolControl interface class.
+/** @class IToolControl
 
-    This is base class for tool control.    
+    A IToolControl interface class. This is base class for tool control.
+
+    @library{framework}
 */
+
 class IToolControl
 {
 public:
@@ -115,10 +119,11 @@ public:
 	virtual bool HasToolLabel(void) = 0;
 };
 
-/** \class ITool command.h
-    \brief A ITool interface class.
+/** @class ITool
 
-    This is base class for tool.    
+    A ITool interface class. This is base class for tool.
+
+    @library{framework}
 */
 class ITool :
 	public wxGISCommand
@@ -136,11 +141,13 @@ public:
 	virtual void OnMouseDoubleClick(wxMouseEvent& event) = 0;
 };
 
-/** \class IDropDownCommand command.h
-    \brief A IDropDownCommand interface class.
+/** @class IDropDownCommand
 
-    This is base class for drop down command.    
+    A IDropDownCommand interface class. This is base class for drop down command.
+
+    @library{framework}
 */
+
 class IDropDownCommand
 {
 public:
@@ -156,14 +163,27 @@ public:
     /** \fn virtual void OnDropDownCommand(int nID)
      *  \brief Execute the DropDown menu command
      *  \param nID The command ID to execute. The command ID will be from ID_MENUCMD to 2049. See #wxGISPluginIDs
-     */	
+     */
     virtual void OnDropDownCommand(int nID) = 0;
+};
+
+enum wxGISEnumCommonCmdType{
+    enumGISCommonCmdExit = 0,   //	0	Exit
+    enumGISCommonCmdAbout,      //	1	About
+    enumGISCommonCmdCustomize,  //	2	Customize
+    enumGISCommonCmdSeparator,  //	3	Separator
+    enumGISCommonCmdStatusBar,  //	4	StatusBar
+    enumGISCommonCmdOptions,    //  5   Options
+    enumGISCommonCmdFitToolbars,//  6   FitToolbars
+    enumGISCommonCmdOptimizeToolbars,    //  7   OptimizeToolbars
+    enumGISCommonCmdMax
 };
 
 class wxGISCommonCmd :
 	public wxGISCommand
 {
 	DECLARE_DYNAMIC_CLASS(wxGISCommonCmd)
+
 public:
 	wxGISCommonCmd(void);
 	virtual ~wxGISCommonCmd(void);

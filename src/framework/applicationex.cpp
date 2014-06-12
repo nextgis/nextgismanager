@@ -73,6 +73,111 @@ void wxGISApplicationEx::Customize(void)
 	}
 }
 
+void wxGISApplicationEx::CollectToolbars(std::set<ToolbarFitInfo> &result)
+{
+    int nMaxPosX = 0;
+	for(size_t i = 0; i < m_CommandBarArray.GetCount(); ++i)
+	{
+		if(m_CommandBarArray[i] && m_CommandBarArray[i]->GetType() == enumGISCBToolbar)
+        {
+            wxLogDebug(m_CommandBarArray[i]->GetName());
+            const wxAuiPaneInfo &info = m_mgr.GetPane(m_CommandBarArray[i]->GetName());
+            if (info.IsShown())
+            {
+                ToolbarFitInfo f;
+                f.row = info.dock_row;
+                f.rect = info.rect;
+                if(f.rect.GetX() > nMaxPosX)
+                    nMaxPosX = f.rect.GetX();
+                if(info.rect.width == 0)
+                {
+                    wxSize oSize = info.window->GetBestSize();
+                    f.rect.width = oSize.GetWidth() + 1;
+                    f.rect.height = oSize.GetHeight() + 1;
+                    f.rect.SetX(nMaxPosX + 1);
+                    nMaxPosX += f.rect.width;
+                }
+
+                f.window = info.window;
+                result.insert(f);
+                wxLogDebug(wxT("%s x %d, y %d, h %d, w %d"), m_CommandBarArray[i]->GetName().c_str(), f.rect.x, f.rect.y, f.rect.height, f.rect.width);
+            }
+        }
+	}
+}
+
+
+void wxGISApplicationEx::FitToolbars()
+{
+    std::set<ToolbarFitInfo> sorted;
+    CollectToolbars(sorted);
+    if (sorted.empty())
+        return;
+
+    int maxWidth = GetSize().x;
+
+    // move all toolbars to the left as possible and add the non-fitting to a list
+    wxVector<ToolbarRowInfo> rows;
+    wxVector<wxWindow*> nonFitingToolbars;
+    for (std::set<ToolbarFitInfo>::const_iterator it = sorted.begin(); it != sorted.end(); ++it)
+    {
+        wxAuiPaneInfo &pane = m_mgr.GetPane(it->window);
+        int row = pane.dock_row;
+        while (static_cast<int>(rows.size()) <= row)
+            rows.push_back(ToolbarRowInfo(0, 0));
+
+        int maxX = rows[row].width + it->rect.width;
+        if (maxX > maxWidth)
+            nonFitingToolbars.push_back(it->window);
+        else
+        {
+            rows[row].width = maxX;
+            pane.Position(rows[row].position++);
+        }
+    }
+
+    // move the non-fitting toolbars at the bottom
+    int lastRow = rows.empty() ? 0 : (rows.size() - 1);
+    int position = rows.back().position, maxX = rows.back().width;
+    for (wxVector<wxWindow*>::iterator it = nonFitingToolbars.begin(); it != nonFitingToolbars.end(); ++it)
+    {
+        maxX += (*it)->GetBestSize().x;
+        if (maxX > maxWidth)
+        {
+            position = 0;
+            lastRow++;
+            maxX = (*it)->GetBestSize().x;
+        }
+        m_mgr.GetPane(*it).Position(position++).Row(lastRow);
+    }
+
+    m_mgr.Update();
+}
+
+void wxGISApplicationEx::OptimizeToolbars()
+{
+    std::set<ToolbarFitInfo> sorted;
+    CollectToolbars(sorted);
+    if (sorted.empty())
+        return;
+
+    int maxWidth = GetSize().x;
+    int lastRow = 0, position = 0, maxX = 0;
+    for (std::set<ToolbarFitInfo>::const_iterator it = sorted.begin(); it != sorted.end(); ++it)
+    {
+        maxX += it->window->GetBestSize().x;
+        if (maxX > maxWidth)
+        {
+            position = 0;
+            lastRow++;
+            maxX = it->window->GetBestSize().x;
+        }
+        m_mgr.GetPane(it->window).Position(position++).Row(lastRow);
+    }
+
+    m_mgr.Update();
+}
+
 void wxGISApplicationEx::RemoveCommandBar(wxGISCommandBar* pBar)
 {
 	for(size_t i = 0; i < m_CommandBarArray.GetCount(); ++i)

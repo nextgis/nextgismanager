@@ -25,13 +25,43 @@
 #include "wx/aui/aui.h"
 #include "wx/artprov.h"
 
-/** \class wxGISApplicationEx applicationex.h
- *   \brief An application framework class with aui mngr.
+
+struct ToolbarFitInfo
+{
+    int row;
+    wxRect rect;
+    wxWindow *window;
+
+    bool operator<(const ToolbarFitInfo &r) const
+    {
+        if (row < r.row)
+            return true;
+        else if (row == r.row)
+            return rect.x < r.rect.x;
+        else
+            return false;
+    }
+};
+
+struct ToolbarRowInfo
+{
+    ToolbarRowInfo() {}
+    ToolbarRowInfo(int width_, int position_) : width(width_), position(position_) {}
+
+    int width, position;
+};
+
+
+/** @class wxGISApplicationEx
+
+    An application framework class with aui manager.
+
+    @library{framework}
  */
 class WXDLLIMPEXP_GIS_FRW wxGISApplicationEx :	public wxGISApplication
 {
     DECLARE_CLASS(wxGISApplicationEx)
-public:	
+public:
 	wxGISApplicationEx(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE | wxSUNKEN_BORDER);
 	virtual ~wxGISApplicationEx(void);
 	virtual wxAuiManager* GetAuiManager(void) const{return (wxAuiManager*)&m_mgr;};
@@ -41,10 +71,12 @@ public:
 	//wxGISApplication
 	virtual void RemoveCommandBar(wxGISCommandBar* pBar);
 	virtual bool AddCommandBar(wxGISCommandBar* pBar);
-    //events 
+    //events
     virtual void OnClose(wxCloseEvent& event);
 	//wxGISApplication
 	virtual void Customize(void);
+    virtual void FitToolbars(void);
+    virtual void OptimizeToolbars(void);
 	virtual void ShowStatusBar(bool bShow);
 	virtual void ShowApplicationWindow(wxWindow* pWnd, bool bShow = true);
 	virtual bool IsApplicationWindowShown(wxWindow* pWnd);
@@ -55,6 +87,7 @@ public:
     virtual bool SetupLog(const wxString &sLogPath, const wxString &sNamePrefix = wxEmptyString);
 protected:
 	virtual void SerializeFramePosEx(bool bSave = false);
+	virtual void CollectToolbars(std::set<ToolbarFitInfo> &result);
 protected:
 	wxAuiManager m_mgr;
 };

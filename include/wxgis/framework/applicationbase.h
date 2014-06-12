@@ -27,6 +27,8 @@
 
 #include <wx/window.h>
 #include <wx/dynarray.h>
+#include <set>
+
 
 /** @enum wxGISPluginIDs
 
@@ -44,10 +46,10 @@ enum wxGISPluginIDs
 	ID_TOOLBARCMDMAX = ID_TOOLBARCMD + 255,
     ID_MENUCMD = ID_TOOLBARCMDMAX + 1,
     ID_MENUCMDMAX = ID_MENUCMD + 255
-};	
+};
 
 /** @def typedef wxArrayInt WINDOWARRAY
-    
+
     A wxWindow IDs array.
 
     @library{framework}
@@ -56,7 +58,7 @@ typedef wxArrayInt WINDOWARRAY;
 
 /** @class wxGISApplicationBase
 
-    This is base class for framed applicaton.    
+    This is base class for framed applicaton.
 
     @library{framework}
  */
@@ -72,6 +74,8 @@ public:
 	virtual void RemoveCommandBar(wxGISCommandBar* pBar);
 	virtual bool AddCommandBar(wxGISCommandBar* pBar);
     virtual void Customize(void){};
+    virtual void FitToolbars(void){};
+    virtual void OptimizeToolbars(void){};
 	virtual wxIcon GetAppIcon(void){return wxNullIcon;};
 	virtual wxGISCommand* GetCommand(long CmdID) const;
 	virtual wxGISCommand* GetCommand(const wxString &sCmdName, unsigned char nCmdSubType) const;

@@ -3,7 +3,7 @@
  * Purpose:  wxGISCommandBar class, and diferent implementation - wxGISMneu, wxGISToolBar
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012, 2014 Dmitry Baryshnikov
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ void wxGISCommandBar::Serialize(wxGISApplicationBase* pApp, wxXmlNode* pNode, bo
 			}
 			else
 			{
-				wxGISCommand* pSubCmd = pApp->GetCommand(wxT("wxGISCommonCmd"), 3);
+				wxGISCommand* pSubCmd = pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdSeparator);
 				if(pSubCmd)
 					AddCommand(pSubCmd);
 			}
@@ -625,7 +625,7 @@ void wxGISToolBar::Serialize(wxGISApplicationBase* pApp, wxXmlNode* pNode, bool 
 
 		wxAuiToolBarItemArray prepend_items;
 		wxAuiToolBarItemArray append_items;
-		wxGISCommand* pCmd = pApp->GetCommand(wxT("wxGISCommonCmd"), 2);
+		wxGISCommand* pCmd = pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdCustomize);
 		if(pCmd)
 		{
 			wxAuiToolBarItem item;

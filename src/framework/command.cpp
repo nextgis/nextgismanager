@@ -24,14 +24,6 @@
 
 #include "../../art/options.xpm"
 
-//	0	Exit
-//	1	About
-//	2	Customize
-//	3	Separator
-//	4	StatusBar
-//  5   Options
-//  6   ?
-
 //---------------------------------------------------------------------------------
 // wxGISCommand
 //---------------------------------------------------------------------------------
@@ -51,7 +43,7 @@ void wxGISCommand::SetId(long nId)
     m_CommandId = nId;
 }
 
-long wxGISCommand::GetId(void) const 
+long wxGISCommand::GetId(void) const
 {
     return m_CommandId;
 }
@@ -61,7 +53,7 @@ void wxGISCommand::SetSubType(unsigned char SubType)
     m_subtype = SubType;
 }
 
-unsigned char wxGISCommand::GetSubType(void) const 
+unsigned char wxGISCommand::GetSubType(void) const
 {
     return m_subtype;
 }
@@ -84,15 +76,17 @@ wxIcon wxGISCommonCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 1:
+		case enumGISCommonCmdAbout:
 			if(m_pApp)
 				return m_pApp->GetAppIcon();
-		case 5:	
+		case enumGISCommonCmdOptions:
 			return m_IconOpt;
-		case 0:	
-		case 2:	
-		case 3:	
-		case 4:	
+		case enumGISCommonCmdExit:
+		case enumGISCommonCmdCustomize:
+		case enumGISCommonCmdSeparator:
+		case enumGISCommonCmdStatusBar:
+        case enumGISCommonCmdFitToolbars:
+        case enumGISCommonCmdOptimizeToolbars:
 		default:
 			return wxNullIcon;
 	}
@@ -103,18 +97,22 @@ wxString wxGISCommonCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case enumGISCommonCmdExit:
 			return wxString(_("E&xit"));
-		case 1:	
+		case enumGISCommonCmdAbout:
 			return wxString(_("&About..."));
-		case 2:	
+		case enumGISCommonCmdCustomize:
 			return wxString(_("Customize..."));
-		case 3:	
+		case enumGISCommonCmdSeparator:
 			return wxString(_("Separator"));
-		case 4:	
+		case enumGISCommonCmdStatusBar:
 			return wxString(_("StatusBar"));
-		case 5:	
+		case enumGISCommonCmdOptions:
 			return wxString(_("Options..."));
+		case enumGISCommonCmdFitToolbars:
+			return wxString(_("&Fit toolbars"));
+		case enumGISCommonCmdOptimizeToolbars:
+			return wxString(_("&Optimize toolbars"));
 		default:
 			return wxEmptyString;
 	}
@@ -124,16 +122,18 @@ wxString wxGISCommonCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case enumGISCommonCmdExit:
 			return wxString(_("File"));
-		case 1:	
+		case enumGISCommonCmdAbout:
 			return wxString(_("Help"));
-		case 2:	
-		case 4:
+		case enumGISCommonCmdCustomize:
+		case enumGISCommonCmdStatusBar:
+        case enumGISCommonCmdFitToolbars:
+        case enumGISCommonCmdOptimizeToolbars:
 			return wxString(_("View"));
-		case 5:
+		case enumGISCommonCmdOptions:
 			return wxString(_("Tools"));
-		case 3:	
+		case enumGISCommonCmdSeparator:
 		default:
 			return NO_CATEGORY;
 	}
@@ -143,14 +143,16 @@ bool wxGISCommonCmd::GetChecked(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
-		case 1:	
-		case 2:	
-		case 3:	
-		case 5:	
+		case enumGISCommonCmdExit:
+		case enumGISCommonCmdAbout:
+		case enumGISCommonCmdCustomize:
+		case enumGISCommonCmdSeparator:
+		case enumGISCommonCmdOptions:
+        case enumGISCommonCmdFitToolbars:
+        case enumGISCommonCmdOptimizeToolbars:
 		default:
 			return false;
-		case 4:
+		case enumGISCommonCmdStatusBar:
 			return m_pApp->IsStatusBarShown();
 	}
 	return false;
@@ -160,17 +162,21 @@ bool wxGISCommonCmd::GetEnabled(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Exit
+		case enumGISCommonCmdExit:
 			return true;
-		case 1://About
+		case enumGISCommonCmdAbout:
 			return true;
-		case 2://Customize
+		case enumGISCommonCmdCustomize:
 			return true;
-		case 3://Separator
+		case enumGISCommonCmdSeparator:
 			return true;
-		case 4://StatusBar
+		case enumGISCommonCmdStatusBar:
 			return true;
-		case 5://Options
+		case enumGISCommonCmdOptions:
+            return true;
+        case enumGISCommonCmdFitToolbars:
+            return true;
+        case enumGISCommonCmdOptimizeToolbars:
             return true;
 		default:
 			return false;
@@ -181,18 +187,22 @@ wxGISEnumCommandKind wxGISCommonCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Exit
+    case enumGISCommonCmdExit:
 			return enumGISCommandNormal;
-		case 1://About
+		case enumGISCommonCmdAbout:
 			return enumGISCommandNormal;
-		case 2://Customize
+		case enumGISCommonCmdCustomize:
 			return enumGISCommandNormal;
-		case 3://Separator
-			return enumGISCommandSeparator;
-		case 4://StatusBar
+		case enumGISCommonCmdSeparator:
+            return enumGISCommandSeparator;
+		case enumGISCommonCmdStatusBar:
 			return enumGISCommandCheck;
-		case 5://Options
+		case enumGISCommonCmdOptions:
 			return enumGISCommandNormal;
+        case enumGISCommonCmdFitToolbars:
+            return enumGISCommandNormal;
+        case enumGISCommonCmdOptimizeToolbars:
+            return enumGISCommandNormal;
 		default:
 			return enumGISCommandNormal;
 	}
@@ -202,18 +212,22 @@ wxString wxGISCommonCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case enumGISCommonCmdExit:
 			return wxString(_("Exit application"));
-		case 1:	
+		case enumGISCommonCmdAbout:
 			return wxString(_("About application"));
-		case 2:	
+		case enumGISCommonCmdCustomize:
 			return wxString(_("Customize application"));
-		case 3:	
+		case enumGISCommonCmdSeparator:
 			return wxString(_("Separator"));
-		case 4:	
+		case enumGISCommonCmdStatusBar:
 			return wxString(_("Show/Hide Statusbar"));
-		case 5:	
+		case enumGISCommonCmdOptions:
 			return wxString(_("Application options"));
+		case enumGISCommonCmdFitToolbars:
+			return wxString(_("Fit toolbars"));
+		case enumGISCommonCmdOptimizeToolbars:
+			return wxString(_("Optimize toolbars"));
 		default:
 			return wxEmptyString;
 	}
@@ -223,26 +237,32 @@ void wxGISCommonCmd::OnClick(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case enumGISCommonCmdExit:
 		{
 			wxFrame* pFrame = dynamic_cast<wxFrame*>(m_pApp);
 			if(pFrame)
 				pFrame->Close();
 			break;
 		}
-		case 1:
+		case enumGISCommonCmdAbout:
 			m_pApp->OnAppAbout();
 			break;
-		case 2:
+		case enumGISCommonCmdCustomize:
 			m_pApp->Customize();
 			break;
-		case 4:
+		case enumGISCommonCmdStatusBar:
 			m_pApp->ShowStatusBar(!m_pApp->IsStatusBarShown());
 			break;
-		case 5:
+		case enumGISCommonCmdOptions:
 			m_pApp->OnAppOptions();
 			break;
-		case 3:
+        case enumGISCommonCmdFitToolbars:
+            m_pApp->FitToolbars();
+            break;
+        case enumGISCommonCmdOptimizeToolbars:
+            m_pApp->OptimizeToolbars();
+            break;
+		case enumGISCommonCmdSeparator:
 		default:
 			return;
 	}
@@ -258,17 +278,21 @@ wxString wxGISCommonCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case enumGISCommonCmdExit:
 			return wxString(_("Exit"));
-		case 1:	
+		case enumGISCommonCmdAbout:
 			return wxString(_("About"));
-		case 2:	
+		case enumGISCommonCmdCustomize:
 			return wxString(_("Customize"));
-		case 4:	
+		case enumGISCommonCmdStatusBar:
 			return wxString(_("Show/Hide Statusbar"));
-		case 5:	
+		case enumGISCommonCmdOptions:
 			return wxString(_("Application options"));
-		case 3:	
+        case enumGISCommonCmdFitToolbars:
+			return wxString(_("Fit toolbars"));
+        case enumGISCommonCmdOptimizeToolbars:
+			return wxString(_("Optimize toolbars"));
+		case enumGISCommonCmdSeparator:
 		default:
 			return wxEmptyString;
 	}
@@ -276,5 +300,5 @@ wxString wxGISCommonCmd::GetTooltip(void)
 
 unsigned char wxGISCommonCmd::GetCount(void)
 {
-	return 6;
+	return enumGISCommonCmdMax;
 }

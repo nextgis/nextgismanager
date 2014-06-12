@@ -458,7 +458,7 @@ void wxGISToolBarPanel::OnCreateCommandBar(wxCommandEvent& event)
 			{
 				wxAuiToolBarItemArray prepend_items;
 				wxAuiToolBarItemArray append_items;
-				wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), 2);
+				wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdCustomize);
 				if(pCmd)
 				{
 					wxAuiToolBarItem item;
