@@ -22,6 +22,7 @@
 #include "wxgis/framework/keycodedlg.h"
 #include "wxgis/framework/createcbdlg.h"
 #include "wxgis/framework/addcommanddlg.h"
+#include "wxgis/framework/tabstyle.h"
 
 #include "wx/accel.h"
 #include "wx/utils.h"
@@ -875,7 +876,9 @@ wxGISCustomizeDlg::wxGISCustomizeDlg( wxWindow* parent, wxWindowID id, const wxS
 	m_AuiNotebook = new wxAuiNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE );
 	m_AuiNotebook->AddPage(new wxGISToolBarPanel(m_pApp, m_AuiNotebook), _("ToolBars & Menues"));
 	m_AuiNotebook->AddPage(new wxGISCommandPanel(m_pApp, m_AuiNotebook), _("Commands"));
-
+#ifdef __WXGTK__
+	m_AuiNotebook->SetArtProvider(new wxGISTabArt());
+#endif // __WXGTK__
 	bSizerMain->Add( m_AuiNotebook, 1, wxEXPAND | wxALL, 5 );
 
 	m_sdbSizer = new wxStdDialogButtonSizer();

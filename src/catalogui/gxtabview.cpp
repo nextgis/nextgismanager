@@ -21,7 +21,7 @@
 #include "wxgis/catalogui/gxtabview.h"
 #include "wxgis/catalogui/gxapplication.h"
 #include "wxgis/catalogui/droptarget.h"
-
+#include "wxgis/framework/tabstyle.h"
 
 //-------------------------------------------------------------------
 // wxGxTab
@@ -60,7 +60,7 @@ wxGxTab::wxGxTab(wxGxApplication* application, wxXmlNode* pTabDesc, wxWindow* pa
 		    }
             else
             {
-			    pWnd->Hide();			
+			    pWnd->Hide();
 
 			    if(pGxView->Activate(m_pApp, pChild))
                     m_pApp->RegisterChildWindow(pWnd->GetId());
@@ -401,6 +401,9 @@ wxGxTabView::wxGxTabView(void) : wxAuiNotebook()
 wxGxTabView::wxGxTabView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxAuiNotebook(parent, id, pos, size, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE)
 {
     m_pSelection = NULL;
+#ifdef __WXGTK__
+	SetArtProvider(new wxGISTabArt());
+#endif // __WXGTK__
 }
 
 wxGxTabView::~wxGxTabView(void)
@@ -409,7 +412,11 @@ wxGxTabView::~wxGxTabView(void)
 
 bool wxGxTabView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    return wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
+    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
+#ifdef __WXGTK__
+	SetArtProvider(new wxGISTabArt());
+#endif // __WXGTK__
+    return bRes;
 }
 
 bool wxGxTabView::Activate(IApplication* const application, wxXmlNode* const pConf)
@@ -448,7 +455,7 @@ void wxGxTabView::Deactivate(void)
 		m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
         m_ConnectionPointSelectionCookie = wxNOT_FOUND;
     }
-    
+
     for(size_t i = 0; i < m_Tabs.size(); ++i)
     {
         m_Tabs[i]->Deactivate();
@@ -461,7 +468,7 @@ void wxGxTabView::Deactivate(void)
 }
 
 void wxGxTabView::OnSelectionChanged(wxGxSelectionEvent& event)
-{   
+{
     //wxLogDebug(wxT("wxGxTabView::OnSelectionChanged"));
     if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID)
 		return;
@@ -497,7 +504,7 @@ void wxGxTabView::OnAUINotebookPageChanged(wxAuiNotebookEvent& event)
 	//OnSelectionChanged(sel_event);
 	//pCurrEvtHandler->AddPendingEvent(sel_event);
 
-	
+
 	//wxGxTab* pCurrTab = m_Tabs[event.GetOldSelection()];
 	//wxWindow* pWnd = pCurrTab->GetCurrentWindow();
 	//m_pSelection->SetInitiator(	pWnd->GetId() );

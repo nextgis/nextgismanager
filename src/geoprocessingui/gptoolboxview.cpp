@@ -45,7 +45,11 @@ wxAxToolboxView::~wxAxToolboxView(void)
 bool wxAxToolboxView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     m_sViewName = wxString(_("Toolbox"));
-    return wxAuiNotebook::Create(parent, id, pos, size, wxAUI_NB_BOTTOM | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
+    bool bRes = wxAuiNotebook::Create(parent, id, pos, size, wxAUI_NB_BOTTOM | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
+#ifdef __WXGTK__
+	SetArtProvider(new wxGISTabArt());
+#endif // __WXGTK__
+    return bRes;
 }
 
 bool wxAxToolboxView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
@@ -111,7 +115,7 @@ bool wxAxToolboxView::Activate(IApplication* const pApplication, wxXmlNode* cons
     }
 
     if(pGxToolExecute)
-    {        
+    {
         m_pGxToolExecuteView = new wxGxToolExecuteView(this, TOOLEXECUTECTRLID);
         AddPage(m_pGxToolExecuteView, m_pGxToolExecuteView->GetViewName(), false, m_pGxToolExecuteView->GetViewIcon());
         m_pGxToolExecuteView->Activate(application, pTaskExecConf);
