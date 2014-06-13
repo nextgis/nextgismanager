@@ -25,7 +25,7 @@
 
 #define VERT_PADDING 4
 
-wxGISTabArt::wxGISTabArt() : wxAuiDefaultTabArt()
+wxGISTabArt::wxGISTabArt() : wxAuiGenericTabArt()
 {
     //ctor
 }

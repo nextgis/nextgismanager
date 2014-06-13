@@ -41,10 +41,14 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxApplication;
 
-/** \class wxGxTab gxtabview.h
- *   \brief A tab in tab view.
+/** @class wxGxTab
+
+    A tab in tabview.
+
+    @library{catalogui}
  */
-class wxGxTab : 
+
+class wxGxTab :
 	public wxPanel,
     public IViewDropTarget
 {
@@ -91,11 +95,14 @@ protected:
 DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGxTabView gxtabview.h
- *   \brief The tab view class.
+/** @class wxGxTabView gxtabview.h
+
+    The tab view class.
+
+    @library{catalogui}
  */
 
-class WXDLLIMPEXP_GIS_CLU wxGxTabView : 
+class WXDLLIMPEXP_GIS_CLU wxGxTabView :
 	public wxAuiNotebook,
 	public wxGxView
 {
@@ -103,7 +110,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxTabView :
 public:
     wxGxTabView(void);
 	wxGxTabView(wxWindow* parent, wxWindowID id = TABCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
-	virtual ~wxGxTabView(void); 
+	virtual ~wxGxTabView(void);
     //IView
     virtual bool Create(wxWindow* parent, wxWindowID id = TABCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("TabView"));
 	virtual bool Activate(IApplication* const application, wxXmlNode* const pConf);
@@ -116,6 +123,6 @@ protected:
 	long m_ConnectionPointSelectionCookie;
 	wxGxSelection* m_pSelection;
     wxGxApplication* m_pApp;
-
-DECLARE_EVENT_TABLE()
+private:
+    DECLARE_EVENT_TABLE()
 };

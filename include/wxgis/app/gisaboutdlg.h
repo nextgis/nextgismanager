@@ -40,8 +40,9 @@
 #include <wx/button.h>
 #include <wx/generic/stattextg.h>
 
-/** \class wxGISSimpleTextPanel gisaboutdlg.h
- *   \brief Information tab in About dialog
+/** @class wxGISSimpleTextPanel
+
+    An information tab in About dialog
  */
 class wxGISSimpleTextPanel : public wxPanel
 {
@@ -55,13 +56,14 @@ public:
 	virtual void edtUrlClickUrl(wxTextUrlEvent& event);
 protected:
 	wxTextCtrl* m_pStaticText;
-
+private:
     DECLARE_EVENT_TABLE()
 };
 
 
-/** \class wxGISAboutDialog gisaboutdlg.h
- *   \brief About dialog class
+/** @class wxGISAboutDialog
+
+    An about dialog class
  */
 class wxGISAboutDialog: public wxDialog
 {

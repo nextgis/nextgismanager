@@ -163,7 +163,7 @@ void wxGISApplicationBase::OnMouseDoubleClick(wxMouseEvent& event)
 
 void wxGISApplicationBase::OnMouseMove(wxMouseEvent& event)
 {
-	if(m_CurrentTool)
+    if(m_CurrentTool)
 		m_CurrentTool->OnMouseMove(event);
 }
 
@@ -193,7 +193,7 @@ wxWindow* wxGISApplicationBase::GetRegisteredWindowByType(const wxClassInfo * in
     {
         wxWindow* pWnd = wxWindow::FindWindowById(m_anWindowsIDs[i]);
         if(pWnd && pWnd->IsKindOf(info))
-            return pWnd;       
+            return pWnd;
     }
     return NULL;
 }
@@ -284,7 +284,7 @@ void wxGISApplicationBase::Command(wxGISCommand* pCmd)
 
 bool wxGISApplicationBase::CreateApp(void)
 {
-	
+
     wxGISAppConfig oConfig = GetConfig();
 	if(!oConfig.IsOk())
 		return false;

@@ -21,7 +21,8 @@
 
 #include "wxgis/geoprocessingui/gptoolboxview.h"
 #include "wxgis/geoprocessingui/gptoolbox.h"
-#include "wxgis/framework/droptarget.h"
+#include "wxgis/framework/tabstyle.h"
+#include "wxgis/catalogui/droptarget.h"
 
 //-------------------------------------------------------------------
 // wxAxToolboxView

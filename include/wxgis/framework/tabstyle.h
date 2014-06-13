@@ -27,7 +27,7 @@
 #include <wx/artprov.h>
 #include <wx/aui/auibook.h>
 
-class wxGISTabArt : public wxAuiDefaultTabArt
+class wxGISTabArt : public wxAuiGenericTabArt
 {
 public:
     /** Default constructor */

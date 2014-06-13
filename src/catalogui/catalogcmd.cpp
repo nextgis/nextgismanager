@@ -987,7 +987,7 @@ bool wxGISCatalogMainCmd::AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, w
             AddFileToZip(pGxObject->GetPath(), hZIP, &pabyBuffer, nBufferSize, szPath, sCharset);
             CPLFree(pabyBuffer);
         }
-        else if (pGxDS->GetType() == enumContGDBFolder)
+        else if (pGxDS->GetType() == enumGISContainer && pGxDS->GetSubType() == enumContGDBFolder)
         {
             CPLString szNewPath;
             szNewPath = CPLString(pGxObject->GetName().mb_str(wxConvUTF8));

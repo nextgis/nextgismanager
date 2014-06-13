@@ -392,3 +392,5 @@ wxString wxGISApplicationEx::GetAppVersionString(void) const
 {
     return wxString(wxGIS_VERSION_NUM_DOT_STRING_T);
 }
+
+

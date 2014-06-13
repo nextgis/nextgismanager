@@ -398,7 +398,7 @@ wxGxTabView::wxGxTabView(void) : wxAuiNotebook()
     m_pSelection = NULL;
 }
 
-wxGxTabView::wxGxTabView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxAuiNotebook(parent, id, pos, size, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE)
+wxGxTabView::wxGxTabView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxAuiNotebook(parent, id, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE)//wxNO_BORDER |
 {
     m_pSelection = NULL;
 #ifdef __WXGTK__
@@ -412,7 +412,7 @@ wxGxTabView::~wxGxTabView(void)
 
 bool wxGxTabView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxNO_BORDER | wxAUI_NB_TAB_MOVE);
+    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE);//wxNO_BORDER |
 #ifdef __WXGTK__
 	SetArtProvider(new wxGISTabArt());
 #endif // __WXGTK__

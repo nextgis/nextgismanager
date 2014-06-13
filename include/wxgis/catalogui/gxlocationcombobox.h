@@ -29,11 +29,16 @@
 
 #define LISTVIEWPOPUPID	1306 //wxGxCatalog contents view
 #define LISTPOPUSTYLE (wxBORDER_SIMPLE | wxLC_SORT_ASCENDING | wxLC_AUTOARRANGE | wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL)
+//wxWANTS_CHARS
 
-/** \class wxListViewComboPopup gxlocationcombobox.h
-    \brief A list of gxobject full names with icons.
+/** @class wxListViewComboPopup
+
+    A list of gxobject full names with icons.
+
+    @library{catalogui}
 */
-class wxGxPathsListView : 
+
+class wxGxPathsListView :
     public wxListCtrl
 {
     DECLARE_CLASS(wxGxPathsListView)
@@ -72,10 +77,14 @@ private:
 };
 
 
-/** \class wxListViewComboPopup gxlocationcombobox.h
-    \brief A popup with list of gxobject full names with icons.
+/** @class wxListViewComboPopup
+
+    A popup with list of gxobject full names with icons.
+
+    @library{catalogui}
 */
-class wxListViewComboPopup : 
+
+class wxListViewComboPopup :
     public wxGxPathsListView,
     public wxComboPopup
 {
@@ -104,9 +113,13 @@ protected:
 
 class wxGxPathsListViewPopup;
 
-/** \class wxGxPathsListViewPopupParent gxlocationcombobox.h
-    \brief A parent class for wxGxPathsListViewPopup.
+/** @class wxGxPathsListViewPopupParent
+
+    A parent class for wxGxPathsListViewPopup.
+
+    @library{catalogui}
 */
+
 class wxGxPathsListViewPopupParent
 {
 public:
@@ -126,9 +139,13 @@ protected:
     wxGxPathsListViewPopup* m_pProbablePathsPopup;
 };
 
-/** \class wxGxPathsListViewPopup gxlocationcombobox.h
-    \brief A popup window with list of gxobject probably full names with icons.
+/** @class wxGxPathsListViewPopup
+
+    A popup window with list of gxobject probably full names with icons.
+
+    @library{catalogui}
 */
+
 class wxGxPathsListViewPopup :
     public wxPopupWindow
 {
@@ -146,7 +163,7 @@ public:
     wxRect GetViewRect() const;
     void Show(const wxString &sPath);
     void Update(const wxString &sPath);
-    bool IsSelected(){return m_bSelected;};
+    bool IsSelected() const {return m_bSelected;};
 protected:
     wxGxPathsListView* m_pGxPathsListView;
     int m_nItemHeight;
@@ -158,11 +175,14 @@ private:
 };
 
 
-/** \class wxGxLocationComboBox gxlocationcombobox.h
-    \brief A combobox to set gxcatalog path (selection).
+/** @class wxGxLocationComboBox
+
+    A combobox to set gxcatalog path (selection).
+
+    @library{catalogui}
 */
 
-class wxGxLocationComboBox : 
+class wxGxLocationComboBox :
 	public wxComboCtrl,
     public wxGxPathsListViewPopupParent,
 	public IToolBarControl
@@ -193,7 +213,7 @@ protected:
 	long m_ConnectionPointSelectionCookie;
     wxGxSelection* m_pSelection;
     wxGxCatalogUI* m_pCatalog;
-    wxListViewComboPopup* m_pListViewComboPopup;    
+    wxListViewComboPopup* m_pListViewComboPopup;
     wxWindow* m_pWnd;
 private:
     DECLARE_EVENT_TABLE()

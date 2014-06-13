@@ -164,7 +164,7 @@ int wxGxPathsListView::GetIconPos(const wxIcon &icon_small)
 
 void wxGxPathsListView::OnChar(wxKeyEvent& event)
 {
-    event.Skip();
+    event.Skip(); // for returns
 	if(event.GetModifiers() & wxMOD_ALT)
 		return;
 	if(event.GetModifiers() & wxMOD_CONTROL)
@@ -224,7 +224,6 @@ void wxGxPathsListView::OnChar(wxKeyEvent& event)
         event.Skip(false);
         break;
     default:
-        event.Skip(true);
         break;
     }
 }
@@ -323,6 +322,7 @@ void wxListViewComboPopup::OnMouseClick(wxMouseEvent& event)
 
 void wxListViewComboPopup::OnChar(wxKeyEvent& event)
 {
+    event.Skip();
 	if(event.GetModifiers() & wxMOD_ALT)
 		return;
 	if(event.GetModifiers() & wxMOD_CONTROL)
@@ -399,7 +399,6 @@ void wxListViewComboPopup::OnChar(wxKeyEvent& event)
     default:
         break;
     }
-    event.Skip();
 }
 
 //---------------------------------------------------------------------------------
@@ -413,7 +412,7 @@ BEGIN_EVENT_TABLE(wxGxPathsListViewPopup, wxPopupWindow)
     EVT_CHAR(wxGxPathsListViewPopup::OnChar)
 END_EVENT_TABLE()
 
-wxGxPathsListViewPopup::wxGxPathsListViewPopup(wxWindow* parent, int nMaxHeight) : wxPopupWindow(parent, wxBORDER_SIMPLE)
+wxGxPathsListViewPopup::wxGxPathsListViewPopup(wxWindow* parent, int nMaxHeight) : wxPopupWindow(parent, wxBORDER_SIMPLE | wxPOPUP_WINDOW)
 {
     m_nMaxHeight = nMaxHeight;
     m_pParent = dynamic_cast<wxGxPathsListViewPopupParent*>(parent);
@@ -421,6 +420,8 @@ wxGxPathsListViewPopup::wxGxPathsListViewPopup(wxWindow* parent, int nMaxHeight)
     m_pGxPathsListView->Bind(wxEVT_LEFT_DOWN, &wxGxPathsListViewPopup::OnMouseClick, this);
     m_nItemHeight = wxNOT_FOUND;
     m_bSelected = false;
+
+    wxLogDebug(wxT("m_pGxPathsListView %ld"), (long)m_pGxPathsListView);
 }
 
 wxGxPathsListViewPopup::~wxGxPathsListViewPopup(void)
@@ -455,7 +456,7 @@ wxRect wxGxPathsListViewPopup::GetViewRect() const
 void wxGxPathsListViewPopup::Show(const wxString &sPath)
 {
     Update(sPath);
-
+    m_pGxPathsListView->SetFocus();
     //m_pGxPathsListView->CaptureMouse();
     wxPopupWindow::Show();
 }
@@ -510,6 +511,7 @@ void wxGxPathsListViewPopup::OnMouseClick(wxMouseEvent& event)
 
 void wxGxPathsListViewPopup::OnChar(wxKeyEvent& event)
 {
+    event.Skip();
     switch(event.GetKeyCode())
     {
     case WXK_UP:
@@ -547,13 +549,13 @@ void wxGxPathsListViewPopup::OnChar(wxKeyEvent& event)
         m_bSelected = false;
         break;
     }
-    event.Skip();
 }
 //---------------------------------------------------------------------------------
 // wxGxPathsListViewPopupParent
 //---------------------------------------------------------------------------------
-wxGxPathsListViewPopupParent::wxGxPathsListViewPopupParent(void) : m_pProbablePathsPopup(NULL)
+wxGxPathsListViewPopupParent::wxGxPathsListViewPopupParent(void)
 {
+    m_pProbablePathsPopup = NULL;
 }
 
 wxGxPathsListViewPopupParent::~wxGxPathsListViewPopupParent(void)
@@ -579,6 +581,7 @@ void wxGxPathsListViewPopupParent::OnChar(wxKeyEvent& event)
     if(m_pProbablePathsPopup)
     {
         m_pProbablePathsPopup->GetEventHandler()->ProcessEvent(event);
+        return;
     }
     event.Skip();
 }
@@ -658,7 +661,7 @@ void wxGxLocationComboBox::OnTextEnter(wxCommandEvent& event)
         }
         else
         {
-            wxTipWindow* pTipWnd = new wxTipWindow(this, _("The entered path is unrecheable!"));
+            wxTipWindow* pTipWnd = new wxTipWindow(this, _("The entered path is unreachable!"));
         }
 	}
 }
