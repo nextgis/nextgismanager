@@ -501,12 +501,18 @@ void wxGxPathsListViewPopup::OnMouseWheel(wxMouseEvent& event)
 
 void wxGxPathsListViewPopup::OnMouseClick(wxMouseEvent& event)
 {
+    if(NULL == m_pParent)
+        return;
+
     long nSelItem = m_pGxPathsListView->GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxGIS_LIST_STATE_DROPHILITED);
     if(nSelItem != wxNOT_FOUND)
     {
         m_pParent->SetControlText(m_pGxPathsListView->GetItemText(nSelItem), true);
     }
+#ifdef __WXMSW__
     m_pParent->DestroyPathsPopup();
+#endif // __WXMSW__
+    event.Skip(false);
 }
 
 void wxGxPathsListViewPopup::OnChar(wxKeyEvent& event)
@@ -633,6 +639,7 @@ void wxGxLocationComboBox::OnTextEnter(wxCommandEvent& event)
 {
 	if(m_pCatalog)
 	{
+        event.Skip(false);
         wxString sVal = GetValue();
         if(sVal.IsEmpty())
         {
@@ -668,8 +675,9 @@ void wxGxLocationComboBox::OnTextEnter(wxCommandEvent& event)
 
 void wxGxLocationComboBox::OnText(wxCommandEvent& event)
 {
-	if(m_pCatalog && IsShown() && HasFocus() )
+	if(m_pCatalog )// && IsShown() && HasFocus()
 	{
+        event.Skip(false);
         wxString sFullPath = GetValue();
         if(sFullPath.IsEmpty())
             return;
@@ -688,10 +696,10 @@ void wxGxLocationComboBox::OnText(wxCommandEvent& event)
 
 void wxGxLocationComboBox::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-    if(event.GetInitiator() != TREECTRLID || !event.GetSelection())
+    if(event.GetInitiator() != TREECTRLID || NULL == event.GetSelection())
 		return;
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetSelection()->GetLastSelectedObjectId());
-    if(!pGxObject)
+    if(NULL == pGxObject)
         return;
 	wxString sPath = pGxObject->GetFullName();
 	if(sPath.IsEmpty())
