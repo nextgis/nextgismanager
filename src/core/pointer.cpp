@@ -34,6 +34,8 @@ wxGISConnectionPointContainer::~wxGISConnectionPointContainer(void)
 
 long wxGISConnectionPointContainer::Advise(wxEvtHandler* pEvtHandler)
 {
+    wxCriticalSectionLocker locker(m_CritSectEvt);
+
     wxCHECK(pEvtHandler, wxNOT_FOUND);
 
     wxVector<wxEvtHandler*>::const_iterator pos = std::find(m_pPointsArray.begin(), m_pPointsArray.end(), pEvtHandler);
@@ -45,12 +47,17 @@ long wxGISConnectionPointContainer::Advise(wxEvtHandler* pEvtHandler)
 
 void wxGISConnectionPointContainer::Unadvise(long nCookie)
 {
+    wxCriticalSectionLocker locker(m_CritSectEvt);
+
     wxCHECK_RET(nCookie >= 0 && nCookie < m_pPointsArray.size(), wxT("Wrong cookie index"));
+
     m_pPointsArray[nCookie] = NULL;
 }
 
 void wxGISConnectionPointContainer::AddEvent(const wxEvent &event)
 {
+    wxCriticalSectionLocker locker(m_CritSectEvt);
+
     wxLogNull logNo;
     for (size_t i = 0; i < m_pPointsArray.size(); ++i)
     {
@@ -61,6 +68,8 @@ void wxGISConnectionPointContainer::AddEvent(const wxEvent &event)
 
 void wxGISConnectionPointContainer::PostEvent(wxEvent *event)
 {
+    wxCriticalSectionLocker locker(m_CritSectEvt);
+
     wxLogNull logNo;
     wxCHECK_RET(event, wxT("Input event pointer is NULL"));
     for (size_t i = 0; i < m_pPointsArray.size(); ++i)

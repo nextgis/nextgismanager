@@ -159,7 +159,7 @@ void wxGxJSONConnectionStorage::OnFileSystemEvent(wxFileSystemWatcherEvent& even
 {
     //reread conn.json file
     //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
-    if(event.GetPath().GetFullName().CmpNoCase(m_sStorageName) == 0)
+    if(event.GetPath().GetFullName().CmpNoCase(m_sStorageName) == 0 && (event.GetChangeType() == wxFSW_EVENT_CREATE || event.GetChangeType() == wxFSW_EVENT_MODIFY))
         LoadConnectionsStorage();
 
 }
@@ -190,12 +190,12 @@ void wxGxJSONConnectionStorage::LoadConnectionsStorage(void)
         return CreateConnectionsStorage();
     }
 
-    //check version
+    wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+   //check version
     int nVer = oStorageRoot[wxT("version")].AsInt();
     if(nVer < GetStorageVersion())
     {
         DestroyChildren();
-        wxGxCatalogBase* pGxCatalog = GetGxCatalog();
         if(pGxCatalog)
             pGxCatalog->ObjectChanged(GetId());
         return CreateConnectionsStorage();
@@ -203,14 +203,15 @@ void wxGxJSONConnectionStorage::LoadConnectionsStorage(void)
 
     wxJSONValue oStorageConnections = oStorageRoot[wxT("connections")];
 
-    wxGxCatalog* pGxCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
     std::map<long, bool> mnIds;
 
     wxGxObjectList::const_iterator iter;
     for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
     {
         wxGxObject *current = *iter;
-            mnIds[current->GetId()] = false;
+        if(NULL == current)
+            continue;
+        mnIds[current->GetId()] = false;
     }
 
     for( int i = 0; i < oStorageConnections.Size(); ++i )
@@ -220,7 +221,7 @@ void wxGxJSONConnectionStorage::LoadConnectionsStorage(void)
         for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
         {
             wxGxObject *current = *iter;
-            if(!current)
+            if(NULL == current)
                 continue;
 
             if(IsObjectExist(current, oStorageConnections[i]))
@@ -234,10 +235,13 @@ void wxGxJSONConnectionStorage::LoadConnectionsStorage(void)
         if(!bFoundKey)
         {
             wxGxObject* pNewGxObject = CreateChildGxObject(oStorageConnections[i]);
-            //ObjectAdded event
-            if(pGxCatalog)
-                pGxCatalog->ObjectAdded(pNewGxObject->GetId());
-            mnIds[pNewGxObject->GetId()] = true;
+            if(NULL != pNewGxObject)
+            {
+                //ObjectAdded event
+                if(pGxCatalog)
+                    pGxCatalog->ObjectAdded(pNewGxObject->GetId());
+                mnIds[pNewGxObject->GetId()] = true;
+            }
         }
 	}
 
