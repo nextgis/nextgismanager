@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:12+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\catalogui\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\catalogui\n"
 
@@ -46,7 +46,7 @@ msgid "Forward"
 msgstr "Вперед"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:188
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:443
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:447
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:147
 msgid "Create folder"
 msgstr "Создать папку"
@@ -76,8 +76,7 @@ msgstr "Свойства"
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:196
 #: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:159
 msgid "Copy"
 msgstr "Копировать"
 
@@ -94,7 +93,7 @@ msgid "e-mail to..."
 msgstr "отправить по почте..."
 
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:219
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxcatalogui.h:38
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxcatalogui.h:41
 msgid "Catalog"
 msgstr "Каталог"
 
@@ -118,91 +117,91 @@ msgstr "Прочее"
 msgid "Send to"
 msgstr "Отправить"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:429
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:433
 msgid "Select parent element"
 msgstr "Выбрать родительский элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:431
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1052
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:435
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1058
 msgid "Connect folder"
 msgstr "Связь с папкой"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:433
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1054
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:437
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1060
 msgid "Disconnect folder"
 msgstr "Отсоединить папку"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:435
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1056
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:439
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1062
 msgid "Set or get location"
 msgstr "Получить или установить местоположение"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:437
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:441
 msgid "Delete item"
 msgstr "Удалить элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:439
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1071
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:443
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1077
 msgid "Go to previous location"
 msgstr "Перейти к предыдущему расположению"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:441
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1084
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:445
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1090
 msgid "Go to next location"
 msgstr "Перейти к следующему расположению"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:445
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:449
 msgid "Rename item"
 msgstr "Переименовать элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:447
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:451
 msgid "Refresh item"
 msgstr "Обновить элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:449
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:453
 msgid "Item properties"
 msgstr "Свойства элемента"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:451
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:455
 msgid "Copy item(s)"
 msgstr "Копировать элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:453
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:457
 msgid "Cut item(s)"
 msgstr "Вырезать элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:455
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:459
 msgid "Paste item(s)"
 msgstr "Вставить элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:457
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:461
 msgid "Send item(s) by e-mail"
 msgstr "Отправить по почте"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:498
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:502
 msgid "Choose a folder to connect"
 msgstr "Выбрать папку для связи"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:508
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:512
 msgid "Cannot connect folder"
 msgstr "Не удалось создать связь с папкой"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:508
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:525
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:598
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:512
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:529
 #: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:602
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:693
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:698
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:730
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:735
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:762
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:777
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:792
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:813
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:829
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:238
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:606
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:697
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:702
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:734
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:739
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:766
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:781
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:796
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:817
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:833
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:237
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:143
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:159
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:727
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:92
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:166
@@ -210,7 +209,7 @@ msgstr "Не удалось создать связь с папкой"
 #: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:902
 #: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:1067
 #: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:106
-#: D:\work\Projects\wxGIS\src\catalogui/gxtreeview.cpp:691
+#: D:\work\Projects\wxGIS\src\catalogui/gxtreeview.cpp:690
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:179
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:369
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:447
@@ -221,28 +220,28 @@ msgstr "Не удалось создать связь с папкой"
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:571
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:580
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:614
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:199
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:208
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:227
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:237
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:280
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:308
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:348
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:367
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:377
 msgid "Error"
 msgstr "Ошибка"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:525
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:529
 msgid "Cannot disconnect folder"
 msgstr "Не удалось отсоединить папку"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:552
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:556
 #, c-format
-msgid "Do you really want to delete %d item(s)"
-msgstr "Вы действительно хотите удалить %d элемент(ов)"
+msgid "Do you really want to delete %ld item(s)"
+msgstr "Вы действительно хотите удалить %ld элемент(ов)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:571
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:575
 msgid "Delete confirm"
 msgstr "Подтверждение удаления"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:572
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:576
 msgid ""
 "The result of operation cannot be undone!\n"
 "The deleted items will remove from disk and will not put to the recycled bin."
@@ -250,12 +249,12 @@ msgstr ""
 "Результат операции не может быть отменен!\n"
 "Удаляемые элемнты полностью стираются с диска и не попадают в корзину."
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:598
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:602
 #, c-format
 msgid "Delete '%s' failed"
 msgstr "Ошибка удаления '%s'"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:602
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:606
 #, c-format
 msgid ""
 "Cannot delete '%s'\n"
@@ -264,84 +263,84 @@ msgstr ""
 "Невозможно удалить '%s'\n"
 "Продолжить?"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:693
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:730
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:762
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:777
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:792
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:697
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:734
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:766
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:781
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:796
 msgid "Can't open clipboard"
 msgstr "Не могу открыть буфер обмена"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:698
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:735
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:702
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:739
 msgid "Can't copy file(s) to the clipboard"
 msgstr "Не могу скопировать файл(ы) в буфер обмена"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:809
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:813
 msgid "New folder"
 msgstr "Новая папка"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:813
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:817
 msgid "Create folder failed!"
 msgstr "Ошибка создания папки!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:829
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:833
 msgid "Create zip failed!"
 msgstr "Ошибка создания архива!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:845
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:849
 msgid "This e-mail include spatial data in archive : \n"
 msgstr "Данное сообщение содержит геоданные в архиве: \n"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:852
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:856
 msgid "Created by NextGIS Manager"
 msgstr "Создано в NextGIS Manager"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:855
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:860
 msgid "Send: spatial data archive"
 msgstr "Отправка: архив с геоданными"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1050
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1056
 msgid "Up One Level"
 msgstr "Вверх на один уровень"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1058
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1064
 msgid "Delete selected item"
 msgstr "Удалить выбранный элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1086
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1092
 msgid "Create new folder"
 msgstr "Создать новую папку"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1088
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1094
 msgid "Rename selected item"
 msgstr "Переименовать выбранные элементы"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1090
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1096
 msgid "Refresh selected item"
 msgstr "Обновить выбранный элемент"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1092
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1098
 msgid "Show properties of selected item"
 msgstr "Показать свойства выбранного элемента"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1094
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1100
 msgid "Copy selected item(s)"
 msgstr "Копировать выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1096
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1102
 msgid "Cut selected item(s)"
 msgstr "Вырезать выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1098
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1104
 msgid "Paste selected item(s)"
 msgstr "Вставить выбранный(е) элемент(ы)"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1100
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1106
 msgid "Send selected item(s) by e-mail"
 msgstr "Отправить выбранный(е) элемент(ы) по почте"
 
-#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1130
+#: D:\work\Projects\wxGIS\src\catalogui/catalogcmd.cpp:1136
 msgid "Path:   "
 msgstr "Путь:"
 
@@ -357,30 +356,30 @@ msgstr "Подлючение к &веб сервису"
 msgid "&Database schema"
 msgstr "С&хема БД"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:170
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:263
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:169
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:262
 msgid "Create new remote DB connection"
 msgstr "Создать новое подключение к БД"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:172
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:265
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:171
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:264
 msgid "Create new web service connection"
 msgstr "Создать новое подключение к веб сервису"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:174
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:267
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:173
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:266
 msgid "Create new database schema"
 msgstr "Создать схему БД"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:198
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:197
 msgid "new DB connection"
 msgstr "новое подключение к БД"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:234
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:233
 msgid "new_schema"
 msgstr "новая_схема"
 
-#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:238
+#: D:\work\Projects\wxGIS\src\catalogui/createnewcmd.cpp:237
 msgid "Create schema failed!"
 msgstr "Не удалось создать схему!"
 
@@ -411,40 +410,39 @@ msgstr "wxGxApplication: Ошибка активирования IGxView кла�
 msgid "wxGxApplication: Error creating view %s"
 msgstr "wxGxApplication: Ошибка создания вида %s"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxapplication.cpp:185
+#: D:\work\Projects\wxGIS\src\catalogui/gxapplication.cpp:179
 msgid "wxGxApplication: Creation complete"
 msgstr "wxGxApplication: Создание завершено"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
-#, c-format
-msgid "%s %d objects (files)"
-msgstr "%s %d объектов (файлов)"
-
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:109
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:143
 msgid "Move"
 msgstr "Переместить"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:112
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:110
+#, c-format
+msgid "%s %ld objects (files)"
+msgstr "%s %ld объектов (файлов)"
+
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:113
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:438
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:485
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:527
 msgid "Begin operation..."
 msgstr "Начать операцию..."
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:119
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:120
 #, c-format
-msgid "%s %d object (file) from %d"
-msgstr "%s %d объект (файл) из %d"
+msgid "%s %ld object (file) from %ld"
+msgstr "%s %ld объект (файл) из %ld"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:141
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:157
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:143
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:159
 #, c-format
 msgid "%s failed. Path: %s"
 msgstr "%s не удалось. Путь: %s"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:151
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:153
 #, c-format
 msgid ""
 "Cannot move path: %s.\n"
@@ -453,7 +451,7 @@ msgstr ""
 "Перенос не возможен: %s.\n"
 "Но можно выполнить копирование. Продолжить?"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:151
+#: D:\work\Projects\wxGIS\src\catalogui/gxcatalogui.cpp:153
 #: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:1072
 msgid "Question"
 msgstr "Вопрос"
@@ -473,7 +471,8 @@ msgstr "Выбрать"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontdialog.cpp:158
 #: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:564
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:152
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:135
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:258
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -529,6 +528,10 @@ msgid "Modification date"
 msgstr "Дата изменения"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:471
+#, c-format
+msgid "%ld objects selected"
+msgstr "выделено %ld объектов"
+
 #: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:527
 #, c-format
 msgid "%d objects selected"
@@ -538,14 +541,14 @@ msgstr "выделено %d объектов"
 msgid "Rename failed!"
 msgstr "Переименование не удалось!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1274
+#: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1288
 #: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:86
 #: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:139
 #: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:476
 msgid "Could not create the thread!"
 msgstr "Не удалось создать  поток!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1280
+#: D:\work\Projects\wxGIS\src\catalogui/gxcontentview.cpp:1294
 #: D:\work\Projects\wxGIS\src\catalogui/gxdiscconnectionui.cpp:92
 #: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:145
 #: D:\work\Projects\wxGIS\src\catalogui/gxremoteconnui.cpp:492
@@ -565,16 +568,19 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 #: D:\work\Projects\wxGIS\src\catalogui/gxdatasetui.cpp:248
 #: D:\work\Projects\wxGIS\src\catalogui/gxmldatasetui.cpp:160
 #: D:\work\Projects\wxGIS\src\catalogui/gxobgdialog.cpp:683
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:226
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:366
 #: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxcontdialog.h:97
 #: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxobjdialog.h:167
 msgid "Open"
 msgstr "Открыть"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxlocationcombobox.cpp:635
-#: D:\work\Projects\wxGIS\src\catalogui/gxlocationcombobox.cpp:660
+#: D:\work\Projects\wxGIS\src\catalogui/gxlocationcombobox.cpp:646
 msgid "The entered path is unrecheable!"
 msgstr "Введенный путь не существует"
+
+#: D:\work\Projects\wxGIS\src\catalogui/gxlocationcombobox.cpp:671
+msgid "The entered path is unreachable!"
+msgstr "Введенный путь не существует!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/gxmapview.cpp:61
 #: D:\work\Projects\wxGIS\src\catalogui/gxmapview.cpp:72
@@ -686,7 +692,7 @@ msgstr "Просмотр:"
 msgid "Tree view"
 msgstr "Вид дерева"
 
-#: D:\work\Projects\wxGIS\src\catalogui/gxtreeview.cpp:691
+#: D:\work\Projects\wxGIS\src\catalogui/gxtreeview.cpp:690
 msgid "Rename error!"
 msgstr "Ошибка переименования!"
 
@@ -741,8 +747,8 @@ msgstr "Таблица пуста"
 
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:533
 #, c-format
-msgid "Proceed %d of %d..."
-msgstr "Обработка  %d из %d..."
+msgid "Proceed %ld of %ld..."
+msgstr "Обработка  %ld из %ld..."
 
 #: D:\work\Projects\wxGIS\src\catalogui/processing.cpp:607
 msgid "During export there were several warnings."
@@ -820,7 +826,7 @@ msgid "Driver"
 msgstr "Драйвер"
 
 #: D:\work\Projects\wxGIS\src\catalogui/rasterpropertypage.cpp:220
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:231
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:371
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:181
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:182
 msgid "Information"
@@ -1062,56 +1068,64 @@ msgstr "%d,%d,%d,%d"
 msgid "Raster Attribute Table"
 msgstr "Таблица атрибутов растра"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:90
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:73
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:196
 msgid "Server:"
 msgstr "Сервер:"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:97
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:80
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:203
 msgid "Port:"
 msgstr "Порт:"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:104
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:87
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:210
 msgid "Database:"
 msgstr "БД:"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:114
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:97
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:220
 msgid "Account"
 msgstr "Аутентификационные данные"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:122
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:105
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:228
 msgid "User:"
 msgstr "Пользователь:"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:129
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:112
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:235
 msgid "Password:"
 msgstr "Пароль:"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:140
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:123
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:246
 msgid "Use binary cursor"
 msgstr "Использовать двоичный курсор"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:143
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:126
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:249
 msgid "Test Connection"
 msgstr "Проверить подключение"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:150
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:133
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:256
 msgid "OK"
 msgstr "OK"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:174
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:280
 msgid "Crypt password failed!"
 msgstr "Не удалось зашифровать пароль!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:199
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:308
 msgid "Connection create failed!"
 msgstr "Не удалось создать подключение!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:208
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:237
-msgid "Some input values are not correct!"
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:348
+msgid "Some input values are incorrect!"
 msgstr "Некоторые входные значения некорректны!"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:226
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:366
 #, c-format
 msgid ""
 "Operation '%s' failed! Host '%s', Database name '%s', Port='%s'. OGR error: "
@@ -1120,9 +1134,13 @@ msgstr ""
 "Не удалось выполнить операцию '%s'! Хост '%s', База данных '%s', Порт='%s'. "
 "Ошибка OGR: %s"
 
-#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:231
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:371
 msgid "Connected successufuly!"
 msgstr "Подключение удачно!"
+
+#: D:\work\Projects\wxGIS\src\catalogui/remoteconndlgs.cpp:377
+msgid "Some input values are not correct!"
+msgstr "Некоторые входные значения некорректны!"
 
 #: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:70
 #: D:\work\Projects\wxGIS\src\catalogui/spatrefpropertypage.cpp:119
@@ -1220,7 +1238,7 @@ msgid "To WGS parameters"
 msgstr "Переход к WGS84"
 
 #: D:\work\Projects\wxGIS\src\catalogui/tablepropertypage.cpp:134
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/tablepropertypage.h:47
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/tablepropertypage.h:50
 msgid "Table"
 msgstr "Таблица"
 
@@ -1427,7 +1445,7 @@ msgid "Ignore Fields"
 msgstr "Игнорировать поля"
 
 #: D:\work\Projects\wxGIS\src\catalogui/vectorpropertypage.cpp:128
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/vectorpropertypage.h:47
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/vectorpropertypage.h:50
 msgid "Vector"
 msgstr "Вектор"
 
@@ -1539,7 +1557,7 @@ msgstr "Диалог обектов NextGIS"
 msgid "Object Dialog"
 msgstr "Диалог объектов"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxpropertypages.h:61
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/gxpropertypages.h:64
 msgid "General"
 msgstr "Главное"
 
@@ -1559,11 +1577,12 @@ msgstr "Просмотр"
 msgid "Histogram"
 msgstr "Гистограмма"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/remoteconndlgs.h:57
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/remoteconndlgs.h:55
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/remoteconndlgs.h:56
 msgid "Remote Database Connection"
 msgstr "Подключение к удаленной базе"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalogui/spatrefpropertypage.h:46
+#: D:\work\Projects\wxGIS\include\wxgis\catalogui/spatrefpropertypage.h:49
 msgid "Spatial Reference"
 msgstr "Пространственная привязка"
 

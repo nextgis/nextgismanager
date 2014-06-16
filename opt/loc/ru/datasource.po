@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:20+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\datasource\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis"
 "\\datasource\n"
@@ -111,15 +111,15 @@ msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:144
+#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:150
 msgid "PreLoad Geometry of "
 msgstr "Предварительная загрузка геометрии из "
 
-#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:223
+#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:229
 msgid "Cancel"
 msgstr "Отмена"
 
-#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:263
+#: D:\work\Projects\wxGIS\src\datasource/spatialtree.cpp:269
 msgid "Done"
 msgstr "Выполнено"
 

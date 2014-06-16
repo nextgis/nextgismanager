@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -13,38 +13,38 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\cat_app\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\cat_app\n"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:63
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:66
 msgid "Application initialization failed"
 msgstr "Ошибка инициализации приложения"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:70
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:73
 msgid "No valid configuration exist"
 msgstr "Нет валидной конфигурации"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:75
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:78
 msgid "wxGIS Catalog"
 msgstr "NextGIS Manager"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:94
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:84
 #, c-format
 msgid "The log directory '%s' is not valid"
 msgstr "Папка лога '%s' отсутствует "
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:104
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:94
 #, c-format
 msgid "Setup locale failed. Locale files directory '%s', locale: %s"
 msgstr "Ошибка установки локализации. Папка '%s', язык: %s"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:112
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:116
 #, c-format
 msgid "System directory '%s' is not valid"
 msgstr "Папка системных файлов '%s' отсутсвует"
 
-#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:126
+#: D:\work\Projects\wxGIS\src\cat_app/catalogapp.cpp:136
 msgid "wxGISCatalogApp: Start main frame"
 msgstr "wxGISCatalogApp: Загрузка главного окна"
 

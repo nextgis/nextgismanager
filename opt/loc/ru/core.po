@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -13,11 +13,11 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\core\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\core\n"
 
-#: D:\work\Projects\wxGIS\src\core/config.cpp:561
+#: D:\work\Projects\wxGIS\src\core/config.cpp:556
 #, c-format
 msgid "Failed to save config '%s'"
 msgstr "Ошибка сохранения файла конфигурации '%s'"
@@ -164,24 +164,24 @@ msgstr "Сервис удален"
 msgid "Cannot disassociate from controlling TTY"
 msgstr "Не удалось отключится от консоли"
 
-#: D:\work\Projects\wxGIS\src\core/process.cpp:197
+#: D:\work\Projects\wxGIS\src\core/process.cpp:203
 msgid "Could not create the thread!"
 msgstr "Не удалось создать поток!"
 
-#: D:\work\Projects\wxGIS\src\core/process.cpp:204
+#: D:\work\Projects\wxGIS\src\core/process.cpp:214
 msgid "Could not run the thread!"
 msgstr "Не удалось запустить поток!"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:222
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:175
 msgid "wxGISCore"
 msgstr "wxGISCore"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:225
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:178
 #, c-format
 msgid "%s: Can't create %s Thread!"
 msgstr "%s: Не удалось создать поток %s!"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:231
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:184
 #, c-format
 msgid "%s: Can't run %s Thread!"
 msgstr "%s: Не удалось запустить поток %s!"

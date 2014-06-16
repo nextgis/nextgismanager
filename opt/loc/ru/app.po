@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:11+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,25 +13,25 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\app\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\app\n"
-
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:109
-#, c-format
-msgid ""
-"\n"
-"%s (x64)\n"
-"Version: %s"
-msgstr ""
-"\n"
-"%s (x64)\n"
-"Версия: %s"
 
 #: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:111
 #, c-format
 msgid ""
 "\n"
+"%s (x64)\n"
+"Version: %s"
+msgstr ""
+"\n"
+"%s (x64)\n"
+"Версия: %s"
+
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:113
+#, c-format
+msgid ""
+"\n"
 "%s (x86)\n"
 "Version: %s"
 msgstr ""
@@ -39,12 +39,12 @@ msgstr ""
 "%s (x86)\n"
 "Версия: %s"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:136
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:138
 #, c-format
 msgid "Version of the libpq library in use %d"
 msgstr "Версия используемой библиотеки libpq %d"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:162
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:156
 #, c-format
 msgid ""
 "%s (x64)\n"
@@ -67,7 +67,7 @@ msgstr ""
 "\n"
 "http://github.com/nextgis/nextgismanager/"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:164
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:158
 #, c-format
 msgid ""
 "%s (x86)\n"
@@ -90,11 +90,11 @@ msgstr ""
 "\n"
 "http://github.com/nextgis/nextgismanager/"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:167
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:161
 msgid "About application"
 msgstr "О программе"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:189
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:183
 #, c-format
 msgid ""
 "HOST '%s'\n"
@@ -104,8 +104,7 @@ msgid ""
 "Free memory - %s\n"
 "\n"
 "Libs:\n"
-"\n"
-"GDAL %s"
+"\\%s"
 msgstr ""
 "Хост  '%s'\n"
 "\n"
@@ -113,11 +112,10 @@ msgstr ""
 "\n"
 "Свободная память - %s\n"
 "\n"
-"Библиотеки:\n"
-"\n"
-"GDAL %s"
+"Библиотеки::\n"
+"\\%s"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:212
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:206
 msgid ""
 "\n"
 "\n"
@@ -127,7 +125,7 @@ msgstr ""
 "\n"
 "Драйверы GDAL:\n"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:214
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:208
 msgid ""
 "\n"
 "OGR Drivers:\n"
@@ -135,7 +133,7 @@ msgstr ""
 "\n"
 "Драйверы OGR:\n"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:216
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:210
 msgid ""
 "\n"
 "* - The drivers only compiled in GDAL lib and may not supported by wxGIS."
@@ -144,19 +142,19 @@ msgstr ""
 "* - Драйверы только скомпилированы в библиотеке GDAL и могут не "
 "поддерживаться NextGIS Manager."
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:217
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:211
 msgid "About system"
 msgstr "О системе"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:230
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:224
 msgid "Translators"
 msgstr "Переводчики"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:240
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:234
 msgid "Thanks"
 msgstr "Благодарности"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:245
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:239
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -181,34 +179,30 @@ msgstr ""
 "License вместе с этой программой. Если нет, см. <http://www.gnu.org/licenses/"
 ">"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:245
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:239
 msgid "License"
 msgstr "Лицензия"
 
-#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:250
+#: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:245
 msgid "Close"
 msgstr "Закрыть"
 
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:56
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:115
+#: D:\work\Projects\wxGIS\src\app/splash.cpp:47
 #, c-format
 msgid "Version: %s"
 msgstr "Версия: %s"
 
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:59
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:118
+#: D:\work\Projects\wxGIS\src\app/splash.cpp:51
 #, c-format
 msgid "Build: %s"
 msgstr "Сборка: %s"
 
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:70
-#: D:\work\Projects\wxGIS\src\app/splash.cpp:72
-msgid "Don't show this screen in future"
-msgstr "Не показывать это окно в будущем"
-
-#: D:\work\Projects\wxGIS\include\wxgis\app/gisaboutdlg.h:69
+#: D:\work\Projects\wxGIS\include\wxgis\app/gisaboutdlg.h:71
 msgid "About"
 msgstr "О программе"
+
+#~ msgid "Don't show this screen in future"
+#~ msgstr "Не показывать это окно в будущем"
 
 #~ msgid ""
 #~ "Thanks GIS-LAB team for help in translating the interface, testing and "

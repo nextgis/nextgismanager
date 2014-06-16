@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:12+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,54 +13,54 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\carto\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\carto\n"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:202
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:203
 #, c-format
-msgid "Rectangle %d"
-msgstr "Прямоугольник %d"
+msgid "Rectangle %ld"
+msgstr "Прямоугольник %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:206
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:207
 #, c-format
-msgid "Polygon %d"
-msgstr "Полигон %d"
+msgid "Polygon %ld"
+msgstr "Полигон %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:210
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:211
 #, c-format
-msgid "Circle %d"
-msgstr "Круг %d"
+msgid "Circle %ld"
+msgstr "Круг %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:214
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:215
 #, c-format
-msgid "Ellipse %d"
-msgstr "Эллипс %d"
+msgid "Ellipse %ld"
+msgstr "Эллипс %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:218
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:219
 #, c-format
-msgid "Line %d"
-msgstr "Линия %d"
+msgid "Line %ld"
+msgstr "Линия %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:223
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:224
 #, c-format
-msgid "Curve %d"
-msgstr "Кривая %d"
+msgid "Curve %ld"
+msgstr "Кривая %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:228
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:229
 #, c-format
-msgid "FreeHand %d"
-msgstr "Свободная фигура %d"
+msgid "FreeHand %ld"
+msgstr "Свободная фигура %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:232
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:233
 #, c-format
-msgid "Marker %d"
-msgstr "Маркер %d"
+msgid "Marker %ld"
+msgstr "Маркер %ld"
 
-#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:236
+#: D:\work\Projects\wxGIS\src\carto/drawinglayer.cpp:237
 #, c-format
-msgid "Shape %d"
-msgstr "Фигура %d"
+msgid "Shape %ld"
+msgstr "Фигура %ld"
 
 #: D:\work\Projects\wxGIS\src\carto/featurerenderer.cpp:269
 msgid "Apply renderer for"
@@ -82,7 +82,7 @@ msgstr "новый слой рисования"
 msgid "new feature layer"
 msgstr "новый векторный слой"
 
-#: D:\work\Projects\wxGIS\include\wxgis\carto/layer.h:37
+#: D:\work\Projects\wxGIS\include\wxgis\carto/layer.h:41
 msgid "new layer"
 msgstr "новый слой"
 
