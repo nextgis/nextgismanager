@@ -22,9 +22,9 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgis/net/net.h"
 #include "wxgis/net/message.h"
 
+#ifdef wxGIS_HAVE_GTK_INTEGRATION
 
 typedef enum {
 	MAILER_UNKNOWN,
@@ -59,3 +59,5 @@ protected:
     MailerType m_eType;
     wxString m_sCmd;
 };
+
+#endif //wxGIS_HAVE_GTK_INTEGRATION

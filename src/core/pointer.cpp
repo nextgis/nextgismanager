@@ -49,7 +49,7 @@ void wxGISConnectionPointContainer::Unadvise(long nCookie)
 {
     wxCriticalSectionLocker locker(m_CritSectEvt);
 
-    wxCHECK_RET(nCookie >= 0 && nCookie < m_pPointsArray.size(), wxT("Wrong cookie index"));
+    wxCHECK_RET(nCookie >= 0 && nCookie < (long)m_pPointsArray.size(), wxT("Wrong cookie index"));
 
     m_pPointsArray[nCookie] = NULL;
 }

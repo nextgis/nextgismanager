@@ -478,7 +478,7 @@ wxString wxGISPostgresDataSource::NormalizeTableName(const wxString &sSrcName)
     wxString sResultName = sSrcName;
 
     //make PG compatible
-    for (int i = 0; i < sResultName.size(); ++i)
+    for (size_t i = 0; i < sResultName.size(); ++i)
     {
         sResultName[i] = wxTolower(sResultName[i]);
         if (sResultName[i] == '\'' || sResultName[i] == '-' || sResultName[i] == '#' || sResultName[i] == '(')

@@ -253,7 +253,7 @@ bool wxMapiSession::Send(const wxMailMessage& message)
             MapiFileDesc& file = mapiMessage.lpFiles[i];
             ZeroMemory(&file, sizeof(MapiFileDesc));
             file.nPosition = 0xFFFFFFFF;
-            wxString& sFilename = message.m_attachments[i];
+            wxString sFilename = message.m_attachments[i];
 
             const char *pszPathName = sFilename.mb_str();
             file.lpszPathName = (char*)pszPathName;
@@ -261,7 +261,7 @@ bool wxMapiSession::Send(const wxMailMessage& message)
 
             if (nTitleSize && !message.m_attachmentTitles[i].IsEmpty())
             {
-                wxString& sTitle = message.m_attachmentTitles[i];
+                wxString sTitle = message.m_attachmentTitles[i];
                 const char *pszFileName = sTitle.mb_str();
                 file.lpszFileName = (char*)pszFileName;
             }

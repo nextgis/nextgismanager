@@ -53,9 +53,10 @@ wxBitmap PrepareSplashScreen(const IApplication *pApp, int nDeltH, int nDeltaV)
     nDeltaV += 20;
     splash_dc.DrawText(d, wxPoint(nHCenter  - width / 2, nVCenter + nDeltaV - height / 2));
 
+#ifdef __UNIX__
     splash_dc.SetBrush(*wxTRANSPARENT_BRUSH);
     splash_dc.DrawRectangle(wxRect(0, 0, bkBitmap.GetWidth(), bkBitmap.GetHeight()));
-
+#endif // __UNIX__
     splash_dc.SelectObject(wxNullBitmap);
 
     return bkBitmap;

@@ -199,7 +199,7 @@ bool wxGISTask::Load(void)
     if(oStorageRoot.HasMember(wxT("subtasks")))
     {
         wxJSONValue subtasks = oStorageRoot[wxT("subtasks")];
-        for(size_t i = 0; i < subtasks.Size(); ++i)
+        for(int i = 0; i < subtasks.Size(); ++i)
         {
             wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
             if(pTask->Load())
@@ -240,7 +240,7 @@ bool wxGISTask::Create(const wxJSONValue& TaskConfig)
     if(TaskConfig.HasMember(wxT("subtasks")))
     {
         wxJSONValue subtasks = TaskConfig[wxT("subtasks")];
-        for(size_t i = 0; i < subtasks.Size(); ++i)
+        for(int i = 0; i < subtasks.Size(); ++i)
         {
             wxGISTask* pTask = new wxGISTask(this, GetNewStorePath(wxString::Format(wxT("%d"), wxNewId()), SUBTSKDIR));
             if(pTask->Create( subtasks[i] ))
@@ -404,7 +404,7 @@ void wxGISTask::GetChildren(long nMessageId, int nUserId)
             {
                  wxJSONValue out_val;
                  out_val[wxT("id")] = m_nId;
-                 for(size_t i = 0; i < nCounter; ++i)
+                 for(int i = 0; i < nCounter; ++i)
                  {
                      out_val[wxT("subtasks")][i] = data[i];
                  }
@@ -418,7 +418,7 @@ void wxGISTask::GetChildren(long nMessageId, int nUserId)
 
     wxJSONValue out_val;
     out_val[wxT("id")] = m_nId;
-    for(size_t i = 0; i < nCounter; ++i)
+    for(int i = 0; i < nCounter; ++i)
     {
         out_val[wxT("subtasks")][i] = data[i];
     }
@@ -741,7 +741,7 @@ bool wxGISTask::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUse
         m_omSubTasks.clear();
 
         wxJSONValue subtasks = TaskVal[wxT("subtasks")];
-        for (size_t i = 0; i < subtasks.Size(); ++i)
+        for (int i = 0; i < subtasks.Size(); ++i)
         {
             wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
             if (pTask->Load())
@@ -1192,7 +1192,7 @@ void wxGISTaskCategory::GetChildren(long nMessageId, int nUserId)
             {
                 wxJSONValue out_val;
                 out_val[wxT("cat")] = m_sName;
-                for(size_t i = 0; i < nCounter; ++i)
+                for(int i = 0; i < nCounter; ++i)
                 {
                     out_val[wxT("tasks")][i] = data[i];
                 }
@@ -1207,7 +1207,7 @@ void wxGISTaskCategory::GetChildren(long nMessageId, int nUserId)
 
     wxJSONValue out_val;
     out_val[wxT("cat")] = m_sName;
-    for(size_t i = 0; i < nCounter; ++i)
+    for(int i = 0; i < nCounter; ++i)
     {
         out_val[wxT("tasks")][i] = data[i];
     }
