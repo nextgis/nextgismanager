@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:20+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:14+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\geoprocessingui\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis"
 "\\geoprocessingui\n"
@@ -94,46 +94,50 @@ msgstr "Исходный объект не существует"
 msgid "The input data are invalid"
 msgstr "Неправильные исходные данные"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:47
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:48
 msgid "Toolbox"
 msgstr "Набор инструментов"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:151
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:182
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:156
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gptoolboxview.cpp:187
 msgid "Toolboxes"
 msgstr "Наборы инструментов"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:90
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:100
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:92
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:102
 msgid "Tool Execute View"
 msgstr "Вид списка исполнения"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:135
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:137
 msgid "Priority"
 msgstr "Приоритет"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:136
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:138
 msgid "Tool name"
 msgstr "Название инструмента"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:137
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:139
 msgid "Start"
 msgstr "Начало"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:138
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:140
 msgid "Finish"
 msgstr "Конец"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:139
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:141
 msgid "Done %"
 msgstr "Завершено %"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:140
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:142
 msgid "Last message"
 msgstr "Последнее сообщение"
 
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:262
-#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:306
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:264
+#, c-format
+msgid "%ld objects selected"
+msgstr "выделено %ld объектов (файлов)"
+
+#: D:\work\Projects\wxGIS\src\geoprocessingui/gxtoolexecview.cpp:308
 #, c-format
 msgid "%d objects selected"
 msgstr "выделено %d объектов (файлов)"
@@ -148,23 +152,23 @@ msgstr "Показать диалог исполнения"
 
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:93
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:221
-#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:304
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:310
 msgid "Start task"
 msgstr "Запустить задачу"
 
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:95
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:223
-#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:306
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:312
 msgid "Stop task"
 msgstr "Остановить задачу"
 
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:217
-#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:300
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:306
 msgid "Show tool config dialog"
 msgstr "Показать диалог настройки инструмента"
 
 #: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:219
-#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:302
+#: D:\work\Projects\wxGIS\src\geoprocessingui/taskcmd.cpp:308
 msgid "Show task execution dialog"
 msgstr "Показать диалог исполнения инструмента"
 

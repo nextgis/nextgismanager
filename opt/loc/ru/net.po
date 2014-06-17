@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:20+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\projects\\wxGIS\\include\\wxgis\\net\n"
 "X-Poedit-SearchPath-1: D:\\work\\projects\\wxGIS\\src\\net\n"
 
@@ -22,23 +22,23 @@ msgstr ""
 msgid "Cannot bind listening socket"
 msgstr "Не удалось подключиться к сокету"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:114
 #: D:\work\projects\wxGIS\src\net/netconn.cpp:121
-#: D:\work\projects\wxGIS\src\net/network.cpp:314
-#: D:\work\projects\wxGIS\src\net/network.cpp:328
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:128
+#: D:\work\projects\wxGIS\src\net/network.cpp:320
+#: D:\work\projects\wxGIS\src\net/network.cpp:334
 msgid "Invalid input message"
 msgstr "Входное сообщение не верно"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:141
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:148
 #, c-format
 msgid "wxGISNetServerConnection: New client connection accepted from %s:%d"
 msgstr "wxGISNetServerConnection: Новое подключение с %s:%d"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:144
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:151
 msgid "Connection accepted"
 msgstr "Подключение установлено"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:149
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:156
 #, c-format
 msgid ""
 "wxGISNetServerConnection: To many connections! Connection to address - %s is "
@@ -47,83 +47,83 @@ msgstr ""
 "wxGISNetServerConnection: Слишком много подключений! Подключение для адреса "
 "%s сброшено"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:151
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:158
 msgid "To many connections or login/password is incorrect!"
 msgstr "Слишком много подключений или логин/пароль не верны!"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:189
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:196
 #, c-format
 msgid "User #%d is disconnected"
 msgstr "Пользователь №%d отключился"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:193
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:200
 #, c-format
 msgid "User #%d from %s:%d is disconnected"
 msgstr "Пользователь №%d с %s:%d отключился"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:218
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:225
 #, c-format
 msgid "User #%d is disconnected by timer"
 msgstr "Пользователь №%d отключен по таймеру"
 
-#: D:\work\projects\wxGIS\src\net/netconn.cpp:222
+#: D:\work\projects\wxGIS\src\net/netconn.cpp:229
 #, c-format
 msgid "User #%d from %s:%d is disconnected by timer"
 msgstr "Пользователь №%d с %s:%d отключен по таймеру"
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:258
+#: D:\work\projects\wxGIS\src\net/network.cpp:257
 msgid "Failed to send network message"
 msgstr "Ошибка отправки сообщения по сети"
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:362
+#: D:\work\projects\wxGIS\src\net/network.cpp:368
 msgid "SendUDP: failed to create UDP socket"
 msgstr "SendUDP: не удалось создать сокет UDP"
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:371
+#: D:\work\projects\wxGIS\src\net/network.cpp:377
 msgid "SendUDP: invalid net message"
 msgstr "SendUDP: сообщение не валидно"
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:387
+#: D:\work\projects\wxGIS\src\net/network.cpp:393
 msgid "SendUDP: failed to send data"
 msgstr "SendUDP: не удалось отправить данные"
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:399
+#: D:\work\projects\wxGIS\src\net/network.cpp:405
 msgid "wxSOCKET_NOERROR"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:402
+#: D:\work\projects\wxGIS\src\net/network.cpp:408
 msgid "wxSOCKET_INVOP"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:405
+#: D:\work\projects\wxGIS\src\net/network.cpp:411
 msgid "wxSOCKET_IOERR"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:408
+#: D:\work\projects\wxGIS\src\net/network.cpp:414
 msgid "wxSOCKET_INVADDR"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:411
+#: D:\work\projects\wxGIS\src\net/network.cpp:417
 msgid "wxSOCKET_NOHOST"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:414
+#: D:\work\projects\wxGIS\src\net/network.cpp:420
 msgid "wxSOCKET_INVPORT"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:417
+#: D:\work\projects\wxGIS\src\net/network.cpp:423
 msgid "wxSOCKET_WOULDBLOCK"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:420
+#: D:\work\projects\wxGIS\src\net/network.cpp:426
 msgid "wxSOCKET_TIMEDOUT"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:423
+#: D:\work\projects\wxGIS\src\net/network.cpp:429
 msgid "wxSOCKET_MEMERR"
 msgstr ""
 
-#: D:\work\projects\wxGIS\src\net/network.cpp:426
+#: D:\work\projects\wxGIS\src\net/network.cpp:432
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -237,7 +237,7 @@ msgstr "Ошибка (%d): %s"
 msgid "Could not connect to remote server"
 msgstr "Не удалось выполнить подключение к серверу"
 
-#: D:\work\projects\wxGIS\include\wxgis\net/tcp.h:121
+#: D:\work\projects\wxGIS\include\wxgis\net/tcp.h:130
 msgid "TCP/IP Network"
 msgstr "Сеть TCP/IP"
 

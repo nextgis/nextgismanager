@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\catalog\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\catalog\n"
 
@@ -71,24 +71,24 @@ msgstr "Удалить"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:107
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:227
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:119
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:239
 #, c-format
 msgid "wxGxCatalog: Root Object %s initialized"
 msgstr "wxGxCatalog: Корневой элемент %s инициализирован"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:114
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:233
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:126
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:245
 #, c-format
 msgid "wxGxCatalog: Root Object %s disabled"
 msgstr "wxGxCatalog: Корневого элемент %s отключен"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:160
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:172
 #, c-format
 msgid "wxGxCatalog: ObjectFactory %s initialize"
 msgstr "wxGxCatalog: Инициализация объекта %s фабрики объектов"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:163
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:175
 #, c-format
 msgid "wxGxCatalog: Error initializing ObjectFactory %s"
 msgstr "wxGxCatalog: Ошибка инициализации фабрики объектов %s"
@@ -191,7 +191,7 @@ msgstr "Таблица"
 #: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:580
 #: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:688
 #: D:\work\Projects\wxGIS\src\catalog/gxlocaldb.cpp:166
-#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:110
+#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:111
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
@@ -200,7 +200,7 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 #: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:580
 #: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:688
 #: D:\work\Projects\wxGIS\src\catalog/gxlocaldb.cpp:166
-#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:110
+#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:111
 msgid "Open"
 msgstr "Открыть"
 
@@ -226,23 +226,23 @@ msgstr "Подключение к БД"
 msgid "wxGxDBConnections::Create failed. GxObject %s"
 msgstr "wxGxDBConnections: Ошибка создания. GxObject %s"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:84
+#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:80
 #, c-format
 msgid "wxGxDBConnections: The path is set to '%s'"
 msgstr "wxGxDBConnections: Путь установлен в '%s'"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:131
-#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:147
+#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:122
+#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:136
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:107
 #: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:120
-#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnection.cpp:136
-#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:68
-#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:131
-#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:147
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:74
+#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:122
+#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:136
 msgid "Add File system watcher failed"
 msgstr "Ошибка добавления отслеживания файловой системы"
 
 #: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:39
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnections.h:48
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnections.h:51
 msgid "Folder connections"
 msgstr "Подключения"
 
@@ -252,7 +252,7 @@ msgstr "Подключения"
 msgid "wxGxSpatialReferencesFolder::Create failed. GxObject %s"
 msgstr "wxGxSpatialReferencesFolder: Ошибка создания. GxObject %s"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:138
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:146
 msgid "wxGxDiscConnections: Start scan folder connections"
 msgstr "wxGxDiscConnections: Начало сканирования подключений к папкам"
 
@@ -353,13 +353,13 @@ msgstr "Все векторные типы (*.*)"
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:463
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:477
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:498
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfolder.h:42
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfolder.h:45
 msgid "Folder"
 msgstr "Папка"
 
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:465
 #: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:479
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnection.h:57
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdiscconnection.h:49
 msgid "Folder connection"
 msgstr "Подключение"
 
@@ -440,9 +440,9 @@ msgid "Database table"
 msgstr "Таблица базы данных"
 
 #: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:182
-#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:281
-#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:333
-#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:383
+#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:285
+#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:337
+#: D:\work\Projects\wxGIS\src\catalog/gxmlconnstor.cpp:387
 msgid "The JSON Storage document is not well-formed"
 msgstr "Документ GeoJSON содержит ошибки"
 
@@ -458,15 +458,15 @@ msgstr "Набор данных SXF"
 msgid "GML Dataset"
 msgstr "Набор данных GML"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:182
+#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:183
 msgid "SXF Feature class"
 msgstr "Класс пространственных объектов SXF"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:184
+#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:185
 msgid "GML Feature class"
 msgstr "Класс пространственных объектов GML"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:187
+#: D:\work\Projects\wxGIS\src\catalog/gxmldataset.cpp:188
 msgid "KML Feature class"
 msgstr "Класс пространственных объектов KML"
 
@@ -501,7 +501,7 @@ msgstr "Подключения к консоли"
 msgid "wxGxShellConnections::Create failed. GxObject %s"
 msgstr "wxGxShellConnections: Не удалось создать. GxObject %s"
 
-#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:84
+#: D:\work\Projects\wxGIS\src\catalog/gxshellconnections.cpp:80
 #, c-format
 msgid "wxGxShellConnections: The path is set to '%s'"
 msgstr "wxGxShellConnections: Путь установлен в '%s'"
@@ -527,11 +527,11 @@ msgstr "wxGxWebConnections: Не удалось создать. GxObject %s"
 msgid "wxGxWebConnections: The path is set to '%s'"
 msgstr "wxGxWebConnections: Путь установлен в '%s'"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:37
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:40
 msgid "Archive folder"
 msgstr "Архивная папка"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:61
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:67
 msgid "Archive"
 msgstr "Архив"
 
@@ -539,7 +539,7 @@ msgstr "Архив"
 msgid "Archives"
 msgstr "Архивы"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxcatalog.h:40
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxcatalog.h:48
 #: D:\work\Projects\wxGIS\include\wxgis\catalog/gxobject.h:106
 msgid "Catalog"
 msgstr "Каталог"
@@ -548,15 +548,15 @@ msgstr "Каталог"
 msgid "CSV Files"
 msgstr "Файлы CSV"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdbconnections.h:53
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdbconnections.h:45
 msgid "Database connections folder"
 msgstr "Папка подключения к БД"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:61
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:67
 msgid "Coordinate System"
 msgstr "Система координат"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:81
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:90
 msgid "Text file"
 msgstr "Текстовый файл"
 
@@ -604,7 +604,7 @@ msgstr "Набор данных PostGIS"
 msgid "Coordiante systems"
 msgstr "Системы координат"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxrasterfactory.h:39
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxrasterfactory.h:42
 msgid "Raster files"
 msgstr "Растры"
 
@@ -637,7 +637,7 @@ msgstr "Слой NextGIS Web"
 msgid "Shapefiles"
 msgstr "Шейп-файлы"
 
-#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxshellconnections.h:54
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxshellconnections.h:45
 msgid "Shell connections folder"
 msgstr "Папка подключений к консоли"
 

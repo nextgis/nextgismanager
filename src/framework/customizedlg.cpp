@@ -288,11 +288,11 @@ void wxGISToolBarPanel::SetKeyCode(int pos)
         }
 		if(cmd != wxID_ANY)
 		{
-			for(size_t i = 0; i < m_buttonslist->GetItemCount(); ++i)
+			for(int i = 0; i < m_buttonslist->GetItemCount(); ++i)
 			{
 				long CahgedCmdID = m_buttonslist->GetItemData(i);
 				if(CahgedCmdID == cmd)
-				m_buttonslist->SetItem(pos, 2, wxEmptyString);
+                    m_buttonslist->SetItem(pos, 2, wxEmptyString);
 			}
 		}
 	}
@@ -845,7 +845,7 @@ void wxGISCommandPanel::SetKeyCode(int pos)
         }
 		if(cmd != wxID_ANY)
 		{
-			for(size_t i = 0; i < m_listCtrl3->GetItemCount(); ++i)
+			for(int i = 0; i < m_listCtrl3->GetItemCount(); ++i)
 			{
 				long CahgedCmdID = m_listCtrl3->GetItemData(i);
 				if(CahgedCmdID == cmd)

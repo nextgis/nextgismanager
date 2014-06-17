@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:19+0300\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:06+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\cartoui\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\cartoui\n"
 
@@ -387,11 +387,11 @@ msgstr "Приблизить к геометрии"
 msgid "%.4f degree"
 msgstr "%.4f градусов"
 
-#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:1097
+#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:1100
 msgid "Could not create the thread!"
 msgstr "Не удалось создать поток!"
 
-#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:1103
+#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:1106
 msgid "Could not run the thread!"
 msgstr "Не удалось запустить поток!"
 
@@ -457,7 +457,7 @@ msgstr "Запись:"
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: D:\work\Projects\wxGIS\src\cartoui/tableview.cpp:618
+#: D:\work\Projects\wxGIS\src\cartoui/tableview.cpp:621
 #, c-format
 msgid "of %u"
 msgstr "из %u"

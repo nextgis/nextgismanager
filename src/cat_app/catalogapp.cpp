@@ -77,20 +77,6 @@ bool wxGISCatalogApp::OnInit()
     //create application/main frame
     m_pMainFrame = new wxGISCatalogFrame(NULL, wxID_ANY, wxString(_("wxGIS Catalog")), wxDefaultPosition, wxSize(800, 480) );
 
-    //check time out and show splash
-    wxXmlNode* pSplashNode = oConfig.GetConfigNode(enumGISHKCU, wxT("wxGISCommon/splash"));
-    bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);//false;//
-    if(bShowSplash)
-    {
-        long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
-        wxBitmap splash_bmp = PrepareSplashScreen(m_pMainFrame, 0, 10);
-        wxSplashScreen* pSplash = new wxSplashScreen(splash_bmp, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, nTimeout, m_pMainFrame, wxID_ANY);
-    //#if !defined(__WXGTK20__)
-        // we don't need it at least on wxGTK with GTK+ 2.12.9
-        wxYield();
-    //#endif
-    }
-
 	//setup loging
 	wxString sLogDir = oConfig.GetLogDir();
     if (!m_pMainFrame->SetupLog(sLogDir))
@@ -107,6 +93,20 @@ bool wxGISCatalogApp::OnInit()
     {
         wxLogError(_("Setup locale failed. Locale files directory '%s', locale: %s"), sLocaleDir.c_str(), sLocale.c_str());
         return false;
+    }
+    
+    //check time out and show splash
+    wxXmlNode* pSplashNode = oConfig.GetConfigNode(enumGISHKCU, wxT("wxGISCommon/splash"));
+    bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);//false;//
+    if (bShowSplash)
+    {
+        long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
+        wxBitmap splash_bmp = PrepareSplashScreen(m_pMainFrame, 0, 10);
+        wxSplashScreen* pSplash = new wxSplashScreen(splash_bmp, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT, nTimeout, m_pMainFrame, wxID_ANY);
+        //#if !defined(__WXGTK20__)
+        // we don't need it at least on wxGTK with GTK+ 2.12.9
+        wxYield();
+        //#endif
     }
 
    	//setup sys

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxGIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 01:48+0400\n"
-"PO-Revision-Date: 2014-06-08 16:20+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 02:06+0400\n"
+"PO-Revision-Date: 2014-06-17 02:14+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: gis-lab <sim@gis-lab.info>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\geoprocessing\n"
 "X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis"
 "\\geoprocessing\n"
@@ -458,8 +458,8 @@ msgid "Output driver '%s' not recognised."
 msgstr "Выходной драйвер '%s' не определяется."
 
 #: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:135
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:109
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:308
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:102
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:294
 msgid "Interrupted by user"
 msgstr "Прервано пользователем"
 
@@ -612,21 +612,21 @@ msgid "The driver '%s' is not available! OGR error: "
 msgstr "Драйвер '%s' недоступен! Ошибка OGR: "
 
 #: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:41
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1712
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1732
 #, c-format
 msgid "Error create the output file '%s'! OGR error: "
 msgstr "Ошибка создания выходного файла '%s'! Ошибка OGR: "
 
 #: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:52
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1736
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1756
 msgid "Layer_"
 msgstr "Слой_"
 
 #: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:59
 #: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:71
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1784
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1841
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1884
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1804
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1861
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1904
 #, c-format
 msgid "Error create the output layer '%s'! OGR error: "
 msgstr "Ошибка создания выходного слоя '%s'! Ошибка OGR: "
@@ -698,39 +698,39 @@ msgid "%H hours %M min. %S sec."
 msgstr "%H час. %M мин. %S сек."
 
 #: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:63
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:228
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:221
 msgid "Input dataset is corrupt"
 msgstr "Входные данные повреждены"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:174
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:457
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:167
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:443
 #, c-format
 msgid ""
 "Error create feature!\n"
-"Source feature FID:%d\n"
+"Source feature FID:%ld\n"
 "OGR error: "
 msgstr ""
 "Ошибка создания записи!\n"
-"Идентификатор записи:%d\n"
+"Идентификатор записи:%ld\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:384
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:370
 #, c-format
 msgid ""
 "Geometry transform failed\n"
-"Feature id %d"
+"Feature id %ld"
 msgstr ""
 "Ошибка преобразования геометрий\n"
-"Идентификатор записи %d"
+"Идентификатор записи %ld"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:489
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:570
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:475
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:575
 #, c-format
 msgid "Start copy records from '%s' to '%s'"
 msgstr "Начало копирования записей из '%s' в '%s'"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:493
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:574
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:479
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:579
 #, c-format
 msgid ""
 "Start copy records from '%s' to '%s'\n"
@@ -739,13 +739,13 @@ msgstr ""
 "Начало копирования записей из '%s' в '%s'\n"
 "WHERE %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:501
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:586
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:487
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:591
 msgid "No records to export"
 msgstr "Нет записей для экспорта"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:510
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:595
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:496
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:600
 msgid ""
 "Error creating new dataset!\n"
 "OGR error: "
@@ -753,8 +753,10 @@ msgstr ""
 "Ошибка создания нового набора данных!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:527
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:612
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:513
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:537
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:617
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:641
 msgid ""
 "Error copying data to a new dataset!\n"
 "OGR error: "
@@ -762,54 +764,54 @@ msgstr ""
 "Ошибка копирования данных в новый набор!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:557
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:668
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:562
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:688
 msgid "Overwrite failed"
 msgstr "Не удалось перезаписать"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:644
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:696
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:664
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:716
 #, c-format
 msgid "Exporting %s to %s"
 msgstr "Экспорт %s в %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:650
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:725
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:670
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:745
 msgid "Error read dataset definition"
 msgstr "Ошибка чтения определения набора данных"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:661
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:681
 msgid "Get features..."
 msgstr "Получение записей..."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:703
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:723
 msgid "Input spatial reference is not defined!"
 msgstr "Не задана исходная система координат!"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:756
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:776
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:813
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:897
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:833
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:917
 msgid "Remove field 'ogc_fid' from input data"
 msgstr "Удаление поля 'ogc_fid' из входных данных"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:841
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:861
 #, c-format
 msgid "Check if features geometry is the type of %s"
 msgstr "Проверка типа геометрии %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:872
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:892
 #, c-format
 msgid "Force geometry field to %s"
 msgstr "Преобразование поля геометрии к %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1643
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1663
 msgid "Input data is invalid: unsuported filter"
 msgstr "Неверные входные данные: фильтр не поддерживается"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1652
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1672
 #, c-format
 msgid ""
 "The driver '%s' is not available!\n"
@@ -818,20 +820,20 @@ msgstr ""
 "Драйвер '%s' недоступен!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1679
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1699
 msgid "Datasource open failed! OGR error: "
 msgstr "Не удалось открыть источник данных! Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1800
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1820
 msgid "DXF layer does not support arbitrary field creation."
 msgstr "Слой DXF не поддерживает создание полей."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1830
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1850
 msgid "Unsupported type for shape file - OFTTime. Change to OFTString."
 msgstr ""
 "Тип данных OFTTime не поддерживается файлом ESRI shape. Изменен на OFTString."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1875
+#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1895
 msgid "Unsupported type for dbf file - OFTTime. Change to OFTString."
 msgstr "Тип данных OFTTime не поддерживается файлом dbf. Изменен на OFTString."
 
@@ -840,7 +842,7 @@ msgstr "Тип данных OFTTime не поддерживается файло
 msgid "Error (%d): %s"
 msgstr "Ошибка (%d): %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/tskmngr.cpp:213
+#: D:\work\Projects\wxGIS\src\geoprocessing/tskmngr.cpp:215
 #, c-format
 msgid "Task Manager Server start failed. Path '%s'"
 msgstr "Не удалось запустить сервер менеждера задач. Путь '%s'"
