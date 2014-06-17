@@ -135,7 +135,7 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
 {
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if(NULL != pDSet)
-    {        
+    {
         if(!pDSet->Open())
         {
             wxThreadEvent event( wxEVT_THREAD, EXIT_EVENT );
@@ -169,7 +169,21 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
             pCat->ObjectRefreshed(GetId());
             pCat->ObjectChanged(GetId());
         }
-    }//else do nothing
+    }
+    else if(event.GetId() == EXIT_EVENT)
+    {
+        wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+        if (pCat && m_PendingId != wxNOT_FOUND)
+        {
+            pCat->RemovePending(m_PendingId);
+            m_PendingId = wxNOT_FOUND;
+            pCat->ObjectRefreshed(GetId());
+            pCat->ObjectChanged(GetId());
+        }
+        wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
+    }
+
+    //else do nothing
 }
 
 wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
@@ -209,7 +223,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
     wxVector<EXPORTED_DATASET> paVectorDatasets;
     wxVector<EXPORTED_DATASET> paRasterDatasets;
     wxVector<EXPORTED_DATASET> paTableDatasets;
-    
+
     wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
     wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
 
@@ -256,7 +270,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                         ExportMultipleRasterDatasets(pWnd, sDestPath, pFilter, paRasterDatasets);
                     }
                     wxDELETE(pFilter);
-                    
+
                     pFilter = new wxGxFeatureDatasetFilter(enumVecPostGIS);
                     if (paVectorDatasets.size() == 1)
                     {
@@ -267,7 +281,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                         ExportMultipleVectorDatasets(pWnd, sDestPath, pFilter, paVectorDatasets);
                     }
                     wxDELETE(pFilter);
-                    
+
                     pFilter = new wxGxTableDatasetFilter(enumTablePostgres);
                     if (paTableDatasets.size() == 1)
                     {
@@ -334,11 +348,11 @@ wxIcon wxGxRemoteDBSchemaUI::GetSmallImage(void)
 bool wxGxRemoteDBSchemaUI::HasChildren(void)
 {
     if(m_bChildrenLoaded)
-        return wxGxObjectContainer::HasChildren(); 
+        return wxGxObjectContainer::HasChildren();
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren(); 
+    return wxGxObjectContainer::HasChildren();
 }
 
 wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
@@ -439,7 +453,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
         ExportMultipleRasterDatasets(pWnd, GetPath(), pFilter, paRasterDatasets);
     }
     wxDELETE(pFilter);
-    
+
     pFilter = new wxGxFeatureDatasetFilter(enumVecPostGIS);
     if (paVectorDatasets.size() == 1)
     {
