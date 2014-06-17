@@ -95,7 +95,7 @@ void wxGISPostgresDataSource::Close(void)
     if(m_poDS && m_poDS->Dereference() <= 0)
         OGRDataSource::DestroyDataSource( m_poDS );
 	m_poDS = NULL;
-    
+
 }
 
 size_t wxGISPostgresDataSource::GetSubsetsCount(void) const
@@ -172,7 +172,7 @@ wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(const CPLString &s
 		pTable->SetEncoding(m_Encoding);
         pDataset = static_cast<wxGISDataset*>(pTable);
 	}
-    
+
     wsGET(pDataset);
 }
 
@@ -279,7 +279,7 @@ bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxSt
         else
         {
             CPLError(CE_Failure, CPLE_AppDefined, "Dynamic cast to OGRPGDataSource failed");
-        }    
+        }
     }
     else
     {
@@ -330,7 +330,7 @@ bool wxGISPostgresDataSource::ExecuteSQL(const wxString &sStatement)
 
         return false;
     }
-    
+
     if (CPLGetLastErrorNo() != CE_None)
     {
         CPLError(CE_Failure, CPLE_AppDefined, CPLGetLastErrorMsg());
@@ -393,7 +393,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL2(const wxGISSpatialFilter &Spa
 	wsGET( pDataset );
 }
 
-bool wxGISPostgresDataSource::Open(int bUpdate)
+bool wxGISPostgresDataSource::Open(bool bUpdate, bool bShared)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
 	if(m_bIsOpened)
@@ -405,7 +405,7 @@ bool wxGISPostgresDataSource::Open(int bUpdate)
         bool bReadAllTabs = oConfig.ReadBool(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/pg_list_all_tables")), true);
         CPLSetConfigOption("PG_LIST_ALL_TABLES", bReadAllTabs == true ? "YES" : "NO" );
         CPLSetConfigOption("PGCLIENTENCODING", oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/pg_client_encoding")), wxT("UTF-8")).mb_str());
-        CPLSetConfigOption("OGR_PG_RETRIEVE_FID", oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/pg_retrieve_fid")), wxT("TRUE")).mb_str()); 
+        CPLSetConfigOption("OGR_PG_RETRIEVE_FID", oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/pg_retrieve_fid")), wxT("TRUE")).mb_str());
     }
     else
     {
@@ -418,20 +418,21 @@ bool wxGISPostgresDataSource::Open(int bUpdate)
     //"PG:host='127.0.0.1' dbname='db' port='5432' user='bishop' password='xxx'"
 	wxString sConnStr = wxString::Format(wxT("%s:host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_bIsBinaryCursor == true ? wxT("PGB") : wxT("PG"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
 	wxLogVerbose(_("Try to connect: host='%s' dbname='%s' port='%s' user='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
-    m_poDS = OGRSFDriverRegistrar::Open( sConnStr.mb_str(wxConvUTF8), bUpdate );//
+    CPLString szConnStr(sConnStr.ToUTF8());
+    m_poDS = (OGRDataSource*) wxGISDataset::OpenInternal( szConnStr, bUpdate, bShared );
 	if( m_poDS == NULL )
 	{
         const char* err = CPLGetLastErrorMsg();
 		wxLogError(_("Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"), wxString(err, wxConvUTF8).c_str(), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
 		return false;
 	}
-	
+
     //wxString sPath = wxString::Format(wxT("host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
 	//m_sPath = CPLString(sPath.mb_str(wxConvUTF8));
 
-    //open second connection 
-    m_poDS4SQL = OGRSFDriverRegistrar::Open(sConnStr.mb_str(wxConvUTF8), bUpdate);//
+    //open second connection
 
+    m_poDS4SQL = (OGRDataSource*)wxGISDataset::OpenInternal(szConnStr, bUpdate, bShared);
 
 	m_bIsOpened = true;
 
@@ -463,7 +464,7 @@ bool wxGISPostgresDataSource::Move(const CPLString &szDestPath, ITrackCancel* co
     else
         return false;
 }
-    
+
 void wxGISPostgresDataSource::Cache(ITrackCancel* const pTrackCancel)
 {
 }

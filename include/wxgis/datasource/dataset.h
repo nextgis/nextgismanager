@@ -30,7 +30,7 @@
 
     @library{datasource}
 */
-class WXDLLIMPEXP_GIS_DS wxGISDataset : 
+class WXDLLIMPEXP_GIS_DS wxGISDataset :
     public wxObject,
     public wxGISPointer
 {
@@ -44,17 +44,18 @@ public:
 	virtual CPLString GetPath(void) const;
     virtual size_t GetSubsetsCount(void) const;
     virtual wxString GetName(void) const;
+    virtual bool Open(bool bUpdate, bool bShared) = 0;
 	virtual void Close(void);
 	virtual bool IsOpened(void) const;
 	virtual bool IsReadOnly(void) const;
-	virtual bool IsCached(void) const;    
-	virtual bool IsCaching(void) const;    
+	virtual bool IsCached(void) const;
+	virtual bool IsCaching(void) const;
     virtual wxGISDataset* GetSubset(size_t nIndex);
 	virtual const wxGISSpatialReference GetSpatialReference(void);
 	virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
-	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
+	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool CanDelete(void);
     virtual bool CanRename(void);
     virtual bool CanCopy(const CPLString &szDestPath);
@@ -64,6 +65,7 @@ public:
     virtual char **GetFileList() = 0;
 protected:
     virtual CPLString FixPathSeparator(CPLString &szPath);
+    virtual void* OpenInternal(const CPLString &szPath, bool bUpdate, bool bShared);
 protected:
 	CPLString m_sPath;
     wxCriticalSection m_CritSect;

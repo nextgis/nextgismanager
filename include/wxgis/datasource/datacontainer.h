@@ -44,7 +44,7 @@ public:
     virtual wxGISDataset* GetSubset(size_t nIndex);
     virtual wxGISDataset* GetSubset(const wxString &sTableName);
     virtual wxString GetName(void) const;
-    virtual bool Open(int bUpdate = TRUE);
+    virtual bool Open(bool bUpdate = true, bool bShared = true);
 
     //wxGISDataset
     virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);

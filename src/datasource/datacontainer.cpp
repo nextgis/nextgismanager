@@ -138,7 +138,7 @@ wxString wxGISDataSource::GetName(void) const
     return m_sDBName;
 }
 
-bool wxGISDataSource::Open(int bUpdate)
+bool wxGISDataSource::Open(bool bUpdate, bool bShared)
 {
     wxCriticalSectionLocker locker(m_CritSect);
     if (m_bIsOpened)
@@ -146,7 +146,7 @@ bool wxGISDataSource::Open(int bUpdate)
 
     CPLErrorReset();
 
-    m_poDS = OGRSFDriverRegistrar::Open(m_sPath, bUpdate);
+    m_poDS = (OGRDataSource*) wxGISDataset::OpenInternal(m_sPath, bUpdate, bShared);
     if (m_poDS == NULL)
     {
         const char* err = CPLGetLastErrorMsg();
