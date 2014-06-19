@@ -166,16 +166,26 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	wxString sGdalDrivers;
 	for(size_t i = 0; i < GDALGetDriverCount(); ++i)
 	{
-		wxString sDrvName(GDALGetDriverLongName(GDALGetDriver(i)), wxConvUTF8);
+	    GDALDriverH pDriver = GDALGetDriver(i);
+	    if(!pDriver)
+            continue;
+#if GDAL_VERSION_NUM >= 2000000
+        char** papszMD = GDALGetMetadata( pDriver, NULL );
+
+        if( !CSLFetchBoolean( papszMD, GDAL_DCAP_RASTER, FALSE ) )
+            continue;
+#endif // GDAL_VERSION_NUM
+		wxString sDrvName(GDALGetDriverLongName(pDriver), wxConvUTF8);
 		sGdalDrivers += wxT("    - ");
 		sGdalDrivers += sDrvName;
 		sGdalDrivers += wxT("\n");
 	}
+
 	wxString sOgrDrivers;
-	for(size_t i = 0; i < OGRSFDriverRegistrar::GetRegistrar()->GetDriverCount(); ++i)
+	OGRSFDriverRegistrar* pRegistar = OGRSFDriverRegistrar::GetRegistrar();
+	for(int i = 0; i < pRegistar->GetDriverCount(); ++i)
 	{
-		OGRSFDriver *pDrv = OGRSFDriverRegistrar::GetRegistrar()->GetDriver(i);
-		wxString sDrvName(pDrv->GetName(), wxConvUTF8);
+		wxString sDrvName(pRegistar->GetDriver(i)->GetDescription(), wxConvUTF8);
 		sOgrDrivers += wxT("    - ");
 		sOgrDrivers += sDrvName;
 		sOgrDrivers += wxT("\n");
@@ -203,11 +213,11 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
     sAboutSys += wxT("\n");
     sAboutSys += sWXStr;
-	sAboutSys += wxString(_("\n\nGDAL Drivers:\n"));
+	sAboutSys += wxString(_("\n\Raster drivers:\n"));
 	sAboutSys += sGdalDrivers;
-	sAboutSys += wxString(_("\nOGR Drivers:\n"));
+	sAboutSys += wxString(_("\nVector Drivers:\n"));
 	sAboutSys += sOgrDrivers;
-	sAboutSys += wxString(_("\n* - The drivers only compiled in GDAL lib and may not supported by wxGIS."));
+	sAboutSys += wxString::Format(_("\n* - The drivers only compiled in GDAL lib and may not supported by %s."), pApp->GetAppDisplayName().c_str());
     m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutSys, m_AuiNotebook), _("About system"));
 
     //add translation page

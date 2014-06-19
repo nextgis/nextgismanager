@@ -85,7 +85,12 @@ wxString wxGISTable::GetName(void) const
     return sOut;
 }
 
-bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const pTrackCancel)
+bool wxGISTable::Open(bool bUpdate, bool bShared)
+{
+    return Open(0, bUpdate, bShared, true, NULL);
+}
+
+bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrackCancel* const pTrackCancel)
 {
 	if(m_bIsOpened)
 		return true;
@@ -111,17 +116,17 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
 		if(m_nSubType == enumTableQueryResult)
 			bUpdate = FALSE;
 
-		m_poDS = OGRSFDriverRegistrar::Open( m_sPath, bUpdate );
+		m_poDS = (OGRDataSource*)wxGISDataset::OpenInternal( m_sPath, bUpdate, bShared );
 		//bug in FindFileInZip() [gdal-root\port\cpl_vsil_gzip.cpp]
         if (m_poDS == NULL)
         {
             if (m_bIsReadOnly)
             {
-			    m_poDS = OGRSFDriverRegistrar::Open( FixPathSeparator(m_sPath), bUpdate );
+			    m_poDS = (OGRDataSource*)wxGISDataset::OpenInternal( FixPathSeparator(m_sPath), true,  bShared );
             }
             else
             {
-		        m_poDS = OGRSFDriverRegistrar::Open( m_sPath, FALSE );
+		        m_poDS = (OGRDataSource*)wxGISDataset::OpenInternal( m_sPath, false, bShared );
                 m_bIsReadOnly = true;
             }
         }
@@ -149,7 +154,7 @@ bool wxGISTable::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const 
     SetInternalValues();
 
 	m_bIsOpened = true;
-    
+
     if (bCache)
     {
 		Cache(pTrackCancel);
@@ -279,9 +284,9 @@ void wxGISTable::SetInternalValues()
 wxString wxGISTable::GetFIDColumn(void) const
 {
     OGRFeatureDefn* pDefn = GetDefinition();
-    if(pDefn)   
+    if(pDefn)
     {
-        CPLString szFIDCOLName = m_poLayer->GetFIDColumn(); 
+        CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
         return wxString(szFIDCOLName, wxConvUTF8);
         //int nFIDColIndex = pDefn->GetFieldIndex(szFIDCOLName);
         //return nFIDColIndex;
@@ -336,7 +341,7 @@ size_t wxGISTable::GetFeatureCount(bool bForce, ITrackCancel* const pTrackCancel
             m_nFeatureCount = m_poLayer->GetFeatureCount(TRUE);
         else if(m_bOLCFastFeatureCount)
             m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
-        else 
+        else
         {
             m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
             if(m_nFeatureCount == -1)
@@ -543,7 +548,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
     {
         if (bOnlyFirst)
         {
-            nRange = 1;            
+            nRange = 1;
         }
         else
         {
@@ -682,7 +687,7 @@ wxString wxGISTable::GetFieldName(int nIndex) const
         if (pFDefn)
         {
             return wxString(pFDefn->GetNameRef(), wxConvUTF8);
-        }        
+        }
     }
     return wxEmptyString;
 }
@@ -903,7 +908,7 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
     m_bIsCached = true;
 }
 
-bool wxGISTableCached::IsCaching(void) const 
+bool wxGISTableCached::IsCaching(void) const
 {
     return m_bIsCaching;
 }
@@ -955,7 +960,7 @@ size_t wxGISTableCached::GetFeatureCount(bool bForce, ITrackCancel* const pTrack
         }
         else if(m_bOLCFastFeatureCount)
             m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
-        else 
+        else
         {
         	m_nFeatureCount = m_poLayer->GetFeatureCount(FALSE);
             if(m_nFeatureCount == wxNOT_FOUND)
@@ -1019,7 +1024,7 @@ wxGISFeature wxGISTableCached::GetFeatureByID(long nFID)
     wxGISFeature ret = m_omFeatures[nFID];
     if(ret.IsOk())
 		return ret;
-	else 
+	else
     {
         if(m_poLayer)
 	    {

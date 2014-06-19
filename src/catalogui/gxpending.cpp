@@ -105,7 +105,7 @@ void wxGxPendingUI::OnTimer( wxTimerEvent& event )
     else
     {
         wxCriticalSectionLocker locker(m_CritSect);
-        m_sName = wxString(_("Waiting...")) + wxString::Format(_(" (%d sec)"), m_sw.Time() / 1000); //sec.
+        m_sName = wxString(_("Waiting...")) + wxString::Format(_(" (%ld sec)"), m_sw.Time() / 1000); //sec.
 
         m_nCurrentImage++;
         if(m_nCurrentImage >= m_nImageCount)

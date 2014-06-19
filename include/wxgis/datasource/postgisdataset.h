@@ -98,16 +98,16 @@ public:
 
 	//wxGISDataset
     virtual void Close(void);
-    virtual size_t GetSubsetsCount(void) const; 
+    virtual size_t GetSubsetsCount(void) const;
     virtual wxGISDataset* GetSubset(size_t nIndex);
     virtual wxGISDataset* GetSubset(const wxString &sTableName);
     virtual wxString GetName(void) const;
-    virtual bool Open(int bUpdate = TRUE);
+    virtual bool Open(bool bUpdate = true, bool bShared = true);
 	//wxGISPostGISDataset
     bool ExecuteSQL(const wxString &sStatement);
     bool CreateDatabase(const wxString &sDBName, const wxString &sTemplate = wxT("template_postgis"), const wxString &sOwner = wxT("postgres"), const wxString &sEncoding = wxT("UTF8"));
     wxGISDataset* ExecuteSQL2(const wxString &sStatement, const wxString &sDialect = wxT("OGRSQL"));
-    //the geometry in spatial filter should have the same SpaRef as the target layer 
+    //the geometry in spatial filter should have the same SpaRef as the target layer
     wxGISDataset* ExecuteSQL2(const wxGISSpatialFilter &SpatialFilter, const wxString &sDialect = wxT("OGRSQL"));
 
     //bool PGExecuteSQL(const wxString &sStatement);
@@ -119,14 +119,14 @@ public:
     //wxGISDataset
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
-	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
+	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
-    virtual char **GetFileList(); 
+    virtual char **GetFileList();
     //
     virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
     virtual wxFontEncoding GetEncoding() const { return m_Encoding; };
     static wxString NormalizeTableName(const wxString &sSrcName);
-protected:    
+protected:
 	wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
 protected:
 	OGRDataSource *m_poDS;

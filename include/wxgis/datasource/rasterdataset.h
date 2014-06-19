@@ -42,10 +42,10 @@ public:
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL){};
 	virtual bool Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
-	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);    
+	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
     virtual char **GetFileList();
     // wxGISRasterDataset
-	virtual bool Open(bool bReadOnly);
+	virtual bool Open(bool bUpdate = false, bool bShared = true);
 	virtual OGREnvelope GetEnvelope(void);
 	virtual GDALDataType GetDataType(void);
 	virtual GDALDataset* GetRaster(void){return m_poDataset;};

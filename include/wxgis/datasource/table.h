@@ -36,7 +36,7 @@
     @library{datasource}
 */
 
-class WXDLLIMPEXP_GIS_DS wxGISTable : 
+class WXDLLIMPEXP_GIS_DS wxGISTable :
     public wxGISDataset,
 	public wxGISConnectionPointContainer
 {
@@ -49,20 +49,21 @@ public:
     virtual wxString GetName(void) const;
 	virtual void Close(void);
 	//wxGISTable
-	virtual bool Open(int iLayer = 0, int bUpdate = TRUE, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool Open(bool bUpdate = true, bool bShared = true);
+	virtual bool Open(int iLayer = 0, bool bUpdate = true, bool bShared = true, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
     virtual size_t GetSubsetsCount(void) const;
     virtual wxGISDataset* GetSubset(size_t nIndex);
-    virtual wxGISDataset* GetSubset(const wxString & sSubsetName);    
+    virtual wxGISDataset* GetSubset(const wxString & sSubsetName);
     //sysop
-	virtual char **GetFileList();    
+	virtual char **GetFileList();
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     //rowop
-	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
+	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);
     virtual bool CanDeleteFeature(void) const;
-	virtual OGRErr DeleteFeature(long nFID);    
+	virtual OGRErr DeleteFeature(long nFID);
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
 	virtual wxGISFeature CreateFeature(void);
-    virtual OGRErr SetFeature(const wxGISFeature &Feature);  
+    virtual OGRErr SetFeature(const wxGISFeature &Feature);
     virtual OGRErr CommitTransaction(void);
     virtual OGRErr StartTransaction(void);
     virtual OGRErr RollbackTransaction(void);
@@ -110,14 +111,14 @@ protected:
 //#define MAXSTRINGSTORE 1000000
 
 /** @class wxGISTableCached
-    
+
     A GIS cached Table class.
     The table with caching rows for future fast fetch.
 
     @library{datasource}
 */
 
-class WXDLLIMPEXP_GIS_DS wxGISTableCached : 
+class WXDLLIMPEXP_GIS_DS wxGISTableCached :
     public wxGISTable
 {
     DECLARE_CLASS(wxGISTableCached)
@@ -133,12 +134,12 @@ public:
     virtual wxGISFeature GetFeature(long nIndex);
     //sysop
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
-    virtual bool IsCaching(void) const; 
+    virtual bool IsCaching(void) const;
     //rowop
-	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
-	virtual OGRErr DeleteFeature(long nFID);    
+	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);
+	virtual OGRErr DeleteFeature(long nFID);
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
-    virtual OGRErr SetFeature(const wxGISFeature &Feature);  
+    virtual OGRErr SetFeature(const wxGISFeature &Feature);
     virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
 protected:
     std::map<long, wxGISFeature> m_omFeatures;
@@ -160,5 +161,5 @@ public:
     wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
     virtual ~wxGISTableQuery(void);
     virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
-	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
+	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);
 };

@@ -195,7 +195,7 @@ bool wxGISRasterDataset::Rename(const wxString &sNewName, ITrackCancel* const pT
         bool bRet = true;
         switch(m_nSubType)
         {
-	    case enumRasterSAGA://write some internal info to files (e.g. sgrd mgrd -> new file name            
+	    case enumRasterSAGA://write some internal info to files (e.g. sgrd mgrd -> new file name
             {
                 CPLString szDirPath = CPLGetPath(m_sPath);
                 //CPLString szName = CPLGetBasename(m_sPath);
@@ -205,16 +205,16 @@ bool wxGISRasterDataset::Rename(const wxString &sNewName, ITrackCancel* const pT
 		    break;
         default:
 		    break;
-        };    
+        };
 	    return bRet;
     }
     else
         return false;
 }
 
-bool wxGISRasterDataset::Open(bool bReadOnly)
+bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
 {
-    if(bReadOnly != m_bIsReadOnly)
+    if(bUpdate == m_bIsReadOnly)
         Close();
 
 	if(IsOpened())
@@ -249,13 +249,11 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
         }
     }
 
-
-
-    m_poDataset = (GDALDataset *) GDALOpenShared( m_sPath, bReadOnly == true ? GA_ReadOnly : GA_Update );
+    m_poDataset = (GDALDataset*) wxGISDataset::OpenInternal( m_sPath, bUpdate, bShared );
     //bug in FindFileInZip() [gdal-1.6.3\port\cpl_vsil_gzip.cpp]
 
 	if( m_poDataset == NULL )
-        m_poDataset = (GDALDataset *) GDALOpenShared( FixPathSeparator(m_sPath), bReadOnly == true ? GA_ReadOnly : GA_Update );
+        m_poDataset = (GDALDataset*) wxGISDataset::OpenInternal( FixPathSeparator(m_sPath), bUpdate, bShared );
 
 	if( m_poDataset == NULL )
     {
@@ -265,7 +263,7 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
 
 		return false;
     }
-    
+
     double adfGeoTransform[6] = { 0, 0, 0, 0, 0, 0 };
 	CPLErr err = m_poDataset->GetGeoTransform(adfGeoTransform);
     bool bHasGeoTransform = false;
@@ -303,10 +301,10 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
                 int nResult = poCT->Transform(4, adfX, adfY, adfZ);
                 if(nResult)
                 {
-                    if(bReadOnly)
+                    if(!bUpdate)
                     {
                         GDALClose(m_poDataset);
-                        m_poDataset = (GDALDataset *) GDALOpenShared( m_sPath, GA_Update );
+                        m_poDataset = (GDALDataset*)wxGISDataset::OpenInternal(m_sPath, true, bShared);
                     }
 
                     GDAL_GCP *pasGCPList = (GDAL_GCP *) CPLCalloc(sizeof(GDAL_GCP), 4);
@@ -357,10 +355,10 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
                         //    CPLErr eErr = m_poDataset->SetGeoTransform(adfGeoTransform);
                     }
 
-                    if(bReadOnly)
+                    if(!bUpdate)
                     {
                         GDALClose(m_poDataset);
-                        m_poDataset = (GDALDataset *) GDALOpenShared( m_sPath, GA_ReadOnly );
+                        m_poDataset = (GDALDataset*)wxGISDataset::OpenInternal(m_sPath, false, bShared);
                     }
 
                     GDALDeinitGCPs( 4, pasGCPList );
@@ -377,7 +375,7 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
         {
             bHasGeoTransform = false;
             m_poMainDataset = m_poDataset;
-            
+
             wxGISAppConfig oConfig = GetConfig();
             GDALResampleAlg eAlg = GRA_NearestNeighbour;
             double dfMaxErr = 0.3;
@@ -508,7 +506,7 @@ bool wxGISRasterDataset::Open(bool bReadOnly)
     }
 
 	m_bIsOpened = true;
-    m_bIsReadOnly = bReadOnly;
+    m_bIsReadOnly = !bUpdate;
 	return true;
 }
 
@@ -559,14 +557,14 @@ bool wxGISRasterDataset::Copy(const CPLString &szDestPath, ITrackCancel* const p
 
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
-    if(!papszFileList)    
+    if(!papszFileList)
     {
         if(pTrackCancel)
             pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageErr);
         return false;
     }
 
-    CPLString szCopyFileName;	
+    CPLString szCopyFileName;
     CPLString szFileName = CPLGetBasename(GetUniqPath(m_sPath, szDestPath, CPLGetBasename(m_sPath)));
 
     char** papszFileCopiedList = NULL;

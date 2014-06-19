@@ -1667,7 +1667,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 
     CPLErrorReset();
 
-	OGRSFDriver *poDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName( pFilter->GetDriver().mb_str() );
+	OGRSFDriver *poDriver = static_cast<OGRSFDriver*>(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName( pFilter->GetDriver().mb_str() ));
     if(poDriver == NULL)
     {
         wxString sErr = wxString::Format(_("The driver '%s' is not available!\nOGR error: "), pFilter->GetDriver().c_str());

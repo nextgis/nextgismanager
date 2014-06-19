@@ -81,6 +81,51 @@ void wxGISDataset::Close(void)
     }
 }
 
+void* wxGISDataset::OpenInternal(const CPLString &szPath, bool bUpdate, bool bShared)
+{
+    if(m_nType == enumGISFeatureDataset || m_nType == enumGISTableDataset)
+    {
+    #if GDAL_VERSION_NUM >= 2000000
+        int nOpenFlags = GDAL_OF_VECTOR;
+        if(bUpdate)
+            nOpenFlags |= GDAL_OF_UPDATE;
+        else
+            nOpenFlags |= GDAL_OF_READONLY;
+
+        if(bShared)
+            nOpenFlags |= GDAL_OF_SHARED;
+
+        //TODO: GDAL_OF_VERBOSE_ERROR if debug is on in config
+        return GDALOpenEx( szPath, nOpenFlags, NULL, NULL, NULL );
+    #else
+        return OGRSFDriverRegistrar::Open(szPath, bUpdate == true ? TRUE : FALSE);
+    #endif
+    }
+
+    if(m_nType == enumGISRasterDataset)
+    {
+    #if GDAL_VERSION_NUM >= 2000000
+        int nOpenFlags = GDAL_OF_RASTER;
+        if(bUpdate)
+            nOpenFlags |= GDAL_OF_UPDATE;
+        else
+            nOpenFlags |= GDAL_OF_READONLY;
+
+        if(bShared)
+            nOpenFlags |= GDAL_OF_SHARED;
+
+        //TODO: GDAL_OF_VERBOSE_ERROR if debug is on in config
+        return GDALOpenEx( szPath, nOpenFlags, NULL, NULL, NULL );
+    #else
+        return GDALOpenShared( szPath, bUpdate == true ? GA_Update : GA_ReadOnly );
+    #endif // GDAL_VERSION_NUM
+    }
+
+    //TODO: for combined drivers raster + vector
+
+    return NULL;
+}
+
 bool wxGISDataset::IsOpened(void) const
 {
     return m_bIsOpened;
@@ -187,7 +232,7 @@ bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCa
 
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
-    if(!papszFileList)    
+    if(!papszFileList)
     {
         if(pTrackCancel)
             pTrackCancel->PutMessage(_("No files to rename"), wxNOT_FOUND, enumGISMessageErr);
@@ -227,7 +272,7 @@ bool wxGISDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackC
 
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
-    if(!papszFileList)    
+    if(!papszFileList)
     {
         if(pTrackCancel)
             pTrackCancel->PutMessage(_("No files to move"), wxNOT_FOUND, enumGISMessageErr);
@@ -271,7 +316,7 @@ bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
 
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
-    if(!papszFileList)    
+    if(!papszFileList)
     {
         if(pTrackCancel)
             pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageErr);
