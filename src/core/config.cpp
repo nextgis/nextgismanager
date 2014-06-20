@@ -86,18 +86,22 @@ void wxGISConfig::Create(bool bPortable)
         if(((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.Find(sExeAppName) != wxNOT_FOUND)
             ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.Replace(sExeAppName + wxFileName::GetPathSeparator(), wxString(wxT("")));
 
-#else //linux
+#elif __UNIX__
         wxString sLocalConfigDirPath = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT(".")) + sVendorName;
         ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = sLocalConfigDirPath;
         wxString sGlobalConfigDirPath = wxStandardPaths::Get().GetConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
         ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = sGlobalConfigDirPath;
+#else
+    #error Unsuported platform. I hope yet.
 #endif
     }
 
 #ifdef __WINDOWS__
 	((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + sVendorName;
-#else //linux
+#elif __UNIX__
 	((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT(".")) + sVendorName;
+#else
+    #error Unsuported platform. I hope yet.
 #endif
 }
 
@@ -640,8 +644,10 @@ wxString wxGISAppConfig::GetLocaleDir(void)
         //we assume that exe is located at bin and log should be at the same directory
         wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
         sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
-#else //linux
+#elif __UNIX__
         sDefaultOut = wxStandardPaths::Get().GetResourcesDir() + wxFileName::GetPathSeparator() + wxString(wxT("locale"));
+#else
+    #error Unsuported platform. I hope yet.
 #endif
     }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/loc/path")), sDefaultOut);
@@ -697,8 +703,10 @@ wxString wxGISAppConfig::GetSysDir(void)
         //we assume that exe is located at bin and log should be at the same directory
         wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
         sDefaultOut = oName.GetPath() + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
-#else //linux
+#elif __UNIX__
         sDefaultOut = wxStandardPaths::Get().GetResourcesDir() + wxFileName::GetPathSeparator() + wxString(wxT("sys"));
+#else
+    #error Unsuported platform. I hope yet.
 #endif
     }
 	return Read(enumGISHKCU, wxString(wxT("wxGISCommon/sys/path")), sDefaultOut);

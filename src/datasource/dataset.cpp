@@ -121,7 +121,28 @@ void* wxGISDataset::OpenInternal(const CPLString &szPath, bool bUpdate, bool bSh
     #endif // GDAL_VERSION_NUM
     }
 
-    //TODO: for combined drivers raster + vector
+    //for combined drivers raster + vector
+    if(m_nType == enumGISContainer)
+    {
+    #if GDAL_VERSION_NUM >= 2000000
+        int nOpenFlags = GDAL_OF_RASTER | GDAL_OF_VECTOR;
+        if(bUpdate)
+            nOpenFlags |= GDAL_OF_UPDATE;
+        else
+            nOpenFlags |= GDAL_OF_READONLY;
+
+        if(bShared)
+            nOpenFlags |= GDAL_OF_SHARED;
+
+        //TODO: GDAL_OF_VERBOSE_ERROR if debug is on in config
+        return GDALOpenEx( szPath, nOpenFlags, NULL, NULL, NULL );
+    #else
+    //TODO: now postgis is only support so vector
+        return GDALOpenShared( szPath, bUpdate == true ? GA_Update : GA_ReadOnly );
+    #endif // GDAL_VERSION_NUM
+    }
+
+    CPLError(CE_Failure, CPLE_AppDefined, _("Unsupported dataset type"));
 
     return NULL;
 }

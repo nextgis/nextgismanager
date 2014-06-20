@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: wxGIS\n"
+"Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-17 02:06+0400\n"
-"PO-Revision-Date: 2014-06-17 02:06+0400\n"
+"POT-Creation-Date: 2014-06-21 00:39+0300\n"
+"PO-Revision-Date: 2014-06-21 00:39+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
-"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,175 +13,172 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
-"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\core\n"
-"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\core\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: ../../../include/wxgis/core\n"
+"X-Poedit-SearchPath-1: ../../../src/core\n"
 
-#: D:\work\Projects\wxGIS\src\core/config.cpp:556
-#, c-format
-msgid "Failed to save config '%s'"
-msgstr "Ошибка сохранения файла конфигурации '%s'"
-
-#: D:\work\Projects\wxGIS\src\core/crypt.cpp:190
-msgid "Crypt: Failed EVP_EncryptInit!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
-
-#: D:\work\Projects\wxGIS\src\core/crypt.cpp:204
-msgid "Crypt: Failed EVP_EncryptUpdate!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
-
-#: D:\work\Projects\wxGIS\src\core/crypt.cpp:234
-msgid "Decrypt: Failed EVP_DecryptInit!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
-
-#: D:\work\Projects\wxGIS\src\core/crypt.cpp:249
-msgid "Decrypt: Failed EVP_DecryptUpdate!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
-
-#: D:\work\Projects\wxGIS\src\core/format.cpp:33
-#: D:\work\Projects\wxGIS\src\core/format.cpp:480
+#: ../../../src/core/format.cpp:33 ../../../src/core/format.cpp:480
 msgid "W"
 msgstr "ЗД"
 
-#: D:\work\Projects\wxGIS\src\core/format.cpp:34
-#: D:\work\Projects\wxGIS\src\core/format.cpp:475
+#: ../../../src/core/format.cpp:34 ../../../src/core/format.cpp:475
 msgid "S"
 msgstr "ЮШ"
 
-#: D:\work\Projects\wxGIS\src\core/format.cpp:38
-#: D:\work\Projects\wxGIS\src\core/format.cpp:80
-#: D:\work\Projects\wxGIS\src\core/format.cpp:478
+#: ../../../src/core/format.cpp:38 ../../../src/core/format.cpp:80
+#: ../../../src/core/format.cpp:478
 msgid "E"
 msgstr "ВД"
 
-#: D:\work\Projects\wxGIS\src\core/format.cpp:39
-#: D:\work\Projects\wxGIS\src\core/format.cpp:80
-#: D:\work\Projects\wxGIS\src\core/format.cpp:473
+#: ../../../src/core/format.cpp:39 ../../../src/core/format.cpp:80
+#: ../../../src/core/format.cpp:473
 msgid "N"
 msgstr "СШ"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:72
+#: ../../../src/core/process.cpp:203
+msgid "Could not create the thread!"
+msgstr "Не удалось создать поток!"
+
+#: ../../../src/core/process.cpp:214
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
+
+#: ../../../src/core/init.cpp:72
 #, c-format
 msgid "wxGISAppWithLibs: Library %s loaded"
 msgstr "wxGISAppWithLibs: Библиотека %s загружена"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:78
+#: ../../../src/core/init.cpp:78
 #, c-format
 msgid "wxGISAppWithLibs: Error loading library %s"
 msgstr "wxGISAppWithLibs: Ошибка загрузки библиотеки %s"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:141
+#: ../../../src/core/init.cpp:141
 #, c-format
 msgid "wxGISInitializer: %s %s is initializing..."
 msgstr "wxGISInitializer: %s %s инициализируется..."
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:185
+#: ../../../src/core/init.cpp:185
 #, c-format
 msgid "wxGISInitializer: System dir is absent! Lookup path '%s'"
 msgstr ""
 "wxGISInitializer: Не удалось найти директорию системных настроек! Путьпоиска "
 "'%s'"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:199
+#: ../../../src/core/init.cpp:199
 msgid "wxGISInitializer: Failed to get log dir"
 msgstr "wxGISInitializer: Не удалось получить директорию файлов журналов"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:209
+#: ../../../src/core/init.cpp:209
 #, c-format
 msgid "wxGISInitializer: Failed to open log file %s"
 msgstr "wxGISInitializer: Не удалось открыть файл журнала %s"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:224
+#: ../../../src/core/init.cpp:224
 #, c-format
 msgid "HOST '%s': OS desc - %s, free memory - %s"
 msgstr "Хост  '%s': ОС - %s, свободная память - %s"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:225
+#: ../../../src/core/init.cpp:225
 #, c-format
 msgid "wxGISInitializer: Log file: %s"
 msgstr "wxGISInitializer: Файл журнала: %s"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:233
+#: ../../../src/core/init.cpp:233
 msgid "wxGISInitializer: Initialize locale"
 msgstr "wxGISInitializer: Инициализация локализации"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:245
+#: ../../../src/core/init.cpp:245
 #, c-format
 msgid "wxGISInitializer: Language is set to %s"
 msgstr "wxGISInitializer: Выбран язык %s"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:246
+#: ../../../src/core/init.cpp:246
 #, c-format
 msgid "wxGISInitializer: Language locale files path '%s'"
 msgstr "wxGISInitializer: Папка файлов локализации '%s'"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:404
+#: ../../../src/core/init.cpp:404
 msgid "Register service handler failed"
 msgstr "Не удалось зарегистрировать обработчик"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:416
+#: ../../../src/core/init.cpp:416
 msgid "Service started successfuly"
 msgstr "Сервис запущен"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:438
+#: ../../../src/core/init.cpp:438
 msgid "Service stopped"
 msgstr "Сервис установлен"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:445
+#: ../../../src/core/init.cpp:445
 msgid "Service paused"
 msgstr "Сервис поставлен на паузу"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:452
+#: ../../../src/core/init.cpp:452
 msgid "Service continue"
 msgstr "Сервис возобнавлен"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:464
+#: ../../../src/core/init.cpp:464
 msgid "Bad request"
 msgstr "Запрос с ошибкой"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:558
+#: ../../../src/core/init.cpp:558
 msgid "Could not open the message source registry key."
 msgstr "Не удалось найти источник сообщений"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:562
+#: ../../../src/core/init.cpp:562
 msgid "Could not set the event message file registry value."
 msgstr "Не удалось установить файл сообщений "
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:567
+#: ../../../src/core/init.cpp:567
 msgid "Could not set the supported types."
 msgstr "Не удалось установить поддерживаемые типы"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:569
+#: ../../../src/core/init.cpp:569
 msgid "Service installed"
 msgstr "Сервис утановлен"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:609
+#: ../../../src/core/init.cpp:609
 msgid "Service uninstalled"
 msgstr "Сервис удален"
 
-#: D:\work\Projects\wxGIS\src\core/init.cpp:671
-#: D:\work\Projects\wxGIS\src\core/init.cpp:680
+#: ../../../src/core/init.cpp:671 ../../../src/core/init.cpp:680
 msgid "Cannot disassociate from controlling TTY"
 msgstr "Не удалось отключится от консоли"
 
-#: D:\work\Projects\wxGIS\src\core/process.cpp:203
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
+#: ../../../src/core/crypt.cpp:190
+msgid "Crypt: Failed EVP_EncryptInit!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
 
-#: D:\work\Projects\wxGIS\src\core/process.cpp:214
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
+#: ../../../src/core/crypt.cpp:204
+msgid "Crypt: Failed EVP_EncryptUpdate!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:175
+#: ../../../src/core/crypt.cpp:234
+msgid "Decrypt: Failed EVP_DecryptInit!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
+
+#: ../../../src/core/crypt.cpp:249
+msgid "Decrypt: Failed EVP_DecryptUpdate!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
+
+#: ../../../src/core/config.cpp:560
+#, c-format
+msgid "Failed to save config '%s'"
+msgstr "Ошибка сохранения файла конфигурации '%s'"
+
+#: ../../../include/wxgis/core/core.h:175
 msgid "wxGISCore"
 msgstr "wxGISCore"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:178
+#: ../../../include/wxgis/core/core.h:178
 #, c-format
 msgid "%s: Can't create %s Thread!"
 msgstr "%s: Не удалось создать поток %s!"
 
-#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:184
+#: ../../../include/wxgis/core/core.h:184
 #, c-format
 msgid "%s: Can't run %s Thread!"
 msgstr "%s: Не удалось запустить поток %s!"

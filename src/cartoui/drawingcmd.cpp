@@ -539,7 +539,7 @@ wxString wxGISDrawingTool::GetToolLabel(void)
     switch (m_subtype)
     {
     case enumGISDrawingToolLayerSelector:
-        return wxString(_("Layer:  "));
+        return wxString(_("Layer")) + wxString(wxT(": "));
     default:
         return wxEmptyString;
     }

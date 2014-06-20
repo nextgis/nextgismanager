@@ -457,7 +457,7 @@ void wxGISToolBar::AddCommand(wxGISCommand* pCmd)
 					if(pToolCtrl->HasToolLabel())
 					{
 						wxString sToolLabel = pToolCtrl->GetToolLabel();
-						AddLabel(wxID_ANY, sToolLabel, sToolLabel.Len() * 5);
+						AddLabel(wxID_ANY, sToolLabel);
 					}
 					pControl->Reparent(this);
 					AddControl(pControl);
@@ -515,7 +515,7 @@ void wxGISToolBar::ReAddCommand(wxGISCommand* pCmd)
 					if(pToolCtrl->HasToolLabel())
 					{
 						wxString sToolLabel = pToolCtrl->GetToolLabel();
-						AddLabel(wxID_ANY, sToolLabel, sToolLabel.Len() * 5);
+						AddLabel(wxID_ANY, sToolLabel);
 					}
 					pControl->Reparent(this);
 					AddControl(pControl);

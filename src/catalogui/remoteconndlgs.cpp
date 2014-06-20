@@ -355,25 +355,16 @@ void wxGISRemoteConnDlg::OnTest(wxCommandEvent& event)
 	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
-		CPLSetConfigOption("PG_LIST_ALL_TABLES", "YES");
-		CPLSetConfigOption("PGCLIENTENCODING", "UTF-8");
-
-		wxString sPath = wxString::Format(wxT("%s:host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_bIsBinaryCursor == true ? wxT("PGB") : wxT("PG"), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), m_sUser.c_str(), m_sPass.c_str());
-
-        CPLString szPath(sPath.ToUTF8());
-		wxGISPostgresDataSource oPostgresDataSource(szPath);
-
-		CPLErrorReset();
-
+		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
-			const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed! Host '%s', Database name '%s', Port='%s'. OGR error: %s"), wxString(_("Open")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), wxString(err, wxConvLocal));
-			wxMessageBox(sErr, wxString(_("Error")), wxICON_ERROR | wxOK, this );
+			wxMessageBox(wxString(_("Connected successfully!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
 		}
 		else
 		{
-			wxMessageBox(wxString(_("Connected successufuly!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
+			const char* err = CPLGetLastErrorMsg();
+			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'.\nGDAL error: %s"), wxString(_("Open")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), wxString(err, wxConvLocal).c_str());
+			wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK, this );
 		}
 	}
 	else

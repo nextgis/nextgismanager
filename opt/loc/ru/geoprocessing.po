@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: wxGIS\n"
+"Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-17 02:06+0400\n"
-"PO-Revision-Date: 2014-06-17 02:14+0400\n"
-"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
-"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"POT-Creation-Date: 2014-06-21 00:39+0300\n"
+"PO-Revision-Date: 2014-06-21 00:39+0300\n"
+"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,388 +13,470 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
-"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\geoprocessing\n"
-"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis"
-"\\geoprocessing\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: ../../../src/geoprocessing\n"
+"X-Poedit-SearchPath-1: ../../../include/wxgis/geoprocessing\n"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:45
-msgid "Compute statistics"
-msgstr "Собрать статистику"
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:48
+msgid "Write shapes coordinates to text file"
+msgstr "Записать координаты фигур в текстовый файл"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:55
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:54
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:57
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:54
-msgid "Data Management Tools/Raster"
-msgstr "Управление данными/Растр"
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:58
+#: ../../../src/geoprocessing/gpexporttool.cpp:56
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:55
+msgid "Conversion Tools/Vector"
+msgstr "Инструменты преобразования/Вектор"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:65
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:64
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:67
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:78
-msgid "Source raster"
-msgstr "Исходный растр"
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:68
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:66
+msgid "Source table"
+msgstr "Исходная таблица"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:79
-msgid "Compute statistics based on overviews or a subset of all tiles"
-msgstr "Собрать статистику с использованием пирамид или всех фрагментов растра"
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:82
+msgid "Coordinates format mask to write to text file"
+msgstr "Шаблон вывода координат для записи в текстовый файл"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:101
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:225
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:171
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:117
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:205
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:147
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:227
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:144
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:240
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:134
+msgid "Swap XY coordinates"
+msgstr "Поменять местами координаты XY"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:145
+msgid "Destination text file"
+msgstr "Выходной текстовый файл"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:151
+msgid "Text file"
+msgstr "Текстовый файл"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:227
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:144
+#: ../../../src/geoprocessing/gpexporttool.cpp:171
+#: ../../../src/geoprocessing/gpprojecttool.cpp:147
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:117
+#: ../../../src/geoprocessing/gpcompstattool.cpp:101
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:205
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:240
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:225
 msgid "Unexpected error occurred"
 msgstr "Неожиданная ошибка"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:110
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:234
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:180
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:126
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:214
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:156
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:236
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:153
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:249
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:236
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:153
+#: ../../../src/geoprocessing/gpexporttool.cpp:180
+#: ../../../src/geoprocessing/gpprojecttool.cpp:156
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:126
+#: ../../../src/geoprocessing/gpcompstattool.cpp:110
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:214
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:249
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:234
 msgid "Error getting catalog object"
 msgstr "Ошибка получения объекта каталога"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:120
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:244
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:224
-msgid "Error getting source object"
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:246
+#: ../../../src/geoprocessing/gpexporttool.cpp:190
+#: ../../../src/geoprocessing/gpprojecttool.cpp:167
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:136
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:259
+msgid "Error get source object"
 msgstr "Ошибка получения исходного объекта"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:128
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:252
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:232
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:172
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:200
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:254
+#: ../../../src/geoprocessing/gpexporttool.cpp:198
+#: ../../../src/geoprocessing/gpprojecttool.cpp:175
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:144
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:267
+msgid "The source object is of incompatible type"
+msgstr "Исходный объект несовместимого типа"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:263
+#: ../../../src/geoprocessing/gpexporttool.cpp:206
+#: ../../../src/geoprocessing/gpprojecttool.cpp:183
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:152
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:275
+msgid "The source dataset is of incompatible type"
+msgstr "Исходный набор данных несовместимого типа"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:274
+#: ../../../src/geoprocessing/gpexporttool.cpp:217
+#: ../../../src/geoprocessing/gpprojecttool.cpp:194
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:163
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:286
+msgid "Error reading dataset definition"
+msgstr "Ошибка чтения определения набора данных"
+
+#: ../../../src/geoprocessing/gpshapetotexttool.cpp:284
+msgid "Invalid format mask"
+msgstr "Не правильный шаблон"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:73
+msgid "Remains "
+msgstr "Осталось "
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:73
+msgid "%H hour(s) %M min. %S sec."
+msgstr "%H час. %M мин. %S сек."
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:150
+#, c-format
+msgid "Create %s object failed!"
+msgstr "Не удалось создать объект %s!"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:266
+#, c-format
+msgid "Executing (%s)"
+msgstr "Выполнение (%s)"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:269
+msgid "Parameters:"
+msgstr "Параметры:"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:279
+#, c-format
+msgid "Start Time: %s"
+msgstr "Начало: %s"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:303
+#, c-format
+msgid "An error occured while executing %s. Failed to execute (%s)."
+msgstr "Ошибка в процессе выполнения %s. Невозможно выполнить (%s)."
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:304
+msgid "Error!"
+msgstr "Ошибка!"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:308
+#, c-format
+msgid "Executed (%s) successfully"
+msgstr "Выполнение (%s) успешно завершено"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:309
+msgid "Done"
+msgstr "Завершено"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:313
+#, c-format
+msgid "End Time: %s (Elapsed Time: %s)"
+msgstr "Окончание: %s (Заняло: %s)"
+
+#: ../../../src/geoprocessing/gptoolmngr.cpp:313
+msgid "%H hours %M min. %S sec."
+msgstr "%H час. %M мин. %S сек."
+
+#: ../../../src/geoprocessing/gptable.cpp:30
+#, c-format
+msgid "The driver '%s' is not available! OGR error: "
+msgstr "Драйвер '%s' недоступен! Ошибка OGR: "
+
+#: ../../../src/geoprocessing/gptable.cpp:41
+#: ../../../src/geoprocessing/gpvector.cpp:1733
+#, c-format
+msgid "Error create the output file '%s'! OGR error: "
+msgstr "Ошибка создания выходного файла '%s'! Ошибка OGR: "
+
+#: ../../../src/geoprocessing/gptable.cpp:52
+#: ../../../src/geoprocessing/gpvector.cpp:1757
+msgid "Layer_"
+msgstr "Слой_"
+
+#: ../../../src/geoprocessing/gptable.cpp:59
+#: ../../../src/geoprocessing/gptable.cpp:71
+#: ../../../src/geoprocessing/gpvector.cpp:1805
+#: ../../../src/geoprocessing/gpvector.cpp:1862
+#: ../../../src/geoprocessing/gpvector.cpp:1905
+#, c-format
+msgid "Error create the output layer '%s'! OGR error: "
+msgstr "Ошибка создания выходного слоя '%s'! Ошибка OGR: "
+
+#: ../../../src/geoprocessing/gptable.cpp:96
+#, c-format
+msgid ""
+"Calculate mean values for columns. Source dataset %s. Destination dataset %s"
+msgstr ""
+"Расчитать среднее значение колонок. Исходный источник %s. Выходной источник "
+"%s"
+
+#: ../../../src/geoprocessing/gptable.cpp:114
+msgid "Error creating new dataset! OGR error: "
+msgstr "Ошибка создания нового набора данных! Ошибка OGR: "
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:44
+msgid "Create subraster by vector cutline"
+msgstr "Поучение области растра по векторной границе"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:54
+#: ../../../src/geoprocessing/gpcompstattool.cpp:55
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:57
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:54
+msgid "Data Management Tools/Raster"
+msgstr "Управление данными/Растр"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:64
+msgid "Source vector"
+msgstr "Исходный векторный файл"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:78
+#: ../../../src/geoprocessing/gpcompstattool.cpp:65
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:67
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:64
+msgid "Source raster"
+msgstr "Исходный растр"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:92
+msgid "Destination folder"
+msgstr "Выходной каталог"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:163
+msgid "Error getting source vector object"
+msgstr "Ошибка получения исходного ветороного файла"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:172
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:200
+#: ../../../src/geoprocessing/gpcompstattool.cpp:128
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:232
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:252
 msgid "Source object is of incompatible type"
 msgstr "Исходный объект несовместимого типа"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:137
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:260
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:240
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:181
+msgid "Source vector dataset is of incompatible type"
+msgstr "Исходный набор веторных данных несовместимого типа"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:191
+msgid "Error getting source raster object"
+msgstr "Ошибка получения исходного растра"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:209
+msgid "Source raster dataset is of incompatible type"
+msgstr "Исходный набор растровых данных несовместимого типа"
+
+#: ../../../src/geoprocessing/gpsubrasterbyvectortool.cpp:219
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:260
+msgid "Error get destination object"
+msgstr "Ошибка получения выходного объекта"
+
+#: ../../../src/geoprocessing/tskmngr.cpp:119
+#, c-format
+msgid "Error (%d): %s"
+msgstr "Ошибка (%d): %s"
+
+#: ../../../src/geoprocessing/tskmngr.cpp:215
+#, c-format
+msgid "Task Manager Server start failed. Path '%s'"
+msgstr "Не удалось запустить сервер менеждера задач. Путь '%s'"
+
+#: ../../../src/geoprocessing/gpexporttool.cpp:46
+msgid "Export vector file (single)"
+msgstr "Экспорт векторного файла (одного)"
+
+#: ../../../src/geoprocessing/gpexporttool.cpp:66
+#: ../../../src/geoprocessing/gpprojecttool.cpp:68
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:65
+msgid "Source feature class"
+msgstr "Исходный класс пространственных объектов"
+
+#: ../../../src/geoprocessing/gpexporttool.cpp:90
+#: ../../../src/geoprocessing/gpprojecttool.cpp:92
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:79
+msgid "Destination feature class"
+msgstr "Конечный класс пространственных объектов"
+
+#: ../../../src/geoprocessing/gpexporttool.cpp:157
+msgid "Cannot export to the same format"
+msgstr "Невозможно экспортировать в тот же формат"
+
+#: ../../../src/geoprocessing/gpexporttool.cpp:245
+#: ../../../src/geoprocessing/gpprojecttool.cpp:240
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:188
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:273
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:310
+msgid "Error getting selected destination filter"
+msgstr "Ошибка получения выбранного фильтра"
+
+#: ../../../src/geoprocessing/gpprojecttool.cpp:48
+msgid "Project vector file (single)"
+msgstr "Проецирование векторного файла (одного)"
+
+#: ../../../src/geoprocessing/gpprojecttool.cpp:58
+msgid "Projections and Transformations/Vector"
+msgstr "Проекции и преобразования/Вектор"
+
+#: ../../../src/geoprocessing/gpprojecttool.cpp:82
+msgid "Spatial reference"
+msgstr "Система координат"
+
+#: ../../../src/geoprocessing/gpprojecttool.cpp:204
+#: ../../../src/geoprocessing/gpprojecttool.cpp:215
+msgid "Unsupported Spatial Reference"
+msgstr "Система координат не поддерживается"
+
+#: ../../../src/geoprocessing/gpgeomverttoptstool.cpp:45
+msgid "Geometry Vertices To Points"
+msgstr "Вершины геометрии в точки"
+
+#: ../../../src/geoprocessing/gpcompstattool.cpp:45
+msgid "Compute statistics"
+msgstr "Собрать статистику"
+
+#: ../../../src/geoprocessing/gpcompstattool.cpp:79
+msgid "Compute statistics based on overviews or a subset of all tiles"
+msgstr "Собрать статистику с использованием пирамид или всех фрагментов растра"
+
+#: ../../../src/geoprocessing/gpcompstattool.cpp:120
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:224
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:244
+msgid "Error getting source object"
+msgstr "Ошибка получения исходного объекта"
+
+#: ../../../src/geoprocessing/gpcompstattool.cpp:137
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:240
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:260
 msgid "Source dataset is of incompatible type"
 msgstr "Исходный набор данных несовместимого типа"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:149
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:272
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:289
+#: ../../../src/geoprocessing/gpcompstattool.cpp:149
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:289
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:272
 msgid "Error getting raster"
 msgstr "Ошибка получения растра"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:161
+#: ../../../src/geoprocessing/gpcompstattool.cpp:161
 #, c-format
 msgid "Proceed band %d"
 msgstr "Обработка канала %d"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:169
+#: ../../../src/geoprocessing/gpcompstattool.cpp:169
 #, c-format
 msgid "ComputeStatistics failed! GDAL error: %s"
 msgstr "ComputeStatistics завершилось неудачно! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcompstattool.cpp:173
+#: ../../../src/geoprocessing/gpcompstattool.cpp:173
 #, c-format
 msgid "Band %d: min - %.2f, max - %.2f, mean - %.2f, StdDev - %.2f"
 msgstr "Канал %d: мин. - %.2f, макс. - %.2f, ср. - %.2f, стд. откл. - %.2f"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:44
-msgid "Create overviews"
-msgstr "Создать пирамиды"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:78
-msgid "Pixel interpolation"
-msgstr "Интерполяция пикселов"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:85
-msgid "Nearest"
-msgstr "Ближайшее"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:86
-msgid "Gauss"
-msgstr "Гаусс"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:87
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:162
-msgid "Cubic"
-msgstr "Кубическая"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:88
-msgid "Average"
-msgstr "Среднее"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:89
-msgid "Mode"
-msgstr "Мода"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:90
-msgid "Average magphase"
-msgstr "Средневзвешенное"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:91
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:112
-msgid "None"
-msgstr "Нет"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:101
-msgid "Overview compression"
-msgstr "Сжатие пирамид"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:108
-msgid "ZIP"
-msgstr "ZIP"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:109
-msgid "JPEG"
-msgstr "JPEG"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:110
-msgid "PACKBITS"
-msgstr "PACKBITS"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:111
-msgid "LZW"
-msgstr "LZW"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:122
-msgid "Overview levels"
-msgstr "Уровни пирамид"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:152
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:124
-msgid "The GxCatalog is undefined type (not inherited from IGxObjectContainer)"
-msgstr "Не определенный тип GxCatalog (неунаследовано от IGxObjectContainer)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:159
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:131
-#, c-format
-msgid "There is no GxObject for path %s"
-msgstr "Отсутствует GxObject по пути %s"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:166
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:138
-#, c-format
-msgid "The input path is not GxDataset (Path %s)"
-msgstr "Входной путь не является объектом GxDataset (Путь %s)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:173
-#, c-format
-msgid "The input path is not RasterDataset (Path %s)"
-msgstr "Входной путь не является объектом RasterDataset (Путь %s)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:181
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:153
-#, c-format
-msgid "Failed open input path: %s"
-msgstr "Ошибка открытия входного пути: %s"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:203
-msgid "The levels list is empty"
-msgstr "Список уровней пуст"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpcreateovrtool.cpp:303
-#, c-format
-msgid "BuildOverviews failed! GDAL error: %s"
-msgstr "BuildOverviews завершилось неудачно! Ошибка GDAL: %s"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:46
-msgid "Export vector file (single)"
-msgstr "Экспорт векторного файла (одного)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:56
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:55
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:58
-msgid "Conversion Tools/Vector"
-msgstr "Инструменты преобразования/Вектор"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:66
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:65
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:68
-msgid "Source feature class"
-msgstr "Исходный класс пространственных объектов"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:90
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:79
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:92
-msgid "Destination feature class"
-msgstr "Конечный класс пространственных объектов"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:157
-msgid "Cannot export to the same format"
-msgstr "Невозможно экспортировать в тот же формат"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:190
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:136
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:167
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:246
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:259
-msgid "Error get source object"
-msgstr "Ошибка получения исходного объекта"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:198
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:144
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:175
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:254
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:267
-msgid "The source object is of incompatible type"
-msgstr "Исходный объект несовместимого типа"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:206
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:152
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:183
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:263
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:275
-msgid "The source dataset is of incompatible type"
-msgstr "Исходный набор данных несовместимого типа"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:217
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:163
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:194
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:274
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:286
-msgid "Error reading dataset definition"
-msgstr "Ошибка чтения определения набора данных"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpexporttool.cpp:245
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:188
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:273
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:240
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:310
-msgid "Error getting selected destination filter"
-msgstr "Ошибка получения выбранного фильтра"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpgeomverttoptstool.cpp:45
-msgid "Geometry Vertices To Points"
-msgstr "Вершины геометрии в точки"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:47
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:47
 msgid "Create Ortho-Corrected Raster"
 msgstr "Создать ортокорректированный растр"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:82
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:82
 msgid "Destination raster"
 msgstr "Выходной растр"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:98
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:98
 msgid "Output raster interpolation"
 msgstr "Интерполяция выходного растра"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:104
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:104
 msgid "Nearest neighbour (select on one input pixel)"
 msgstr "Ближайший сосед (выбор одного из входных пикселов)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:105
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:105
 msgid "Bilinear (2x2 kernel)"
 msgstr "Билиненая (маска 2x2)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:106
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:106
 msgid "Cubic Convolution Approximation (4x4 kernel)"
 msgstr "Кубическая апроксимация (маска 4х4)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:107
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:107
 msgid "Cubic B-Spline Approximation (4x4 kernel)"
 msgstr "Кубическая B-Spline апроксимация (маска 4x4)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:108
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:108
 msgid "Lanczos windowed sinc interpolation (6x6 kernel)"
 msgstr "Интерполяция Lanczos (маска 6х6)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:118
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:118
 msgid "DEM raster"
 msgstr "Растр ЦМР"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:132
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:132
 msgid "Constant elevation value or base value to the DEM"
 msgstr "Постоянная высота или базовое значение относительно ЦМР"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:143
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:143
 msgid "Scaling factor to convert elevation values"
 msgstr "Параметр масштабирования для пересчета высот"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:154
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:154
 msgid "Elevation values interpolation"
 msgstr "Интерполяция значений высот"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:160
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:160
 msgid "Nearest Neighbour"
 msgstr "Ближайший сосед"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:161
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:161
 msgid "Bilinear"
 msgstr "Билинейная"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:172
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:162
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:87
+msgid "Cubic"
+msgstr "Кубическая"
+
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:172
 msgid "Geoid correction"
 msgstr "Коррекция геоида"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:260
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:219
-msgid "Error get destination object"
-msgstr "Ошибка получения выходного объекта"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:301
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:301
 msgid "The raster has no bands"
 msgstr "Растр без каналов"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:321
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:321
 msgid ""
 "Error getting output Spatial Reference (input Spatial Reference undefined)"
 msgstr ""
 "Ошибка получения выходной системы координат (входная система координат не "
 "определена)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:370
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:370
 #, c-format
 msgid "Error getting geoid correction. PROJ4 error: %s"
 msgstr "Ошибка получения коррекции геоида! Ошибка PROJ4: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:375
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:375
 #, c-format
 msgid "Geoid correction value set to %.3f m"
 msgstr "Коррекция геоида установлена в %.3f м"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:407
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:407
 #, c-format
 msgid "Error CreateGenImgProjTransformer. GDAL Error: %s"
 msgstr "Ошибка CreateGenImgProjTransformer. Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:419
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:419
 #, c-format
 msgid "Error determining output raster size. GDAL Error: %s"
 msgstr "Ошибка определение размера выходого растра. Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:433
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:433
 #, c-format
 msgid "Error creating output raster. GDAL Error: %s"
 msgstr "Ошибка создания выходного растра. Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:479
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:479
 #, c-format
 msgid "The dfWarpMemoryLimit set to %f Mb"
 msgstr "Значение  dfWarpMemoryLimit установлено %f Мб"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:516
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:516
 msgid "Using internal nodata values (eg. nan) for source image"
 msgstr ""
 "Использование внутренних значений нет данных (т.е. nan) для входного "
 "изображения"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:522
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:522
 #, c-format
 msgid "Using internal nodata values (eg. %g) for source image"
 msgstr ""
 "Использование внутренних значений нет данных (т.е. %g) для входного "
 "изображения"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:592
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:598
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:592
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:598
 #, c-format
 msgid ""
 "For band %d, destination nodata value has been clamped to %.0f, the original "
@@ -403,307 +485,236 @@ msgstr ""
 "Для канала %d выходное значение нет данных установлено в %.0f, оригинальное "
 "значение выходит за допустимый предел"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gporthocorrecttool.cpp:615
+#: ../../../src/geoprocessing/gporthocorrecttool.cpp:615
 #, c-format
 msgid "OrthoCorrect failed! GDAL error: %s"
 msgstr "OrthoCorrect завершилось неудачно! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:48
-msgid "Project vector file (single)"
-msgstr "Проецирование векторного файла (одного)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:58
-msgid "Projections and Transformations/Vector"
-msgstr "Проекции и преобразования/Вектор"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:82
-msgid "Spatial reference"
-msgstr "Система координат"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:204
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpprojecttool.cpp:215
-msgid "Unsupported Spatial Reference"
-msgstr "Система координат не поддерживается"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:34
-msgid "Source vector dataset open failed"
-msgstr "Не удалось открыть входной векторный источник данных"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:44
-msgid "Source raster dataset open failed"
-msgstr "Не удалось открыть входной растровый источник данных"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:59
-#, c-format
-msgid "Create OGRCreateCoordinateTransformation failed! GDAL error: %s"
-msgstr "Не удалось создать OGRCreateCoordinateTransformation! Ошибка GDAL: %s"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:70
-#, c-format
-msgid "Start clip '%s' by geometry from '%s'"
-msgstr "Начало обрезки '%s' геометрией из '%s'"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:86
-msgid "Input file has no bands, and so cannot be translated."
-msgstr "Входной файл не содержит каналов и не может быть преобразован"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:101
-#, c-format
-msgid "Band %d requested, but only bands 1 to %d available."
-msgstr "Запрошен канал %d, но доступны только каналы 1 - %d"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:122
-#, c-format
-msgid "Output driver '%s' not recognised."
-msgstr "Выходной драйвер '%s' не определяется."
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:135
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:102
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:294
-msgid "Interrupted by user"
-msgstr "Прервано пользователем"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:206
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:215
-msgid "Get raster failed"
-msgstr "Не удалось получить растр"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:221
-msgid "The geotransform is rotated. This configuration is not supported."
-msgstr "Матрица трансформирования повернута. Конфигурация не поддерживается."
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:231
-#, c-format
-msgid "Computed source pixel window %d %d %d %d from geographic window."
-msgstr "Рассчитанное выходное окно %d %d %d %d из географических координат."
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:236
-#, c-format
-msgid "Computed source pixel window falls outside raster size of %dx%d."
-msgstr "Рассчитанное выходное окно выходит за границы растра %dx%d."
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpraster.cpp:463
-msgid "GDALFlushCache failed!"
-msgstr "Ошибка GDALFlushCache!"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:48
-msgid "Write shapes coordinates to text file"
-msgstr "Записать координаты фигур в текстовый файл"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:68
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:66
-msgid "Source table"
-msgstr "Исходная таблица"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:82
-msgid "Coordinates format mask to write to text file"
-msgstr "Шаблон вывода координат для записи в текстовый файл"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:134
-msgid "Swap XY coordinates"
-msgstr "Поменять местами координаты XY"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:145
-msgid "Destination text file"
-msgstr "Выходной текстовый файл"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:151
-msgid "Text file"
-msgstr "Текстовый файл"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpshapetotexttool.cpp:284
-msgid "Invalid format mask"
-msgstr "Не правильный шаблон"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:44
-msgid "Create subraster by vector cutline"
-msgstr "Поучение области растра по векторной границе"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:64
-msgid "Source vector"
-msgstr "Исходный векторный файл"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:92
-msgid "Destination folder"
-msgstr "Выходной каталог"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:163
-msgid "Error getting source vector object"
-msgstr "Ошибка получения исходного ветороного файла"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:181
-msgid "Source vector dataset is of incompatible type"
-msgstr "Исходный набор веторных данных несовместимого типа"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:191
-msgid "Error getting source raster object"
-msgstr "Ошибка получения исходного растра"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsubrasterbyvectortool.cpp:209
-msgid "Source raster dataset is of incompatible type"
-msgstr "Исходный набор растровых данных несовместимого типа"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:46
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:46
 msgid "Calculate mean column data"
 msgstr "Рассчитать среднее значение поля"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:56
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:56
 msgid "Statistics Tools/Table"
 msgstr "Статистические инструменты/Таблица"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:81
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:81
 msgid "Source fields and operations"
 msgstr "Исходные поля и операции"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:84
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:84
 msgid "Field name"
 msgstr "Имя поля"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:85
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:85
 msgid "Operation"
 msgstr "Операция"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:92
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:92
 msgid "Destination table"
 msgstr "Выходная таблица"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:145
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:124
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:152
+msgid "The GxCatalog is undefined type (not inherited from IGxObjectContainer)"
+msgstr "Не определенный тип GxCatalog (неунаследовано от IGxObjectContainer)"
+
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:131
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:159
+#, c-format
+msgid "There is no GxObject for path %s"
+msgstr "Отсутствует GxObject по пути %s"
+
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:138
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:166
+#, c-format
+msgid "The input path is not GxDataset (Path %s)"
+msgstr "Входной путь не является объектом GxDataset (Путь %s)"
+
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:145
 #, c-format
 msgid "The input path is not wxGISTable (Path %s)"
 msgstr "Входной файл не является wxGISTable (Путь %s)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:162
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:153
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:181
+#, c-format
+msgid "Failed open input path: %s"
+msgstr "Ошибка открытия входного пути: %s"
+
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:162
 #, c-format
 msgid "Failed get table structure (Path %s)"
 msgstr "Невозможно получить структуру таблицы (Путь %s)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:192
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:192
 msgid "Exclude field"
 msgstr "Исключить поле"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:193
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:193
 msgid "Base field"
 msgstr "Базовое поле"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:194
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:194
 msgid "Mean value"
 msgstr "Среднее значение"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:195
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:195
 msgid "Minimum value"
 msgstr "Максимальное значение"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:196
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:196
 msgid "Maximum value"
 msgstr "Минимальное значение"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:197
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:197
 msgid "Sum of values"
 msgstr "Сумма значений"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpsumtabletool.cpp:222
+#: ../../../src/geoprocessing/gpsumtabletool.cpp:222
 #, c-format
 msgid "The base field count should be 1 (current count is %d)"
 msgstr "Количество базовых полей должно быть равно 1 (текущее количество %d)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:30
+#: ../../../src/geoprocessing/gpraster.cpp:34
+msgid "Source vector dataset open failed"
+msgstr "Не удалось открыть входной векторный источник данных"
+
+#: ../../../src/geoprocessing/gpraster.cpp:44
+msgid "Source raster dataset open failed"
+msgstr "Не удалось открыть входной растровый источник данных"
+
+#: ../../../src/geoprocessing/gpraster.cpp:59
 #, c-format
-msgid "The driver '%s' is not available! OGR error: "
-msgstr "Драйвер '%s' недоступен! Ошибка OGR: "
+msgid "Create OGRCreateCoordinateTransformation failed! GDAL error: %s"
+msgstr "Не удалось создать OGRCreateCoordinateTransformation! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:41
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1732
+#: ../../../src/geoprocessing/gpraster.cpp:70
 #, c-format
-msgid "Error create the output file '%s'! OGR error: "
-msgstr "Ошибка создания выходного файла '%s'! Ошибка OGR: "
+msgid "Start clip '%s' by geometry from '%s'"
+msgstr "Начало обрезки '%s' геометрией из '%s'"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:52
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1756
-msgid "Layer_"
-msgstr "Слой_"
+#: ../../../src/geoprocessing/gpraster.cpp:86
+msgid "Input file has no bands, and so cannot be translated."
+msgstr "Входной файл не содержит каналов и не может быть преобразован"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:59
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:71
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1804
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1861
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1904
+#: ../../../src/geoprocessing/gpraster.cpp:101
 #, c-format
-msgid "Error create the output layer '%s'! OGR error: "
-msgstr "Ошибка создания выходного слоя '%s'! Ошибка OGR: "
+msgid "Band %d requested, but only bands 1 to %d available."
+msgstr "Запрошен канал %d, но доступны только каналы 1 - %d"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:96
+#: ../../../src/geoprocessing/gpraster.cpp:122
 #, c-format
-msgid ""
-"Calculate mean values for columns. Source dataset %s. Destination dataset %s"
-msgstr ""
-"Расчитать среднее значение колонок. Исходный источник %s. Выходной источник "
-"%s"
+msgid "Output driver '%s' not recognised."
+msgstr "Выходной драйвер '%s' не определяется."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptable.cpp:114
-msgid "Error creating new dataset! OGR error: "
-msgstr "Ошибка создания нового набора данных! Ошибка OGR: "
+#: ../../../src/geoprocessing/gpraster.cpp:135
+#: ../../../src/geoprocessing/gpvector.cpp:102
+#: ../../../src/geoprocessing/gpvector.cpp:294
+msgid "Interrupted by user"
+msgstr "Прервано пользователем"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:73
-msgid "Remains "
-msgstr "Осталось "
+#: ../../../src/geoprocessing/gpraster.cpp:206
+#: ../../../src/geoprocessing/gpraster.cpp:215
+msgid "Get raster failed"
+msgstr "Не удалось получить растр"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:73
-msgid "%H hour(s) %M min. %S sec."
-msgstr "%H час. %M мин. %S сек."
+#: ../../../src/geoprocessing/gpraster.cpp:221
+msgid "The geotransform is rotated. This configuration is not supported."
+msgstr "Матрица трансформирования повернута. Конфигурация не поддерживается."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:150
+#: ../../../src/geoprocessing/gpraster.cpp:231
 #, c-format
-msgid "Create %s object failed!"
-msgstr "Не удалось создать объект %s!"
+msgid "Computed source pixel window %d %d %d %d from geographic window."
+msgstr "Рассчитанное выходное окно %d %d %d %d из географических координат."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:266
+#: ../../../src/geoprocessing/gpraster.cpp:236
 #, c-format
-msgid "Executing (%s)"
-msgstr "Выполнение (%s)"
+msgid "Computed source pixel window falls outside raster size of %dx%d."
+msgstr "Рассчитанное выходное окно выходит за границы растра %dx%d."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:269
-msgid "Parameters:"
-msgstr "Параметры:"
+#: ../../../src/geoprocessing/gpraster.cpp:463
+msgid "GDALFlushCache failed!"
+msgstr "Ошибка GDALFlushCache!"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:279
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:44
+msgid "Create overviews"
+msgstr "Создать пирамиды"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:78
+msgid "Pixel interpolation"
+msgstr "Интерполяция пикселов"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:85
+msgid "Nearest"
+msgstr "Ближайшее"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:86
+msgid "Gauss"
+msgstr "Гаусс"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:88
+msgid "Average"
+msgstr "Среднее"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:89
+msgid "Mode"
+msgstr "Мода"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:90
+msgid "Average magphase"
+msgstr "Средневзвешенное"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:91
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:112
+msgid "None"
+msgstr "Нет"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:101
+msgid "Overview compression"
+msgstr "Сжатие пирамид"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:108
+msgid "ZIP"
+msgstr "ZIP"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:109
+msgid "JPEG"
+msgstr "JPEG"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:110
+msgid "PACKBITS"
+msgstr "PACKBITS"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:111
+msgid "LZW"
+msgstr "LZW"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:122
+msgid "Overview levels"
+msgstr "Уровни пирамид"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:173
 #, c-format
-msgid "Start Time: %s"
-msgstr "Начало: %s"
+msgid "The input path is not RasterDataset (Path %s)"
+msgstr "Входной путь не является объектом RasterDataset (Путь %s)"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:303
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:203
+msgid "The levels list is empty"
+msgstr "Список уровней пуст"
+
+#: ../../../src/geoprocessing/gpcreateovrtool.cpp:303
 #, c-format
-msgid "An error occured while executing %s. Failed to execute (%s)."
-msgstr "Ошибка в процессе выполнения %s. Невозможно выполнить (%s)."
+msgid "BuildOverviews failed! GDAL error: %s"
+msgstr "BuildOverviews завершилось неудачно! Ошибка GDAL: %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:304
-msgid "Error!"
-msgstr "Ошибка!"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:308
-#, c-format
-msgid "Executed (%s) successfully"
-msgstr "Выполнение (%s) успешно завершено"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:309
-msgid "Done"
-msgstr "Завершено"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:313
-#, c-format
-msgid "End Time: %s (Elapsed Time: %s)"
-msgstr "Окончание: %s (Заняло: %s)"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gptoolmngr.cpp:313
-msgid "%H hours %M min. %S sec."
-msgstr "%H час. %M мин. %S сек."
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:63
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:221
+#: ../../../src/geoprocessing/gpvector.cpp:63
+#: ../../../src/geoprocessing/gpvector.cpp:221
 msgid "Input dataset is corrupt"
 msgstr "Входные данные повреждены"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:167
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:443
+#: ../../../src/geoprocessing/gpvector.cpp:167
+#: ../../../src/geoprocessing/gpvector.cpp:444
 #, c-format
 msgid ""
 "Error create feature!\n"
@@ -714,7 +725,7 @@ msgstr ""
 "Идентификатор записи:%ld\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:370
+#: ../../../src/geoprocessing/gpvector.cpp:370
 #, c-format
 msgid ""
 "Geometry transform failed\n"
@@ -723,14 +734,14 @@ msgstr ""
 "Ошибка преобразования геометрий\n"
 "Идентификатор записи %ld"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:475
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:575
+#: ../../../src/geoprocessing/gpvector.cpp:476
+#: ../../../src/geoprocessing/gpvector.cpp:576
 #, c-format
 msgid "Start copy records from '%s' to '%s'"
 msgstr "Начало копирования записей из '%s' в '%s'"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:479
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:579
+#: ../../../src/geoprocessing/gpvector.cpp:480
+#: ../../../src/geoprocessing/gpvector.cpp:580
 #, c-format
 msgid ""
 "Start copy records from '%s' to '%s'\n"
@@ -739,13 +750,13 @@ msgstr ""
 "Начало копирования записей из '%s' в '%s'\n"
 "WHERE %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:487
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:591
+#: ../../../src/geoprocessing/gpvector.cpp:488
+#: ../../../src/geoprocessing/gpvector.cpp:592
 msgid "No records to export"
 msgstr "Нет записей для экспорта"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:496
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:600
+#: ../../../src/geoprocessing/gpvector.cpp:497
+#: ../../../src/geoprocessing/gpvector.cpp:601
 msgid ""
 "Error creating new dataset!\n"
 "OGR error: "
@@ -753,10 +764,10 @@ msgstr ""
 "Ошибка создания нового набора данных!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:513
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:537
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:617
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:641
+#: ../../../src/geoprocessing/gpvector.cpp:514
+#: ../../../src/geoprocessing/gpvector.cpp:538
+#: ../../../src/geoprocessing/gpvector.cpp:618
+#: ../../../src/geoprocessing/gpvector.cpp:642
 msgid ""
 "Error copying data to a new dataset!\n"
 "OGR error: "
@@ -764,54 +775,54 @@ msgstr ""
 "Ошибка копирования данных в новый набор!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:562
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:688
+#: ../../../src/geoprocessing/gpvector.cpp:563
+#: ../../../src/geoprocessing/gpvector.cpp:689
 msgid "Overwrite failed"
 msgstr "Не удалось перезаписать"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:664
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:716
+#: ../../../src/geoprocessing/gpvector.cpp:665
+#: ../../../src/geoprocessing/gpvector.cpp:717
 #, c-format
 msgid "Exporting %s to %s"
 msgstr "Экспорт %s в %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:670
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:745
+#: ../../../src/geoprocessing/gpvector.cpp:671
+#: ../../../src/geoprocessing/gpvector.cpp:746
 msgid "Error read dataset definition"
 msgstr "Ошибка чтения определения набора данных"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:681
+#: ../../../src/geoprocessing/gpvector.cpp:682
 msgid "Get features..."
 msgstr "Получение записей..."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:723
+#: ../../../src/geoprocessing/gpvector.cpp:724
 msgid "Input spatial reference is not defined!"
 msgstr "Не задана исходная система координат!"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:776
+#: ../../../src/geoprocessing/gpvector.cpp:777
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:833
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:917
+#: ../../../src/geoprocessing/gpvector.cpp:834
+#: ../../../src/geoprocessing/gpvector.cpp:918
 msgid "Remove field 'ogc_fid' from input data"
 msgstr "Удаление поля 'ogc_fid' из входных данных"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:861
+#: ../../../src/geoprocessing/gpvector.cpp:862
 #, c-format
 msgid "Check if features geometry is the type of %s"
 msgstr "Проверка типа геометрии %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:892
+#: ../../../src/geoprocessing/gpvector.cpp:893
 #, c-format
 msgid "Force geometry field to %s"
 msgstr "Преобразование поля геометрии к %s"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1663
+#: ../../../src/geoprocessing/gpvector.cpp:1664
 msgid "Input data is invalid: unsuported filter"
 msgstr "Неверные входные данные: фильтр не поддерживается"
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1672
+#: ../../../src/geoprocessing/gpvector.cpp:1673
 #, c-format
 msgid ""
 "The driver '%s' is not available!\n"
@@ -820,50 +831,40 @@ msgstr ""
 "Драйвер '%s' недоступен!\n"
 "Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1699
+#: ../../../src/geoprocessing/gpvector.cpp:1700
 msgid "Datasource open failed! OGR error: "
 msgstr "Не удалось открыть источник данных! Ошибка OGR: "
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1820
+#: ../../../src/geoprocessing/gpvector.cpp:1821
 msgid "DXF layer does not support arbitrary field creation."
 msgstr "Слой DXF не поддерживает создание полей."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1850
+#: ../../../src/geoprocessing/gpvector.cpp:1851
 msgid "Unsupported type for shape file - OFTTime. Change to OFTString."
 msgstr ""
 "Тип данных OFTTime не поддерживается файлом ESRI shape. Изменен на OFTString."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/gpvector.cpp:1895
+#: ../../../src/geoprocessing/gpvector.cpp:1896
 msgid "Unsupported type for dbf file - OFTTime. Change to OFTString."
 msgstr "Тип данных OFTTime не поддерживается файлом dbf. Изменен на OFTString."
 
-#: D:\work\Projects\wxGIS\src\geoprocessing/tskmngr.cpp:119
-#, c-format
-msgid "Error (%d): %s"
-msgstr "Ошибка (%d): %s"
-
-#: D:\work\Projects\wxGIS\src\geoprocessing/tskmngr.cpp:215
-#, c-format
-msgid "Task Manager Server start failed. Path '%s'"
-msgstr "Не удалось запустить сервер менеждера задач. Путь '%s'"
-
-#: D:\work\Projects\wxGIS\include\wxgis\geoprocessing/geoprocessing.h:26
+#: ../../../include/wxgis/geoprocessing/geoprocessing.h:26
 msgid "Conversion Tools"
 msgstr "Инструменты преобразования"
 
-#: D:\work\Projects\wxGIS\include\wxgis\geoprocessing/geoprocessing.h:27
+#: ../../../include/wxgis/geoprocessing/geoprocessing.h:27
 msgid "Vector"
 msgstr "Вектор"
 
-#: D:\work\Projects\wxGIS\include\wxgis\geoprocessing/geoprocessing.h:28
+#: ../../../include/wxgis/geoprocessing/geoprocessing.h:28
 msgid "Data Management Tools"
 msgstr "Управление данными"
 
-#: D:\work\Projects\wxGIS\include\wxgis\geoprocessing/geoprocessing.h:29
+#: ../../../include/wxgis/geoprocessing/geoprocessing.h:29
 msgid "Raster"
 msgstr "Растр"
 
-#: D:\work\Projects\wxGIS\include\wxgis\geoprocessing/geoprocessing.h:30
+#: ../../../include/wxgis/geoprocessing/geoprocessing.h:30
 msgid "Statistics Tools"
 msgstr "Статистические инструменты"
 

@@ -180,7 +180,9 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
             pCat->ObjectRefreshed(GetId());
             pCat->ObjectChanged(GetId());
         }
-        wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
+        const char* err = CPLGetLastErrorMsg();
+        wxString sErr = wxString::Format(_("Operation '%s' failed!\nGDAL error: %s"), wxString(_("Connect")), wxString(err, wxConvLocal).c_str());
+        wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK);
     }
 
     //else do nothing

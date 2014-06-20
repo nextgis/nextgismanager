@@ -1133,7 +1133,7 @@ wxString wxGISCatalogMainCmd::GetToolLabel(void)
 	switch(m_subtype)
 	{
 		case 3:
-			return wxString(_("Path:   "));
+			return wxString(_("Path")) + wxString(wxT(": "));
 		default:
 			return wxEmptyString;
 	}
