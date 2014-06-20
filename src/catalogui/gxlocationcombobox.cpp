@@ -98,7 +98,7 @@ void wxGxPathsListView::OnMouseMove(wxMouseEvent& event)
         SetItemState(m_HighLightItem, wxGIS_LIST_STATE_DROPHILITED, wxGIS_LIST_STATE_DROPHILITED);
 
     }
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGxPathsListView::OnMouseClick(wxMouseEvent& event)
@@ -111,7 +111,7 @@ void wxGxPathsListView::OnMouseClick(wxMouseEvent& event)
 	{
         SetItemState(nItemId, wxGIS_LIST_STATE_DROPHILITED, wxGIS_LIST_STATE_DROPHILITED);
     }
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGxPathsListView::Append(const wxString& sFullName)
@@ -306,7 +306,7 @@ wxString wxListViewComboPopup::GetStringValue() const
 
 void wxListViewComboPopup::OnMouseClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     //SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
     wxPoint pt = event.GetPosition();
 	unsigned long nFlags(0);
@@ -496,6 +496,8 @@ void wxGxPathsListViewPopup::OnMouseWheel(wxMouseEvent& event)
     //m_pGxPathsListView->ScrollLines(event.GetWheelRotation());
     int nAdd = event.GetWheelRotation() / -6;
     m_pGxPathsListView->ScrollList(0, nAdd);
+
+    event.Skip(true);
 }
 
 
@@ -840,7 +842,7 @@ void wxGxLocationComboBox::OnMouseWheel(wxMouseEvent& event)
 
 void wxGxLocationComboBox::OnMouseDblClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     //select last dir
     wxString sPath = GetValue();
     int nPos = sPath.Find(wxFileName::GetPathSeparator(), true);

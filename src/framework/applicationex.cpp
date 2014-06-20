@@ -269,6 +269,7 @@ void wxGISApplicationEx::ShowApplicationWindow(wxWindow* pWnd, bool bShow)
 bool wxGISApplicationEx::CreateApp(void)
 {
 	m_mgr.SetManagedWindow(this);
+	m_mgr.SetFlags(wxAUI_MGR_DEFAULT | wxAUI_MGR_ALLOW_ACTIVE_PANE | wxAUI_MGR_TRANSPARENT_DRAG);
 
     wxGISApplication::CreateApp();
 

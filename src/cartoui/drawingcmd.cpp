@@ -82,12 +82,12 @@ wxIcon wxGISDrawingTool::GetBitmap(void)
         if (!m_IconLine.IsOk())
             m_IconLine = wxIcon(line_xpm);
         return m_IconLine;
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
         if (!m_IconCurve.IsOk())
             m_IconCurve = wxIcon(curve_xpm);
         return m_IconCurve;
-#endif // wxGIS_USE_SPLINE   
+#endif // wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         if (!m_IconFreeHand.IsOk())
             m_IconFreeHand = wxIcon(freehand_xpm);
@@ -117,7 +117,7 @@ wxString wxGISDrawingTool::GetCaption(void)
         return wxString(_("Polygon"));
     case enumGISDrawingToolLine://
         return wxString(_("Line"));
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
         return wxString(_("Curve"));
 #endif //wxGIS_USE_SPLINE
@@ -142,9 +142,9 @@ wxString wxGISDrawingTool::GetCategory(void)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
     case enumGISDrawingToolLayerSelector://
     case enumGISDrawingToolLayerClear://
@@ -182,7 +182,7 @@ bool wxGISDrawingTool::GetEnabled(void)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
 #endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
@@ -193,7 +193,7 @@ bool wxGISDrawingTool::GetEnabled(void)
             wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
             m_pMapView = wxDynamicCast(pWnd, wxGISDrawingMapView);
             if (m_pMapView && m_pMapView->IsShownOnScreen())
-                return m_pMapView->GetCurrentDrawingLayer() != wxNOT_FOUND;//m_pMapView->HasLayerType(enumGISDrawing) && 
+                return m_pMapView->GetCurrentDrawingLayer() != wxNOT_FOUND;//m_pMapView->HasLayerType(enumGISDrawing) &&
         }
         return false;
     default:
@@ -212,9 +212,9 @@ wxGISEnumCommandKind wxGISDrawingTool::GetKind(void)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif // wxGIS_USE_SPLINE        
+#endif // wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         return enumGISCommandCheck;
     case enumGISDrawingToolLayerSelector://
@@ -241,10 +241,10 @@ wxString wxGISDrawingTool::GetMessage(void)
         return wxString(_("The tool to draw polygon"));
     case enumGISDrawingToolLine://
         return wxString(_("The tool to draw line"));
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
         return wxString(_("The tool to draw curve"));
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         return wxString(_("The tool to draw freehand"));
     case enumGISDrawingToolLayerSelector://
@@ -266,9 +266,9 @@ void wxGISDrawingTool::OnClick(void)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
     case enumGISDrawingToolLayerSelector://
         break;
@@ -309,10 +309,10 @@ wxString wxGISDrawingTool::GetTooltip(void)
         return wxString(_("Draw polygon"));
     case enumGISDrawingToolLine://
         return wxString(_("Draw line"));
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
         return wxString(_("Draw curve"));
-#endif // wxGIS_USE_SPLINE        
+#endif // wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         return wxString(_("Draw freehand"));
     case enumGISDrawingToolLayerSelector://
@@ -339,9 +339,9 @@ wxCursor wxGISDrawingTool::GetCursor(void)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         if (!m_CurDrawing.IsOk())
         {
@@ -374,7 +374,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         nWidth = GetDecimalValue(pNode, wxT("width"), nWidth);
     }
 
-    event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolRectangle://
@@ -418,7 +418,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         wxPen oPen(color.GetColour(), nWidth);
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
-                                    
+
         wxGISRubberPolygon RubberPolygon(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberPolygon.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
@@ -431,7 +431,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         wxPen oPen(color.GetColour(), nWidth);
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
-                                    
+
         wxGISRubberLine RubberLine(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberLine.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
@@ -439,13 +439,13 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         m_pMapView->AddShape(Geom, enumGISShapeTypeLine);
         break;
     }
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
     {
         wxPen oPen(color.GetColour(), nWidth);
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
-                                    
+
         wxGISRubberSpline RubberSpline(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberSpline.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
@@ -453,11 +453,11 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         m_pMapView->AddShape(Geom, enumGISShapeTypeCurve);
         break;
     }
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
     {
         wxPen oPen(color.GetColour(), nWidth);
-        oPen.SetCap(wxCAP_ROUND); 
+        oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
 
         wxGISRubberFreeHand RubberFreeHand(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
@@ -474,7 +474,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
 
 void wxGISDrawingTool::OnMouseUp(wxMouseEvent& event)
 {
-    //    event.Skip();
+        event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolMarker://
@@ -483,9 +483,9 @@ void wxGISDrawingTool::OnMouseUp(wxMouseEvent& event)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         break;
     default:
@@ -495,7 +495,7 @@ void wxGISDrawingTool::OnMouseUp(wxMouseEvent& event)
 
 void wxGISDrawingTool::OnMouseMove(wxMouseEvent& event)
 {
-    //event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolRectangle://
@@ -504,9 +504,9 @@ void wxGISDrawingTool::OnMouseMove(wxMouseEvent& event)
     case enumGISDrawingToolEllipse://
     case enumGISDrawingToolPolygon://
     case enumGISDrawingToolLine://
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     case enumGISDrawingToolCurve://
-#endif //wxGIS_USE_SPLINE        
+#endif //wxGIS_USE_SPLINE
     case enumGISDrawingToolFreeHand://
         break;
     default:
@@ -516,7 +516,7 @@ void wxGISDrawingTool::OnMouseMove(wxMouseEvent& event)
 
 void wxGISDrawingTool::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 IToolBarControl* wxGISDrawingTool::GetControl(void)
@@ -721,7 +721,7 @@ void wxGISDrawingToolMenu::SetChecked(bool bCheck)
 
 void wxGISDrawingToolMenu::OnMouseDown(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolMenu:
@@ -734,7 +734,7 @@ void wxGISDrawingToolMenu::OnMouseDown(wxMouseEvent& event)
 
 void wxGISDrawingToolMenu::OnMouseUp(wxMouseEvent& event)
 {
-    //    event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolMenu:
@@ -747,7 +747,7 @@ void wxGISDrawingToolMenu::OnMouseUp(wxMouseEvent& event)
 
 void wxGISDrawingToolMenu::OnMouseMove(wxMouseEvent& event)
 {
-    //event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolMenu:
@@ -760,7 +760,7 @@ void wxGISDrawingToolMenu::OnMouseMove(wxMouseEvent& event)
 
 void wxGISDrawingToolMenu::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     switch (m_subtype)
     {
     case enumGISDrawingToolMenu:
@@ -815,7 +815,7 @@ void wxGISDrawingToolMenu::OnDropDownCommand(int nID)
 {
     wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISDrawingTool"), nID - ID_MENUCMD);
     m_pCurrentTool = wxDynamicCast(pCmd, wxGISDrawingTool);
-    
+
     m_pApp->Command(this);// m_pCurrentTool);
 }
 

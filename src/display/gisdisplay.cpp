@@ -192,7 +192,9 @@ void wxGISDisplay::Output(wxDC* pDC)
 void wxGISDisplay::Output(cairo_surface_t *pSurface, wxDC* pDC)
 {
     cairo_t *cr = CreateContext(pDC);
-        
+    if(cr == NULL)
+        return;
+
 	cairo_set_source_surface (cr, pSurface, 0, 0);
 	cairo_paint (cr);
 
@@ -243,7 +245,7 @@ void wxGISDisplay::ZoomingDraw(const wxRect& rc, wxDC* pDC)
 
 	double dOrigin_X = m_dCacheCenterX - dDCXDelta;
 	double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
-        
+
 #ifdef PROPORTIONAL_ZOOM
     cairo_scale(pCrTmp, dZoom, dZoom);
 #else
@@ -281,7 +283,7 @@ void wxGISDisplay::WheelingDraw(double dZoom, wxDC* pDC)
 		double dDCYDelta = m_dFrameCenterY / dZoom;
 		double dOrigin_X = m_dCacheCenterX - dDCXDelta;
 		double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
-        
+
         cairo_scale(m_cr_tmp, dZoom, dZoom);
 
         cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
@@ -874,7 +876,7 @@ void wxGISDisplay::DrawRaster(cairo_surface_t *surface, const OGREnvelope& Envel
         //TODO:
 		//SetLineWidth( m_dLineWidth );
         //SetColor(m_FillColour);
-		
+
         cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MinX, Envelope.MinY);
 		cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MaxX, Envelope.MinY);
 		cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MaxX, Envelope.MaxY);

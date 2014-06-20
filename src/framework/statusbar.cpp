@@ -213,7 +213,7 @@ void wxGISStatusBar::OnTimer( wxTimerEvent& event )
 
 void wxGISStatusBar::OnRightDown(wxMouseEvent& event)
 {
-	event.Skip();
+	event.Skip(true);
 	m_pApp->ShowToolBarMenu();
 }
 

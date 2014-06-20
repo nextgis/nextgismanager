@@ -65,7 +65,7 @@ wxGxMapView::wxGxMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, co
 wxGxMapView::~wxGxMapView(void)
 {
 }
-    
+
 bool wxGxMapView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     m_pStatusBar = NULL;
@@ -157,7 +157,7 @@ bool wxGxMapView::Applies(wxGxSelection* const Selection)
 void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
 	wxCHECK_RET(event.GetSelection(), wxT("the selection pointer is NULL"));
-    
+
     if(!Applies(event.GetSelection()))
         return;
 
@@ -183,7 +183,7 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
                 }
             }
         }
-        
+
         if(bIsCached)
             return;
     }
@@ -203,7 +203,7 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
             }
         }
     }
-    	
+
     LoadData(nLastSelID);
 }
 
@@ -271,7 +271,7 @@ void wxGxMapView::LoadLayer(wxGxDataset* const pGxDataset)
 void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
 {
     wxCHECK_RET(pGxDataset, wxT("Input wxGxDataset pointer is NULL"));
-    
+
     wxVector<wxGISLayer*> paLayers;
     wxBusyCursor wait;
     if(pGxDataset->HasChildren())
@@ -340,7 +340,7 @@ void wxGxMapView::LoadData(long nGxObjectId)
     else
         return;
 
-    m_nParentGxObjectID = pGxObject->GetId();    
+    m_nParentGxObjectID = pGxObject->GetId();
 
     SetFullExtent();
 
@@ -361,28 +361,24 @@ void wxGxMapView::OnMouseMove(wxMouseEvent& event)
 
 	if(m_pApp)
 		m_pApp->OnMouseMove(event);
-	event.Skip();
 }
 
 void wxGxMapView::OnMouseDown(wxMouseEvent& event)
 {
 	if(m_pApp)
 		m_pApp->OnMouseDown(event);
-	event.Skip();
 }
 
 void wxGxMapView::OnMouseUp(wxMouseEvent& event)
 {
 	if(m_pApp)
 		m_pApp->OnMouseUp(event);
-	event.Skip();
 }
 
 void wxGxMapView::OnMouseDoubleClick(wxMouseEvent& event)
 {
 	if(m_pApp)
 		m_pApp->OnMouseDoubleClick(event);
-	event.Skip();
 }
 
 
@@ -518,6 +514,6 @@ void wxGxMapView::CheckOverviews(wxGISDatasetSPtr pwxGISDataset, wxString soFile
                 pwxGISRasterDataset->SetHasOverviews(true);
         }
     }
-	
+
 }
 */

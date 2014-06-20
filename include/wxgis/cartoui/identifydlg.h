@@ -50,7 +50,7 @@
 #include <wx/imaglist.h>
 
 /** @class wxIdentifyTreeItemData
- 
+
     The identify tree item data
 
     @library{cartoui}
@@ -83,7 +83,7 @@ typedef struct _fieldsortdata
 } FIELDSORTDATA, *LPFIELDSORTDATA;
 
 /** @class wxGISFeatureDetailsPanel
- 
+
     The wxGISFeatureDetailsPanel class show feature fields and values
 
     @library{cartoui}
@@ -106,8 +106,8 @@ class wxGISFeatureDetailsPanel : public wxPanel
 public:
 	wxGISFeatureDetailsPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
 	virtual ~wxGISFeatureDetailsPanel();
-	virtual void FillPanel(const OGRPoint *pPt);
-	virtual void FillPanel(wxGISFeature &Feature);
+	virtual void SetClickPositionText(const OGRPoint *pPt);
+	virtual void FillPanel(const wxGISFeature &Feature);
 	virtual void Clear(bool bFull = false);
 	//events
 	virtual void OnContextMenu(wxContextMenuEvent& event);

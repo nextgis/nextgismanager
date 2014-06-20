@@ -75,11 +75,12 @@ wxGISGeometry wxGISRubberBand::TrackNew(wxCoord x, wxCoord y)
 	while(loop->IsRunning())
 	{
 		loop->Dispatch();
-		if(!m_bLock) 
+		if(!m_bLock)
             break;
 	}
 	m_pWnd->PopEventHandler();
-	m_pWnd->ReleaseMouse();
+	if( m_pWnd->HasCapture() )
+        m_pWnd->ReleaseMouse();
 	return m_RetGeom;
 }
 
@@ -104,37 +105,37 @@ void wxGISRubberBand::OnKeyDown(wxKeyEvent & event)
 
 void wxGISRubberBand::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnMouseDown(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnMouseUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnLeave(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnEnter(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 void wxGISRubberBand::OnCaptureLost(wxMouseCaptureLostEvent & event)
 {
-	event.Skip();
+	event.Skip(true);
 	if( m_pWnd->HasCapture() )
 		m_pWnd->ReleaseMouse();
 }
@@ -154,7 +155,7 @@ wxGISRubberEnvelope::~wxGISRubberEnvelope()
 
 void wxGISRubberEnvelope::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
 	int EvX = event.GetX(), EvY = event.GetY();
 	int width, height, X, Y;
@@ -175,7 +176,7 @@ void wxGISRubberEnvelope::OnMouseMove(wxMouseEvent& event)
 
 void wxGISRubberEnvelope::OnMouseUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     double dX1 = wxMin(m_StartX, event.GetX());
 	double dY1 = wxMax(m_StartY, event.GetY());
@@ -223,7 +224,7 @@ wxGISRubberCircle::~wxGISRubberCircle()
 
 void wxGISRubberCircle::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
     int width, height;
@@ -244,7 +245,7 @@ void wxGISRubberCircle::OnMouseMove(wxMouseEvent& event)
 
 void wxGISRubberCircle::OnMouseUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     double dX1 = m_StartX;
     double dY1 = m_StartY;
@@ -283,7 +284,7 @@ wxGISRubberEllipse::~wxGISRubberEllipse()
 
 void wxGISRubberEllipse::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
     int width, height, X, Y;
@@ -320,7 +321,7 @@ wxGISRubberFreeHand::~wxGISRubberFreeHand()
 
 void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
     int width, height;
@@ -352,7 +353,7 @@ void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
     CDC.SetBrush(wxBrush(m_oPen.GetColour(), wxTRANSPARENT));
     CDC.SetLogicalFunction(wxOR_REVERSE);
 
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
     if (m_aoPoints.empty())
     {
         CDC.DrawLine(m_StartX, m_StartY, EvX, EvY);
@@ -392,7 +393,7 @@ void wxGISRubberFreeHand::OnMouseMove(wxMouseEvent& event)
 
 void wxGISRubberFreeHand::OnMouseUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     OGRLineString* pLine = new OGRLineString();
     double dX1 = m_StartX;
@@ -432,7 +433,7 @@ wxGISRubberMarker::~wxGISRubberMarker()
 
 void wxGISRubberMarker::OnMouseUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
 
     int EvX = event.GetX(), EvY = event.GetY();
@@ -465,7 +466,7 @@ wxGISRubberLine::~wxGISRubberLine()
 
 void wxGISRubberLine::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
 
@@ -500,7 +501,7 @@ void wxGISRubberLine::OnMouseMove(wxMouseEvent& event)
 
 void wxGISRubberLine::OnMouseDown(wxMouseEvent& event)
 {
-    //event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
     m_aoPoints.push_back(wxPoint(EvX, EvY));
@@ -508,7 +509,7 @@ void wxGISRubberLine::OnMouseDown(wxMouseEvent& event)
 
 void wxGISRubberLine::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     OGRLineString* pLine = new OGRLineString();
     double dX1 = m_StartX;
@@ -547,7 +548,7 @@ wxGISRubberPolygon::~wxGISRubberPolygon()
 
 void wxGISRubberPolygon::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
 
@@ -583,7 +584,7 @@ void wxGISRubberPolygon::OnMouseMove(wxMouseEvent& event)
 
 void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     OGRLinearRing ring;
     double dX1 = m_StartX;
@@ -610,7 +611,7 @@ void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
     OnUnlock();
 }
 
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
 
 //----------------------------------------------------
 // class wxGISRubberSpline
@@ -627,7 +628,7 @@ wxGISRubberSpline::~wxGISRubberSpline()
 
 void wxGISRubberSpline::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 
     int EvX = event.GetX(), EvY = event.GetY();
 
@@ -660,5 +661,5 @@ void wxGISRubberSpline::OnMouseMove(wxMouseEvent& event)
     }
 }
 
-#endif // wxGIS_USE_SPLINE        
+#endif // wxGIS_USE_SPLINE
 

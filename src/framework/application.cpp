@@ -355,7 +355,7 @@ bool wxGISApplication::IsStatusBarShown(void)
 
 void wxGISApplication::OnRightDown(wxMouseEvent& event)
 {
-	event.Skip();
+	event.Skip(true);
 	ShowToolBarMenu();
 }
 

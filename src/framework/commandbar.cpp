@@ -394,7 +394,7 @@ void wxGISToolBar::OnMotion(wxMouseEvent& evt)
     {
 		m_pStatusBar->SetMessage(wxT(""));
     }
-	evt.Skip();
+	evt.Skip(true);
 }
 
 void wxGISToolBar::SetLeftDockable(bool bLDock)

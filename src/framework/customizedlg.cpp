@@ -647,7 +647,7 @@ void wxGISToolBarPanel::OnMoveDown(wxCommandEvent& event)
 
 void wxGISToolBarPanel::OnLeftDown(wxMouseEvent& event)
 {
-	event.Skip();
+	event.Skip(true);
 	wxPoint pt = event.GetPosition();
 	unsigned long nFlags(0);
 	wxTreeItemId nItemId = m_pTreeCtrl->HitTest(pt, (int &)nFlags);

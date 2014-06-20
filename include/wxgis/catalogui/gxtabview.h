@@ -75,7 +75,7 @@ public:
     virtual void OnLeave();
     virtual bool CanPaste(void);
 //events
-	void OnChoice(wxCommandEvent& event);
+	virtual void OnChoice(wxCommandEvent& event);
 	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
 protected:
 	wxVector<wxWindow*> m_pWindows;
@@ -112,11 +112,11 @@ public:
 	wxGxTabView(wxWindow* parent, wxWindowID id = TABCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
 	virtual ~wxGxTabView(void);
     //IView
-    virtual bool Create(wxWindow* parent, wxWindowID id = TABCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("TabView"));
+    virtual bool Create(wxWindow* parent, wxWindowID id = TABCTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL|wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN, const wxString& name = wxT("TabView"));
 	virtual bool Activate(IApplication* const application, wxXmlNode* const pConf);
 	virtual void Deactivate(void);
 //events
-	void OnAUINotebookPageChanged(wxAuiNotebookEvent& event);
+	virtual void OnAUINotebookPageChanged(wxAuiNotebookEvent& event);
 	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
 protected:
 	wxVector<wxGxTab*> m_Tabs;

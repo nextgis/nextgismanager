@@ -58,7 +58,7 @@ bool wxTreeViewComboPopup::Create(wxWindow* parent, wxWindowID id, const wxPoint
 }
 
 void wxTreeViewComboPopup::Init()
-{	
+{
 }
 
 void wxTreeViewComboPopup::OnPopup()
@@ -106,7 +106,7 @@ void wxTreeViewComboPopup::OnMouseMove(wxMouseEvent& event)
     {
         SelectItem(ItemId);
     }
-    //event.Skip();
+    event.Skip(true);
 }
 
 void wxTreeViewComboPopup::OnMouseClick(wxMouseEvent& event)
@@ -139,7 +139,7 @@ void wxTreeViewComboPopup::OnMouseClick(wxMouseEvent& event)
     }
     Dismiss();
 
-    //event.Skip();
+    event.Skip(true);
 }
 
 void wxTreeViewComboPopup::OnSelectionChanged(wxGxSelectionEvent& event)
@@ -284,7 +284,7 @@ wxGxDialogContentView::wxGxDialogContentView(wxWindow* parent, wxWindowID id, co
 }
 
 bool wxGxDialogContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
-{  
+{
     m_HighLightItem = wxNOT_FOUND;
     m_pCatalog = NULL;
     m_bSortAsc = true;
@@ -492,7 +492,7 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 		if(pwxGISCatalogMainCmd->GetKind() == enumGISCommandDropDown)
 			m_toolBar->SetToolDropDown(pwxGISCatalogMainCmd->GetId(), true);
     }
-    
+
     wxGISCatalogViewsCmd* pwxGISCatalogViewsCmd = new wxGISCatalogViewsCmd();
     pwxGISCatalogViewsCmd->OnCreate(this);
     pwxGISCatalogViewsCmd->SetSubType(0);
@@ -527,7 +527,7 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
     nCmdCounter++;
 
     //load accelerators
-    m_pGISAcceleratorTable = new wxGISAcceleratorTable(this);    
+    m_pGISAcceleratorTable = new wxGISAcceleratorTable(this);
 
 	bHeaderSizer->Add( m_toolBar, 0, wxALIGN_CENTER_VERTICAL, 5 );
 
@@ -738,7 +738,7 @@ void wxGxObjectDialog::OnInit()
 
     wxString sLastPath = m_sStartPath;
 	if(sLastPath.IsEmpty())
-	{		
+	{
 		if(oConfig.IsOk())
 			sLastPath = oConfig.Read(enumGISHKCU, GetAppName() + wxString(wxT("/lastpath/path")), m_pCatalog->GetName());
 		else
@@ -795,7 +795,7 @@ void wxGxObjectDialog::AddFilter(wxGxObjectFilter* pFilter, bool bDefault)
 }
 
 void wxGxObjectDialog::RemoveAllFilters(void)
-{    
+{
     if(m_bOwnFilter)
     {
         for(size_t i = 0; i < m_FilterArray.GetCount(); ++i)
@@ -1023,9 +1023,9 @@ wxString wxGxObjectDialog::GetName(void) const
 		{
             wxGxObjectList::compatibility_iterator node = GetChildren().GetFirst();
             if(!node)
-                return wxEmptyString; 
+                return wxEmptyString;
             wxGxObject *current = node->GetData();
-            return current->GetName();            
+            return current->GetName();
 		}
 	}
 	return wxEmptyString;

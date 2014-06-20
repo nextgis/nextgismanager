@@ -169,7 +169,7 @@ bool wxGISCartoMainCmd::GetEnabled(void)
             m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
             if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
                 return true;
-        }			
+        }
         return false;
     case enumGISCartoMainCmdNextExtent:
         for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
@@ -178,7 +178,7 @@ bool wxGISCartoMainCmd::GetEnabled(void)
             m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
             if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pMapView->CanUndo())// && pWnd->HasFocus()
                 return true;
-        }			
+        }
         return false;
     default:
 		return false;
@@ -360,7 +360,7 @@ bool wxGISCartoMainTool::GetEnabled(void)
             }
 		}
 	}
-    
+
     //if(NULL == m_pMapView)
 	//{
  //       wxWindow* pWnd = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxGISMapView));
@@ -387,14 +387,14 @@ bool wxGISCartoMainTool::GetEnabled(void)
         }
         return false;
     case enumGISCartoMainToolIdentify://info
-            for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
+        for(size_t i = 0; i < m_anMapWinIDs.GetCount(); ++i)
         {
             wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i]);
             m_pMapView = wxDynamicCast(pWnd, wxGISMapView);
             if(m_pMapView && m_pMapView->IsShownOnScreen() && m_pIdentifyView)// && pWnd->HasFocus()
                 return true;
         }
-        return false;          
+        return false;
 	default:
 		return false;
 	}
@@ -532,19 +532,19 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
     wxGISColor color(0, 0, 255, 255);
     int nWidth(2);
 
-    event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoMainToolZoomIn:	//z_in
 		{
             if(oConfig.IsOk())
             {
-                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                
+                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));
                 color = GetColorValue( pNode, wxT("color"),color);
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());			
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
             if(!Geom.IsOk())
 				break;
@@ -571,12 +571,12 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 		{
             if(oConfig.IsOk())
             {
-                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                
+                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));
                 color = GetColorValue( pNode, wxT("color"),color);
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());			
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
             if(!Geom.IsOk())
 				break;
@@ -605,20 +605,25 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 		{
             if(oConfig.IsOk())
             {
-                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));                
+                wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, m_pApp->GetAppName() + wxString(wxT("/rabberband")));
                 color = GetColorValue( pNode, wxT("color"),color);
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());			
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
+			if(!m_pIdentifyView)
+                return;
             wxWindow* pWnd = wxStaticCast(m_pIdentifyView, wxWindow);
-            if(!m_pApp->IsApplicationWindowShown(pWnd))
+            if(pWnd)
             {
-                m_pApp->ShowApplicationWindow(pWnd);
+                if(!m_pApp->IsApplicationWindowShown(pWnd))
+                {
+                    m_pApp->ShowApplicationWindow(pWnd);
+                }
             }
-			if(m_pIdentifyView)
-				m_pIdentifyView->Identify(m_pMapView, Geom);
+
+			m_pIdentifyView->Identify(m_pMapView, Geom);
 		}
 		break;
 	default:
@@ -628,7 +633,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 
 void wxGISCartoMainTool::OnMouseUp(wxMouseEvent& event)
 {
-//    event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoMainToolZoomIn:	//z_in
@@ -648,7 +653,7 @@ void wxGISCartoMainTool::OnMouseUp(wxMouseEvent& event)
 
 void wxGISCartoMainTool::OnMouseMove(wxMouseEvent& event)
 {
-    //event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoMainToolZoomIn:	//z_in
@@ -668,7 +673,7 @@ void wxGISCartoMainTool::OnMouseMove(wxMouseEvent& event)
 
 void wxGISCartoMainTool::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 //--------------------------------------------------
@@ -881,7 +886,7 @@ void wxGISCartoFrameTool::SetChecked(bool bCheck)
 
 void wxGISCartoFrameTool::OnMouseDown(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoFrameToolRotate:	//rotate
@@ -894,7 +899,7 @@ void wxGISCartoFrameTool::OnMouseDown(wxMouseEvent& event)
 
 void wxGISCartoFrameTool::OnMouseUp(wxMouseEvent& event)
 {
-//    event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoFrameToolRotate:	//rotate
@@ -908,7 +913,7 @@ void wxGISCartoFrameTool::OnMouseUp(wxMouseEvent& event)
 
 void wxGISCartoFrameTool::OnMouseMove(wxMouseEvent& event)
 {
-    //event.Skip();
+    event.Skip(true);
 	switch(m_subtype)
 	{
     case enumGISCartoFrameToolRotate:	//rotate
@@ -924,7 +929,7 @@ void wxGISCartoFrameTool::OnMouseMove(wxMouseEvent& event)
 
 void wxGISCartoFrameTool::OnMouseDoubleClick(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 }
 
 IToolBarControl* wxGISCartoFrameTool::GetControl(void)

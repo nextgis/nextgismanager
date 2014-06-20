@@ -412,7 +412,7 @@ wxGxTabView::~wxGxTabView(void)
 
 bool wxGxTabView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE);//wxNO_BORDER |
+    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE|wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN);//wxNO_BORDER |
 #ifdef __WXGTK__
 	SetArtProvider(new wxGISTabArt());
 #endif // __WXGTK__
@@ -489,12 +489,12 @@ void wxGxTabView::OnAUINotebookPageChanged(wxAuiNotebookEvent& event)
 	if(!m_pSelection)
 		return;
 
-    SetFocus();
+    //SetFocus();
 	////update view while changing focus of tabs
-	//int nSelTab = event.GetSelection();
+	int nSelTab = event.GetSelection();
 	////if(GetSelection() == event.GetOldSelection())
 	////	return;
-	//wxCHECK_RET(nSelTab >= 0 && nSelTab < m_Tabs.size(), "wrong tab index");
+	wxCHECK_RET(nSelTab >= 0 && nSelTab < (int)m_Tabs.size(), "wrong tab index");
 
 	//wxEvtHandler* pCurrEvtHandler = dynamic_cast<wxEvtHandler*>(m_Tabs[nSelTab]);
 	//if(!pCurrEvtHandler)
@@ -505,10 +505,14 @@ void wxGxTabView::OnAUINotebookPageChanged(wxAuiNotebookEvent& event)
 	//pCurrEvtHandler->AddPendingEvent(sel_event);
 
 
-	//wxGxTab* pCurrTab = m_Tabs[event.GetOldSelection()];
+	wxGxTab* pCurrTab = m_Tabs[nSelTab];
+	if(pCurrTab)
+        pCurrTab->SetFocus();
 	//wxWindow* pWnd = pCurrTab->GetCurrentWindow();
 	//m_pSelection->SetInitiator(	pWnd->GetId() );
 	long nSelectedObjectId = m_pSelection->GetLastSelectedObjectId();
 	if(nSelectedObjectId != wxNOT_FOUND)
 		m_pSelection->Select(nSelectedObjectId, false, GetId());//WXGISHIGHEST pWnd->
 }
+
+

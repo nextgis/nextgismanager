@@ -176,7 +176,7 @@ wxGISFeatureDetailsPanel::~wxGISFeatureDetailsPanel()
 	wxDELETE(m_pCFormat);
 }
 
-void wxGISFeatureDetailsPanel::FillPanel(const OGRPoint *pPt)
+void wxGISFeatureDetailsPanel::SetClickPositionText(const OGRPoint *pPt)
 {
     if(!pPt)
         return;
@@ -187,7 +187,7 @@ void wxGISFeatureDetailsPanel::FillPanel(const OGRPoint *pPt)
 	TransferDataToWindow();
 }
 
-void wxGISFeatureDetailsPanel::FillPanel(wxGISFeature &Feature)
+void wxGISFeatureDetailsPanel::FillPanel(const wxGISFeature &Feature)
 {
     //TODO: rewrite using OLCIgnoreFields
 	m_Feature = Feature;
@@ -410,7 +410,7 @@ void wxGISFeatureDetailsPanel::OnColClick(wxListEvent& event)
 
 void wxGISFeatureDetailsPanel::OnMouseMove(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     wxPoint pt(event.GetX(), event.GetY());
     //pt = ClientToScreen(pt);
     //pt = m_listCtrl->ScreenToClient(pt);
@@ -459,7 +459,7 @@ void wxGISFeatureDetailsPanel::OnMouseMove(wxMouseEvent& event)
 
 void wxGISFeatureDetailsPanel::OnMouseLeftUp(wxMouseEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     wxPoint pt(event.GetX(), event.GetY());
     //pt = ClientToScreen(pt);
     //pt = m_listCtrl->ScreenToClient(pt);
@@ -677,6 +677,7 @@ void wxGISIdentifyDlg::SetEncoding(const wxFontEncoding& eEnc)
 
 void wxGISIdentifyDlg::OnLeftDown(wxMouseEvent& event)
 {
+    event.Skip(true);
 }
 
 void wxGISIdentifyDlg::OnMenu(wxCommandEvent& event)
@@ -974,7 +975,7 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
 
     //fill IdentifyDlg
 	m_pFeatureDetailsPanel->Clear(true);
-	m_pFeatureDetailsPanel->FillPanel(pt);
+	m_pFeatureDetailsPanel->SetClickPositionText(pt);
 	FillTree(data);
 
     OGRGeometryFactory::destroyGeometry(pt);
@@ -1053,7 +1054,7 @@ void wxAxIdentifyView::OnSelChanged(wxTreeEvent& event)
 
 void wxAxIdentifyView::OnLeftDown(wxMouseEvent& event)
 {
-	event.Skip();
+	event.Skip(true);
 	wxPoint pt = event.GetPosition();
 	unsigned long nFlags(0);
 	wxTreeItemId TreeItemId = m_pTreeCtrl->HitTest(pt, (int &)nFlags);

@@ -136,9 +136,9 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 		else
 		{
 			//draw contents of m_pGISDisplay
-            wxClientDC CDC(this);
-            m_pGISDisplay->Output(&CDC);
-            //m_pGISDisplay->Output(&paint_dc, m_ClipGeometry);
+            //wxClientDC CDC(this);
+            //m_pGISDisplay->Output(&CDC);
+            m_pGISDisplay->Output(&paint_dc);
 
 		}
 	}
@@ -160,7 +160,7 @@ void wxGISMapView::OnSize(wxSizeEvent & event)
 	    {
 		    wxClientDC CDC(this);
 		    if(m_pGISDisplay)
-			    m_pGISDisplay->ZoomingDraw(GetClientRect(), &CDC);
+			    m_pGISDisplay->ZoomingDraw(rc, &CDC);
 	    }
 	    else
 	    {
@@ -198,9 +198,9 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
 {
     //event.Skip();
     //wxSafeYield(this, true);
-#ifdef __WXGTK__
-    wxWakeUpIdle();
-#endif
+//#ifdef __WXGTK__
+//    wxWakeUpIdle();
+//#endif
 
     switch(m_nDrawingState)
     {
@@ -267,8 +267,8 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
     case enumGISMapNone:
     default:
 		m_timer.Stop();
-    break;
-    };
+        break;
+    }
 	Refresh();
 }
 
@@ -468,7 +468,7 @@ void wxGISMapView::Clear(void)
 
 void wxGISMapView::OnMouseWheel(wxMouseEvent& event)
 {
-	//event.Skip(false);
+	event.Skip(true);
     DestroyDrawThread();
 
 	int nDirection = event.GetWheelRotation();
@@ -905,7 +905,7 @@ void wxGISMapView::Flash(wxGISEnumFlashStyle eFlashStyle)
                 }
                 else
                 {
-                    wxGISSimpleFillSymbol *pOriginalSymbol = wxDynamicCast(m_staFlashGeoms[i].pSymbol, wxGISSimpleFillSymbol); 
+                    wxGISSimpleFillSymbol *pOriginalSymbol = wxDynamicCast(m_staFlashGeoms[i].pSymbol, wxGISSimpleFillSymbol);
                     if(pOriginalSymbol)
                     {
                         wxGISSimpleLineSymbol* pLineSymbol = new wxGISSimpleLineSymbol(pOriginalSymbol->GetSimpleLineSymbol()->GetColor(), 0.5 * m_staFlashGeoms[i].nPhase);
@@ -1026,8 +1026,11 @@ void wxGISMapView::FlashGeometry(const wxGISGeometryArray& Geoms)
 
 void wxGISMapView::Refresh(void)
 {
-//    wxPostEvent(GetEventHandler(), wxPaintEvent(GetId()));
+#if defined __WXGTK__
+    wxPostEvent(GetEventHandler(), wxPaintEvent(GetId()));
+#elif defined __WXMSW__
     wxWindow::Refresh(false);
+#endif //
 }
 
 void wxGISMapView::OnMapDrawing(wxMxMapViewUIEvent& event)
@@ -1089,9 +1092,9 @@ bool wxGISMapView::IsDrawing() const
 bool wxGISMapView::CreateAndRunDrawThread(void)
 {
     wxCriticalSectionLocker locker(m_CritSect);
-#ifdef __WXGTK__
-    wxWakeUpIdle();
-#endif
+//#ifdef __WXGTK__
+//    wxWakeUpIdle();
+//#endif
     if(IsDrawing()|| !m_pGISDisplay->IsDerty())
         return true;
 
@@ -1138,8 +1141,8 @@ void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)
     //TODO: need to new layer index
     //m_pGISDisplay->SetDertyUpperCache( GetLayer(event.GetId())->GetCacheId() );
     //Refresh();
-    
-    
+
+
     wxTimeSpan sp = wxDateTime::Now() - m_dtNow;
     wxGISLayer *pLayer = GetLayerById(event.GetLayerId());
     if (NULL == pLayer)

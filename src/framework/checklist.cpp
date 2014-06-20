@@ -98,7 +98,7 @@ void wxGISCheckList::InvertCheck()
 
 void wxGISCheckList::OnLeftDown(wxMouseEvent& event)
 {
-	event.Skip();
+	event.Skip(true);
 
 	wxPoint pt = event.GetPosition();
 	unsigned long nFlags(0);
