@@ -185,8 +185,12 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	OGRSFDriverRegistrar* pRegistar = OGRSFDriverRegistrar::GetRegistrar();
 	for(int i = 0; i < pRegistar->GetDriverCount(); ++i)
 	{
-		wxString sDrvName(pRegistar->GetDriver(i)->GetDescription(), wxConvUTF8);
-		sOgrDrivers += wxT("    - ");
+#if GDAL_VERSION_NUM >= 2000000
+        wxString sDrvName(pRegistar->GetDriver(i)->GetDescription(), wxConvUTF8);
+#else
+        wxString sDrvName(pRegistar->GetDriver(i)->GetName(), wxConvUTF8);
+#endif // GDAL_VERSION_NUM
+        sOgrDrivers += wxT("    - ");
 		sOgrDrivers += sDrvName;
 		sOgrDrivers += wxT("\n");
 	}
