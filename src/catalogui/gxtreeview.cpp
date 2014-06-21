@@ -951,9 +951,9 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     return def;
 }
 
-bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects)
+bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
 {
-    bool bMove = !wxGetKeyState(WXK_CONTROL);
+    bool bMove = !bIsControlOn;
 
     wxPoint pt(x, y);
     int flag = wxTREE_HITTEST_ONITEMINDENT;

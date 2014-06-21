@@ -61,7 +61,7 @@ void wxGISDropTarget::OnLeave()
 
 bool wxGISDropTarget::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects)
 {
-    return m_pOwner->OnDropObjects(x, y, GxObjects);
+    return m_pOwner->OnDropObjects(x, y, GxObjects, wxGetKeyState(WXK_CONTROL));
 }
 
 wxDragResult wxGISDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult defaultDragResult)

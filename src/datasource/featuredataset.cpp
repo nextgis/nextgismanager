@@ -544,7 +544,7 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(const wxString & sSubsetName)
         OGRLayer* poLayer = m_poDS->GetLayerByName(szSubsetName);
         if(poLayer)
         {
-            m_poDS->Reference();
+            //m_poDS->Reference();
             CPLString szPath(CPLFormFilename(m_sPath, szSubsetName, ""));
             wxGISFeatureDatasetCached* pDataSet = new wxGISFeatureDatasetCached(szPath, m_nSubType, poLayer, m_poDS);
             //pDataSet->SetInternalValues();//SetEncoding(m_Encoding);

@@ -359,12 +359,12 @@ wxDragResult wxGxTab::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
 	return pViewDropTarget->OnDragOver(x, y, def);
 }
 
-bool wxGxTab::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects)
+bool wxGxTab::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
 {
 	IViewDropTarget* pViewDropTarget = dynamic_cast<IViewDropTarget*>(m_pCurrentWnd);
 	if(!pViewDropTarget)
 		return wxDragNone;
-	return pViewDropTarget->OnDropObjects(x, y, GxObjects);
+	return pViewDropTarget->OnDropObjects(x, y, GxObjects, bIsControlOn);
 }
 
 void wxGxTab::OnLeave()

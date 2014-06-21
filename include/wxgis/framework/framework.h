@@ -29,7 +29,7 @@
 /** \class IView framework.h
     \brief A View interface class.
 
-    Any additional view mast derived from this class. 
+    Any additional view mast derived from this class.
 */
 class IView
 {
@@ -44,17 +44,18 @@ public:
 	virtual void SetViewIcon(wxIcon Icon) = 0;
 };
 
-/** \class IViewDropTarget framework.h
-    \brief A DropTarget interface class.
+/** @class IViewDropTarget
 
-    The Views which should support drag'n'drop capability mast derived from this class.
+    A DropTarget interface class. The Views which should support drag'n'drop capability mast derived from this class.
+
+    @library{framework}
 */
 class IViewDropTarget
 {
 public:
 	virtual ~IViewDropTarget(void){};
     virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def) = 0;
-    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects) = 0;
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn) = 0;
     virtual void OnLeave() = 0;
     virtual bool CanPaste(void) {return false;};
 };

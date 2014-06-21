@@ -1233,9 +1233,9 @@ wxDragResult wxGxContentView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     return def;
 }
 
-bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects)
+bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
 {
-    bool bMove = !wxGetKeyState(WXK_CONTROL);
+    bool bMove = !bIsControlOn;
 
     SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     //SetItemState(m_HighLightItem, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);

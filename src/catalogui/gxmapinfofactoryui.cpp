@@ -33,17 +33,15 @@
 //------------------------------------------------------------------------------
 // wxGxMapInfoFactoryUI
 //------------------------------------------------------------------------------
+static const char *mi_filter_exts[] = {
+    "dat", NULL
+};
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxMapInfoFactoryUI, wxGxMapInfoFactory)
 
 wxGxMapInfoFactoryUI::wxGxMapInfoFactoryUI(void) : wxGxMapInfoFactory()
 {
-    m_SmallTabIcon = wxIcon(mi_dset_16_xpm);
-    m_LargeTabIcon = wxIcon(mi_dset_48_xpm);
-    m_SmallMifIcon = wxIcon(md_dset_16_xpm);
-    m_LargeMifIcon = wxIcon(md_dset_48_xpm);
-    m_SmallTabTIcon = wxIcon(table_tab_16_xpm);
-    m_LargeTabTIcon = wxIcon(table_tab_48_xpm);
 }
 
 wxGxMapInfoFactoryUI::~wxGxMapInfoFactoryUI(void)
@@ -63,12 +61,51 @@ wxGxObject* wxGxMapInfoFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
     switch(type)
     {
     case enumVecMapinfoTab:
-        return wxStaticCast(new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeTabIcon, m_SmallTabIcon), wxGxObject);
+        {
+            CPLString sTestPath;
+            wxGxObject *pCompoundObjectPart = NULL;
+            wxGxObjectContainer* pParentCont = wxDynamicCast(pParent, wxGxObjectContainer);
+
+            for (int j = 0; mi_filter_exts[j] != NULL; ++j)
+            {
+                sTestPath = (char*)CPLResetExtension(szPath, mi_filter_exts[j]);
+
+                wxGxObjectList::const_iterator iter;
+                for (iter = pParentCont->GetChildren().begin(); iter != pParentCont->GetChildren().end(); ++iter)
+                {
+                    wxGxObject *current = *iter;
+                    if (wxGISEQUAL(current->GetPath(), sTestPath))
+                    {
+                        current->Destroy();
+                        break;
+                    }
+                }
+            }
+
+            if(!m_SmallTabIcon.IsOk())
+                m_SmallTabIcon = wxIcon(mi_dset_16_xpm);
+            if(!m_LargeTabIcon.IsOk())
+                m_LargeTabIcon = wxIcon(mi_dset_48_xpm);
+
+            return wxStaticCast(new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeTabIcon, m_SmallTabIcon), wxGxObject);
+        }
     case enumVecMapinfoMif:
+        if(!m_SmallMifIcon.IsOk())
+            m_SmallMifIcon = wxIcon(md_dset_16_xpm);
+        if(!m_LargeMifIcon.IsOk())
+            m_LargeMifIcon = wxIcon(md_dset_48_xpm);
         return wxStaticCast(new wxGxFeatureDatasetUI(type, pParent, soName, szPath, m_LargeMifIcon, m_SmallMifIcon), wxGxObject);
     case enumVecMAX + 1:
+        if(!m_SmallTabTIcon.IsOk())
+            m_SmallTabTIcon = wxIcon(table_tab_16_xpm);
+        if(!m_LargeTabTIcon.IsOk())
+            m_LargeTabTIcon = wxIcon(table_tab_48_xpm);
         return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoTab, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
     case enumVecMAX + 2:
+        if(!m_SmallTabTIcon.IsOk())
+            m_SmallTabTIcon = wxIcon(table_tab_16_xpm);
+        if(!m_LargeTabTIcon.IsOk())
+            m_LargeTabTIcon = wxIcon(table_tab_48_xpm);
         return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoMif, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
     default:
         return NULL;

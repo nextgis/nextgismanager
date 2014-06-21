@@ -160,9 +160,6 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 
 	bMainSizer->Add( bFooterSizer, 0, wxEXPAND, 8 );
 
-	this->SetSizerAndFit( bMainSizer );
-	this->Layout();
-
 	wxGISCatalogMainCmd* pwxGISCatalogMainCmd(NULL);
     int nCmdCounter(0);
 
@@ -191,6 +188,9 @@ wxGxContainerDialog::wxGxContainerDialog(wxWindow* parent, wxWindowID id, const 
 
 	//load accelerators
     m_pGISAcceleratorTable = new wxGISAcceleratorTable(this);
+
+    this->SetSizerAndFit( bMainSizer );
+	this->Layout();
 }
 
 wxGxContainerDialog::~wxGxContainerDialog()

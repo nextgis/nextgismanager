@@ -1884,6 +1884,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         }
 
         wxGISFeatureDataset *pFeatureDataset = new wxGISFeatureDataset(szFullPath, pFilter->GetSubType(), poLayerDest, poDS);
+        wxASSERT_MSG(poDS->Dereference() > 0, wxT("Reference counting error"));
         pFeatureDataset->SetEncoding(oEncoding);
         return wxStaticCast(pFeatureDataset, wxGISDataset);
 
@@ -1917,7 +1918,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 
         wxGISTable *pTableDataset = new wxGISTable(sPath, pFilter->GetSubType(), poLayerDest, poDS);
         pTableDataset->SetEncoding(oEncoding);
-
+        wxASSERT_MSG(poDS->Dereference() > 0, wxT("Reference counting error"));
         return wxStaticCast(pTableDataset, wxGISDataset);
     }
     return NULL;
