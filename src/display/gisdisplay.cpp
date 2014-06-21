@@ -198,9 +198,9 @@ void wxGISDisplay::Output(cairo_surface_t *pSurface, wxDC* pDC)
 	cairo_set_source_surface (cr, pSurface, 0, 0);
 	cairo_paint (cr);
 
-#ifdef __WXMSW__
+//#ifdef __WXMSW__
     cairo_destroy (cr);
-#endif
+//#endif
 }
 
 bool wxGISDisplay::Output(GDALDataset *pGDALDataset)

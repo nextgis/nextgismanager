@@ -136,10 +136,9 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 		else
 		{
 			//draw contents of m_pGISDisplay
-            //wxClientDC CDC(this);
-            //m_pGISDisplay->Output(&CDC);
-            m_pGISDisplay->Output(&paint_dc);
-
+            wxClientDC CDC(this);
+            m_pGISDisplay->Output(&CDC);
+            //m_pGISDisplay->Output(&paint_dc);
 		}
 	}
 }
@@ -196,11 +195,9 @@ void wxGISMapView::OnEraseBackground(wxEraseEvent & event)
 
 void wxGISMapView::OnTimer( wxTimerEvent& event )
 {
-    //event.Skip();
-    //wxSafeYield(this, true);
-//#ifdef __WXGTK__
-//    wxWakeUpIdle();
-//#endif
+#ifdef __WXGTK__
+    wxWakeUpIdle();
+#endif
 
     switch(m_nDrawingState)
     {
@@ -1093,9 +1090,11 @@ bool wxGISMapView::IsDrawing() const
 bool wxGISMapView::CreateAndRunDrawThread(void)
 {
     wxCriticalSectionLocker locker(m_CritSect);
-//#ifdef __WXGTK__
-//    wxWakeUpIdle();
-//#endif
+
+#ifdef __WXGTK__
+    wxWakeUpIdle();
+#endif
+
     if(IsDrawing()|| !m_pGISDisplay->IsDerty())
         return true;
 

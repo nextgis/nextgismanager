@@ -95,6 +95,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
     wxGISFeature Feature;
     size_t i;
     OGRwkbGeometryType eGeoFieldtype = pFeatureDefn->GetGeomType();
+    const char *oldlocale = setlocale(LC_NUMERIC, "C");
     while ((Feature = pSrcDataSet->Next()).IsOk())
     {
         if (pTrackCancel && !pTrackCancel->Continue())
@@ -107,6 +108,8 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
             {
                 pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
             }
+
+            setlocale(LC_NUMERIC, oldlocale);
             return false;
         }
 
@@ -180,6 +183,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
         }
     }
 
+    setlocale(LC_NUMERIC, oldlocale);
     return true;
 }
 
@@ -209,7 +213,6 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 
     wxFontEncoding OutputEncoding = pDstDataSet->GetEncoding();
     CPLErrorReset();
-
     //create src -> dst field mapping
 
     OGRFeatureDefn *pFeatureDefn = pDstDataSet->GetDefinition();
@@ -287,6 +290,9 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
     wxGISFeature Feature;
     size_t i;
     OGRwkbGeometryType eGeoFieldtype = pFeatureDefn->GetGeomType();
+
+    const char *oldlocale = setlocale(LC_NUMERIC, "C");
+
     while ((Feature = pSrcDataSet->Next()).IsOk())
     {
         if(pTrackCancel && !pTrackCancel->Continue())
@@ -299,6 +305,8 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             {
                 pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
             }
+
+            setlocale(LC_NUMERIC, oldlocale);
             return false;
         }
 
@@ -462,6 +470,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         OCTDestroyCoordinateTransformation(poCT);
     }
 
+    setlocale(LC_NUMERIC, oldlocale);
     return true;
 }
 

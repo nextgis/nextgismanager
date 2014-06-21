@@ -183,7 +183,7 @@ char **wxGISFeatureDataset::GetFileList()
 
 const wxGISSpatialReference wxGISFeatureDataset::GetSpatialReference(void)
 {
-    if(!IsOpened())
+    if(!IsOpened() || !m_poLayer)
         return wxNullSpatialReference;
 
 	if(m_SpatialReference.IsOk())
@@ -252,7 +252,7 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
 
     SetInternalValues();
 
-    if (m_nSubType == enumVecKML || m_nSubType == enumVecKMZ)
+    if (IsContainer())
     {
         m_nType = enumGISContainer;
     }
@@ -265,6 +265,12 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
     }
 
 	return true;
+}
+
+bool wxGISFeatureDataset::IsContainer() const
+{
+    //for file datasources only
+    return m_nSubType == enumVecKML || m_nSubType == enumVecKMZ || m_nSubType == enumVecGML || m_nSubType == enumVecSXF;
 }
 
 void wxGISFeatureDataset::SetInternalValues()

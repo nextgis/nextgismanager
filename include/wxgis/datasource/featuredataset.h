@@ -59,6 +59,7 @@ public:
     virtual OGRErr SetFilter(const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter);
     virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);
+ 	virtual bool IsContainer() const;
 protected:
     virtual void SetInternalValues(void);
 protected:
