@@ -26,8 +26,6 @@
 #include "wxgis/datasource/spatialtree.h"
 #include "wxgis/core/pointer.h"
 
-#include <ogrsf_frmts.h>
-
 /** @class wxGISTable
 
     A GIS Table class.
@@ -43,7 +41,7 @@ class WXDLLIMPEXP_GIS_DS wxGISTable :
     DECLARE_CLASS(wxGISTable)
     friend class wxGISSpatialTree;
 public:
-	wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+	wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
 	virtual ~wxGISTable(void);
 	//wxGISDataset
     virtual wxString GetName(void) const;
@@ -87,15 +85,14 @@ public:
     virtual wxFeatureCursor Search(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
     virtual OGRErr SetFilter(const wxGISQueryFilter &QFilter = wxGISNullQueryFilter);
     virtual OGRErr SetIgnoredFields(const wxArrayString &saIgnoredFields);
-
-	virtual OGRDataSource* const GetDataSourceRef(void) const {return m_poDS;};
+	virtual OGRCompatibleDataSource* const GetDataSourceRef(void) const {return m_poDS;};
     virtual OGRLayer* const GetLayerRef(int iLayer = 0) const {return m_poLayer;};
 	virtual OGRFeatureDefn* const GetDefinition(void);
 	virtual OGRFeatureDefn* const GetDefinition(void) const;
 protected:
     virtual void SetInternalValues(void);
 protected:
-	OGRDataSource* m_poDS;
+	OGRCompatibleDataSource* m_poDS;
 	OGRLayer* m_poLayer;
 
     wxFontEncoding m_Encoding;
@@ -123,7 +120,7 @@ class WXDLLIMPEXP_GIS_DS wxGISTableCached :
 {
     DECLARE_CLASS(wxGISTableCached)
 public:
-	wxGISTableCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+	wxGISTableCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
 	virtual ~wxGISTableCached(void);
 	//wxGISDataset
 	virtual void Close(void);
@@ -158,7 +155,7 @@ class WXDLLIMPEXP_GIS_DS wxGISTableQuery :
 {
     DECLARE_CLASS(wxGISTableQuery)
 public:
-    wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+    wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
     virtual ~wxGISTableQuery(void);
     virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
 	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);

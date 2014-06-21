@@ -22,10 +22,11 @@
 
 #include "wxgis/datasource/table.h"
 
-/** \class wxGISFeatureDataset featuredataset.h
-    \brief The GIS FeatureDataset class.
+/** @class wxGISFeatureDataset
 
-    This class stores vector geographic data.
+    A GIS FeatureDataset class. This class stores vector geographic data.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISFeatureDataset :
@@ -33,24 +34,24 @@ class WXDLLIMPEXP_GIS_DS wxGISFeatureDataset :
 {
     DECLARE_CLASS(wxGISFeatureDataset)
 public:
-	wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+	wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
 	virtual ~wxGISFeatureDataset(void);
 //wxGISTable
     virtual const wxGISSpatialReference GetSpatialReference(void);
     virtual void Close(void);
 	virtual bool Open(int iLayer = 0, int bUpdate = TRUE, bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
-    virtual wxGISDataset* GetSubset(size_t nIndex);	
-    virtual wxGISDataset* GetSubset(const wxString & sSubsetName); 
-    virtual bool IsCached(void) const; 
-	virtual bool IsCaching(void) const;    
+    virtual wxGISDataset* GetSubset(size_t nIndex);
+    virtual wxGISDataset* GetSubset(const wxString & sSubsetName);
+    virtual bool IsCached(void) const;
+	virtual bool IsCaching(void) const;
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     virtual void StopCaching(void);
     virtual void SetEncoding(const wxFontEncoding &oEncoding);
     virtual char **GetFileList();
     //editing
-	virtual OGRErr DeleteFeature(long nFID);    
+	virtual OGRErr DeleteFeature(long nFID);
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
-    virtual OGRErr SetFeature(const wxGISFeature &Feature);  
+    virtual OGRErr SetFeature(const wxGISFeature &Feature);
 //wxGISFeatureDataset
     virtual void SetCached(bool bCached);
 	virtual OGREnvelope GetEnvelope(void);
@@ -60,17 +61,18 @@ public:
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);
 protected:
     virtual void SetInternalValues(void);
-protected:	
+protected:
     OGREnvelope m_stExtent;
     OGRwkbGeometryType m_eGeomType;
 	wxGISSpatialTree* m_pSpatialTree;
     bool m_bOLCFastGetExtent;
 };
 
-/** \class wxGISFeatureDatasetCached featuredataset.h
-    \brief The GIS FeatureDataset class.
+/** @class wxGISFeatureDatasetCached
 
-    This wxGISFeatureDataset version with caching.
+    A GIS FeatureDataset class. This wxGISFeatureDataset version with caching.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISFeatureDatasetCached :
@@ -79,12 +81,12 @@ class WXDLLIMPEXP_GIS_DS wxGISFeatureDatasetCached :
     DECLARE_CLASS(wxGISFeatureDatasetCached)
     friend class wxGISQuadTree;
 public:
-	wxGISFeatureDatasetCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+	wxGISFeatureDatasetCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
 	virtual ~wxGISFeatureDatasetCached(void);
 //wxGISTable
     virtual void Close(void);
-    virtual wxGISDataset* GetSubset(size_t nIndex);	
-    virtual wxGISDataset* GetSubset(const wxString & sSubsetName); 
+    virtual wxGISDataset* GetSubset(size_t nIndex);
+    virtual wxGISDataset* GetSubset(const wxString & sSubsetName);
 	virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     virtual void SetEncoding(const wxFontEncoding &oEncoding);
     //wxGISFeatureDataset
@@ -97,10 +99,10 @@ public:
     virtual wxGISFeature Next(void);
     virtual wxGISFeature GetFeatureByID(long nFID);
     virtual wxGISFeature GetFeature(long nIndex);
-	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);	
-	virtual OGRErr DeleteFeature(long nFID);    
+	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);
+	virtual OGRErr DeleteFeature(long nFID);
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
-    virtual OGRErr SetFeature(const wxGISFeature &Feature);  
-protected:	
+    virtual OGRErr SetFeature(const wxGISFeature &Feature);
+protected:
     std::map<long, wxGISFeature> m_omFeatures;
 };

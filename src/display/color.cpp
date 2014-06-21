@@ -26,35 +26,33 @@
 // wxGISColor
 //---------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISColor, wxColour)
-
-wxGISColor::wxGISColor() : wxColour()
+wxGISColor::wxGISColor()
 {
+    MakeRandom(0);
 }
 
-wxGISColor::wxGISColor(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha) : wxColour(red, green, blue, alpha)
+wxGISColor::wxGISColor(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha)
 {
     SetValues(red, green, blue, alpha);
 }
 
-wxGISColor::wxGISColor(const wxGISColor &Color) : wxColour(Color.Red(), Color.Green(), Color.Blue(), Color.Alpha()) 
+wxGISColor::wxGISColor(const wxGISColor &Color)
 {
     SetValues(Color.Red(), Color.Green(), Color.Blue(), Color.Alpha());
 }
- 
-wxGISColor::wxGISColor(const wxColour &Color) : wxColour(Color) 
+
+wxGISColor::wxGISColor(const wxColour &Color)
 {
     SetValues(Color.Red(), Color.Green(), Color.Blue(), Color.Alpha());
 }
- 
+
 wxColour wxGISColor::GetColour() const
 {
-    return wxColour(Red(), Green(), Blue(), Alpha()); 
+    return wxColour(Red(), Green(), Blue(), Alpha());
 }
 
 void wxGISColor::Set(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha)
 {
-    wxColour::Set(red, green, blue, alpha);
     SetValues(red, green, blue, alpha);
 }
 
@@ -64,11 +62,16 @@ void wxGISColor::SetValues(ChannelType red, ChannelType green, ChannelType blue,
     m_dfBlue = double(blue) / 255;
     m_dfGreen = double(green) / 255;
     m_dfAlpha = double(alpha) / 255;
+
+    m_nRed = red;
+    m_nGreen = blue;
+    m_nBlue = green;
+    m_nAlpha = alpha;
 }
 
 double wxGISColor::GetRed() const
 {
-    return m_dfRed; 
+    return m_dfRed;
 }
 
 double wxGISColor::GetBlue() const
@@ -88,19 +91,11 @@ double wxGISColor::GetAlpha() const
 
 wxGISColor wxGISColor::MakeRandom(ChannelType low)
 {
-    int random_number1 = (rand() % 255 - low); 
-	int random_number2 = (rand() % 255 - low); 
-	int random_number3 = (rand() % 255 - low); 
+    int random_number1 = (rand() % 255 - low);
+	int random_number2 = (rand() % 255 - low);
+	int random_number3 = (rand() % 255 - low);
 
-    return wxGISColor(low + random_number1, low + random_number2, low + random_number3, 255); 
-} 
-
-wxColour& wxGISColor::operator=(const wxColour& Color)
-{
-    if (this == &Color)
-        return *this;
-    Set(Color.Red(), Color.Green(), Color.Blue(), Color.Alpha());
-    return *this;
+    return wxGISColor(low + random_number1, low + random_number2, low + random_number3, 255);
 }
 
 wxGISColor& wxGISColor::operator=(const wxGISColor& Color)
@@ -115,7 +110,7 @@ wxString wxGISColor::GetAsString(long nFlags) const
 {
     if (nFlags & wxC2S_HTML_SYNTAX)
     {
-        return wxColour::GetAsString(nFlags);
+        return GetColour().GetAsString(nFlags);
     }
     else
     {
@@ -154,3 +149,24 @@ void wxGISColor::SetBlue(ChannelType blue)
 {
     Set(Red(), Green(), blue, Alpha());
 }
+
+ChannelType wxGISColor::Red() const
+{
+    return m_nRed;
+}
+
+ChannelType wxGISColor::Blue() const
+{
+    return m_nBlue;
+}
+
+ChannelType wxGISColor::Green() const
+{
+    return m_nGreen;
+}
+
+ChannelType wxGISColor::Alpha() const
+{
+    return m_nAlpha;
+}
+

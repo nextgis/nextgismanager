@@ -250,6 +250,7 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
     }
 
     m_poDataset = (GDALDataset*) wxGISDataset::OpenInternal( m_sPath, bUpdate, bShared );
+
     //bug in FindFileInZip() [gdal-1.6.3\port\cpl_vsil_gzip.cpp]
 
 	if( m_poDataset == NULL )

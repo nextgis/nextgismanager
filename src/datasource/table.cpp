@@ -31,7 +31,7 @@
 
 IMPLEMENT_CLASS(wxGISTable, wxGISDataset)
 
-wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISDataset(sPath)
+wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISDataset(sPath)
 {
 	wsSET(m_poDS, poDS);
 	m_poLayer = poLayer;
@@ -309,7 +309,7 @@ void wxGISTable::Close(void)
 		    if(m_nSubType == enumTableQueryResult && m_poLayer)
 			    m_poDS->ReleaseResultSet(m_poLayer);
 		    if( m_poDS->Dereference() <= 0)
-			    OGRDataSource::DestroyDataSource( m_poDS );
+			    OGRCompatibleClose( m_poDS );
 	        m_poDS = NULL;
 	    }
 
@@ -816,7 +816,7 @@ void wxGISTable::SetEncoding(const wxFontEncoding &oEncoding)
 
 IMPLEMENT_CLASS(wxGISTableCached, wxGISTable)
 
-wxGISTableCached::wxGISTableCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTable(sPath, nSubType, poLayer, poDS)
+wxGISTableCached::wxGISTableCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISTable(sPath, nSubType, poLayer, poDS)
 {
 }
 
@@ -871,7 +871,7 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
 
         //if(!poFeature->GetDefnRef())
         //{
-        //    OGRFeature::DestroyFeature(poFeature);
+        //    wxGISGDALClose(poFeature);
         //    continue;
         //}
 
@@ -1157,7 +1157,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
 
 IMPLEMENT_CLASS(wxGISTableQuery, wxGISTableCached)
 
-wxGISTableQuery::wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTableCached(sPath, nSubType, poLayer, poDS)
+wxGISTableQuery::wxGISTableQuery(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISTableCached(sPath, nSubType, poLayer, poDS)
 {
 }
 
@@ -1205,7 +1205,7 @@ void wxGISTableQuery::Cache(ITrackCancel* const pTrackCancel)
         m_poDS->ReleaseResultSet(m_poLayer);
         m_poLayer = NULL;
         if (m_poDS->Dereference() <= 0)
-            OGRDataSource::DestroyDataSource(m_poDS);
+            OGRCompatibleClose(m_poDS);
         m_poDS = NULL;
     }
 }

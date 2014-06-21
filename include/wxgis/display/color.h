@@ -22,6 +22,8 @@
 
 #include "wxgis/display/display.h"
 
+#define ChannelType unsigned char
+
 /** @class wxGISColor
 
     The color representation class
@@ -29,7 +31,7 @@
     @library{display}
 */
 
-class WXDLLIMPEXP_GIS_DSP wxGISColor : public wxColour
+class WXDLLIMPEXP_GIS_DSP wxGISColor
 {
 public:
     wxGISColor();
@@ -37,12 +39,15 @@ public:
     wxGISColor(const wxColour &Color);
     wxGISColor(const wxGISColor &Color);
     wxColour GetColour() const;
-    wxColour& operator=(const wxColour& Color);
     wxGISColor& operator=(const wxGISColor& Color);
     double GetRed() const;
     double GetBlue() const;
     double GetGreen() const;
     double GetAlpha() const;
+    ChannelType Red() const;
+    ChannelType Blue() const;
+    ChannelType Green() const;
+    ChannelType Alpha() const;
     static wxGISColor MakeRandom(ChannelType low = 205);
     void Set (ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha = wxALPHA_OPAQUE);
     virtual wxString GetAsString(long nFlags = wxC2S_NAME|wxC2S_CSS_SYNTAX) const;
@@ -52,13 +57,15 @@ public:
     virtual void SetGreen(ChannelType green);
     virtual void SetBlue(ChannelType blue);
 protected:
-    virtual void SetValues(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha); 
+    virtual void SetValues(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha);
 protected:
     double m_dfRed;
     double m_dfBlue;
     double m_dfGreen;
     double m_dfAlpha;
-private:
-    DECLARE_DYNAMIC_CLASS(wxGISColor)
+    ChannelType m_nRed;
+    ChannelType m_nGreen;
+    ChannelType m_nBlue;
+    ChannelType m_nAlpha;
 };
 

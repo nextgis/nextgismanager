@@ -1026,6 +1026,7 @@ void wxGISMapView::FlashGeometry(const wxGISGeometryArray& Geoms)
 
 void wxGISMapView::Refresh(void)
 {
+   wxCriticalSectionLocker locker(m_FlashCritSect);
 #if defined __WXGTK__
     wxPostEvent(GetEventHandler(), wxPaintEvent(GetId()));
 #elif defined __WXMSW__

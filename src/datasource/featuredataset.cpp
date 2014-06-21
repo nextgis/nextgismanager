@@ -27,7 +27,7 @@
 
 IMPLEMENT_CLASS(wxGISFeatureDataset, wxGISTable)
 
-wxGISFeatureDataset::wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTable(sPath, nSubType, poLayer, poDS)
+wxGISFeatureDataset::wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISTable(sPath, nSubType, poLayer, poDS)
 {
     m_nType = enumGISFeatureDataset;
     m_eGeomType = wkbUnknown;
@@ -162,9 +162,9 @@ char **wxGISFeatureDataset::GetFileList()
     case enumVecPostGIS:
         return papszFileList;
     case enumVecKML:
-    case enumVecKMZ:    
+    case enumVecKMZ:
     case enumVecUnknown:
-    default: 
+    default:
         break;
     }
 
@@ -504,7 +504,7 @@ void wxGISFeatureDataset::SetCached(bool bCached)
 
 IMPLEMENT_CLASS(wxGISFeatureDatasetCached, wxGISFeatureDataset)
 
-wxGISFeatureDatasetCached::wxGISFeatureDatasetCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISFeatureDataset(sPath, nSubType, poLayer, poDS)
+wxGISFeatureDatasetCached::wxGISFeatureDatasetCached(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISFeatureDataset(sPath, nSubType, poLayer, poDS)
 {
 }
 
@@ -664,7 +664,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
     }
 
     m_bIsCached = true;
-    
+
     if(!m_pSpatialTree)
     {
         m_pSpatialTree = CreateSpatialTree(this);
@@ -717,7 +717,7 @@ size_t wxGISFeatureDatasetCached::GetFeatureCount(bool bForce, ITrackCancel* con
         }
         else if(m_bOLCFastFeatureCount)
             m_nFeatureCount = m_poLayer->GetFeatureCount(0);
-        else 
+        else
         {
         	m_nFeatureCount = m_poLayer->GetFeatureCount(0);
             if(m_nFeatureCount == wxNOT_FOUND)
@@ -780,7 +780,7 @@ wxGISFeature wxGISFeatureDatasetCached::GetFeatureByID(long nFID)
     wxGISFeature ret = m_omFeatures[nFID];
     if(ret.IsOk())
 		return ret;
-	else 
+	else
     {
         if(m_poLayer)
 	    {

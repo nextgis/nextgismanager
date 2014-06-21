@@ -1653,6 +1653,8 @@ bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFea
 	return true;
 }
 */
+
+//TODO: Think about move to wxGISDataset static method
 wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, ITrackCancel* const pTrackCancel)
 {
 
@@ -1665,12 +1667,17 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         return NULL;
     }
 
-    CPLErrorReset();
+    CPLString szFullPath = sPath;
+    if (!sName.IsEmpty())
+    {
+        szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
+    }
 
-	OGRSFDriver *poDriver = static_cast<OGRSFDriver*>(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName( pFilter->GetDriver().mb_str() ));
+    CPLErrorReset();
+    OGRCompatibleDriver *poDriver = GetOGRCompatibleDriverByName( pFilter->GetDriver().mb_str() );
     if(poDriver == NULL)
     {
-        wxString sErr = wxString::Format(_("The driver '%s' is not available!\nOGR error: "), pFilter->GetDriver().c_str());
+        wxString sErr = wxString::Format(_("The driver '%s' is not available!\nGDAL error: "), pFilter->GetDriver().c_str());
         CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError( CE_Failure, CPLE_FileIO, sFullErr );
@@ -1681,13 +1688,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         return NULL;
     }
 
-    CPLString szFullPath = sPath;
-    if (!sName.IsEmpty())
-    {
-        szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
-    }
-
-    OGRDataSource *poDS = NULL;
+    OGRCompatibleDataSource *poDS = NULL;
     if ((pFilter->GetType() == enumGISFeatureDataset && pFilter->GetSubType() == enumVecPostGIS) || (pFilter->GetType() == enumGISTableDataset && pFilter->GetSubType() == enumTablePostgres))
     {
 #ifdef wxGIS_USE_POSTGRES
@@ -1725,12 +1726,13 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     }
     else
     {
-        poDS = poDriver->CreateDataSource(szFullPath, papszDataSourceOptions);
+        poDS = poDriver->CreateOGRCompatibleDataSource( szFullPath, papszDataSourceOptions );
     }
+
 
     if(poDS == NULL)
     {
-        wxString sErr = wxString::Format(_("Error create the output file '%s'! OGR error: "), wxString(sPath, wxConvUTF8).c_str());
+        wxString sErr = wxString::Format(_("Error create the output file '%s'! GDAL error: "), wxString(sPath, wxConvUTF8).c_str());
         CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
@@ -1740,6 +1742,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         }
         return NULL;
     }
+
 
     wxString sNewName = sName;
     if(sNewName.IsEmpty())

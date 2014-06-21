@@ -53,10 +53,10 @@ public:
     virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
     virtual char **GetFileList();
     //
-    virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
+    virtual OGRCompatibleDataSource* const GetDataSourceRef(void) const { return m_poDS; };
 protected:
     wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
 protected:
-    OGRDataSource *m_poDS;
+    OGRCompatibleDataSource *m_poDS;
     wxString m_sDBName;
 };

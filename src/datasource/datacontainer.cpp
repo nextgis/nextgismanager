@@ -50,7 +50,7 @@ void wxGISDataSource::Close(void)
 
     m_bIsOpened = false;
     if (m_poDS && m_poDS->Dereference() <= 0)
-        OGRDataSource::DestroyDataSource(m_poDS);
+        OGRCompatibleClose(m_poDS);
     m_poDS = NULL;
 
 }
@@ -154,7 +154,7 @@ bool wxGISDataSource::Open(bool bUpdate, bool bShared)
         return false;
     }
 
-    m_sDBName = wxString(m_poDS->GetName(), wxConvUTF8);
+    m_sDBName = wxString(m_poDS->GetOGRCompatibleDatasourceName(), wxConvUTF8);
 
     m_bIsOpened = true;
 

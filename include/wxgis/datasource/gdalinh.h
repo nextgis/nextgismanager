@@ -26,10 +26,31 @@
 #include "gdal_priv.h"
 #include "ogrsf_frmts.h"
 
+#if GDAL_VERSION_NUM >= 2000000
+    #define OGRCompatibleDataSource GDALDataset
+    #define OGRCompatibleClose(x) GDALClose(x)
+    #define OGRCompatibleDriver GDALDriver
+    #define GetOGRCompatibleDriverByName(x) GetGDALDriverManager()->GetDriverByName( x )
+    #define CreateOGRCompatibleDataSource(path, options) Create( path, 0, 0, 0, GDT_Unknown, options );
+    #define GetOGRCompatibleDriverName GetDescription
+    #define GetOGRCompatibleDatasourceName GetDriverName
+#else
+    #define OGRCompatibleDataSource OGRDataSource
+    #define OGRCompatibleClose(x) OGRDataSource::DestroyDataSource(x)
+    #define OGRCompatibleDriver OGRSFDriver
+    #define GetOGRCompatibleDriverByName(x) static_cast<OGRSFDriver*>(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(x)
+    #define CreateOGRCompatibleDataSource(path, options) CreateDataSource( path, options )
+    #define GetOGRCompatibleDriverName GetName
+    #define GetOGRCompatibleDatasourceName GetName
+#endif // GDAL_VERSION_NUM
+
 #define wxGISEQUAL(a,b) ( (const char*)a == NULL ? 0 : EQUAL(a,b) )
 
-/** \class wxGISSpatialReference gdalinh.h
-    \brief The OGRSpatialReference wrapper class.
+/** @class wxGISSpatialReference
+
+    AnOGRSpatialReference wrapper class.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISSpatialReference : public wxObject
@@ -48,14 +69,17 @@ public:
     bool IsSame(const wxGISSpatialReference& SpatialReference) const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;    
+    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 };
 
 extern WXDLLIMPEXP_DATA_GIS_DS(wxGISSpatialReference) wxNullSpatialReference;
 
 
-/** \class wxGISSpatialReferenceRefData gdalinh.h
-    \brief The reference data class for wxGISSpatialReference
+/** @class wxGISSpatialReferenceRefData
+
+    Areference data class for wxGISSpatialReference
+
+    @library{datasource}
 */
 
 class wxGISSpatialReferenceRefData : public wxObjectRefData
@@ -78,8 +102,11 @@ WX_DECLARE_USER_EXPORTED_OBJARRAY(wxGISGeometry, wxGISGeometryArray, WXDLLIMPEXP
 class WXDLLIMPEXP_GIS_DS wxGISFeature;
 WX_DECLARE_USER_EXPORTED_OBJARRAY(wxGISFeature, wxGISFeatureArray, WXDLLIMPEXP_GIS_DS);
 
-/** \class wxGISFeature gdalinh.h
-    \brief The OGRFeature wrapper class.
+/** @class wxGISFeature
+
+    An OGRFeature wrapper class.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISFeature : public wxObject
@@ -125,14 +152,14 @@ public:
     void SetField(int nIndex, const wxString &sValue);
     void SetField(int nIndex, const char* pszStr);
     void SetField (int nIndex, const wxArrayInt &anValues);
-    void SetField (int nIndex, const wxArrayDouble &adfValues); 
+    void SetField (int nIndex, const wxArrayDouble &adfValues);
     void SetField(int nIndex, const wxArrayString &asValues);
     void SetField(int nIndex, const wxDateTime &dt);
     void SetField(const wxString &sFieldName, int nValue);
-    void SetField(const wxString &sFieldName, double dfValue); 
+    void SetField(const wxString &sFieldName, double dfValue);
     void SetField(const wxString &sFieldName, const wxString &sValue);
     void SetField (const wxString &sFieldName, const wxArrayInt &anValues);
-    void SetField (const wxString &sFieldName, const wxArrayDouble &adfValues); 
+    void SetField (const wxString &sFieldName, const wxArrayDouble &adfValues);
     void SetField(const wxString &sFieldName, const wxArrayString &asValues);
     void SetField(int nIndex, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
     void SetField(const wxString &sFieldName, int nYear, int nMonth, int nDay, int nHour = 0, int nMinute = 0, int nSecond = 0, int nTZFlag = 0);
@@ -239,11 +266,14 @@ protected:
     OGRErr SetGeometry(OGRGeometry* pGeom);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;    
+    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 };
 
-/** \class wxGISFeatureRefData gdalinh.h
-    \brief The reference data class for wxGISFeature
+/** @class wxGISFeatureRefData
+
+    A reference data class for wxGISFeature
+
+    @library{datasource}
 */
 
 class wxGISFeatureRefData : public wxObjectRefData
@@ -288,8 +318,11 @@ protected:
     bool m_bRecodeToSystem;
 };
 
-/** \class wxGISGeometry gdalinh.h
-    \brief The OGRGeometry wrapper class.
+/** @class wxGISGeometry
+
+    AOGRGeometry wrapper class.
+
+    @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISGeometry : public wxObject
@@ -322,11 +355,14 @@ public:
     wxGISGeometry Clone() const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;    
+    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 };
 
-/** \class wxGISGeometryRefData gdalinh.h
-    \brief The reference data class for wxGISGeometry
+/** @class wxGISGeometryRefData
+
+    A reference data class for wxGISGeometry
+
+    @library{datasource}
 */
 
 class wxGISGeometryRefData : public wxObjectRefData

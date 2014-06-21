@@ -160,18 +160,19 @@ void wxGISTablePropertyPage::FillGrid(void)
     AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
     AppendProperty(pid, new wxDateProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate()) );
 
-    OGRDataSource *pDataSource = m_pDataset->GetDataSourceRef();
+    OGRCompatibleDataSource *pDataSource = m_pDataset->GetDataSourceRef();
     if(pDataSource)
     {
-        OGRSFDriver* pDrv = static_cast<OGRSFDriver*>(pDataSource->GetDriver());
-        if(pDrv)
+        OGRCompatibleDriver* pDrv = static_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+        OGRSFDriver* pOGRSFDrv = static_cast<OGRSFDriver*>(pDrv);
+        if(pOGRSFDrv)
         {
-            wxPGProperty* pdriversid = AppendProperty(pid, new wxStringProperty(_("Driver"), wxPG_LABEL, wxString(pDrv->GetName(), wxConvUTF8) ));
+            wxPGProperty* pdriversid = AppendProperty(pid, new wxStringProperty(_("Driver"), wxPG_LABEL, wxString(pDrv->GetOGRCompatibleDriverName(), wxConvUTF8) ));
             //TestCapability
-            AppendProperty(pdriversid, new wxStringProperty(_("Create DataSource"), wxPG_LABEL, pDrv->TestCapability(ODrCCreateDataSource) == TRUE ? _("true") : _("false")) );
-            AppendProperty(pdriversid, new wxStringProperty(_("Delete DataSource"), wxPG_LABEL, pDrv->TestCapability(ODrCDeleteDataSource) == TRUE ? _("true") : _("false")) );
+            AppendProperty(pdriversid, new wxStringProperty(_("Create DataSource"), wxPG_LABEL, pOGRSFDrv->TestCapability(ODrCCreateDataSource) == TRUE ? _("true") : _("false")) );
+            AppendProperty(pdriversid, new wxStringProperty(_("Delete DataSource"), wxPG_LABEL, pOGRSFDrv->TestCapability(ODrCDeleteDataSource) == TRUE ? _("true") : _("false")) );
         }
-        wxPGProperty* pdssid = AppendProperty(pid, new wxStringProperty(_("DataSource"), wxT("DataSource_det"), wxString(pDataSource->GetName(), wxConvUTF8) ));
+        wxPGProperty* pdssid = AppendProperty(pid, new wxStringProperty(_("DataSource"), wxT("DataSource_det"), wxString(pDataSource->GetOGRCompatibleDatasourceName(), wxConvUTF8) ));
         AppendProperty(pdssid, new wxIntProperty(_("Layer Count"), wxPG_LABEL, pDataSource->GetLayerCount()) );
         AppendProperty(pdssid, new wxStringProperty(_("Create DataSource"), wxPG_LABEL, pDataSource->TestCapability(ODsCCreateLayer) == TRUE ? _("true") : _("false")) );
     }

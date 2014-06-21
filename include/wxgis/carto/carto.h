@@ -38,5 +38,5 @@ enum wxGISEnumRendererType
 	enumGISRenderTypeRaster
 };
 
-WX_DECLARE_HASH_MAP( int, wxColor, wxIntegerHash, wxIntegerEqual, wxGISColorTable );
+WX_DECLARE_HASH_MAP( int, wxGISColor, wxIntegerHash, wxIntegerEqual, wxGISColorTable );
 

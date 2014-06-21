@@ -3,7 +3,7 @@
  * Purpose:  About Dialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "wxgis/app/gisaboutdlg.h"
 #include "wxgis/core/config.h"
 #include "wxgis/framework/tabstyle.h"
+#include "wxgis/datasource/gdalinh.h"
 
 #include "wxgisdefs.h"
 
@@ -29,9 +30,6 @@
 
 #include <wx/version.h>
 #include <wx/ffile.h>
-
-#include "gdal_priv.h"
-#include "ogrsf_frmts.h"
 
 #ifdef wxGIS_USE_PROJ
     #include "proj_api.h"
@@ -185,11 +183,7 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	OGRSFDriverRegistrar* pRegistar = OGRSFDriverRegistrar::GetRegistrar();
 	for(int i = 0; i < pRegistar->GetDriverCount(); ++i)
 	{
-#if GDAL_VERSION_NUM >= 2000000
-        wxString sDrvName(pRegistar->GetDriver(i)->GetDescription(), wxConvUTF8);
-#else
-        wxString sDrvName(pRegistar->GetDriver(i)->GetName(), wxConvUTF8);
-#endif // GDAL_VERSION_NUM
+        wxString sDrvName(pRegistar->GetDriver(i)->GetOGRCompatibleDriverName(), wxConvUTF8);
         sOgrDrivers += wxT("    - ");
 		sOgrDrivers += sDrvName;
 		sOgrDrivers += wxT("\n");
