@@ -55,7 +55,7 @@ void wxGISSymbol::SetColor(const wxGISColor& Color)
 void wxGISSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
 {
     m_pDisplay = pDisplay;
-    
+
 }
 
 //-------------------------------------------------------------------------------
@@ -148,14 +148,25 @@ void wxGISSimpleLineSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
     else
     {
         OGRLineString* pLine = (OGRLineString*)pGeom;
-        if (!m_pDisplay->CheckDrawAsPoint(Env, m_dfWidth))
+        if (!m_pDisplay->CheckDrawAsPoint(Env, m_dfWidth, false))
         {
             if(!DrawPreserved(pLine))
 		        return;
+            SetStyleToDisplay();
         }
-        SetStyleToDisplay();
+        else
+        {
+            SetLimitStyleToDisplay();
+        }
+
         m_pDisplay->Stroke();
     }
+}
+
+void wxGISSimpleLineSymbol::SetLimitStyleToDisplay()
+{
+    m_pDisplay->SetMiterLimit(m_dfMiterLimit);
+    m_pDisplay->SetColor(m_Color);
 }
 
 void wxGISSimpleLineSymbol::SetStyleToDisplay()
@@ -220,7 +231,7 @@ wxGISSimpleFillSymbol::wxGISSimpleFillSymbol() : wxGISSymbol()
     m_pLineSymbol->SetColor(wxGISColor(255, 255, 255, 255)); //set black color
     m_eFillRule = enumGISFillRuleOdd;
 }
-    
+
 wxGISSimpleFillSymbol::wxGISSimpleFillSymbol(const wxGISColor& Color, wxGISSimpleLineSymbol *pLineSymbol) : wxGISSymbol(Color)
 {
     wsSET(m_pLineSymbol, pLineSymbol);
@@ -249,7 +260,7 @@ wxGISSimpleLineSymbol *wxGISSimpleFillSymbol::GetSimpleLineSymbol() const
 
 void wxGISSimpleFillSymbol::SetSimpleLineSymbol(wxGISSimpleLineSymbol *pLineSymbol)
 {
-    m_pLineSymbol = pLineSymbol; 
+    m_pLineSymbol = pLineSymbol;
 }
 
 void wxGISSimpleFillSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
@@ -312,10 +323,12 @@ void wxGISSimpleFillSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
 	        m_pDisplay->SetColor(m_Color);
 	        m_pDisplay->FillPreserve();
         }
-
+        m_pLineSymbol->SetStyleToDisplay();
     }
-
-    m_pLineSymbol->SetStyleToDisplay();
+    else
+    {
+         m_pLineSymbol->SetLimitStyleToDisplay();
+    }
 
 	m_pDisplay->Stroke();
 }
@@ -536,7 +549,7 @@ void wxGISSimpleMarkerSymbol::Draw(const wxGISGeometry &Geometry, int nLevel)
 		m_pDisplay->SetLineWidth( m_dfSize + m_dfOutlineSize + m_dfOutlineSize);
         m_pDisplay->Stroke();
 	}
-	 
+
 	if(!m_pDisplay->DrawPointFast(pPoint->getX(), pPoint->getY()))
     {
 		return;
@@ -654,7 +667,7 @@ void wxGISSimpleCollectionSymbol::SetupDisplay(wxGISDisplay* const pDisplay)
     {
         m_pMarkerSymbol->SetupDisplay(pDisplay);
     }
-    
+
     if (NULL != m_pLineSymbol)
     {
         m_pLineSymbol->SetupDisplay(pDisplay);

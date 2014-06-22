@@ -610,6 +610,9 @@ void wxGISDisplay::InitTransformMatrix(void)
 	//set matrix to all caches
 	for(size_t i = 0; i < m_saLayerCaches.size(); ++i)
 		cairo_set_matrix (m_saLayerCaches[i].pCairoContext, m_pMatrix);
+
+	m_dfMinPolyArea = GetScaledWidth(MINPOLYAREA);
+	m_dfMinDrawPolyArea = GetScaledWidth(MINPOLYDRAWAREA);
 }
 
 void wxGISDisplay::DC2World(double* pdX, double* pdY)
@@ -748,7 +751,8 @@ bool wxGISDisplay::DrawPointFast(double dX, double dY, double dOffsetX, double d
 {
     wxCriticalSectionLocker locker(m_CritSect);
     cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY);
-	cairo_close_path (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+    cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + m_dfLineWidth, dY + dOffsetY + m_dfLineWidth);
+	//cairo_close_path (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 	return true;
 }
 
@@ -770,7 +774,8 @@ void wxGISDisplay::SetLineJoin(cairo_line_join_t line_join)
 void wxGISDisplay::SetLineWidth(double dWidth)
 {
     wxCriticalSectionLocker locker(m_CritSect);
-    cairo_set_line_width(m_saLayerCaches[m_nCurrentLayer].pCairoContext, GetScaledWidth(dWidth));
+    m_dfLineWidth = GetScaledWidth(dWidth);
+    cairo_set_line_width(m_saLayerCaches[m_nCurrentLayer].pCairoContext, m_dfLineWidth);
 }
 
 //TODO: move to cache class
@@ -821,7 +826,7 @@ bool wxGISDisplay::DrawLine(OGRRawPoint* pOGRRawPoints, int nPointCount, bool bO
 	return true;
 }
 
-bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWidth, double dOffsetX, double dOffsetY, bool bCheckEnvelope)
+bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWidth, bool bIsRing, double dOffsetX, double dOffsetY, bool bCheckEnvelope)
 {
 	OGREnvelope TestEnv;
 	TestEnv = Envelope;
@@ -839,21 +844,32 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
 	World2DCDist(&EnvWidth, &EnvHeight);
 	EnvWidth = fabs(EnvWidth);
 	EnvHeight = fabs(EnvHeight);
-	if(	EnvWidth <= MINPOLYDRAWAREA && EnvHeight <= MINPOLYDRAWAREA )
+	if(	EnvWidth <= m_dfMinDrawPolyArea && EnvHeight <= m_dfMinDrawPolyArea )
 	{
-		if(	EnvWidth >= MINPOLYAREA && EnvHeight >= MINPOLYAREA )
+	    if(bIsRing)
+        {
+            SetLineWidth( dfLineWidth + dfLineWidth );
+            //dfMinPolyArea *= 4;
+        }
+        else
+        {
+            SetLineWidth( dfLineWidth );
+        }
+
+        if(	EnvWidth >= m_dfMinPolyArea && EnvHeight >= m_dfMinPolyArea )
 		{
             wxCriticalSectionLocker locker(m_CritSect);
-
 			cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MinX + dOffsetX, Envelope.MinY + dOffsetY);
 			cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MaxX + dOffsetX, Envelope.MaxY + dOffsetY);
 		}
         else
         {
-            SetLineCap(CAIRO_LINE_CAP_ROUND);
-			SetLineWidth( dfLineWidth + dfLineWidth );
 			DrawPointFast(Envelope.MinX, Envelope.MinY, dOffsetX, dOffsetY);
         }
+
+
+
+        SetLineCap(CAIRO_LINE_CAP_ROUND);
 		return true;
 	}
 	return false;

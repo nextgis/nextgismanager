@@ -934,15 +934,15 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
         wxSize sz = GetClientSize();
         if(DNDSCROLL > y)//scroll up
         {
-            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
             //LineUp();
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
             wxPostEvent(GetEventHandler(), evt );
         }
 
         else if((sz.GetHeight() - DNDSCROLL) < y)//scroll down
         {
-            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
 //            LineDown();
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
             wxPostEvent(GetEventHandler(), evt );
         }
 

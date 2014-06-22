@@ -32,7 +32,7 @@
     @library{display}
 */
 
-class WXDLLIMPEXP_GIS_DSP wxGISSymbol : 
+class WXDLLIMPEXP_GIS_DSP wxGISSymbol :
     public wxObject,
     public wxGISPointer
 {
@@ -41,8 +41,8 @@ public:
     wxGISSymbol();
     wxGISSymbol(const wxGISColor& Color);
     virtual ~wxGISSymbol();
-    virtual void SetupDisplay(wxGISDisplay* const pDisplay); 
-    virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0) = 0; 
+    virtual void SetupDisplay(wxGISDisplay* const pDisplay);
+    virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0) = 0;
     virtual wxGISColor GetColor() const;
     virtual void SetColor(const wxGISColor& Color);
 protected:
@@ -58,7 +58,7 @@ protected:
  */
 enum wxGISEnumLineCup
 {
-	enumGISLineCupSquare, 
+	enumGISLineCupSquare,
 	enumGISLineCupRound,
 	enumGISLineCupButt
 };
@@ -71,7 +71,7 @@ enum wxGISEnumLineCup
  */
 enum wxGISEnumLineJoin
 {
-	enumGISLineJoinMiter, 
+	enumGISLineJoinMiter,
 	enumGISLineJoinBevel,
 	enumGISLineJoinRound
 };
@@ -91,16 +91,17 @@ public:
     wxGISSimpleLineSymbol(const wxGISColor& Color, double dfWidth);
     virtual ~wxGISSimpleLineSymbol(void);
     virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0);
-    virtual void SetStyleToDisplay(); 
+    virtual void SetStyleToDisplay();
+    virtual void SetLimitStyleToDisplay();
     virtual bool DrawPreserved(const OGRLineString* pLine, bool bIsRing = false);
     virtual double GetWidth() const;
-    virtual void SetWidth(double dfWidth);    
+    virtual void SetWidth(double dfWidth);
     virtual wxGISEnumLineCup GeCup() const;
-    virtual void SetCup(wxGISEnumLineCup eCup);    
+    virtual void SetCup(wxGISEnumLineCup eCup);
     virtual wxGISEnumLineJoin GetJoin() const;
     virtual void SetJoin(wxGISEnumLineJoin eJoin);
     virtual double GetMiterLimit() const;
-    virtual void SetMiterLimit(double dfMiterLimit);   
+    virtual void SetMiterLimit(double dfMiterLimit);
     virtual wxGISSimpleLineSymbol* Clone() const;
 protected:
     double m_dfWidth;
@@ -117,7 +118,7 @@ protected:
  */
 enum wxGISEnumFillRule
 {
-	enumGISFillRuleWinding, 
+	enumGISFillRuleWinding,
 	enumGISFillRuleOdd
 };
 
@@ -135,7 +136,7 @@ public:
     wxGISSimpleFillSymbol(const wxGISColor& Color, wxGISSimpleLineSymbol *pLineSymbol);
     virtual ~wxGISSimpleFillSymbol();
     virtual void Draw(const wxGISGeometry &Geometry, int nLevel = 0);
-    virtual void SetupDisplay(wxGISDisplay* const pDisplay); 
+    virtual void SetupDisplay(wxGISDisplay* const pDisplay);
     virtual wxGISEnumFillRule GetFillRule() const;
     virtual void SetFillRule(wxGISEnumFillRule eFillRule);
     virtual wxGISSimpleLineSymbol *GetSimpleLineSymbol() const;

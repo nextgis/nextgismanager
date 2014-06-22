@@ -33,11 +33,11 @@
 
 WX_DEFINE_ARRAY(wxRealPoint*, wxGISPointsArray);
 
-/** \class wxGISDisplay gisdisplay.h
-    \brief The class to draw map contents.
+/** @class wxGISDisplay
 
-    This class draw to virtual or real display.
-	It use some caches (memory rgba rasters) and output DC to draw.
+    A class to draw map contents. This class draw to virtual or real display. It use some caches (memory rgba rasters) and output DC to draw.
+
+    @library{display}
 */
 class WXDLLIMPEXP_GIS_DSP wxGISDisplay
 {
@@ -89,7 +89,7 @@ public:
     virtual void Stroke();
     virtual void FillPreserve();
 	virtual void SetColor(double dRed, double dGreen, double dBlue, double dAlpha = 0);
-	virtual bool CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWidth, double dOffsetX = 0, double dOffsetY = 0, bool bCheckEnvelope = false);
+	virtual bool CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWidth, bool bIsRing = true, double dOffsetX = 0, double dOffsetY = 0, bool bCheckEnvelope = false);
     virtual bool DrawCircle(double dX, double dY, double dOffsetX = 0, double dOffsetY = 0, double dfRadius = 1.0, double angle1 = 0, double angle2 = 2 * M_PI);
     virtual bool DrawEllipse(double dX, double dY, double dOffsetX = 0, double dOffsetY = 0, double dfWidth = 1.0, double dfHeight = 1.0);
 	virtual bool DrawPointFast(double dX, double dY, double dOffsetX = 0, double dOffsetY = 0);
@@ -141,8 +141,11 @@ protected:
 	double m_dFrameRatio;
     double m_dScale;
     int m_nSysCacheCount;
+    double m_dfLineWidth;
 
 	//temp cairo for output double buffering
 	cairo_surface_t *m_surface_tmp;
 	cairo_t *m_cr_tmp;
+
+	double m_dfMinPolyArea, m_dfMinDrawPolyArea;
 };

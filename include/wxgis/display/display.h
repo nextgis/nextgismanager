@@ -40,8 +40,11 @@
 #define ENVMIN_X -179
 #define ENVMIN_Y -85
 
-/** \enum wxGISEnumDrawPhase display.h
-    \brief The draw phase
+/** @enum wxGISEnumDrawPhase
+
+    A draw phase
+
+    @library{display}
 */
 enum wxGISEnumDrawPhase
 {
@@ -50,8 +53,11 @@ enum wxGISEnumDrawPhase
 	wxGISDPSelection = 0x0004
 };
 
-/** \enum wxGISEnumDrawQuality display.h
-    \brief The raster interpolation quality
+/** @enum wxGISEnumDrawQuality
+
+    A raster interpolation quality
+
+    @library{display}
 */
 enum wxGISEnumDrawQuality
 {
@@ -63,25 +69,28 @@ enum wxGISEnumDrawQuality
     enumGISQualityFourQuadBilinear
 };
 
-/** \enum wxGISEnumPointPosition display.h
-    \brief The point position enumerator
+/** @enum wxGISEnumPointPosition
 
-	This enumerator used in Sutherland-Hodgman Polygon Clipping 
+    A point position enumerator. This enumerator used in Sutherland-Hodgman Polygon Clipping
+
+    @library{display}
 */
 enum wxGISEnumPointPosition
 {
-	enumGISPtPosLeft = 0, 
+	enumGISPtPosLeft = 0,
 	enumGISPtPosRight,
 	enumGISPtPosBottom,
 	enumGISPtPosTop
 };
 
-/** \enum wxGISEnumDrawStyle display.h
-    \brief The styles to be get o set
+/** @enum wxGISEnumDrawStyle
 
+    A styles to be get o set
+
+    @library{display}
 enum wxGISEnumDrawStyle
 {
-	enumGISDrawStyleNone		= 0, 
+	enumGISDrawStyleNone		= 0,
 	enumGISDrawStyleFill,
 	enumGISDrawStyleOutline,
 	enumGISDrawStylePoint
