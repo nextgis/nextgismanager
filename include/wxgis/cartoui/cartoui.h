@@ -28,12 +28,13 @@
 #error Cairo required
 #endif
 
-/** \enum wxGISEnumMapToolState
-    \brief The map tool state enumerator.
+/** @enum wxGISEnumMapToolState
+
+    The map tool state enumerator.
 */
 enum wxGISEnumMapToolState
 {
-	enumGISMapNone		= 0, 
+	enumGISMapNone		= 0,
 	enumGISMapPanning,
 	enumGISMapZooming,
 	enumGISMapRotating,
@@ -44,14 +45,24 @@ enum wxGISEnumMapToolState
     enumGISMapRedraw
 };
 
-/** \enum wxGISEnumFlashStyle
-    \brief The map geometry flash styles.
+/** @enum wxGISEnumFlashStyle
 
-    While identify or any othe operations map can be 
+    The map geometry flash styles. While identify or any other operations map can be
 */
 enum wxGISEnumFlashStyle
 {
-	enumGISMapFlashNone		= 0, 
+	enumGISMapFlashNone		= 0,
 	enumGISMapFlashNewColor,
 	enumGISMapFlashWaves
 };
+
+inline bool IsURL(const wxString &sText)
+{
+    return sText.StartsWith(wxT("http:")) || sText.StartsWith(wxT("www.")) || sText.StartsWith(wxT("https:")) || sText.StartsWith(wxT("ftp:")) || sText.StartsWith(wxT("ftp.")) || sText.StartsWith(wxT("www2."));
+
+}
+
+inline bool IsLocalURL(const wxString &sText)
+{
+    return sText.StartsWith(wxT("file:"));
+}

@@ -350,6 +350,7 @@ void wxGxMapView::LoadData(long nGxObjectId)
 
 void wxGxMapView::OnMouseMove(wxMouseEvent& event)
 {
+    event.Skip(true);
 	if(m_pGISDisplay)
 	{
 		double dX(event.m_x), dY(event.m_y);

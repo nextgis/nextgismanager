@@ -122,8 +122,6 @@ public:
     //virtual void OnSetCursor(wxSetCursorEvent& event);
 protected:
 	void WriteStringToClipboard(const wxString &sData);
-    bool IsURL(const wxString &sText);
-    bool IsLocalURL(const wxString &sText);
 protected:
 	wxString m_sLocation;
 	wxGISCoordinatesFormatMenu *m_pCFormat;

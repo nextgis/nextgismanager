@@ -213,7 +213,7 @@ void wxGISFeatureDetailsPanel::FillPanel(const wxGISFeature &Feature)
             wxFont Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
             Font.SetUnderlined(true);
             m_listCtrl->SetItemFont(pos, Font);
-            m_listCtrl->SetItemTextColour(pos, wxSystemSettings::GetColour(wxSYS_COLOUR_HOTLIGHT));
+            m_listCtrl->SetItemTextColour(pos, wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT));
         }
         else if(IsLocalURL(sValue))
         {
@@ -411,11 +411,9 @@ void wxGISFeatureDetailsPanel::OnColClick(wxListEvent& event)
 void wxGISFeatureDetailsPanel::OnMouseMove(wxMouseEvent& event)
 {
     event.Skip(true);
-    wxPoint pt(event.GetX(), event.GetY());
-    //pt = ClientToScreen(pt);
-    //pt = m_listCtrl->ScreenToClient(pt);
+
     int flags;
-    long item = m_listCtrl->HitTest(pt, flags);
+    long item = m_listCtrl->HitTest(event.GetPosition(), flags);
     if ((item > -1) && (flags & wxLIST_HITTEST_ONITEM))
     {
         wxListItem row_info;
@@ -481,17 +479,6 @@ void wxGISFeatureDetailsPanel::OnMouseLeftUp(wxMouseEvent& event)
             wxLaunchDefaultApplication( row_info.m_text );
         }
     }
-}
-
-bool wxGISFeatureDetailsPanel::IsURL(const wxString &sText)
-{
-    return sText.StartsWith(wxT("http:")) || sText.StartsWith(wxT("www.")) || sText.StartsWith(wxT("https:")) || sText.StartsWith(wxT("ftp:")) || sText.StartsWith(wxT("ftp.")) || sText.StartsWith(wxT("www2."));
-
-}
-
-bool wxGISFeatureDetailsPanel::IsLocalURL(const wxString &sText)
-{
-    return sText.StartsWith(wxT("file:"));
 }
 
 //-------------------------------------------------------------------

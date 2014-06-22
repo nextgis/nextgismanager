@@ -78,7 +78,7 @@ public:
 protected:
     virtual void FillForPos(int nRow);
 private:
-	wxGISTable* m_pGISDataset;	
+	wxGISTable* m_pGISDataset;
 	//wxString m_sFIDKeyName;
 	int m_nCols;          // columns from dataSet
     int m_nRows;          // rows initially returned by dataSet
@@ -124,6 +124,9 @@ protected:
     virtual void OnSelectCell(wxGridEvent& event);
     virtual void OnMenu(wxCommandEvent& event);
     virtual void OnMenuUpdateUI(wxUpdateUIEvent& event);
+    virtual void OnMouseMove(wxMouseEvent& event);
+    virtual void OnMouseWheel(wxMouseEvent& event);
+	virtual void OnCellClick(wxGridEvent& event);
 protected:
     wxMenu *m_pMenu;
 private:
@@ -157,7 +160,7 @@ public:
     virtual void SetTable(wxGridTableBase* table, bool takeOwnership = false, wxGrid::wxGridSelectionModes selmode = wxGrid::wxGridSelectCells);
     virtual wxGridTableBase* GetTable(void) const;
 	virtual void SetReadOnly(bool bIsReadOnly){if(m_grid) m_grid->EnableEditing( bIsReadOnly );};
-	void OnLabelLeftClick(wxGridEvent& event);
+	//events
 	void OnSelectCell(wxGridEvent& event);
 	void OnBtnFirst(wxCommandEvent& event);
 	void OnBtnNext(wxCommandEvent& event);

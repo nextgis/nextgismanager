@@ -19,6 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/cartoui/tableview.h"
+#include "wxgis/cartoui/cartoui.h"
 
 #include "../../art/full_arrow.xpm"
 #include "../../art/arrow.xpm"
@@ -67,6 +68,9 @@ int wxGISGridTable::GetNumberRows()
 
 wxString wxGISGridTable::GetValue(int row, int col)
 {
+    if(row < 0 || col < 0)
+		return wxEmptyString;
+
 	if(GetNumberCols() <= col || GetNumberRows() <= row)
 		return wxEmptyString;
 
@@ -136,8 +140,8 @@ wxGISTable* wxGISGridTable::GetDataset() const
 }
 
 bool wxGISGridTable::IsEmptyCell(int row, int col)
-{ 
-    return false; 
+{
+    return false;
 }
 
 void wxGISGridTable::FillForPos(int nRow)
@@ -230,6 +234,25 @@ wxGridCellAttr *wxGISGridTable::GetAttr(int row, int col, wxGridCellAttr::wxAttr
         pRet = new wxGridCellAttr();
     }
     pRet->SetAlignment(m_mnAlign[col], wxALIGN_TOP);
+
+    if(kind == wxGridCellAttr::Cell || kind == wxGridCellAttr::Any || kind == wxGridCellAttr::Default)
+    {
+        wxString sValue = GetValue(row, col);
+        if(IsURL(sValue))
+        {
+            wxFont Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+            Font.SetUnderlined(true);
+            pRet->SetFont(Font);
+            pRet->SetTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT));
+        }
+        else if(IsLocalURL(sValue))
+        {
+            wxFont Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+            Font.SetUnderlined(true);
+            pRet->SetFont(Font);
+            pRet->SetTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT));
+        }
+    }
     return pRet;
 }
 
@@ -243,8 +266,10 @@ BEGIN_EVENT_TABLE(wxGridCtrl, wxGrid)
     EVT_GRID_LABEL_LEFT_CLICK(wxGridCtrl::OnLabelLeftClick)
     EVT_GRID_LABEL_RIGHT_CLICK(wxGridCtrl::OnLabelRightClick)
     EVT_GRID_SELECT_CELL(wxGridCtrl::OnSelectCell)
+    EVT_GRID_CELL_LEFT_CLICK(wxGridCtrl::OnCellClick)
     EVT_MENU_RANGE(ID_DELETE, ID_MAX, wxGridCtrl::OnMenu)
     EVT_UPDATE_UI_RANGE(ID_DELETE, ID_MAX, wxGridCtrl::OnMenuUpdateUI)
+    //EVT_MOTION(wxGridCtrl::OnMouseMove)
 END_EVENT_TABLE();
 
 wxGridCtrl::wxGridCtrl()
@@ -292,6 +317,9 @@ wxGridCtrl::wxGridCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, cons
     m_pMenu->AppendSeparator();
     pItem = new wxMenuItem(m_pMenu, ID_PROPERTIES, _("Properties"));
     m_pMenu->Append(pItem);
+
+    GetGridWindow ()->Bind(wxEVT_MOTION, &wxGridCtrl::OnMouseMove, this);
+    GetGridWindow ()->Bind(wxEVT_MOUSEWHEEL, &wxGridCtrl::OnMouseWheel, this);
 }
 
 wxGridCtrl::~wxGridCtrl(void)
@@ -390,7 +418,7 @@ void wxGridCtrl::OnMenuUpdateUI(wxUpdateUIEvent& event)
 
 void wxGridCtrl::OnSelectCell(wxGridEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
     GetGridRowLabelWindow()->Refresh();
 }
 
@@ -406,6 +434,47 @@ void wxGridCtrl::SetEncoding(const wxFontEncoding &eEnc)
     }
 }
 
+void wxGridCtrl::OnCellClick(wxGridEvent& event)
+{
+    event.Skip(true);
+    int nCol = event.GetCol();
+    int nRow = event.GetRow();
+    wxString sText = GetCellValue(nRow, nCol);
+
+    if(IsURL(sText))
+    {
+        wxLaunchDefaultBrowser( sText );
+    }
+    else if(IsLocalURL(sText))
+    {
+        wxLaunchDefaultApplication( sText );
+    }
+}
+
+void wxGridCtrl::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip(true);
+    wxGridCellCoords oCoords = XYToCell(event.GetPosition());
+    wxString sValue = GetCellValue(oCoords);
+
+    if(IsURL(sValue) || IsLocalURL(sValue))
+    {
+        GetGridWindow ()->SetCursor(wxCursor(wxCURSOR_HAND));
+    }
+    else
+    {
+        GetGridWindow ()->SetCursor(wxCursor(wxCURSOR_ARROW));
+    }
+}
+
+void wxGridCtrl::OnMouseWheel(wxMouseEvent& event)
+{
+    event.Skip(true);
+	int nDirection = event.GetWheelRotation();
+	int nDelta = event.GetWheelDelta();
+    ScrollLines(-nDirection/nDelta);
+}
+
 //-------------------------------------
 // wxGISTableView
 //-------------------------------------
@@ -413,8 +482,6 @@ void wxGridCtrl::SetEncoding(const wxFontEncoding &eEnc)
 IMPLEMENT_CLASS(wxGISTableView, wxPanel)
 
 BEGIN_EVENT_TABLE(wxGISTableView, wxPanel)
-    EVT_GRID_LABEL_LEFT_CLICK(wxGISTableView::OnLabelLeftClick)
-    EVT_GRID_SELECT_CELL(wxGISTableView::OnSelectCell)
 	EVT_BUTTON(wxGISTableView::ID_FIRST, wxGISTableView::OnBtnFirst)
 	EVT_BUTTON(wxGISTableView::ID_NEXT, wxGISTableView::OnBtnNext)
 	EVT_BUTTON(wxGISTableView::ID_PREV, wxGISTableView::OnBtnPrev)
@@ -464,6 +531,8 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	m_grid->SetRowLabelSize( GRID_ROW_SIZE );
 	m_grid->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 
+//    EVT_GRID_SELECT_CELL(wxGISTableView::OnSelectCell)
+    m_grid->Bind(wxEVT_GRID_SELECT_CELL, &wxGISTableView::OnSelectCell, this);
 	// Label Appearance
 
 	// Cell Defaults
@@ -539,7 +608,7 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
             m_mnEnc[sDesc] = (wxFontEncoding)i;
         }
     }
-    
+
     m_pEncodingsCombo = new wxComboBox(this, ID_ENCODING, sDefault, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_DROPDOWN | wxCB_READONLY | wxCB_SORT);
     bSizerLow->Add(m_pEncodingsCombo, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
@@ -555,14 +624,9 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
     return true;
 }
 
-void wxGISTableView::OnLabelLeftClick(wxGridEvent& event)
-{
-    event.Skip();
-}
-
 void wxGISTableView::OnSelectCell(wxGridEvent& event)
 {
-    event.Skip();
+    event.Skip(true);
 	m_position->Clear();
 	(*m_position) << event.GetRow() + 1;
 
@@ -622,7 +686,7 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
         }
 
         //TODO: Set grid encoding selection in combobox
-        
+
         this->Layout();
 	}
 }
@@ -642,3 +706,5 @@ void wxGISTableView::OnEncodingSelect(wxCommandEvent& event)
     wxFontEncoding eEnc = m_mnEnc[sSel];
     m_grid->SetEncoding(eEnc);
 }
+
+
