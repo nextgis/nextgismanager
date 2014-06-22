@@ -928,14 +928,23 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flag);
     if(ItemId.IsOk())
     {
-        wxSize sz = GetClientSize();
-        if(DNDSCROLL > y)//scroll up
-            ScrollLines(-1);
-        else if((sz.GetHeight() - DNDSCROLL) < y)//scroll down
-            ScrollLines(1);
-
         SetItemDropHighlight(ItemId);
         m_HighLightItemId = ItemId;
+
+        wxSize sz = GetClientSize();
+        if(DNDSCROLL > y)//scroll up
+        {
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
+            //LineUp();
+            wxPostEvent(GetEventHandler(), evt );
+        }
+
+        else if((sz.GetHeight() - DNDSCROLL) < y)//scroll down
+        {
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
+//            LineDown();
+            wxPostEvent(GetEventHandler(), evt );
+        }
 
 	    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ItemId);
 		if (NULL == pData)
