@@ -301,6 +301,7 @@ void wxGxRemoteConnection::LoadChildren(void)
             GetNewRemoteDBSchema(it->second, szPath, pDSet);
         }
         m_bChildrenLoaded = true;
+        wsDELETE(pInfoSchema);
     }
     wsDELETE(pDSet);
 }

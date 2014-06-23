@@ -29,7 +29,7 @@
 #include <wx/statline.h>
 
 /** @class wxGISRemoteConnDlg
-    
+
     The dialog to configure remote database connection, test it and store in connection file (*.xconn)
 
     @library{catalogui}
@@ -58,8 +58,10 @@ public:
 	virtual CPLString GetPath(void);
 	virtual wxString GetName(void);
 protected:	//events
-    void OnTest(wxCommandEvent& event);
-	void OnOK(wxCommandEvent& event);
+    virtual void OnTest(wxCommandEvent& event);
+	virtual void OnOK(wxCommandEvent& event);
+protected:
+    void CreateUI(bool bHasConnectionPath = true);
 protected:
 	wxBoxSizer* m_bMainSizer;
 	wxTextCtrl* m_ConnName;

@@ -252,8 +252,8 @@ bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxSt
 {
     if (sTemplate.IsEmpty())
     {
-        wxString sCreateDb = wxString::Format(wxT("CREATE DATABASE %s WITH OWNER = %s ENCODING = '%s' TABLESPACE = pg_default;"), sDBName.c_str(), sOwner.c_str(), sEncoding.c_str(), sTemplate.c_str() );
-        //TODO: SET EXTENSION
+        wxString sCreateDb = wxString::Format(wxT("CREATE DATABASE %s WITH OWNER = %s ENCODING = '%s' TABLESPACE = pg_default;"), sDBName.c_str(), sOwner.c_str(), sEncoding.c_str() );
+        //SET EXTENSION
         OGRPGDataSource *pPGDS = (OGRPGDataSource*)(m_poDS);//dynamic_cast<OGRPGDataSource*>(m_poDS);
         if (pPGDS != NULL)
         {
@@ -267,14 +267,23 @@ bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxSt
                     return false;
                 }
 
-                return true;
+                //reconnect to new db
+                Close();
+                m_sDBName = sDBName;
+                if(Open(true, true))
+                {
+                    //execute extenstion ...
+                    return ExecuteSQL(wxT("CREATE EXTENSION postgis;"));
+                }
+                else
+                {
+                    CPLError(CE_Failure, CPLE_AppDefined, "Open created DB failed failed");
+                }
             }
             else
             {
                 CPLError(CE_Failure, CPLE_AppDefined, "PGresult is null");
             }
-            //reconnect to new db
-            //execute extenstion ...
         }
         else
         {
@@ -287,6 +296,7 @@ bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxSt
         OGRPGDataSource *pPGDS = (OGRPGDataSource*)(m_poDS);//dynamic_cast<OGRPGDataSource*>(m_poDS);
         if (pPGDS != NULL)
         {
+            //TODO: execute drop connections on template db
             PGresult* hResult = PQexec(pPGDS->GetPGConn(), sCreateDb.mb_str());
             if (hResult)
             {

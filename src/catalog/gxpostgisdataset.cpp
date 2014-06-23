@@ -71,6 +71,8 @@ void wxGxPostGISTableDataset::FillMetadata(bool bForce)
         {
             m_nSize = Feature.GetFieldAsInteger(0);
         }
+
+        wsDELETE(pTableList);
     }
 }
 
@@ -120,7 +122,7 @@ IMPLEMENT_CLASS(wxGxPostGISFeatureDataset, wxGxFeatureDataset)
 //
 //	m_pwxGISDataset = pwxGISDataset;
 //
-////#ifndef PGTEST 
+////#ifndef PGTEST
 ////    m_sPath = soPath + " ";
 ////    m_sPath += m_sName.mb_str(wxConvUTF8);
 ////#else
@@ -175,6 +177,7 @@ void wxGxPostGISFeatureDataset::FillMetadata(bool bForce)
         {
             m_nSize = Feature.GetFieldAsInteger(0);
         }
+        wsDELETE(pTableList);
     }
 }
 

@@ -31,6 +31,14 @@
     @library{catalogui}
 */
 
+enum wxGISEnumCatalogCreateNewCmdType{
+    enumGISCatalogCreateNewCmdRemoteDBConnection = 0,
+    enumGISCatalogCreateNewCmdWebServiceConnection,
+    enumGISCatalogCreateNewCmdDBSchema,
+    enumGISCatalogCreateNewCmdDBAndConnection,
+    enumGISCatalogCreateNewCmdMax
+};
+
 class wxGISCreateNewCmd :
     public wxGISCommand
 {

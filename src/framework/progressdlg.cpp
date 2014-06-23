@@ -185,6 +185,15 @@ void wxGISProgressDlg::Stop(void)
 
 void wxGISProgressDlg::SetValue(int value)
 {
+    int nRange = GetRange();
+    if (nRange < 1)
+        nRange = 1;
+
+    double dfDone = double(value) / nRange;
+    double dfPrevDone = double(GetRange()) / nRange;
+
+    bool bHasChanges = (dfDone - dfPrevDone) >= 0.1;
+
     if (NULL != m_pProgressBar)
     {
         m_pProgressBar->SetValue(value);
@@ -194,25 +203,18 @@ void wxGISProgressDlg::SetValue(int value)
 
 #ifdef __WXMSW__
     wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
-    if (pMainFrame && m_pTaskbarList)
+    if (pMainFrame && m_pTaskbarList && bHasChanges)
         m_pTaskbarList->SetProgressValue((HWND)pMainFrame->GetHandle(), value, GetRange());
 #endif
 
-
-
-    wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
-    int nRange = GetRange();
-    if (nRange < 1)
-        nRange = 1;
-    double dfDone = double(value) / nRange;
-
 #ifdef wxGIS_HAVE_UNITY_INTEGRATION
-    if(m_pLauncher)
+    if(m_pLauncher && bHasChanges)
     {
         unity_launcher_entry_set_progress(m_pLauncher, dfDone);
     }
 #endif // wxGIS_HAVE_UNITY_INTEGRATION
 
+    wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
     double dfToDo = 1.0 - dfDone;
     int nDone = dfDone * 100;
     if (m_nPrevDone == nDone)

@@ -63,85 +63,7 @@ wxGISRemoteConnDlg::wxGISRemoteConnDlg(wxXmlNode* pConnectionNode, wxWindow* par
 
     //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
 
-    m_bMainSizer = new wxBoxSizer(wxVERTICAL);
-
-    wxFlexGridSizer* fgSizer1;
-    fgSizer1 = new wxFlexGridSizer(3, 2, 0, 0);
-    fgSizer1->AddGrowableCol(1);
-    fgSizer1->SetFlexibleDirection(wxBOTH);
-    fgSizer1->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-    m_SetverStaticText = new wxStaticText(this, wxID_ANY, _("Server:"), wxDefaultPosition, wxDefaultSize, 0);
-    m_SetverStaticText->Wrap(-1);
-    fgSizer1->Add(m_SetverStaticText, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
-
-    m_sServerTextCtrl = new wxTextCtrl(this, ID_SERVERTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sServer));
-    fgSizer1->Add(m_sServerTextCtrl, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
-
-    m_PortStaticText = new wxStaticText(this, wxID_ANY, _("Port:"), wxDefaultPosition, wxDefaultSize, 0);
-    m_PortStaticText->Wrap(-1);
-    fgSizer1->Add(m_PortStaticText, 0, wxALL | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL, 5);
-
-    m_PortTextCtrl = new wxTextCtrl(this, ID_PORTTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC, &m_sPort));
-    fgSizer1->Add(m_PortTextCtrl, 0, wxALL | wxEXPAND, 5);
-
-    m_DatabaseStaticText = new wxStaticText(this, ID_DATABASESTATICTEXT, _("Database:"), wxDefaultPosition, wxDefaultSize, 0);
-    m_DatabaseStaticText->Wrap(-1);
-    fgSizer1->Add(m_DatabaseStaticText, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
-
-    m_DatabaseTextCtrl = new wxTextCtrl(this, ID_DATABASETEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatabase));
-    fgSizer1->Add(m_DatabaseTextCtrl, 0, wxALL | wxEXPAND, 5);
-
-    m_bMainSizer->Add(fgSizer1, 0, wxEXPAND, 5);
-
-    wxStaticBoxSizer* sbSizer1;
-    sbSizer1 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Account")), wxVERTICAL);
-
-    wxFlexGridSizer* fgSizer2;
-    fgSizer2 = new wxFlexGridSizer(2, 2, 0, 0);
-    fgSizer2->AddGrowableCol(1);
-    fgSizer2->SetFlexibleDirection(wxBOTH);
-    fgSizer2->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-    m_UserStaticText = new wxStaticText(this, ID_USERSTATICTEXT, _("User:"), wxDefaultPosition, wxDefaultSize, 0);
-    m_UserStaticText->Wrap(-1);
-    fgSizer2->Add(m_UserStaticText, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
-
-    m_UsesTextCtrl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sUser));
-    fgSizer2->Add(m_UsesTextCtrl, 0, wxALL | wxEXPAND, 5);
-
-    m_PassStaticText = new wxStaticText(this, ID_PASSSTATICTEXT, _("Password:"), wxDefaultPosition, wxDefaultSize, 0);
-    m_PassStaticText->Wrap(-1);
-    fgSizer2->Add(m_PassStaticText, 0, wxALL | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL, 5);
-
-    m_PassTextCtrl = new wxTextCtrl(this, ID_PASSTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD, wxGenericValidator(&m_sPass));
-    fgSizer2->Add(m_PassTextCtrl, 0, wxALL | wxEXPAND, 5);
-
-    sbSizer1->Add(fgSizer2, 1, wxEXPAND, 5);
-
-    m_bMainSizer->Add(sbSizer1, 0, wxEXPAND | wxALL, 5);
-
-    m_checkBoxBinaryCursor = new wxCheckBox(this, wxID_ANY, _("Use binary cursor"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bIsBinaryCursor));
-    m_bMainSizer->Add(m_checkBoxBinaryCursor, 0, wxALL | wxEXPAND, 5);
-
-    m_TestButton = new wxButton(this, ID_TESTBUTTON, _("Test Connection"), wxDefaultPosition, wxDefaultSize, 0);
-    m_bMainSizer->Add(m_TestButton, 0, wxALL | wxEXPAND, 5);
-
-    m_staticline2 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
-    m_bMainSizer->Add(m_staticline2, 0, wxEXPAND | wxALL, 5);
-
-    m_sdbSizer = new wxStdDialogButtonSizer();
-    m_sdbSizerOK = new wxButton(this, wxID_OK, _("OK"));
-    m_sdbSizer->AddButton(m_sdbSizerOK);
-    m_sdbSizerCancel = new wxButton(this, wxID_CANCEL, _("Cancel"));
-    m_sdbSizer->AddButton(m_sdbSizerCancel);
-    m_sdbSizer->Realize();
-    m_bMainSizer->Add(m_sdbSizer, 0, wxEXPAND | wxALL, 5);
-
-    this->SetSizerAndFit(m_bMainSizer);
-    this->Layout();
-
-    this->Centre(wxBOTH);
+    CreateUI(false);
 }
 
 
@@ -180,91 +102,7 @@ wxGISRemoteConnDlg::wxGISRemoteConnDlg( CPLString pszConnPath, wxWindow* parent,
 
     //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
 
-	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
-
-	m_ConnName = new wxTextCtrl( this, ID_CONNNAME, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sConnName) );
-	m_bMainSizer->Add( m_ConnName, 0, wxALL|wxEXPAND, 5 );
-
-	m_staticline1 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	m_bMainSizer->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
-
-	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
-	fgSizer1->AddGrowableCol( 1 );
-	fgSizer1->SetFlexibleDirection( wxBOTH );
-	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-	m_SetverStaticText = new wxStaticText( this, wxID_ANY, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_SetverStaticText->Wrap( -1 );
-	fgSizer1->Add( m_SetverStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-
-	m_sServerTextCtrl = new wxTextCtrl( this, ID_SERVERTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sServer) );
-	fgSizer1->Add( m_sServerTextCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
-
-	m_PortStaticText = new wxStaticText( this, wxID_ANY, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_PortStaticText->Wrap( -1 );
-	fgSizer1->Add( m_PortStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
-
-	m_PortTextCtrl = new wxTextCtrl( this, ID_PORTTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC, &m_sPort) );
-	fgSizer1->Add( m_PortTextCtrl, 0, wxALL|wxEXPAND, 5 );
-
-	m_DatabaseStaticText = new wxStaticText( this, ID_DATABASESTATICTEXT, _("Database:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_DatabaseStaticText->Wrap( -1 );
-	fgSizer1->Add( m_DatabaseStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-
-	m_DatabaseTextCtrl = new wxTextCtrl( this, ID_DATABASETEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatabase) );
-	fgSizer1->Add( m_DatabaseTextCtrl, 0, wxALL|wxEXPAND, 5 );
-
-	m_bMainSizer->Add( fgSizer1, 0, wxEXPAND, 5 );
-
-	wxStaticBoxSizer* sbSizer1;
-	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Account") ), wxVERTICAL );
-
-	wxFlexGridSizer* fgSizer2;
-	fgSizer2 = new wxFlexGridSizer( 2, 2, 0, 0 );
-	fgSizer2->AddGrowableCol( 1 );
-	fgSizer2->SetFlexibleDirection( wxBOTH );
-	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-	m_UserStaticText = new wxStaticText( this, ID_USERSTATICTEXT, _("User:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_UserStaticText->Wrap( -1 );
-	fgSizer2->Add( m_UserStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-
-	m_UsesTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sUser) );
-	fgSizer2->Add( m_UsesTextCtrl, 0, wxALL|wxEXPAND, 5 );
-
-	m_PassStaticText = new wxStaticText( this, ID_PASSSTATICTEXT, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_PassStaticText->Wrap( -1 );
-	fgSizer2->Add( m_PassStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
-
-	m_PassTextCtrl = new wxTextCtrl( this, ID_PASSTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD, wxGenericValidator(&m_sPass) );
-	fgSizer2->Add( m_PassTextCtrl, 0, wxALL|wxEXPAND, 5 );
-
-	sbSizer1->Add( fgSizer2, 1, wxEXPAND, 5 );
-
-	m_bMainSizer->Add( sbSizer1, 0, wxEXPAND|wxALL, 5 );
-
-    m_checkBoxBinaryCursor = new wxCheckBox(this, wxID_ANY, _("Use binary cursor"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bIsBinaryCursor));
-	m_bMainSizer->Add( m_checkBoxBinaryCursor, 0, wxALL|wxEXPAND, 5 );
-
-	m_TestButton = new wxButton( this, ID_TESTBUTTON, _("Test Connection"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_bMainSizer->Add( m_TestButton, 0, wxALL|wxEXPAND, 5 );
-
-	m_staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	m_bMainSizer->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
-
-	m_sdbSizer = new wxStdDialogButtonSizer();
-	m_sdbSizerOK = new wxButton( this, wxID_OK, _("OK") );
-	m_sdbSizer->AddButton( m_sdbSizerOK );
-	m_sdbSizerCancel = new wxButton( this, wxID_CANCEL, _("Cancel") );
-	m_sdbSizer->AddButton( m_sdbSizerCancel );
-	m_sdbSizer->Realize();
-	m_bMainSizer->Add( m_sdbSizer, 0, wxEXPAND|wxALL, 5 );
-
-    this->SetSizerAndFit(m_bMainSizer);
-	this->Layout();
-
-	this->Centre( wxBOTH );
+    CreateUI();
 }
 
 wxGISRemoteConnDlg::~wxGISRemoteConnDlg()
@@ -383,6 +221,98 @@ wxString wxGISRemoteConnDlg::GetName(void)
  	if(!m_sConnName.Lower().EndsWith(wxT(".xconn")))
 		m_sConnName.Append(wxT(".xconn"));
 	return m_sConnName;
+}
+
+void wxGISRemoteConnDlg::CreateUI(bool bHasConnectionPath)
+{
+    m_bMainSizer = new wxBoxSizer( wxVERTICAL );
+
+    if(bHasConnectionPath)
+    {
+        m_ConnName = new wxTextCtrl( this, ID_CONNNAME, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sConnName) );
+        m_bMainSizer->Add( m_ConnName, 0, wxALL|wxEXPAND, 5 );
+
+        m_staticline1 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+        m_bMainSizer->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
+    }
+
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+	m_SetverStaticText = new wxStaticText( this, wxID_ANY, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_SetverStaticText->Wrap( -1 );
+	fgSizer1->Add( m_SetverStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	m_sServerTextCtrl = new wxTextCtrl( this, ID_SERVERTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sServer) );
+	fgSizer1->Add( m_sServerTextCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+
+	m_PortStaticText = new wxStaticText( this, wxID_ANY, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_PortStaticText->Wrap( -1 );
+	fgSizer1->Add( m_PortStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+
+	m_PortTextCtrl = new wxTextCtrl( this, ID_PORTTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC, &m_sPort) );
+	fgSizer1->Add( m_PortTextCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	m_DatabaseStaticText = new wxStaticText( this, ID_DATABASESTATICTEXT, _("Database:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_DatabaseStaticText->Wrap( -1 );
+	fgSizer1->Add( m_DatabaseStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	m_DatabaseTextCtrl = new wxTextCtrl( this, ID_DATABASETEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatabase) );
+	fgSizer1->Add( m_DatabaseTextCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	m_bMainSizer->Add( fgSizer1, 0, wxEXPAND, 5 );
+
+	wxStaticBoxSizer* sbSizer1;
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Account") ), wxVERTICAL );
+
+	wxFlexGridSizer* fgSizer2;
+	fgSizer2 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer2->AddGrowableCol( 1 );
+	fgSizer2->SetFlexibleDirection( wxBOTH );
+	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+	m_UserStaticText = new wxStaticText( this, ID_USERSTATICTEXT, _("User:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_UserStaticText->Wrap( -1 );
+	fgSizer2->Add( m_UserStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	m_UsesTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sUser) );
+	fgSizer2->Add( m_UsesTextCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	m_PassStaticText = new wxStaticText( this, ID_PASSSTATICTEXT, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_PassStaticText->Wrap( -1 );
+	fgSizer2->Add( m_PassStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+
+	m_PassTextCtrl = new wxTextCtrl( this, ID_PASSTEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD, wxGenericValidator(&m_sPass) );
+	fgSizer2->Add( m_PassTextCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	sbSizer1->Add( fgSizer2, 1, wxEXPAND, 5 );
+
+	m_bMainSizer->Add( sbSizer1, 0, wxEXPAND|wxALL, 5 );
+
+    m_checkBoxBinaryCursor = new wxCheckBox(this, wxID_ANY, _("Use binary cursor"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bIsBinaryCursor));
+	m_bMainSizer->Add( m_checkBoxBinaryCursor, 0, wxALL|wxEXPAND, 5 );
+
+	m_TestButton = new wxButton( this, ID_TESTBUTTON, _("Test Connection"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_bMainSizer->Add( m_TestButton, 0, wxALL|wxEXPAND, 5 );
+
+	m_staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	m_bMainSizer->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
+
+	m_sdbSizer = new wxStdDialogButtonSizer();
+	m_sdbSizerOK = new wxButton( this, wxID_OK, _("OK") );
+	m_sdbSizer->AddButton( m_sdbSizerOK );
+	m_sdbSizerCancel = new wxButton( this, wxID_CANCEL, _("Cancel") );
+	m_sdbSizer->AddButton( m_sdbSizerCancel );
+	m_sdbSizer->Realize();
+	m_bMainSizer->Add( m_sdbSizer, 0, wxEXPAND|wxALL, 5 );
+
+    this->SetSizerAndFit(m_bMainSizer);
+	this->Layout();
+
+	this->Centre( wxBOTH );
 }
 
 #endif //wxGIS_USE_POSTGRES

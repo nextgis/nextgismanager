@@ -594,6 +594,8 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
     //loading
     m_nCurrentFID = 1;
 
+    const char *oldlocale = setlocale(LC_NUMERIC, "C");
+
 	OGRFeature *poFeature;
 	while((poFeature = m_poLayer->GetNextFeature()) != NULL )
 	{
@@ -651,6 +653,8 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
 		m_nFeatureCount = m_omFeatures.size();
     }
 
+
+    setlocale(LC_NUMERIC, oldlocale);
 
 	if(pProgress)
 	{

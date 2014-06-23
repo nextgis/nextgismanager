@@ -31,11 +31,9 @@
 #include "../../art/web_conn_create.xpm"
 #include "../../art/dbschema_create.xpm"
 
-
-//	0	Create new remote DB connection
-//  1   Create new web service connection
-//  2   Create new database schema
-//  3   ?
+#ifdef wxGIS_USE_POSTGRES
+    #include "wxgis/catalogui/createremotedlgs.h"
+#endif // wxGIS_USE_POSTGRES
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISCreateNewCmd, wxObject)
@@ -52,15 +50,16 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+        case enumGISCatalogCreateNewCmdDBAndConnection:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			if(!m_IconCreateRemoteConn.IsOk())
 				m_IconCreateRemoteConn = wxIcon(rdb_create_xpm);
 			return m_IconCreateRemoteConn;
-		case 1:
+		case enumGISCatalogCreateNewCmdWebServiceConnection:
 			if(!m_IconCreateWebConn.IsOk())
 				m_IconCreateWebConn = wxIcon(web_conn_create_xpm);
 			return m_IconCreateWebConn;
-		case 2:
+		case enumGISCatalogCreateNewCmdDBSchema:
 			if(!m_IconCreateSchema.IsOk())
                 m_IconCreateSchema = wxIcon(dbschema_create_xpm);
             return m_IconCreateSchema;
@@ -73,12 +72,14 @@ wxString wxGISCreateNewCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("&Remote database connection"));
-		case 1:
+		case enumGISCatalogCreateNewCmdWebServiceConnection:
 			return wxString(_("&Web service connection"));
-        case 2:
+        case enumGISCatalogCreateNewCmdDBSchema:
             return wxString(_("&Database schema"));
+        case enumGISCatalogCreateNewCmdDBAndConnection:
+            return wxString(_("Rem&ote Database"));
         default:
 			return wxEmptyString;
 	}
@@ -88,9 +89,10 @@ wxString wxGISCreateNewCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
+		case enumGISCatalogCreateNewCmdWebServiceConnection:
+		case enumGISCatalogCreateNewCmdDBSchema:
+        case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Create"));
 		default:
 			return NO_CATEGORY;
@@ -111,7 +113,8 @@ bool wxGISCreateNewCmd::GetEnabled(void)
 
     switch(m_subtype)
 	{
-		case 0://Create new remote connection
+        case enumGISCatalogCreateNewCmdDBAndConnection:
+        case enumGISCatalogCreateNewCmdRemoteDBConnection:
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -122,7 +125,7 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                 }
             }
             return false;
-		case 1://Create new web connection
+		case enumGISCatalogCreateNewCmdWebServiceConnection://Create new web connection
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -133,7 +136,7 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                 }
             }
             return false;
-		case 2://Create database schema
+		case enumGISCatalogCreateNewCmdDBSchema://Create database schema
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -153,9 +156,10 @@ wxGISEnumCommandKind wxGISCreateNewCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Create new remote connection
-        case 1://Create new web connection
-        case 2://Create new database schema
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
+        case enumGISCatalogCreateNewCmdWebServiceConnection:
+        case enumGISCatalogCreateNewCmdDBSchema:
+        case enumGISCatalogCreateNewCmdDBAndConnection:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -165,12 +169,14 @@ wxString wxGISCreateNewCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("Create new remote DB connection"));
-		case 1:
+		case enumGISCatalogCreateNewCmdWebServiceConnection:
 			return wxString(_("Create new web service connection"));
-		case 2:
+		case enumGISCatalogCreateNewCmdDBSchema:
 			return wxString(_("Create new database schema"));
+		case enumGISCatalogCreateNewCmdDBAndConnection:
+            return wxString(_("Create new database"));
 		default:
 			return wxEmptyString;
 	}
@@ -185,7 +191,7 @@ void wxGISCreateNewCmd::OnClick(void)
 
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 #ifdef wxGIS_USE_POSTGRES
             if(pCat && pSel)
             {
@@ -208,7 +214,30 @@ void wxGISCreateNewCmd::OnClick(void)
             }
 #endif //wxGIS_USE_POSTGRES
             break;
-        case 2:
+		case enumGISCatalogCreateNewCmdDBAndConnection:
+#ifdef wxGIS_USE_POSTGRES
+            if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
+                if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+                {
+                    CPLString pszConnFolder = pGxObject->GetPath();
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).mb_str(wxConvUTF8));
+
+                    wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
+                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+
+					wxGISCreateDBDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
+					if(dlg.ShowModal() != wxID_OK)
+                    {
+                        pGxAR->BeginRenameOnAdd(NULL, "");
+                    }
+                }
+            }
+#endif //wxGIS_USE_POSTGRES
+            break;
+        case enumGISCatalogCreateNewCmdDBSchema:
 #ifdef wxGIS_USE_POSTGRES
             if (pCat && pSel)
             {
@@ -258,18 +287,20 @@ wxString wxGISCreateNewCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("Create new remote DB connection"));
-		case 1:
+		case enumGISCatalogCreateNewCmdWebServiceConnection:
 			return wxString(_("Create new web service connection"));
-		case 2:
+		case enumGISCatalogCreateNewCmdDBSchema:
 			return wxString(_("Create new database schema"));
-		default:
+		case enumGISCatalogCreateNewCmdDBAndConnection:
+			return wxString(_("Create new database"));
+        default:
 			return wxEmptyString;
 	}
 }
 
 unsigned char wxGISCreateNewCmd::GetCount(void)
 {
-	return 3;
+	return enumGISCatalogCreateNewCmdMax;
 }

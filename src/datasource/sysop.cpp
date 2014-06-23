@@ -787,13 +787,14 @@ wxString GetConvName(const CPLString &szPath, bool bIsPath)
         szName = CPLGetFilename(szPath);
     else
         szName = szPath;
-
     if( EQUALN(szPath,"/vsizip/",8) )
 	{
+	    //TODO: Fin in Ubuntu Russian names
 		wxString sCharset(wxT("cp-866"));
 		wxGISAppConfig oConfig = GetConfig();
         if(oConfig.IsOk())
 			sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+
         name = wxString(szName, wxCSConv(sCharset));
 	}
     else
