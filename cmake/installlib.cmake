@@ -16,10 +16,11 @@ if(WIN32)
 else()
     install(TARGETS ${LIB_NAME}
         RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib/wxgis
-        LIBRARY DESTINATION lib/wxgis)
+        ARCHIVE DESTINATION lib #/wxgis
+        LIBRARY DESTINATION lib #/wxgis
+    )
 
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/wxgis")
+#    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+#    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/wxgis")
 endif() 
 

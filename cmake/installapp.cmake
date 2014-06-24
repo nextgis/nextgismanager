@@ -18,6 +18,6 @@ else()
         RUNTIME DESTINATION bin
         ARCHIVE DESTINATION lib/wxgis
         LIBRARY DESTINATION lib/wxgis)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/inst/debian/share DESTINATION share)
+    install(DIRECTORY ${WXGIS_CURRENT_SOURCE_DIR}/inst/debian/share/ DESTINATION share)
 endif() 
 

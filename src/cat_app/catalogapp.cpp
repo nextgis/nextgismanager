@@ -43,7 +43,7 @@ wxGISCatalogApp::wxGISCatalogApp(void) : wxApp()
     m_className = wxString(wxT("wxGISCatalogApp"));
 
 #if defined(__WXGTK__) && !wxCHECK_VERSION(2, 9, 5)
-    wxSetEnv(wxT("UBUNTU_MENUPROXY"), wxT("0"));
+//    wxSetEnv(wxT("UBUNTU_MENUPROXY"), wxT("0"));
 #endif
     m_pMainFrame = NULL;
     m_bMainFrameCreated = false;
@@ -94,7 +94,7 @@ bool wxGISCatalogApp::OnInit()
         wxLogError(_("Setup locale failed. Locale files directory '%s', locale: %s"), sLocaleDir.c_str(), sLocale.c_str());
         return false;
     }
-    
+
     //check time out and show splash
     wxXmlNode* pSplashNode = oConfig.GetConfigNode(enumGISHKCU, wxT("wxGISCommon/splash"));
     bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);//false;//

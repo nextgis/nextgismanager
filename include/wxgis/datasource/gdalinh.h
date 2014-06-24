@@ -38,7 +38,7 @@
     #define OGRCompatibleDataSource OGRDataSource
     #define OGRCompatibleClose(x) OGRDataSource::DestroyDataSource(x)
     #define OGRCompatibleDriver OGRSFDriver
-    #define GetOGRCompatibleDriverByName(x) static_cast<OGRSFDriver*>(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(x)
+    #define GetOGRCompatibleDriverByName(x) dynamic_cast<OGRSFDriver*>(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(x))
     #define CreateOGRCompatibleDataSource(path, options) CreateDataSource( path, options )
     #define GetOGRCompatibleDriverName GetName
     #define GetOGRCompatibleDatasourceName GetName

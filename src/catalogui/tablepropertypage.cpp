@@ -163,8 +163,8 @@ void wxGISTablePropertyPage::FillGrid(void)
     OGRCompatibleDataSource *pDataSource = m_pDataset->GetDataSourceRef();
     if(pDataSource)
     {
-        OGRCompatibleDriver* pDrv = static_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
-        OGRSFDriver* pOGRSFDrv = static_cast<OGRSFDriver*>(pDrv);
+        OGRCompatibleDriver* pDrv = dynamic_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+        OGRSFDriver* pOGRSFDrv = dynamic_cast<OGRSFDriver*>(pDrv);
         if(pOGRSFDrv)
         {
             wxPGProperty* pdriversid = AppendProperty(pid, new wxStringProperty(_("Driver"), wxPG_LABEL, wxString(pDrv->GetOGRCompatibleDriverName(), wxConvUTF8) ));

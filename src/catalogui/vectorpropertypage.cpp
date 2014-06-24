@@ -158,7 +158,7 @@ void wxGISVectorPropertyPage::FillGrid(void)
     OGRCompatibleDataSource *pDataSource = m_pDataset->GetDataSourceRef();
     if(pDataSource)
     {
-        OGRCompatibleDriver* pDrv = static_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+        OGRCompatibleDriver* pDrv = dynamic_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
         OGRSFDriver* pOGRSFDrv = dynamic_cast<OGRSFDriver*>(pDrv);
         if(pOGRSFDrv)
         {
