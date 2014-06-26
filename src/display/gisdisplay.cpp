@@ -610,9 +610,6 @@ void wxGISDisplay::InitTransformMatrix(void)
 	//set matrix to all caches
 	for(size_t i = 0; i < m_saLayerCaches.size(); ++i)
 		cairo_set_matrix (m_saLayerCaches[i].pCairoContext, m_pMatrix);
-
-	m_dfMinPolyArea = GetScaledWidth(MINPOLYAREA);
-	m_dfMinDrawPolyArea = GetScaledWidth(MINPOLYDRAWAREA);
 }
 
 void wxGISDisplay::DC2World(double* pdX, double* pdY)
@@ -844,7 +841,7 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
 	World2DCDist(&EnvWidth, &EnvHeight);
 	EnvWidth = fabs(EnvWidth);
 	EnvHeight = fabs(EnvHeight);
-	if(	EnvWidth <= m_dfMinDrawPolyArea && EnvHeight <= m_dfMinDrawPolyArea )
+    if (EnvWidth <= MINPOLYDRAWAREA && EnvHeight <= MINPOLYDRAWAREA)
 	{
 	    if(bIsRing)
         {
@@ -856,7 +853,7 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
             SetLineWidth( dfLineWidth );
         }
 
-        if(	EnvWidth >= m_dfMinPolyArea && EnvHeight >= m_dfMinPolyArea )
+        if (EnvWidth >= MINPOLYAREA && EnvHeight >= MINPOLYAREA)
 		{
             wxCriticalSectionLocker locker(m_CritSect);
 			cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MinX + dOffsetX, Envelope.MinY + dOffsetY);

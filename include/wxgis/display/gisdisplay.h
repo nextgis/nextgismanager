@@ -146,6 +146,4 @@ protected:
 	//temp cairo for output double buffering
 	cairo_surface_t *m_surface_tmp;
 	cairo_t *m_cr_tmp;
-
-	double m_dfMinPolyArea, m_dfMinDrawPolyArea;
 };

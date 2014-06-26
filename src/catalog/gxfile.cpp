@@ -153,9 +153,9 @@ wxGISSpatialReference wxGxPrjFile::GetSpatialReference(void)
   //          }
 		//	break;
 		default:
+            CSLDestroy(papszLines);
 			break;
-		}
-        CSLDestroy( papszLines );
+		}        
 	}
 
     //err = m_OGRSpatialReference.importFromProj4("+proj=bonne +a=6371000 +es=0 +lon_0=0 +lat_1=60 +units=m +no_defs");

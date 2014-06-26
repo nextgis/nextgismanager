@@ -31,8 +31,8 @@
     #error Cairo required
 #endif
 
-#define MINPOLYAREA 0.25
-#define MINPOLYDRAWAREA 2.2
+#define MINPOLYAREA 0.5
+#define MINPOLYDRAWAREA 2.5
 #define ZOOM_FACTOR 0.4
 
 #define ENVMAX_X 179

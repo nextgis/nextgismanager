@@ -57,6 +57,14 @@ void wxGISApplicationEx::SerializeFramePosEx(bool bSave)
 	{
 		wxString wxPerspective = oConfig.Read(enumGISHKCU, GetAppName() + wxString(wxT("/frame/perspective/data")), wxEmptyString);
 		m_mgr.LoadPerspective(wxPerspective);
+
+        //update captions for current locale
+        wxAuiPaneInfoArray arr = m_mgr.GetAllPanes();
+        for (size_t i = 0; i < arr.GetCount(); ++i)
+        {
+            wxString sLocCaption = wxGetTranslation(arr[i].caption);
+            m_mgr.GetPane(arr[i].name).Caption(sLocCaption);
+        }        
 	}
 }
 

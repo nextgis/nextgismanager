@@ -31,7 +31,9 @@
 
 #define STANDARDSTR _("Standard")
 #define LOCATIONSTR _("Location")
-#define GEOGRAPHYOSTR _("Geography")
+#define GEOGRAPHYSTR _("Geography")
+#define MAPFRAMETOOLSTR _("Map Frame Tools")
+#define TASKSTR _("Task")
 
 /** @enum wxGISEnumCommandBars
     

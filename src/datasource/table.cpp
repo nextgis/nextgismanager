@@ -109,7 +109,7 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
 
 	wxCriticalSectionLocker locker(m_CritSect);
 
-	m_bIsReadOnly = bUpdate == FALSE;
+	m_bIsReadOnly = !bUpdate;
 
     if(!m_poLayer)
 	{

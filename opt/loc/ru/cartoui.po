@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 00:38+0300\n"
-"PO-Revision-Date: 2014-06-21 00:38+0300\n"
+"POT-Creation-Date: 2014-06-26 23:43+0400\n"
+"PO-Revision-Date: 2014-06-26 23:43+0400\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,15 +13,129 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/cartoui\n"
 "X-Poedit-SearchPath-1: ../../../src/cartoui\n"
 
-#: ../../../src/cartoui/drawingmap.cpp:71
-msgid "Base drawing layer"
-msgstr "Основной слой рисования"
+#: ../../../src/cartoui/cartocmd.cpp:92
+msgid "&Full Extent"
+msgstr "&Полный охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:94
+msgid "&Previous Extent"
+msgstr "П&редыдущий охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:96
+msgid "&Next Extent"
+msgstr "&Следующий охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:109 ../../../src/cartoui/cartocmd.cpp:338
+msgid "Geography"
+msgstr "География"
+
+#: ../../../src/cartoui/cartocmd.cpp:207
+msgid "Full extent of the map"
+msgstr "Полный охват карты"
+
+#: ../../../src/cartoui/cartocmd.cpp:209
+msgid "Previous extent of the map"
+msgstr "Предыдущий охват карты"
+
+#: ../../../src/cartoui/cartocmd.cpp:211
+msgid "Next extent of the map"
+msgstr "Следующий охват карты"
+
+#: ../../../src/cartoui/cartocmd.cpp:248
+msgid "Full Extent"
+msgstr "Полный охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:250
+msgid "Previous Extent"
+msgstr "Предыдущий охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:252
+msgid "Next Extent"
+msgstr "Следующий охват"
+
+#: ../../../src/cartoui/cartocmd.cpp:318
+msgid "Zoom &In"
+msgstr "&Увеличить"
+
+#: ../../../src/cartoui/cartocmd.cpp:320
+msgid "Zoom &Out"
+msgstr "У&меньшить"
+
+#: ../../../src/cartoui/cartocmd.cpp:322
+msgid "&Pan"
+msgstr "&Сдвинуть"
+
+#: ../../../src/cartoui/cartocmd.cpp:324
+msgid "&Information"
+msgstr "&Информация"
+
+#: ../../../src/cartoui/cartocmd.cpp:423
+msgid "Zoom map in"
+msgstr "Увеличить карту"
+
+#: ../../../src/cartoui/cartocmd.cpp:425
+msgid "Zoom map out"
+msgstr "Уменьшить карту"
+
+#: ../../../src/cartoui/cartocmd.cpp:427
+msgid "Pan map"
+msgstr "Сдвинуть карту"
+
+#: ../../../src/cartoui/cartocmd.cpp:429
+msgid "Feature information"
+msgstr "Информация об объекте"
+
+#: ../../../src/cartoui/cartocmd.cpp:460
+msgid "Zoom In"
+msgstr "Увеличить"
+
+#: ../../../src/cartoui/cartocmd.cpp:462
+msgid "Zoom Out"
+msgstr "Уменьшить"
+
+#: ../../../src/cartoui/cartocmd.cpp:464
+#: ../../../src/cartoui/identifydlg.cpp:591
+msgid "Pan"
+msgstr "Сдвинуть"
+
+#: ../../../src/cartoui/cartocmd.cpp:466
+#: ../../../src/cartoui/identifydlg.cpp:710
+msgid "Identify"
+msgstr "Идентификация"
+
+#: ../../../src/cartoui/cartocmd.cpp:722
+msgid "&Rotate"
+msgstr "По&вернуть"
+
+#: ../../../src/cartoui/cartocmd.cpp:724
+msgid "Cancel rotate"
+msgstr "Отменить поворот"
+
+#: ../../../src/cartoui/cartocmd.cpp:726
+msgid "Input rotate angle"
+msgstr "Ввести угол поворота"
+
+#: ../../../src/cartoui/cartocmd.cpp:739
+msgid "View"
+msgstr "Вид"
+
+#: ../../../src/cartoui/cartocmd.cpp:806 ../../../src/cartoui/cartocmd.cpp:847
+msgid "Rotate map frame"
+msgstr "Повернуть окно карты"
+
+#: ../../../src/cartoui/cartocmd.cpp:808 ../../../src/cartoui/cartocmd.cpp:849
+msgid "Cancel rotate map frame"
+msgstr "Отменить поворот окна карты"
+
+#: ../../../src/cartoui/cartocmd.cpp:810 ../../../src/cartoui/cartocmd.cpp:851
+msgid "Input map frame rotate angle"
+msgstr "Ввести угол поворота окна карты"
 
 #: ../../../src/cartoui/drawingcmd.cpp:109
 msgid "Rectangle"
@@ -147,136 +261,25 @@ msgstr "Слой"
 msgid "Drawing tools"
 msgstr "Инструменты рисования"
 
-#: ../../../src/cartoui/cartocmd.cpp:92
-msgid "&Full Extent"
-msgstr "&Полный охват"
+#: ../../../src/cartoui/drawingmap.cpp:71
+msgid "Base drawing layer"
+msgstr "Основной слой рисования"
 
-#: ../../../src/cartoui/cartocmd.cpp:94
-msgid "&Previous Extent"
-msgstr "П&редыдущий охват"
+#: ../../../src/cartoui/formatmenu.cpp:61
+msgid "Swap coordinates"
+msgstr "Поменять координаты местами"
 
-#: ../../../src/cartoui/cartocmd.cpp:96
-msgid "&Next Extent"
-msgstr "&Следующий охват"
+#: ../../../src/cartoui/formatmenu.cpp:70
+msgid "Change masks"
+msgstr "Изменить шаблон"
 
-#: ../../../src/cartoui/cartocmd.cpp:109 ../../../src/cartoui/cartocmd.cpp:338
-msgid "Geography"
-msgstr "География"
+#: ../../../src/cartoui/formatmenu.cpp:145
+msgid "Change value list"
+msgstr "Изменить список значений"
 
-#: ../../../src/cartoui/cartocmd.cpp:207
-msgid "Full extent of the map"
-msgstr "Полный охват карты"
-
-#: ../../../src/cartoui/cartocmd.cpp:209
-msgid "Previous extent of the map"
-msgstr "Предыдущий охват карты"
-
-#: ../../../src/cartoui/cartocmd.cpp:211
-msgid "Next extent of the map"
-msgstr "Следующий охват карты"
-
-#: ../../../src/cartoui/cartocmd.cpp:248
-msgid "Full Extent"
-msgstr "Полный охват"
-
-#: ../../../src/cartoui/cartocmd.cpp:250
-msgid "Previous Extent"
-msgstr "Предыдущий охват"
-
-#: ../../../src/cartoui/cartocmd.cpp:252
-msgid "Next Extent"
-msgstr "Следующий охват"
-
-#: ../../../src/cartoui/cartocmd.cpp:318
-msgid "Zoom &In"
-msgstr "&Увеличить"
-
-#: ../../../src/cartoui/cartocmd.cpp:320
-msgid "Zoom &Out"
-msgstr "У&меньшить"
-
-#: ../../../src/cartoui/cartocmd.cpp:322
-msgid "&Pan"
-msgstr "&Сдвинуть"
-
-#: ../../../src/cartoui/cartocmd.cpp:324
-msgid "&Information"
-msgstr "&Информация"
-
-#: ../../../src/cartoui/cartocmd.cpp:423
-msgid "Zoom map in"
-msgstr "Увеличить карту"
-
-#: ../../../src/cartoui/cartocmd.cpp:425
-msgid "Zoom map out"
-msgstr "Уменьшить карту"
-
-#: ../../../src/cartoui/cartocmd.cpp:427
-msgid "Pan map"
-msgstr "Сдвинуть карту"
-
-#: ../../../src/cartoui/cartocmd.cpp:429
-msgid "Feature information"
-msgstr "Информация об объекте"
-
-#: ../../../src/cartoui/cartocmd.cpp:460
-msgid "Zoom In"
-msgstr "Увеличить"
-
-#: ../../../src/cartoui/cartocmd.cpp:462
-msgid "Zoom Out"
-msgstr "Уменьшить"
-
-#: ../../../src/cartoui/cartocmd.cpp:464
-#: ../../../src/cartoui/identifydlg.cpp:604
-msgid "Pan"
-msgstr "Сдвинуть"
-
-#: ../../../src/cartoui/cartocmd.cpp:466
-#: ../../../src/cartoui/identifydlg.cpp:723
-msgid "Identify"
-msgstr "Идентификация"
-
-#: ../../../src/cartoui/cartocmd.cpp:722
-msgid "&Rotate"
-msgstr "По&вернуть"
-
-#: ../../../src/cartoui/cartocmd.cpp:724
-msgid "Cancel rotate"
-msgstr "Отменить поворот"
-
-#: ../../../src/cartoui/cartocmd.cpp:726
-msgid "Input rotate angle"
-msgstr "Ввести угол поворота"
-
-#: ../../../src/cartoui/cartocmd.cpp:739
-msgid "View"
-msgstr "Вид"
-
-#: ../../../src/cartoui/cartocmd.cpp:806 ../../../src/cartoui/cartocmd.cpp:847
-msgid "Rotate map frame"
-msgstr "Повернуть окно карты"
-
-#: ../../../src/cartoui/cartocmd.cpp:808 ../../../src/cartoui/cartocmd.cpp:849
-msgid "Cancel rotate map frame"
-msgstr "Отменить поворот окна карты"
-
-#: ../../../src/cartoui/cartocmd.cpp:810 ../../../src/cartoui/cartocmd.cpp:851
-msgid "Input map frame rotate angle"
-msgstr "Ввести угол поворота окна карты"
-
-#: ../../../src/cartoui/mapview.cpp:718
-#, c-format
-msgid "%.4f degree"
-msgstr "%.4f градусов"
-
-#: ../../../src/cartoui/mapview.cpp:1103
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
-
-#: ../../../src/cartoui/mapview.cpp:1109
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
+#: ../../../src/cartoui/formatmenu.cpp:145
+msgid "Value list"
+msgstr "Список значений"
 
 #: ../../../src/cartoui/identifydlg.cpp:84
 msgid "Location:"
@@ -333,7 +336,7 @@ msgid "Show all rows"
 msgstr "Показать все записи"
 
 #: ../../../src/cartoui/identifydlg.cpp:157
-#: ../../../src/cartoui/tableview.cpp:534
+#: ../../../src/cartoui/tableview.cpp:603
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -345,117 +348,114 @@ msgstr "Кодировка"
 msgid "Change text encoding"
 msgstr "Изменить кодировку текста"
 
-#: ../../../src/cartoui/identifydlg.cpp:542
+#: ../../../src/cartoui/identifydlg.cpp:529
 msgid "Identify from:"
 msgstr "Идентифицировать из:"
 
-#: ../../../src/cartoui/identifydlg.cpp:547
+#: ../../../src/cartoui/identifydlg.cpp:534
 msgid "<Top layer>"
 msgstr "<Верхний слой>"
 
-#: ../../../src/cartoui/identifydlg.cpp:548
+#: ../../../src/cartoui/identifydlg.cpp:535
 msgid "<All layers>"
 msgstr "<Все слои>"
 
-#: ../../../src/cartoui/identifydlg.cpp:603
+#: ../../../src/cartoui/identifydlg.cpp:590
 msgid "Flash"
 msgstr "Подсветить"
 
-#: ../../../src/cartoui/identifydlg.cpp:603
+#: ../../../src/cartoui/identifydlg.cpp:590
 msgid "Flash geometry"
 msgstr "Подсветить геометрию"
 
-#: ../../../src/cartoui/identifydlg.cpp:604
+#: ../../../src/cartoui/identifydlg.cpp:591
 msgid "Pan to geometry center"
 msgstr "Перейти к центру геометрии"
 
-#: ../../../src/cartoui/identifydlg.cpp:605
+#: ../../../src/cartoui/identifydlg.cpp:592
 msgid "Zoom"
 msgstr "Увеличить"
 
-#: ../../../src/cartoui/identifydlg.cpp:605
+#: ../../../src/cartoui/identifydlg.cpp:592
 msgid "Zoom to geometry"
 msgstr "Приблизить к геометрии"
 
-#: ../../../src/cartoui/formatmenu.cpp:61
-msgid "Swap coordinates"
-msgstr "Поменять координаты местами"
+#: ../../../src/cartoui/mapview.cpp:715
+#, c-format
+msgid "%.4f degree"
+msgstr "%.4f градусов"
 
-#: ../../../src/cartoui/formatmenu.cpp:70
-msgid "Change masks"
-msgstr "Изменить шаблон"
+#: ../../../src/cartoui/mapview.cpp:1103
+msgid "Could not create the thread!"
+msgstr "Не удалось создать поток!"
 
-#: ../../../src/cartoui/formatmenu.cpp:145
-msgid "Change value list"
-msgstr "Изменить список значений"
+#: ../../../src/cartoui/mapview.cpp:1109
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
 
-#: ../../../src/cartoui/formatmenu.cpp:145
-msgid "Value list"
-msgstr "Список значений"
-
-#: ../../../src/cartoui/tableview.cpp:123
+#: ../../../src/cartoui/tableview.cpp:127
 msgid " [*]"
 msgstr " [*]"
 
-#: ../../../src/cartoui/tableview.cpp:197
+#: ../../../src/cartoui/tableview.cpp:201
 #, c-format
 msgid "Operation '%s' failed! OGR error: %s"
 msgstr "Операция '%s' выполнена с ошибкой! Ошибка OGR: %s"
 
-#: ../../../src/cartoui/tableview.cpp:197
-#: ../../../src/cartoui/tableview.cpp:277
+#: ../../../src/cartoui/tableview.cpp:201
+#: ../../../src/cartoui/tableview.cpp:302
 msgid "Delete field"
 msgstr "Удалить поле"
 
-#: ../../../src/cartoui/tableview.cpp:198
+#: ../../../src/cartoui/tableview.cpp:202
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../../../src/cartoui/tableview.cpp:258
+#: ../../../src/cartoui/tableview.cpp:283
 msgid "Sort ascending"
 msgstr "Сортировать по убыванию"
 
-#: ../../../src/cartoui/tableview.cpp:260
+#: ../../../src/cartoui/tableview.cpp:285
 msgid "Sort descending"
 msgstr "Сортировать по возрастанию"
 
-#: ../../../src/cartoui/tableview.cpp:262
+#: ../../../src/cartoui/tableview.cpp:287
 msgid "Advanced sorting..."
 msgstr "Расширенная сортировка"
 
-#: ../../../src/cartoui/tableview.cpp:265
+#: ../../../src/cartoui/tableview.cpp:290
 msgid "Statistics..."
 msgstr "Статистика..."
 
-#: ../../../src/cartoui/tableview.cpp:267
+#: ../../../src/cartoui/tableview.cpp:292
 msgid "Field calculator..."
 msgstr "Калькулятор поля..."
 
-#: ../../../src/cartoui/tableview.cpp:269
+#: ../../../src/cartoui/tableview.cpp:294
 msgid "Calculate geometry..."
 msgstr "Расчитать геометрию"
 
-#: ../../../src/cartoui/tableview.cpp:272
+#: ../../../src/cartoui/tableview.cpp:297
 msgid "Turn field off"
 msgstr "Отключить поле"
 
-#: ../../../src/cartoui/tableview.cpp:274
+#: ../../../src/cartoui/tableview.cpp:299
 msgid "Freeze/Unfreeze column"
 msgstr "Закрепить/открепить колонку"
 
-#: ../../../src/cartoui/tableview.cpp:293
+#: ../../../src/cartoui/tableview.cpp:318
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../../../src/cartoui/tableview.cpp:478
+#: ../../../src/cartoui/tableview.cpp:547
 msgid "Record:"
 msgstr "Запись:"
 
-#: ../../../src/cartoui/tableview.cpp:524
+#: ../../../src/cartoui/tableview.cpp:593
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../../../src/cartoui/tableview.cpp:621
+#: ../../../src/cartoui/tableview.cpp:685
 #, c-format
 msgid "of %u"
 msgstr "из %u"

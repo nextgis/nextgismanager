@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 00:39+0300\n"
-"PO-Revision-Date: 2014-06-21 00:39+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-26 23:43+0400\n"
+"PO-Revision-Date: 2014-06-26 23:43+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,1204 +13,11 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/catalogui\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/catalogui\n"
-
-#: ../../../src/catalogui/gxnoview.cpp:52
-#: ../../../src/catalogui/gxnoview.cpp:65
-msgid "NoView"
-msgstr "Пустой вид"
-
-#: ../../../src/catalogui/gxnoview.cpp:106
-msgid "Selection cannot be viewed"
-msgstr "Невозможно просмотреть выбранное"
-
-#: ../../../src/catalogui/gxpropertypages.cpp:49
-msgid "What top level entries do you want the Catalog to contain?"
-msgstr "Какие корневые элементы должны содержаться в Каталоге?"
-
-#: ../../../src/catalogui/gxpropertypages.cpp:66
-#: ../../../src/catalogui/gxpropertypages.cpp:95
-#: ../../../src/catalogui/gxfileui.cpp:76
-#: ../../../src/catalogui/gxdatasetui.cpp:69
-#: ../../../src/catalogui/gxdatasetui.cpp:132
-#: ../../../src/catalogui/gxdatasetui.cpp:206
-#: ../../../src/catalogui/gxpostgisdatasetui.cpp:68
-#: ../../../src/catalogui/gxpostgisdatasetui.cpp:114
-#: ../../../src/catalogui/catalogcmd.cpp:194
-#: ../../../src/catalogui/gxmldatasetui.cpp:66
-#: ../../../src/catalogui/gxmldatasetui.cpp:203
-#: ../../../src/catalogui/gxremoteconnui.cpp:606
-msgid "Properties"
-msgstr "Свойства"
-
-#: ../../../src/catalogui/gxpropertypages.cpp:76
-msgid "Which types of data do you want the Catalog to show?"
-msgstr "Какие типы данных должны отображаться?"
-
-#: ../../../src/catalogui/gxpropertypages.cpp:103
-msgid "Hide file extensions"
-msgstr "Скрыть расширения файлов"
-
-#: ../../../src/catalogui/gxpropertypages.cpp:108
-msgid "Return to last location when wxGISCatalog start up"
-msgstr "Переходить к последнему пути когда запускается Каталог "
-
-#: ../../../src/catalogui/gxpropertypages.cpp:113
-msgid "Show hidden items"
-msgstr "Показать скрытые элементы"
-
-#: ../../../src/catalogui/gxdiscconnectionui.cpp:86
-#: ../../../src/catalogui/gxcontentview.cpp:1288
-#: ../../../src/catalogui/gxmldatasetui.cpp:139
-#: ../../../src/catalogui/gxremoteconnui.cpp:490
-msgid "Could not create the thread!"
-msgstr "Не удалось создать  поток!"
-
-#: ../../../src/catalogui/gxdiscconnectionui.cpp:92
-#: ../../../src/catalogui/gxcontentview.cpp:1294
-#: ../../../src/catalogui/gxmldatasetui.cpp:145
-#: ../../../src/catalogui/gxremoteconnui.cpp:506
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
-
-#: ../../../src/catalogui/gxlocationcombobox.cpp:79
-#: ../../../src/catalogui/tablepropertypage.cpp:208
-#: ../../../src/catalogui/tablepropertypage.cpp:224
-#: ../../../src/catalogui/vectorpropertypage.cpp:212
-#: ../../../src/catalogui/vectorpropertypage.cpp:232
-#: ../../../src/catalogui/spatrefpropertypage.cpp:160
-#: ../../../src/catalogui/spatrefpropertypage.cpp:167
-#: ../../../src/catalogui/spatrefpropertypage.cpp:178
-#: ../../../src/catalogui/spatrefpropertypage.cpp:215
-#: ../../../src/catalogui/spatrefpropertypage.cpp:223
-#: ../../../src/catalogui/spatrefpropertypage.cpp:233
-#: ../../../src/catalogui/spatrefpropertypage.cpp:238
-#: ../../../src/catalogui/spatrefpropertypage.cpp:246
-#: ../../../src/catalogui/spatrefpropertypage.cpp:255
-#: ../../../src/catalogui/spatrefpropertypage.cpp:264
-#: ../../../src/catalogui/spatrefpropertypage.cpp:267
-#: ../../../src/catalogui/spatrefpropertypage.cpp:275
-#: ../../../src/catalogui/spatrefpropertypage.cpp:282
-#: ../../../src/catalogui/spatrefpropertypage.cpp:303
-#: ../../../src/catalogui/gxcontentview.cpp:249
-msgid "Name"
-msgstr "Имя"
-
-#: ../../../src/catalogui/gxlocationcombobox.cpp:648
-msgid "The entered path is unrecheable!"
-msgstr "Введенный путь не существует"
-
-#: ../../../src/catalogui/gxlocationcombobox.cpp:673
-msgid "The entered path is unreachable!"
-msgstr "Введенный путь не существует!"
-
-#: ../../../src/catalogui/gxdatasetui.cpp:91
-#: ../../../src/catalogui/gxdatasetui.cpp:165
-#: ../../../src/catalogui/gxdatasetui.cpp:248
-#: ../../../src/catalogui/gxmldatasetui.cpp:160
-#, c-format
-msgid "Operation '%s' failed! GDAL error: %s"
-msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
-
-#: ../../../src/catalogui/gxdatasetui.cpp:91
-#: ../../../src/catalogui/gxdatasetui.cpp:165
-#: ../../../src/catalogui/gxdatasetui.cpp:248
-#: ../../../src/catalogui/remoteconndlgs.cpp:371
-#: ../../../src/catalogui/gxobgdialog.cpp:683
-#: ../../../src/catalogui/gxmldatasetui.cpp:160
-#: ../../../include/wxgis/catalogui/gxcontdialog.h:97
-#: ../../../include/wxgis/catalogui/gxobjdialog.h:167
-msgid "Open"
-msgstr "Открыть"
-
-#: ../../../src/catalogui/gxdatasetui.cpp:92
-#: ../../../src/catalogui/gxdatasetui.cpp:166
-#: ../../../src/catalogui/gxdatasetui.cpp:249
-#: ../../../src/catalogui/processing.cpp:179
-#: ../../../src/catalogui/processing.cpp:369
-#: ../../../src/catalogui/processing.cpp:447
-#: ../../../src/catalogui/processing.cpp:457
-#: ../../../src/catalogui/processing.cpp:494
-#: ../../../src/catalogui/processing.cpp:504
-#: ../../../src/catalogui/processing.cpp:560
-#: ../../../src/catalogui/processing.cpp:571
-#: ../../../src/catalogui/processing.cpp:580
-#: ../../../src/catalogui/processing.cpp:614
-#: ../../../src/catalogui/createnewcmd.cpp:237
-#: ../../../src/catalogui/remoteconndlgs.cpp:281
-#: ../../../src/catalogui/remoteconndlgs.cpp:309
-#: ../../../src/catalogui/remoteconndlgs.cpp:349
-#: ../../../src/catalogui/remoteconndlgs.cpp:372
-#: ../../../src/catalogui/remoteconndlgs.cpp:381
-#: ../../../src/catalogui/gxobgdialog.cpp:902
-#: ../../../src/catalogui/gxobgdialog.cpp:1067
-#: ../../../src/catalogui/gxcontentview.cpp:727
-#: ../../../src/catalogui/catalogcmd.cpp:512
-#: ../../../src/catalogui/catalogcmd.cpp:529
-#: ../../../src/catalogui/catalogcmd.cpp:602
-#: ../../../src/catalogui/catalogcmd.cpp:606
-#: ../../../src/catalogui/catalogcmd.cpp:697
-#: ../../../src/catalogui/catalogcmd.cpp:702
-#: ../../../src/catalogui/catalogcmd.cpp:734
-#: ../../../src/catalogui/catalogcmd.cpp:739
-#: ../../../src/catalogui/catalogcmd.cpp:766
-#: ../../../src/catalogui/catalogcmd.cpp:781
-#: ../../../src/catalogui/catalogcmd.cpp:796
-#: ../../../src/catalogui/catalogcmd.cpp:817
-#: ../../../src/catalogui/catalogcmd.cpp:833
-#: ../../../src/catalogui/gxcatalogui.cpp:143
-#: ../../../src/catalogui/gxcatalogui.cpp:159
-#: ../../../src/catalogui/gxremoteconnui.cpp:106
-#: ../../../src/catalogui/gxremoteconnui.cpp:183
-#: ../../../src/catalogui/gxtreeview.cpp:690
-msgid "Error"
-msgstr "Ошибка"
-
-#: ../../../src/catalogui/processing.cpp:41
-#: ../../../src/catalogui/processing.cpp:230
-msgid "Select output"
-msgstr "Выберите путь для сохранения"
-
-#: ../../../src/catalogui/processing.cpp:128
-msgid "Export"
-msgstr "Экспорт"
-
-#: ../../../src/catalogui/processing.cpp:179
-#: ../../../src/catalogui/processing.cpp:369
-msgid "Unexpected error"
-msgstr "Неожиданная ошибка"
-
-#: ../../../src/catalogui/processing.cpp:180
-#: ../../../src/catalogui/processing.cpp:370
-msgid "Null wxGxObjectFilter returned"
-msgstr "Получен пустой объект wxGxObjectFilter "
-
-#: ../../../src/catalogui/processing.cpp:438
-#: ../../../src/catalogui/processing.cpp:485
-#: ../../../src/catalogui/processing.cpp:527
-msgid "Exporting..."
-msgstr "Экспорт..."
-
-#: ../../../src/catalogui/processing.cpp:438
-#: ../../../src/catalogui/processing.cpp:485
-#: ../../../src/catalogui/processing.cpp:527
-#: ../../../src/catalogui/gxcatalogui.cpp:113
-msgid "Begin operation..."
-msgstr "Начать операцию..."
-
-#: ../../../src/catalogui/processing.cpp:447
-#: ../../../src/catalogui/processing.cpp:560
-msgid "The dataset is empty"
-msgstr "Набор пустой"
-
-#: ../../../src/catalogui/processing.cpp:448
-#: ../../../src/catalogui/processing.cpp:495
-#: ../../../src/catalogui/processing.cpp:561
-msgid "wxGISFeatureDataset pointer is null returned"
-msgstr "Получена нулевая ссылка на объект wxGISFeatureDataset "
-
-#: ../../../src/catalogui/processing.cpp:494
-msgid "The table is empty"
-msgstr "Таблица пуста"
-
-#: ../../../src/catalogui/processing.cpp:533
-#, c-format
-msgid "Proceed %ld of %ld..."
-msgstr "Обработка  %ld из %ld..."
-
-#: ../../../src/catalogui/processing.cpp:607
-msgid "During export there were several warnings."
-msgstr "При экспорте было несколько предупреждений."
-
-#: ../../../src/catalogui/processing.cpp:607
-#: ../../../src/catalogui/processing.cpp:616
-msgid "Warning"
-msgstr "Предупреждение"
-
-#: ../../../src/catalogui/createnewcmd.cpp:77
-msgid "&Remote database connection"
-msgstr "Подключение к &БД"
-
-#: ../../../src/catalogui/createnewcmd.cpp:79
-msgid "&Web service connection"
-msgstr "Подлючение к &веб сервису"
-
-#: ../../../src/catalogui/createnewcmd.cpp:81
-msgid "&Database schema"
-msgstr "С&хема БД"
-
-#: ../../../src/catalogui/createnewcmd.cpp:94
-#: ../../../src/catalogui/newmenu.cpp:46
-#: ../../../src/catalogui/catalogcmd.cpp:221
-#: ../../../include/wxgis/catalogui/newmenu.h:42
-msgid "Create"
-msgstr "Создать"
-
-#: ../../../src/catalogui/createnewcmd.cpp:169
-#: ../../../src/catalogui/createnewcmd.cpp:262
-msgid "Create new remote DB connection"
-msgstr "Создать новое подключение к БД"
-
-#: ../../../src/catalogui/createnewcmd.cpp:171
-#: ../../../src/catalogui/createnewcmd.cpp:264
-msgid "Create new web service connection"
-msgstr "Создать новое подключение к веб сервису"
-
-#: ../../../src/catalogui/createnewcmd.cpp:173
-#: ../../../src/catalogui/createnewcmd.cpp:266
-msgid "Create new database schema"
-msgstr "Создать схему БД"
-
-#: ../../../src/catalogui/createnewcmd.cpp:197
-msgid "new DB connection"
-msgstr "новое подключение к БД"
-
-#: ../../../src/catalogui/createnewcmd.cpp:233
-msgid "new_schema"
-msgstr "новая_схема"
-
-#: ../../../src/catalogui/createnewcmd.cpp:237
-msgid "Create schema failed!"
-msgstr "Не удалось создать схему!"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:74
-#: ../../../src/catalogui/remoteconndlgs.cpp:197
-msgid "Server:"
-msgstr "Сервер:"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:81
-#: ../../../src/catalogui/remoteconndlgs.cpp:204
-msgid "Port:"
-msgstr "Порт:"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:88
-#: ../../../src/catalogui/remoteconndlgs.cpp:211
-msgid "Database:"
-msgstr "БД:"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:98
-#: ../../../src/catalogui/remoteconndlgs.cpp:221
-msgid "Account"
-msgstr "Аутентификационные данные"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:106
-#: ../../../src/catalogui/remoteconndlgs.cpp:229
-msgid "User:"
-msgstr "Пользователь:"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:113
-#: ../../../src/catalogui/remoteconndlgs.cpp:236
-msgid "Password:"
-msgstr "Пароль:"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:124
-#: ../../../src/catalogui/remoteconndlgs.cpp:247
-msgid "Use binary cursor"
-msgstr "Использовать двоичный курсор"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:127
-#: ../../../src/catalogui/remoteconndlgs.cpp:250
-msgid "Test Connection"
-msgstr "Проверить подключение"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:134
-#: ../../../src/catalogui/remoteconndlgs.cpp:257
-msgid "OK"
-msgstr "OK"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:136
-#: ../../../src/catalogui/remoteconndlgs.cpp:259
-#: ../../../src/catalogui/gxobgdialog.cpp:564
-#: ../../../src/catalogui/gxcontdialog.cpp:158
-msgid "Cancel"
-msgstr "Отмена"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:281
-msgid "Crypt password failed!"
-msgstr "Не удалось зашифровать пароль!"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:309
-msgid "Connection create failed!"
-msgstr "Не удалось создать подключение!"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:349
-msgid "Some input values are incorrect!"
-msgstr "Некоторые входные значения некорректны!"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:371
-#, c-format
-msgid ""
-"Operation '%s' failed! Host '%s', Database name '%s', Port='%s'. OGR error: "
-"%s"
-msgstr ""
-"Не удалось выполнить операцию '%s'! Хост '%s', База данных '%s', Порт='%s'. "
-"Ошибка OGR: %s"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:376
-msgid "Connected successufuly!"
-msgstr "Подключение удачно!"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:376
-#: ../../../src/catalogui/rasterpropertypage.cpp:220
-#: ../../../src/catalogui/tablepropertypage.cpp:181
-#: ../../../src/catalogui/vectorpropertypage.cpp:182
-msgid "Information"
-msgstr "Информация"
-
-#: ../../../src/catalogui/remoteconndlgs.cpp:381
-msgid "Some input values are not correct!"
-msgstr "Некоторые входные значения некорректны!"
-
-#: ../../../src/catalogui/gxapplication.cpp:66
-msgid "wxGxApplication: Start. Creating main application frame..."
-msgstr "wxGxApplication: Создание основного окна приложения..."
-
-#: ../../../src/catalogui/gxapplication.cpp:76
-msgid "wxGxApplication: Error finding <views> XML Node"
-msgstr "wxGxApplication: Ошибка поиска узла XML <views>"
-
-#: ../../../src/catalogui/gxapplication.cpp:92
-msgid "Tree Pane"
-msgstr "Панель дерева"
-
-#: ../../../src/catalogui/gxapplication.cpp:131
-#, c-format
-msgid "wxGxApplication: View class %s initialise"
-msgstr "wxGxApplication: Класс вида %s проинициализирован"
-
-#: ../../../src/catalogui/gxapplication.cpp:135
-#, c-format
-msgid "wxGxApplication: Error activation IGxView class (%s)"
-msgstr "wxGxApplication: Ошибка активирования IGxView класса (%s)"
-
-#: ../../../src/catalogui/gxapplication.cpp:142
-#, c-format
-msgid "wxGxApplication: Error creating view %s"
-msgstr "wxGxApplication: Ошибка создания вида %s"
-
-#: ../../../src/catalogui/gxapplication.cpp:179
-msgid "wxGxApplication: Creation complete"
-msgstr "wxGxApplication: Создание завершено"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:37
-msgid "Statistics"
-msgstr "Статистика"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:38
-#: ../../../src/catalogui/rasterpropertypage.cpp:478
-msgid "Overviews"
-msgstr "Пирамиды"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:122
-#: ../../../src/catalogui/tablepropertypage.cpp:106
-#: ../../../src/catalogui/vectorpropertypage.cpp:100
-msgid "Item"
-msgstr "Элемент"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:174
-#: ../../../src/catalogui/tablepropertypage.cpp:133
-#: ../../../src/catalogui/vectorpropertypage.cpp:127
-msgid "Data Source"
-msgstr "Источник данных"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:175
-#: ../../../include/wxgis/catalogui/rasterpropertypage.h:55
-msgid "Raster"
-msgstr "Растр"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:181
-#: ../../../src/catalogui/tablepropertypage.cpp:140
-#: ../../../src/catalogui/vectorpropertypage.cpp:134
-msgid "Folder"
-msgstr "Папка"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:191
-#: ../../../src/catalogui/rasterpropertypage.cpp:195
-#: ../../../src/catalogui/tablepropertypage.cpp:145
-#: ../../../src/catalogui/tablepropertypage.cpp:149
-#: ../../../src/catalogui/vectorpropertypage.cpp:139
-#: ../../../src/catalogui/vectorpropertypage.cpp:143
-msgid "Files"
-msgstr "Файлы"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:191
-#: ../../../src/catalogui/tablepropertypage.cpp:145
-#: ../../../src/catalogui/vectorpropertypage.cpp:139
-msgid "None associated"
-msgstr "Нет связанных"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:199
-#: ../../../src/catalogui/tablepropertypage.cpp:153
-#: ../../../src/catalogui/vectorpropertypage.cpp:147
-#, c-format
-msgid "File %d"
-msgstr "Файл %d"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:206
-#: ../../../src/catalogui/tablepropertypage.cpp:160
-#: ../../../src/catalogui/vectorpropertypage.cpp:155
-msgid "Total size"
-msgstr "Полный размер"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:207
-#: ../../../src/catalogui/tablepropertypage.cpp:161
-#: ../../../src/catalogui/vectorpropertypage.cpp:156
-#: ../../../src/catalogui/gxcontentview.cpp:252
-msgid "Modification date"
-msgstr "Дата изменения"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:211
-#: ../../../src/catalogui/tablepropertypage.cpp:169
-#: ../../../src/catalogui/vectorpropertypage.cpp:164
-msgid "Driver"
-msgstr "Драйвер"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:225
-msgid "Columns and Rows"
-msgstr "Столбцы и строки"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:228
-msgid "Number of bands"
-msgstr "Количество каналов"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:236
-msgid "Cell size (X, Y)"
-msgstr "Размер ячейки (X, Y)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:237
-msgid "GeoTransform"
-msgstr "Коэффициенты трансформирования"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:245
-#: ../../../src/catalogui/rasterpropertypage.cpp:254
-msgid "Present (click to rebuild)"
-msgstr "Имеется (щелкните для перестроения)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:247
-#: ../../../src/catalogui/rasterpropertypage.cpp:256
-msgid "Absent (click to build)"
-msgstr "Отсутсвует (шелкните для построения)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:269
-#: ../../../src/catalogui/rasterpropertypage.cpp:271
-#: ../../../src/catalogui/rasterpropertypage.cpp:290
-#, c-format
-msgid "Extent %s"
-msgstr "Охват %s"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:269
-#: ../../../src/catalogui/vectorpropertypage.cpp:290
-msgid "(Projected)"
-msgstr "(Проекционные)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:272
-#: ../../../src/catalogui/rasterpropertypage.cpp:291
-#: ../../../src/catalogui/vectorpropertypage.cpp:293
-#: ../../../src/catalogui/vectorpropertypage.cpp:312
-msgid "Top"
-msgstr "Верх"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:273
-#: ../../../src/catalogui/rasterpropertypage.cpp:292
-#: ../../../src/catalogui/tablepropertypage.cpp:233
-#: ../../../src/catalogui/vectorpropertypage.cpp:241
-#: ../../../src/catalogui/vectorpropertypage.cpp:294
-#: ../../../src/catalogui/vectorpropertypage.cpp:313
-msgid "Left"
-msgstr "Лево"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:274
-#: ../../../src/catalogui/rasterpropertypage.cpp:293
-#: ../../../src/catalogui/tablepropertypage.cpp:236
-#: ../../../src/catalogui/vectorpropertypage.cpp:244
-#: ../../../src/catalogui/vectorpropertypage.cpp:296
-#: ../../../src/catalogui/vectorpropertypage.cpp:315
-msgid "Right"
-msgstr "Право"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:275
-#: ../../../src/catalogui/rasterpropertypage.cpp:294
-#: ../../../src/catalogui/vectorpropertypage.cpp:295
-#: ../../../src/catalogui/vectorpropertypage.cpp:314
-msgid "Bottom"
-msgstr "Низ"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:277
-#: ../../../src/catalogui/rasterpropertypage.cpp:296
-#: ../../../src/catalogui/vectorpropertypage.cpp:298
-#: ../../../src/catalogui/vectorpropertypage.cpp:317
-msgid "Center X"
-msgstr "Центр X"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:278
-#: ../../../src/catalogui/rasterpropertypage.cpp:297
-#: ../../../src/catalogui/vectorpropertypage.cpp:299
-#: ../../../src/catalogui/vectorpropertypage.cpp:318
-msgid "Center Y"
-msgstr "Центр Y"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:290
-#: ../../../src/catalogui/vectorpropertypage.cpp:311
-msgid "(Geographic)"
-msgstr "(Географические)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:312
-#: ../../../src/catalogui/rasterpropertypage.cpp:566
-msgid "Metadata"
-msgstr "Метаданные"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:326
-#: ../../../src/catalogui/rasterpropertypage.cpp:576
-msgid "Image Structure Metadata"
-msgstr "Метаданные структуры изображения"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:340
-msgid "Subdatasets"
-msgstr "Поднаборы данных"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:354
-msgid "IMD Metadata"
-msgstr "Метаданные"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:368
-msgid "Geolocation"
-msgstr "Расположение"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:382
-msgid "RPC Metadata"
-msgstr "Метаданные RPC"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:396
-msgid "GCP data"
-msgstr "Данные контрольных точек (GCP)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:414
-#: ../../../src/catalogui/rasterpropertypage.cpp:419
-#: ../../../src/catalogui/rasterpropertypage.cpp:422
-msgid "GCP Projection"
-msgstr "Проекция контрольных точек (GCP)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:422
-#: ../../../src/catalogui/tablepropertypage.cpp:229
-#: ../../../src/catalogui/vectorpropertypage.cpp:237
-#: ../../../src/catalogui/spatrefpropertypage.cpp:160
-#: ../../../src/catalogui/spatrefpropertypage.cpp:303
-msgid "Undefined"
-msgstr "Неопределено"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:428
-#, c-format
-msgid "Id='%s', Info='%s', (%.6g,%.6g) -> (%.6g,%.6g,%.6g)"
-msgstr "Идентификатор='%s', Информация='%s', (%.6g,%.6g) -> (%.6g,%.6g,%.6g)"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:436
-msgid "Statistics details"
-msgstr "Детализация статистики"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:440
-#, c-format
-msgid "Band %d"
-msgstr "Канал %d"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:450
-msgid "Block"
-msgstr "Блок"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:451
-#: ../../../src/catalogui/tablepropertypage.cpp:225
-#: ../../../src/catalogui/vectorpropertypage.cpp:233
-#: ../../../src/catalogui/gxcontentview.cpp:250
-msgid "Type"
-msgstr "Тип"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:452
-msgid "ColorInterp"
-msgstr "Цветовое представление"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:456
-msgid "Description"
-msgstr "Описание"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:461
-msgid "Min"
-msgstr "Мин."
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:462
-msgid "Max"
-msgstr "Макс."
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:463
-msgid "Mean"
-msgstr "Сред."
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:464
-msgid "Std Dev"
-msgstr "Ст. откл."
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:472
-msgid "NoData Value"
-msgstr "Значение Нет данных"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:478
-msgid "arbitrary"
-msgstr "произвольное"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:492
-#: ../../../src/catalogui/rasterpropertypage.cpp:533
-#, c-format
-msgid "Overview %d"
-msgstr "Пирамидный слой %d"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:524
-msgid "Mask Flags"
-msgstr "Флаги маски"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:528
-msgid "Overviews of mask band"
-msgstr "Пирамиды маскирующего слоя"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:542
-msgid "Unit Type"
-msgstr "Тип единиц"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:548
-msgid "Categories"
-msgstr "Категории"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:558
-msgid "Scale"
-msgstr "Масштаб"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:561
-msgid "Offset"
-msgstr "Смещение"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:585
-msgid "Color Table"
-msgstr "Цветовая таблица "
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:585
-#, c-format
-msgid "%s with %d entries"
-msgstr "%s с %d элементами"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:592
-#, c-format
-msgid "%3d"
-msgstr "%3d"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:593
-#, c-format
-msgid "%d,%d,%d,%d"
-msgstr "%d,%d,%d,%d"
-
-#: ../../../src/catalogui/rasterpropertypage.cpp:603
-msgid "Raster Attribute Table"
-msgstr "Таблица атрибутов растра"
-
-#: ../../../src/catalogui/gxtabview.cpp:58
-#: ../../../src/catalogui/gxtabview.cpp:81
-#, c-format
-msgid "wxGxTab: Error creating view %s"
-msgstr "wxGxTab: Ошибка создания вида %s"
-
-#: ../../../src/catalogui/gxtabview.cpp:73
-#, c-format
-msgid "wxGxTab: View class %s in '%s' tab initialise"
-msgstr "wxGxTab: Класс вида %s во вкладке '%s' проинициализирован"
-
-#: ../../../src/catalogui/gxtabview.cpp:111
-msgid "Preview: "
-msgstr "Просмотр:"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:134
-#: ../../../include/wxgis/catalogui/tablepropertypage.h:50
-msgid "Table"
-msgstr "Таблица"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:171
-#: ../../../src/catalogui/tablepropertypage.cpp:176
-#: ../../../src/catalogui/vectorpropertypage.cpp:166
-msgid "Create DataSource"
-msgstr "Создать источник данных"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:171
-#: ../../../src/catalogui/tablepropertypage.cpp:172
-#: ../../../src/catalogui/tablepropertypage.cpp:176
-#: ../../../src/catalogui/tablepropertypage.cpp:246
-#: ../../../src/catalogui/tablepropertypage.cpp:247
-#: ../../../src/catalogui/tablepropertypage.cpp:248
-#: ../../../src/catalogui/tablepropertypage.cpp:249
-#: ../../../src/catalogui/tablepropertypage.cpp:250
-#: ../../../src/catalogui/tablepropertypage.cpp:251
-#: ../../../src/catalogui/tablepropertypage.cpp:252
-#: ../../../src/catalogui/tablepropertypage.cpp:253
-#: ../../../src/catalogui/tablepropertypage.cpp:254
-#: ../../../src/catalogui/tablepropertypage.cpp:255
-#: ../../../src/catalogui/tablepropertypage.cpp:256
-#: ../../../src/catalogui/tablepropertypage.cpp:257
-#: ../../../src/catalogui/vectorpropertypage.cpp:166
-#: ../../../src/catalogui/vectorpropertypage.cpp:167
-#: ../../../src/catalogui/vectorpropertypage.cpp:171
-#: ../../../src/catalogui/vectorpropertypage.cpp:172
-#: ../../../src/catalogui/vectorpropertypage.cpp:175
-#: ../../../src/catalogui/vectorpropertypage.cpp:254
-#: ../../../src/catalogui/vectorpropertypage.cpp:255
-#: ../../../src/catalogui/vectorpropertypage.cpp:256
-#: ../../../src/catalogui/vectorpropertypage.cpp:257
-#: ../../../src/catalogui/vectorpropertypage.cpp:258
-#: ../../../src/catalogui/vectorpropertypage.cpp:259
-#: ../../../src/catalogui/vectorpropertypage.cpp:260
-#: ../../../src/catalogui/vectorpropertypage.cpp:261
-#: ../../../src/catalogui/vectorpropertypage.cpp:262
-#: ../../../src/catalogui/vectorpropertypage.cpp:263
-#: ../../../src/catalogui/vectorpropertypage.cpp:264
-#: ../../../src/catalogui/vectorpropertypage.cpp:267
-#: ../../../src/catalogui/vectorpropertypage.cpp:270
-#: ../../../src/catalogui/vectorpropertypage.cpp:271
-#: ../../../src/catalogui/vectorpropertypage.cpp:272
-#: ../../../src/catalogui/vectorpropertypage.cpp:273
-msgid "true"
-msgstr "да"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:171
-#: ../../../src/catalogui/tablepropertypage.cpp:172
-#: ../../../src/catalogui/tablepropertypage.cpp:176
-#: ../../../src/catalogui/tablepropertypage.cpp:246
-#: ../../../src/catalogui/tablepropertypage.cpp:247
-#: ../../../src/catalogui/tablepropertypage.cpp:248
-#: ../../../src/catalogui/tablepropertypage.cpp:249
-#: ../../../src/catalogui/tablepropertypage.cpp:250
-#: ../../../src/catalogui/tablepropertypage.cpp:251
-#: ../../../src/catalogui/tablepropertypage.cpp:252
-#: ../../../src/catalogui/tablepropertypage.cpp:253
-#: ../../../src/catalogui/tablepropertypage.cpp:254
-#: ../../../src/catalogui/tablepropertypage.cpp:255
-#: ../../../src/catalogui/tablepropertypage.cpp:256
-#: ../../../src/catalogui/tablepropertypage.cpp:257
-#: ../../../src/catalogui/vectorpropertypage.cpp:166
-#: ../../../src/catalogui/vectorpropertypage.cpp:167
-#: ../../../src/catalogui/vectorpropertypage.cpp:171
-#: ../../../src/catalogui/vectorpropertypage.cpp:172
-#: ../../../src/catalogui/vectorpropertypage.cpp:175
-#: ../../../src/catalogui/vectorpropertypage.cpp:254
-#: ../../../src/catalogui/vectorpropertypage.cpp:255
-#: ../../../src/catalogui/vectorpropertypage.cpp:256
-#: ../../../src/catalogui/vectorpropertypage.cpp:257
-#: ../../../src/catalogui/vectorpropertypage.cpp:258
-#: ../../../src/catalogui/vectorpropertypage.cpp:259
-#: ../../../src/catalogui/vectorpropertypage.cpp:260
-#: ../../../src/catalogui/vectorpropertypage.cpp:261
-#: ../../../src/catalogui/vectorpropertypage.cpp:262
-#: ../../../src/catalogui/vectorpropertypage.cpp:263
-#: ../../../src/catalogui/vectorpropertypage.cpp:264
-#: ../../../src/catalogui/vectorpropertypage.cpp:267
-#: ../../../src/catalogui/vectorpropertypage.cpp:270
-#: ../../../src/catalogui/vectorpropertypage.cpp:271
-#: ../../../src/catalogui/vectorpropertypage.cpp:272
-#: ../../../src/catalogui/vectorpropertypage.cpp:273
-msgid "false"
-msgstr "нет"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:172
-#: ../../../src/catalogui/vectorpropertypage.cpp:167
-msgid "Delete DataSource"
-msgstr "Удалить источник данных"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:174
-#: ../../../src/catalogui/vectorpropertypage.cpp:169
-msgid "DataSource"
-msgstr "Источник данных"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:175
-#: ../../../src/catalogui/vectorpropertypage.cpp:170
-msgid "Layer Count"
-msgstr "Количество слоев"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:200
-#: ../../../src/catalogui/vectorpropertypage.cpp:204
-#, c-format
-msgid "Layer #%d"
-msgstr "Слой №%d"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:210
-#: ../../../src/catalogui/vectorpropertypage.cpp:215
-msgid "Feature count"
-msgstr "Количество записей"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:214
-#: ../../../src/catalogui/vectorpropertypage.cpp:219
-msgid "FID Column"
-msgstr "Поле FID"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:219
-#: ../../../src/catalogui/vectorpropertypage.cpp:227
-#, c-format
-msgid "Layer #%d Fields (%d)"
-msgstr "Слой №%d Поля (%d)"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:226
-#: ../../../src/catalogui/vectorpropertypage.cpp:234
-msgid "Width"
-msgstr "Ширина"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:227
-#: ../../../src/catalogui/vectorpropertypage.cpp:235
-msgid "Precision"
-msgstr "Точность"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:239
-#: ../../../src/catalogui/vectorpropertypage.cpp:247
-msgid "Justify"
-msgstr "Выравнивание"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:245
-#: ../../../src/catalogui/vectorpropertypage.cpp:253
-#, c-format
-msgid "Layer #%d Capability"
-msgstr "Возможности слоя №%d"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:246
-#: ../../../src/catalogui/vectorpropertypage.cpp:254
-msgid "Random Read"
-msgstr "Случайное чтение"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:247
-#: ../../../src/catalogui/vectorpropertypage.cpp:255
-msgid "Sequential Write"
-msgstr "Последовательная запись"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:248
-#: ../../../src/catalogui/vectorpropertypage.cpp:256
-msgid "Random Write"
-msgstr "Случайная запись"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:249
-#: ../../../src/catalogui/vectorpropertypage.cpp:257
-msgid "Fast Spatial Filter"
-msgstr "Быстрый пространственный фильтр"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:250
-#: ../../../src/catalogui/vectorpropertypage.cpp:258
-msgid "Fast Feature Count"
-msgstr "Быстрый подстчет записей"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:251
-#: ../../../src/catalogui/vectorpropertypage.cpp:259
-msgid "Fast Get Extent"
-msgstr "Быстрое определение охвата"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:252
-#: ../../../src/catalogui/vectorpropertypage.cpp:260
-msgid "Fast Set Next By Index"
-msgstr "Быстрый курсор на запись"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:253
-#: ../../../src/catalogui/vectorpropertypage.cpp:261
-msgid "Create Field"
-msgstr "Создать поле"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:254
-#: ../../../src/catalogui/vectorpropertypage.cpp:270
-msgid "Delete Feature"
-msgstr "Удалить элемент"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:255
-#: ../../../src/catalogui/vectorpropertypage.cpp:271
-msgid "Strings As UTF8"
-msgstr "Строки в кодировке UTF-8"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:256
-#: ../../../src/catalogui/vectorpropertypage.cpp:272
-msgid "Transactions"
-msgstr "Транзакции"
-
-#: ../../../src/catalogui/tablepropertypage.cpp:257
-#: ../../../src/catalogui/vectorpropertypage.cpp:273
-msgid "Ignore Fields"
-msgstr "Игнорировать поля"
-
-#: ../../../src/catalogui/gxpending.cpp:108
-#: ../../../include/wxgis/catalogui/gxpending.h:44
-#: ../../../include/wxgis/catalogui/gxpending.h:47
-msgid "Waiting..."
-msgstr "Ожидание..."
-
-#: ../../../src/catalogui/gxpending.cpp:108
-#, c-format
-msgid " (%ld sec)"
-msgstr "(%ld сек.)"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:439
-msgid "Look in:   "
-msgstr "Смотреть в: "
-
-#: ../../../src/catalogui/gxobgdialog.cpp:546
-msgid "Name:"
-msgstr "Имя:"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:553
-msgid "Activate"
-msgstr "Активировать"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:557
-msgid "Show of type:"
-msgstr "Показывать тип:"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:561
-#: ../../../src/catalogui/gxcontdialog.cpp:134
-msgid "Combo!"
-msgstr "Combo!"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:698
-msgid "Save"
-msgstr "Сохранить"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:731
-#: ../../../src/catalogui/gxcontdialog.cpp:330
-msgid "All listed filters"
-msgstr "Все фильтры"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:733
-#: ../../../src/catalogui/gxcontdialog.cpp:332
-msgid "All items"
-msgstr "Все элементы"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:902
-msgid "Cannot choose item(s)"
-msgstr "Элемент(ы) не может быть выбран!"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:1067
-msgid "Cannot save item!"
-msgstr "Элемент не может быть сохранен!"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:1072
-msgid "Item exists! Overwrite?"
-msgstr "Элемент существует! Перезаписать?"
-
-#: ../../../src/catalogui/gxobgdialog.cpp:1072
-#: ../../../src/catalogui/gxcatalogui.cpp:153
-msgid "Question"
-msgstr "Вопрос"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:128
-#: ../../../include/wxgis/catalogui/vectorpropertypage.h:50
-msgid "Vector"
-msgstr "Вектор"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:171
-msgid "Create Layer"
-msgstr "Создать слой"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:172
-msgid "Delete Layer"
-msgstr "Удалить слой"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:175
-msgid "Create Geom Field After Create Layer"
-msgstr "Создать поле геометрии после создания слоя"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:213
-msgid "Geometry type"
-msgstr "Тип геометрии"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:222
-msgid "Geometry Column"
-msgstr "Поле геометрии"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:262
-msgid "Delete Field"
-msgstr "Удалить поле"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:263
-msgid "Reorder Fields"
-msgstr "Изменить порядок полей"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:264
-msgid "Alter Field Definition"
-msgstr "Изменитьописание поля"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:267
-msgid "Create Geometry Field"
-msgstr "Создать поле с геометрией"
-
-#: ../../../src/catalogui/vectorpropertypage.cpp:290
-#: ../../../src/catalogui/vectorpropertypage.cpp:292
-#: ../../../src/catalogui/vectorpropertypage.cpp:311
-#, c-format
-msgid "Layer #%d Extent %s"
-msgstr "Слой №%d Охват %s"
-
-#: ../../../src/catalogui/viewscmd.cpp:75
-#: ../../../src/catalogui/viewscmd.cpp:91
-msgid "View"
-msgstr "Вид"
-
-#: ../../../src/catalogui/viewscmd.cpp:77
-#: ../../../src/catalogui/viewscmd.cpp:238
-msgid "Select All"
-msgstr "Выбрать все"
-
-#: ../../../src/catalogui/viewscmd.cpp:79
-#: ../../../src/catalogui/viewscmd.cpp:173
-#: ../../../src/catalogui/viewscmd.cpp:240
-msgid "Show/Hide Tree panel"
-msgstr "Показать/скрыть дерево"
-
-#: ../../../src/catalogui/viewscmd.cpp:93
-#: ../../../src/catalogui/catalogcmd.cpp:227
-msgid "Edit"
-msgstr "Редактировать"
-
-#: ../../../src/catalogui/viewscmd.cpp:169
-#: ../../../src/catalogui/viewscmd.cpp:236
-msgid "Select view"
-msgstr "Выбрать вид"
-
-#: ../../../src/catalogui/viewscmd.cpp:171
-msgid "Select All objects"
-msgstr "Выбрать все объекты"
-
-#: ../../../src/catalogui/viewscmd.cpp:260
-msgid "List"
-msgstr "Список"
-
-#: ../../../src/catalogui/viewscmd.cpp:261
-msgid "Icons"
-msgstr "Иконки"
-
-#: ../../../src/catalogui/viewscmd.cpp:262
-msgid "Smal Icons"
-msgstr "Маленькие иконки"
-
-#: ../../../src/catalogui/viewscmd.cpp:263
-msgid "Details"
-msgstr "Подробности"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:70
-#: ../../../src/catalogui/spatrefpropertypage.cpp:119
-msgid "Projected Coordinate System"
-msgstr "Проекционная система координат"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:82
-#: ../../../src/catalogui/spatrefpropertypage.cpp:121
-#: ../../../src/catalogui/spatrefpropertypage.cpp:127
-msgid "Geographic Coordinate System"
-msgstr "Географическая система координат"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:95
-#: ../../../src/catalogui/spatrefpropertypage.cpp:133
-msgid "Local Coordinate System"
-msgstr "Местная система координат"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:109
-#: ../../../src/catalogui/spatrefpropertypage.cpp:138
-msgid "Vertical Coordinate System"
-msgstr "Вертикальная  система координат"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:176
-msgid "Projection"
-msgstr "Проекция"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:179
-#: ../../../src/catalogui/spatrefpropertypage.cpp:297
-msgid "Parameters"
-msgstr "Параметры"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:212
-msgid "Linear unit"
-msgstr "Линейные единицы"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:216
-#: ../../../src/catalogui/spatrefpropertypage.cpp:239
-msgid "Meters per unit"
-msgstr "Метров на единицу"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:231
-msgid "Vertical datum"
-msgstr "Вертикальный датум"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:235
-msgid "Vertical unit"
-msgstr "Вертикальная единица измерения"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:245
-msgid "Axis"
-msgstr "Оси"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:247
-msgid "Orientation"
-msgstr "Ориентация"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:262
-msgid "Datum"
-msgstr "Датум"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:265
-msgid "Spheroid"
-msgstr "Сфероид"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:268
-msgid "Semimajor Axis"
-msgstr "Большая полуось"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:269
-msgid "Semiminor Axis"
-msgstr "Малая полуось"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:270
-msgid "Inverse Flattering"
-msgstr "Сжатие"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:271
-msgid "Angular unit"
-msgstr "Угловые единицы"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:276
-msgid "Radians per unit"
-msgstr "Радиан на единицу"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:278
-msgid "Prime Meridian"
-msgstr "Основной меридиан"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:283
-msgid "Longitude"
-msgstr "Долгота"
-
-#: ../../../src/catalogui/spatrefpropertypage.cpp:296
-msgid "To WGS parameters"
-msgstr "Переход к WGS84"
-
-#: ../../../src/catalogui/newmenu.cpp:51
-msgid "[Menus]"
-msgstr "[Меню]"
-
-#: ../../../src/catalogui/newmenu.cpp:66 ../../../src/catalogui/newmenu.cpp:91
-msgid "Create menu"
-msgstr "Создать меню"
-
-#: ../../../src/catalogui/gxcontentview.cpp:251
-msgid "Size"
-msgstr "Размер"
-
-#: ../../../src/catalogui/gxcontentview.cpp:471
-#, c-format
-msgid "%ld objects selected"
-msgstr "выделено %ld объектов"
-
-#: ../../../src/catalogui/gxcontentview.cpp:527
-#, c-format
-msgid "%d objects selected"
-msgstr "выделено %d объектов"
-
-#: ../../../src/catalogui/gxcontentview.cpp:727
-msgid "Rename failed!"
-msgstr "Переименование не удалось!"
 
 #: ../../../src/catalogui/catalogcmd.cpp:174
 msgid "&Up One Level"
@@ -1218,7 +25,7 @@ msgstr "&Вверх на один уровень"
 
 #: ../../../src/catalogui/catalogcmd.cpp:176
 msgid "&Connect folder"
-msgstr "&Связь с папкой"
+msgstr "&Подключить папку"
 
 #: ../../../src/catalogui/catalogcmd.cpp:178
 msgid "&Disconnect folder"
@@ -1254,6 +61,21 @@ msgstr "Переименовать"
 msgid "Refresh"
 msgstr "Обновить"
 
+#: ../../../src/catalogui/catalogcmd.cpp:194
+#: ../../../src/catalogui/gxdatasetui.cpp:69
+#: ../../../src/catalogui/gxdatasetui.cpp:132
+#: ../../../src/catalogui/gxdatasetui.cpp:206
+#: ../../../src/catalogui/gxfileui.cpp:76
+#: ../../../src/catalogui/gxmldatasetui.cpp:66
+#: ../../../src/catalogui/gxmldatasetui.cpp:203
+#: ../../../src/catalogui/gxpostgisdatasetui.cpp:68
+#: ../../../src/catalogui/gxpostgisdatasetui.cpp:114
+#: ../../../src/catalogui/gxpropertypages.cpp:66
+#: ../../../src/catalogui/gxpropertypages.cpp:95
+#: ../../../src/catalogui/gxremoteconnui.cpp:608
+msgid "Properties"
+msgstr "Свойства"
+
 #: ../../../src/catalogui/catalogcmd.cpp:196
 #: ../../../src/catalogui/gxcatalogui.cpp:109
 #: ../../../src/catalogui/gxcatalogui.cpp:159
@@ -1276,6 +98,18 @@ msgstr "отправить по почте..."
 #: ../../../include/wxgis/catalogui/gxcatalogui.h:41
 msgid "Catalog"
 msgstr "Каталог"
+
+#: ../../../src/catalogui/catalogcmd.cpp:221
+#: ../../../src/catalogui/createnewcmd.cpp:96
+#: ../../../src/catalogui/newmenu.cpp:46
+#: ../../../include/wxgis/catalogui/newmenu.h:42
+msgid "Create"
+msgstr "Создать"
+
+#: ../../../src/catalogui/catalogcmd.cpp:227
+#: ../../../src/catalogui/viewscmd.cpp:93
+msgid "Edit"
+msgstr "Редактировать"
 
 #: ../../../src/catalogui/catalogcmd.cpp:229
 msgid "Miscellaneous"
@@ -1353,6 +187,55 @@ msgstr "Выбрать папку для связи"
 #: ../../../src/catalogui/catalogcmd.cpp:512
 msgid "Cannot connect folder"
 msgstr "Не удалось создать связь с папкой"
+
+#: ../../../src/catalogui/catalogcmd.cpp:512
+#: ../../../src/catalogui/catalogcmd.cpp:529
+#: ../../../src/catalogui/catalogcmd.cpp:602
+#: ../../../src/catalogui/catalogcmd.cpp:606
+#: ../../../src/catalogui/catalogcmd.cpp:697
+#: ../../../src/catalogui/catalogcmd.cpp:702
+#: ../../../src/catalogui/catalogcmd.cpp:734
+#: ../../../src/catalogui/catalogcmd.cpp:739
+#: ../../../src/catalogui/catalogcmd.cpp:766
+#: ../../../src/catalogui/catalogcmd.cpp:781
+#: ../../../src/catalogui/catalogcmd.cpp:796
+#: ../../../src/catalogui/catalogcmd.cpp:817
+#: ../../../src/catalogui/catalogcmd.cpp:833
+#: ../../../src/catalogui/createnewcmd.cpp:266
+#: ../../../src/catalogui/createremotedlgs.cpp:72
+#: ../../../src/catalogui/createremotedlgs.cpp:100
+#: ../../../src/catalogui/createremotedlgs.cpp:113
+#: ../../../src/catalogui/createremotedlgs.cpp:120
+#: ../../../src/catalogui/createremotedlgs.cpp:279
+#: ../../../src/catalogui/createremotedlgs.cpp:284
+#: ../../../src/catalogui/gxcatalogui.cpp:143
+#: ../../../src/catalogui/gxcatalogui.cpp:159
+#: ../../../src/catalogui/gxcontentview.cpp:727
+#: ../../../src/catalogui/gxdatasetui.cpp:92
+#: ../../../src/catalogui/gxdatasetui.cpp:166
+#: ../../../src/catalogui/gxdatasetui.cpp:249
+#: ../../../src/catalogui/gxobgdialog.cpp:902
+#: ../../../src/catalogui/gxobgdialog.cpp:1067
+#: ../../../src/catalogui/gxremoteconnui.cpp:106
+#: ../../../src/catalogui/gxremoteconnui.cpp:185
+#: ../../../src/catalogui/gxtreeview.cpp:690
+#: ../../../src/catalogui/processing.cpp:179
+#: ../../../src/catalogui/processing.cpp:369
+#: ../../../src/catalogui/processing.cpp:447
+#: ../../../src/catalogui/processing.cpp:457
+#: ../../../src/catalogui/processing.cpp:494
+#: ../../../src/catalogui/processing.cpp:504
+#: ../../../src/catalogui/processing.cpp:560
+#: ../../../src/catalogui/processing.cpp:571
+#: ../../../src/catalogui/processing.cpp:580
+#: ../../../src/catalogui/processing.cpp:614
+#: ../../../src/catalogui/remoteconndlgs.cpp:119
+#: ../../../src/catalogui/remoteconndlgs.cpp:147
+#: ../../../src/catalogui/remoteconndlgs.cpp:187
+#: ../../../src/catalogui/remoteconndlgs.cpp:205
+#: ../../../src/catalogui/remoteconndlgs.cpp:210
+msgid "Error"
+msgstr "Ошибка"
 
 #: ../../../src/catalogui/catalogcmd.cpp:529
 msgid "Cannot disconnect folder"
@@ -1470,6 +353,215 @@ msgstr "Отправить выбранный(е) элемент(ы) по поч
 msgid "Path"
 msgstr "Путь"
 
+#: ../../../src/catalogui/createnewcmd.cpp:76
+msgid "&Remote database connection"
+msgstr "Подключение к &БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:78
+msgid "&Web service connection"
+msgstr "Подлючение к &веб сервису"
+
+#: ../../../src/catalogui/createnewcmd.cpp:80
+msgid "&Database schema"
+msgstr "С&хема БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:82
+msgid "Rem&ote Database"
+msgstr "&База данных"
+
+#: ../../../src/catalogui/createnewcmd.cpp:173
+#: ../../../src/catalogui/createnewcmd.cpp:291
+msgid "Create new remote DB connection"
+msgstr "Создать новое подключение к БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:175
+#: ../../../src/catalogui/createnewcmd.cpp:293
+msgid "Create new web service connection"
+msgstr "Создать новое подключение к веб сервису"
+
+#: ../../../src/catalogui/createnewcmd.cpp:177
+#: ../../../src/catalogui/createnewcmd.cpp:295
+msgid "Create new database schema"
+msgstr "Создать схему БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:179
+#: ../../../src/catalogui/createnewcmd.cpp:297
+msgid "Create new database"
+msgstr "Создать новую БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:203
+#: ../../../src/catalogui/createnewcmd.cpp:226
+msgid "new DB connection"
+msgstr "новое подключение к БД"
+
+#: ../../../src/catalogui/createnewcmd.cpp:262
+msgid "new_schema"
+msgstr "новая_схема"
+
+#: ../../../src/catalogui/createnewcmd.cpp:266
+msgid "Create schema failed!"
+msgstr "Не удалось создать схему!"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:36
+msgid "No template, use extension"
+msgstr "Без шаблона, использовать экстеншн"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:72
+#: ../../../src/catalogui/remoteconndlgs.cpp:119
+msgid "Crypt password failed!"
+msgstr "Не удалось зашифровать пароль!"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:100
+#: ../../../src/catalogui/remoteconndlgs.cpp:147
+msgid "Connection create failed!"
+msgstr "Не удалось создать подключение!"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:112
+#: ../../../src/catalogui/createremotedlgs.cpp:278
+#: ../../../src/catalogui/remoteconndlgs.cpp:204
+#, c-format
+msgid ""
+"Operation '%s' failed!\n"
+"Host '%s', Database name '%s', Port='%s'.\n"
+"GDAL error: %s"
+msgstr ""
+"Не удалось выполнить операцию '%s'! Хост '%s', База данных '%s', Порт='%s'.\n"
+"Ошибка GDAL: %s"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:112
+msgid "Create DB"
+msgstr "Создать БД"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:120
+#: ../../../src/catalogui/remoteconndlgs.cpp:187
+msgid "Some input values are incorrect!"
+msgstr "Некоторые входные значения некорректны!"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:141
+msgid "DB Name:"
+msgstr "Имя БД:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:147
+msgid "DB Template:"
+msgstr "Шаблон БД"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:157
+msgid "DB Connection Name:"
+msgstr "Название подключения к БД"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:174
+#: ../../../src/catalogui/remoteconndlgs.cpp:245
+msgid "Server:"
+msgstr "Сервер:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:181
+#: ../../../src/catalogui/remoteconndlgs.cpp:252
+msgid "Port:"
+msgstr "Порт:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:188
+#: ../../../src/catalogui/remoteconndlgs.cpp:259
+msgid "Database:"
+msgstr "БД:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:198
+#: ../../../src/catalogui/remoteconndlgs.cpp:269
+msgid "Account"
+msgstr "Аутентификационные данные"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:206
+#: ../../../src/catalogui/remoteconndlgs.cpp:277
+msgid "User:"
+msgstr "Пользователь:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:213
+#: ../../../src/catalogui/remoteconndlgs.cpp:284
+msgid "Password:"
+msgstr "Пароль:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:224
+#: ../../../src/catalogui/remoteconndlgs.cpp:295
+msgid "Use binary cursor"
+msgstr "Использовать двоичный курсор"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:227
+#: ../../../src/catalogui/remoteconndlgs.cpp:298
+msgid "Test Connection"
+msgstr "Проверить подключение"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:234
+#: ../../../src/catalogui/remoteconndlgs.cpp:305
+msgid "OK"
+msgstr "OK"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:236
+#: ../../../src/catalogui/gxcontdialog.cpp:158
+#: ../../../src/catalogui/gxobgdialog.cpp:564
+#: ../../../src/catalogui/remoteconndlgs.cpp:307
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:273
+#: ../../../src/catalogui/remoteconndlgs.cpp:199
+msgid "Connected successfully!"
+msgstr "Подключение выполнено успешно!"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:273
+#: ../../../src/catalogui/rasterpropertypage.cpp:220
+#: ../../../src/catalogui/remoteconndlgs.cpp:199
+#: ../../../src/catalogui/tablepropertypage.cpp:182
+#: ../../../src/catalogui/vectorpropertypage.cpp:183
+msgid "Information"
+msgstr "Информация"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:278
+#: ../../../src/catalogui/gxdatasetui.cpp:91
+#: ../../../src/catalogui/gxdatasetui.cpp:165
+#: ../../../src/catalogui/gxdatasetui.cpp:248
+#: ../../../src/catalogui/gxmldatasetui.cpp:160
+#: ../../../src/catalogui/gxobgdialog.cpp:683
+#: ../../../src/catalogui/remoteconndlgs.cpp:204
+#: ../../../include/wxgis/catalogui/gxcontdialog.h:97
+#: ../../../include/wxgis/catalogui/gxobjdialog.h:167
+msgid "Open"
+msgstr "Открыть"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:284
+#: ../../../src/catalogui/remoteconndlgs.cpp:210
+msgid "Some input values are not correct!"
+msgstr "Некоторые входные значения некорректны!"
+
+#: ../../../src/catalogui/gxapplication.cpp:66
+msgid "wxGxApplication: Start. Creating main application frame..."
+msgstr "wxGxApplication: Создание основного окна приложения..."
+
+#: ../../../src/catalogui/gxapplication.cpp:76
+msgid "wxGxApplication: Error finding <views> XML Node"
+msgstr "wxGxApplication: Ошибка поиска узла XML <views>"
+
+#: ../../../src/catalogui/gxapplication.cpp:92
+msgid "Tree Pane"
+msgstr "Панель дерева"
+
+#: ../../../src/catalogui/gxapplication.cpp:131
+#, c-format
+msgid "wxGxApplication: View class %s initialise"
+msgstr "wxGxApplication: Класс вида %s проинициализирован"
+
+#: ../../../src/catalogui/gxapplication.cpp:135
+#, c-format
+msgid "wxGxApplication: Error activation IGxView class (%s)"
+msgstr "wxGxApplication: Ошибка активирования IGxView класса (%s)"
+
+#: ../../../src/catalogui/gxapplication.cpp:142
+#, c-format
+msgid "wxGxApplication: Error creating view %s"
+msgstr "wxGxApplication: Ошибка создания вида %s"
+
+#: ../../../src/catalogui/gxapplication.cpp:179
+msgid "wxGxApplication: Creation complete"
+msgstr "wxGxApplication: Создание завершено"
+
 #: ../../../src/catalogui/gxcatalogui.cpp:109
 #: ../../../src/catalogui/gxcatalogui.cpp:143
 msgid "Move"
@@ -1479,6 +571,13 @@ msgstr "Переместить"
 #, c-format
 msgid "%s %ld objects (files)"
 msgstr "%s %ld объектов (файлов)"
+
+#: ../../../src/catalogui/gxcatalogui.cpp:113
+#: ../../../src/catalogui/processing.cpp:438
+#: ../../../src/catalogui/processing.cpp:485
+#: ../../../src/catalogui/processing.cpp:527
+msgid "Begin operation..."
+msgstr "Начать операцию..."
 
 #: ../../../src/catalogui/gxcatalogui.cpp:120
 #, c-format
@@ -1500,20 +599,212 @@ msgstr ""
 "Перенос не возможен: %s.\n"
 "Но можно выполнить копирование. Продолжить?"
 
+#: ../../../src/catalogui/gxcatalogui.cpp:153
+#: ../../../src/catalogui/gxobgdialog.cpp:1072
+msgid "Question"
+msgstr "Вопрос"
+
 #: ../../../src/catalogui/gxcontdialog.cpp:129
 msgid "Select export format"
 msgstr "Выбор формата экспорта"
+
+#: ../../../src/catalogui/gxcontdialog.cpp:134
+#: ../../../src/catalogui/gxobgdialog.cpp:561
+msgid "Combo!"
+msgstr "Combo!"
 
 #: ../../../src/catalogui/gxcontdialog.cpp:154
 msgid "Select"
 msgstr "Выбрать"
 
+#: ../../../src/catalogui/gxcontdialog.cpp:330
+#: ../../../src/catalogui/gxobgdialog.cpp:731
+msgid "All listed filters"
+msgstr "Все фильтры"
+
+#: ../../../src/catalogui/gxcontdialog.cpp:332
+#: ../../../src/catalogui/gxobgdialog.cpp:733
+msgid "All items"
+msgstr "Все элементы"
+
+#: ../../../src/catalogui/gxcontentview.cpp:249
+#: ../../../src/catalogui/gxlocationcombobox.cpp:79
+#: ../../../src/catalogui/spatrefpropertypage.cpp:160
+#: ../../../src/catalogui/spatrefpropertypage.cpp:167
+#: ../../../src/catalogui/spatrefpropertypage.cpp:178
+#: ../../../src/catalogui/spatrefpropertypage.cpp:215
+#: ../../../src/catalogui/spatrefpropertypage.cpp:223
+#: ../../../src/catalogui/spatrefpropertypage.cpp:233
+#: ../../../src/catalogui/spatrefpropertypage.cpp:238
+#: ../../../src/catalogui/spatrefpropertypage.cpp:246
+#: ../../../src/catalogui/spatrefpropertypage.cpp:255
+#: ../../../src/catalogui/spatrefpropertypage.cpp:264
+#: ../../../src/catalogui/spatrefpropertypage.cpp:267
+#: ../../../src/catalogui/spatrefpropertypage.cpp:275
+#: ../../../src/catalogui/spatrefpropertypage.cpp:282
+#: ../../../src/catalogui/spatrefpropertypage.cpp:303
+#: ../../../src/catalogui/tablepropertypage.cpp:209
+#: ../../../src/catalogui/tablepropertypage.cpp:225
+#: ../../../src/catalogui/vectorpropertypage.cpp:213
+#: ../../../src/catalogui/vectorpropertypage.cpp:233
+msgid "Name"
+msgstr "Имя"
+
+#: ../../../src/catalogui/gxcontentview.cpp:250
+#: ../../../src/catalogui/rasterpropertypage.cpp:451
+#: ../../../src/catalogui/tablepropertypage.cpp:226
+#: ../../../src/catalogui/vectorpropertypage.cpp:234
+msgid "Type"
+msgstr "Тип"
+
+#: ../../../src/catalogui/gxcontentview.cpp:251
+msgid "Size"
+msgstr "Размер"
+
+#: ../../../src/catalogui/gxcontentview.cpp:252
+#: ../../../src/catalogui/rasterpropertypage.cpp:207
+#: ../../../src/catalogui/tablepropertypage.cpp:161
+#: ../../../src/catalogui/vectorpropertypage.cpp:156
+msgid "Modification date"
+msgstr "Дата изменения"
+
+#: ../../../src/catalogui/gxcontentview.cpp:471
+#, c-format
+msgid "%ld objects selected"
+msgstr "выделено %ld объектов"
+
+#: ../../../src/catalogui/gxcontentview.cpp:527
+#, c-format
+msgid "%d objects selected"
+msgstr "выделено %d объектов"
+
+#: ../../../src/catalogui/gxcontentview.cpp:727
+msgid "Rename failed!"
+msgstr "Переименование не удалось!"
+
+#: ../../../src/catalogui/gxcontentview.cpp:1288
+#: ../../../src/catalogui/gxdiscconnectionui.cpp:86
+#: ../../../src/catalogui/gxmldatasetui.cpp:139
+#: ../../../src/catalogui/gxremoteconnui.cpp:492
+msgid "Could not create the thread!"
+msgstr "Не удалось создать  поток!"
+
+#: ../../../src/catalogui/gxcontentview.cpp:1294
+#: ../../../src/catalogui/gxdiscconnectionui.cpp:92
+#: ../../../src/catalogui/gxmldatasetui.cpp:145
+#: ../../../src/catalogui/gxremoteconnui.cpp:508
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
+
+#: ../../../src/catalogui/gxdatasetui.cpp:91
+#: ../../../src/catalogui/gxdatasetui.cpp:165
+#: ../../../src/catalogui/gxdatasetui.cpp:248
+#: ../../../src/catalogui/gxmldatasetui.cpp:160
+#, c-format
+msgid "Operation '%s' failed! GDAL error: %s"
+msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
+
+#: ../../../src/catalogui/gxlocationcombobox.cpp:648
+msgid "The entered path is unrecheable!"
+msgstr "Введенный путь не существует"
+
+#: ../../../src/catalogui/gxlocationcombobox.cpp:673
+msgid "The entered path is unreachable!"
+msgstr "Введенный путь не существует!"
+
+#: ../../../src/catalogui/gxmapview.cpp:61
+#: ../../../src/catalogui/gxmapview.cpp:72
+msgid "Geography View"
+msgstr "Вид географии"
+
+#: ../../../src/catalogui/gxnoview.cpp:52
+#: ../../../src/catalogui/gxnoview.cpp:65
+msgid "NoView"
+msgstr "Пустой вид"
+
+#: ../../../src/catalogui/gxnoview.cpp:106
+msgid "Selection cannot be viewed"
+msgstr "Невозможно просмотреть выбранное"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:439
+msgid "Look in:   "
+msgstr "Смотреть в: "
+
+#: ../../../src/catalogui/gxobgdialog.cpp:546
+msgid "Name:"
+msgstr "Имя:"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:553
+msgid "Activate"
+msgstr "Активировать"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:557
+msgid "Show of type:"
+msgstr "Показывать тип:"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:698
+msgid "Save"
+msgstr "Сохранить"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:902
+msgid "Cannot choose item(s)"
+msgstr "Элемент(ы) не может быть выбран!"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:1067
+msgid "Cannot save item!"
+msgstr "Элемент не может быть сохранен!"
+
+#: ../../../src/catalogui/gxobgdialog.cpp:1072
+msgid "Item exists! Overwrite?"
+msgstr "Элемент существует! Перезаписать?"
+
+#: ../../../src/catalogui/gxpending.cpp:108
+#: ../../../include/wxgis/catalogui/gxpending.h:44
+#: ../../../include/wxgis/catalogui/gxpending.h:47
+msgid "Waiting..."
+msgstr "Ожидание..."
+
+#: ../../../src/catalogui/gxpending.cpp:108
+#, c-format
+msgid " (%ld sec)"
+msgstr "(%ld сек.)"
+
+#: ../../../src/catalogui/gxpropertypages.cpp:49
+msgid "What top level entries do you want the Catalog to contain?"
+msgstr "Какие корневые элементы должны содержаться в Каталоге?"
+
+#: ../../../src/catalogui/gxpropertypages.cpp:76
+msgid "Which types of data do you want the Catalog to show?"
+msgstr "Какие типы данных должны отображаться?"
+
+#: ../../../src/catalogui/gxpropertypages.cpp:103
+msgid "Hide file extensions"
+msgstr "Скрыть расширения файлов"
+
+#: ../../../src/catalogui/gxpropertypages.cpp:108
+msgid "Return to last location when wxGISCatalog start up"
+msgstr "Переходить к последнему пути когда запускается Каталог "
+
+#: ../../../src/catalogui/gxpropertypages.cpp:113
+msgid "Show hidden items"
+msgstr "Показать скрытые элементы"
+
 #: ../../../src/catalogui/gxremoteconnui.cpp:106
-#: ../../../src/catalogui/gxremoteconnui.cpp:183
 msgid "Connect failed!"
 msgstr "Подключение не удалось!"
 
-#: ../../../src/catalogui/gxremoteconnui.cpp:686
+#: ../../../src/catalogui/gxremoteconnui.cpp:184
+#, c-format
+msgid ""
+"Operation '%s' failed!\n"
+"GDAL error: %s"
+msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
+
+#: ../../../src/catalogui/gxremoteconnui.cpp:184
+msgid "Connect"
+msgstr "Подключить"
+
+#: ../../../src/catalogui/gxremoteconnui.cpp:688
 msgid "Layers"
 msgstr "Слои"
 
@@ -1522,10 +813,20 @@ msgstr "Слои"
 msgid "Table View"
 msgstr "Вид Таблицы"
 
-#: ../../../src/catalogui/gxmapview.cpp:61
-#: ../../../src/catalogui/gxmapview.cpp:72
-msgid "Geography View"
-msgstr "Вид географии"
+#: ../../../src/catalogui/gxtabview.cpp:58
+#: ../../../src/catalogui/gxtabview.cpp:81
+#, c-format
+msgid "wxGxTab: Error creating view %s"
+msgstr "wxGxTab: Ошибка создания вида %s"
+
+#: ../../../src/catalogui/gxtabview.cpp:73
+#, c-format
+msgid "wxGxTab: View class %s in '%s' tab initialise"
+msgstr "wxGxTab: Класс вида %s во вкладке '%s' проинициализирован"
+
+#: ../../../src/catalogui/gxtabview.cpp:111
+msgid "Preview: "
+msgstr "Просмотр:"
 
 #: ../../../src/catalogui/gxtreeview.cpp:52
 #: ../../../src/catalogui/gxtreeview.cpp:60
@@ -1536,9 +837,772 @@ msgstr "Вид дерева"
 msgid "Rename error!"
 msgstr "Ошибка переименования!"
 
-#: ../../../include/wxgis/catalogui/rasterpropertypage.h:90
-msgid "Histogram"
-msgstr "Гистограмма"
+#: ../../../src/catalogui/newmenu.cpp:51
+msgid "[Menus]"
+msgstr "[Меню]"
+
+#: ../../../src/catalogui/newmenu.cpp:66 ../../../src/catalogui/newmenu.cpp:91
+msgid "Create menu"
+msgstr "Создать меню"
+
+#: ../../../src/catalogui/processing.cpp:41
+#: ../../../src/catalogui/processing.cpp:230
+msgid "Select output"
+msgstr "Выберите путь для сохранения"
+
+#: ../../../src/catalogui/processing.cpp:128
+msgid "Export"
+msgstr "Экспорт"
+
+#: ../../../src/catalogui/processing.cpp:179
+#: ../../../src/catalogui/processing.cpp:369
+msgid "Unexpected error"
+msgstr "Неожиданная ошибка"
+
+#: ../../../src/catalogui/processing.cpp:180
+#: ../../../src/catalogui/processing.cpp:370
+msgid "Null wxGxObjectFilter returned"
+msgstr "Получен пустой объект wxGxObjectFilter "
+
+#: ../../../src/catalogui/processing.cpp:438
+#: ../../../src/catalogui/processing.cpp:485
+#: ../../../src/catalogui/processing.cpp:527
+msgid "Exporting..."
+msgstr "Экспорт..."
+
+#: ../../../src/catalogui/processing.cpp:447
+#: ../../../src/catalogui/processing.cpp:560
+msgid "The dataset is empty"
+msgstr "Набор пустой"
+
+#: ../../../src/catalogui/processing.cpp:448
+#: ../../../src/catalogui/processing.cpp:495
+#: ../../../src/catalogui/processing.cpp:561
+msgid "wxGISFeatureDataset pointer is null returned"
+msgstr "Получена нулевая ссылка на объект wxGISFeatureDataset "
+
+#: ../../../src/catalogui/processing.cpp:494
+msgid "The table is empty"
+msgstr "Таблица пуста"
+
+#: ../../../src/catalogui/processing.cpp:533
+#, c-format
+msgid "Proceed %ld of %ld..."
+msgstr "Обработка  %ld из %ld..."
+
+#: ../../../src/catalogui/processing.cpp:607
+msgid "During export there were several warnings."
+msgstr "При экспорте было несколько предупреждений."
+
+#: ../../../src/catalogui/processing.cpp:607
+#: ../../../src/catalogui/processing.cpp:616
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:37
+msgid "Statistics"
+msgstr "Статистика"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:38
+#: ../../../src/catalogui/rasterpropertypage.cpp:478
+msgid "Overviews"
+msgstr "Пирамиды"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:122
+#: ../../../src/catalogui/tablepropertypage.cpp:106
+#: ../../../src/catalogui/vectorpropertypage.cpp:100
+msgid "Item"
+msgstr "Элемент"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:174
+#: ../../../src/catalogui/tablepropertypage.cpp:133
+#: ../../../src/catalogui/vectorpropertypage.cpp:127
+msgid "Data Source"
+msgstr "Источник данных"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:175
+#: ../../../include/wxgis/catalogui/rasterpropertypage.h:55
+msgid "Raster"
+msgstr "Растр"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:181
+#: ../../../src/catalogui/tablepropertypage.cpp:140
+#: ../../../src/catalogui/vectorpropertypage.cpp:134
+msgid "Folder"
+msgstr "Папка"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:191
+#: ../../../src/catalogui/rasterpropertypage.cpp:195
+#: ../../../src/catalogui/tablepropertypage.cpp:145
+#: ../../../src/catalogui/tablepropertypage.cpp:149
+#: ../../../src/catalogui/vectorpropertypage.cpp:139
+#: ../../../src/catalogui/vectorpropertypage.cpp:143
+msgid "Files"
+msgstr "Файлы"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:191
+#: ../../../src/catalogui/tablepropertypage.cpp:145
+#: ../../../src/catalogui/vectorpropertypage.cpp:139
+msgid "None associated"
+msgstr "Нет связанных"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:199
+#: ../../../src/catalogui/tablepropertypage.cpp:153
+#: ../../../src/catalogui/vectorpropertypage.cpp:147
+#, c-format
+msgid "File %d"
+msgstr "Файл %d"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:206
+#: ../../../src/catalogui/tablepropertypage.cpp:160
+#: ../../../src/catalogui/vectorpropertypage.cpp:155
+msgid "Total size"
+msgstr "Полный размер"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:211
+#: ../../../src/catalogui/tablepropertypage.cpp:170
+#: ../../../src/catalogui/vectorpropertypage.cpp:165
+msgid "Driver"
+msgstr "Драйвер"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:225
+msgid "Columns and Rows"
+msgstr "Столбцы и строки"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:228
+msgid "Number of bands"
+msgstr "Количество каналов"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:236
+msgid "Cell size (X, Y)"
+msgstr "Размер ячейки (X, Y)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:237
+msgid "GeoTransform"
+msgstr "Коэффициенты трансформирования"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:245
+#: ../../../src/catalogui/rasterpropertypage.cpp:254
+msgid "Present (click to rebuild)"
+msgstr "Имеется (щелкните для перестроения)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:247
+#: ../../../src/catalogui/rasterpropertypage.cpp:256
+msgid "Absent (click to build)"
+msgstr "Отсутсвует (шелкните для построения)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:269
+#: ../../../src/catalogui/rasterpropertypage.cpp:271
+#: ../../../src/catalogui/rasterpropertypage.cpp:290
+#, c-format
+msgid "Extent %s"
+msgstr "Охват %s"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:269
+#: ../../../src/catalogui/vectorpropertypage.cpp:291
+msgid "(Projected)"
+msgstr "(Проекционные)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:272
+#: ../../../src/catalogui/rasterpropertypage.cpp:291
+#: ../../../src/catalogui/vectorpropertypage.cpp:294
+#: ../../../src/catalogui/vectorpropertypage.cpp:313
+msgid "Top"
+msgstr "Верх"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:273
+#: ../../../src/catalogui/rasterpropertypage.cpp:292
+#: ../../../src/catalogui/tablepropertypage.cpp:234
+#: ../../../src/catalogui/vectorpropertypage.cpp:242
+#: ../../../src/catalogui/vectorpropertypage.cpp:295
+#: ../../../src/catalogui/vectorpropertypage.cpp:314
+msgid "Left"
+msgstr "Лево"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:274
+#: ../../../src/catalogui/rasterpropertypage.cpp:293
+#: ../../../src/catalogui/tablepropertypage.cpp:237
+#: ../../../src/catalogui/vectorpropertypage.cpp:245
+#: ../../../src/catalogui/vectorpropertypage.cpp:297
+#: ../../../src/catalogui/vectorpropertypage.cpp:316
+msgid "Right"
+msgstr "Право"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:275
+#: ../../../src/catalogui/rasterpropertypage.cpp:294
+#: ../../../src/catalogui/vectorpropertypage.cpp:296
+#: ../../../src/catalogui/vectorpropertypage.cpp:315
+msgid "Bottom"
+msgstr "Низ"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:277
+#: ../../../src/catalogui/rasterpropertypage.cpp:296
+#: ../../../src/catalogui/vectorpropertypage.cpp:299
+#: ../../../src/catalogui/vectorpropertypage.cpp:318
+msgid "Center X"
+msgstr "Центр X"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:278
+#: ../../../src/catalogui/rasterpropertypage.cpp:297
+#: ../../../src/catalogui/vectorpropertypage.cpp:300
+#: ../../../src/catalogui/vectorpropertypage.cpp:319
+msgid "Center Y"
+msgstr "Центр Y"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:290
+#: ../../../src/catalogui/vectorpropertypage.cpp:312
+msgid "(Geographic)"
+msgstr "(Географические)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:312
+#: ../../../src/catalogui/rasterpropertypage.cpp:566
+msgid "Metadata"
+msgstr "Метаданные"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:326
+#: ../../../src/catalogui/rasterpropertypage.cpp:576
+msgid "Image Structure Metadata"
+msgstr "Метаданные структуры изображения"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:340
+msgid "Subdatasets"
+msgstr "Поднаборы данных"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:354
+msgid "IMD Metadata"
+msgstr "Метаданные"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:368
+msgid "Geolocation"
+msgstr "Расположение"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:382
+msgid "RPC Metadata"
+msgstr "Метаданные RPC"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:396
+msgid "GCP data"
+msgstr "Данные контрольных точек (GCP)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:414
+#: ../../../src/catalogui/rasterpropertypage.cpp:419
+#: ../../../src/catalogui/rasterpropertypage.cpp:422
+msgid "GCP Projection"
+msgstr "Проекция контрольных точек (GCP)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:422
+#: ../../../src/catalogui/spatrefpropertypage.cpp:160
+#: ../../../src/catalogui/spatrefpropertypage.cpp:303
+#: ../../../src/catalogui/tablepropertypage.cpp:230
+#: ../../../src/catalogui/vectorpropertypage.cpp:238
+msgid "Undefined"
+msgstr "Неопределено"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:428
+#, c-format
+msgid "Id='%s', Info='%s', (%.6g,%.6g) -> (%.6g,%.6g,%.6g)"
+msgstr "Идентификатор='%s', Информация='%s', (%.6g,%.6g) -> (%.6g,%.6g,%.6g)"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:436
+msgid "Statistics details"
+msgstr "Детализация статистики"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:440
+#, c-format
+msgid "Band %d"
+msgstr "Канал %d"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:450
+msgid "Block"
+msgstr "Блок"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:452
+msgid "ColorInterp"
+msgstr "Цветовое представление"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:456
+msgid "Description"
+msgstr "Описание"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:461
+msgid "Min"
+msgstr "Мин."
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:462
+msgid "Max"
+msgstr "Макс."
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:463
+msgid "Mean"
+msgstr "Сред."
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:464
+msgid "Std Dev"
+msgstr "Ст. откл."
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:472
+msgid "NoData Value"
+msgstr "Значение Нет данных"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:478
+msgid "arbitrary"
+msgstr "произвольное"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:492
+#: ../../../src/catalogui/rasterpropertypage.cpp:533
+#, c-format
+msgid "Overview %d"
+msgstr "Пирамидный слой %d"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:524
+msgid "Mask Flags"
+msgstr "Флаги маски"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:528
+msgid "Overviews of mask band"
+msgstr "Пирамиды маскирующего слоя"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:542
+msgid "Unit Type"
+msgstr "Тип единиц"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:548
+msgid "Categories"
+msgstr "Категории"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:558
+msgid "Scale"
+msgstr "Масштаб"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:561
+msgid "Offset"
+msgstr "Смещение"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:585
+msgid "Color Table"
+msgstr "Цветовая таблица "
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:585
+#, c-format
+msgid "%s with %d entries"
+msgstr "%s с %d элементами"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:592
+#, c-format
+msgid "%3d"
+msgstr "%3d"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:593
+#, c-format
+msgid "%d,%d,%d,%d"
+msgstr "%d,%d,%d,%d"
+
+#: ../../../src/catalogui/rasterpropertypage.cpp:603
+msgid "Raster Attribute Table"
+msgstr "Таблица атрибутов растра"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:70
+#: ../../../src/catalogui/spatrefpropertypage.cpp:119
+msgid "Projected Coordinate System"
+msgstr "Проекционная система координат"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:82
+#: ../../../src/catalogui/spatrefpropertypage.cpp:121
+#: ../../../src/catalogui/spatrefpropertypage.cpp:127
+msgid "Geographic Coordinate System"
+msgstr "Географическая система координат"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:95
+#: ../../../src/catalogui/spatrefpropertypage.cpp:133
+msgid "Local Coordinate System"
+msgstr "Местная система координат"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:109
+#: ../../../src/catalogui/spatrefpropertypage.cpp:138
+msgid "Vertical Coordinate System"
+msgstr "Вертикальная  система координат"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:176
+msgid "Projection"
+msgstr "Проекция"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:179
+#: ../../../src/catalogui/spatrefpropertypage.cpp:297
+msgid "Parameters"
+msgstr "Параметры"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:212
+msgid "Linear unit"
+msgstr "Линейные единицы"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:216
+#: ../../../src/catalogui/spatrefpropertypage.cpp:239
+msgid "Meters per unit"
+msgstr "Метров на единицу"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:231
+msgid "Vertical datum"
+msgstr "Вертикальный датум"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:235
+msgid "Vertical unit"
+msgstr "Вертикальная единица измерения"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:245
+msgid "Axis"
+msgstr "Оси"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:247
+msgid "Orientation"
+msgstr "Ориентация"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:262
+msgid "Datum"
+msgstr "Датум"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:265
+msgid "Spheroid"
+msgstr "Сфероид"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:268
+msgid "Semimajor Axis"
+msgstr "Большая полуось"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:269
+msgid "Semiminor Axis"
+msgstr "Малая полуось"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:270
+msgid "Inverse Flattering"
+msgstr "Сжатие"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:271
+msgid "Angular unit"
+msgstr "Угловые единицы"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:276
+msgid "Radians per unit"
+msgstr "Радиан на единицу"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:278
+msgid "Prime Meridian"
+msgstr "Основной меридиан"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:283
+msgid "Longitude"
+msgstr "Долгота"
+
+#: ../../../src/catalogui/spatrefpropertypage.cpp:296
+msgid "To WGS parameters"
+msgstr "Переход к WGS84"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:134
+#: ../../../include/wxgis/catalogui/tablepropertypage.h:50
+msgid "Table"
+msgstr "Таблица"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:172
+#: ../../../src/catalogui/tablepropertypage.cpp:177
+#: ../../../src/catalogui/vectorpropertypage.cpp:167
+msgid "Create DataSource"
+msgstr "Создать источник данных"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:172
+#: ../../../src/catalogui/tablepropertypage.cpp:173
+#: ../../../src/catalogui/tablepropertypage.cpp:177
+#: ../../../src/catalogui/tablepropertypage.cpp:247
+#: ../../../src/catalogui/tablepropertypage.cpp:248
+#: ../../../src/catalogui/tablepropertypage.cpp:249
+#: ../../../src/catalogui/tablepropertypage.cpp:250
+#: ../../../src/catalogui/tablepropertypage.cpp:251
+#: ../../../src/catalogui/tablepropertypage.cpp:252
+#: ../../../src/catalogui/tablepropertypage.cpp:253
+#: ../../../src/catalogui/tablepropertypage.cpp:254
+#: ../../../src/catalogui/tablepropertypage.cpp:255
+#: ../../../src/catalogui/tablepropertypage.cpp:256
+#: ../../../src/catalogui/tablepropertypage.cpp:257
+#: ../../../src/catalogui/tablepropertypage.cpp:258
+#: ../../../src/catalogui/vectorpropertypage.cpp:167
+#: ../../../src/catalogui/vectorpropertypage.cpp:168
+#: ../../../src/catalogui/vectorpropertypage.cpp:172
+#: ../../../src/catalogui/vectorpropertypage.cpp:173
+#: ../../../src/catalogui/vectorpropertypage.cpp:176
+#: ../../../src/catalogui/vectorpropertypage.cpp:255
+#: ../../../src/catalogui/vectorpropertypage.cpp:256
+#: ../../../src/catalogui/vectorpropertypage.cpp:257
+#: ../../../src/catalogui/vectorpropertypage.cpp:258
+#: ../../../src/catalogui/vectorpropertypage.cpp:259
+#: ../../../src/catalogui/vectorpropertypage.cpp:260
+#: ../../../src/catalogui/vectorpropertypage.cpp:261
+#: ../../../src/catalogui/vectorpropertypage.cpp:262
+#: ../../../src/catalogui/vectorpropertypage.cpp:263
+#: ../../../src/catalogui/vectorpropertypage.cpp:264
+#: ../../../src/catalogui/vectorpropertypage.cpp:265
+#: ../../../src/catalogui/vectorpropertypage.cpp:268
+#: ../../../src/catalogui/vectorpropertypage.cpp:271
+#: ../../../src/catalogui/vectorpropertypage.cpp:272
+#: ../../../src/catalogui/vectorpropertypage.cpp:273
+#: ../../../src/catalogui/vectorpropertypage.cpp:274
+msgid "true"
+msgstr "да"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:172
+#: ../../../src/catalogui/tablepropertypage.cpp:173
+#: ../../../src/catalogui/tablepropertypage.cpp:177
+#: ../../../src/catalogui/tablepropertypage.cpp:247
+#: ../../../src/catalogui/tablepropertypage.cpp:248
+#: ../../../src/catalogui/tablepropertypage.cpp:249
+#: ../../../src/catalogui/tablepropertypage.cpp:250
+#: ../../../src/catalogui/tablepropertypage.cpp:251
+#: ../../../src/catalogui/tablepropertypage.cpp:252
+#: ../../../src/catalogui/tablepropertypage.cpp:253
+#: ../../../src/catalogui/tablepropertypage.cpp:254
+#: ../../../src/catalogui/tablepropertypage.cpp:255
+#: ../../../src/catalogui/tablepropertypage.cpp:256
+#: ../../../src/catalogui/tablepropertypage.cpp:257
+#: ../../../src/catalogui/tablepropertypage.cpp:258
+#: ../../../src/catalogui/vectorpropertypage.cpp:167
+#: ../../../src/catalogui/vectorpropertypage.cpp:168
+#: ../../../src/catalogui/vectorpropertypage.cpp:172
+#: ../../../src/catalogui/vectorpropertypage.cpp:173
+#: ../../../src/catalogui/vectorpropertypage.cpp:176
+#: ../../../src/catalogui/vectorpropertypage.cpp:255
+#: ../../../src/catalogui/vectorpropertypage.cpp:256
+#: ../../../src/catalogui/vectorpropertypage.cpp:257
+#: ../../../src/catalogui/vectorpropertypage.cpp:258
+#: ../../../src/catalogui/vectorpropertypage.cpp:259
+#: ../../../src/catalogui/vectorpropertypage.cpp:260
+#: ../../../src/catalogui/vectorpropertypage.cpp:261
+#: ../../../src/catalogui/vectorpropertypage.cpp:262
+#: ../../../src/catalogui/vectorpropertypage.cpp:263
+#: ../../../src/catalogui/vectorpropertypage.cpp:264
+#: ../../../src/catalogui/vectorpropertypage.cpp:265
+#: ../../../src/catalogui/vectorpropertypage.cpp:268
+#: ../../../src/catalogui/vectorpropertypage.cpp:271
+#: ../../../src/catalogui/vectorpropertypage.cpp:272
+#: ../../../src/catalogui/vectorpropertypage.cpp:273
+#: ../../../src/catalogui/vectorpropertypage.cpp:274
+msgid "false"
+msgstr "нет"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:173
+#: ../../../src/catalogui/vectorpropertypage.cpp:168
+msgid "Delete DataSource"
+msgstr "Удалить источник данных"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:175
+#: ../../../src/catalogui/vectorpropertypage.cpp:170
+msgid "DataSource"
+msgstr "Источник данных"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:176
+#: ../../../src/catalogui/vectorpropertypage.cpp:171
+msgid "Layer Count"
+msgstr "Количество слоев"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:201
+#: ../../../src/catalogui/vectorpropertypage.cpp:205
+#, c-format
+msgid "Layer #%d"
+msgstr "Слой №%d"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:211
+#: ../../../src/catalogui/vectorpropertypage.cpp:216
+msgid "Feature count"
+msgstr "Количество записей"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:215
+#: ../../../src/catalogui/vectorpropertypage.cpp:220
+msgid "FID Column"
+msgstr "Поле FID"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:220
+#: ../../../src/catalogui/vectorpropertypage.cpp:228
+#, c-format
+msgid "Layer #%d Fields (%d)"
+msgstr "Слой №%d Поля (%d)"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:227
+#: ../../../src/catalogui/vectorpropertypage.cpp:235
+msgid "Width"
+msgstr "Ширина"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:228
+#: ../../../src/catalogui/vectorpropertypage.cpp:236
+msgid "Precision"
+msgstr "Точность"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:240
+#: ../../../src/catalogui/vectorpropertypage.cpp:248
+msgid "Justify"
+msgstr "Выравнивание"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:246
+#: ../../../src/catalogui/vectorpropertypage.cpp:254
+#, c-format
+msgid "Layer #%d Capability"
+msgstr "Возможности слоя №%d"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:247
+#: ../../../src/catalogui/vectorpropertypage.cpp:255
+msgid "Random Read"
+msgstr "Случайное чтение"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:248
+#: ../../../src/catalogui/vectorpropertypage.cpp:256
+msgid "Sequential Write"
+msgstr "Последовательная запись"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:249
+#: ../../../src/catalogui/vectorpropertypage.cpp:257
+msgid "Random Write"
+msgstr "Случайная запись"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:250
+#: ../../../src/catalogui/vectorpropertypage.cpp:258
+msgid "Fast Spatial Filter"
+msgstr "Быстрый пространственный фильтр"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:251
+#: ../../../src/catalogui/vectorpropertypage.cpp:259
+msgid "Fast Feature Count"
+msgstr "Быстрый подстчет записей"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:252
+#: ../../../src/catalogui/vectorpropertypage.cpp:260
+msgid "Fast Get Extent"
+msgstr "Быстрое определение охвата"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:253
+#: ../../../src/catalogui/vectorpropertypage.cpp:261
+msgid "Fast Set Next By Index"
+msgstr "Быстрый курсор на запись"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:254
+#: ../../../src/catalogui/vectorpropertypage.cpp:262
+msgid "Create Field"
+msgstr "Создать поле"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:255
+#: ../../../src/catalogui/vectorpropertypage.cpp:271
+msgid "Delete Feature"
+msgstr "Удалить элемент"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:256
+#: ../../../src/catalogui/vectorpropertypage.cpp:272
+msgid "Strings As UTF8"
+msgstr "Строки в кодировке UTF-8"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:257
+#: ../../../src/catalogui/vectorpropertypage.cpp:273
+msgid "Transactions"
+msgstr "Транзакции"
+
+#: ../../../src/catalogui/tablepropertypage.cpp:258
+#: ../../../src/catalogui/vectorpropertypage.cpp:274
+msgid "Ignore Fields"
+msgstr "Игнорировать поля"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:128
+#: ../../../include/wxgis/catalogui/vectorpropertypage.h:50
+msgid "Vector"
+msgstr "Вектор"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:172
+msgid "Create Layer"
+msgstr "Создать слой"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:173
+msgid "Delete Layer"
+msgstr "Удалить слой"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:176
+msgid "Create Geom Field After Create Layer"
+msgstr "Создать поле геометрии после создания слоя"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:214
+msgid "Geometry type"
+msgstr "Тип геометрии"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:223
+msgid "Geometry Column"
+msgstr "Поле геометрии"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:263
+msgid "Delete Field"
+msgstr "Удалить поле"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:264
+msgid "Reorder Fields"
+msgstr "Изменить порядок полей"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:265
+msgid "Alter Field Definition"
+msgstr "Изменитьописание поля"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:268
+msgid "Create Geometry Field"
+msgstr "Создать поле с геометрией"
+
+#: ../../../src/catalogui/vectorpropertypage.cpp:291
+#: ../../../src/catalogui/vectorpropertypage.cpp:293
+#: ../../../src/catalogui/vectorpropertypage.cpp:312
+#, c-format
+msgid "Layer #%d Extent %s"
+msgstr "Слой №%d Охват %s"
+
+#: ../../../src/catalogui/viewscmd.cpp:75
+#: ../../../src/catalogui/viewscmd.cpp:91
+msgid "View"
+msgstr "Вид"
+
+#: ../../../src/catalogui/viewscmd.cpp:77
+#: ../../../src/catalogui/viewscmd.cpp:238
+msgid "Select All"
+msgstr "Выбрать все"
+
+#: ../../../src/catalogui/viewscmd.cpp:79
+#: ../../../src/catalogui/viewscmd.cpp:173
+#: ../../../src/catalogui/viewscmd.cpp:240
+msgid "Show/Hide Tree panel"
+msgstr "Показать/скрыть дерево"
+
+#: ../../../src/catalogui/viewscmd.cpp:169
+#: ../../../src/catalogui/viewscmd.cpp:236
+msgid "Select view"
+msgstr "Выбрать вид"
+
+#: ../../../src/catalogui/viewscmd.cpp:171
+msgid "Select All objects"
+msgstr "Выбрать все объекты"
+
+#: ../../../src/catalogui/viewscmd.cpp:260
+msgid "List"
+msgstr "Список"
+
+#: ../../../src/catalogui/viewscmd.cpp:261
+msgid "Icons"
+msgstr "Иконки"
+
+#: ../../../src/catalogui/viewscmd.cpp:262
+msgid "Smal Icons"
+msgstr "Маленькие иконки"
+
+#: ../../../src/catalogui/viewscmd.cpp:263
+msgid "Details"
+msgstr "Подробности"
+
+#: ../../../include/wxgis/catalogui/createremotedlgs.h:37
+msgid "Create new Remote Database"
+msgstr "Создать новую БД"
+
+#: ../../../include/wxgis/catalogui/gxapplication.h:53
+msgid "NextGIS Manager"
+msgstr "NextGIS Manager"
+
+#: ../../../include/wxgis/catalogui/gxapplication.h:54
+msgid "Manager"
+msgstr "Менеджер"
 
 #: ../../../include/wxgis/catalogui/gxcontdialog.h:101
 msgid "NextGIS Container Dialog"
@@ -1556,30 +1620,13 @@ msgstr "Диалог обектов NextGIS"
 msgid "Object Dialog"
 msgstr "Диалог объектов"
 
-#: ../../../include/wxgis/catalogui/spatrefpropertypage.h:49
-msgid "Spatial Reference"
-msgstr "Пространственная привязка"
-
-#: ../../../include/wxgis/catalogui/gxspatreffolderui.h:70
-msgid "Coordinate Systems Folder"
-msgstr "Папка систем координат"
-
 #: ../../../include/wxgis/catalogui/gxpropertypages.h:64
 msgid "General"
 msgstr "Главное"
 
-#: ../../../include/wxgis/catalogui/remoteconndlgs.h:55
-#: ../../../include/wxgis/catalogui/remoteconndlgs.h:56
-msgid "Remote Database Connection"
-msgstr "Подключение к удаленной базе"
-
-#: ../../../include/wxgis/catalogui/gxapplication.h:53
-msgid "NextGIS Manager"
-msgstr "NextGIS Manager"
-
-#: ../../../include/wxgis/catalogui/gxapplication.h:54
-msgid "Manager"
-msgstr "Менеджер"
+#: ../../../include/wxgis/catalogui/gxspatreffolderui.h:70
+msgid "Coordinate Systems Folder"
+msgstr "Папка систем координат"
 
 #: ../../../include/wxgis/catalogui/gxtabview.h:39
 msgid "Content"
@@ -1588,6 +1635,19 @@ msgstr "Содержимое"
 #: ../../../include/wxgis/catalogui/gxtabview.h:40
 msgid "Preview"
 msgstr "Просмотр"
+
+#: ../../../include/wxgis/catalogui/rasterpropertypage.h:90
+msgid "Histogram"
+msgstr "Гистограмма"
+
+#: ../../../include/wxgis/catalogui/remoteconndlgs.h:55
+#: ../../../include/wxgis/catalogui/remoteconndlgs.h:56
+msgid "Remote Database Connection"
+msgstr "Подключение к удаленной базе"
+
+#: ../../../include/wxgis/catalogui/spatrefpropertypage.h:49
+msgid "Spatial Reference"
+msgstr "Пространственная привязка"
 
 #~ msgid "New"
 #~ msgstr "Новый"

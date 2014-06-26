@@ -249,7 +249,16 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
         }
     }
 
+
+    m_bIsReadOnly = !bUpdate;
+
     m_poDataset = (GDALDataset*) wxGISDataset::OpenInternal( m_sPath, bUpdate, bShared );
+
+    if (m_poDataset == NULL && bUpdate)
+    {
+        m_poDataset = (GDALDataset*)wxGISDataset::OpenInternal(m_sPath, false, bShared);
+        m_bIsReadOnly = true;
+    }
 
     //bug in FindFileInZip() [gdal-1.6.3\port\cpl_vsil_gzip.cpp]
 
@@ -507,7 +516,6 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
     }
 
 	m_bIsOpened = true;
-    m_bIsReadOnly = !bUpdate;
 	return true;
 }
 
