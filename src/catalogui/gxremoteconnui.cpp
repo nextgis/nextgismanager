@@ -94,6 +94,10 @@ void wxGxRemoteConnectionUI::EditProperties(wxWindow *parent)
 	if(dlg.ShowModal() == wxID_OK)
 	{
         Disconnect();
+        //reread settings from connection file
+        wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+        if(pDSet)
+            pDSet->ReadConnectionFile();
 	}
 }
 
