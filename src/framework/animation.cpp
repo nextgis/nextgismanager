@@ -79,7 +79,19 @@ void wxGISAnimation::SetYield(bool bYield)
 
 bool wxGISAnimation::ShowProgress(bool bShow)
 {
-    return Show(bShow);
+    if (wxIsMainThread())
+    {
+        return Show(bShow);
+    }
+    else
+    {
+        wxCommandEvent ValueEvent(wxEVT_COMMAND_BUTTON_CLICKED); // Keep it simple, don't give a specific event ID
+        ValueEvent.SetId(SHOW_ID);
+        ValueEvent.SetInt(bShow);
+        wxPostEvent(this, ValueEvent);
+
+        return true;
+    }
 }
 
 void wxGISAnimation::Play(void)
@@ -105,6 +117,9 @@ void wxGISAnimation::OnChangeState(wxCommandEvent &event)
         break;
     case STOP_ID:
         m_timer.Stop();
+        break;
+    case SHOW_ID:
+        Show(event.GetInt() == TRUE);
         break;
     default:
         break;
