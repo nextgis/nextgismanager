@@ -42,6 +42,8 @@ BEGIN_EVENT_TABLE(wxGxPathsListView, wxListCtrl)
     EVT_LEFT_DOWN(wxGxPathsListView::OnMouseClick)
     EVT_MOTION(wxGxPathsListView::OnMouseMove)
     EVT_CHAR(wxGxPathsListView::OnChar)
+    EVT_GXOBJECT_DELETED(wxGxPathsListView::OnObjectDeleted)
+    EVT_GXOBJECT_CHANGED(wxGxPathsListView::OnObjectChanged)
 END_EVENT_TABLE()
 
 wxGxPathsListView::wxGxPathsListView(void) : wxListCtrl()
@@ -57,6 +59,9 @@ wxGxPathsListView::wxGxPathsListView(wxWindow* parent, wxWindowID id, const wxPo
 
 wxGxPathsListView::~wxGxPathsListView(void)
 {
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
+
     for(long i = 0; i < GetItemCount(); ++i)
     {
 		delete (LPITEMDATA)GetItemData(i);
@@ -77,6 +82,13 @@ void wxGxPathsListView::Activate()
     SetImageList(&m_ImageListSmall, wxIMAGE_LIST_SMALL);
 
     InsertColumn(0, _("Name"),	wxLIST_FORMAT_LEFT);
+
+    m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+
+    if (m_pCatalog)
+    {
+        m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
+    }
 }
 
 
@@ -114,6 +126,63 @@ void wxGxPathsListView::OnMouseClick(wxMouseEvent& event)
     event.Skip(true);
 }
 
+
+void wxGxPathsListView::OnObjectDeleted(wxGxCatalogEvent& event)
+{
+    for (long i = 0; i < GetItemCount(); ++i)
+    {
+        LPITEMDATA pItemData = (LPITEMDATA)GetItemData(i);
+        if (pItemData == NULL)
+            continue;
+        if (pItemData->nObjectID != event.GetObjectID())
+            continue;
+        SetItemData(i, 0);
+        DeleteItem(i);
+    }
+}
+
+void wxGxPathsListView::OnObjectChanged(wxGxCatalogEvent& event)
+{
+    bool bItemsHaveChanges = false;
+
+    for (long i = 0; i < GetItemCount(); ++i)
+    {
+        LPITEMDATA pItemData = (LPITEMDATA)GetItemData(i);
+        if (pItemData == NULL)
+            continue;
+        if (pItemData->nObjectID != event.GetObjectID())
+            continue;
+
+        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
+        IGxObjectUI* pObjUI = dynamic_cast<IGxObjectUI*>(pGxObject);
+        wxIcon icon_small;
+        if (pObjUI != NULL)
+        {
+            icon_small = pObjUI->GetSmallImage();
+        }
+
+        bool bChangeIcon = false;
+        int pos = GetIconPos(icon_small);
+        bChangeIcon = pItemData->iImageIndex != pos;
+        pItemData->iImageIndex = pos;
+
+        wxString sName;
+        if (m_pCatalog->GetShowExt())
+            sName = pGxObject->GetName();
+        else
+            sName = pGxObject->GetBaseName();
+
+        if (GetItemText(i, 0) != sName)
+        {
+            SetItem(i, 0, sName, pos);
+        }
+        else if (bChangeIcon)
+        {
+            SetItemImage(i, pos);
+        }
+    }
+}
+
 void wxGxPathsListView::Append(const wxString& sFullName)
 {
     wxGxCatalogBase* pCat = GetGxCatalog();
@@ -134,7 +203,7 @@ void wxGxPathsListView::Append(const wxString& sFullName)
     wxString sName = pObject->GetFullName();
 
 	long ListItemID = InsertItem(0, sName, pos);
-	SetItemPtrData(ListItemID, (wxUIntPtr) pData);
+	SetItemData(ListItemID, (long)pData);
 }
 
 int wxGxPathsListView::GetIconPos(const wxIcon &icon_small)

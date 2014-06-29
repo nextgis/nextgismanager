@@ -219,7 +219,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
         m_nReadPos++;
         nItemCounter++;
 
-        if( GetThread()->TestDestroy() )
+        if (GetThread()->TestDestroy())
         {
             saIgnoredFields.Clear();
             m_pDSet->SetIgnoredFields(saIgnoredFields);
@@ -305,6 +305,8 @@ void wxGISSpatialTree::DestroyLoadGeometryThread(void)
 {
     if(IsLoading())        
     {
+        //if (m_pTrackCancel)
+        //    m_pTrackCancel->Cancel();
         GetThread()->Delete();//Wait();//
     }
 }

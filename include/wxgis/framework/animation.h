@@ -39,7 +39,8 @@ class WXDLLIMPEXP_GIS_FRW wxGISAnimation :
     {
         ATIMER_ID = 1012,
         START_ID,
-        STOP_ID
+        STOP_ID,
+        SHOW_ID
     };
 
 public:

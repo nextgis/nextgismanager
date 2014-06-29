@@ -454,7 +454,7 @@ void wxGridCtrl::OnCellClick(wxGridEvent& event)
 void wxGridCtrl::OnMouseMove(wxMouseEvent& event)
 {
     event.Skip(true);
-    wxGridCellCoords oCoords = XYToCell(event.GetPosition());
+    wxGridCellCoords oCoords = XYToCell(CalcUnscrolledPosition(event.GetPosition()));
     wxString sValue = GetCellValue(oCoords);
 
     if(IsURL(sValue) || IsLocalURL(sValue))

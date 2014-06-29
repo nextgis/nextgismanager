@@ -145,6 +145,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxlocaldbfactoryui.h
     ${LIB_HEADERS}/gxlocaldbui.h
     ${LIB_HEADERS}/createremotedlgs.h
+    ${LIB_HEADERS}/gxgnmfactoryui.h
+    ${LIB_HEADERS}/gxgnmui.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -207,6 +209,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxlocaldbfactoryui.cpp
     ${LIB_SOURCES}/gxlocaldbui.cpp
     ${LIB_SOURCES}/createremotedlgs.cpp
+    ${LIB_SOURCES}/gxgnmfactoryui.cpp
+    ${LIB_SOURCES}/gxgnmui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)

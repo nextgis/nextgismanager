@@ -54,6 +54,9 @@ public:
      // On mouse left up, set the value and close the popup
     virtual void OnMouseClick(wxMouseEvent& event);
     virtual void OnChar(wxKeyEvent& event);
+    virtual void OnObjectDeleted(wxGxCatalogEvent& event);
+    virtual void OnObjectChanged(wxGxCatalogEvent& event);
+
     //structures
 	typedef struct _itemdata
 	{
@@ -70,8 +73,9 @@ protected:
     int GetIconPos(const wxIcon &icon_small);
     virtual void Activate();
     wxImageList m_ImageListSmall;
-protected:
+    wxGxCatalogUI* m_pCatalog;
     long m_HighLightItem;
+    long m_ConnectionPointCatalogCookie;
 private:
     DECLARE_EVENT_TABLE()
 };
