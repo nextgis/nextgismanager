@@ -68,7 +68,7 @@ bool wxGxDiscConnections::Create(wxGxObject *oParent, const wxString &soName, co
     if(!wxDirExists(m_sUserConfigDir))
         wxFileName::Mkdir(m_sUserConfigDir, 0755, wxPATH_MKDIR_FULL);
 
-    wxLogDebug(wxT("monitoring dir is: %s"), oFileName.GetFullPath().c_str());
+    //wxLogDebug(wxT("monitoring dir is: %s"), oFileName.GetFullPath().c_str());
     if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_MODIFY))//bool bAdd = |wxFSW_EVENT_CREATE
     {
         wxLogError(_("Add File system watcher failed"));

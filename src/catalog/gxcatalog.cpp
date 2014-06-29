@@ -22,6 +22,7 @@
 #include "wxgis/catalog/gxevent.h"
 #include "wxgis/catalog/gxobjectfactory.h"
 #include "wxgis/core/format.h"
+#include "wxgis/catalog/gxfolder.h"
 
 // ----------------------------------------------------------------------------
 // wxGxCatalog
@@ -52,7 +53,7 @@ void wxGxCatalog::ObjectDeleted(long nObjectID)
 
 void  wxGxCatalog::ObjectAdded(long nObjectID)
 {
-	wxGxCatalogEvent event(wxGXOBJECT_ADDED, nObjectID);
+    wxGxCatalogEvent event(wxGXOBJECT_ADDED, nObjectID);
 	AddEvent(event);
 }
 
@@ -70,6 +71,71 @@ void  wxGxCatalog::ObjectRefreshed(long nObjectID)
 
 void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
+    wxLogDebug(wxT("*** %s ****"), event.ToString().c_str());
+
+    switch(event.GetChangeType())
+    {
+    case wxFSW_EVENT_CREATE:
+        {
+            //get object parent
+            wxFileName oName = event.GetPath();
+            wxString sPath = oName.GetPath();
+            wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
+            if(!parent)
+                break;
+            //check doubles
+            //if(parent->IsNameExist(event.GetPath().GetFullName()))
+            //    break;
+
+            CPLString szPath(event.GetPath().GetFullPath().ToUTF8());
+            char **papszFileList = NULL;
+            papszFileList = CSLAddString( papszFileList, szPath );
+
+            wxArrayLong ChildrenIds;
+            CreateChildren(parent, papszFileList, ChildrenIds);
+            for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+                ObjectAdded(ChildrenIds[i]);
+
+            CSLDestroy( papszFileList );
+        }
+        break;
+    case wxFSW_EVENT_DELETE:
+        {
+            //search gxobject
+            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
+            if(current)
+            {
+                current->Destroy();
+            }
+        }
+        break;
+    case wxFSW_EVENT_RENAME:
+        {
+#ifdef __UNIX__
+            RemoveFSWatcherPath(event.GetPath());
+#endif
+            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
+            if(current)
+            {
+                current->SetName(event.GetNewPath().GetFullName());
+                current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8() ) );
+                ObjectChanged(current->GetId());
+
+#ifdef __UNIX__
+                if(current->IsKindOf(wxCLASSINFO(wxGxFolder)))
+                {
+                    wxString sPath = wxString(current->GetPath(), wxConvUTF8);
+                    wxFileName oFileName = wxFileName::DirName(sPath);
+                    AddFSWatcherPath(oFileName);
+                }
+#endif // __UNIX__
+            }
+        }
+        break;
+    default:
+        break;
+    };
+
     AddEvent(event);
 }
 
@@ -342,11 +408,13 @@ bool wxGxCatalog::AddFSWatcherPath(const wxFileName& path, int events)
 {
     wxCriticalSectionLocker lock(m_oCritFSSect);
     wxString sPath = path.GetFullPath();
-    if(IsPathWatched(sPath))
+    if(IsPathWatched(sPath) || !wxDir::Exists(sPath))
     {
         return false;
     }
-    //m_asWatchPaths.Add(sPath);
+
+    wxLogDebug(wxT("watch %s"), sPath.c_str());
+
     return m_pWatcher->Add(path, events);
 }
 
@@ -355,7 +423,6 @@ bool wxGxCatalog::AddFSWatcherTree(const wxFileName& path, int events, const wxS
     wxCriticalSectionLocker lock(m_oCritFSSect);
     if(IsPathWatched(path.GetFullPath()))
         return false;
-    //m_asWatchPaths.Add(path.GetFullPath());
     return m_pWatcher->AddTree(path, events, filespec);
 }
 
@@ -365,7 +432,9 @@ bool wxGxCatalog::RemoveFSWatcherPath(const wxFileName& path)
     wxString sPath = path.GetFullPath();
     if(!IsPathWatched(sPath))
         return false;
-    //m_asWatchPaths.Remove(sPath);
+
+    wxLogDebug(wxT("unwatch %s"), sPath.c_str());
+
     return m_pWatcher->Remove(path);
 }
 
@@ -374,18 +443,16 @@ bool wxGxCatalog::RemoveFSWatcherTree(const wxFileName& path)
     wxCriticalSectionLocker lock(m_oCritFSSect);
     if(!IsPathWatched(path.GetFullPath()))
         return false;
-    //m_asWatchPaths.Remove(path.GetFullPath());
     return m_pWatcher->RemoveTree(path);
 }
 
 bool wxGxCatalog::IsPathWatched(const wxString& sPath)
 {
-    wxArrayString sPaths;// = m_asWatchPaths;
+    if(sPath.IsEmpty())
+        return false;
+
+    wxArrayString sPaths;
     m_pWatcher->GetWatchedPaths(&sPaths);
- //   for(size_t i = 0; i < m_asWatchPaths.GetCount(); ++i)
- //   {
- //       wxLogDebug(m_asWatchPaths[i]);
- //   }
 #if defined(__WINDOWS__)
     for(size_t i = 0; i < sPaths.GetCount(); ++i)
     {
@@ -396,7 +463,16 @@ bool wxGxCatalog::IsPathWatched(const wxString& sPath)
     }
     return false;
 #elif defined(__UNIX__)
-    return sPaths.Index(sPath) != wxNOT_FOUND;//, false
+/*    for(size_t i = 0; i < sPaths.GetCount(); ++i)
+    {
+        wxLogDebug(wxT("iswatching %s"), sPaths[i].c_str());
+    }
+*/
+    if(sPaths.Index(sPath) != wxNOT_FOUND)
+        return true;
+    if(sPath[sPath.Len() - 1] == wxFileName::GetPathSeparator()) //if last char is sep
+        return sPaths.Index(sPath.Left(sPath.Len() - 1)) != wxNOT_FOUND;
+    return sPaths.Index(sPath + wxFileName::GetPathSeparator()) != wxNOT_FOUND;
 #endif // defined
 }
 

@@ -39,7 +39,7 @@ wxGxFolder::~wxGxFolder(void)
 {
 }
 
-wxString wxGxFolder::GetBaseName(void) const 
+wxString wxGxFolder::GetBaseName(void) const
 {
     return GetName();
 }
@@ -61,9 +61,9 @@ void wxGxFolder::LoadChildren(void)
     if(papszItems == NULL)
         return;
 
-    char **papszFileList = NULL;    
+    char **papszFileList = NULL;
     wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    
+
     //remove unused items
     for(int i = CSLCount(papszItems) - 1; i >= 0; i-- )
     {
@@ -85,6 +85,12 @@ void wxGxFolder::LoadChildren(void)
     {
         wxArrayLong ChildrenIds;
         pCatalog->CreateChildren(this, papszFileList, ChildrenIds);
+
+#ifdef __UNIX__
+        wxString sPath = wxString(m_sPath, wxConvUTF8);
+        wxFileName oFileName = wxFileName::DirName(sPath);
+        pCatalog->AddFSWatcherPath(oFileName);
+#endif // __UNIX__
 	}
     CSLDestroy( papszFileList );
 
@@ -92,12 +98,22 @@ void wxGxFolder::LoadChildren(void)
 }
 
 bool wxGxFolder::CanDelete(void)
-{ 
-    return true; 
+{
+    return true;
 }
 
 bool wxGxFolder::Delete(void)
 {
+#ifdef __UNIX__
+    wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+    if(pCatalog)
+    {
+        wxString sPath = wxString(m_sPath, wxConvUTF8);
+        wxFileName oFileName = wxFileName::DirName(sPath);
+        pCatalog->RemoveFSWatcherPath(oFileName);
+    }
+#endif // __UNIX__
+
  	if(DeleteDir(m_sPath))
 	{
         return true;
@@ -112,7 +128,7 @@ bool wxGxFolder::Delete(void)
 }
 
 bool wxGxFolder::CanRename(void)
-{ 
+{
     return true;
 }
 
@@ -146,13 +162,13 @@ bool wxGxFolder::CanCreate(long nDataType, long DataSubtype)
 
 bool wxGxFolder::HasChildren(void)
 {
-    LoadChildren();     
+    LoadChildren();
     return wxGxObjectContainer::HasChildren();
 }
 
 bool wxGxFolder::CanCopy(const CPLString &szDestPath)
-{ 
-    return true; 
+{
+    return true;
 }
 
 bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -171,22 +187,22 @@ bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCan
 		wxLogError(sErr);
         if(pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-		return false;	
-    } 
+		return false;
+    }
 
     return true;
 }
 
 bool wxGxFolder::CanMove(const CPLString &szDestPath)
-{ 
-    return CanCopy(szDestPath) & CanDelete(); 
+{
+    return CanCopy(szDestPath) & CanDelete();
 }
 
 bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
 		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
-    
+
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
 
@@ -198,13 +214,13 @@ bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCan
 		wxLogError(sErr);
         if(pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-		return false;	
-    } 
+		return false;
+    }
 
     return true;
 }
 
-bool wxGxFolder::AreChildrenViewable(void) const 
-{ 
-    return true; 
+bool wxGxFolder::AreChildrenViewable(void) const
+{
+    return true;
 }

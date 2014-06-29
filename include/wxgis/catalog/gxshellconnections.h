@@ -43,7 +43,6 @@ public:
 	//wxGxObject
     virtual bool Create(wxGxObject *oParent = NULL, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual wxString GetCategory(void) const {return wxString(_("Shell connections folder"));};
-    virtual bool Destroy(void);
     virtual void Refresh(void);
 	//wxGxObjectContainer
     virtual bool CanCreate(long nDataType, long DataSubtype);
@@ -52,19 +51,11 @@ public:
     //IGxRootObjectProperties
     virtual void Init(wxXmlNode* const pConfigNode);
     virtual void Serialize(wxXmlNode* const pConfigNode);
-//events
-    virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
-#ifdef __UNIX__
-    virtual void OnObjectAdded(wxGxCatalogEvent& event);
-#endif
 protected:
     virtual void StartWatcher(void);
 	virtual void LoadChildren(void);
 protected:
     wxString m_sInternalPath;
     wxGxCatalog* m_pCatalog;
-    long m_ConnectionPointCatalogCookie;
-private:
-    DECLARE_EVENT_TABLE()
 };
 

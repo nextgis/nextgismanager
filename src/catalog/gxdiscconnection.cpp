@@ -29,48 +29,19 @@
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxDiscConnection, wxGxFolder)
 
-BEGIN_EVENT_TABLE(wxGxDiscConnection, wxGxFolder)
-    EVT_FSWATCHER(wxID_ANY, wxGxDiscConnection::OnFileSystemEvent)
-#ifdef __UNIX__
-    EVT_GXOBJECT_ADDED(wxGxDiscConnection::OnObjectAdded)
-    EVT_GXOBJECT_CHANGED(wxGxDiscConnection::OnObjectChanged)
-#endif
-END_EVENT_TABLE()
-
-
 wxGxDiscConnection::wxGxDiscConnection(void) : wxGxFolder()
 {
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    m_ConnectionPointCatalogCookie = wxNOT_FOUND;
-
-    if(m_pCatalog)
-    {
-		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
-    }
 }
 
 wxGxDiscConnection::wxGxDiscConnection(wxGxObject *oParent, int nStoreId, const wxString &soName, const CPLString &soPath) : wxGxFolder(oParent, soName, soPath)
 {
     m_nStoreId = nStoreId;
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    m_ConnectionPointCatalogCookie = wxNOT_FOUND;
-
-    if(m_pCatalog)
-    {
-		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
-    }
 }
 
 wxGxDiscConnection::~wxGxDiscConnection(void)
 {
-}
-
-bool wxGxDiscConnection::Destroy(void)
-{
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
-        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-
-    return wxGxObjectContainer::Destroy();
 }
 
 bool wxGxDiscConnection::Delete(void)
@@ -124,77 +95,6 @@ void wxGxDiscConnection::StartWatcher(void)
 #endif
 }
 
-void wxGxDiscConnection::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
-{
-    //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
-    switch(event.GetChangeType())
-    {
-    case wxFSW_EVENT_CREATE:
-        {
-            //get object parent
-            wxFileName oName = event.GetPath();
-            wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(oName.GetPath()), wxGxObjectContainer);
-            if(!parent)
-                return;
-            //check doubles
-            if(parent->IsNameExist(oName.GetFullName()))
-                return;
-
-            //wxCriticalSectionLocker locker(m_CritSect);
-
-            if (m_pCatalog)
-            {
-                wxArrayLong ChildrenIds;
-                char **papszFileList = NULL;
-                CPLString szPath(oName.GetFullPath().ToUTF8());
-                papszFileList = CSLAddString(papszFileList, szPath);
-
-                m_pCatalog->CreateChildren(parent, papszFileList, ChildrenIds);
-                for (size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                    m_pCatalog->ObjectAdded(ChildrenIds[i]);
-
-                CSLDestroy(papszFileList);
-            }
-
-        }
-        break;
-    case wxFSW_EVENT_DELETE:
-        {
-            //search gxobject
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->Destroy();
-                return;
-            }
-        }
-        break;
-    case wxFSW_EVENT_RENAME:
-        {
-            wxLogDebug(wxT("parent %s; path %s; new path %s"), m_sName.c_str(), event.GetPath().GetFullPath().c_str(), event.GetNewPath().GetFullPath().c_str());
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->SetName(event.GetNewPath().GetFullName());
-                current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8()) );
-                wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
-
-//#ifdef __UNIX__
-//                if(current->IsKindOf(wxCLASSINFO(wxGxFolder)))
-//                {
-//                    m_pCatalog->RemoveFSWatcherPath(event.GetPath());
-//                }
-//#endif
-                return;
-            }
-        }
-        break;
-    default:
-        break;
-    };
-    event.Skip();
-}
-
 void wxGxDiscConnection::LoadChildren(void)
 {
 	if(m_bIsChildrenLoaded)
@@ -203,42 +103,6 @@ void wxGxDiscConnection::LoadChildren(void)
     wxGxFolder::LoadChildren();
     StartWatcher();
 }
-
-#ifdef __UNIX__
-void wxGxDiscConnection::OnObjectAdded(wxGxCatalogEvent& event)
-{
-    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
-	if(!pGxObject)
-		return;
-    wxString sPath(pGxObject->GetPath(), wxConvUTF8);
-    wxString sConnPath(GetPath(), wxConvUTF8);
-    if(sPath.StartsWith(sConnPath))
-    {
-        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-        {
-            wxFileName oFileName = wxFileName::DirName(sPath);
-            m_pCatalog->AddFSWatcherPath(oFileName);
-        }
-    }
-}
-
-void wxGxDiscConnection::OnObjectChanged(wxGxCatalogEvent& event)
-{
-    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
-	if(!pGxObject)
-		return;
-    wxString sPath(pGxObject->GetPath(), wxConvUTF8);
-    wxString sConnPath(GetPath(), wxConvUTF8);
-    if(sPath.StartsWith(sConnPath))
-    {
-        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-        {
-            wxFileName oFileName = wxFileName::DirName(sPath);
-            m_pCatalog->AddFSWatcherPath(oFileName);
-        }
-    }
-}
-#endif
 
 void wxGxDiscConnection::Refresh(void)
 {

@@ -22,20 +22,12 @@
 #include "wxgis/catalog/gxshellconnections.h"
 
 #include "wxgis/core/config.h"
-//#include "wxgis/datasource/datasource.h"
 
 //---------------------------------------------------------------------------
 // wxGxShellConnections
 //---------------------------------------------------------------------------
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxShellConnections, wxGxFolder)
-
-BEGIN_EVENT_TABLE(wxGxShellConnections, wxGxFolder)
-    EVT_FSWATCHER(wxID_ANY, wxGxShellConnections::OnFileSystemEvent)
-#ifdef __UNIX__
-    EVT_GXOBJECT_ADDED(wxGxShellConnections::OnObjectAdded)
-#endif
-END_EVENT_TABLE()
 
 wxGxShellConnections::wxGxShellConnections(void) : wxGxFolder()
 {
@@ -51,12 +43,6 @@ bool wxGxShellConnections::Create(wxGxObject *oParent, const wxString &soName, c
     }
 
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    m_ConnectionPointCatalogCookie = wxNOT_FOUND;
-
-    if(m_pCatalog)
-    {
-		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
-    }
     return true;
 }
 
@@ -100,14 +86,6 @@ bool wxGxShellConnections::CanCreate(long nDataType, long DataSubtype)
 	return wxGxFolder::CanCreate(nDataType, DataSubtype);
 }
 
-bool wxGxShellConnections::Destroy(void)
-{
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
-        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-
-    return wxGxFolder::Destroy();
-}
-
 void wxGxShellConnections::StartWatcher(void)
 {
     //add itself
@@ -131,77 +109,13 @@ void wxGxShellConnections::StartWatcher(void)
         if(current)
         {
             oFileName = wxFileName::DirName(wxString(current->GetPath(), wxConvUTF8));
-           if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
+            if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
             {
                 wxLogError(_("Add File system watcher failed"));
             }
         }
     }
 #endif
-}
-
-void wxGxShellConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
-{
-    //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
-    switch(event.GetChangeType())
-    {
-    case wxFSW_EVENT_CREATE:
-        {
-            //get object parent
-            wxFileName oName = event.GetPath();
-            wxString sPath = oName.GetPath();
-            wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
-            if(!parent)
-                return;
-            //check doubles
-            if(parent->IsNameExist(event.GetPath().GetFullName()))
-                return;
-
-            CPLString szPath(event.GetPath().GetFullPath().mb_str(wxConvUTF8));
-            char **papszFileList = NULL;
-            papszFileList = CSLAddString( papszFileList, szPath );
-	        if(m_pCatalog)
-            {
-                wxArrayLong ChildrenIds;
-                m_pCatalog->CreateChildren(parent, papszFileList, ChildrenIds);
-                for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                    m_pCatalog->ObjectAdded(ChildrenIds[i]);
-	        }
-            CSLDestroy( papszFileList );
-        }
-        break;
-    case wxFSW_EVENT_DELETE:
-        {
-            //search gxobject
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->Destroy();
-                return;
-            }
-        }
-        break;
-    case wxFSW_EVENT_RENAME:
-        {
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->SetName(event.GetNewPath().GetFullName());
-                current->SetPath( CPLString( event.GetNewPath().GetFullPath().mb_str(wxConvUTF8) ) );
-                wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
-
-#ifdef __UNIX__
-                m_pCatalog->RemoveFSWatcherPath(event.GetPath());
-                m_pCatalog->AddFSWatcherPath(event.GetNewPath());
-#endif
-                return;
-            }
-        }
-        break;
-    default:
-        break;
-    };
-    event.Skip();
 }
 
 void wxGxShellConnections::LoadChildren(void)
@@ -212,25 +126,6 @@ void wxGxShellConnections::LoadChildren(void)
     wxGxFolder::LoadChildren();
     StartWatcher();
 }
-
-#ifdef __UNIX__
-void wxGxShellConnections::OnObjectAdded(wxGxCatalogEvent& event)
-{
-    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
-	if(!pGxObject)
-		return;
-    wxString sPath(pGxObject->GetPath(), wxConvUTF8);
-    wxString sConnPath(GetPath(), wxConvUTF8);
-    if(sPath.StartsWith(sConnPath))
-    {
-        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-        {
-            wxFileName oFileName = wxFileName::DirName(sPath);
-            m_pCatalog->AddFSWatcherPath(oFileName);
-        }
-    }
-}
-#endif
 
 void wxGxShellConnections::Refresh(void)
 {

@@ -30,13 +30,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxDBConnections, wxGxFolder)
 
-BEGIN_EVENT_TABLE(wxGxDBConnections, wxGxFolder)
-    EVT_FSWATCHER(wxID_ANY, wxGxDBConnections::OnFileSystemEvent)
-#ifdef __UNIX__
-    EVT_GXOBJECT_ADDED(wxGxDiscConnection::OnObjectAdded)
-#endif
-END_EVENT_TABLE()
-
 wxGxDBConnections::wxGxDBConnections(void) : wxGxFolder()
 {
     m_sName = wxString(_("DataBase connections"));
@@ -51,12 +44,7 @@ bool wxGxDBConnections::Create(wxGxObject *oParent, const wxString &soName, cons
     }
 
     m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    m_ConnectionPointCatalogCookie = wxNOT_FOUND;
 
-    if(m_pCatalog)
-    {
-		m_ConnectionPointCatalogCookie = m_pCatalog->Advise(this);
-    }
     return true;
 }
 
@@ -100,14 +88,6 @@ bool wxGxDBConnections::CanCreate(long nDataType, long DataSubtype)
 	return wxGxFolder::CanCreate(nDataType, DataSubtype);
 }
 
-bool wxGxDBConnections::Destroy(void)
-{
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
-        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-
-    return wxGxFolder::Destroy();
-}
-
 void wxGxDBConnections::StartWatcher(void)
 {
     //add itself
@@ -140,70 +120,6 @@ void wxGxDBConnections::StartWatcher(void)
 #endif
 }
 
-void wxGxDBConnections::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
-{
-    //wxLogDebug(wxT("*** %s ***"), event.ToString().c_str());
-    switch(event.GetChangeType())
-    {
-    case wxFSW_EVENT_CREATE:
-        {
-            //get object parent
-            wxFileName oName = event.GetPath();
-            wxString sPath = oName.GetPath();
-            wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
-            if(!parent)
-                return;
-            //check doubles
-            if(parent->IsNameExist(event.GetPath().GetFullName()))
-                return;
-
-            CPLString szPath(event.GetPath().GetFullPath().mb_str(wxConvUTF8));
-            char **papszFileList = NULL;
-            papszFileList = CSLAddString( papszFileList, szPath );
-	        if(m_pCatalog)
-            {
-                wxArrayLong ChildrenIds;
-                m_pCatalog->CreateChildren(parent, papszFileList, ChildrenIds);
-                for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                    m_pCatalog->ObjectAdded(ChildrenIds[i]);
-	        }
-            CSLDestroy( papszFileList );
-        }
-        break;
-    case wxFSW_EVENT_DELETE:
-        {
-            //search gxobject
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->Destroy();
-                return;
-            }
-        }
-        break;
-    case wxFSW_EVENT_RENAME:
-        {
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
-            if(current)
-            {
-                current->SetName(event.GetNewPath().GetFullName());
-                current->SetPath( CPLString( event.GetNewPath().GetFullPath().mb_str(wxConvUTF8) ) );
-                wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, current->GetId());
-
-#ifdef __UNIX__
-                m_pCatalog->RemoveFSWatcherPath(event.GetPath());
-                m_pCatalog->AddFSWatcherPath(event.GetNewPath());
-#endif
-                return;
-            }
-        }
-        break;
-    default:
-        break;
-    };
-    event.Skip();
-}
-
 void wxGxDBConnections::LoadChildren(void)
 {
 	if(m_bIsChildrenLoaded)
@@ -212,25 +128,6 @@ void wxGxDBConnections::LoadChildren(void)
     wxGxFolder::LoadChildren();
     StartWatcher();
 }
-
-#ifdef __UNIX__
-void wxGxDBConnections::OnObjectAdded(wxGxCatalogEvent& event)
-{
-    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
-	if(!pGxObject)
-		return;
-    wxString sPath(pGxObject->GetPath(), wxConvUTF8);
-    wxString sConnPath(GetPath(), wxConvUTF8);
-    if(sPath.StartsWith(sConnPath))
-    {
-        if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-        {
-            wxFileName oFileName = wxFileName::DirName(sPath);
-            m_pCatalog->AddFSWatcherPath(oFileName);
-        }
-    }
-}
-#endif
 
 void wxGxDBConnections::Refresh(void)
 {

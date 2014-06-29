@@ -47,19 +47,12 @@ public:
 	virtual ~wxGxDiscConnection(void);
 	//wxGxObject
 	virtual wxString GetCategory(void){return wxString(_("Folder connection"));};
-    virtual bool Destroy(void);
     virtual void Refresh(void);
 	//IGxObjectEdit
 	virtual bool Delete(void);
 	virtual bool CanDelete(void) const {return false;};
 	virtual bool Rename(const wxString& NewName);
     virtual int GetStoreId(void) const {return m_nStoreId;};
-//events
-    virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
-#ifdef __UNIX__
-    virtual void OnObjectAdded(wxGxCatalogEvent& event);
-    virtual void OnObjectChanged(wxGxCatalogEvent& event);
-#endif
 protected:
     virtual void StartWatcher(void);
 	virtual void LoadChildren(void);
@@ -68,7 +61,4 @@ protected:
     wxCriticalSection m_CritSect;
     int m_nStoreId;
     wxGxCatalog* m_pCatalog;
-    long m_ConnectionPointCatalogCookie;
-private:
-    DECLARE_EVENT_TABLE()
 };
