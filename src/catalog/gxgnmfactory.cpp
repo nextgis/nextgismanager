@@ -45,12 +45,12 @@ bool wxGxGNMFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
 {
     bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     bool bHasModel = false;
-    //char** paPossibleModelLayers = NULL;
+    wxArrayString paPossibleModelLayers;
     CPLString szMeta, szClasses;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
         wxGxObject* pGxObj = NULL;
-        CPLString szExt = CPLGetExtension(pFileNames[i]);
+        //CPLString szExt = CPLGetExtension(pFileNames[i]);
         CPLString szName = CPLGetBasename(pFileNames[i]);
         CPLString szPath;
 
@@ -73,7 +73,7 @@ bool wxGxGNMFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
         }
         else if (EQUALN(szName, "gnm_", 4))
         {
-            //paPossibleModelLayers = CSLAddString(paPossibleModelLayers, pFileNames[i]);
+            paPossibleModelLayers.Add( wxString::FromUTF8(pFileNames[i]) );
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
  
@@ -81,9 +81,53 @@ bool wxGxGNMFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
 
     if (bHasModel)
     {
-        //TODO: open meta and classes
-        GetGxObject(pParent, wxT("test gmn"), CPLGetPath(szMeta), bCheckNames);
+        int nSubType = 0;
+        CPLString szExt = CPLGetExtension(szMeta);
+        if (wxGISEQUAL(szExt, "dbf"))
+            nSubType = enumTableDBF;
+        //open meta
+        wxGISTable meta_table(szMeta, nSubType);
+        if (meta_table.Open(false, true))
+        {
+            wxGISFeature Feature;
+            wxString sName;
+            while ((Feature = meta_table.Next()).IsOk())
+            {
+                wxString sKey = Feature.GetFieldAsString(0);
+                if (sKey == wxT(GNM_METAPARAM_NAME))
+                {
+                    sName = Feature.GetFieldAsString(1);
+                    break;
+                }
+            }
+            //open classes
+            wxGISTable classes_table(szClasses, nSubType);
+            wxString sDir = wxString::FromUTF8(CPLGetPath(szMeta));
+            if (classes_table.Open(false, true))
+            {
+                while ((Feature = classes_table.Next()).IsOk())
+                {
+                    for (size_t j = 0; j < paPossibleModelLayers.GetCount(); ++j)
+                    {
+                        wxFileName Name(paPossibleModelLayers[j]);
+                        if (Name.GetName() == Feature.GetFieldAsString(0))
+                        {
+                            paPossibleModelLayers.RemoveAt(j);
+                            j--;
+                        }
+                    }
+                }
+            }
+
+            for (size_t j = 0; j < paPossibleModelLayers.GetCount(); ++j)
+            {
+                pFileNames = CSLAddString(pFileNames, paPossibleModelLayers[j].ToUTF8());
+            }
+
+            GetGxObject(pParent, sName, CPLGetPath(szMeta), bCheckNames);
+        }
     }
+
 	return true;
 }
 
