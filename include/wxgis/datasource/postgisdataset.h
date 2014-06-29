@@ -126,6 +126,7 @@ public:
     virtual OGRDataSource* const GetDataSourceRef(void) const { return m_poDS; };
     virtual wxFontEncoding GetEncoding() const { return m_Encoding; };
     static wxString NormalizeTableName(const wxString &sSrcName);
+	virtual void ReadConnectionFile();
 protected:
 	wxGISDataset* GetDatasetFromOGRLayer(const CPLString &sPath, OGRLayer* poLayer);
 protected:

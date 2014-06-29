@@ -62,7 +62,19 @@ wxGISPostgresDataSource::wxGISPostgresDataSource(const CPLString &szPath) : wxGI
     m_poDS4SQL = NULL;
     m_poDS = NULL;
 
-	wxXmlDocument doc(wxString(szPath,  wxConvUTF8));
+    ReadConnectionFile();
+
+    m_Encoding = wxFONTENCODING_UTF8;
+}
+
+wxGISPostgresDataSource::~wxGISPostgresDataSource(void)
+{
+	Close();
+}
+
+void wxGISPostgresDataSource::ReadConnectionFile()
+{
+	wxXmlDocument doc(wxString(m_sPath,  wxConvUTF8));
 	if(doc.IsOk())
     {
 		wxXmlNode* pRootNode = doc.GetRoot();
@@ -76,12 +88,6 @@ wxGISPostgresDataSource::wxGISPostgresDataSource(const CPLString &szPath) : wxGI
 			m_bIsBinaryCursor = GetBoolValue(pRootNode, wxT("isbincursor"), false);
         }
     }
-    m_Encoding = wxFONTENCODING_UTF8;
-}
-
-wxGISPostgresDataSource::~wxGISPostgresDataSource(void)
-{
-	Close();
 }
 
 void wxGISPostgresDataSource::Close(void)
@@ -95,7 +101,6 @@ void wxGISPostgresDataSource::Close(void)
     if(m_poDS && m_poDS->Dereference() <= 0)
         OGRDataSource::DestroyDataSource( m_poDS );
 	m_poDS = NULL;
-
 }
 
 size_t wxGISPostgresDataSource::GetSubsetsCount(void) const

@@ -748,8 +748,8 @@ bool wxGISDisplay::DrawPointFast(double dX, double dY, double dOffsetX, double d
 {
     wxCriticalSectionLocker locker(m_CritSect);
     cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX, dY + dOffsetY);
-    cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + m_dfLineWidth, dY + dOffsetY + m_dfLineWidth);
-	//cairo_close_path (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+    //cairo_line_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + m_dfLineWidth, dY + dOffsetY + m_dfLineWidth);
+	cairo_close_path (m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 	return true;
 }
 
@@ -839,21 +839,19 @@ bool wxGISDisplay::CheckDrawAsPoint(const OGREnvelope &Envelope, double dfLineWi
 	double EnvHeight = Envelope.MaxY - Envelope.MinY;
 
 	World2DCDist(&EnvWidth, &EnvHeight);
-	EnvWidth = fabs(EnvWidth);
-	EnvHeight = fabs(EnvHeight);
-    if (EnvWidth <= MINPOLYDRAWAREA && EnvHeight <= MINPOLYDRAWAREA)
+	double dfR = (fabs(EnvWidth) + fabs(EnvHeight)) * .5;
+    if (dfR <= MINPOLYDRAWAREA)
 	{
 	    if(bIsRing)
         {
             SetLineWidth( dfLineWidth + dfLineWidth );
-            //dfMinPolyArea *= 4;
         }
         else
         {
             SetLineWidth( dfLineWidth );
         }
 
-        if (EnvWidth >= MINPOLYAREA && EnvHeight >= MINPOLYAREA)
+        if (dfR >= MINPOLYAREA)
 		{
             wxCriticalSectionLocker locker(m_CritSect);
 			cairo_move_to(m_saLayerCaches[m_nCurrentLayer].pCairoContext, Envelope.MinX + dOffsetX, Envelope.MinY + dOffsetY);
