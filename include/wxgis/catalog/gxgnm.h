@@ -20,6 +20,10 @@
  ****************************************************************************/
 #pragma once
 
+#include "wxgisdefs.h"
+
+#ifdef wxGIS_USE_GDAL_GNM
+
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxdataset.h"
@@ -31,7 +35,6 @@
 
     @library{catalog}
 */
-#if GDAL_VERSION_NUM >= 2000000
 
 class WXDLLIMPEXP_GIS_CLT wxGxGNMConnectivity :
     public wxGxDatasetContainer
@@ -47,7 +50,7 @@ public:
 	virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
 	virtual wxGISEnumDatasetType GetType(void) const;
     virtual int GetSubType(void) const {return m_eType;};
-    //wxGxObjectContainer 
+    //wxGxObjectContainer
     virtual bool DestroyChildren();
 	virtual bool AreChildrenViewable(void) const {return true;};
 	virtual bool HasChildren(void);

@@ -20,6 +20,10 @@
  ****************************************************************************/
 #pragma once
 
+#include "wxgisdefs.h"
+
+#ifdef wxGIS_USE_GDAL_GNM
+
 #include "wxgis/catalog/gxobjectfactory.h"
 #include "wxgis/datasource/datasource.h"
 
@@ -29,8 +33,6 @@
 
     @library{catalog}
 */
-
-#if GDAL_VERSION_NUM >= 2000000
 
 class WXDLLIMPEXP_GIS_CLT wxGxGNMFactory :
 	public wxGxObjectFactory

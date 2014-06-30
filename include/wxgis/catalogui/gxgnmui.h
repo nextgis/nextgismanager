@@ -20,8 +20,11 @@
  ****************************************************************************/
 #pragma once
 
+#include "wxgisdefs.h"
+
+#ifdef wxGIS_USE_GDAL_GNM
+
 #include "wxgis/catalogui/catalogui.h"
-#if GDAL_VERSION_NUM >= 2000000
 #include "wxgis/catalog/gxgnm.h"
 
 /** @class wxGxGNMConnectivityUI

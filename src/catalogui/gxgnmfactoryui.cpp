@@ -19,7 +19,9 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/catalogui/gxgnmfactoryui.h"
-#if GDAL_VERSION_NUM >= 2000000
+
+#ifdef wxGIS_USE_GDAL_GNM
+
 #include "wxgis/catalogui/gxgnmui.h"
 
 #include "../../art/gnm_16.xpm"

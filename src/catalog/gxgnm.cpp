@@ -20,7 +20,7 @@
  ****************************************************************************/
 #include "wxgis/catalog/gxgnm.h"
 
-#if GDAL_VERSION_NUM >= 2000000
+#ifdef wxGIS_USE_GDAL_GNM
 
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/sysop.h"
@@ -107,7 +107,7 @@ wxGISDataset* const wxGxGNMConnectivity::GetDataset(bool bCache, ITrackCancel* c
 
 bool wxGxGNMConnectivity::HasChildren()
 {
-    LoadChildren(); 
+    LoadChildren();
     return wxGxObjectContainer::HasChildren();
 }
 

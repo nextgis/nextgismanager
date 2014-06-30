@@ -136,6 +136,8 @@ if(wxGIS_BUILD_TASKMANAGER)
     mark_as_advanced(wxGIS_HAVE_TASKMANAGER)
 endif(wxGIS_BUILD_TASKMANAGER)
 
+option(wxGIS_USE_GDAL_GNM "Set ON to build geography network model integration" OFF)
+
 option(wxGIS_BUILD_CATALOG "Set ON to build catalog and datasource" ON)
 if(wxGIS_BUILD_CATALOG)
     #datasource

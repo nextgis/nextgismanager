@@ -20,7 +20,7 @@
  ****************************************************************************/
 #include "wxgis/catalog/gxgnmfactory.h"
 
-#if GDAL_VERSION_NUM >= 2000000 //TODO: Add check if GNM is compiled in GDAL
+#ifdef wxGIS_USE_GDAL_GNM
 
 #include "wxgis/catalog/gxgnm.h"
 
@@ -76,7 +76,7 @@ bool wxGxGNMFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
             paPossibleModelLayers.Add( wxString::FromUTF8(pFileNames[i]) );
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
- 
+
     }
 
     if (bHasModel)

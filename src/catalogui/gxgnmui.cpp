@@ -19,7 +19,9 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/catalogui/gxgnmui.h"
-#if GDAL_VERSION_NUM >= 2000000
+
+#ifdef wxGIS_USE_GDAL_GNM
+
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/datasource/featuredataset.h"
 
@@ -127,7 +129,7 @@ wxThread::ExitCode wxGxGNMConnectivityUI::Entry()
         m_nPendUId = wxNOT_FOUND;
     }
 
-    
+
     //wxGIS_GXCATALOG_EVENT(ObjectChanged);
     */
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;

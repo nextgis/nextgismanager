@@ -57,3 +57,5 @@
 
 #cmakedefine wxGIS_HAVE_UNITY_INTEGRATION
 
+#cmakedefine wxGIS_USE_GDAL_GNM
+
