@@ -64,7 +64,7 @@ void wxGISApplicationEx::SerializeFramePosEx(bool bSave)
         {
             wxString sLocCaption = wxGetTranslation(arr[i].caption);
             m_mgr.GetPane(arr[i].name).Caption(sLocCaption);
-        }        
+        }
 	}
 }
 
@@ -347,29 +347,33 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
         const char *path = pszPROJ_LIB.c_str();
         pj_set_searchpath(1, &path);
     #endif // wxGIS_USE_PROJ
-#else
-    wxString sGdalDataDir = wxString::Format(wxT("/usr/share/gdal/%s"), GDALVersionInfo("RELEASE_NAME"));
-    if(!wxDirExists(sGdalDataDir))
+#endif // __WINDOWS__
+
+#ifdef __UNIX__
+    wxString sGdalDataGCS = wxString::Format(wxT("/usr/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
+    if(!wxFileName::FileExists(sGdalDataGCS))
     {
-        sGdalDataDir = wxString(wxT("/usr/share/gdal"));
-        if(!wxDirExists(sGdalDataDir))
+        sGdalDataGCS = wxString(wxT("/usr/share/gdal/gcs.csv"));
+        if(!wxFileName::FileExists(sGdalDataGCS))
         {
-            sGdalDataDir = wxString::Format(wxT("/usr/local/share/gdal/%s"), GDALVersionInfo("RELEASE_NAME"));
-            if(!wxDirExists(sGdalDataDir))
+            sGdalDataGCS = wxString::Format(wxT("/usr/local/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
+            if(!wxFileName::FileExists(sGdalDataGCS))
             {
-                sGdalDataDir = wxString(wxT("/usr/local/share/gdal"));
-                if(!wxDirExists(sGdalDataDir))
+                sGdalDataGCS = wxString(wxT("/usr/local/share/gdal/gcs.csv"));
+                if(!wxFileName::FileExists(sGdalDataGCS))
                 {
                     return false;
                 }
             }
         }
     }
-    CPLSetConfigOption("GDAL_DATA", sGdalDataDir.ToUTF8() );
+
+    wxFileName Name(sGdalDataGCS);
+    CPLSetConfigOption("GDAL_DATA", Name.GetPath().ToUTF8() );
     //TODO: set path to proj lib
     #ifdef wxGIS_USE_PROJ
     #endif // wxGIS_USE_PROJ
-#endif //__WINDOWS__
+#endif //__UNIX__
 
 #ifndef CPL_RECODE_ICONV
     //the gdal compiled without iconv support
