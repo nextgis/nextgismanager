@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-26 23:43+0400\n"
-"PO-Revision-Date: 2014-06-26 23:43+0400\n"
+"POT-Creation-Date: 2014-06-30 05:03+0400\n"
+"PO-Revision-Date: 2014-06-30 05:04+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -72,7 +72,7 @@ msgstr "Обновить"
 #: ../../../src/catalogui/gxpostgisdatasetui.cpp:114
 #: ../../../src/catalogui/gxpropertypages.cpp:66
 #: ../../../src/catalogui/gxpropertypages.cpp:95
-#: ../../../src/catalogui/gxremoteconnui.cpp:608
+#: ../../../src/catalogui/gxremoteconnui.cpp:612
 msgid "Properties"
 msgstr "Свойства"
 
@@ -216,8 +216,8 @@ msgstr "Не удалось создать связь с папкой"
 #: ../../../src/catalogui/gxdatasetui.cpp:249
 #: ../../../src/catalogui/gxobgdialog.cpp:902
 #: ../../../src/catalogui/gxobgdialog.cpp:1067
-#: ../../../src/catalogui/gxremoteconnui.cpp:106
-#: ../../../src/catalogui/gxremoteconnui.cpp:185
+#: ../../../src/catalogui/gxremoteconnui.cpp:110
+#: ../../../src/catalogui/gxremoteconnui.cpp:189
 #: ../../../src/catalogui/gxtreeview.cpp:690
 #: ../../../src/catalogui/processing.cpp:179
 #: ../../../src/catalogui/processing.cpp:369
@@ -628,7 +628,7 @@ msgid "All items"
 msgstr "Все элементы"
 
 #: ../../../src/catalogui/gxcontentview.cpp:249
-#: ../../../src/catalogui/gxlocationcombobox.cpp:79
+#: ../../../src/catalogui/gxlocationcombobox.cpp:84
 #: ../../../src/catalogui/spatrefpropertypage.cpp:160
 #: ../../../src/catalogui/spatrefpropertypage.cpp:167
 #: ../../../src/catalogui/spatrefpropertypage.cpp:178
@@ -684,15 +684,17 @@ msgstr "Переименование не удалось!"
 
 #: ../../../src/catalogui/gxcontentview.cpp:1288
 #: ../../../src/catalogui/gxdiscconnectionui.cpp:86
+#: ../../../src/catalogui/gxgnmui.cpp:142
 #: ../../../src/catalogui/gxmldatasetui.cpp:139
-#: ../../../src/catalogui/gxremoteconnui.cpp:492
+#: ../../../src/catalogui/gxremoteconnui.cpp:496
 msgid "Could not create the thread!"
 msgstr "Не удалось создать  поток!"
 
 #: ../../../src/catalogui/gxcontentview.cpp:1294
 #: ../../../src/catalogui/gxdiscconnectionui.cpp:92
+#: ../../../src/catalogui/gxgnmui.cpp:148
 #: ../../../src/catalogui/gxmldatasetui.cpp:145
-#: ../../../src/catalogui/gxremoteconnui.cpp:508
+#: ../../../src/catalogui/gxremoteconnui.cpp:512
 msgid "Could not run the thread!"
 msgstr "Не удалось запустить поток!"
 
@@ -704,11 +706,11 @@ msgstr "Не удалось запустить поток!"
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 
-#: ../../../src/catalogui/gxlocationcombobox.cpp:648
+#: ../../../src/catalogui/gxlocationcombobox.cpp:717
 msgid "The entered path is unrecheable!"
 msgstr "Введенный путь не существует"
 
-#: ../../../src/catalogui/gxlocationcombobox.cpp:673
+#: ../../../src/catalogui/gxlocationcombobox.cpp:742
 msgid "The entered path is unreachable!"
 msgstr "Введенный путь не существует!"
 
@@ -789,22 +791,22 @@ msgstr "Переходить к последнему пути когда зап�
 msgid "Show hidden items"
 msgstr "Показать скрытые элементы"
 
-#: ../../../src/catalogui/gxremoteconnui.cpp:106
+#: ../../../src/catalogui/gxremoteconnui.cpp:110
 msgid "Connect failed!"
 msgstr "Подключение не удалось!"
 
-#: ../../../src/catalogui/gxremoteconnui.cpp:184
+#: ../../../src/catalogui/gxremoteconnui.cpp:188
 #, c-format
 msgid ""
 "Operation '%s' failed!\n"
 "GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 
-#: ../../../src/catalogui/gxremoteconnui.cpp:184
+#: ../../../src/catalogui/gxremoteconnui.cpp:188
 msgid "Connect"
 msgstr "Подключить"
 
-#: ../../../src/catalogui/gxremoteconnui.cpp:688
+#: ../../../src/catalogui/gxremoteconnui.cpp:692
 msgid "Layers"
 msgstr "Слои"
 

@@ -245,7 +245,7 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
         }
     }
 
-	if(!wxGISTable::Open(iLayer, bUpdate, false, pTrackCancel))
+	if(!wxGISTable::Open(iLayer, bUpdate, true, false, pTrackCancel))
     {
 		return false;
     }

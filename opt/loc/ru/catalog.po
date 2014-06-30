@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-26 23:43+0400\n"
-"PO-Revision-Date: 2014-06-26 23:43+0400\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-06-30 05:03+0400\n"
+"PO-Revision-Date: 2014-06-30 05:06+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,8 @@ msgstr "Не удалось получить конечный объект"
 
 #: ../../../src/catalog/gxarchfolder.cpp:66
 #: ../../../src/catalog/gxarchfolder.cpp:99 ../../../src/catalog/gxfile.cpp:50
-#: ../../../src/catalog/gxfile.cpp:69 ../../../src/catalog/gxfolder.cpp:108
-#: ../../../src/catalog/gxfolder.cpp:136
+#: ../../../src/catalog/gxfile.cpp:69 ../../../src/catalog/gxfolder.cpp:124
+#: ../../../src/catalog/gxfolder.cpp:152
 #: ../../../src/catalog/gxgisproj.cpp:177
 #: ../../../src/catalog/gxgisproj.cpp:205
 #: ../../../src/catalog/gxlocaldb.cpp:218
@@ -50,7 +50,7 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, фай
 #: ../../../src/catalog/gxarchfolder.cpp:66
 #: ../../../src/catalog/gxdataset.cpp:159
 #: ../../../src/catalog/gxdataset.cpp:371 ../../../src/catalog/gxfile.cpp:50
-#: ../../../src/catalog/gxfolder.cpp:108
+#: ../../../src/catalog/gxfolder.cpp:124
 #: ../../../src/catalog/gxgisproj.cpp:177
 #: ../../../src/catalog/gxlocaldb.cpp:218
 #: ../../../src/catalog/gxremoteconn.cpp:98
@@ -61,7 +61,7 @@ msgstr "Удалить"
 #: ../../../src/catalog/gxarchfolder.cpp:99
 #: ../../../src/catalog/gxdataset.cpp:185
 #: ../../../src/catalog/gxdataset.cpp:399 ../../../src/catalog/gxfile.cpp:69
-#: ../../../src/catalog/gxfolder.cpp:136
+#: ../../../src/catalog/gxfolder.cpp:152
 #: ../../../src/catalog/gxgisproj.cpp:205
 #: ../../../src/catalog/gxlocaldb.cpp:254
 #: ../../../src/catalog/gxremoteconn.cpp:115
@@ -69,24 +69,24 @@ msgstr "Удалить"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: ../../../src/catalog/gxcatalog.cpp:119
-#: ../../../src/catalog/gxcatalog.cpp:239
+#: ../../../src/catalog/gxcatalog.cpp:185
+#: ../../../src/catalog/gxcatalog.cpp:305
 #, c-format
 msgid "wxGxCatalog: Root Object %s initialized"
 msgstr "wxGxCatalog: Корневой элемент %s инициализирован"
 
-#: ../../../src/catalog/gxcatalog.cpp:126
-#: ../../../src/catalog/gxcatalog.cpp:245
+#: ../../../src/catalog/gxcatalog.cpp:192
+#: ../../../src/catalog/gxcatalog.cpp:311
 #, c-format
 msgid "wxGxCatalog: Root Object %s disabled"
 msgstr "wxGxCatalog: Корневого элемент %s отключен"
 
-#: ../../../src/catalog/gxcatalog.cpp:172
+#: ../../../src/catalog/gxcatalog.cpp:238
 #, c-format
 msgid "wxGxCatalog: ObjectFactory %s initialize"
 msgstr "wxGxCatalog: Инициализация объекта %s фабрики объектов"
 
-#: ../../../src/catalog/gxcatalog.cpp:175
+#: ../../../src/catalog/gxcatalog.cpp:241
 #, c-format
 msgid "wxGxCatalog: Error initializing ObjectFactory %s"
 msgstr "wxGxCatalog: Ошибка инициализации фабрики объектов %s"
@@ -99,7 +99,7 @@ msgstr "wxGxCatalog: Ошибка инициализации фабрики об
 #: ../../../src/catalog/gxdataset.cpp:399
 #: ../../../src/catalog/gxdataset.cpp:430
 #: ../../../src/catalog/gxdataset.cpp:460
-#: ../../../src/catalog/gxfolder.cpp:170 ../../../src/catalog/gxfolder.cpp:197
+#: ../../../src/catalog/gxfolder.cpp:186 ../../../src/catalog/gxfolder.cpp:213
 #: ../../../src/catalog/gxgisproj.cpp:240
 #: ../../../src/catalog/gxgisproj.cpp:267
 #: ../../../src/catalog/gxlocaldb.cpp:285
@@ -120,7 +120,7 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, %s '%s
 #: ../../../src/catalog/gxdataset.cpp:229
 #: ../../../src/catalog/gxdataset.cpp:410
 #: ../../../src/catalog/gxdataset.cpp:443
-#: ../../../src/catalog/gxfolder.cpp:161 ../../../src/catalog/gxfolder.cpp:188
+#: ../../../src/catalog/gxfolder.cpp:177 ../../../src/catalog/gxfolder.cpp:204
 #: ../../../src/catalog/gxgisproj.cpp:231
 #: ../../../src/catalog/gxgisproj.cpp:258
 #: ../../../src/catalog/gxlocaldb.cpp:276
@@ -137,7 +137,7 @@ msgstr "%s %s %s"
 #: ../../../src/catalog/gxdataset.cpp:410
 #: ../../../src/catalog/gxdataset.cpp:419
 #: ../../../src/catalog/gxdataset.cpp:430
-#: ../../../src/catalog/gxfolder.cpp:161 ../../../src/catalog/gxfolder.cpp:170
+#: ../../../src/catalog/gxfolder.cpp:177 ../../../src/catalog/gxfolder.cpp:186
 #: ../../../src/catalog/gxgisproj.cpp:231
 #: ../../../src/catalog/gxgisproj.cpp:240
 #: ../../../src/catalog/gxlocaldb.cpp:276
@@ -165,7 +165,7 @@ msgstr "Не удалось %s %s %s!"
 #: ../../../src/catalog/gxdataset.cpp:443
 #: ../../../src/catalog/gxdataset.cpp:450
 #: ../../../src/catalog/gxdataset.cpp:460
-#: ../../../src/catalog/gxfolder.cpp:188 ../../../src/catalog/gxfolder.cpp:197
+#: ../../../src/catalog/gxfolder.cpp:204 ../../../src/catalog/gxfolder.cpp:213
 #: ../../../src/catalog/gxgisproj.cpp:258
 #: ../../../src/catalog/gxgisproj.cpp:267
 #: ../../../src/catalog/gxlocaldb.cpp:311
@@ -206,32 +206,32 @@ msgstr "Класс пространственных объектов"
 msgid "Raster"
 msgstr "Растр"
 
+#: ../../../src/catalog/gxdbconnections.cpp:35
+#: ../../../src/catalog/gxdbconnections.cpp:40
 #: ../../../src/catalog/gxdbconnections.cpp:42
-#: ../../../src/catalog/gxdbconnections.cpp:47
-#: ../../../src/catalog/gxdbconnections.cpp:49
 #: ../../../src/catalog/gxremoteconn.cpp:454
 #: ../../../src/catalog/gxremoteconn.cpp:645
 #: ../../../include/wxgis/catalog/gxdbconnfactory.h:38
 msgid "DataBase connections"
 msgstr "Подключение к БД"
 
-#: ../../../src/catalog/gxdbconnections.cpp:49
+#: ../../../src/catalog/gxdbconnections.cpp:42
 #, c-format
 msgid "wxGxDBConnections::Create failed. GxObject %s"
 msgstr "wxGxDBConnections: Ошибка создания. GxObject %s"
 
-#: ../../../src/catalog/gxdbconnections.cpp:80
+#: ../../../src/catalog/gxdbconnections.cpp:68
 #, c-format
 msgid "wxGxDBConnections: The path is set to '%s'"
 msgstr "wxGxDBConnections: Путь установлен в '%s'"
 
-#: ../../../src/catalog/gxdbconnections.cpp:122
-#: ../../../src/catalog/gxdbconnections.cpp:136
-#: ../../../src/catalog/gxdiscconnection.cpp:107
-#: ../../../src/catalog/gxdiscconnection.cpp:120
+#: ../../../src/catalog/gxdbconnections.cpp:102
+#: ../../../src/catalog/gxdbconnections.cpp:116
+#: ../../../src/catalog/gxdiscconnection.cpp:78
+#: ../../../src/catalog/gxdiscconnection.cpp:91
 #: ../../../src/catalog/gxdiscconnections.cpp:74
-#: ../../../src/catalog/gxshellconnections.cpp:122
-#: ../../../src/catalog/gxshellconnections.cpp:136
+#: ../../../src/catalog/gxshellconnections.cpp:100
+#: ../../../src/catalog/gxshellconnections.cpp:114
 msgid "Add File system watcher failed"
 msgstr "Ошибка добавления отслеживания файловой системы"
 
@@ -433,6 +433,10 @@ msgstr "Значения разделенные запятыми (*.csv)"
 msgid "Database table"
 msgstr "Таблица базы данных"
 
+#: ../../../src/catalog/gxgnm.cpp:47
+msgid "Geography network model"
+msgstr "Сетевая модель геоданных"
+
 #: ../../../src/catalog/gxmlconnstor.cpp:182
 #: ../../../src/catalog/gxmlconnstor.cpp:285
 #: ../../../src/catalog/gxmlconnstor.cpp:337
@@ -484,18 +488,18 @@ msgstr "Слои"
 msgid "GeoJSON parsing error"
 msgstr "Ошибка разбора GeoJSON"
 
-#: ../../../src/catalog/gxshellconnections.cpp:42
-#: ../../../src/catalog/gxshellconnections.cpp:47
-#: ../../../src/catalog/gxshellconnections.cpp:49
+#: ../../../src/catalog/gxshellconnections.cpp:34
+#: ../../../src/catalog/gxshellconnections.cpp:39
+#: ../../../src/catalog/gxshellconnections.cpp:41
 msgid "Shell connections"
 msgstr "Подключения к консоли"
 
-#: ../../../src/catalog/gxshellconnections.cpp:49
+#: ../../../src/catalog/gxshellconnections.cpp:41
 #, c-format
 msgid "wxGxShellConnections::Create failed. GxObject %s"
 msgstr "wxGxShellConnections: Не удалось создать. GxObject %s"
 
-#: ../../../src/catalog/gxshellconnections.cpp:80
+#: ../../../src/catalog/gxshellconnections.cpp:66
 #, c-format
 msgid "wxGxShellConnections: The path is set to '%s'"
 msgstr "wxGxShellConnections: Путь установлен в '%s'"
@@ -569,6 +573,10 @@ msgstr "Проект QGIS"
 #: ../../../include/wxgis/catalog/gxgisprojfactory.h:52
 msgid "GIS Projects"
 msgstr "ГИС проекты"
+
+#: ../../../include/wxgis/catalog/gxgnmfactory.h:46
+msgid "Geography network models"
+msgstr "Сетевые модели геоданных"
 
 #: ../../../include/wxgis/catalog/gxlocaldb.h:41
 msgid "File geodatabase"

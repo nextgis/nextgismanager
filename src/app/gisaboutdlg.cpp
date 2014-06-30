@@ -188,7 +188,7 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 		sOgrDrivers += sDrvName;
 		sOgrDrivers += wxT("\n");
 	}
-	wxString sAboutSys = wxString::Format(_("HOST '%s'\n\nOS desc - %s\n\nFree memory - %s\n\nLibs:\n\%s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sFreeMem.c_str(), sGDALStr.c_str() );
+	wxString sAboutSys = wxString::Format(_("HOST '%s'\n\nOS desc - %s\n\nFree memory - %s\n\nLibs:\n%s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sFreeMem.c_str(), sGDALStr.c_str() );
 #ifdef wxGIS_USE_GEOS
     sAboutSys += wxT("\nGEOS ");
     sAboutSys += sGEOSStr;
@@ -211,7 +211,7 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
     sAboutSys += wxT("\n");
     sAboutSys += sWXStr;
-	sAboutSys += wxString(_("\n\Raster drivers:\n"));
+	sAboutSys += wxString(_("\nRaster drivers:\n"));
 	sAboutSys += sGdalDrivers;
 	sAboutSys += wxString(_("\nVector Drivers:\n"));
 	sAboutSys += sOgrDrivers;

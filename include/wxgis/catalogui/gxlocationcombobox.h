@@ -48,6 +48,8 @@ public:
 	virtual ~wxGxPathsListView(void);
     virtual bool Create(wxWindow* parent, wxWindowID id = LISTVIEWPOPUPID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = LISTPOPUSTYLE, const wxString& name = wxT("ListViewComboPopup"));
     virtual void Append(const wxString& sFullName);
+    virtual void Deactivate(void);
+
     //events
     // Do mouse hot-tracking (which is typical in list popups)
     virtual void OnMouseMove(wxMouseEvent& event);

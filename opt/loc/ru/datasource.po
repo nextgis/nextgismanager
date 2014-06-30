@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-26 23:43+0400\n"
-"PO-Revision-Date: 2014-06-26 23:43+0400\n"
+"POT-Creation-Date: 2014-06-30 05:04+0400\n"
+"PO-Revision-Date: 2014-06-30 05:04+0400\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -42,7 +42,7 @@ msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
 #: ../../../src/datasource/dataset.cpp:343
-#: ../../../src/datasource/rasterdataset.cpp:564
+#: ../../../src/datasource/rasterdataset.cpp:572
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
@@ -51,18 +51,18 @@ msgstr "Нет файлов для копирования"
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
 
-#: ../../../src/datasource/postgisdataset.cpp:377
-#: ../../../src/datasource/postgisdataset.cpp:400
+#: ../../../src/datasource/postgisdataset.cpp:382
+#: ../../../src/datasource/postgisdataset.cpp:405
 #, c-format
 msgid "ExecuteSQL failed! GDAL error: %s"
 msgstr "Не удалось выполнить ExecuteSQL! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/postgisdataset.cpp:430
+#: ../../../src/datasource/postgisdataset.cpp:435
 #, c-format
 msgid "Try to connect: host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Попытка подключения: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:436
+#: ../../../src/datasource/postgisdataset.cpp:441
 #, c-format
 msgid ""
 "Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"
@@ -70,48 +70,48 @@ msgstr ""
 "Ошибка подключения! Ошибка GDAL: %s, хост='%s' база данных='%s' порт='%s' "
 "логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:449
+#: ../../../src/datasource/postgisdataset.cpp:454
 #, c-format
 msgid "Connect succeeded! Host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Подключение выполнено: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:556
+#: ../../../src/datasource/postgisdataset.cpp:561
 #, c-format
 msgid "Operation '%s' failed! No Layer %s found to delete"
 msgstr "Не удалось выполнить '%s'! Слой %s не обнаружен"
 
-#: ../../../src/datasource/postgisdataset.cpp:556
-#: ../../../src/datasource/postgisdataset.cpp:566
-#: ../../../src/datasource/postgisdataset.cpp:575
+#: ../../../src/datasource/postgisdataset.cpp:561
+#: ../../../src/datasource/postgisdataset.cpp:571
+#: ../../../src/datasource/postgisdataset.cpp:580
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../../../src/datasource/postgisdataset.cpp:566
+#: ../../../src/datasource/postgisdataset.cpp:571
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Не удалось выполнить '%s'! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/postgisdataset.cpp:575
+#: ../../../src/datasource/postgisdataset.cpp:580
 #, c-format
 msgid "Operation '%s' succeeded!"
 msgstr "Операция '%s' выполнена успешно! "
 
-#: ../../../src/datasource/rasterdataset.cpp:262
+#: ../../../src/datasource/rasterdataset.cpp:271
 #, c-format
 msgid "Raster open failed! Path '%s'. GDAL error: %s"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Ошибка GDAL: %s"
 
-#: ../../../src/datasource/rasterdataset.cpp:409
+#: ../../../src/datasource/rasterdataset.cpp:418
 #, c-format
 msgid "Raster open failed! Path '%s'. Raster has no bands"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
 
-#: ../../../src/datasource/rasterdataset.cpp:678
+#: ../../../src/datasource/rasterdataset.cpp:686
 #, c-format
 msgid "RasterIO failed! GDAL error: %s"
 msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/rasterdataset.cpp:713
+#: ../../../src/datasource/rasterdataset.cpp:721
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"

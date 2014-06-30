@@ -59,9 +59,6 @@ wxGxPathsListView::wxGxPathsListView(wxWindow* parent, wxWindowID id, const wxPo
 
 wxGxPathsListView::~wxGxPathsListView(void)
 {
-    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND)
-        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-
     for(long i = 0; i < GetItemCount(); ++i)
     {
 		delete (LPITEMDATA)GetItemData(i);
@@ -204,6 +201,12 @@ void wxGxPathsListView::Append(const wxString& sFullName)
 
 	long ListItemID = InsertItem(0, sName, pos);
 	SetItemData(ListItemID, (long)pData);
+}
+
+void wxGxPathsListView::Deactivate(void)
+{
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+        m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
 }
 
 int wxGxPathsListView::GetIconPos(const wxIcon &icon_small)
@@ -831,6 +834,8 @@ void wxGxLocationComboBox::Activate(wxGISApplicationBase* pApp)
 
 void wxGxLocationComboBox::Deactivate(void)
 {
+    m_pListViewComboPopup->Deactivate();
+
 	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND && m_pSelection)
 		m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
 
