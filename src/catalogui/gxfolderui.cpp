@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Dmitry Barishnikov
+*   Copyright (C) 2009-2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ void wxGxFolderUI::EditProperties(wxWindow *parent)
     //TODO: Linux folder props
 #ifdef __WXMSW__
     SHELLEXECUTEINFO SEInf = {0};
-    SEInf.cbSize = sizeof(SEInf);    
+    SEInf.cbSize = sizeof(SEInf);
     SEInf.hwnd = parent->GetHWND();
     SEInf.lpVerb = wxT("properties");
     SEInf.fMask = SEE_MASK_INVOKEIDLIST;

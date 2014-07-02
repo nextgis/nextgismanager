@@ -3,7 +3,7 @@
  * Purpose:  Geoprocessing Main Commands class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class WXDLLIMPEXP_GIS_GPU wxGISGeoprocessingCmd :
     public wxGISCommand
 {
     DECLARE_DYNAMIC_CLASS(wxGISGeoprocessingCmd)
-    
+
 public:
 	wxGISGeoprocessingCmd(void);
 	virtual ~wxGISGeoprocessingCmd(void);

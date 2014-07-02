@@ -39,7 +39,7 @@
 
 IMPLEMENT_ABSTRACT_CLASS(IPropertyPage, wxPanel)
 
-    
+
 //-------------------------------------------------------------------------------
 // wxGISMiscPropertyPage
 //-------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
 
 	wxGISAppConfig oConfig = GetConfig();
 	if(!oConfig.IsOk())
-        return false;    
+        return false;
 
     wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -84,7 +84,7 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     m_checkShowSS->SetValue(bShowSplash);
 	sbRootSizer->Add( m_checkShowSS, 0, wxALL | wxEXPAND, 5 );
 
-	wxBoxSizer* bSizer011 = new wxBoxSizer( wxHORIZONTAL );	
+	wxBoxSizer* bSizer011 = new wxBoxSizer( wxHORIZONTAL );
 	wxStaticText* pStaticText = new wxStaticText( this, wxID_ANY, _("Time out (sec.):"), wxDefaultPosition, wxDefaultSize, 0 );
 	pStaticText->Wrap( -1 );
 	bSizer011->Add( pStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
@@ -92,35 +92,35 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     m_nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 20000) / 1000;
     m_Timeout = new wxTextCtrl( this, ID_SSTIMEOUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxMakeIntegerValidator(&m_nTimeout) );
 	bSizer011->Add( m_Timeout, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
+
 	sbRootSizer->Add( bSizer011, 0, wxALL | wxEXPAND, 5 );
 
 	bMainSizer->Add( sbRootSizer, 0, wxALL | wxEXPAND, 5 );
 
-	
+
 	m_staticText1 = new wxStaticText( this, wxID_ANY, _("Locale files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText1->Wrap( -1 );
 	bMainSizer->Add( m_staticText1, 0, wxEXPAND|wxALL, 5 );
-	
+
 	wxBoxSizer* bLocPathSizer;
 	bLocPathSizer = new wxBoxSizer( wxHORIZONTAL );
-	
+
     //locale files path
 	m_LocalePath = new wxTextCtrl( this, ID_LOCPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_LocalePath->ChangeValue( oConfig.GetLocaleDir() );
 	bLocPathSizer->Add( m_LocalePath, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	m_bpOpenLocPath = new wxBitmapButton( this, ID_OPENLOCPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bLocPathSizer->Add( m_bpOpenLocPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	bMainSizer->Add( bLocPathSizer, 0, wxEXPAND, 5 );
-	
+
 	m_staticText2 = new wxStaticText( this, wxID_ANY, _("Language"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2->Wrap( -1 );
 	bMainSizer->Add( m_staticText2, 0, wxALL|wxEXPAND, 5 );
 
     //see current locale dir for locales
-	
+
 	//wxString m_LangChoiceChoices[] = { _("en") };
 	//int m_LangChoiceNChoices = sizeof( m_LangChoiceChoices ) / sizeof( wxString );
     FillLangArray(oConfig.GetLocaleDir());
@@ -135,35 +135,35 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
         m_LangChoice->SetStringSelection(m_aLangsDesc[nChoice]);
     }
 	bMainSizer->Add( m_LangChoice, 0, wxALL|wxEXPAND, 5 );
-	
+
 	m_staticText3 = new wxStaticText( this, wxID_ANY, _("System files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
 	bMainSizer->Add( m_staticText3, 0, wxEXPAND|wxALL, 5 );
-	
+
 	wxBoxSizer* bSizer21;
 	bSizer21 = new wxBoxSizer( wxHORIZONTAL );
-	
+
 	m_SysPath = new wxTextCtrl( this, ID_SYSPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_SysPath->ChangeValue( oConfig.GetSysDir() );
 	bSizer21->Add( m_SysPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
+
 	m_bpOpenSysPath = new wxBitmapButton( this, ID_OPENSYSPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bSizer21->Add( m_bpOpenSysPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	bMainSizer->Add( bSizer21, 0, wxEXPAND, 5 );
-	
+
 	m_staticText4 = new wxStaticText( this, wxID_ANY, _("Log files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
 	bMainSizer->Add( m_staticText4, 0, wxALL|wxEXPAND, 5 );
-	
-	wxBoxSizer* bSizer211 = new wxBoxSizer( wxHORIZONTAL );	
+
+	wxBoxSizer* bSizer211 = new wxBoxSizer( wxHORIZONTAL );
 	m_LogPath = new wxTextCtrl( this, ID_LOGPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_LogPath->ChangeValue( oConfig.GetLogDir() );
 	bSizer211->Add( m_LogPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
+
 	m_bpOpenLogPath = new wxBitmapButton( this, ID_OPENLOGPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bSizer211->Add( m_bpOpenLogPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	bMainSizer->Add( bSizer211, 0, wxEXPAND, 5 );
 
     m_checkDebug = new wxCheckBox( this, wxID_ANY, _("Log debug GDAL messages"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -178,10 +178,10 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
 
     m_ImageList.Create(16, 16);
 	m_ImageList.Add(wxBitmap(state_xpm));
-	
+
 	m_bitmapwarn = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(3), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizerInfo->Add( m_bitmapwarn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	m_staticTextWarn = new wxStaticText( this, wxID_ANY, _("To apply some changes on this page the application restart needed"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextWarn->Wrap( -1 );
 
@@ -190,9 +190,9 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     m_staticTextWarn->SetFont(WarnFont);
 
 	bSizerInfo->Add( m_staticTextWarn, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
+
 	bMainSizer->Add( bSizerInfo, 0, wxALL|wxEXPAND, 5 );
-	
+
     this->SetSizerAndFit(bMainSizer);
 	this->Layout();
 
@@ -340,7 +340,7 @@ void wxGISMiscPropertyPage::OnOpenLogPath(wxCommandEvent& event)
 	}
 }
 
-    
+
 //-------------------------------------------------------------------------------
 // wxGISGDALConfPropertyPage
 // http://trac.osgeo.org/gdal/wiki/ConfigOptions
@@ -367,7 +367,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
 
 	wxGISAppConfig oConfig = GetConfig();
 	if(!oConfig.IsOk())
-        return false;  
+        return false;
 
     wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -376,9 +376,9 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     m_pg->SetColumnProportion(1, 70);
 
     m_pg->SetBoolChoices(wxT("ON"), wxT("OFF"));
-        
+
     //Generic Options
-    wxPGProperty* prop = AppendProperty( new wxPropertyCategory(_("Generic Options")) );        
+    wxPGProperty* prop = AppendProperty( new wxPropertyCategory(_("Generic Options")) );
 
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("CPL_DEBUG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("CPL_DEBUG", "OFF")) == 0 ? false : true));
     AppendProperty(prop,  new wxFileProperty(wxString(wxT("CPL_LOG")), wxPG_LABEL, wxString(CPLGetConfigOption( "CPL_LOG", "" ), wxConvUTF8)));
@@ -390,8 +390,9 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(prop,  new wxDirProperty(wxString(wxT("GDAL_DATA")), wxPG_LABEL, wxString(CPLGetConfigOption( "GDAL_DATA", "" ), wxConvUTF8)));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_DISABLE_CPLLOCALEC")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_DISABLE_CPLLOCALEC", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("GDAL_FILENAME_IS_UTF8")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_FILENAME_IS_UTF8", "ON")) == 0 ? false : true));
-    
+
     AppendProperty(prop, new wxStringProperty(wxString(wxT("CPL_VSIL_ZIP_ALLOWED_EXTENSIONS")), wxPG_LABEL, wxString(CPLGetConfigOption("CPL_VSIL_ZIP_ALLOWED_EXTENSIONS", ""), wxConvUTF8)));
+    AppendProperty(prop, new wxStringProperty(wxString(wxT("CPL_ZIP_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption("CPL_ZIP_ENCODING", ""), wxConvUTF8)));
 #ifdef WIN32
     AppendProperty(prop, new wxStringProperty(wxString(wxT("GDAL_API_PROXY_SERVER")), wxPG_LABEL, wxString(CPLGetConfigOption("GDAL_API_PROXY_SERVER", ""), wxConvUTF8)));
 #else
@@ -529,7 +530,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     sCurrentVal = wxString(CPLGetConfigOption( "GTIFF_LINEAR_UNITS", "DEFAULT" ), wxConvUTF8);
     wxPGChoices chs6;
     chs6.Add(wxT("DEFAULT"), 1);
-    chs6.Add(wxT("BROKEN"), 2);    
+    chs6.Add(wxT("BROKEN"), 2);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GTIFF_LINEAR_UNITS")), wxPG_LABEL, chs6, chs6.GetValue(chs6.Index(sCurrentVal))));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GTIFF_ESRI_CITATION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GTIFF_ESRI_CITATION", "YES")) == 0 ? false : true));
 
@@ -540,7 +541,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
 
     //JPEG driver
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("JPEG driver options"))  );
-    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("JPEG_QUALITY_OVERVIEW")), wxPG_LABEL, atoi(CPLGetConfigOption( "JPEG_QUALITY_OVERVIEW", "75" ))));    
+    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("JPEG_QUALITY_OVERVIEW")), wxPG_LABEL, atoi(CPLGetConfigOption( "JPEG_QUALITY_OVERVIEW", "75" ))));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("JPEG_WRITE_RGB")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("JPEG_WRITE_RGB", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_JPEG_TO_RGB")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_JPEG_TO_RGB", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("JPEGMEM")), wxPG_LABEL, atoi(CPLGetConfigOption( "JPEGMEM", "524288000" ))));
@@ -550,7 +551,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     m_pg->SetPropertyAttribute(wxT("IDA_COLOR_FILE"), wxPG_FILE_WILDCARD, "Color table (*.clr)|*.clr" );
 
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GDAL_ONE_BIG_READ")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GDAL_ONE_BIG_READ", "NO")) == 0 ? false : true));
-    
+
     //GRIB driver
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GRIB driver options"))  );
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GRIB_NORMALIZE_UNITS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GRIB_NORMALIZE_UNITS", "OFF")) == 0 ? false : true));
@@ -598,8 +599,8 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     sCurrentVal = wxString(CPLGetConfigOption( "OGR_ORGANIZE_POLYGONS", "DEFAULT" ), wxConvUTF8);
     wxPGChoices chs7;
     chs7.Add(wxT("SKIP"), 1);
-    chs7.Add(wxT("ONLY_CCW"), 2);    
-    chs7.Add(wxT("DEFAULT"), 3);    
+    chs7.Add(wxT("ONLY_CCW"), 2);
+    chs7.Add(wxT("DEFAULT"), 3);
     AppendProperty(prop, new wxEnumProperty(wxString(wxT("OGR_ORGANIZE_POLYGONS")), wxPG_LABEL, chs7, chs7.GetValue(chs7.Index(sCurrentVal))));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_ENABLE_PARTIAL_REPROJECTION")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_ENABLE_PARTIAL_REPROJECTION", "NO")) == 0 ? false : true));
     AppendProperty(prop, new wxBoolProperty(wxString(wxT("OGR_FORCE_ASCII")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_FORCE_ASCII", "YES")) == 0 ? false : true));
@@ -626,12 +627,12 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GML_FIELDTYPES")), wxPG_LABEL, wxString(CPLGetConfigOption( "GML_FIELDTYPES", "" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_GML_ID")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_EXPOSE_GML_ID", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_EXPOSE_FID")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_EXPOSE_FID", "NO")) == 0 ? false : true));
-    //STANDARD/SEQUENTIAL_LAYERS/INTERLEAVED_LAYERS    
+    //STANDARD/SEQUENTIAL_LAYERS/INTERLEAVED_LAYERS
     sCurrentVal = wxString(CPLGetConfigOption( "GML_READ_MODE", "STANDARD" ), wxConvUTF8);
     wxPGChoices chs8;
     chs8.Add(wxT("STANDARD"), 1);
-    chs8.Add(wxT("SEQUENTIAL_LAYERS"), 2);    
-    chs8.Add(wxT("INTERLEAVED_LAYERS"), 3);    
+    chs8.Add(wxT("SEQUENTIAL_LAYERS"), 2);
+    chs8.Add(wxT("INTERLEAVED_LAYERS"), 3);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GML_READ_MODE")), wxPG_LABEL, chs8, chs8.GetValue(chs8.Index(sCurrentVal))));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_INVERT_AXIS_ORDER_IF_LAT_LONG")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_INVERT_AXIS_ORDER_IF_LAT_LONG", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_CONSIDER_EPSG_AS_URN")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_CONSIDER_EPSG_AS_URN", "NO")) == 0 ? false : true));
@@ -640,16 +641,16 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     sCurrentVal = wxString(CPLGetConfigOption( "GML_PARSER", "EXPAT" ), wxConvUTF8);
     wxPGChoices chs9;
     chs9.Add(wxT("EXPAT"), 1);
-    chs9.Add(wxT("XERCES"), 2);   
+    chs9.Add(wxT("XERCES"), 2);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GML_PARSER")), wxPG_LABEL, chs9, chs9.GetValue(chs9.Index(sCurrentVal))));
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GML_SAVE_RESOLVED_TO")), wxPG_LABEL, wxString(CPLGetConfigOption( "GML_SAVE_RESOLVED_TO", NULL ), wxConvUTF8)));
-    
+
     //EXPAT/XERCES
     sCurrentVal = wxString(CPLGetConfigOption( "GML_SKIP_RESOLVE_ELEMS", "ALL" ), wxConvUTF8);
     wxPGChoices chs10;
     chs10.Add(wxT("ALL"), 1);
-    chs10.Add(wxT("HUGE"), 2);   
-    chs10.Add(wxT("NONE"), 3);   
+    chs10.Add(wxT("HUGE"), 2);
+    chs10.Add(wxT("NONE"), 3);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("GML_SKIP_RESOLVE_ELEMS")), wxPG_LABEL, chs10, chs10.GetValue(chs10.Index(sCurrentVal))));
 
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("GML_GFS_TEMPLATE")), wxPG_LABEL, wxString(CPLGetConfigOption( "GML_GFS_TEMPLATE", NULL ), wxConvUTF8)));
@@ -659,7 +660,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GML_FETCH_ALL_GEOMETRIES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GML_FETCH_ALL_GEOMETRIES", "NO")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("GPX driver options")) );
-    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("GPX_N_MAX_LINKS")), wxPG_LABEL, atoi(CPLGetConfigOption( "GPX_N_MAX_LINKS", "2" ))));    
+    AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("GPX_N_MAX_LINKS")), wxPG_LABEL, atoi(CPLGetConfigOption( "GPX_N_MAX_LINKS", "2" ))));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_ELE_AS_25D")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_ELE_AS_25D", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_SHORT_NAMES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_SHORT_NAMES", "NO")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("GPX_USE_EXTENSIONS")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("GPX_USE_EXTENSIONS", "FALSE")) == 0 ? false : true));
@@ -689,7 +690,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     sCurrentVal = wxString(CPLGetConfigOption( "LIBKML_STYLEMAP_KEY", "normal" ), wxConvUTF8);
     wxPGChoices chs11;
     chs11.Add(wxT("normal"), 1);
-    chs11.Add(wxT("highlight"), 2);   
+    chs11.Add(wxT("highlight"), 2);
     AppendProperty(sub_prop, new wxEnumProperty(wxString(wxT("LIBKML_STYLEMAP_KEY")), wxPG_LABEL, chs11, chs11.GetValue(chs11.Index(sCurrentVal))));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("PG driver options")) );
@@ -715,20 +716,20 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("OSM driver options")));
     AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("OSM_CONFIG_FILE")), wxPG_LABEL, wxString(CPLGetConfigOption("OSM_CONFIG_FILE", ""), wxConvUTF8)));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OSM_MAX_TMPFILE_SIZE")), wxPG_LABEL, atoi(CPLGetConfigOption("OSM_MAX_TMPFILE_SIZE", "100"))));
-    
+
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("SQLite options")));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_SQLITE_CACHE")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_SQLITE_CACHE", "0" ))));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SQLITE_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true)); 
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SQLITE_LIST_ALL_TABLES")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true));
     AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("OGR_SQLITE_LIST_VIRTUAL_OGR")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("OGR_SQLITE_LIST_VIRTUAL_OGR", "YES")) == 0 ? false : true));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("SXF options")));
-    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SXF_LAYER_FULLNAME")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true)); 
+    AppendProperty(sub_prop, new wxBoolProperty(wxString(wxT("SXF_LAYER_FULLNAME")), wxPG_LABEL, CSLTestBoolean(CPLGetConfigOption("SQLITE_LIST_ALL_TABLES", "YES")) == 0 ? false : true));
+    AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("RSC_FILENAME")), wxPG_LABEL, wxString(CPLGetConfigOption("RSC_FILENAME", ""), wxConvUTF8)));
 
     sub_prop = AppendProperty(prop, new wxPropertyCategory(_("Other OGR options")) );
     AppendProperty(sub_prop, new wxStringProperty(wxString(wxT("SHAPE_ENCODING")), wxPG_LABEL, wxString(CPLGetConfigOption( "SHAPE_ENCODING", "" ), wxConvUTF8)));
     AppendProperty(sub_prop, new wxIntProperty(wxString(wxT("OGR_VRT_MAX_OPENED")), wxPG_LABEL, atoi(CPLGetConfigOption( "OGR_VRT_MAX_OPENED", "100" ))));
-    AppendProperty(sub_prop, new wxFileProperty(wxString(wxT("RSC_FILENAME")), wxPG_LABEL, wxString(CPLGetConfigOption("RSC_FILENAME", ""), wxConvUTF8)));
-    
+
     m_pg->SetPropertyAttributeAll(wxPG_BOOL_USE_CHECKBOX, true);
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );

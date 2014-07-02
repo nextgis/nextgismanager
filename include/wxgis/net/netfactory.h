@@ -3,7 +3,7 @@
  * Purpose:  network classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012 Dmitry Barishnikov
+*   Copyright (C) 2010,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 /** \class INetConnFactory netfactory.h
     \brief The network connection factory interface class.
 */
-class WXDLLIMPEXP_GIS_NET INetConnFactory : 
+class WXDLLIMPEXP_GIS_NET INetConnFactory :
     public wxGISConnectionPointContainer,
     public wxEvtHandler
 {
@@ -48,7 +48,7 @@ public:
      *  \brief Store Properties of Factory.
      *  \param pConfigNode wxXmlNode to store params.
      *  \param bSave Set or Get indicator.
-     */	 	
+     */
     virtual void Serialize(wxXmlNode* pConfigNode, bool bSave = true);
 
 	//virtual char GetID(void) = 0;

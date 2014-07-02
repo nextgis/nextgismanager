@@ -3,7 +3,7 @@
  * Purpose:  DropTarget implementations for geoprocesses.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012 Dmitry Barishnikov
+*   Copyright (C) 2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ wxDragResult wxGISTaskDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult defa
     wxGISTaskDataObject * pTaskDataObject = static_cast<wxGISTaskDataObject *>(GetDataObject());
     if(pTaskDataObject)
         return OnDropObjects( x, y, pTaskDataObject->GetParentPointer(), pTaskDataObject->GetDecimals() ) ? defaultDragResult : wxDragNone;
-   
+
     wxFAIL_MSG( "unexpected data object format" );
 
     return defaultDragResult;

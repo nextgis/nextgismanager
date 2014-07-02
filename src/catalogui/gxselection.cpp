@@ -3,7 +3,7 @@
  * Purpose:  wxGxSelection class. Selection of IGxObjects in tree or list views
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Dmitry Barishnikov
+*   Copyright (C) 2009,2011,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -171,7 +171,7 @@ long wxGxSelection::GetSelectedObjectId(size_t nIndex)
 {
     wxCriticalSectionLocker locker(m_CritSect);
 	if(m_currentInitiator == INIT_NONE)
-		return wxNOT_FOUND;   
+		return wxNOT_FOUND;
 
     return GetSelectedObjectId(m_currentInitiator, nIndex);
 }

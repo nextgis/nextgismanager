@@ -3,7 +3,7 @@
  * Purpose:  wxGxView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Dmitry Barishnikov
+*   Copyright (C) 2009,2011,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -71,9 +71,9 @@ wxGxView::~wxGxView(void)
 }
 
 bool wxGxView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
-{ 
+{
 	m_pXmlConf = pConf;
-	return true; 
+	return true;
 }
 
 void wxGxView::Deactivate(void)
@@ -82,8 +82,8 @@ void wxGxView::Deactivate(void)
 }
 
 bool wxGxView::Applies(wxGxSelection* const pSelection)
-{ 
-	return NULL == pSelection ? false : true; 
+{
+	return NULL == pSelection ? false : true;
 };
 
 wxString wxGxView::GetViewName(void) const

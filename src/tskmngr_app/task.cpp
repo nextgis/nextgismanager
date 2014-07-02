@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Task and TaskCategoryList classes.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2014 Dmitry Barishnikov
+*   Copyright (C) 2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -80,13 +80,13 @@ bool wxGISTaskBase::Save(void)
 {
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
-        if(NULL == it->second) 
+        if(NULL == it->second)
             return false;
         if (!it->second->Save())
             return false;
     }
 
-    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );  
+    wxJSONWriter writer( wxJSONWRITER_STYLED | wxJSONWRITER_WRITE_COMMENTS );
     wxString  sJSONText;
 
     writer.Write( GetStoreConfig(), sJSONText );
@@ -96,7 +96,7 @@ bool wxGISTaskBase::Save(void)
         oStorageFile.Close();
         return false;
     }
-    
+
     return oStorageFile.Close();
 
 }
@@ -122,7 +122,7 @@ void wxGISTaskBase::OnDestroy(void)
         if (NULL != it->second)
         {
             it->second->OnDestroy();
-        }        
+        }
     }
 }
 
@@ -208,7 +208,7 @@ bool wxGISTask::Load(void)
             }
             else
             {
-                wxDELETE(pTask);   
+                wxDELETE(pTask);
             }
         }
     }
@@ -310,7 +310,7 @@ bool wxGISTask::StartTask(long nMessageId, int nUserId)
 {
     wxLogDebug(wxT("Quered %s"), GetName());
     m_nState = enumGISTaskQuered;
- 
+
     if(m_pParentTask)
     {
         wxJSONValue idval;
@@ -318,7 +318,7 @@ bool wxGISTask::StartTask(long nMessageId, int nUserId)
         m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStStart, enumGISPriorityHighest, idval, _("Start succeeded"), nMessageId, nUserId);
     }
 
-    //start 
+    //start
     OnStart();
     return true;
 }
@@ -334,7 +334,7 @@ bool wxGISTask::StopTask(long nMessageId, int nUserId)
     }
 
     //stop
-    OnStop();    
+    OnStop();
     return true;
 }
 
@@ -478,12 +478,12 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
             break;
         case enumGISCmdStDel:
             if(!Delete(nMessageId, wxNOT_FOUND) && m_pParentTask)
-            {                
+            {
                 wxJSONValue idval;
                 idval[wxT("id")] = m_nId;
                 m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Delete failed"), nMessageId, nUserId);
             }
-            break;       
+            break;
         case enumGISCmdStChng:
             if (!ChangeTask(val, nMessageId, wxNOT_FOUND) && m_pParentTask)
             {
@@ -491,34 +491,34 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
                 idval[wxT("id")] = m_nId;
                 m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Change task failed"), nMessageId, nUserId);
             }
-            break; 
+            break;
         case enumGISCmdStStart:
             if (!StartTask(nMessageId, wxNOT_FOUND) && m_pParentTask)
-            {                
+            {
                 wxJSONValue idval;
                 idval[wxT("id")] = m_nId;
                 m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Start failed"), nMessageId, nUserId);
             }
-            break; 
+            break;
         case enumGISCmdStStop:
             if (!StopTask(nMessageId, wxNOT_FOUND) && m_pParentTask)
-            {                
+            {
                 wxJSONValue idval;
                 idval[wxT("id")] = m_nId;
                 m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, idval, _("Stop failed"), nMessageId, nUserId);
             }
-            break; 
+            break;
 ///*            case enumGISCmdStPriority: TODO:
 //            if(!ChangeTaskPriority(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
 //            {
 //                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
 //                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
+//                SendNetMessage(msgout, event.GetId());
 //            }
-//            break; */         
+//            break; */
         case enumGISCmdChildren://Get subtasks lists
             GetChildren(nMessageId, nUserId);
-            break; 
+            break;
         case enumGISCmdDetails://Get subtask details
             //{
             //    int nId = msg.GetValue()[wxT("task")].Get(wxT("id"), wxJSONValue(wxNOT_FOUND)).AsInt();
@@ -534,7 +534,7 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
             //    else
             //    {
             //        wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdGetChildren, enumGISPriorityHigh, msg.GetId());
-            //    
+            //
             //        wxJSONValue val;
             //        val[wxT("cat")] = m_sName;
             //        val[wxT("task")] = m_omSubTasks[nId]->GetConfig();
@@ -542,8 +542,8 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
             //        m_pTaskManager->SendNetMessage(msgout, nUserId);
             //    }
             //}
-            break;             
-        default:            
+            break;
+        default:
             break;
     }
 }
@@ -576,7 +576,7 @@ void wxGISTask::OnStart(void)
 
 void wxGISTask::OnStop(void)
 {
-    
+
     if(m_omSubTasks.empty())
     {
         if (m_nState == enumGISTaskDone || m_nState == enumGISTaskError)
@@ -702,7 +702,7 @@ bool wxGISTask::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUse
         val[wxT("groupid")] = m_nGroupId;
         nHaveChanges = true;
     }
-    
+
     int nPriority = TaskVal.Get(wxT("prio"), m_nPriority).AsLong();
     if (m_nPriority != nPriority)
     {
@@ -769,7 +769,7 @@ bool wxGISTask::IsGroupIdExecuting(int nGroupId) const
         return false;
     if(m_omSubTasks.empty())
     {
-        return m_nState == enumGISTaskWork && nGroupId == m_nGroupId; 
+        return m_nState == enumGISTaskWork && nGroupId == m_nGroupId;
     }
     else
     {
@@ -840,7 +840,7 @@ void wxGISTask::AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData)
         //m_staMessages.push_back(msg);
 
         //don't accum, just send to listeners
-        
+
         ChangeTaskMsg(nType, sInfoData);
     }
 }
@@ -895,7 +895,7 @@ long wxGISTask::GetCommonPriority()
     wxGISTask* pTask = dynamic_cast<wxGISTask*>(m_pParentTask);
     if(pTask)
         nParentPriority = pTask->GetCommonPriority();
-    return m_nPriority + nParentPriority * 100;//only 99 subtasks may be present 
+    return m_nPriority + nParentPriority * 100;//only 99 subtasks may be present
 }
 
 void wxGISTask::OnDestroy(void)
@@ -954,11 +954,11 @@ wxGISTaskCategory::~wxGISTaskCategory(void)
 
 bool wxGISTaskCategory::Load(void)
 {
-    wxDir dir(m_sStoragePath); 
+    wxDir dir(m_sStoragePath);
     if( dir.IsOpened() )
     {
         wxString sTaskName;
-        
+
         bool bContinue = dir.GetFirst(&sTaskName, wxT("*.json"), wxDIR_FILES);
         while ( bContinue )
         {
@@ -1040,42 +1040,42 @@ void wxGISTaskCategory::NetCommand(wxGISNetCommandState eCmdState, const wxJSONV
             break;
         case enumGISCmdStDel: //Delete category
             wxFAIL_MSG(wxT("Unsuported operation. Category deletion is not supported yet."));
-            break;       
+            break;
         case enumGISCmdStChng://Change task by TaskId. Return result of operation
 //            if(!ChangeTask(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
 //            {
 //                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
 //                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
+//                SendNetMessage(msgout, event.GetId());
 //            }
-            break; 
+            break;
 //        case enumGISCmdStStart:
 //            if(!StartTask(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
 //            {
 //                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
 //                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
+//                SendNetMessage(msgout, event.GetId());
 //            }
-//            break; 
+//            break;
 //        case enumGISCmdStStop:
 //            if(!StopTask(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
 //            {
 //                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
 //                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
+//                SendNetMessage(msgout, event.GetId());
 //            }
-//            break;             
+//            break;
 ///*            case enumGISCmdStPriority: TODO:
 //            if(!ChangeTaskPriority(msg.GetXMLRoot()->GetChildren(), msg.GetId(), sErr))
 //            {
 //                wxNetMessage msgout(enumGISNetCmdNote, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
 //                msgout.SetMessage(sErr);
-//                SendNetMessage(msgout, event.GetId());                
+//                SendNetMessage(msgout, event.GetId());
 //            }
-//            break; */         
+//            break; */
         case enumGISCmdChildren://Get tasks lists
             GetChildren(nMessageId, nUserId);
-            break; 
+            break;
         case enumGISCmdDetails://Get task details
             //{
             //    int nId = msg.GetValue()[wxT("task")].Get(wxT("id"), wxJSONValue(wxNOT_FOUND)).AsInt();
@@ -1091,7 +1091,7 @@ void wxGISTaskCategory::NetCommand(wxGISNetCommandState eCmdState, const wxJSONV
             //    else
             //    {
             //        wxNetMessage msgout(enumGISNetCmdCmd, enumGISCmdGetChildren, enumGISPriorityHigh, msg.GetId());
-            //    
+            //
             //        wxJSONValue val;
             //        val[wxT("cat")] = m_sName;
             //        val[wxT("task")] = m_omSubTasks[nId]->GetConfig();
@@ -1099,8 +1099,8 @@ void wxGISTaskCategory::NetCommand(wxGISNetCommandState eCmdState, const wxJSONV
             //        m_pTaskManager->SendNetMessage(msgout, nUserId);
             //    }
             //}
-            break;             
-        default:            
+            break;
+        default:
             break;
     }
 }
@@ -1223,7 +1223,7 @@ void wxGISTaskCategory::StartNextQueredTask()
     if (GetRunningTaskCount() == 0 && oaTasks.IsEmpty()) //no more tasks
     {
         m_pTaskManager->OnCategoryExecutionFinished(this);
-    
+
     }
     if(GetRunningTaskCount() >= m_nMaxTasks) //to many tasks
         return;

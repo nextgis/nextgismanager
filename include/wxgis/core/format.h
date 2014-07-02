@@ -3,7 +3,7 @@
  * Purpose:  format clases (for format coordinates etc.).
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 */
 WXDLLIMPEXP_GIS_CORE wxString DoubleToString(double dVal, bool bIsLon);
 /** \fn static double StringToDouble(wxString Val, wxString asterisk) format.h
-    \brief Format string coordinate as double value 
+    \brief Format string coordinate as double value
 */
 WXDLLIMPEXP_GIS_CORE double StringToDouble(const wxString &sVal, const wxString &sAsterisk);
 
@@ -77,7 +77,7 @@ public:
 	virtual void Create(const wxString &sMask, bool bSwap = false);
     virtual wxString GetMask() const {return m_sMask;};
 public:
-	typedef enum coord_format {  
+	typedef enum coord_format {
             D,
             DM,
             DMS,

@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Network classes.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ bool wxGISLocalNetworkPlugin::Stop(void)
     {
         m_listeningSocket->Destroy();
         m_listeningSocket = NULL;
-    }	
+    }
     return true;
 }
 
@@ -142,12 +142,12 @@ void wxGISLocalNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
             if (!sock->GetPeer(addr))
             {
                 wxLogError(_("wxGISLocalNetworkPlugin: cannot get peer info"));
-            } 
-            else 
+            }
+            else
             {
                 wxLogMessage(_("wxGISLocalNetworkPlugin: Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
             }
-            
+
             wxGISLocalServerConnection* pSrvConn = new wxGISLocalServerConnection();
             pSrvConn->SetSocket(sock);
             m_pNetService->AddConnection(pSrvConn);
@@ -161,13 +161,13 @@ void wxGISLocalNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
 
 bool wxGISLocalNetworkPlugin::CreateListenSocket(void)
 {
-	IPaddress LocalAddress; // For the listening 
+	IPaddress LocalAddress; // For the listening
 	LocalAddress.Service(m_nPort); // port on which we listen for clients
 
 	bool bIsAddrSet = false;
 	if(m_sAddr.IsEmpty())
     {
-		bIsAddrSet = LocalAddress.AnyAddress(); 
+		bIsAddrSet = LocalAddress.AnyAddress();
     }
 	else
     {
@@ -277,7 +277,7 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
 #endif // USE_STREAMS
 
 
-        if ( numErrors > 0 )  
+        if ( numErrors > 0 )
         {
             const wxArrayString& errors = reader.GetErrors();
             wxString sErrMsg(_("Invalid input message"));
@@ -315,7 +315,7 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
             //send event to advisers
             wxLogDebug(wxT("wxGISNetServerConnection: INPUT"));
             break;
-        case wxSOCKET_OUTPUT:            
+        case wxSOCKET_OUTPUT:
             wxLogDebug(wxT("wxGISNetServerConnection: OUTPUT"));
             //ProcessNetMessage();
             break;
@@ -329,8 +329,8 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
                 if (!m_pSock->GetPeer(addr))
                 {
                     wxLogMessage(_("User #%d is disconnected"), m_nUserId);
-                } 
-                else 
+                }
+                else
                 {
                     wxLogMessage(_("User #%d from %s:%d is disconnected"), m_nUserId, addr.IPAddress().c_str(), addr.Service());
                 }

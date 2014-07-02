@@ -3,7 +3,7 @@
  * Purpose:  wxGISNewMenu class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2009,2011,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #define NEWMENUID ID_PLUGINCMDMAX - 1
 
 /** @class wxGISNewMenu
-    
+
     The create menu class. Consist of create new objects items
 
     @library {catalogui}

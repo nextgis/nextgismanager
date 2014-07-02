@@ -3,7 +3,7 @@
  * Purpose:  Filter classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ extern WXDLLIMPEXP_DATA_GIS_DS(wxGISQueryFilter) wxGISNullQueryFilter;
     \brief Spatial (by geometry) query filter.
 */
 
-class WXDLLIMPEXP_GIS_DS wxGISSpatialFilter : 
+class WXDLLIMPEXP_GIS_DS wxGISSpatialFilter :
 	public wxGISQueryFilter
 {
 public:

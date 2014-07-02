@@ -3,7 +3,7 @@
  * Purpose:  system operations.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -225,7 +225,7 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
 WXDLLIMPEXP_GIS_DS bool DeleteDir(const CPLString &sPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool MoveDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool CopyDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, ITrackCancel* const pTrackCancel = NULL);
-WXDLLIMPEXP_GIS_DS bool CreateDir(const CPLString &sPath, long mode = 0777, ITrackCancel* const pTrackCancel = NULL); 
+WXDLLIMPEXP_GIS_DS bool CreateDir(const CPLString &sPath, long mode = 0777, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool DeleteFile(const CPLString &sPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool RenameFile(const CPLString &sOldPath, const CPLString &sNewPath, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_DS bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCance = NULL);

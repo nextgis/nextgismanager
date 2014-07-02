@@ -3,7 +3,7 @@
  * Purpose:  wxGxWebConnectionFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013,2014 Dmitry Barishnikov
+*   Copyright (C) 2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ wxGxWebConnectionFactoryUI::wxGxWebConnectionFactoryUI(void) : wxGxWebConnection
     m_LargeIconConn = wxIcon(web_tms_conn_48_xpm);
     m_SmallIconConn = wxIcon(web_tms_conn_16_xpm);
     m_LargeIconDisconn = wxIcon(web_tms_disconn_48_xpm);
-    m_SmallIconDisconn = wxIcon(web_tms_disconn_16_xpm);    
+    m_SmallIconDisconn = wxIcon(web_tms_disconn_16_xpm);
     m_LargeIconNGWConn = wxIcon(ngw_conn_48_xpm);
     m_SmallIconNGWConn = wxIcon(ngw_conn_16_xpm);
     m_LargeIconNGWDisconn = wxIcon(ngw_disconn_48_xpm);
@@ -59,7 +59,7 @@ wxGxObject* wxGxWebConnectionFactoryUI::GetGxObject(wxGxObject* pParent, const w
     {
         return NULL;
     }
-    
+
 
 
     wxXmlDocument config(wxString::FromUTF8(szPath));

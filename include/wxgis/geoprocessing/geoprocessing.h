@@ -3,7 +3,7 @@
  * Purpose:  geoprocessing header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011 Dmitry Barishnikov
+*   Copyright (C) 2009,2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@
 //GPCustomTool
 
 /** @enum wxGISEnumGPMessageType
-    
+
     A geoprocessing tool parameter message type.
 */
 
@@ -56,7 +56,7 @@ enum wxGISEnumGPMessageType
 
 
 /** @enum wxGISEnumGPParameterType
-    
+
     A geoprocessing tool parameter type.
 */
 
@@ -67,7 +67,7 @@ enum wxGISEnumGPParameterType
 };
 
 /** @enum wxGISEnumGPParameterDirection
-    
+
     A geoprocessing tool parameter direction.
 */
 enum wxGISEnumGPParameterDirection
@@ -77,7 +77,7 @@ enum wxGISEnumGPParameterDirection
 };
 
 /** @enum wxGISEnumGPParameterDataType
-    
+
     A geoprocessing tool parameter data type. The input or output parmeters can be different types. So this enum helps to determnate which of type are parameters
 */
 enum wxGISEnumGPParameterDataType
@@ -100,7 +100,7 @@ enum wxGISEnumGPParameterDataType
     enumGISGPParamDTFieldDateChoice,    /**< The parameter type is field of feature class with date type */
     enumGISGPParamDTFieldTimeChoice,    /**< The parameter type is field of feature class with time type */
     enumGISGPParamDTFieldDateTimeChoice,/**< The parameter type is field of feature class with date/time type */
-    enumGISGPParamDTFieldBinaryChoice,  /**< The parameter type is field of feature class with bimary (BLOB) type */	
+    enumGISGPParamDTFieldBinaryChoice,  /**< The parameter type is field of feature class with bimary (BLOB) type */
 
     enumGISGPParamDTStringList,         /**< The parameter type is comma separated string list */
 	enumGISGPParamDTIntegerList,        /**< The parameter type is comma separated int list */
@@ -144,7 +144,7 @@ public:
     virtual bool StartTask() = 0;
     /** Stop task execution. If failed returns @false */
     virtual bool StopTask() = 0;
-    /** 
+    /**
         Sets task priority. The priority influence on next task in queue which should be started after executing task (tasks) finished.
 
         @param nNewPriority

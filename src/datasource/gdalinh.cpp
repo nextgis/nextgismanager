@@ -3,7 +3,7 @@
  * Purpose:  inherited from gdal and ogr classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2014 Dmitry Barishnikov
+*   Copyright (C) 2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -130,9 +130,9 @@ void wxGISSpatialReferenceRefData::Validate()
     }
 }
 
-bool wxGISSpatialReferenceRefData::IsValid(void) const 
-{ 
-    return m_bIsValid; 
+bool wxGISSpatialReferenceRefData::IsValid(void) const
+{
+    return m_bIsValid;
 }
 
 //-----------------------------------------------------------------------------

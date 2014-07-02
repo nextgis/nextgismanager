@@ -3,7 +3,7 @@
  * Purpose:  stream common classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Dmitry Barishnikov
+*   Copyright (C) 2010-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ bool wxGISProcess::Start()
 	{
         return CreateAndRunReadThread();
 	}
-    
+
     //start err thread ?
     return true; //or false?
 }
@@ -79,7 +79,7 @@ void wxGISProcess::OnTerminate(int pid, int status)
     }
 
 	m_nState = status == 0 ? enumGISTaskDone : enumGISTaskError;
-    m_dtEstEnd = wxDateTime::Now();    
+    m_dtEstEnd = wxDateTime::Now();
 }
 
 void wxGISProcess::Stop(void)
@@ -104,7 +104,7 @@ void wxGISProcess::Stop(void)
 		        Detach();
             }
         }
- 
+
 	}
 	m_nState = enumGISTaskPaused;
     m_dtEstEnd = wxDateTime::Now();
@@ -162,7 +162,7 @@ void wxGISProcess::ProcessInput(wxString &sInputData)
 	{
         AddInfo(enumGISMessageReceive, sRest);
 		return;
-	}    
+	}
 
     AddInfo(enumGISMessageUnk, sInputData);
 }

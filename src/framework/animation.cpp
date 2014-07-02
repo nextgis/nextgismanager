@@ -3,7 +3,7 @@
  * Purpose:  wxGISAnimation class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2009,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -95,17 +95,17 @@ bool wxGISAnimation::ShowProgress(bool bShow)
 }
 
 void wxGISAnimation::Play(void)
-{ 
+{
     wxCommandEvent ChangeStateEvent(wxEVT_COMMAND_BUTTON_CLICKED);
     ChangeStateEvent.SetId(START_ID);
     wxPostEvent(this, ChangeStateEvent);
 }
 
 void wxGISAnimation::Stop(void)
-{ 
+{
     wxCommandEvent ChangeStateEvent(wxEVT_COMMAND_BUTTON_CLICKED);
     ChangeStateEvent.SetId(STOP_ID);
-    wxPostEvent(this, ChangeStateEvent);   
+    wxPostEvent(this, ChangeStateEvent);
 }
 
 void wxGISAnimation::OnChangeState(wxCommandEvent &event)

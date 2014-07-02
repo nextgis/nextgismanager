@@ -3,7 +3,7 @@
  * Purpose:  wxAxToolboxView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
 #include "wx/aui/aui.h"
 
 /** @class wxGxToolboxTreeView
-    
+
 	The wxGxToolboxTreeView class is view with geoprocessing tools and it's categories (folders) in some kind of hierarchy.
 
 	@library{gpui}
 */
 
-class WXDLLIMPEXP_GIS_GPU wxGxToolboxTreeView : 
+class WXDLLIMPEXP_GIS_GPU wxGxToolboxTreeView :
 	public wxGxTreeView
 {
     DECLARE_DYNAMIC_CLASS(wxGxToolboxTreeView)
@@ -49,7 +49,7 @@ public:
 };
 
 /** @class wxAxToolboxView
-    
+
 	The class wxAxToolboxView is the dockable windown in wxGISCatalog, wxGISMap, etc. which host the wxGxToolboxTreeView view with tabs - geoprocessing tools tree, executed tool list, etc.
 
 	@library{gpui}

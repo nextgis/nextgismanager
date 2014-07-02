@@ -3,7 +3,7 @@
  * Purpose:  GxObject Commands
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2012 Dmitry Barishnikov
+*   Copyright (C) 2011-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ wxString wxGISRasterCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case 0:
 			return wxString(_("Create &world file"));
 		default:
 			return wxEmptyString;
@@ -65,7 +65,7 @@ wxString wxGISRasterCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case 0:
 			return wxString(_("Raster"));
 		default:
 			return NO_CATEGORY;
@@ -124,7 +124,7 @@ wxString wxGISRasterCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case 0:
 			return wxString(_("Create world file"));
 		default:
 			return wxEmptyString;
@@ -135,7 +135,7 @@ void wxGISRasterCmd::OnClick(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case 0:
 			{
 				IGxApplication* pGxApp = dynamic_cast<IGxApplication*>(m_pApp);
 				if(pGxApp)
@@ -180,7 +180,7 @@ wxString wxGISRasterCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:	
+		case 0:
 			return wxString(_("Create world file"));
 		default:
 			return wxEmptyString;

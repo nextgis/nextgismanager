@@ -3,7 +3,7 @@
  * Purpose:  Remote Connection UI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
 {
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if(NULL != pDSet)
-    {        
+    {
         if(!pDSet->Open())
         {
             wxThreadEvent event( wxEVT_THREAD, EXIT_EVENT );
@@ -229,11 +229,11 @@ wxIcon wxGxRemoteDBSchemaUI::GetSmallImage(void)
 bool wxGxRemoteDBSchemaUI::HasChildren(void)
 {
     if(m_bChildrenLoaded)
-        return wxGxObjectContainer::HasChildren(); 
+        return wxGxObjectContainer::HasChildren();
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren(); 
+    return wxGxObjectContainer::HasChildren();
 }
 
 wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)

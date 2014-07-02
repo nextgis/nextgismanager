@@ -3,7 +3,7 @@
  * Purpose:  GxPostGISDatasetUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by

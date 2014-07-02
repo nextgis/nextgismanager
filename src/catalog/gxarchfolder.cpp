@@ -128,6 +128,20 @@ void wxGxArchiveFolder::LoadChildren(void)
 {
 	if(m_bIsChildrenLoaded)
 		return;
+
+#ifdef __WINDOWS__
+    wxString sCharset(wxT("cp-866"));
+#endif // __WINDOWS__
+
+#ifdef __UNIX__
+    wxString sCharset(wxT("CP866"));
+#endif // __UNIX__
+
+    wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+        sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+    CPLSetConfigOption("CPL_ZIP_ENCODING", sCharset.mb_str());
+
     char **papszItems = CPLReadDir(m_sPath);
     if(papszItems == NULL)
         return;
@@ -148,20 +162,7 @@ void wxGxArchiveFolder::LoadChildren(void)
         {
             if(VSI_ISDIR(BufL.st_mode))
             {
-                wxString sFileName;
-                if (IsArchive())
-                {
-		            wxString sCharset(wxT("cp-866"));
-		            wxGISAppConfig oConfig = GetConfig();
-                    if(oConfig.IsOk())
-			            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
-                    sFileName = wxString(papszItems[i], wxCSConv(sCharset));
-                }
-                else
-                {
-                    sFileName = wxString::FromUTF8(papszItems[i]);
-                }
-
+                wxString sFileName = wxString::FromUTF8(papszItems[i]);
 				GetArchiveFolder(this, sFileName, szFileName);
             }
             else

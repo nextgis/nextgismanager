@@ -3,7 +3,7 @@
  * Purpose:  system operations.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -194,174 +194,6 @@ wxString ClearExt(const wxString &sPath)
 {
 	return wxFileName::StripExtension(sPath);
 }
-
-//CPLString GetEncodingName(wxFontEncoding eEncoding)
-//{
-//    switch(eEncoding)
-//    {
-//    case wxFONTENCODING_SYSTEM:     // system default
-//    case wxFONTENCODING_DEFAULT:    // current default encoding
-//        {
-//             wxFontEncoding oDefaultEnc = wxLocale::GetSystemEncoding();
-//             if(oDefaultEnc > 0)
-//                 return GetEncodingName(oDefaultEnc);
-//             else
-//                 return CPLString();
-//        }
-//        break;
-//
-//    // ISO8859 standard defines a number of single-byte charsets
-//    case wxFONTENCODING_ISO8859_1:       // West European (Latin1)
-//        return CPLString("ISO8859_1");
-//    case wxFONTENCODING_ISO8859_2:       // Central and East European (Latin2)
-//        return CPLString("ISO8859_2");
-//    case wxFONTENCODING_ISO8859_3:       // Esperanto (Latin3)
-//        return CPLString("ISO8859_3");
-//    case wxFONTENCODING_ISO8859_4:       // Baltic (old) (Latin4)
-//        return CPLString("ISO8859_4");
-//    case wxFONTENCODING_ISO8859_5:       // Cyrillic
-//        return CPLString("ISO8859_5");
-//    case wxFONTENCODING_ISO8859_6:       // Arabic
-//        return CPLString("ISO8859_6");
-//    case wxFONTENCODING_ISO8859_7:       // Greek
-//        return CPLString("ISO8859_7");
-//    case wxFONTENCODING_ISO8859_8:       // Hebrew
-//        return CPLString("ISO8859_8");
-//    case wxFONTENCODING_ISO8859_9:       // Turkish (Latin5)
-//        return CPLString("ISO8859_9");
-//    case wxFONTENCODING_ISO8859_10:      // Variation of Latin4 (Latin6)
-//        return CPLString("ISO8859_10");
-//    case wxFONTENCODING_ISO8859_11:      // Thai
-//        return CPLString("ISO8859_11");
-//    case wxFONTENCODING_ISO8859_12:      // doesn't exist currently, but put it
-//        return CPLString("ISO8859_12");
-//                                    // here anyhow to make all ISO8859
-//                                    // consecutive numbers
-//    case wxFONTENCODING_ISO8859_13:      // Baltic (Latin7)
-//        return CPLString("ISO8859_13");
-//    case wxFONTENCODING_ISO8859_14:      // Latin8
-//        return CPLString("ISO8859_14");
-//    case wxFONTENCODING_ISO8859_15:      // Latin9 (a.k.a. Latin0, includes euro)
-//        return CPLString("ISO8859_15");
-//    //wxFONTENCODING_ISO8859_MAX,
-//
-//    // Cyrillic charset soup (see http://czyborra.com/charsets/cyrillic.html)
-//    case wxFONTENCODING_KOI8:            // KOI8 Russian
-//        return CPLString("KOI8-R");
-//    case wxFONTENCODING_KOI8_U:          // KOI8 Ukrainian
-//        return CPLString("KOI8-U");
-//    //case wxFONTENCODING_ALTERNATIVE:     // same as MS-DOS CP866
-//    //case wxFONTENCODING_BULGARIAN:       // used under Linux in Bulgaria
-//
-//    // what would we do without Microsoft? They have their own encodings
-//        // for DOS
-//    case wxFONTENCODING_CP437:           // original MS-DOS codepage
-//        return CPLString("CP437");
-//    case wxFONTENCODING_CP850:           // CP437 merged with Latin1
-//        return CPLString("CP850");
-//    case wxFONTENCODING_CP852:           // CP437 merged with Latin2
-//        return CPLString("CP852");
-//    case wxFONTENCODING_CP855:           // another cyrillic encoding
-//        return CPLString("CP855");
-//    case wxFONTENCODING_CP866:           // and another one
-//        return CPLString("CP866");
-//        // and for Windows
-//    case wxFONTENCODING_CP874:           // WinThai
-//        return CPLString("CP874");
-//    case wxFONTENCODING_CP932:           // Japanese (shift-JIS)
-//        return CPLString("CP932");
-//    case wxFONTENCODING_CP936:           // Chinese simplified (GB)
-//        return CPLString("CP936");
-//    case wxFONTENCODING_CP949:           // Korean (Hangul charset, a.k.a. EUC-KR)
-//        return CPLString("CP949");
-//    case wxFONTENCODING_CP950:           // Chinese (traditional - Big5)
-//        return CPLString("CP950");
-//    case wxFONTENCODING_CP1250:          // WinLatin2
-//        return CPLString("CP1250");
-//    case wxFONTENCODING_CP1251:          // WinCyrillic
-//        return CPLString("CP1251");
-//    case wxFONTENCODING_CP1252:          // WinLatin1
-//        return CPLString("CP1252");
-//    case wxFONTENCODING_CP1253:          // WinGreek (8859-7)
-//        return CPLString("CP1253");
-//    case wxFONTENCODING_CP1254:          // WinTurkish
-//        return CPLString("CP1254");
-//    case wxFONTENCODING_CP1255:          // WinHebrew
-//        return CPLString("CP1255");
-//    case wxFONTENCODING_CP1256:          // WinArabic
-//        return CPLString("CP1256");
-//    case wxFONTENCODING_CP1257:          // WinBaltic (same as Latin 7)
-//        return CPLString("CP1257");
-//    //wxFONTENCODING_CP12_MAX,
-//
-//    case wxFONTENCODING_UTF7:            // UTF-7 Unicode encoding
-//        return CPLString("UTF-7");
-//    case wxFONTENCODING_UTF8:            // UTF-8 Unicode encoding
-//        return CPLString("UTF-8");
-//    //wxFONTENCODING_EUC_JP:          // Extended Unix Codepage for Japanese
-//    //case wxFONTENCODING_UNICODE:
-//    case wxFONTENCODING_UTF16:         // UTF-16 Big Endian Unicode encoding
-//        return CPLString("UTF-16");
-//    case wxFONTENCODING_UTF32:         // UTF-32 Big Endian Unicode encoding
-//        return CPLString("UTF-32");
-//
-//    //wxFONTENCODING_MACROMAN;        // the standard mac encodings
-//    //wxFONTENCODING_MACJAPANESE:
-//    //wxFONTENCODING_MACCHINESETRAD:
-//    //wxFONTENCODING_MACKOREAN:
-//    //wxFONTENCODING_MACARABIC,
-//    //wxFONTENCODING_MACHEBREW,
-//    //wxFONTENCODING_MACGREEK,
-//    //wxFONTENCODING_MACCYRILLIC,
-//    //wxFONTENCODING_MACDEVANAGARI,
-//    //wxFONTENCODING_MACGURMUKHI,
-//    //wxFONTENCODING_MACGUJARATI,
-//    //wxFONTENCODING_MACORIYA,
-//    //wxFONTENCODING_MACBENGALI,
-//    //wxFONTENCODING_MACTAMIL,
-//    //wxFONTENCODING_MACTELUGU,
-//    //wxFONTENCODING_MACKANNADA,
-//    //wxFONTENCODING_MACMALAJALAM,
-//    //wxFONTENCODING_MACSINHALESE,
-//    //wxFONTENCODING_MACBURMESE,
-//    //wxFONTENCODING_MACKHMER,
-//    //wxFONTENCODING_MACTHAI,
-//    //wxFONTENCODING_MACLAOTIAN,
-//    //wxFONTENCODING_MACGEORGIAN,
-//    //wxFONTENCODING_MACARMENIAN,
-//    //wxFONTENCODING_MACCHINESESIMP,
-//    //wxFONTENCODING_MACTIBETAN,
-//    //wxFONTENCODING_MACMONGOLIAN,
-//    //wxFONTENCODING_MACETHIOPIC,
-//    //wxFONTENCODING_MACCENTRALEUR,
-//    //wxFONTENCODING_MACVIATNAMESE,
-//    //wxFONTENCODING_MACARABICEXT,
-//    //wxFONTENCODING_MACSYMBOL,
-//    //wxFONTENCODING_MACDINGBATS,
-//    //wxFONTENCODING_MACTURKISH,
-//    //wxFONTENCODING_MACCROATIAN,
-//    //wxFONTENCODING_MACICELANDIC,
-//    //wxFONTENCODING_MACROMANIAN,
-//    //wxFONTENCODING_MACCELTIC,
-//    //wxFONTENCODING_MACGAELIC,
-//    //wxFONTENCODING_MACKEYBOARD,
-//
-//    //// more CJK encodings (for historical reasons some are already declared
-//    //// above)
-//    //wxFONTENCODING_ISO2022_JP,      // ISO-2022-JP JIS encoding
-//
-//    //wxFONTENCODING_MAX,             // highest enumerated encoding value
-//
-//    //wxFONTENCODING_MACMIN = wxFONTENCODING_MACROMAN ,
-//    //wxFONTENCODING_MACMAX = wxFONTENCODING_MACKEYBOARD ,
-//
-//
-//    default:
-//        return CPLString(wxFontMapper::GetEncodingName(eEncoding).mb_str());
-//    };
-//    //wxString sEnc = wxFontMapper::GetEncodingName(eEncoding);
-//    //return CPLString(sEnc.mb_str());
-//}
 
 wxFontEncoding GetEncodingFromCpg(const CPLString &sPath)
 {
@@ -763,24 +595,9 @@ CPLString GetExtension(const CPLString &sPath, const CPLString &sName)
 	}
 	return CPLGetExtension(sPath);
 }
-//
-//CPLString GetFileName(CPLString sPath, CPLString sName)
-//{
-//	if(sName.empty())
-//		return CPLGetBasename(sPath);
-//	size_t found = sPath.rfind(sName);
-//	if( found != std::string::npos )
-//	{
-//		found += sName.length() + 1;
-//		if( found < sPath.size() - 1 )
-//			return sPath.substr(found);
-//	}
-//	return CPLGetBasename(sPath);
-//}
 
 wxString GetConvName(const CPLString &szPath, bool bIsPath)
 {
-    //name conv cp866 if zip
     wxString name;
     const char* szName(NULL);
     if(bIsPath)
@@ -788,16 +605,9 @@ wxString GetConvName(const CPLString &szPath, bool bIsPath)
     else
         szName = szPath;
     if( EQUALN(szPath,"/vsizip/",8) )
-	{
-	    //TODO: Fin in Ubuntu Russian names
-		wxString sCharset(wxT("cp-866"));
-		wxGISAppConfig oConfig = GetConfig();
-        if(oConfig.IsOk())
-			sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
-
-        name = wxString(szName, wxCSConv(sCharset));
-	}
+        name = wxString(szName, wxConvUTF8);
     else
         name = wxString(szName, wxConvUTF8);
+
 	return name;
 }

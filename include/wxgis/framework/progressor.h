@@ -3,7 +3,7 @@
  * Purpose:  wxGISProgressor class. Progress of some process
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011 Dmitry Barishnikov
+*   Copyright (C) 2009,2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 
     @library{framework}
 */
-class WXDLLIMPEXP_GIS_FRW wxGISProgressor : 
+class WXDLLIMPEXP_GIS_FRW wxGISProgressor :
 	public wxGauge,
 	public IProgressor
 {
@@ -37,7 +37,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISProgressor :
     enum
     {
         SETVALUE_ID = 1050,
-        PULSE_ID, 
+        PULSE_ID,
         SHOW_ID,
         RANGE_ID
     };

@@ -3,7 +3,7 @@
  * Purpose:  wxGxMLFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2014 Dmitry Barishnikov
+*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -56,9 +56,9 @@ wxGxMLFactoryUI::wxGxMLFactoryUI(void) : wxGxMLFactory()
     m_SmallSubKMLIcon = wxIcon(kml_subdset_16_xpm);
     m_SmallJsonIcon = wxIcon(json_dset_16_xpm);
     m_LargeJsonIcon = wxIcon(json_dset_48_xpm);
-    m_LargeSXFIcon = wxIcon(sxf_dset_48_xpm); 
-    m_SmallSXFIcon = wxIcon(sxf_dset_16_xpm); 
-    m_LargeSubSXFIcon = wxIcon(sxf_subdset_48_xpm); 
+    m_LargeSXFIcon = wxIcon(sxf_dset_48_xpm);
+    m_SmallSXFIcon = wxIcon(sxf_dset_16_xpm);
+    m_LargeSubSXFIcon = wxIcon(sxf_subdset_48_xpm);
     m_SmallSubSXFIcon = wxIcon(sxf_subdset_16_xpm);
 
 }

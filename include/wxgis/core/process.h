@@ -3,7 +3,7 @@
  * Purpose:  external process common classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Dmitry Barishnikov
+*   Copyright (C) 2010-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ public:
 /** \class wxGISProcess process.h
  *  \brief The process class which stores the application execution data.
  */
-class WXDLLIMPEXP_GIS_CORE wxGISProcess : 
+class WXDLLIMPEXP_GIS_CORE wxGISProcess :
 	public wxProcess,
     public wxThreadHelper
 {

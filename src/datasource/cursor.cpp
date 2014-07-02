@@ -3,7 +3,7 @@
  * Purpose:  Cursor class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -48,8 +48,8 @@ wxObjectRefData *wxFeatureCursor::CloneRefData(const wxObjectRefData *data) cons
 }
 
 bool wxFeatureCursor::IsOk() const
-{ 
-    return m_refData != NULL; 
+{
+    return m_refData != NULL;
 }
 
 bool wxFeatureCursor::operator == ( const wxFeatureCursor& obj ) const

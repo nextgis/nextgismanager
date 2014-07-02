@@ -3,7 +3,7 @@
  * Purpose:  global functions.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -51,11 +51,11 @@ public:
 
 /** \fn IApplication* GetApplication()
  *  \brief Global application getter.
- */	
+ */
 WXDLLIMPEXP_GIS_CORE IApplication* const GetApplication();
 /** \fn void SetApplication(IApplication* pApp)
     \brief Global application setter.
 	\param pApp The application pointer.
- */	
+ */
 WXDLLIMPEXP_GIS_CORE void SetApplication(IApplication* pApp);
 

@@ -3,7 +3,7 @@
  * Purpose:  DropTarget implementations for geoprocesses.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012 Dmitry Barishnikov
+*   Copyright (C) 2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 #ifdef wxUSE_DRAG_AND_DROP
 
-#define wxGIS_DND_ID wxT("application/x-vnd.nextgis_manager.gxobject-id") 
+#define wxGIS_DND_ID wxT("application/x-vnd.nextgis_manager.gxobject-id")
 
 /** \class wxGISTaskDropTarget droptarget.h
     \brief A DropTarget for wxGIS tasks.

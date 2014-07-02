@@ -3,7 +3,7 @@
  * Purpose:  Cursor class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ public:
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
-protected:	
+protected:
 	std::list<wxGISFeature>::const_iterator m_Iterator;
 };
 
@@ -66,7 +66,7 @@ class  wxFeatureCursorRefData : public wxObjectRefData
     friend class wxFeatureCursor;
 public:
     wxFeatureCursorRefData(wxGISTable* pFeatureDataSet);
-    virtual ~wxFeatureCursorRefData();    
+    virtual ~wxFeatureCursorRefData();
     bool operator == (const wxFeatureCursorRefData& data) const;
     wxFeatureCursorRefData(const wxFeatureCursorRefData& data);
 

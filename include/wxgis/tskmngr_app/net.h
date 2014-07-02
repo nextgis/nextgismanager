@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Network classes.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 
     @library{net}
 */
-class wxGISLocalNetworkService : 
+class wxGISLocalNetworkService :
     public wxGISNetworkService
 {
     DECLARE_CLASS(wxGISLocalNetworkService)
@@ -56,7 +56,7 @@ class wxGISLocalNetworkPlugin : public INetPlugin
 
     enum{
         // id for sockets
-        TCP_SERVER_ID = 105         
+        TCP_SERVER_ID = 105
     };
 public:
 	wxGISLocalNetworkPlugin(void);
@@ -64,7 +64,7 @@ public:
     bool CreateListenSocket(void);
     //INetworkPlugin
     virtual bool Start(INetService* pNetService, const wxXmlNode* pConfig);
-    virtual bool Stop(void);   
+    virtual bool Stop(void);
     //events
     virtual void OnTCPServerEvent(wxSocketEvent& event);
 protected:
@@ -90,10 +90,10 @@ public:
     //wxGISLocalServerConnection(wxSocketBase* sock);
 	virtual ~wxGISLocalServerConnection(void);
     virtual void SetSocket(wxSocketBase* sock);
-protected: 
+protected:
     //events
     virtual void OnSocketEvent(wxSocketEvent& event);
     virtual void OnTimer( wxTimerEvent & event);
-protected:  
+protected:
     virtual bool ProcessInputNetMessage(void);
 };

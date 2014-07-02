@@ -3,7 +3,7 @@
  * Purpose:  GIS application accelerator table header.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012 Dmitry Barishnikov
+*   Copyright (C) 2009,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -207,7 +207,7 @@ void wxGISAcceleratorTable::Store(void)
 			else if(nKeyCode == WXK_DELETE )
 			{
 				sKeyCode += wxString(wxT("WXK_DELETE"));
-			}	
+			}
 			else if(nKeyCode == WXK_NUMPAD_DELETE)
 			{
 				sKeyCode += wxString(wxT("WXK_NUMPAD_DELETE"));
@@ -286,7 +286,7 @@ int wxGISAcceleratorTable::GetKeyCode(wxString sKeyCode)
 		else if(sKeyCode == wxString(wxT("WXK_DELETE")))
 		{
 			Key = WXK_DELETE;
-		}	
+		}
 		else if(sKeyCode == wxString(wxT("WXK_NUMPAD_DELETE")))
 		{
 			Key = WXK_NUMPAD_DELETE;
@@ -340,7 +340,7 @@ int wxGISAcceleratorTable::GetKeyCode(wxString sKeyCode)
 			Key = WXK_NUMPAD_INSERT;
 		}
 	}
-	return Key; 
+	return Key;
 }
 
 wxDword wxGISAcceleratorTable::GetFlags(wxString sFlags)
@@ -350,7 +350,7 @@ wxDword wxGISAcceleratorTable::GetFlags(wxString sFlags)
 	while ( tkz.HasMoreTokens() )
 	{
 		wxString token = tkz.GetNextToken();
-		//token.Replace(wxT("|"), wxT(""));	
+		//token.Replace(wxT("|"), wxT(""));
 		token.MakeUpper();
 		// process token here
 		if(token == wxString(wxT("NORMAL")))

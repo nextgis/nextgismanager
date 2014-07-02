@@ -3,7 +3,7 @@
  * Purpose:  Initializer class for logs, locale, libs and etc.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Dmitry Barishnikov
+*   Copyright (C) 2010-2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -408,7 +408,7 @@ void wxGISService::ServiceMain(DWORD dwArgc, LPTSTR* lpszArgv)
     // Start the initialisation
     if (pService->Initialize())
     {
-        // Do the real work. 
+        // Do the real work.
         // When the Run function returns, the service has stopped.
         pService->m_bServiceIsRunning = true;
         pService->m_ServiceStatus.dwWaitHint = 1000;
@@ -428,7 +428,7 @@ void wxGISService::Handler(DWORD dwOpcode)
     // Get a pointer to the C++ object
     wxGISService* pService = m_pThis;
 
-    switch (dwOpcode) 
+    switch (dwOpcode)
     {
     case SERVICE_CONTROL_STOP: // 1
         pService->m_ServiceStatus.dwCheckPoint++;
@@ -482,11 +482,11 @@ bool wxGISService::IsInstalled()
         NULL, // local machine
         NULL, // ServicesActive database
         SC_MANAGER_ALL_ACCESS); // full access
-    if (hSCM) 
+    if (hSCM)
     {
         // Try to open the service
         SC_HANDLE hService = OpenService(hSCM, m_sServiceName.c_str(), SERVICE_QUERY_CONFIG);
-        if (hService) 
+        if (hService)
         {
             bResult = true;
             CloseServiceHandle(hService);
@@ -524,7 +524,7 @@ bool wxGISService::Install(const wxString &args, const wxString &user, const wxS
         // Create the service
         hService = CreateService(hSCM, m_sServiceName.c_str(), m_sServiceDisplayName.c_str(), SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, sCmd.c_str(), NULL, NULL, NULL, quser.c_str(), password.c_str());
     }
-    if (hService) 
+    if (hService)
     {
         CloseServiceHandle(hService);
         bResult = true;
@@ -534,7 +534,7 @@ bool wxGISService::Install(const wxString &args, const wxString &user, const wxS
         WCHAR buffer[1024];
         DWORD dw = GetLastError();
 
-        FormatMessage(            
+        FormatMessage(
             FORMAT_MESSAGE_FROM_SYSTEM,
             NULL,
             dw,
@@ -585,7 +585,7 @@ bool wxGISService::Install(const wxString &args, const wxString &user, const wxS
 bool wxGISService::Uninstall()
 {
     // Open the Service Control Manager
-    SC_HANDLE hSCM = OpenSCManager( NULL, NULL, SC_MANAGER_CONNECT); 
+    SC_HANDLE hSCM = OpenSCManager( NULL, NULL, SC_MANAGER_CONNECT);
     if (!hSCM)
     {
         return false;

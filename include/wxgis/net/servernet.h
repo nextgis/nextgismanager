@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS
  * Purpose:  network server class.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2008-2010,2014 Dmitry Barishnikov
+*   Copyright (C) 2008-2010,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ WX_DECLARE_LIST_2(wxGISNetServerConnection, wxGISNetServerConnectionList, wxGISN
 
     @library{net}
 */
-class WXDLLIMPEXP_GIS_NET wxGISNetworkService : 
+class WXDLLIMPEXP_GIS_NET wxGISNetworkService :
     public wxEvtHandler,
     public INetService
 {
@@ -58,7 +58,7 @@ public:
     //void OnSocketEvent(wxSocketEvent& pEvent);
     //INetService
     virtual bool Start(void);
-    virtual bool Stop(void);    
+    virtual bool Stop(void);
     virtual wxString GetServerName(void) const;
     virtual bool CanConnect(const wxString &sName, const wxString &sPass);
     virtual void AddConnection(wxGISNetServerConnection* pConn);
@@ -67,7 +67,7 @@ public:
     //wxGISNetworkService
     bool DestroyConnections();
     void SendNetMessage(const wxNetMessage & msg, int nId = wxNOT_FOUND);
-    virtual void AddNetworkPlugin(const wxString &sClassName, const wxXmlNode *pConfigNode);    
+    virtual void AddNetworkPlugin(const wxString &sClassName, const wxXmlNode *pConfigNode);
 protected:
     wxGISNetServerConnectionList& GetConnections() { return m_plNetworkConnections; }
     //events
@@ -90,14 +90,14 @@ private:
  *  Global NetworkService getter.
  *
  *  @library{net}
- */	
+ */
 
 WXDLLIMPEXP_GIS_NET wxGISNetworkService* const GetNetworkService(void);
 
 /** \fn void SetNetworkService(wxGISNetworkService* pService)
     \brief Global NetworkService setter.
 	\param pService The NetworkService pointer.
- */	
+ */
 
 WXDLLIMPEXP_GIS_NET void SetNetworkService(wxGISNetworkService* pService);
 

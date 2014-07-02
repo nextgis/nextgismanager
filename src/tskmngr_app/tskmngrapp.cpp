@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Server)
  * Purpose:  Main application class.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2010-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -161,12 +161,12 @@ void wxGISTaskManagerApp::OnInitCmdLine(wxCmdLineParser& pParser)
     pParser.AddSwitch(wxT( "s" ), wxT( "start" ),       _( "Start wxGIS task manager service" ));
     pParser.AddSwitch(wxT( "a" ), wxT( "app" ),         _( "Start wxGIS task manager from client application" ));
 
-    pParser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
+    pParser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
 }
 
 void wxGISTaskManagerApp::OnAppAbout(void)
 {
-	wxString out = wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d\n"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__);
+	wxString out = wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d\n"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__);
 	wxFprintf(stdout, out);
 }
 
@@ -182,7 +182,7 @@ void wxGISTaskManagerApp::OnAppOptions(void)
     Parser.AddSwitch(wxT("s"), wxT("start"), _("Start wxGIS task manager service"));
     Parser.AddSwitch(wxT("a"), wxT("app"), _("Start wxGIS task manager from client application"));
 
-    Parser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"),  m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
+    Parser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"),  m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
 
     Parser.Usage();
 }

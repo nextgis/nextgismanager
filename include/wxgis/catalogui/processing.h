@@ -3,7 +3,7 @@
 * Purpose:  geoproessing vector datasets.
 * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 #pragma once
- 
+
 #include "wxgis/catalog/catalog.h"
 #include "wxgisdefs.h"
 

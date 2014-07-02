@@ -3,7 +3,7 @@
  * Purpose:  wxGxNoView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Dmitry Barishnikov
+*   Copyright (C) 2009,2011,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ void wxGxNoView::OnPaint(wxPaintEvent& WXUNUSED(evt))
     wxSize size = GetClientSize();
     int width, height;
 
-	wxFont font(FontSize, wxFONTFAMILY_DEFAULT , IsItalic == true ? wxFONTSTYLE_ITALIC : wxFONTSTYLE_NORMAL, 
+	wxFont font(FontSize, wxFONTFAMILY_DEFAULT , IsItalic == true ? wxFONTSTYLE_ITALIC : wxFONTSTYLE_NORMAL,
 		IsBold == true ? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL);
     dc.SetFont(font);
     dc.GetTextExtent(s, &width, &height);

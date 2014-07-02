@@ -3,7 +3,7 @@
  * Purpose:  Various Spatial Tree classes
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ wxGISSpatialTree* CreateSpatialTree(wxGISFeatureDataset *pDS)
     wxGISSpatialTree* pSpatialTree(NULL);
 #ifdef USE_R_STAR_TREE
     pSpatialTree = new wxGISRTree(pDS, 64, 32);
-#else ifdefined USE_QUAD_TREE 
+#else ifdefined USE_QUAD_TREE
     pSpatialTree = new wxGISQuadTree(pDS);
 #endif
 
@@ -48,7 +48,7 @@ wxGISSpatialTree* CreateSpatialTree(wxGISFeatureDataset *pDS)
 
 wxGISSpatialTreeData::wxGISSpatialTreeData(const wxGISGeometry &Geom, long nFID)
 {
-    m_Geom = Geom; 
+    m_Geom = Geom;
     m_nFID = nFID;
 }
 
@@ -58,22 +58,22 @@ wxGISSpatialTreeData::~wxGISSpatialTreeData()
 
 void wxGISSpatialTreeData::SetFID(long nFID)
 {
-    m_nFID = nFID; 
+    m_nFID = nFID;
 }
 
-long wxGISSpatialTreeData::GetFID(void) const 
-{ 
-    return m_nFID; 
+long wxGISSpatialTreeData::GetFID(void) const
+{
+    return m_nFID;
 }
 
-wxGISGeometry wxGISSpatialTreeData::GetGeometry(void) const 
-{ 
-    return m_Geom; 
+wxGISGeometry wxGISSpatialTreeData::GetGeometry(void) const
+{
+    return m_Geom;
 }
 
-void wxGISSpatialTreeData::SetGeometry(const wxGISGeometry &oGeom) 
-{ 
-    m_Geom = oGeom; 
+void wxGISSpatialTreeData::SetGeometry(const wxGISGeometry &oGeom)
+{
+    m_Geom = oGeom;
 }
 
 wxGISSpatialTreeData* wxGISSpatialTreeData::Clone() const
@@ -89,7 +89,7 @@ wxGISSpatialTreeData* wxGISSpatialTreeData::Clone() const
 wxGISSpatialTree::wxGISSpatialTree(wxGISFeatureDataset* pDSet) : wxThreadHelper(wxTHREAD_DETACHED)
 {
     wsSET(m_pDSet, pDSet);
-    
+
     m_nPreloadItemCount = PRELOAD_GEOM_COUNT;
     m_nReadPos = 0;
 
@@ -112,7 +112,7 @@ bool wxGISSpatialTree::Load(const wxGISSpatialReference &SpatRef, ITrackCancel* 
 	wxCriticalSectionLocker locker(m_CritSect);
     m_pTrackCancel = pTrackCancel;
     m_SpatialReference = SpatRef;
-    
+
     //create quad tree
     if(m_pDSet != NULL)
     {
@@ -149,7 +149,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 		m_pTrackCancel->Reset();
 		m_pTrackCancel->PutMessage(wxString(_("PreLoad Geometry of ")) + m_pDSet->GetName(), -1, enumGISMessageInfo);
         pProgress = m_pTrackCancel->GetProgressor();
-	}  
+	}
 
     long nItemCounter(0);
 
@@ -158,7 +158,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
     {
         pProgress->SetRange(nFeaturesCount);
         pProgress->ShowProgress(true);
-    } 
+    }
 
     m_pDSet->Reset();
 
@@ -227,12 +227,12 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 	        if(m_pTrackCancel)
 	        {
 		        m_pTrackCancel->PutMessage(_("Cancel"), -1, enumGISMessageInfo);
-            }  
+            }
 
            	if(pProgress)
             {
                 pProgress->ShowProgress(false);
-            } 
+            }
 
             if(poCT)
                 OCTDestroyCoordinateTransformation(poCT);
@@ -256,7 +256,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
         WX_APPEND_ARRAY(cursor, m_paCachedData);
         /*for(wxVector<wxGISSpatialTreeData*>::const_iterator it = m_paCachedData.begin(); it != m_paCachedData.end(); ++it)
             cursor.push_back(*it);*/
-        m_pDSet->PostEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor)); 
+        m_pDSet->PostEvent(new wxFeatureDSEvent(wxDS_FEATURES_ADDED, cursor));
     }
 
     if(pProgress)
@@ -286,16 +286,16 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 
 bool wxGISSpatialTree::CreateAndRunLoadGeometryThread(void)
 {
-    if(CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)    
-    {        
-        wxLogError(wxT("Could not create the worker thread!"));        
-        return false;    
-    }    
-    // go!    
-    if(GetThread()->Run() != wxTHREAD_NO_ERROR)    
-    {        
-        wxLogError(wxT("Could not run the worker thread!"));        
-        return false;    
+    if(CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(wxT("Could not create the worker thread!"));
+        return false;
+    }
+    // go!
+    if(GetThread()->Run() != wxTHREAD_NO_ERROR)
+    {
+        wxLogError(wxT("Could not run the worker thread!"));
+        return false;
     }
 
     return true;
@@ -303,7 +303,7 @@ bool wxGISSpatialTree::CreateAndRunLoadGeometryThread(void)
 
 void wxGISSpatialTree::DestroyLoadGeometryThread(void)
 {
-    if(IsLoading())        
+    if(IsLoading())
     {
         //if (m_pTrackCancel)
         //    m_pTrackCancel->Cancel();
@@ -374,7 +374,7 @@ void wxGISRTreeNode::PutNode(wxGISRTreeNode* pNode)
 {
     if(m_paNodes.empty())
         m_paNodes.reserve(m_nMinChildItems);
-    
+
     m_paNodes.push_back(pNode);
 }
 
@@ -420,12 +420,12 @@ void wxGISRTreeNode::StretchBounds(const OGREnvelope &Env)
 void wxGISRTreeNode::UpdateBounds(void)
 {
     m_Env.MaxX = m_Env.MinX = m_Env.MaxY = m_Env.MinY = 0.0;
-    
+
     for(size_t i = 0; i < m_paNodes.size(); ++i)
     {
         m_Env.Merge(m_paNodes[i]->GetBounds());
     }
-    
+
     m_dfArea = fabs((m_Env.MaxX - m_Env.MinX) * (m_Env.MaxY - m_Env.MinY));
 }
 
@@ -444,7 +444,7 @@ void wxGISRTreeNode::RemoveFarestItems(size_t p, wxVector<wxGISRTreeNode*> &remo
     // RI2: Sort the items in increasing order of their distances
     // computed in RI1
     std::partial_sort(m_paNodes.begin(), m_paNodes.end() - p, m_paNodes.end(), SortBoundedItemsByDistanceFromCenter(m_Env));
-        
+
     // RI3.A: Remove the last p items from N
     removed_items.assign(m_paNodes.end() - p, m_paNodes.end());
     m_paNodes.erase(m_paNodes.end() - p, m_paNodes.end());
@@ -456,24 +456,24 @@ wxGISRTreeNode* wxGISRTreeNode::Split()
 	pNewNode->SetHasLeaves(GetHasLeaves());
 
 	const size_t nItems = GetCount();
-		
+
 	size_t split_axis = 3, split_edge = 0, split_index = 0;
 	int split_margin = 0;
     const size_t nDistributionCount = GetCount() - 2 * m_nMinChildItems + 1;
 
-		
+
     // these should always hold true
     wxASSERT(nItems == m_nMaxChildItems + 1);
 	wxASSERT(m_nMinChildItems + nDistributionCount - 1 <= nItems);
-    
+
     // S1: Invoke ChooseSplitAxis to determine the axis,
     // perpendicular to which the split 1s performed
     // S2: Invoke ChooseSplitIndex to determine the best
     // distribution into two groups along that axis
-    
+
     // NOTE: We don't compare against node->bound, so it gets overwritten
     // at the end of the loop
-    
+
     // CSA1: For each axis
     // CSA1X
     SPLIT_DIR dirX = GetSplitDirection(true, nDistributionCount);
@@ -502,7 +502,7 @@ wxGISRTreeNode* wxGISRTreeNode::Split()
     // ok, we're done, and the best distribution on the selected split
     // axis has been recorded, so we just have to recreate it and
     // return the correct index
-		
+
     if (split_edge == 0)
     {
         std::sort(m_paNodes.begin(), m_paNodes.end(), SortBoundedItemsByEdge(bIsX, true));
@@ -510,16 +510,16 @@ wxGISRTreeNode* wxGISRTreeNode::Split()
 	// only reinsert the sort key if we have to
 	else
     {
-        std::sort(m_paNodes.begin(), m_paNodes.end(), SortBoundedItemsByEdge(bIsX, false));	
-	}	
+        std::sort(m_paNodes.begin(), m_paNodes.end(), SortBoundedItemsByEdge(bIsX, false));
+	}
     // distribute the end of the array to the new node, then erase them from the original node
     pNewNode->m_paNodes.assign(m_paNodes.begin() + split_index, m_paNodes.end());
     m_paNodes.erase(m_paNodes.begin() + split_index, m_paNodes.end());
-		
+
     // adjust the bounding box for each 'new' node
     UpdateBounds();
     pNewNode->UpdateBounds();
-    
+
     return pNewNode;
 }
 
@@ -532,9 +532,9 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
 
     dist_area = dist_overlap = std::numeric_limits<double>::max();
 
-    
+
     // Sort the items by the lower then by the upper
-    // edge of their bounding box on this particular axis and 
+    // edge of their bounding box on this particular axis and
     // determine all distributions as described . Compute S. the
     // sum of all margin-values of the different
     // distributions
@@ -547,14 +547,14 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
             std::sort(m_paNodes.begin(), m_paNodes.end(), SortBoundedItemsByEdge(bIsX, true));
         else
             std::sort(m_paNodes.begin(), m_paNodes.end(), SortBoundedItemsByEdge(bIsX, false));
-    
+
         // Distributions: pick a point m in the middle of the thing, call the left
-        // R1 and the right R2. Calculate the bounding box of R1 and R2, then 
-        // calculate the margins. Then do it again for some more points	
+        // R1 and the right R2. Calculate the bounding box of R1 and R2, then
+        // calculate the margins. Then do it again for some more points
         for (std::size_t k = 0; k < nDistributionCount; ++k)
         {
             double area = 0;
-            
+
             // calculate bounding box of R1
             OGREnvelope R1, R2;
             for(size_t ii = 0; ii < m_nMinChildItems + k; ++ii)
@@ -567,7 +567,7 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
                 R2.Merge(m_paNodes[ii]->GetBounds());
             }
 
-                
+
             // calculate the three values
             double dfDeltaX1, dfDeltaY1, dfDeltaX2, dfDeltaY2;
             dfDeltaX1 = R1.MaxX - R1.MinX;
@@ -576,13 +576,13 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
             dfDeltaY2 = R2.MaxY - R2.MinY;
             margin += dfDeltaX1 + dfDeltaY1 + dfDeltaX2 + dfDeltaY2;
             area += fabs(dfDeltaX1 * dfDeltaY1) + fabs(dfDeltaX2 * dfDeltaY2);
-            
+
             R1.Intersect(R2);
             overlap = fabs(R1.MaxX - R1.MinX * R1.MaxY - R1.MinY);
-                
-            // CSI1: Along the split axis, choose the distribution with the 
+
+            // CSI1: Along the split axis, choose the distribution with the
             // minimum overlap-value. Resolve ties by choosing the distribution
-            // with minimum area-value. 
+            // with minimum area-value.
             if (overlap < dist_overlap || (overlap == dist_overlap && area < dist_area))
             {
                 // if so, store the parameters that allow us to recreate it at the end
@@ -590,7 +590,7 @@ wxGISRTreeNode::SPLIT_DIR wxGISRTreeNode::GetSplitDirection(const bool bIsX, siz
                 dist_index = 	m_nMinChildItems + k;
                 dist_overlap = 	overlap;
                 dist_area = 	area;
-            }		
+            }
         }
     }
 
@@ -611,7 +611,7 @@ void wxGISRTreeNode::Search(wxGISSpatialTreeCursor &Cursor, const OGREnvelope& e
             else
             {
                 Cursor.push_back(m_paNodes[i]->GetData());
-            }            
+            }
         }
     }
 }
@@ -627,7 +627,7 @@ void wxGISRTreeNode::GetAll(wxGISSpatialTreeCursor &Cursor)
         else
         {
             Cursor.push_back(m_paNodes[i]->GetData());
-        }            
+        }
     }
 }
 
@@ -660,7 +660,7 @@ bool wxGISRTreeNode::Remove(long nFID)
                 }
 				return false;
             }
-        }            
+        }
     }
     return false;
 }
@@ -680,7 +680,7 @@ bool wxGISRTreeNode::HasFID(long nFID) const
             {
                 return true;
             }
-        }            
+        }
     }
     return false;
 }
@@ -707,7 +707,7 @@ wxGISRTree::~wxGISRTree(void)
 
 wxGISRTreeNode* wxGISRTree::ChooseSubtree(wxGISRTreeNode* pNode, const OGREnvelope &Env)
 {
-	// If the child pointers in N point to leaves 
+	// If the child pointers in N point to leaves
 	if(pNode->GetNode(0)->GetHasLeaves())
 	{
 		// determine the minimum overlap cost
@@ -717,7 +717,7 @@ wxGISRTreeNode* wxGISRTree::ChooseSubtree(wxGISRTreeNode* pNode, const OGREnvelo
         }
         return pNode->ChooseSubtree(Env, wxGISRTreeNode::SORT_ENV);
 	}
-		
+
     return pNode->ChooseSubtree(Env, wxGISRTreeNode::SORT_AREA);
 }
 
@@ -741,8 +741,8 @@ wxGISRTreeNode* wxGISRTree::InsertInternal(wxGISRTreeNode* pInsertNode, wxGISRTr
 	// such that they are minimum bounding boxes
 	// enclosing the children rectangles
 	pStartNode->StretchBounds(pInsertNode->GetBounds());
-	
-	
+
+
 	// CS2: If we're at a leaf, then use that level
 	if(pStartNode->GetHasLeaves())
 	{
@@ -754,32 +754,32 @@ wxGISRTreeNode* wxGISRTree::InsertInternal(wxGISRTreeNode* pInsertNode, wxGISRTr
 		// I1: Invoke ChooseSubtree. with the level as a parameter,
 		// to find an appropriate node N, m which to place the
 		// new leaf E
-		
+
 		// of course, this already does all of that recursively. we just need to
 		// determine whether we need to split the overflow or not
 		wxGISRTreeNode* tmp_node = InsertInternal( pInsertNode, ChooseSubtree(pStartNode, pInsertNode->GetBounds()), bIsFirstInsert );
-			
+
 		if (!tmp_node)
 			return NULL;
-				
+
 		// this gets joined to the list of items at this level
 		pStartNode->PutNode(tmp_node);
 	}
-		
-		
+
+
     // If N has M+1 items. invoke OverflowTreatment with the
     // level of N as a parameter [for reinsertion or split]
     if (pStartNode->GetCount() > m_nMaxChildItems )
     {
-        
+
         // I3: If OverflowTreatment was called and a split was
         // performed, propagate OverflowTreatment upwards
         // if necessary
-        
+
         // This is implicit, the rest of the algorithm takes place in there
         return OverflowTreatment(pStartNode, bIsFirstInsert);
     }
-        
+
     return NULL;
 }
 
@@ -787,29 +787,29 @@ wxGISRTreeNode* wxGISRTree::InsertInternal(wxGISRTreeNode* pInsertNode, wxGISRTr
 wxGISRTreeNode* wxGISRTree::OverflowTreatment(wxGISRTreeNode* pNode, bool bIsFirstInsert)
 {
     // OT1: If the level is not the root level AND this is the first
-    // call of OverflowTreatment in the given level during the 
+    // call of OverflowTreatment in the given level during the
     // insertion of one data rectangle, then invoke Reinsert
     if (pNode != m_pRoot && bIsFirstInsert)
     {
         Reinsert(pNode);
         return NULL;
     }
-    
+
     wxGISRTreeNode* pSplitNode = Split(pNode);
-    
+
     // If OverflowTreatment caused a split of the root, create a new root
     if (pNode == m_pRoot)
     {
         wxGISRTreeNode* pNewRoot = new wxGISRTreeNode(m_nMinChildItems, m_nMaxChildItems);
         pNewRoot->SetHasLeaves(false);
-        
+
         // reserve memory
         pNewRoot->PutNode(m_pRoot);
         pNewRoot->PutNode(pSplitNode);
-        
+
         // Do I4 here for the new root item
         pNewRoot->UpdateBounds();
-        
+
         // and we're done
         m_pRoot = pNewRoot;
         return NULL;
@@ -828,21 +828,21 @@ void wxGISRTree::Reinsert(wxGISRTreeNode* pNode)
     const size_t nItems = pNode->GetCount();
     size_t val = (size_t)((double)nItems * RTREE_REINSERT_P);
     const size_t p = val > 0 ? val : 1;
-    
+
     // RI1 For all M+l items of a node N, compute the distance
     // between the centers of their rectangles and the center
     // of the bounding rectangle of N
     wxASSERT(nItems == m_nMaxChildItems + 1);
-    
+
     // RI2: Sort the items in increasing order of their distances
     // computed in RI1
     pNode->RemoveFarestItems(p, removed_items);
-    
+
     // RI3.B: adjust the bounding rectangle of N
     pNode->UpdateBounds();
-    
-    // RI4: In the sort, defined in RI2, starting with the 
-    // minimum distance (= close reinsert), invoke Insert 
+
+    // RI4: In the sort, defined in RI2, starting with the
+    // minimum distance (= close reinsert), invoke Insert
     // to reinsert the items
     for(wxVector<wxGISRTreeNode*>::iterator it = removed_items.begin(); it != removed_items.end(); ++it)
     {
@@ -881,7 +881,7 @@ void wxGISRTree::RemoveAll()
     // Delete all existing nodes
     m_pRoot->Delete();
 }
-    
+
 wxGISSpatialTreeCursor wxGISRTree::Search(const OGREnvelope& env)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
@@ -944,7 +944,7 @@ wxGISQuadTree::~wxGISQuadTree(void)
 
 void wxGISQuadTree::CreateQuadTree()
 {
-    //create quadtree using full extent of zone projected SRS or 
+    //create quadtree using full extent of zone projected SRS or
     //the whole world for Geographic
 /*    m_Envelope.MinX = -360;
     m_Envelope.MinY = -180;
@@ -1005,7 +1005,7 @@ void wxGISQuadTree::DestroyQuadTree()
     WX_CLEAR_ARRAY(m_Cursor);
     /*wxGISSpatialTreeCursor::iterator iter;
     for(iter = m_Cursor.begin(); iter != m_Cursor.end(); ++iter)
-    {    
+    {
         wxDELETE(*iter);
     }*/
 }
@@ -1016,7 +1016,7 @@ void wxGISQuadTree::Insert(wxGISSpatialTreeData* pData)
         return;
     if(!pData->GetGeometry().IsOk())
         return;
-	
+
     m_Envelope.Merge(pData->GetGeometry().GetEnvelope());
 	CPLQuadTreeInsert(m_pQuadTree, (void*)pData);
 	m_Cursor.push_back(pData);

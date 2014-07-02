@@ -3,7 +3,7 @@
  * Purpose:  parameter class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012 Dmitry Barishnikov
+*   Copyright (C) 2010,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -275,10 +275,10 @@ void wxGISGPParameter::SetSelDomainValue(int nNewSelection)
                     }
                 }
             }
-			break;        
+			break;
 		case enumGISGPParamDTUnknown:
 		default:
-			break;        
+			break;
 		}
 	}
 }
@@ -298,35 +298,35 @@ bool wxGISGPParameter::SetFromString(wxString &sParam)
     {
     case enumGISGPParamDTBool:
         m_Value = wxVariant((bool)(wxAtoi(sParam) == TRUE));
-        break;        
+        break;
 	case enumGISGPParamDTInteger:
 		m_Value = wxVariant(wxAtoi(sParam));
-        break;        
+        break;
 	case enumGISGPParamDTDouble:
 		m_Value = wxVariant(wxAtof(sParam));
-        break;        
+        break;
 	case enumGISGPParamDTText:
 	case enumGISGPParamDTSpatRef:
 	case enumGISGPParamDTPath:
 	case enumGISGPParamDTPathArray:
     case enumGISGPParamDTStringChoice:
         m_Value = wxVariant(sParam);
-        break;        
+        break;
 	case enumGISGPParamDTIntegerChoice:
         m_Value = wxVariant(wxAtoi(sParam));
-        break; 
-	case enumGISGPParamDTDoubleChoice:  
+        break;
+	case enumGISGPParamDTDoubleChoice:
         m_Value = wxVariant(wxAtof(sParam));
-        break; 
+        break;
     case enumGISGPParamDTStringList:
 	case enumGISGPParamDTIntegerList:
 	case enumGISGPParamDTDoubleList:
 		m_Value = wxStringTokenize(sParam, wxT(";"), wxTOKEN_RET_EMPTY);
-        break;        
+        break;
     case enumGISGPParamDTUnknown:
     default:
         m_Value = wxVariant(sParam);
-        break;        
+        break;
     }
 
 	if(m_pDomain)
@@ -420,7 +420,7 @@ size_t wxGISGPMultiParameter::GetRowCount(void) const
 
 void wxGISGPMultiParameter::AddParameter(size_t nColIndex, size_t nRowIndex, wxGISGPParameter* pParam)
 {
-	wxCHECK_RET(pParam, "the param should be not NULL"); 
+	wxCHECK_RET(pParam, "the param should be not NULL");
 	long nPos = nRowIndex * GetColumnCount() + nColIndex;
 	if(m_paParameters.GetCount() <= nPos)
 	{

@@ -3,7 +3,7 @@
  * Purpose:  wxGISTableView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2014 Dmitry Barishnikov
+*   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -121,7 +121,7 @@ bool wxGxTableView::Applies(wxGxSelection* const Selection)
 void wxGxTableView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
 	wxCHECK_RET(event.GetSelection(), wxT("the selection pointer is NULL"));
-    
+
     if(!Applies(event.GetSelection()))
         return;
 
@@ -143,7 +143,7 @@ void wxGxTableView::OnSelectionChanged(wxGxSelectionEvent& event)
         }
         return;
     }
-    	
+
     LoadData(nLastSelID);
 
     m_pEncodingsCombo->SetStringSelection(wxFontMapper::GetEncodingDescription(wxFONTENCODING_DEFAULT));
@@ -163,7 +163,7 @@ void wxGxTableView::LoadData(long nGxObjectId)
 	if(pGISTable == NULL)
 		return;
 
-	m_nParentGxObjectID = pGxObject->GetId();    
+	m_nParentGxObjectID = pGxObject->GetId();
 
     if (!pGISTable->IsOpened())
     {

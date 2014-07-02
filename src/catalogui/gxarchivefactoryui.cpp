@@ -3,7 +3,7 @@
  * Purpose:  wxGxArchiveFactoryUI class. Create new GxFolderUI objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013,2014 Dmitry Barishnikov
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ wxGxObject* wxGxArchiveFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
     {
         return NULL;
     }
-    
+
     wxGxArchiveUI* pFolder = new wxGxArchiveUI(pParent, soName, szPath, m_oLargeAFolderIcon, m_oSmallAFolderIcon);
 	return wxStaticCast(pFolder, wxGxObject);
 }

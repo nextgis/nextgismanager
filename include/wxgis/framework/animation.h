@@ -3,7 +3,7 @@
  * Purpose:  wxGISAnimation class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2012,2014 Dmitry Barishnikov
+*   Copyright (C) 2009,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "wx/imaglist.h"
 
 /** @class wxGISAnimation animation.h
-    
+
     The rotating globe animation class. The bitmap for animation may be any.
 
     @library{framework}

@@ -3,7 +3,7 @@
  * Purpose:  geoprocessing tool parameters domains.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Dmitry Barishnikov
+*   Copyright (C) 2009-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -38,8 +38,8 @@ class IGISGPDomainParent
 public:
     /** Destructor */
     virtual ~IGISGPDomainParent(void){};
-    /** 
-        Fires then value added to the domain 
+    /**
+        Fires then value added to the domain
         @param Value
             The added value to the domain
 

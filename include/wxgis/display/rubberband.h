@@ -3,7 +3,7 @@
  * Purpose:  wxGISRubberBand class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013,2014 Dmitry Barishnikov
+*   Copyright (C) 2009,2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 /** @class wxGISRubberBand
 
-    The class to drawing shape on window while mouse dragging. 
+    The class to drawing shape on window while mouse dragging.
 
     @library{display}
 */
@@ -69,7 +69,7 @@ private:
 
 /** @class wxGISRubberEnvelope
 
-    The class to drawing rectangle on window while mouse dragging. 
+    The class to drawing rectangle on window while mouse dragging.
     The class functionality uses in identify, ZoomIn and ZoomOut tools.
 
     @library{display}
@@ -197,7 +197,7 @@ public:
     virtual void OnMouseDoubleClick(wxMouseEvent& event);
 };
 
-#ifdef wxGIS_USE_SPLINE        
+#ifdef wxGIS_USE_SPLINE
 
 /** @class wxGISRubberSpline
 
@@ -215,5 +215,5 @@ public:
     virtual ~wxGISRubberSpline(void);
     virtual void OnMouseMove(wxMouseEvent& event);
 };
-#endif // wxGIS_USE_SPLINE        
+#endif // wxGIS_USE_SPLINE
 

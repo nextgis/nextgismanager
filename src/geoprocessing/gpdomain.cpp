@@ -3,7 +3,7 @@
  * Purpose:  geoprocessing tool parameters domains.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Dmitry Barishnikov
+*   Copyright (C) 2009-2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 IMPLEMENT_CLASS(wxGISGPValueDomain, wxObject)
 
-wxGISGPValueDomain::wxGISGPValueDomain(void) 
+wxGISGPValueDomain::wxGISGPValueDomain(void)
 {
 	m_bAltered = false;
     m_pDomParet = NULL;
@@ -48,18 +48,18 @@ void wxGISGPValueDomain::AddValue(const wxVariant& Element, const wxString &soNa
 
 size_t wxGISGPValueDomain::GetCount(void) const
 {
-	return m_asoData.size(); 
+	return m_asoData.size();
 }
 
 wxVariant wxGISGPValueDomain::GetValue(size_t nIndex) const
-{ 
+{
     wxCHECK_MSG(nIndex < m_asoData.size(), wxVariant(), wxT("The index is out of the domain value scope"));
-	return m_asoData[nIndex]; 
+	return m_asoData[nIndex];
 }
 
 wxString wxGISGPValueDomain::GetName(size_t nIndex) const
-{ 
-	return m_asoNames[nIndex]; 
+{
+	return m_asoNames[nIndex];
 }
 
 void wxGISGPValueDomain::Clear(void)
@@ -170,7 +170,7 @@ void wxGISGPStringDomain::AddString(const wxString &soStr, const wxString &soNam
 		AddValue(wxVariant(soStr), soName);
 }
 
-wxString wxGISGPStringDomain::GetString(size_t nIndex) const 
+wxString wxGISGPStringDomain::GetString(size_t nIndex) const
 {
 	return GetValue(nIndex).GetString();
 }

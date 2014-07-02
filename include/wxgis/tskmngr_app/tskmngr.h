@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Task manager class.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Dmitry Barishnikov
+*   Copyright (C) 2012-2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by

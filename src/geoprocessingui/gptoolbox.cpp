@@ -3,7 +3,7 @@
  * Purpose:  toolbox classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011 Dmitry Barishnikov
+*   Copyright (C) 2009-2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -502,7 +502,7 @@ bool wxGxTool::Invoke(wxWindow* pParentWnd)
 	{
         //error msg
 		wxMessageBox(wxString::Format(_("Error find %s tool!\nCannnot continue."), m_sInternalName.c_str()), _("Error"), wxICON_ERROR | wxOK );
-        return false; 
+        return false;
 	}
 
 	m_pRootToolbox->PrepareTool(pParentWnd, pTool, false);

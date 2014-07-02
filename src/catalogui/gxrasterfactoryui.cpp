@@ -3,7 +3,7 @@
  * Purpose:  wxGxRasterFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2013,2014 Dmitry Barishnikov
+*   Copyright (C) 2010,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icIMGLargeIcon = wxIcon(raster_img48_xpm);
         icLargeIcon = m_icIMGLargeIcon;
         icSmallIcon = m_icIMGSmallIcon;
-        break;    
+        break;
     case enumRasterJpeg:
         if(!m_icJPGSmallIcon.IsOk())
             m_icJPGSmallIcon = wxIcon(raster_16_xpm);
@@ -102,7 +102,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icJPGLargeIcon = wxIcon(raster_48_xpm);
         icLargeIcon = m_icJPGLargeIcon;
         icSmallIcon = m_icJPGSmallIcon;
-        break;     
+        break;
     case enumRasterPng:
         if(!m_icPNGSmallIcon.IsOk())
             m_icPNGSmallIcon = wxIcon(raster_png16_xpm);
@@ -110,7 +110,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icPNGLargeIcon = wxIcon(raster_png48_xpm);
         icLargeIcon = m_icPNGLargeIcon;
         icSmallIcon = m_icPNGSmallIcon;
-        break;     
+        break;
     case enumRasterGif:
         if(!m_icGIFSmallIcon.IsOk())
             m_icGIFSmallIcon = wxIcon(raster_gif16_xpm);
@@ -118,7 +118,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icGIFLargeIcon = wxIcon(raster_gif48_xpm);
         icLargeIcon = m_icGIFLargeIcon;
         icSmallIcon = m_icGIFSmallIcon;
-        break;  
+        break;
     case enumRasterSAGA:
         if(!m_icSAGASmallIcon.IsOk())
             m_icSAGASmallIcon = wxIcon(raster_saga16_xpm);
@@ -126,7 +126,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icSAGALargeIcon = wxIcon(raster_saga48_xpm);
         icLargeIcon = m_icSAGALargeIcon;
         icSmallIcon = m_icSAGASmallIcon;
-        break;  
+        break;
     case enumRasterVRT:
         if(!m_icVRTSmallIcon.IsOk())
             m_icVRTSmallIcon = wxIcon(raster_vrt16_xpm);
@@ -134,7 +134,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icVRTLargeIcon = wxIcon(raster_vrt48_xpm);
         icLargeIcon = m_icVRTLargeIcon;
         icSmallIcon = m_icVRTSmallIcon;
-        break;  
+        break;
     default:
         if(!m_icSmallIcon.IsOk())
             m_icSmallIcon = wxIcon(raster_unk16_xpm);
@@ -142,7 +142,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icLargeIcon = wxIcon(raster_unk48_xpm);
         icLargeIcon = m_icLargeIcon;
         icSmallIcon = m_icSmallIcon;
-        break;    
+        break;
     };
 
     wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);

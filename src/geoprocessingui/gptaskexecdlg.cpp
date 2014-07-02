@@ -3,7 +3,7 @@
  * Purpose:  wxGxTaskExecDlg class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011 Dmitry Barishnikov
+*   Copyright (C) 2009-2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ wxGxTaskExecDlg::wxGxTaskExecDlg(wxGISGPToolManager* pToolManager, wxWindow* par
     m_bpCloseButton->SetToolTip(_("Cancel"));
     fgSizer1->Add( m_bpCloseButton, 0, wxALL, 5 );
 
-    m_bMainSizer->Add(fgSizer1, 0 ,wxEXPAND | wxLEFT | wxRIGHT, 5);// | wxBOTTOM 
+    m_bMainSizer->Add(fgSizer1, 0 ,wxEXPAND | wxLEFT | wxRIGHT, 5);// | wxBOTTOM
 
     m_Text = new wxStaticText(this, wxID_ANY, wxEmptyString);
     m_Text->Wrap( -1 );
@@ -174,7 +174,7 @@ void wxGxTaskExecDlg::FillHtmlWindow()
         sText += wxString(wxT("<br>"));
     }
     sText += wxString(wxT("</body></html>"));
-    m_pHtmlWindow->SetPage(sText);//bool bTest = 
+    m_pHtmlWindow->SetPage(sText);//bool bTest =
     m_pHtmlWindow->Scroll(-1, 5000);
 }
 
@@ -404,7 +404,7 @@ wxDateTime wxGxTaskObject::GetFinish()
 
 wxString wxGxTaskObject::GetLastMessage()
 {
-    if(m_MessageArray.size())    
+    if(m_MessageArray.size())
         return m_MessageArray[m_MessageArray.size() - 1].sMessage;
     else
         return wxEmptyString;

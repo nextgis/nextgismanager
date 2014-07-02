@@ -3,7 +3,7 @@
  * Purpose:  wxGxFolderFactoryUI class. Create new GxFolderUI objects
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2014 Dmitry Barishnikov
+*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by

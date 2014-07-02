@@ -3,7 +3,7 @@
  * Purpose:  vector operations.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011-2013 Dmitry Barishnikov
+*   Copyright (C) 2011-2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ void SetEnvelopeRatio(OGREnvelope &Env, double dRatio)
 	if(IsDoubleEquil(dRatio, dEnvRatio))
 		return;
 
-	//if(dEnvRatio <= 1.0 && dRatio > 1.0) || (dEnvRatio > 1.0 && dRatio < 1.0))	
+	//if(dEnvRatio <= 1.0 && dRatio > 1.0) || (dEnvRatio > 1.0 && dRatio < 1.0))
 	if(dRatio > dEnvRatio) //increase width
 	{
 		dWidth = dHeight * dRatio;

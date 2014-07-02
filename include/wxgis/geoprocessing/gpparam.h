@@ -3,7 +3,7 @@
  * Purpose:  parameter class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012 Dmitry Barishnikov
+*   Copyright (C) 2010,2012 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class WXDLLIMPEXP_GIS_GP wxGISGPParamEvent : public wxEvent
 {
 public:
     wxGISGPParamEvent(int nId = wxID_ANY, wxEventType eventType = wxGPPARAM_CHANGED, const wxVariant &Value = wxNullVariant, const wxString &sName = wxEmptyString ) : wxEvent(nId, eventType)
-	{		
+	{
 		m_Value = Value;
 		m_sName = sName;
 	}
@@ -79,7 +79,7 @@ typedef void (wxEvtHandler::*wxGISGPParamEventFunction)(wxGISGPParamEvent&);
 /** \class wxGISGPParameter gpparam.h
  *  \brief A Geoprocessing tools parameter class.
  */
-class WXDLLIMPEXP_GIS_GP wxGISGPParameter : 
+class WXDLLIMPEXP_GIS_GP wxGISGPParameter :
     public wxEvtHandler,
     public wxGISConnectionPointContainer,
     public IGISGPDomainParent
@@ -118,12 +118,12 @@ public:
     /** \fn wxString GetAsString(void)
      *  \brief Serialize parameter to string.
      *  \return The string representation of parameter
-     */	
+     */
 	virtual wxString GetAsString(void) const;
     /** \fn void SetFromString(wxString)
      *  \brief Serialize parameter from string.
      *  \param sParam The string representation of parameter
-     */	
+     */
     virtual bool SetFromString(wxString &sParam);
 	virtual int GetSelDomainValue(void) const;
 	virtual void SetSelDomainValue(int nNewSelection);
@@ -159,7 +159,7 @@ WX_DEFINE_USER_EXPORTED_ARRAY(wxGISGPParameter*, wxGISGPParamArray, class WXDLLI
 
 class WXDLLIMPEXP_GIS_GP wxGISGPParameterArray : public wxGISGPParamArray
 {
-public:    
+public:
     void Add (wxGISGPParameter * item)
     {
         wxGISGPParamArray::Add(item, 1);

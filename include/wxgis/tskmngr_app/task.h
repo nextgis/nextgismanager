@@ -1,9 +1,9 @@
 /******************************************************************************
  * Project:  wxGIS (Task Manager)
  * Purpose:  Task and TaskCategoryList classes.
- * Author:   Dmitry Barishnikov (aka Bishop), polimax@mail.ru
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2014 Dmitry Barishnikov
+*   Copyright (C) 2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ WX_DECLARE_HASH_MAP( int, wxGISTaskBase*, wxIntegerHash, wxIntegerEqual, wxGISTa
     @library{gp}
 */
 
-class wxGISTaskBase : 
+class wxGISTaskBase :
     public wxObject
 {
     DECLARE_ABSTRACT_CLASS(wxGISTaskBase)
@@ -92,8 +92,8 @@ WX_DEFINE_ARRAY(wxGISTask *, wxGISQueredTasksArray);
     @library{gp}
 */
 
-class wxGISTask : 
-    public wxGISTaskBase,    
+class wxGISTask :
+    public wxGISTaskBase,
     public wxGISProcess
 {
     DECLARE_CLASS(wxGISTask)
@@ -126,7 +126,7 @@ public:
     virtual long Execute(void);
     virtual bool IsGroupIdExecuting(int nGroupId) const;
     virtual void AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData);
-    
+
     virtual void UpdatePercent(const wxString &sPercentData);
     //virtual void SetPriority(long nNewPriority);
     //virtual long GetPriority(void) const {return m_nPriority;};
@@ -146,7 +146,7 @@ public:
 protected:
     virtual wxJSONValue GetStoreConfig(void);
 protected:
-    wxString m_sDescription;    
+    wxString m_sDescription;
     int m_nGroupId;
     wxULongLong m_nVolume;//value in, eg. bytes
     wxString m_sExecPath;
@@ -164,7 +164,7 @@ protected:
     @libray{gp}
 */
 
-class wxGISTaskCategory : 
+class wxGISTaskCategory :
     public wxGISTaskBase
 {
     DECLARE_CLASS(wxGISTaskCategory)

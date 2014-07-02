@@ -3,7 +3,7 @@
  * Purpose:  Various Spatial Tree classes
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Barishnikov
+*   Copyright (C) 2011,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 class wxGISFeatureDataset;
 
 /** @class wxGISSpatialTreeData
-    
+
     The data included geography and feature identificator (FID) stored in spatial tree.
 
     @library{datasource}
@@ -46,7 +46,7 @@ public:
     virtual wxGISSpatialTreeData* Clone() const;
 protected:
     wxGISGeometry m_Geom;
-    long m_nFID;    
+    long m_nFID;
 };
 
 WX_DEFINE_ARRAY_WITH_DECL_PTR(wxGISSpatialTreeData*, wxGISSpatialTreeCursor, class WXDLLIMPEXP_GIS_DS);
@@ -54,7 +54,7 @@ WX_DEFINE_ARRAY_WITH_DECL_PTR(wxGISSpatialTreeData*, wxGISSpatialTreeCursor, cla
 extern WXDLLIMPEXP_DATA_GIS_DS(wxGISSpatialTreeCursor) wxNullSpatialTreeCursor;
 
 /** @class wxGISSpatialTree
-    
+
     A abstract class for spatial tree implementations.
 
     @library{datasource}
@@ -73,7 +73,7 @@ public:
     virtual void Remove(long nFID) = 0;
     virtual void RemoveAll(void) = 0;
     virtual void Change(const wxGISGeometry &Geom, long nFID);
-    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& env) = 0;  
+    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& env) = 0;
     virtual void Insert(wxGISSpatialTreeData* pData) = 0;
     virtual bool HasFID(long nFID) const = 0;
 protected:
@@ -92,7 +92,7 @@ protected:
 };
 
 /** @fn wxGISSpatialTree* CreateSpatialTree(void)
-    
+
     Global function to create spatial tree. The caller need to delete returned pointer themselthes.
 
     @library{datasource}
@@ -105,7 +105,7 @@ WXDLLIMPEXP_GIS_DS wxGISSpatialTree* CreateSpatialTree(wxGISFeatureDataset *pDS)
 #define RTREE_CHOOSE_SUBTREE_P 32
 
 /** @class wxGISRTreeNode
-    
+
     The node for storing other nodes or geodata.
 
     @library{datasource}
@@ -114,7 +114,7 @@ WXDLLIMPEXP_GIS_DS wxGISSpatialTree* CreateSpatialTree(wxGISFeatureDataset *pDS)
 class wxGISRTreeNode
 {
     friend class wxGISRTree;
-    
+
     enum enumChooseSubteeType{
         PARTIAL_SORT = 1,
         SORT_ENV = 2,
@@ -123,17 +123,17 @@ class wxGISRTreeNode
 public:
     wxGISRTreeNode(unsigned short nMinChildItems = 32, unsigned short nMaxChildItems = 64, wxGISSpatialTreeData *pData = NULL);
     ~wxGISRTreeNode();
-    
+
     wxGISSpatialTreeData* GetData() const;
-    
+
     typedef struct _split_dir{
         int split_margin;
         size_t split_edge;
         size_t split_index;
     } SPLIT_DIR;
-protected:  
-    void Search(wxGISSpatialTreeCursor &Cursor, const OGREnvelope& env); 
-    void GetAll(wxGISSpatialTreeCursor &Cursor); 
+protected:
+    void Search(wxGISSpatialTreeCursor &Cursor, const OGREnvelope& env);
+    void GetAll(wxGISSpatialTreeCursor &Cursor);
     bool Remove(long nFID);
     bool HasFID(long nFID) const;
     double GetArea() const;
@@ -159,7 +159,7 @@ protected:
             m_dfArea = fabs((Env.MaxX - Env.MinX) * (Env.MaxY - Env.MinY));
         }
 
-	    bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const 
+	    bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const
 	    {
 		    return m_dfArea - n1->GetArea() < m_dfArea - n2->GetArea();
 	    }
@@ -167,10 +167,10 @@ protected:
 
     struct SortBoundedItemsByOverlapEnlargement : public std::binary_function< const wxGISRTreeNode * const, const wxGISRTreeNode * const, bool >
     {
-        const OGREnvelope m_Env; 
+        const OGREnvelope m_Env;
         explicit SortBoundedItemsByOverlapEnlargement(const OGREnvelope &Env) : m_Env(Env) {}
 
-	    bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const 
+	    bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const
 	    {
             OGREnvelope IntersectEnv = n1->GetBounds();
             IntersectEnv.Intersect(m_Env);
@@ -178,11 +178,11 @@ protected:
             IntersectEnv = n2->GetBounds();
             IntersectEnv.Intersect(m_Env);
             double dfArea2 = fabs((IntersectEnv.MaxX - IntersectEnv.MinX) * (IntersectEnv.MaxY - IntersectEnv.MinY));
-            
+
 		    return dfArea1 < dfArea2;
 	    }
     };
-    
+
     struct SortBoundedItemsByDistanceFromCenter : public std::binary_function< const wxGISRTreeNode * const, const wxGISRTreeNode * const, bool >
     {
         double dfX, dfY;
@@ -192,30 +192,30 @@ protected:
             dfY = (Env.MaxY - Env.MinY) / 2;
         }
 
-        bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const 
+        bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const
         {
             OGREnvelope OtherEnv = n1->GetBounds();
             double dfXO, dfYO;
             dfXO = (OtherEnv.MaxX - OtherEnv.MinX) / 2;
             dfYO = (OtherEnv.MaxY - OtherEnv.MinY) / 2;
             double dfDist1 = /*std::sqrt*/((dfX - dfXO) * (dfX - dfXO) + (dfY - dfYO) * (dfY - dfYO));
-            
+
             OtherEnv = n2->GetBounds();
             dfXO = (OtherEnv.MaxX - OtherEnv.MinX) / 2;
             dfYO = (OtherEnv.MaxY - OtherEnv.MinY) / 2;
-            double dfDist2 = /*std::sqrt*/((dfX - dfXO) * (dfX - dfXO) + (dfY - dfYO) * (dfY - dfYO));       
-            
+            double dfDist2 = /*std::sqrt*/((dfX - dfXO) * (dfX - dfXO) + (dfY - dfYO) * (dfY - dfYO));
+
             return dfDist1 < dfDist2;
         }
     };
-    
+
     struct SortBoundedItemsByEdge : public std::binary_function< const wxGISRTreeNode * const, const wxGISRTreeNode * const, bool >
     {
         const bool m_bIsX;
         const bool m_bIsMin;
         explicit SortBoundedItemsByEdge (const bool bIsX, const bool bIsMin) : m_bIsX(bIsX), m_bIsMin(bIsMin) {}
-        
-        bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const 
+
+        bool operator() (const wxGISRTreeNode * const n1, const wxGISRTreeNode * const n2) const
         {
             OGREnvelope Env1 = n1->GetBounds();
             OGREnvelope Env2 = n2->GetBounds();
@@ -243,7 +243,7 @@ protected:
             }
         }
     };
-    
+
 protected:
     unsigned short m_nMinChildItems, m_nMaxChildItems;
     OGREnvelope m_Env;
@@ -254,7 +254,7 @@ protected:
 };
 
 /** @class wxGISRTree
-    
+
     The wxGIS R-Tree implementation. R-trees are tree data structures used for spatial access methods, i.e., for indexing multi-dimensional information such as geographical coordinates, rectangles or polygons. The R-tree was proposed by Antonin Guttman in 1984 and has found significant use in both theoretical and applied contexts.
 
     @library{datasource}
@@ -267,7 +267,7 @@ public:
 	virtual ~wxGISRTree(void);
     virtual void Remove(long nFID);
     virtual void RemoveAll(void);
-    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& env);    
+    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& env);
     virtual void Insert( wxGISSpatialTreeData* pData);
     virtual bool HasFID(long nFID) const;
 protected:
@@ -301,10 +301,10 @@ public:
 	virtual ~wxGISQuadTree(void);
     virtual void Remove(long nFID);
     virtual void RemoveAll(void);
-    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& Env);  
+    virtual wxGISSpatialTreeCursor Search(const OGREnvelope& Env);
     virtual void Insert(wxGISSpatialTreeData* pData);
     virtual bool HasFID(long nFID) const;
-protected:    
+protected:
     void CreateQuadTree();
     void DestroyQuadTree();
 protected:

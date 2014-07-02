@@ -3,7 +3,7 @@
  * Purpose:  wxGISSpatialReferencePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Dmitry Barishnikov
+*   Copyright (C) 2010,2012,2013 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage : 
+class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage :
     public wxPanel
 {
     DECLARE_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage)

@@ -3,7 +3,7 @@
  * Purpose:  Filter classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011 Dmitry Barishnikov
+*   Copyright (C) 2011 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ wxGISQueryFilter wxGISNullQueryFilter;
 wxGISQueryFilter::wxGISQueryFilter(void)
 {
 }
-    
+
 wxGISQueryFilter::wxGISQueryFilter(const wxString &sWhereClause)
 {
 	m_sWhereClause = sWhereClause;
@@ -47,7 +47,7 @@ void wxGISQueryFilter::SetWhereClause(wxString sWhereClause)
 {
 	m_sWhereClause = sWhereClause;
 }
-    
+
 wxString wxGISQueryFilter::GetWhereClause(void) const
 {
 	return m_sWhereClause;
@@ -68,7 +68,7 @@ wxGISSpatialFilter::wxGISSpatialFilter(const wxGISGeometry &Geom, const wxString
 {
 	m_Geom = Geom;
 }
-	
+
 wxGISSpatialFilter::wxGISSpatialFilter() : wxGISQueryFilter()
 {
 }
@@ -109,7 +109,7 @@ void wxGISSpatialFilter::SetGeometry(const wxGISGeometry &Geom)
 {
 	m_Geom = Geom;
 }
-	
+
 OGREnvelope wxGISSpatialFilter::GetEnvelope(void)
 {
 	if(m_Geom.IsOk())
@@ -121,7 +121,7 @@ OGREnvelope wxGISSpatialFilter::GetEnvelope(void)
 		return OGREnvelope();
     }
 }
-	
+
 wxGISGeometry wxGISSpatialFilter::GetGeometry(void) const
 {
 	return m_Geom;
