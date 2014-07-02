@@ -485,7 +485,7 @@ void wxGISApplication::OnAppOptions(void)
     {
  		wxString sClass = pPropPageNode->GetAttribute(wxT("class"), ERR);
 	    wxObject *obj = wxCreateDynamicObject(sClass);
-		IPropertyPage *pPage = wxStaticCast(obj, IPropertyPage);//static_cast<IPropertyPage*>(obj);
+		IPropertyPage *pPage = wxDynamicCast(obj, IPropertyPage);
 		if(pPage != NULL)
 		{
             if(pPage->Create(this, PropertySheetDialog.GetBookCtrl(), wxID_ANY))
@@ -505,7 +505,7 @@ void wxGISApplication::OnAppOptions(void)
         //apply changes and exit
         for(size_t i = 0; i < PropertySheetDialog.GetBookCtrl()->GetPageCount(); ++i)
         {
-            IPropertyPage *pPage = dynamic_cast<IPropertyPage*>(PropertySheetDialog.GetBookCtrl()->GetPage(i));// wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);//
+            IPropertyPage *pPage = wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);// dynamic_cast<IPropertyPage*>(PropertySheetDialog.GetBookCtrl()->GetPage(i));//
             if(pPage)
                 pPage->Apply();
         }

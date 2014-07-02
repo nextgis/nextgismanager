@@ -24,7 +24,7 @@
 // wxGISCatalogGeneralPropertyPage
 //-------------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISCatalogGeneralPropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISCatalogGeneralPropertyPage, IPropertyPage)
 
 wxGISCatalogGeneralPropertyPage::wxGISCatalogGeneralPropertyPage(void) : m_pCatalog(NULL)
 {
@@ -47,7 +47,7 @@ bool wxGISCatalogGeneralPropertyPage::Create(wxGISApplicationBase* application, 
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
 
     wxStaticBoxSizer* sbRootSizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("What top level entries do you want the Catalog to contain?") ), wxVERTICAL );
-	
+
     //fill root items
     m_pRootItems = new wxGISCheckList( this, ID_ROOTLISTCTRL);
     //fill code
@@ -62,7 +62,7 @@ bool wxGISCatalogGeneralPropertyPage::Create(wxGISApplicationBase* application, 
 	sbRootSizer->Add( m_pRootItems, 1, wxALL | wxEXPAND, 5 );
 
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
-	
+
 	m_button3 = new wxButton( this, wxID_ANY, _("Properties"), wxDefaultPosition, wxDefaultSize, 0 );
     m_button3->Enable(false);
 	bSizer1->Add( m_button3, 0, wxALL | wxALIGN_RIGHT, 5 );
@@ -74,7 +74,7 @@ bool wxGISCatalogGeneralPropertyPage::Create(wxGISApplicationBase* application, 
     //===================================================================
 
     wxStaticBoxSizer* sbFactorySizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Which types of data do you want the Catalog to show?") ), wxVERTICAL );
-	
+
     //fill factories
 
     m_pFactoryItems = new wxGISCheckList( this, ID_FACTORYLISTCTRL);
@@ -89,32 +89,32 @@ bool wxGISCatalogGeneralPropertyPage::Create(wxGISApplicationBase* application, 
     }
 
     sbFactorySizer->Add( m_pFactoryItems, 1, wxALL | wxEXPAND, 5 );
-	
+
 	wxBoxSizer* bSizer2 = new wxBoxSizer( wxVERTICAL );
-	
+
 	m_button2 = new wxButton( this, wxID_ANY, _("Properties"), wxDefaultPosition, wxDefaultSize, 0 );
     m_button2->Enable(false);
 	bSizer2->Add( m_button2, 0, wxALL | wxALIGN_RIGHT, 5 );
-	
+
 	sbFactorySizer->Add( bSizer2, 0, wxALL | wxEXPAND, 5 );
-	
+
 	bMainSizer->Add( sbFactorySizer, 1, wxALL | wxEXPAND, 5 );
-	
+
 	m_checkBoxHideExt = new wxCheckBox( this, wxID_ANY, _("Hide file extensions"), wxDefaultPosition, wxDefaultSize, 0 );
     m_checkBoxHideExt->SetValue(!m_pCatalog->GetShowExt());
-	
+
 	bMainSizer->Add( m_checkBoxHideExt, 0, wxALL, 5 );
-	
+
 	m_checkBoxLast = new wxCheckBox( this, wxID_ANY, _("Return to last location when wxGISCatalog start up"), wxDefaultPosition, wxDefaultSize, 0 );
     m_checkBoxLast->SetValue(m_pCatalog->GetOpenLastPath());
-	
+
 	bMainSizer->Add( m_checkBoxLast, 0, wxALL, 5 );
-	
+
 	m_checkBoxHidden = new wxCheckBox( this, wxID_ANY, _("Show hidden items"), wxDefaultPosition, wxDefaultSize, 0 );
     m_checkBoxHidden->SetValue(m_pCatalog->GetShowHidden());
-	
+
 	bMainSizer->Add( m_checkBoxHidden, 0, wxALL, 5 );
-	
+
     this->SetSizerAndFit(bMainSizer);
 	this->Layout();
 
