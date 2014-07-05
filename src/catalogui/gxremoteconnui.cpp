@@ -552,6 +552,16 @@ void wxGxRemoteDBSchemaUI::OnThreadFinished(wxThreadEvent& event)
     }
 }
 
+bool wxGxRemoteDBSchemaUI::Delete(void)
+{
+    if(m_sName == wxT("public"))
+    {
+       wxMessageBox(_("Deletion of the public scheme is not supported!"), _("Error"), wxICON_ERROR | wxOK);
+       return false;
+    }
+    return wxGxRemoteDBSchema::Delete();
+}
+
 #endif //wxGIS_USE_POSTGRES
 
 //--------------------------------------------------------------

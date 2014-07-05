@@ -27,7 +27,7 @@
 #ifdef wxGIS_USE_POSTGRES
 
 /** @class wxGxRemoteConnectionUI
-    
+
     A Remote Connection GxObjectUI.
 
     @library {catalogui}
@@ -75,7 +75,7 @@ protected:
 };
 
 /** @class wxGxRemoteDBSchemaUI
-    
+
     A Remote Database schema GxObjectUI.
 
     @library {catalogui}
@@ -97,6 +97,8 @@ public:
 	virtual ~wxGxRemoteDBSchemaUI(void);
     //wxGxObjectContainer
     virtual bool HasChildren(void);
+    //IGxObjectEdit
+    virtual bool Delete(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
@@ -124,7 +126,7 @@ protected:
 #endif // wxGIS_USE_POSTGRES
 
 /** @class wxGxTMSWebServiceUI
-    
+
     A Tile Map Service GxObjectUI.
 
     @library {catalogui}
@@ -152,7 +154,7 @@ protected:
 };
 
 /** @class wxGxNGWServiceUI
-    
+
     A NextGIS Web Service GxObjectUI.
 
     @library {catalogui}
