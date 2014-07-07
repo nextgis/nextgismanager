@@ -59,6 +59,7 @@ wxGxPathsListView::wxGxPathsListView(wxWindow* parent, wxWindowID id, const wxPo
 
 wxGxPathsListView::~wxGxPathsListView(void)
 {
+    Deactivate();
     for(long i = 0; i < GetItemCount(); ++i)
     {
 		delete (LPITEMDATA)GetItemData(i);
@@ -206,7 +207,10 @@ void wxGxPathsListView::Append(const wxString& sFullName)
 void wxGxPathsListView::Deactivate(void)
 {
     if (m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+    {
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
+        m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+    }
 }
 
 int wxGxPathsListView::GetIconPos(const wxIcon &icon_small)
