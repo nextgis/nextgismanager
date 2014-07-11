@@ -128,8 +128,9 @@ void wxGISProgressDlg::SetRange(int range)
 #endif
 
 #ifdef wxGIS_HAVE_UNITY_INTEGRATION
-    if(m_pLauncher)
+    if (m_pLauncher)
     {
+        unity_launcher_entry_set_progress(m_pLauncher, 0.0);
         unity_launcher_entry_set_progress_visible(m_pLauncher, true);
     }
 #endif // wxGIS_HAVE_UNITY_INTEGRATION
@@ -209,9 +210,6 @@ void wxGISProgressDlg::SetValue(int value)
         return;
     }
 
-//    if (nDone % 1 != 0)
-//        return;
-
 #ifdef __WXMSW__
     wxFrame *pMainFrame = dynamic_cast<wxFrame *>(GetApplication());
     if (pMainFrame && m_pTaskbarList)
@@ -221,19 +219,22 @@ void wxGISProgressDlg::SetValue(int value)
 #ifdef wxGIS_HAVE_UNITY_INTEGRATION
     if (m_pLauncher)
     {
+        dfDone = double(nDone) / 100;
         unity_launcher_entry_set_progress(m_pLauncher, dfDone);
-        unity_launcher_entry_set_progress_visible(m_pLauncher, true);
+        unity_launcher_entry_set_progress_visible(m_pLauncher, dfDone > 0.0 && dfDone < 1.0);
     }
 #endif // wxGIS_HAVE_UNITY_INTEGRATION
 
-    long dMSec = double(Elapsed.GetMilliseconds().ToDouble() * dfToDo) / dfDone;
-    wxTimeSpan Remains = wxTimeSpan(0, 0, 0, dMSec);
-
-    if (NULL != m_staticElapsedText)
+    if(dfDone != 0)
     {
-        m_staticElapsedText->SetLabel(_("Remaining time:") + wxT(" ") + Remains.Format());
-    }
+        long dMSec = double(Elapsed.GetMilliseconds().ToDouble() * dfToDo) / dfDone;
+        wxTimeSpan Remains = wxTimeSpan(0, 0, 0, dMSec);
 
+        if (NULL != m_staticElapsedText && dMSec > 0)
+        {
+            m_staticElapsedText->SetLabel(_("Remaining time:") + wxT(" ") + Remains.Format());
+        }
+    }
 }
 
 void wxGISProgressDlg::Cancel(void)

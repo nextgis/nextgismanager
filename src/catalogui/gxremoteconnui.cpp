@@ -233,6 +233,8 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
     wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
     wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
 
+    wxBusyCursor wait;
+
     for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
     {
         wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
@@ -244,10 +246,20 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                 wxBusyCursor wait;
                 if (CreateSchema(pGxObject->GetName()))
                 {
-                    //copy input schema childrens
+                    //copy input schema children
                     wxGxObjectContainer* pCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
-                    if (!pCont ||!pCont->HasChildren())
+                    if (!pCont)
                         continue;
+
+                    //lets load some tables
+                    pCont->HasChildren();
+                    wxSleep(5);
+
+                    if(!pCont->HasChildren())
+                    {
+                        continue;
+                    }
+
                     const wxGxObjectList lObj = pCont->GetChildren();
                     for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
                     {
@@ -301,7 +313,10 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                 }
                 else
                 {
-                    //tru to create another schema
+                    //try to create another schema
+
+                    wxMessageBox(wxString::Format(_("Create schema failed\n GDAL error: %s"), wxString::FromUTF8(CPLGetLastErrorMsg())), _("Error"), wxOK | wxICON_ERROR);
+
                     continue;
                 }
             }

@@ -564,6 +564,8 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
         for (size_t j = 0; j < apFeatureDatasets.size(); ++j)
         {
+            if(!ProgressDlg.Continue())
+                break;
             if (!apFeatureDatasets[j]->IsOpened())
             {
                 if (!apFeatureDatasets[j]->Open(0, TRUE, false, &ProgressDlg))

@@ -31,7 +31,7 @@
     \brief The base class for catalog items
 */
 
-class WXDLLIMPEXP_GIS_CLT wxGxObject : 
+class WXDLLIMPEXP_GIS_CLT wxGxObject :
     public wxEvtHandler
 {
     wxDECLARE_ABSTRACT_CLASS(wxGxObject);
@@ -47,14 +47,14 @@ public:
     virtual void SetName(const wxString &soName);
     virtual void SetPath(const CPLString &soPath);
     //the GxObject name without extension
-	virtual wxString GetBaseName(void) const; 
+	virtual wxString GetBaseName(void) const;
     virtual wxString GetFullName(void) const;
     virtual wxString GetCategory(void) const;
     virtual wxGxObject *GetParent(void) const;
     virtual void Refresh(void);
 	virtual long GetId(void) const {return m_nId;};
 	virtual void SetId(long nId){m_nId = nId;};
-    virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);  //search by Path stored in CPLString sPath 
+    virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);  //search by Path stored in CPLString sPath
     virtual wxGxObject *FindGxObject(const wxString &sPath);        //search by Name stored in wxString sName
 protected:
     wxString m_sName;
@@ -65,8 +65,11 @@ protected:
 
 WX_DECLARE_LIST_2(wxGxObject, wxGxObjectList, wxGxObjectListNode, class WXDLLIMPEXP_GIS_CLT);
 
-/** \class wxGxObjectContainer catalog.h
-    \brief A GxObject with children GxObjects.
+/** @class wxGxObjectContainer catalog.h
+
+    A GxObject with children GxObjects.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxObjectContainer : public wxGxObject
@@ -145,14 +148,14 @@ protected:
 
 /** \fn wxGxCatalogBase * const GetGxCatalogBase(void)
  *  \brief Global GxCatalog getter.
- */	
+ */
 
 WXDLLIMPEXP_GIS_CLT wxGxCatalogBase* const GetGxCatalog(void);
 
 /** \fn void SetGxCatalog(wxGxCatalogBase* pCat)
     \brief Global Catalog setter.
 	\param pCat The Catalog pointer.
- */	
+ */
 
 WXDLLIMPEXP_GIS_CLT void SetGxCatalog(wxGxCatalogBase* pCat);
 
