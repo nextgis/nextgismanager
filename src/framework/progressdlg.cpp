@@ -195,14 +195,16 @@ void wxGISProgressDlg::SetValue(int value)
         m_pProgressBar->SetValue(value);
     }
 
-    wxTheApp->Yield(true);
-
     wxTimeSpan Elapsed = wxDateTime::Now() - m_dtStart;
     double dfDone = double(value) / nRange;
     double dfToDo = 1.0 - dfDone;
     int nDone = dfDone * 100;
     if (m_nPrevDone == nDone)
         return;
+
+    if(nDone % 10)
+        wxTheApp->Yield(true);
+
     m_nPrevDone = nDone;
     if (nDone == 0)
     {
@@ -298,8 +300,6 @@ void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGIS
             m_staticText->SetLabel(m_sLastMessage);
         }
     }
-
-    //Fit();
 
     wxTheApp->Yield(true);
 }

@@ -801,7 +801,12 @@ wxFontEncoding wxGISTable::GetEncoding(void) const
 
 void wxGISTable::SetEncoding(const wxFontEncoding &oEncoding)
 {
-    if (m_nSubType == enumTableDBF)
+    if(oEncoding == wxFONTENCODING_DEFAULT)
+    {
+        m_bRecodeToSystem = false;
+        return SetInternalValues();
+    }
+    else if (m_nSubType == enumTableDBF)
     {
         wxString sEnc = wxLocale::GetSystemEncodingName();
         const char* sz_enc = sEnc.mb_str();
