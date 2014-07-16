@@ -1,0 +1,114 @@
+Whats new v.0.4.1
+1. Add support of CMake
+2. Upgrade to GDAL 1.9.0
+3. Upgrade to GEOS 3.3.2
+4. Upgrade to Proj 4.8
+5. Add support OrbView-3 orthorectify and metadata
+6. While orthorectify set NoData for init image
+7. Fix error of viewing an image with NoData in map window
+8. In identify window the click selected feature makes it flash
+9. Fix error starting wxGIS under WindowsXP Pro SP3. Initialisiation error "0xc0150002". (#7)
+
+Whats new v.0.4.0
+1. Upgrade to wxWidgets 2.9.2
+2. Upgrade to GEOS 3.3.1
+3. Move to VC 2010
+4. All icons are from Tango icon set or redrawn same way
+5. Add new way to create windows in plug-ins
+6. Add smart pointers for data sources
+7. Change configs locations
+8. Change password crypt via OpenSSL
+9. Used wxHashMap, wxHashSet, wxHashTable in configs
+10. Create config singleton accessible from any part of program
+11. Used standard progress bar
+12. Used standard dialogs
+13. Optimize icons using
+14. Fix config error of toolbar panel
+15. Fix GxSelection - now using indexes
+16. Fix rename via F2 in tree of open file/folder dialog
+17. Add CSV format support
+18. Add PostGIS format support
+19. Add SAGA Raster format support
+20. Add Mapinfo tab without geometry support
+21. Add create world file command
+22. Fix table API
+23. Fix raster API
+24. Fix vector API
+25. Fix processing of double extensions (eg., *.metadata.xml)
+26. Change map rendering via Cairo lib
+27. Fix map rendering on big scales
+28. Add rendering with invalid rect
+29. Add palleted rasters support
+30. Add histogram stretch raster rendering
+31. Add map rotation tools
+32. Add identify tool
+33. Add support wxInfoBar in tool dialog
+34. Fix console window shown in windows via geotools execution
+35. Fix error - no geotools in ToolboxView
+36. Fix error - folder not created in select file dialog
+37. Fix error - no previous navigation in select file dialog
+38. Fix error - if GxObject not expanded while folder creation it name became editable, not new folder
+39. Fix export error for dxf to shp
+40. Add geotool dialog control - value list
+41. Add new parameters to BuildOverviews geotool
+42. Add new tool to calculate field min, max, mean, sum values
+43. Add new tool to write feature coordinates to text file
+44. Add support of name and descript values in default export to kml tool
+45. Fix rewrite geotool parameters error
+46. Add start/stop geotool execution commands
+47. Fix parallel geotools execution error
+48. Add possibility of using main catalog GxObject Fabrics
+49. Fix translation errors
+
+Whats new v.0.3.0 
+1. ADD rename command (can be set short key, F2 for default)
+2. ADD delete confirm dialog
+3. CHANGE icon set to GPL Tango
+4. CHANGE views plugin create procedure
+5. ADD root item folder connections, connections move to separate xml file
+6. MOVE UI classes from catalog lib to catalogui lib
+7. CHANGE base libraries now - GDAL 1.8.0
+8. ADD create folder command
+9. ADD sub menu "New"
+10. ADD item properties dialog
+11. ADD catalog options dialog
+12. MOVE geoprocessing to the separate executable
+13. ADD geoprocessing execution view
+14. ADD wxGIS install process configurator 
+15. ADD KMZ format support
+16. ADD Drag-n-drop support for files (folders and other items are not support yet)
+17. ADD Copy-paste support for files (folders and other items are not support yet)
+18. ADD GxCatalog item "Recent" for recent tools
+19. ADD View "Toolboxes"
+20. ADD geoprocessing tool "Reprojecting feature classes (single)"
+21. ADD geoprocessing tool "Create overviews"
+22. ADD geoprocessing tool "Compute statistics"
+
+Whats new v.0.2.0 
+1. ADD DEM interpolation switch (bilinear or cubic) in orthocorrect tool
+2. ADD russian interface translation
+3. ADD rename item support
+4. DEL remove tool execution canceled on ESC key pressing
+5. FIX the catalog with many items showing speed up
+6. FIX the file selection dialog behavior while folder selection
+7. FIX the ortho-correction tool (speed up and more accurate)
+8. FIX the switching between different views in wxGISCatalog
+9. FIX the connection creating in file selection dialog provide creation same connection in wxGISCatalog
+10. ADD automatic rename in batch export
+11. Small fixes
+
+Whats new v.0.1.0
+1. NEW version style - major.minor.patch
+2. FIX the polygon with many holes slow drawing
+3. FIX the raster data deleting error
+4. FIX the export vector data with unknown projection error
+5. ADD the 'select all' command
+6. ADD the type sorting in contents view
+7. FIX the focus loosing while batch export
+8. NEW base libraries now - GDAL 1.7.2, GEOS 3.2.2
+9. FIX the command selection in geography toolbox
+10. ADD the show/hide tree view command
+11. NEW wxGISToolbox - toolbox and tools execution interface
+12. ADD the ortho-correction tool
+13. ADD the single vector file export tool
+14. Small fixes

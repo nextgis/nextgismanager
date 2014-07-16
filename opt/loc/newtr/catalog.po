@@ -1,0 +1,487 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-11-20 04:24+0400\n"
+"Last-Translator: Bishop (aka Barishnikov Dmitriy) <polimax@mail.ru>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\catalog\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\catalog\n"
+
+#: D:\work\Projects\wxGIS\src\catalog/catop.cpp:33
+msgid "Overwrite destination object"
+msgstr "Перезаписать конечный объект"
+
+#: D:\work\Projects\wxGIS\src\catalog/catop.cpp:37
+msgid "Failed overwrite destination object"
+msgstr "Не удалось перезаписать конечный объект"
+
+#: D:\work\Projects\wxGIS\src\catalog/catop.cpp:44
+msgid "Cannot delete item!"
+msgstr "Не удалось удалить объект!"
+
+#: D:\work\Projects\wxGIS\src\catalog/catop.cpp:60
+msgid "Error get destination object"
+msgstr "Не удалось получить конечный объект"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxarchfolder.cpp:69
+#: D:\work\Projects\wxGIS\src\catalog/gxfolder.cpp:118
+#, c-format
+msgid "Delete failed! GDAL error: %s, file '%s'"
+msgstr "Ошибка удаления! Ошибка GDAL: %s, файл '%s'"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxarchfolder.cpp:108
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:72
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:107
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:159
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:196
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:262
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:291
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:397
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:434
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:488
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:523
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:585
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:622
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:60
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:82
+#: D:\work\Projects\wxGIS\src\catalog/gxfolder.cpp:143
+#, c-format
+msgid "Operation '%s' failed! GDAL error: %s, file '%s'"
+msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, файл '%s'"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxarchfolder.cpp:108
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:107
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:82
+#: D:\work\Projects\wxGIS\src\catalog/gxfolder.cpp:143
+msgid "Rename"
+msgstr "Переименовать"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:196
+#, c-format
+msgid "wxGxCatalog: ObjectFactory %s initialize"
+msgstr "wxGxCatalog: Инициализация объекта %s фабрики объектов"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:199
+#, c-format
+msgid "wxGxCatalog: Error initializing ObjectFactory %s"
+msgstr "wxGxCatalog: Ошибка инициализации фабрики объектов %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:252
+#, c-format
+msgid "wxGxCatalog: Root Object %s initialize"
+msgstr "wxGxCatalog: Инициализация корневого элемента %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxcatalog.cpp:268
+#, c-format
+msgid "wxGxCatalog: Error initializing Root Object %s"
+msgstr "wxGxCatalog: Ошибка инициализации корневого элемента %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:72
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:262
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:291
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:488
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:523
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:60
+msgid "Delete"
+msgstr "Удалить"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:121
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:305
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:547
+#, c-format
+msgid "Operation '%s' failed! GDAL error: %s"
+msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:121
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:305
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:547
+msgid "Open"
+msgstr "Открыть"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:135
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:172
+#, c-format
+msgid "%s table dataset %s"
+msgstr "%s табличные данные %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:135
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:151
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:159
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:373
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:389
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:397
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:561
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:577
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:585
+msgid "Copy"
+msgstr "Копировать"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:151
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:188
+#, c-format
+msgid "%s table dataset %s failed!"
+msgstr "Не удалось выполнить операцию '%s' над табличными данными %s!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:172
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:188
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:196
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:410
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:426
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:434
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:598
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:614
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:622
+msgid "Move"
+msgstr "Переместить"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:224
+msgid "Feature class"
+msgstr "Класс пространственных объектов"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:373
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:410
+#, c-format
+msgid "%s feature dataset %s"
+msgstr "%s геоданные %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:389
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:426
+#, c-format
+msgid "%s feature dataset %s failed!"
+msgstr "Не удалось выполнить операцию '%s' над геоданными %s!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:534
+msgid "Raster"
+msgstr "Растр"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:561
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:598
+#, c-format
+msgid "%s raster dataset %s"
+msgstr "%s растровые данные %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:577
+#: D:\work\Projects\wxGIS\src\catalog/gxdataset.cpp:614
+#, c-format
+msgid "%s raster dataset %s failed!"
+msgstr "Не удалось выполнить операцию '%s' над растровыми данными %s!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdbconnections.cpp:51
+#, c-format
+msgid "wxGxDBConnections: The path is set to '%s'"
+msgstr "wxGxDBConnections: Путь установлен в '%s'"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:81
+msgid "wxGxDiscConnections: Start scan folder connections"
+msgstr "wxGxDiscConnections: Начало сканирования подключений к папкам"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxdiscconnections.cpp:145
+#, c-format
+msgid "wxGxDiscConnections: Add folder connection [%s]"
+msgstr "wxGxDiscConnections: Добавление подключенния к папке [%s]"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:91
+msgid "Copy file "
+msgstr "Копировать файл"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:107
+msgid "Move file "
+msgstr "Переместить файл"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfile.cpp:191
+#, c-format
+msgid "wxGxPrjFile: GDAL error: %s"
+msgstr "wxGxPrjFile: Ошибка GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:66
+msgid "Any items (*.*)"
+msgstr "Все типы (*.*)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:124
+msgid "Coordinate Systems (*.prj, *.spr)"
+msgstr "Системы координат (*.prj, *.spr)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:182
+msgid "Raster (*.img, *.tif, etc.)"
+msgstr "Растровые форматы (*.img, *.tif, etc.)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:184
+msgid "Vector (*.shp, *.tab, etc.)"
+msgstr "Векторные форматы  (*.shp, *.tab, etc.)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:186
+msgid "Table (*.dbf, *.tab, *.csv, etc.)"
+msgstr "Таблицы (*.dbf, *.tab, *.csv, etc.)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:240
+msgid "ESRI Shapefile (*.shp)"
+msgstr "Шейп-файл ESRI (*.shp)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:242
+msgid "MapInfo File (*.tab)"
+msgstr "Файл MapInfo (*.tab)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:244
+msgid "MapInfo File (*.mid/*.mif)"
+msgstr "Файл MapInfo (*.mid/*.mif)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:246
+msgid "KML file (*.kml)"
+msgstr "Файл KML (*.kml)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:248
+msgid "KML file (*.kmz)"
+msgstr "Файл KMZ (*.kmz)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:250
+msgid "AutoCAD DXF file (*.dxf)"
+msgstr "Файл AutoCAD DXF (*.dxf)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:253
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:580
+msgid "Any feature classes (*.*)"
+msgstr "Все векторные типы (*.*)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:321
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:340
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:349
+msgid "Folder"
+msgstr "Папка"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:323
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:342
+msgid "Folder connection"
+msgstr "Подключение"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:335
+msgid "Folder connections"
+msgstr "Подключения"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:397
+msgid "Windows Device Independent Bitmap (*.bmp)"
+msgstr "Изображение BMP (*.bmp)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:399
+msgid "GeoTIFF (*.tif, *.tiff)"
+msgstr "Изображение GeoTIFF (*.tif, *.tiff)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:401
+msgid "JPEG image (*.jpeg, *.jfif, *.jpg, *.jpe)"
+msgstr "Изображение JPEG (*.jpeg, *.jfif, *.jpg, *.jpe)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:403
+msgid "Erdas IMAGINE image (*.img)"
+msgstr "Изображение Erdas IMAGINE (*.img)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:405
+msgid "Portable Network Graphics (*.png)"
+msgstr "Изображение PNG (*.png)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:407
+msgid "Graphics Interchange Format (*.gif)"
+msgstr "Изображение GIF (*.gif)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:409
+msgid "SAGA GIS Binary Grid (*.sdat)"
+msgstr "Растр SAGA (*.sdat)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:411
+msgid "EarthWatch raster (*.til)"
+msgstr "Растр EarthWatch (*.til)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:570
+msgid "dBase file (*.dbf)"
+msgstr "Файл dBase (*.dbf)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:572
+msgid "MapInfo table File (*.tab)"
+msgstr "Файл MapInfo (*.tab)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:574
+msgid "MapInfo table File (*.mif)"
+msgstr "Файл MapInfo (*.mid/*.mif)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:576
+msgid "Comma Separated Values (*.csv)"
+msgstr "Значения разделенные запятыми (*.csv)"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxfilters.cpp:578
+msgid "Database table"
+msgstr "Таблица базы данных"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:64
+msgid "KML Dataset"
+msgstr "Набор данных KML"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:66
+msgid "GML Dataset"
+msgstr "Набор данных GML"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:208
+msgid "Copy table dataset "
+msgstr "Копирование табличных данных"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:224
+#, c-format
+msgid "Copy table dataset %s failed!"
+msgstr "Не удалось скопировать табличный данных %s!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:245
+msgid "Move table dataset "
+msgstr "Перемещение табличных данных"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:261
+#, c-format
+msgid "Move table dataset %s failed!"
+msgstr "Не удалось переместить табличные данные %s!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxkmldataset.cpp:303
+msgid "KML Feature class"
+msgstr "Класс пространственных объектов KML"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxremoteconn.cpp:52
+msgid "Connection file open failed!"
+msgstr "Не удалось открыть файл подключения!"
+
+#: D:\work\Projects\wxGIS\src\catalog/gxspatreffolder.cpp:50
+#, c-format
+msgid "wxGxSpatialReferencesFolder: The path is set to '%s'"
+msgstr "wxGxSpatialReferencesFolder: Путь установлен в '%s'"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:35
+msgid "Archive folder"
+msgstr "Архивная папка"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchfolder.h:57
+msgid "Archive"
+msgstr "Архив"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxarchivefactory.h:38
+msgid "Archives"
+msgstr "Архивы"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxcatalog.h:41
+msgid "Catalog"
+msgstr "Каталог"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxcsvfactory.h:37
+msgid "CSV Files"
+msgstr "Файлы CSV"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdataset.h:41
+msgid "Table"
+msgstr "Таблица"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdbconnections.h:42
+msgid "DataBase connections"
+msgstr "Подключение к БД"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdbconnections.h:45
+msgid "DataBase connections Folder"
+msgstr "Папка подключения к БД"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxdbconnfactory.h:40
+msgid "Remote DataBase connections"
+msgstr "Подключение к удаленной БД "
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:64
+msgid "Coordinate System"
+msgstr "Система координат"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfile.h:82
+msgid "Text file"
+msgstr "Текстовый файл"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfilefactory.h:37
+msgid "Files"
+msgstr "Файлы"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxfolderfactory.h:38
+msgid "Folders"
+msgstr "Папки"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxmapinfofactory.h:41
+msgid "Mapinfo files"
+msgstr "Файлы MapInfo"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxmlfactory.h:40
+msgid "Markup Languages files"
+msgstr "Файлы разметки"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxpostgisdataset.h:40
+msgid "PostGIS Table"
+msgstr "Таблица PostGIS"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxpostgisdataset.h:68
+msgid "PostGIS Feature Dataset"
+msgstr "Набор данных PostGIS"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxprjfactory.h:38
+msgid "Coordiante systems"
+msgstr "Системы координат"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxrasterfactory.h:40
+msgid "Raster files"
+msgstr "Растры"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxremoteconn.h:41
+msgid "Remote Database Connection"
+msgstr "Подключение к удаленной базе"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxshapefactory.h:40
+msgid "Shapefiles"
+msgstr "Шейп-файлы"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxspatreffolder.h:26
+msgid "Geographic Coordinate Systems"
+msgstr "Географические системы координат"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxspatreffolder.h:27
+msgid "Projected Coordinate Systems"
+msgstr "Проекционные системы координат"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxspatreffolder.h:39
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxspatreffolder.h:60
+msgid "Coordinate Systems Folder"
+msgstr "Папка с системами координат"
+
+#: D:\work\Projects\wxGIS\include\wxgis\catalog/gxspatreffolder.h:57
+msgid "Coordinate Systems"
+msgstr "Системы координат"
+
+#~ msgid "Rename failed! GDAL error: %s, file '%s'"
+#~ msgstr "Ошибка переименования! Ошибка GDAL: %s, файл '%s'"
+
+#~ msgid "Copy failed! GDAL error: %s, file '%s'"
+#~ msgstr "Ошибка копирования! Ошибка GDAL: %s, файл '%s'"
+
+#~ msgid "Move failed! GDAL error: %s, file '%s'"
+#~ msgstr "Ошибка перемещения! Ошибка GDAL: %s, файл '%s'"
+
+#~ msgid "Move raster dataset "
+#~ msgstr "Перемещение растрового набора данных"
+
+#~ msgid "Move raster dataset %s failed!"
+#~ msgstr "Не удалось переместить растровый набор данных %s!"
+
+#~ msgid "Folders & archives"
+#~ msgstr "Папки и архивы"
+
+#~ msgid "wxGxCatalog: Add new folder connection [%s]"
+#~ msgstr "wxGxCatalog: Добавить новое подключение к папке [%s]"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid "Delete failed! File '%s'"
+#~ msgstr "Ошибка удаления. Файл '%s'"

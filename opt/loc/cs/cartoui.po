@@ -1,0 +1,388 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-12-28 13:32+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: Juhele <jan.helebrant@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\loc\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\include\\wxgis\n"
+"X-Poedit-SearchPath-1: C:\\Documents and Settings\\Honza\\Plocha\\Qt Linguist\\WXGIS\\src\\src\\catalog\n"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:90
+msgid "&Full Extent"
+msgstr "&Plný rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:92
+msgid "&Previous Extent"
+msgstr "&Předchozí rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:94
+msgid "&Next Extent"
+msgstr "&Následující rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:107
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:300
+msgid "Geography"
+msgstr "Geografie"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:109
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:302
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:669
+msgid "[No category]"
+msgstr "[Bez kategorie]"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:178
+msgid "Full extent of the map"
+msgstr "Plný rozsah mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:180
+msgid "Previous extent of the map"
+msgstr "Předchozí rozsah mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:182
+msgid "Next extent of the map"
+msgstr "Následující rozsah mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:214
+msgid "Full Extent"
+msgstr "Plný rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:216
+msgid "Previous Extent"
+msgstr "Předchozí rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:218
+msgid "Next Extent"
+msgstr "Následující rozsah"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:280
+msgid "Zoom &In"
+msgstr "&Přiblížit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:282
+msgid "Zoom &Out"
+msgstr "O&ddálit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:284
+msgid "&Pan"
+msgstr "&Posunout"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:286
+msgid "&Information"
+msgstr "&Informace"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:366
+msgid "Zoom map in"
+msgstr "Přiblížit mapu"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:368
+msgid "Zoom map out"
+msgstr "Oddálit mapu"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:370
+msgid "Pan map"
+msgstr "Posunout mapu"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:372
+msgid "Feature information"
+msgstr "Informace o objektu"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:403
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:405
+msgid "Zoom Out"
+msgstr "Oddálit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:407
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:408
+msgid "Pan"
+msgstr "Posunout"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:409
+msgid "Information"
+msgstr "Informace"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:650
+msgid "&Rotate"
+msgstr "&Rotovat"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:652
+msgid "Cancel rotate"
+msgstr "Zrušit rotaci"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:654
+msgid "Input rotate angle"
+msgstr "Zadejte úhel rotace"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:667
+msgid "View"
+msgstr "Zobrazit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:733
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:774
+msgid "Rotate map frame"
+msgstr "Rotovat okno mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:735
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:776
+msgid "Cancel rotate map frame"
+msgstr "Zrušit rotaci okna mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:737
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:778
+msgid "Input map frame rotate angle"
+msgstr "Zadejte úhel rotace okna mapy"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:60
+msgid "Swap coordinates"
+msgstr "Prohodit souřadnice"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:69
+msgid "Change masks"
+msgstr "Změnit masky"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:142
+msgid "Change value list"
+msgstr "Změnit seznam hodnot"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:142
+msgid "Value list"
+msgstr "Seznam hodnot"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:83
+msgid "Location:"
+msgstr "Umístění:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:93
+msgid "Select location text style"
+msgstr "Zvolte textový styl umístění"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:100
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:125
+msgid "Field"
+msgstr "Pole"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:101
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:126
+msgid "Value"
+msgstr "Hodnota"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:125
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:126
+#, c-format
+msgid "Copy %s"
+msgstr "Kopírovat %s"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:125
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:126
+#, c-format
+msgid "Copy '%s' value"
+msgstr "Kopírovat hodnotu '%s'"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:127
+msgid "Copy"
+msgstr "Kopírovat "
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:128
+msgid "Hide"
+msgstr "Skrýt"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:128
+msgid "Hide rows"
+msgstr "Skrýt řádky"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:130
+msgid "Remove sort"
+msgstr "Odstranit řazení"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:367
+msgid "Identify from:"
+msgstr "Identifikovat z:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:372
+msgid "<Top layer>"
+msgstr "<Vrchní vrstva>"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:407
+msgid "Flash"
+msgstr "Zvýraznit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:407
+msgid "Flash geometry"
+msgstr "Zvýraznit geometrii"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:408
+msgid "Pan to geometry center"
+msgstr "Posunout na střed geometrie"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:409
+msgid "Zoom"
+msgstr "Přiblížit/Oddálit"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:409
+msgid "Zoom to geometry"
+msgstr "Přiblížit na geometrii"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:497
+msgid "Identify"
+msgstr "Identifikovat"
+
+#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:623
+#, c-format
+msgid "%.4f degree"
+msgstr "%.4f stupňů"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:35
+msgid "Layer:"
+msgstr "Vrstva:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:39
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:46
+msgid "Combo!"
+msgstr "Kombo!"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:42
+msgid "Method:"
+msgstr "Мeтоda:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:60
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:63
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:66
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:162
+msgid "MyButton"
+msgstr "MojeTlačítko"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:79
+msgid "="
+msgstr "="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:84
+msgid "<>"
+msgstr "<>"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:89
+msgid "Like"
+msgstr "Like"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:94
+msgid ">"
+msgstr ">"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:99
+msgid ">="
+msgstr ">="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:104
+msgid "And"
+msgstr "And"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:109
+msgid "<"
+msgstr "<"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:114
+msgid "<="
+msgstr "<="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:119
+msgid "Or"
+msgstr "Or"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:124
+msgid "_"
+msgstr "_"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:129
+msgid "( )"
+msgstr "( )"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:134
+msgid "Not"
+msgstr "Not"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:139
+msgid "%"
+msgstr "%"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:144
+msgid "Is"
+msgstr "Is"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:149
+msgid "..."
+msgstr "..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:169
+msgid "SELECT * FROM tablename WHERE:"
+msgstr "SELECT * FROM имя_таблицы WHERE:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:178
+msgid "Clear"
+msgstr "Очистить"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:181
+msgid "Check"
+msgstr "Отметить"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:184
+msgid "Help"
+msgstr "Помощь"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:189
+msgid "Load..."
+msgstr "Загрузить..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:192
+msgid "Save..."
+msgstr "Сохранить..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/tableview.cpp:228
+msgid "Record:"
+msgstr "Запись:"
+
+#: D:\work\Projects\wxGIS\include\wxgis\cartoui/sqlquerydialog.h:113
+msgid "Select by attributes"
+msgstr "Выбрать по атрибутам"
+
+#: D:\work\Projects\wxGIS\include\wxgis\cartoui/tableview.h:125
+#, c-format
+msgid "of %u"
+msgstr "из %u"
+
+#~ msgid "new map"
+#~ msgstr "новая карта"
+
+#~ msgid "wxGISFeatureLayer: Open failed! GDAL error: %s"
+#~ msgstr "wxGISFeatureLayer: Ошибка открытия! Ошибка GDAL: %s"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid "Done"
+#~ msgstr "Сделано"
+
+#~ msgid "AdviseRead failed! GDAL error: %s"
+#~ msgstr "AdviseRead не удалось! Ошибка GDAL: %s"
+
+#~ msgid "RasterIO failed! GDAL error: %s"
+#~ msgstr "RasterIO не удалось! Ошибка GDAL: %s"
+
+#~ msgid " [*]"
+#~ msgstr " [*]"
+
+#~ msgid "wxGISMapView: Can't create wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно создать wxDrawingThread!"
+
+#~ msgid "wxGISMapView: Can't run wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно запустить wxDrawingThread!"

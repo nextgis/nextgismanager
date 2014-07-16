@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=0.5
+Type=Application
+Name=NextGIS Manager
+Comment=GIS files manager
+Exec=wxgiscat %F
+Icon=ngm
+Terminal=false
+X-MultipleArgs=false
+Categories=GIS;Science;GTK;
+StartupNotify=true
+MimeType=application/x-ngm;

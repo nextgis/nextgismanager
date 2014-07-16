@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxGISMap>
+  <Commands>
+    <Command name="wxGISCommonCmd"/>
+	<Command name="wxGISCartoMainTool"/>
+    <Command name="wxGISCartoMainCmd"/>  
+	<Command name="wxGISCatalogMainCmd"/>	
+    <Command name="wxGISTaskCmd"/>
+  </Commands>
+  <Accelerators>
+    <Entry cmd_name="wxGISCommonCmd" subtype="0" flags="ALT|" keycode="X"/>
+    <Entry cmd_name="wxGISCatalogViewsCmd" subtype="1" flags="CTRL|" keycode="A"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="9" flags="NORMAL" keycode="WXK_F5"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="8" flags="NORMAL" keycode="WXK_F2"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="11" flags="CTRL|" keycode="C"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="12" flags="CTRL|" keycode="X"/>
+    <Entry cmd_name="wxGISCatalogMainCmd" subtype="13" flags="CTRL|" keycode="V"/>
+  </Accelerators>
+  <Frame XPos="0" YPos="0" Width="800" Height="600">
+  	<Perspective data=""/>
+   	<Views/>
+    <Menues>
+      <menu name="MenuBar.File" caption="&amp;File">        
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="0" name="E&amp;xit"/>
+      </menu>
+      <menu name="MenuBar.Edit" caption="&amp;Edit">
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="1" name="Select All"/>
+      </menu>      
+      <menu name="MenuBar.View" caption="&amp;View">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Refresh"/>
+        <Item type="sep"/>
+        <Item type="menu" cmd_name="Application.ToolbarsMenu" name="Toolbars"/>
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="4" name="StatusBar"/>
+      </menu>
+      <menu name="MenuBar.Help" caption="&amp;Help">
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="1" name="&amp;About..."/>
+      </menu>      
+      <menu name="MenuBar.Windows" caption="&amp;Windows">
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="2" name="Show/Hide Tree pane"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="Show/Hide &amp;Toolbox pane"/>
+      </menu>      
+      <menu name="MenuBar.Tools" caption="&amp;Tools">
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Options..."/>
+      </menu>      
+    </Menues>
+    <MenuBar>
+      <menu name="MenuBar.File"/>
+      <menu name="MenuBar.Edit"/>
+      <menu name="MenuBar.View"/>
+      <menu name="MenuBar.Tools"/>
+      <menu name="MenuBar.Windows"/>
+      <menu name="MenuBar.Help"/>
+    </MenuBar>
+    <ToolBars>
+      <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Standard" caption="Standard">        
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Copy"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Cut"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Paste"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Delete"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="Show/Hide &amp;Toolbox pane"/>
+      </toolbar>      
+      <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Geography" caption="Geography">
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="0" name="Zoom &amp;In"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="1" name="Zoom &amp;Out"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="2" name="&amp;Pan"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="0" name="&amp;Full Extent"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="1" name="&amp;Previous Extent"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainCmd" subtype="2" name="&amp;Next Extent"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCartoMainTool" subtype="3" name="&amp;Information"/>
+      </toolbar>
+    </ToolBars>
+  </Frame>
+  <PropertyPages>
+    <Page class="wxGISMiscPropertyPage"/>
+  </PropertyPages>
+</wxGISMap>
+
+
+

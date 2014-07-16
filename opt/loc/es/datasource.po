@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-18 23:12+0400\n"
+"PO-Revision-Date: 2012-01-23 15:03+0100\n"
+"Last-Translator: Miguel Sevilla-Callejo <msevilla00@gmail.com>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\src\\datasource\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\include\\wxgis\\datasource\n"
+
+# Terminado
+#: D:\work\Projects\wxGIS\src\datasource/featuredataset.cpp:257
+msgid "PreLoad Geometry of "
+msgstr "Precargar geometría de "
+
+#: D:\work\Projects\wxGIS\src\datasource/postgisdataset.cpp:126
+#, c-format
+msgid "Try to connect: host='%s' dbname='%s' port='%s' user='%s'"
+msgstr "Prueba al conectar: servidor='%s' base de datos='%s' puerto='%s' usuario='%s'"
+
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:271
+#, c-format
+msgid "wxGISRasterDataset: Open failed! Path '%s'. GDAL error: %s"
+msgstr "wxGISRasterDataset: ¡Fallo al abrir! Ruta '%s'. Error GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:307
+#, c-format
+msgid "wxGISRasterDataset: Open failed! Path '%s'. Raster has no bands"
+msgstr "wxGISRasterDataset: ¡Fallo al abrir! Ruta '%s'. El raster no tiene bandas"
+
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:573
+#, c-format
+msgid "AdviseRead failed! GDAL error: %s"
+msgstr "¡Fallo AdviseRead! Error GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\datasource/rasterdataset.cpp:591
+#, c-format
+msgid "RasterIO failed! GDAL error: %s"
+msgstr "¡Fallo RasterIO! Error GDAL: %s"
+
+#: D:\work\Projects\wxGIS\src\datasource/sysop.cpp:378
+msgid "Error open input file! OGR error: "
+msgstr "¡Error al abrir archivo de entrada! Error OGR: "
+
+#: D:\work\Projects\wxGIS\src\datasource/sysop.cpp:392
+#, c-format
+msgid "Error create the output file '%s'! OGR error: "
+msgstr "¡Error al crear el fichero de salida '%s'! Error OGR: "
+
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:70
+#, c-format
+msgid "wxGISTable: Open failed! Path '%s'. OGR error: %s"
+msgstr "wxGISTable: ¡Fallo al abrir! Ruta '%s'. Error OGR: %s"
+
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:153
+msgid "PreLoad Features of "
+msgstr "Precargar elementos de "
+
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:413
+msgid "%d-%m-%Y"
+msgstr "%d-%m-%Y"
+
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:426
+msgid "%H:%M:%S"
+msgstr "%H:%M:%S"
+
+#: D:\work\Projects\wxGIS\src\datasource/table.cpp:439
+msgid "%d-%m-%Y %H:%M:%S"
+msgstr "%d-%m-%Y %H:%M:%S"
+
+#~ msgid "The driver '%s' is not available! OGR error: "
+#~ msgstr "Драйвер '%s' не доступен! Ошибка OGR: "
+
+#~ msgid "Error create the output layer '%s'! OGR error: "
+#~ msgstr "Не удалось создать выходной слой '%s'! Ошибка OGR: "
+
+#~ msgid "%.6f"
+#~ msgstr "%.6f"
+
+#~ msgid ""
+#~ "wxGISPostGISDataset: Open failed! Host '%s', Database name '%s', Port='%"
+#~ "s'. OGR error: %s"
+#~ msgstr ""
+#~ "wxGISPostGISDataset: Невозможно открыть! Хост '%s', Имя базы данных '%s', "
+#~ "Порт='%s'. Ошибка OGR: %s"
+
+#~ msgid "Failed to allocate %d byte buffer to hold xml file."
+#~ msgstr "Невозможно создать  буфер размером %d для записи файла xml."
+
+#~ msgid "Failed to read %d bytes from xml file."
+#~ msgstr "Невозможно прочитать %d байт xml файла."
+
+#~ msgid "Error create destination file! OGR error: "
+#~ msgstr "Не возможно создать выходной файл! Ошибка OGR:"
+
+#~ msgid "Creation of output file '%s' failed"
+#~ msgstr "Не удалось создать выходной файл '%s'"
