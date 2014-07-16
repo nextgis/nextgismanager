@@ -14,10 +14,10 @@
   <GDAL cachemax="128"/>
   <debug mode="yes"/>
   <libs>
-    <lib path="/usr/lib/libwxgisgeoprocessingui.so" name="wxgisgeoprocessingui05"/>
-    <lib path="/usr/local/lib/libwxgisgeoprocessingui.so" name="wxgisgeoprocessingui05"/>
-    <lib path="/usr/lib/libwxgisgeoprocessing.so" name="wxgisgeoprocessing05"/>
-    <lib path="/usr/local/lib/libwxgisgeoprocessing.so" name="wxgisgeoprocessing05"/>
+    <lib path="/usr/lib/libwxgisgeoprocessingui.so" name="wxgisgeoprocessingui06"/>
+    <lib path="/usr/local/lib/libwxgisgeoprocessingui.so" name="wxgisgeoprocessingui06"/>
+    <lib path="/usr/lib/libwxgisgeoprocessing.so" name="wxgisgeoprocessing06"/>
+    <lib path="/usr/local/lib/libwxgisgeoprocessing.so" name="wxgisgeoprocessing06"/>
   </libs>
   <taskmngr exe_path="/usr/bin/wxgistaskmanager"/>
 </wxGISCommon>

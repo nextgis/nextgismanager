@@ -14,10 +14,10 @@
   <GDAL cachemax="128"/>
   <debug mode="yes"/>
   <libs>
-    <lib path="wxgisgeoprocessingui05d.dll" name="wxgisgeoprocessingui05d"/>
-    <lib path="wxgisgeoprocessingui05.dll" name="wxgisgeoprocessingui05"/>
-    <lib path="wxgisgeoprocessing05d.dll" name="wxgisgeoprocessing05d"/>
-    <lib path="wxgisgeoprocessing05.dll" name="wxgisgeoprocessing05"/>
+    <lib path="wxgisgeoprocessingui06d.dll" name="wxgisgeoprocessingui06d"/>
+    <lib path="wxgisgeoprocessingui06.dll" name="wxgisgeoprocessingui06"/>
+    <lib path="wxgisgeoprocessing06d.dll" name="wxgisgeoprocessing06d"/>
+    <lib path="wxgisgeoprocessing06.dll" name="wxgisgeoprocessing06"/>
   </libs>
   <taskmngr exe_path="wxgistaskmanager.exe"/>
 </wxGISCommon>
