@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxCatalog>
+  <catalog show_hidden="0" show_ext="1">
+    <rootitems>
+      <rootitem name="wxRxMonitoringDatabases" is_enabled="1">
+        <db name="wxRxSatNEqDatabases" cursor="PG" host="127.0.0.1" dbname="monitoring_db" port="5432" user="bishop" password="0013001D006A00710063004E000C0024" sattable_name="satellites_db"/>
+      </rootitem>
+      <!--rootitem_qqq name_qqq="wxRxMonitoringDatabases" is_enabled="1"/-->
+    </rootitems>
+    <objectfactories/>
+  </catalog>
+</wxCatalog>
+
+
+

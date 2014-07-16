@@ -1,0 +1,397 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-18 23:12+0400\n"
+"PO-Revision-Date: 2012-01-16 12:49+0100\n"
+"Last-Translator: Miguel Sevilla-Callejo <msevilla00@gmail.com>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\cartoui\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\cartoui\n"
+
+# Revisar
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:90
+msgid "&Full Extent"
+msgstr "&Extensión completa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:92
+msgid "&Previous Extent"
+msgstr "&Extensión Previa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:94
+msgid "&Next Extent"
+msgstr "&Extensión Siguiente"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:107
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:300
+msgid "Geography"
+msgstr "Geografía"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:109
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:302
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:670
+msgid "[No category]"
+msgstr "[Sin categoría]"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:178
+msgid "Full extent of the map"
+msgstr "Extensión completa del mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:180
+msgid "Previous extent of the map"
+msgstr "Extensión previa del mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:182
+msgid "Next extent of the map"
+msgstr "Extensión siguiente del mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:214
+msgid "Full Extent"
+msgstr "Extensión completa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:216
+msgid "Previous Extent"
+msgstr "Extensión previa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:218
+msgid "Next Extent"
+msgstr "Extensión siguiente"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:280
+msgid "Zoom &In"
+msgstr "&Acercar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:282
+msgid "Zoom &Out"
+msgstr "&Alejar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:284
+msgid "&Pan"
+msgstr "&Centrar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:286
+msgid "&Information"
+msgstr "&Información"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:366
+msgid "Zoom map in"
+msgstr "Acercar mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:368
+msgid "Zoom map out"
+msgstr "Alejar mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:370
+msgid "Pan map"
+msgstr "Centrar mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:372
+msgid "Feature information"
+msgstr "Información de objeto"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:403
+msgid "Zoom In"
+msgstr "Acercar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:405
+msgid "Zoom Out"
+msgstr "Alejar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:407
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:405
+msgid "Pan"
+msgstr "Pan"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:409
+msgid "Information"
+msgstr "Información"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:651
+msgid "&Rotate"
+msgstr "&Rotar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:653
+msgid "Cancel rotate"
+msgstr "Cancelar rotar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:655
+msgid "Input rotate angle"
+msgstr "Ángulo de rotación"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:668
+msgid "View"
+msgstr "Vista"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:734
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:775
+msgid "Rotate map frame"
+msgstr "Rotar marco de mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:736
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:777
+msgid "Cancel rotate map frame"
+msgstr "Cancelar rotar marco de mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:738
+#: D:\work\Projects\wxGIS\src\cartoui/cartocmd.cpp:779
+msgid "Input map frame rotate angle"
+msgstr "Ángulo de rotación del marco de mapa"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:60
+msgid "Swap coordinates"
+msgstr "Intercambiar coordenadas"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:69
+msgid "Change masks"
+msgstr "Cambiar máscara"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:142
+msgid "Change value list"
+msgstr "Cambiar lista de valores"
+
+#: D:\work\Projects\wxGIS\src\cartoui/formatmenu.cpp:142
+msgid "Value list"
+msgstr "Lista de valores"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:80
+msgid "Location:"
+msgstr "Ubicación:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:90
+msgid "Select location text style"
+msgstr "Seleccionar estilo de texto de localización"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:97
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:122
+msgid "Field"
+msgstr "Campo"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:98
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:123
+msgid "Value"
+msgstr "Valor"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:122
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:123
+#, c-format
+msgid "Copy %s"
+msgstr "Copiar %s"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:122
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:123
+#, fuzzy, c-format
+msgid "Copy '%s' value"
+msgstr "Copiar valor '%s'"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:124
+msgid "Copy"
+msgstr "Copiar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:125
+msgid "Hide"
+msgstr "Ocultar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:125
+msgid "Hide rows"
+msgstr "Ocultar columnas"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:127
+msgid "Remove sort"
+msgstr "Sin ordenar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:364
+msgid "Identify from:"
+msgstr "Formulario de identificación:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:369
+msgid "<Top layer>"
+msgstr "<Capa superior>"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:404
+#, fuzzy
+msgid "Flash"
+msgstr "Flash"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:404
+#, fuzzy
+msgid "Flash geometry"
+msgstr "Geometría flash"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:405
+#, fuzzy
+msgid "Pan to geometry center"
+msgstr "Centrar en centro de geometría"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:406
+msgid "Zoom"
+msgstr "Zoom"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:406
+msgid "Zoom to geometry"
+msgstr "Acercar a geometría"
+
+#: D:\work\Projects\wxGIS\src\cartoui/identifydlg.cpp:494
+msgid "Identify"
+msgstr "Identificar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/mapview.cpp:623
+#, c-format
+msgid "%.4f degree"
+msgstr "%.4f grados"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:35
+msgid "Layer:"
+msgstr "Capa:"
+
+# Texto interno del programa, no necesita traducción.
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:39
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:46
+msgid "Combo!"
+msgstr "Combo!"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:42
+msgid "Method:"
+msgstr "Método:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:60
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:63
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:66
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:162
+#, fuzzy
+msgid "MyButton"
+msgstr "MiBotón"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:79
+msgid "="
+msgstr "="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:84
+msgid "<>"
+msgstr "<>"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:89
+#, fuzzy
+msgid "Like"
+msgstr "Como"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:94
+msgid ">"
+msgstr ">"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:99
+msgid ">="
+msgstr ">="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:104
+msgid "And"
+msgstr "Y"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:109
+msgid "<"
+msgstr "<="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:114
+msgid "<="
+msgstr "<="
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:119
+msgid "Or"
+msgstr "O"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:124
+msgid "_"
+msgstr "_"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:129
+msgid "( )"
+msgstr "( )"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:134
+msgid "Not"
+msgstr "No"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:139
+msgid "%"
+msgstr "%"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:144
+#, fuzzy
+msgid "Is"
+msgstr "Es"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:149
+msgid "..."
+msgstr "..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:169
+#, fuzzy
+msgid "SELECT * FROM tablename WHERE:"
+msgstr "SELECCIONAR * DE nombredetabla DÓNDE:"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:178
+msgid "Clear"
+msgstr "Borrar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:181
+msgid "Check"
+msgstr "Probar"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:184
+msgid "Help"
+msgstr "Ayuda"
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:189
+msgid "Load..."
+msgstr "Cargar..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/sqlquerydialog.cpp:192
+msgid "Save..."
+msgstr "Salvar..."
+
+#: D:\work\Projects\wxGIS\src\cartoui/tableview.cpp:228
+msgid "Record:"
+msgstr "Registro:"
+
+#: D:\work\Projects\wxGIS\include\wxgis\cartoui/sqlquerydialog.h:113
+msgid "Select by attributes"
+msgstr "Seleccionar por atributos"
+
+#: D:\work\Projects\wxGIS\include\wxgis\cartoui/tableview.h:125
+#, c-format
+msgid "of %u"
+msgstr "de %u"
+
+#~ msgid "new map"
+#~ msgstr "новая карта"
+
+#~ msgid "wxGISFeatureLayer: Open failed! GDAL error: %s"
+#~ msgstr "wxGISFeatureLayer: Ошибка открытия! Ошибка GDAL: %s"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid "Done"
+#~ msgstr "Сделано"
+
+#~ msgid "AdviseRead failed! GDAL error: %s"
+#~ msgstr "AdviseRead не удалось! Ошибка GDAL: %s"
+
+#~ msgid "RasterIO failed! GDAL error: %s"
+#~ msgstr "RasterIO не удалось! Ошибка GDAL: %s"
+
+#~ msgid " [*]"
+#~ msgstr " [*]"
+
+#~ msgid "wxGISMapView: Can't create wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно создать wxDrawingThread!"
+
+#~ msgid "wxGISMapView: Can't run wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно запустить wxDrawingThread!"

@@ -1,0 +1,2 @@
+﻿ Thanks GIS-LAB team for help in translating the interface, testing and searching for errors.
+Special thanks to Maxim Dubinin

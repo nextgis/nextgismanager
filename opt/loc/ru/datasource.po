@@ -1,0 +1,230 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: nextgis manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-30 05:04+0400\n"
+"PO-Revision-Date: 2014-06-30 05:04+0400\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"Language-Team: NextGIS <polimax@mail.ru>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: ../../../src/datasource\n"
+"X-Poedit-SearchPath-1: ../../../include/wxgis/datasource\n"
+
+#: ../../../src/datasource/datacontainer.cpp:153
+#, c-format
+msgid "Connect failed! GDAL error: %s"
+msgstr "Не удалось выполнить подключение! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/datacontainer.cpp:161
+#, c-format
+msgid "Connect succeeded! Path '%s'"
+msgstr "Подключение выполнено удачно. Папка '%s'"
+
+#: ../../../src/datasource/dataset.cpp:145
+msgid "Unsupported dataset type"
+msgstr "Не поддерживаемый тип данных"
+
+#: ../../../src/datasource/dataset.cpp:259
+msgid "No files to rename"
+msgstr "Нет файлов для переименования"
+
+#: ../../../src/datasource/dataset.cpp:299
+msgid "No files to move"
+msgstr "Нет файлов для перемещения"
+
+#: ../../../src/datasource/dataset.cpp:343
+#: ../../../src/datasource/rasterdataset.cpp:572
+msgid "No files to copy"
+msgstr "Нет файлов для копирования"
+
+#: ../../../src/datasource/featuredataset.cpp:579
+#: ../../../src/datasource/table.cpp:843
+msgid "PreLoad Features of "
+msgstr "Предварительная загрузка геоданных из "
+
+#: ../../../src/datasource/postgisdataset.cpp:382
+#: ../../../src/datasource/postgisdataset.cpp:405
+#, c-format
+msgid "ExecuteSQL failed! GDAL error: %s"
+msgstr "Не удалось выполнить ExecuteSQL! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/postgisdataset.cpp:435
+#, c-format
+msgid "Try to connect: host='%s' dbname='%s' port='%s' user='%s'"
+msgstr "Попытка подключения: хост='%s' база данных='%s' порт='%s' логин='%s'"
+
+#: ../../../src/datasource/postgisdataset.cpp:441
+#, c-format
+msgid ""
+"Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"
+msgstr ""
+"Ошибка подключения! Ошибка GDAL: %s, хост='%s' база данных='%s' порт='%s' "
+"логин='%s'"
+
+#: ../../../src/datasource/postgisdataset.cpp:454
+#, c-format
+msgid "Connect succeeded! Host='%s' dbname='%s' port='%s' user='%s'"
+msgstr "Подключение выполнено: хост='%s' база данных='%s' порт='%s' логин='%s'"
+
+#: ../../../src/datasource/postgisdataset.cpp:561
+#, c-format
+msgid "Operation '%s' failed! No Layer %s found to delete"
+msgstr "Не удалось выполнить '%s'! Слой %s не обнаружен"
+
+#: ../../../src/datasource/postgisdataset.cpp:561
+#: ../../../src/datasource/postgisdataset.cpp:571
+#: ../../../src/datasource/postgisdataset.cpp:580
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../../../src/datasource/postgisdataset.cpp:571
+#, c-format
+msgid "Operation '%s' failed! GDAL error: %s"
+msgstr "Не удалось выполнить '%s'! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/postgisdataset.cpp:580
+#, c-format
+msgid "Operation '%s' succeeded!"
+msgstr "Операция '%s' выполнена успешно! "
+
+#: ../../../src/datasource/rasterdataset.cpp:271
+#, c-format
+msgid "Raster open failed! Path '%s'. GDAL error: %s"
+msgstr "Не удалось открыть растровый файл! Путь '%s'. Ошибка GDAL: %s"
+
+#: ../../../src/datasource/rasterdataset.cpp:418
+#, c-format
+msgid "Raster open failed! Path '%s'. Raster has no bands"
+msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
+
+#: ../../../src/datasource/rasterdataset.cpp:686
+#, c-format
+msgid "RasterIO failed! GDAL error: %s"
+msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/rasterdataset.cpp:721
+#, c-format
+msgid "GetGeoTransform failed! GDAL error: %s"
+msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/spatialtree.cpp:150
+msgid "PreLoad Geometry of "
+msgstr "Предварительная загрузка геометрии из "
+
+#: ../../../src/datasource/spatialtree.cpp:229
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../../../src/datasource/spatialtree.cpp:269
+msgid "Done"
+msgstr "Выполнено"
+
+#: ../../../src/datasource/sysop.cpp:38
+#, c-format
+msgid "Delete folder failed! GDAL error: %s, folder '%s'"
+msgstr "Не удалось удалить папку! Ошибка GDAL: %s, папка '%s'"
+
+#: ../../../src/datasource/sysop.cpp:46
+#, c-format
+msgid "Delete folder succeeded! Folder '%s'"
+msgstr "Папка '%s' удалена"
+
+#: ../../../src/datasource/sysop.cpp:60
+#, c-format
+msgid "Create folder failed! GDAL error: %s, folder '%s'"
+msgstr "Не удалось создать папку! Ошибка GDAL: %s, папка '%s'"
+
+#: ../../../src/datasource/sysop.cpp:68
+#, c-format
+msgid "Create folder succeeded! Folder '%s'"
+msgstr "Папка '%s' создана"
+
+#: ../../../src/datasource/sysop.cpp:155
+#, c-format
+msgid "Delete file failed! GDAL error: %s, file '%s'"
+msgstr "Не удалось выполнить удаление! Ошибка GDAL: %s, файл '%s'"
+
+#: ../../../src/datasource/sysop.cpp:163
+#, c-format
+msgid "Delete file succeeded! File '%s'"
+msgstr "Файл '%s' удален"
+
+#: ../../../src/datasource/sysop.cpp:178
+#, c-format
+msgid "Rename file failed! GDAL error: %s, old path '%s', new path '%s'"
+msgstr ""
+"Переименование не удалось! Ошибка GDAL: %s, старый путь '%s', новый путь '%s'"
+
+#: ../../../src/datasource/sysop.cpp:186
+#, c-format
+msgid "Rename file succeeded! Old path '%s', new path '%s'"
+msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
+
+#: ../../../src/datasource/sysop.cpp:668
+msgid "Error open input file! OGR error: "
+msgstr "Не возможно открыть входной файл! Ошибка OGR:"
+
+#: ../../../src/datasource/sysop.cpp:682
+#, c-format
+msgid "Error create the output file '%s'! OGR error: "
+msgstr "Не возможно создать выходной файл '%s'! Ошибка OGR: "
+
+#: ../../../src/datasource/table.cpp:140
+#, c-format
+msgid "Table open failed! Path '%s'. OGR error: %s"
+msgstr "Не удалось открыть таблицу! Путь '%s'.Ошибка OGR: %s"
+
+#: ../../../src/datasource/table.cpp:570 ../../../src/datasource/table.cpp:614
+#: ../../../src/datasource/table.cpp:1075
+#: ../../../src/datasource/table.cpp:1121
+msgid "Interrupted by user"
+msgstr "Отменено пользователем"
+
+#~ msgid "AdviseRead failed! GDAL error: %s"
+#~ msgstr "Не удалось выполнить AdviseRead! Ошибка GDAL: %s"
+
+#~ msgid "%d-%m-%Y"
+#~ msgstr "%d-%m-%Y"
+
+#~ msgid "%H:%M:%S"
+#~ msgstr "%H:%M:%S"
+
+#~ msgid "%d-%m-%Y %H:%M:%S"
+#~ msgstr "%d-%m-%Y %H:%M:%S"
+
+#~ msgid "The driver '%s' is not available! OGR error: "
+#~ msgstr "Драйвер '%s' не доступен! Ошибка OGR: "
+
+#~ msgid "Error create the output layer '%s'! OGR error: "
+#~ msgstr "Не удалось создать выходной слой '%s'! Ошибка OGR: "
+
+#~ msgid "%.6f"
+#~ msgstr "%.6f"
+
+#~ msgid ""
+#~ "wxGISPostGISDataset: Open failed! Host '%s', Database name '%s', "
+#~ "Port='%s'. OGR error: %s"
+#~ msgstr ""
+#~ "wxGISPostGISDataset: Невозможно открыть! Хост '%s', Имя базы данных '%s', "
+#~ "Порт='%s'. Ошибка OGR: %s"
+
+#~ msgid "Failed to allocate %d byte buffer to hold xml file."
+#~ msgstr "Невозможно создать  буфер размером %d для записи файла xml."
+
+#~ msgid "Failed to read %d bytes from xml file."
+#~ msgstr "Невозможно прочитать %d байт xml файла."
+
+#~ msgid "Error create destination file! OGR error: "
+#~ msgstr "Не возможно создать выходной файл! Ошибка OGR:"
+
+#~ msgid "Creation of output file '%s' failed"
+#~ msgstr "Не удалось создать выходной файл '%s'"

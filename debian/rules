@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+CMAKE_OPTS := \
+	-DCMAKE_BUILD_TYPE=RELEASE \
+	-DCMAKE_INSTALL_PREFIX=/usr/ \
+	-DPEDANTIC=TRUE \
+	-DwxGIS_BUILD_CATALOG=TRUE \
+	-DwxGIS_BUILD_DESKTOP=TRUE \
+	-DwxGIS_BUILD_TASKMANAGER=FALSE \
+	-DwxGIS_PORTABLE=FALSE \
+	-DwxGIS_USE_CURL=TRUE \
+	-DwxGIS_USE_EMAIL=TRUE \
+	-DwxGIS_USE_GEOS=FALSE \
+	-DwxGIS_USE_OPENSSL=FALSE \
+	
+%:	
+	dh $@ --buildsystem=cmake --builddirectory=debian/build
+	
+
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_OPTS)
+
+override_dh_install:
+	dh_install --sourcedir=debian/ngm
+
+override_dh_shlibdeps:
+	-LD_LIBRARY_PATH=$(PWD)/debian/build:$(LD_LIBRARY_PATH)

@@ -1,0 +1,246 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGIS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 04:24+0400\n"
+"PO-Revision-Date: 2011-11-20 04:24+0400\n"
+"Last-Translator: Bishop (aka Barishnikov Dmitriy) <polimax@mail.ru>\n"
+"Language-Team: gis-lab <sim@gis-lab.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: c:\\temp\\wxgis\\src\\\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: D:\\work\\Projects\\wxGIS\\include\\wxgis\\core\n"
+"X-Poedit-SearchPath-1: D:\\work\\Projects\\wxGIS\\src\\core\n"
+
+#: D:\work\Projects\wxGIS\src\core/crypt.cpp:92
+msgid "Crypt: Failed EVP_EncryptInit!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
+
+#: D:\work\Projects\wxGIS\src\core/crypt.cpp:106
+msgid "Crypt: Failed EVP_EncryptUpdate!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
+
+#: D:\work\Projects\wxGIS\src\core/crypt.cpp:170
+msgid "Decrypt: Failed EVP_DecryptInit!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
+
+#: D:\work\Projects\wxGIS\src\core/crypt.cpp:188
+msgid "Decrypt: Failed EVP_DecryptUpdate!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
+
+#: D:\work\Projects\wxGIS\src\core/format.cpp:29
+#: D:\work\Projects\wxGIS\src\core/format.cpp:301
+msgid "W"
+msgstr "ЗД"
+
+#: D:\work\Projects\wxGIS\src\core/format.cpp:30
+#: D:\work\Projects\wxGIS\src\core/format.cpp:296
+msgid "S"
+msgstr "ЮШ"
+
+#: D:\work\Projects\wxGIS\src\core/format.cpp:34
+#: D:\work\Projects\wxGIS\src\core/format.cpp:76
+#: D:\work\Projects\wxGIS\src\core/format.cpp:299
+msgid "E"
+msgstr "ВД"
+
+#: D:\work\Projects\wxGIS\src\core/format.cpp:35
+#: D:\work\Projects\wxGIS\src\core/format.cpp:76
+#: D:\work\Projects\wxGIS\src\core/format.cpp:294
+msgid "N"
+msgstr "СШ"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:56
+#, c-format
+msgid "wxGISAppWithLibs: Library %s loaded"
+msgstr "wxGISAppWithLibs: Библиотека %s загружена"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:60
+#, c-format
+msgid "wxGISAppWithLibs: Error loading library %s"
+msgstr "wxGISAppWithLibs: Ошибка загрузки библиотеки %s"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:121
+#, c-format
+msgid "wxGISInitializer: %s %s is initializing..."
+msgstr "wxGISInitializer: %s %s инициализируется..."
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:167
+#, c-format
+msgid "wxGISInitializer: System dir is absent! Lookup path '%s'"
+msgstr "wxGISInitializer: Не удалось найти директорию системных настроек! Путьпоиска '%s'"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:181
+msgid "wxGISInitializer: Failed to get log dir"
+msgstr "wxGISInitializer: Не удалось получить директорию файлов журналов"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:191
+#, c-format
+msgid "wxGISInitializer: Failed to open log file %s"
+msgstr "wxGISInitializer: Не удалось открыть файл журнала %s"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:203
+#, c-format
+msgid "HOST '%s': OS desc - %s, free memory - %u Mb"
+msgstr "Хост  '%s': ОС - %s, свободная память - %u Mb"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:204
+#, c-format
+msgid "wxGISInitializer: Log file: %s"
+msgstr "wxGISInitializer: Файл журнала: %s"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:211
+msgid "wxGISInitializer: Initialize locale"
+msgstr "wxGISInitializer: Инициализация локализации"
+
+#: D:\work\Projects\wxGIS\src\core/init.cpp:226
+#, c-format
+msgid "wxGISInitializer: Language is set to %s"
+msgstr "wxGISInitializer: Выбран язык %s"
+
+#: D:\work\Projects\wxGIS\src\core/process.cpp:133
+msgid "Stream Wait"
+msgstr "Поток ожидания"
+
+#: D:\work\Projects\wxGIS\src\core/process.cpp:134
+msgid "The execution communication is unavalible!"
+msgstr "Команда недоступна!"
+
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:227
+msgid "wxGISCore"
+msgstr "wxGISCore"
+
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:230
+#, c-format
+msgid "%s: Can't create %s Thread!"
+msgstr "%s: Не возможно создать поток %s!"
+
+#: D:\work\Projects\wxGIS\include\wxgis\core/core.h:236
+#, c-format
+msgid "%s: Can't run %s Thread!"
+msgstr "%s: Не возможно запустить поток %s!"
+
+#~ msgid "&Full Extent"
+#~ msgstr "&Полный охват"
+
+#~ msgid "&Previous Extent"
+#~ msgstr "П&редыдущий охват"
+
+#~ msgid "&Next Extent"
+#~ msgstr "&Следующий охват"
+
+#~ msgid "Geography"
+#~ msgstr "География"
+
+#~ msgid "[No category]"
+#~ msgstr "[Без категории]"
+
+#~ msgid "Full extent of the map"
+#~ msgstr "Полный охват карты"
+
+#~ msgid "Previous extent of the map"
+#~ msgstr "Предыдущий охват карты"
+
+#~ msgid "Next extent of the map"
+#~ msgstr "Следующий охват карты"
+
+#~ msgid "Full Extent"
+#~ msgstr "Полный охват"
+
+#~ msgid "Previous Extent"
+#~ msgstr "Предыдущий охват"
+
+#~ msgid "Next Extent"
+#~ msgstr "Следующий охват"
+
+#~ msgid "Zoom &In"
+#~ msgstr "&Увеличить"
+
+#~ msgid "Zoom &Out"
+#~ msgstr "У&меньшить"
+
+#~ msgid "&Pan"
+#~ msgstr "&Сдвинуть"
+
+#~ msgid "&Information"
+#~ msgstr "&Информация"
+
+#~ msgid "Zoom map in"
+#~ msgstr "Увеличить карту"
+
+#~ msgid "Zoom map out"
+#~ msgstr "Уменьшить карту"
+
+#~ msgid "Pan map"
+#~ msgstr "Сдвинуть карту"
+
+#~ msgid "Feature information"
+#~ msgstr "Информация об объекте"
+
+#~ msgid "Zoom In"
+#~ msgstr "Увеличить"
+
+#~ msgid "Zoom Out"
+#~ msgstr "Уменьшить"
+
+#~ msgid "Pan"
+#~ msgstr "Сдвинуть"
+
+#~ msgid "Information"
+#~ msgstr "Информация"
+
+#~ msgid "&Rotate"
+#~ msgstr "Пов&ернуть"
+
+#~ msgid "Cancel rotate"
+#~ msgstr "Отменить поворот"
+
+#~ msgid "Input rotate angle"
+#~ msgstr "Ввести угол поворота"
+
+#, fuzzy
+#~ msgid "Location:"
+#~ msgstr "Информация"
+
+#, fuzzy
+#~ msgid "<Top layer>"
+#~ msgstr "новый слой"
+
+#, fuzzy
+#~ msgid "Zoom"
+#~ msgstr "Увеличить"
+
+#~ msgid "Record:"
+#~ msgstr "Запись:"
+
+#~ msgid "of %u"
+#~ msgstr "из %u"
+
+#~ msgid "new map"
+#~ msgstr "новая карта"
+
+#~ msgid "wxGISFeatureLayer: Open failed! GDAL error: %s"
+#~ msgstr "wxGISFeatureLayer: Ошибка открытия! Ошибка GDAL: %s"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgid "Done"
+#~ msgstr "Сделано"
+
+#~ msgid "AdviseRead failed! GDAL error: %s"
+#~ msgstr "AdviseRead не удалось! Ошибка GDAL: %s"
+
+#~ msgid "RasterIO failed! GDAL error: %s"
+#~ msgstr "RasterIO не удалось! Ошибка GDAL: %s"
+
+#~ msgid " [*]"
+#~ msgstr " [*]"
+
+#~ msgid "wxGISMapView: Can't run wxDrawingThread!"
+#~ msgstr "wxGISMapView: Невозможно запустить wxDrawingThread!"

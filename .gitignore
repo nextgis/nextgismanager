@@ -6,8 +6,30 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
+*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
+
+# build directories
+build*
+
+# temporary removed
+include/wxgis/0*
+src/0*
+
+# generated directories
+lib
+bin
+
+include/wxgisdefs.h
+
+#compiled translation
+*.mo
+
+#temp
+*~
+*.~lock*
+*.save
