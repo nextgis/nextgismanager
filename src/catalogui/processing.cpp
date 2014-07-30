@@ -25,7 +25,7 @@
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalogui/gxcontdialog.h"
 
-//#ifdef wxGIS_HAVE_GEOPROCESSING
+#ifdef wxGIS_HAVE_GEOPROCESSING
 
 #include "wxgis/geoprocessing/gpdomain.h"
 

@@ -671,7 +671,9 @@ wxArrayString wxGISTable::GetFieldNames() const
     {
         for(int i = 0; i < pDef->GetFieldCount(); ++i)
         {
-            saFields.Add(wxString(pDef->GetFieldDefn(i)->GetNameRef(), wxConvUTF8));
+            wxString sFieldName(pDef->GetFieldDefn(i)->GetNameRef(), wxConvUTF8);
+            if(!sFieldName.IsEmpty())
+                saFields.Add(sFieldName);
         }
     }
 
