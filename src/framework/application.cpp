@@ -30,7 +30,7 @@
 #include "wx/propdlg.h"
 #include "wx/tokenzr.h"
 
-//#include "wx/wxhtml.h"
+#include "wxgisdefs.h"
 
 //--------------------------------------------------------------------------
 // wxGISApplication
@@ -177,7 +177,10 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
             sCaption.Append(sAcc);
         }
 
-        event.SetText(sCaption);
+#ifdef wxGIS_HAVE_UNITY_INTEGRATION
+        if(!event.GetText().IsSameAs(sCaption))
+#endif // wxGIS_HAVE_UNITY_INTEGRATION
+            event.SetText(sCaption);
 //#ifdef __WXMSW__
         if (pCmd->GetKind() == enumGISCommandCheck)
 //#endif
