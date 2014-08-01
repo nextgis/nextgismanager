@@ -111,6 +111,7 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
         break;
     case wxFSW_EVENT_RENAME:
         {
+
 #ifdef __UNIX__
             RemoveFSWatcherPath(event.GetPath());
 #endif
@@ -449,7 +450,18 @@ bool wxGxCatalog::RemoveFSWatcherTree(const wxFileName& path)
 bool wxGxCatalog::IsPathWatched(const wxString& sPath)
 {
     if(sPath.IsEmpty())
-        return false;
+        return true;
+#ifdef __UNIX__
+    //filter out proc,dev,bin,boot,sbin,runlib,sys
+    static const char *filter_dirs[] = {
+    "proc", "dev", "bin", "boot", "sbin", "run", "lib", "sys", "srv", "lost+found", NULL
+    };
+    for(int j = 0; filter_dirs[j] != NULL; ++j )
+    {
+        if(sPath.StartsWith(wxT("/") + wxString(filter_dirs[j])))
+            return true;
+    }
+#endif // __UNIX__
 
     wxArrayString sPaths;
     m_pWatcher->GetWatchedPaths(&sPaths);

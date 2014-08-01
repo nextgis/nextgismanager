@@ -786,10 +786,12 @@ void wxGxContentView::OnObjectDeleted(wxGxCatalogEvent& event)
 
 void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
 {
+    wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
+    if(pGxObject == NULL)
+        return;
     //wxLogDebug(wxT("ContentView Object %d Change"), event.GetObjectID());
     if(event.GetObjectID() == m_nParentGxObjectID)
 	{
-        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 		wxGxObjectContainer* pObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
 		if(pObjectContainer != NULL)
 		{
@@ -816,7 +818,6 @@ void wxGxContentView::OnObjectChanged(wxGxCatalogEvent& event)
 		if(pItemData->nObjectID != event.GetObjectID())
 			continue;
 
-        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 		IGxObjectUI* pObjUI =  dynamic_cast<IGxObjectUI*>(pGxObject);
 		wxIcon icon_small, icon_large;
 		if(pObjUI != NULL)
