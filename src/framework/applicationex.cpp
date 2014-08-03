@@ -74,8 +74,11 @@ void wxGISApplicationEx::Customize(void)
 	if(dialog.ShowModal() == wxID_OK )
 	{
 		if(m_pGISAcceleratorTable->HasChanges())
-			SetAcceleratorTable(m_pGISAcceleratorTable->GetAcceleratorTable());
-		wxGISToolBarMenu* pToolBarMenu =  static_cast<wxGISToolBarMenu*>(GetCommandBar(TOOLBARMENUNAME));
+        {
+            SetAcceleratorTable(m_pGISAcceleratorTable->GetAcceleratorTable());
+            UpdateAccelerators();
+        }
+        wxGISToolBarMenu* pToolBarMenu =  static_cast<wxGISToolBarMenu*>(GetCommandBar(TOOLBARMENUNAME));
 		if(pToolBarMenu)
 			pToolBarMenu->Update();
 	}

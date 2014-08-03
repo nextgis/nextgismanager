@@ -73,6 +73,7 @@ protected:
 	virtual void SerializeFramePos(bool bSave = false);
     virtual void LoadToolbars(wxXmlNode* pRootNode);
     virtual void SerializeCommandBars(bool bSave = false);
+    virtual void UpdateAccelerators();
 //
 protected:
 	wxGISAcceleratorTable* m_pGISAcceleratorTable;

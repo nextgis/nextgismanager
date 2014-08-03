@@ -206,7 +206,6 @@ void wxGISCommandBar::Serialize(wxGISApplicationBase* pApp, wxXmlNode* pNode, bo
 // wxGISMenu
 //----------------------------------------------------------------------
 IMPLEMENT_CLASS2(wxGISMenu, wxGISCommandBar, wxMenu)
-//IMPLEMENT_CLASS(wxGISMenu, wxGISCommandBar)
 
 wxGISMenu::wxGISMenu(const wxString& sName, const wxString& sCaption, wxGISEnumCommandBars type, const wxString& title, long style) : wxMenu(title, style), wxGISCommandBar(sName, sCaption, type)
 {
