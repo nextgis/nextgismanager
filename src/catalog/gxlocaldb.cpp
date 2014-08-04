@@ -34,6 +34,7 @@ wxGxOpenFileGDB::wxGxOpenFileGDB(wxGxObject *oParent, const wxString &soName, co
     m_pwxGISDataset = NULL;
     m_bIsMetadataFilled = false;
     m_bIsChildrenLoaded = false;
+    m_nDefaultCreateDirMode = 0775;
 }
 
 wxGxOpenFileGDB::~wxGxOpenFileGDB(void)
@@ -278,7 +279,7 @@ bool wxGxOpenFileGDB::Copy(const CPLString &szDestPath, ITrackCancel* const pTra
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
 
-    bool bRet = CopyDir(m_sPath, szFullDestPath, 777, pTrackCancel);
+    bool bRet = CopyDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
@@ -313,7 +314,7 @@ bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTra
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
 
-    bool bRet = MoveDir(m_sPath, szFullDestPath, 777, pTrackCancel);
+    bool bRet = MoveDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();

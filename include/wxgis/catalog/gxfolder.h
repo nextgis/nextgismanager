@@ -59,7 +59,8 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
 protected:
 	//wxGxFolder
-	virtual void LoadChildren(void);    
+	virtual void LoadChildren(void);
 protected:
 	bool m_bIsChildrenLoaded;
+	long m_nDefaultCreateDirMode;
 };

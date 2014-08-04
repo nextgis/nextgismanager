@@ -127,6 +127,18 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
             case OFTStringList:
                 newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsStringList(staFieldMap[i].nSrsFieldNo));
                 break;
+            case OFTDate:
+            case OFTTime:
+            case OFTDateTime:
+                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDateTime(staFieldMap[i].nSrsFieldNo));
+                //                    break;
+            case OFTReal:
+                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDouble(staFieldMap[i].nSrsFieldNo));
+                //                    break;
+            case OFTInteger:
+                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsInteger(staFieldMap[i].nSrsFieldNo));
+                newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
+                break;
             case OFTString:
 #ifdef CPL_RECODE_ICONV
                 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
@@ -143,20 +155,9 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
                     }
                 }
 #endif //CPL_RECODE_ICONV
-            case OFTDate:
-            case OFTTime:
-            case OFTDateTime:
-                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDateTime(staFieldMap[i].nSrsFieldNo));
-                //                    break;
-            case OFTReal:
-                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDouble(staFieldMap[i].nSrsFieldNo));
-                //                    break;
-            case OFTInteger:
-                //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsInteger(staFieldMap[i].nSrsFieldNo));
-                //                    break;
             default:
                 //TODO: recode to output encoding if pDstDataSet encoding diffes from src
-                newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
+                newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
                 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
                 break;
             };
@@ -402,6 +403,19 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                 case OFTStringList:
                     newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsStringList(staFieldMap[i].nSrsFieldNo));
                     break;
+
+                case OFTDate:
+                case OFTTime:
+                case OFTDateTime:
+//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDateTime(staFieldMap[i].nSrsFieldNo));
+//                    break;
+                case OFTReal:
+//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDouble(staFieldMap[i].nSrsFieldNo));
+//                    break;
+                case OFTInteger:
+//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsInteger(staFieldMap[i].nSrsFieldNo));
+                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
+                    break;
                 case OFTString:
 #ifdef CPL_RECODE_ICONV
 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsString(staFieldMap[i].nSrsFieldNo));
@@ -418,18 +432,6 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
                         }
                     }
 #endif //CPL_RECODE_ICONV
-                case OFTDate:
-                case OFTTime:
-                case OFTDateTime:
-//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDateTime(staFieldMap[i].nSrsFieldNo));
-//                    break;
-                case OFTReal:
-//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsDouble(staFieldMap[i].nSrsFieldNo));
-//                    break;
-                case OFTInteger:
-//                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetFieldAsInteger(staFieldMap[i].nSrsFieldNo));
-                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));
-                    break;
                 default:
                     //TODO: recode to output encoding if pDstDataSet encoding diffes from src
 //                    newFeature.SetField(staFieldMap[i].nDstFieldNo, Feature.GetRawField(staFieldMap[i].nSrsFieldNo));

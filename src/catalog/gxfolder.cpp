@@ -27,12 +27,16 @@
 //---------------------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxFolder, wxGxObjectContainer)
 
-wxGxFolder::wxGxFolder(void) : wxGxObjectContainer(), m_bIsChildrenLoaded(false)
+wxGxFolder::wxGxFolder(void) : wxGxObjectContainer()
 {
+    m_nDefaultCreateDirMode = 0775;
+    m_bIsChildrenLoaded = false;
 }
 
-wxGxFolder::wxGxFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), m_bIsChildrenLoaded(false)
+wxGxFolder::wxGxFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
 {
+    m_nDefaultCreateDirMode = 0775;
+    m_bIsChildrenLoaded = false;
 }
 
 wxGxFolder::~wxGxFolder(void)
@@ -179,7 +183,7 @@ bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCan
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
 
-    bool bRet = CopyDir(m_sPath, szFullDestPath, 777, pTrackCancel);
+    bool bRet = CopyDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if(!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
@@ -206,7 +210,7 @@ bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCan
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
 
-    bool bRet = MoveDir(m_sPath, szFullDestPath, 777, pTrackCancel);
+    bool bRet = MoveDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if(!bRet)
     {
         const char* err = CPLGetLastErrorMsg();

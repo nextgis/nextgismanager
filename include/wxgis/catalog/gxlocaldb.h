@@ -62,7 +62,7 @@ public:
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
 	//wxGxOpenFileGDB
-	virtual void LoadChildren(void);  
+	virtual void LoadChildren(void);
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
     wxGISDataset* m_pwxGISDataset;
@@ -70,6 +70,7 @@ protected:
     wxDateTime m_dtMod;
     bool m_bIsMetadataFilled;
     bool m_bIsChildrenLoaded;
+    long m_nDefaultCreateDirMode;
 };
 
 /** @class wxGxInitedFeatureDataset
