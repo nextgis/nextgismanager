@@ -171,187 +171,21 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     return true;
 }
 
-
-/*
-#include "wxgis/core/config.h"
-#include "wxgis/core/globalfn.h"
-
-wxGxCatalogUI::wxGxCatalogUI(bool bFast) : wxGxCatalog()
+bool wxGxCatalogUI::Init(void)
 {
-	m_pSelection = new wxGxSelection();
+	if(m_bIsInitialized)
+		return true;
 
-    m_bOpenLastPath = true;
-    m_bHasInternal = false;
+	if(!wxGxCatalog::Init())
+        return false;
 
-	m_ImageListSmall.Create(16, 16);
-	m_ImageListLarge.Create(48, 48);
-    if(bFast)
-        return;
-    m_ImageListSmall.Add(wxBitmap(process_working_16_xpm));
-    m_ImageListLarge.Add(wxBitmap(process_working_48_xpm));
+    wxGISAppConfig oConfig = GetConfig();
+	if(!oConfig.IsOk())
+		return false;
+
+	m_bOpenLastPath = oConfig.ReadBool(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/open_last_path")), false);
+
+
+    m_bIsInitialized = true;
+    return true;
 }
-
-wxGxCatalogUI::~wxGxCatalogUI()
-{
-}
-
-void wxGxCatalogUI::Detach(void)
-{
-    if(m_bHasInternal)
-    {
-		wxGISAppConfig oConfig = GetConfig();
-		if(oConfig.IsOk())
-		{
-			wxXmlNode* pNode = oConfig.GetConfigNode(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/rootitems")));
-			if(pNode)
-			{
-				oConfig.DeleteNodeChildren(pNode);
-				SerializePlugins(pNode, true);
-			}
-		}
-
-		for(size_t i = 0; i < m_ObjectFactoriesArray.size(); ++i)
-			m_ObjectFactoriesArray[i]->PutCatalogRef(m_pExtCat);
-
-	    wxDELETE(m_pSelection);
-	    EmptyChildren();
-    	EmptyDisabledChildren();
-    }
-    else
-    {
-		wxGISAppConfig oConfig = GetConfig();
-		if(oConfig.IsOk())
-			oConfig.Write(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/open_last_path")), m_bOpenLastPath);
-
-	    wxDELETE(m_pSelection);
-        wxGxCatalog::Detach();
-    }
-}
-
-void wxGxCatalogUI::EditProperties(wxWindow *parent)
-{
-    //show options
-    IApplication* pApp = GetApplication();
-    if(pApp)
-        pApp->OnAppOptions();
-}
-
-void wxGxCatalogUI::Init(IGxCatalog* pExtCat)
-{
-	if(m_bIsChildrenLoaded)
-		return;
-
-    m_pExtCat = pExtCat;
-
-    if(pExtCat)
-    {
-        m_bHasInternal = true;
-        GxObjectFactoryArray* poObjFactArr = pExtCat->GetObjectFactories();
-        if(poObjFactArr)
-        {
-            for(size_t i = 0; i < poObjFactArr->size(); ++i)
-            {
-                m_ObjectFactoriesArray.push_back(poObjFactArr->at(i));
-                poObjFactArr->at(i)->PutCatalogRef(this);
-            }
-        }
-
-
-	    //loads current user and when local machine items
-
-        //IGxObjectContainer* pGxObjectContainer = dynamic_cast<IGxObjectContainer*>(pExtCat);
-        //GxObjectArray* pGxObjectArray = pGxObjectContainer->GetChildren();
-        //if(pGxObjectArray)
-        //    for(size_t i = 0; i < pGxObjectArray->size(); ++i)
-        //        m_Children.push_back(pGxObjectArray->at(i));
-
-	    LoadChildren();
-
-	    m_bShowHidden = pExtCat->GetShowHidden();
-	    m_bShowExt = pExtCat->GetShowExt();
-    }
-    else
-    {
-	    LoadObjectFactories();
-	    LoadChildren();
-
-		wxGISAppConfig oConfig = GetConfig();
-		if(!oConfig.IsOk())
-			return;
-
-		m_bShowHidden = oConfig.ReadBool(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/show_hidden")), false);
-	    m_bShowExt = oConfig.ReadBool(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/show_ext")), true);
-	    m_bOpenLastPath = oConfig.ReadBool(enumGISHKCU, GetConfigName() + wxString(wxT("/catalog/open_last_path")), true);
-    }
-}
-
-void wxGxCatalogUI::ObjectDeleted(long nObjectID)
-{
-    m_pSelection->RemoveDo(nObjectID);
-    wxGxCatalog::ObjectDeleted(nObjectID);
-}
-
-IGxObject* wxGxCatalogUI::ConnectFolder(wxString sPath, bool bSelect)
-{
-    if(m_pGxDiscConnections)
-    {
-        IGxObject* pAddedObj = m_pGxDiscConnections->ConnectFolder(sPath);
-        if(pAddedObj && bSelect)
-        {
-            m_pSelection->Select(pAddedObj->GetID(), false, IGxSelection::INIT_ALL);
-            return pAddedObj;
-        }
-    }
-    return NULL;
-}
-
-void wxGxCatalogUI::DisconnectFolder(CPLString sPath)
-{
-    if(m_pGxDiscConnections)
-        m_pGxDiscConnections->DisconnectFolder(sPath);
-}
-
-void wxGxCatalogUI::SetLocation(wxString sPath)
-{
-    IGxObject* pObj = SearchChild(sPath);
-	if(pObj)
-		m_pSelection->Select(pObj->GetID(), false, IGxSelection::INIT_ALL);
-	else
-		ConnectFolder(sPath);
-}
-
-void wxGxCatalogUI::Undo(int nPos)
-{
-    if(m_pSelection->CanUndo())
-    {
-        long nID = m_pSelection->Undo(nPos);
-        if(nID != wxNOT_FOUND && GxObjectMap[nID] != NULL)
-		{
-			m_pSelection->Select(nID, false, IGxSelection::INIT_ALL);
-		}
-    }
-}
-
-void wxGxCatalogUI::Redo(int nPos)
-{
-    if(m_pSelection->CanRedo())
-    {
-        long nID = m_pSelection->Redo(nPos);
-        if(nID != wxNOT_FOUND && GxObjectMap[nID] != NULL)
-		{
-			m_pSelection->Select(nID, false, IGxSelection::INIT_ALL);
-		}
-    }
-}
-
-wxIcon wxGxCatalogUI::GetLargeImage(void)
-{
-    return wxNullIcon;
-}
-
-wxIcon wxGxCatalogUI::GetSmallImage(void)
-{
-    return wxIcon(mainframecat_xpm);
-}
-*/
-

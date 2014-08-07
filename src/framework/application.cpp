@@ -472,6 +472,8 @@ void wxGISApplication::OnAppOptions(void)
                 pPage->Apply();
         }
     }
+
+    oConfig.Save();
 }
 
 bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNamePrefix)

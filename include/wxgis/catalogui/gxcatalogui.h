@@ -26,7 +26,7 @@
 #include <wx/imaglist.h>
 
 /** @class wxGxCatalogUI
-    
+
     A GxCatalogUI class.
 
     @library{catalogui}
@@ -51,6 +51,8 @@ public:
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxCatalog.NewMenu"));};
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
+    //Initialization
+    virtual bool Init(void);
 protected:
 	virtual wxString GetConfigName(void) const {return wxString(wxT("wxCatalogUI"));};
 protected:

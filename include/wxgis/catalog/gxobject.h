@@ -98,8 +98,11 @@ protected:
     wxGxObjectList m_Children;
 };
 
-/** \class wxGxCatalogBase gxobject.h
-    \brief The root GxObject class for GxObject items
+/** @class wxGxCatalogBase gxobject.h
+
+    The root GxObject class for GxObject items
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxCatalogBase : public wxGxObjectContainer

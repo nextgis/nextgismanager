@@ -755,10 +755,10 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 	    if(NULL == pGxObject)
             continue;
-        wxString sSystemPath(pGxObject->GetPath(), wxConvUTF8);
-
-        pFileData->AddFile(sSystemPath);
-        pNamesData->AddString(pGxObject->GetFullName());
+        wxString sSystemPath = wxString::FromUTF8(pGxObject->GetPath());
+        pFileData->AddFile(sSystemPath); //bug: http://trac.wxwidgets.org/ticket/11744 //solution: http://jenyay.net/blog/2011/02/18/wxpython-i-dragndrop-fajjlov-v-linux/
+        wxString sName = pGxObject->GetFullName();
+        pNamesData->AddString(sName);
         //pIDsData->AddDecimal(pGxObject->GetId());
     }
 
