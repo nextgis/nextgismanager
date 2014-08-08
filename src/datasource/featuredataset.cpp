@@ -154,6 +154,12 @@ char **wxGISFeatureDataset::GetFileList()
         szPath = (char*)CPLResetExtension(m_sPath, "rsc");
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))
             papszFileList = CSLAddString( papszFileList, szPath );
+        break;
+    case enumVecCSV:
+        szPath = (char*)CPLResetExtension(m_sPath, "csvt");
+        if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+            papszFileList = CSLAddString( papszFileList, szPath );
+        break;
     case enumVecDXF:
         szPath = (char*)CPLResetExtension(m_sPath, "dxf.xml");
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))

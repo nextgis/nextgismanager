@@ -47,6 +47,7 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumVecGML:
         case enumVecGeoJSON:
         case enumVecS57:
+        case enumVecCSV:
             return true;
         case enumVecWFS:
         case enumVecMem:
@@ -160,6 +161,8 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
             return wxString(wxT("Memory"));
         case enumVecGeoJSON:
             return wxString(wxT("GeoJSON"));
+        case enumVecCSV:
+            return wxString(wxT("CSV"));
         }
     }
     break;

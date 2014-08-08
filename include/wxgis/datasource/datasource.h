@@ -59,6 +59,7 @@ enum wxGISEnumVectorDatasetType
     enumVecSXF,
     enumVecS57,
     enumVecFileDBLayer,
+    enumVecCSV,
     enumVecMAX
 };
 

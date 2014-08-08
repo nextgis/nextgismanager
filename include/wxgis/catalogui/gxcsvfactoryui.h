@@ -34,6 +34,7 @@ class wxGxCSVFileFactoryUI :
 public:
 	wxGxCSVFileFactoryUI(void);
 	virtual ~wxGxCSVFileFactoryUI(void);
+protected:
     //wxGxCSVFileFactory
     virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
 protected:

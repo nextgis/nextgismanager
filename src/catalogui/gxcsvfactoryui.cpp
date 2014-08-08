@@ -47,7 +47,15 @@ wxGxObject* wxGxCSVFileFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
         return NULL;
     }
 
-    wxGxTableDatasetUI* pDataset = new wxGxTableDatasetUI(enumTableCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
-    return wxStaticCast(pDataset, wxGxObject);
+    if(HasGeometryField(szPath))
+    {
+        wxGxFeatureDatasetUI* pDataset = new wxGxFeatureDatasetUI(enumVecCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
+        return wxStaticCast(pDataset, wxGxObject);
+    }
+    else
+    {
+        wxGxTableDatasetUI* pDataset = new wxGxTableDatasetUI(enumTableCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
+        return wxStaticCast(pDataset, wxGxObject);
+    }
 }
 

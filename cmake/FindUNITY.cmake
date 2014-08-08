@@ -1,12 +1,13 @@
-# - Try to find the CAIRO library
+# Copyright (c) 2014, Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+# - Try to find the UNITY library
 # Once done this will define
 #
-#  UNITY_ROOT_DIR - Set this variable to the root installation of CAIRO
+#  UNITY_ROOT_DIR - Set this variable to the root installation of UNITY
 #
 # Read-Only variables:
-#  UNITY_FOUND - system has the CAIRO library
-#  UNITY_INCLUDE_DIR - the CAIRO include directory
-#  UNITY_LIBRARIES - The libraries needed to use CAIRO
+#  UNITY_FOUND - system has the UNITY library
+#  UNITY_INCLUDE_DIR - the UNITY include directory
+#  UNITY_LIBRARIES - The libraries needed to use UNITY
 #  TODO: UNITY_VERSION - This is set to $major.$minor.$revision (eg. 0.9.8)
 
 #=============================================================================

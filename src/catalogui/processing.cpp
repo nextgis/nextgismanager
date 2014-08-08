@@ -461,7 +461,19 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
         }
     }
 
-    if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, true, static_cast<ITrackCancel*>(&ProgressDlg)))
+    //set default options
+    char** papszLayerOptions = NULL;
+    if(pFilter->GetSubType() == enumVecCSV)
+    {
+        //TODO: set from config
+        //papszLayerOptions = CSLAddNameValue(papszLayerOptions, "GEOMETRY", "AS_WKT");
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "CREATE_CSVT", "YES");
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "SEPARATOR", "SEMICOLON");
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "WRITE_BOM", "YES");
+    }
+
+
+    if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, papszLayerOptions, true, static_cast<ITrackCancel*>(&ProgressDlg)))
     {
         ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
     }

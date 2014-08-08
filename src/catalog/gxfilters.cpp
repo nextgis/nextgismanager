@@ -83,7 +83,7 @@ wxGISEnumSaveObjectResults wxGxObjectFilter::CanSaveObject( wxGxObject* const pL
 			return enumGISSaveObjectAccept;
 		else
 			return enumGISSaveObjectExists;
-	}	
+	}
 	return enumGISSaveObjectDeny;
 }
 
@@ -390,6 +390,8 @@ wxString wxGxFeatureDatasetFilter::GetName(void) const
 	    return wxString(_("Panorama SXF (*.sxf)"));
     case enumVecS57:
 	    return wxString(_("s57 format (*.000)"));
+    case enumVecCSV:
+ 	    return wxString(_("Comma Separated Values (*.csv)"));
     case enumVecFileDBLayer:
 	    return wxString(_("GeoDatabase Feature class"));
     default:
@@ -426,6 +428,8 @@ wxString wxGxFeatureDatasetFilter::GetExt(void) const
 	    return wxString(wxT("sxf"));
     case enumVecS57:
 	    return wxString(wxT("000"));
+    case enumVecCSV:
+	    return wxString(wxT("csv"));
     default:
         return wxEmptyString;
     }

@@ -71,6 +71,22 @@ bool wxGxCSVFileFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
 	return true;
 }
 
+bool wxGxCSVFileFactory::HasGeometryField(const CPLString &szPath) const
+{
+    char szBuffer[1024+1];
+    VSILFILE* fp = VSIFOpenL(szPath, "r");
+    if (fp == NULL)
+        return false;
+
+    int nRead = VSIFReadL(szBuffer, 1, 1024, fp);
+    szBuffer[nRead] = 0;
+
+    VSIFCloseL(fp);
+
+    CPLString str(szBuffer);
+    return str.find("WKT") != -1;
+}
+
 wxGxObject* wxGxCSVFileFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames)
 {
     if(bCheckNames && IsNameExist(pParent, soName))
@@ -78,6 +94,14 @@ wxGxObject* wxGxCSVFileFactory::GetGxObject(wxGxObject* pParent, const wxString 
         return NULL;
     }
 
-    wxGxTableDataset* pDataset = new wxGxTableDataset(enumTableCSV, pParent, soName, szPath);
-    return wxStaticCast(pDataset, wxGxObject);
+    if(HasGeometryField(szPath))
+    {
+        wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(enumVecCSV, pParent, soName, szPath);
+        return wxStaticCast(pDataset, wxGxObject);
+    }
+    else
+    {
+        wxGxTableDataset* pDataset = new wxGxTableDataset(enumTableCSV, pParent, soName, szPath);
+        return wxStaticCast(pDataset, wxGxObject);
+    }
 }
