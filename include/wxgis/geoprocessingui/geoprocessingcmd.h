@@ -26,6 +26,14 @@
 
 //#include "wxgis/datasource/featuredataset.h"
 
+enum wxGISGeoprocessingCmdType{
+    enumGISGeoprocessingCmdShowHideToolboxPane = 0,
+    enumGISGeoprocessingCmdExport,
+    enumGISGeoprocessingCmdExportWithParameters,
+    enumGISGeoprocessingCmdExportAttrbutes,
+    enumGISGeoprocessingCmdMax
+};
+
 /** @class wxGISGeoprocessingCmd
 
     The main geoprocessing commands: "Export", ...
@@ -33,12 +41,10 @@
     @library{gpui}
 */
 
-
 class WXDLLIMPEXP_GIS_GPU wxGISGeoprocessingCmd :
     public wxGISCommand
 {
     DECLARE_DYNAMIC_CLASS(wxGISGeoprocessingCmd)
-
 public:
 	wxGISGeoprocessingCmd(void);
 	virtual ~wxGISGeoprocessingCmd(void);

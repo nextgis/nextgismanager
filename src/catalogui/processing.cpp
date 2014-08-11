@@ -223,6 +223,101 @@ void ExportSingleDatasetSelectWithParams(wxWindow* pWnd, IGxDataset* const pGxDa
     ExportSingleDatasetSelect(pWnd, pGxDataset);
 }
 
+void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset)
+{
+    wxCHECK_RET(pGxDataset, wxT("The input pointer (IGxDataset*) is NULL"));
+
+    wxGxObject* pGxSrcObj = dynamic_cast<wxGxObject*>(pGxDataset);
+    wxString sName = pGxSrcObj->GetName();
+    sName = ClearExt(sName);
+
+    wxGxObjectDialog dlg(pWnd, wxID_ANY, _("Select output"));
+    dlg.SetName(sName);
+    dlg.SetAllowMultiSelect(false);
+    dlg.SetAllFilters(false);
+
+    bool bDefaultSet = false;
+    int eDefaulSubType = 0;
+
+    for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
+    {
+        wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+        if (IsFileDataset(enumGISTableDataset, eCurrentSubType))
+        {
+            if (bDefaultSet)
+            {
+                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+            }
+            else
+            {
+                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                bDefaultSet = true;
+                eDefaulSubType = eCurrentSubType;
+            }
+        }
+    }
+    dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+
+    dlg.SetButtonCaption(_("Export"));
+    dlg.SetOverwritePrompt(true);
+
+    wxGxObject* pGxParentObj = pGxSrcObj->GetParent();
+    wxString sStartLoc;
+
+    if (pGxParentObj)
+    {
+        while (NULL != pGxParentObj)
+        {
+            wxGxObjectContainer* pGxCont = wxDynamicCast(pGxParentObj, wxGxObjectContainer);
+            if (NULL != pGxCont && pGxCont->CanCreate(enumGISFeatureDataset, eDefaulSubType))
+            {
+                break;
+            }
+            else
+            {
+                pGxParentObj = pGxParentObj->GetParent();
+            }
+        }
+        if (pGxParentObj)
+        {
+            sStartLoc = pGxParentObj->GetFullName();
+        }
+    }
+
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_attr/path"), sStartLoc);
+    }
+
+    if (!sStartLoc.IsEmpty())
+        dlg.SetStartingLocation(sStartLoc);
+    if (dlg.ShowModalSave() == wxID_OK)
+    {
+
+        wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
+        if (NULL == pFilter)
+        {
+            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
+            wxLogError(_("Null wxGxObjectFilter returned"));
+            return;
+        }
+
+        CPLString sPath = dlg.GetPath();
+        wxString sCatalogPath = dlg.GetLocation()->GetFullName();
+        wxFileName oFName(dlg.GetName());
+        wxString sName = oFName.GetName();
+
+        if (oConfig.IsOk())
+        {
+            oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_attr/path"), sCatalogPath);
+        }
+
+        ExportSingleTableDataset(pWnd, sPath, sName, pFilter, pGxDataset);
+    }
+}
+
+
 void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets)
 {
     wxCHECK_RET(paDatasets.size() > 1, wxT("The input dataset array is empty"));
@@ -431,6 +526,118 @@ void ExportMultipleDatasetsSelectWithParams(wxWindow* pWnd, wxVector<IGxDataset*
     ExportMultipleDatasetsSelect(pWnd, paDatasets);
 }
 
+void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets)
+{
+    wxCHECK_RET(paDatasets.size() > 1, wxT("The input dataset array is empty"));
+
+    wxGxContainerDialog dlg(pWnd, wxID_ANY, _("Select output"));
+    dlg.SetAllFilters(false);
+    dlg.ShowExportFormats(true);
+
+    wxGxObject* pGxSrcObj = dynamic_cast<wxGxObject*>(paDatasets[0]);
+
+    bool bDefaultSet = false;
+    int eDefaulSubType = 0;
+
+    for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
+    {
+        wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+        if (IsFileDataset(enumGISTableDataset, eCurrentSubType))
+        {
+            if (bDefaultSet)
+            {
+                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+            }
+            else
+            {
+                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                bDefaultSet = true;
+                eDefaulSubType = eCurrentSubType;
+            }
+        }
+    }
+
+    dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+
+    dlg.AddShowFilter(new wxGxFolderFilter());
+    dlg.AddShowFilter(new wxGxRemoteDBSchemaFilter());
+    dlg.ShowCreateButton(true);
+
+    wxGxObject* pGxParentObj = pGxSrcObj->GetParent();
+    wxString sStartLoc;
+
+    if (pGxParentObj)
+    {
+        while (NULL != pGxParentObj)
+        {
+            wxGxObjectContainer* pGxCont = wxDynamicCast(pGxParentObj, wxGxObjectContainer);
+            if (NULL != pGxCont && pGxCont->CanCreate(enumGISTableDataset, eDefaulSubType))
+            {
+                break;
+            }
+            else
+            {
+                pGxParentObj = pGxParentObj->GetParent();
+            }
+        }
+        if (pGxParentObj)
+        {
+            sStartLoc = pGxParentObj->GetFullName();
+        }
+    }
+
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_attr/path"), sStartLoc);
+    }
+
+    if (!sStartLoc.IsEmpty())
+        dlg.SetStartingLocation(sStartLoc);
+
+    if (dlg.ShowModal() == wxID_OK)
+    {
+        wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
+        if (NULL == pFilter)
+        {
+            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
+            wxLogError(_("Null wxGxObjectFilter returned"));
+            return;
+        }
+
+        CPLString sPath = dlg.GetPath();
+        wxString sCatalogPath = dlg.GetLocation()->GetFullName();
+
+        if (oConfig.IsOk())
+        {
+            oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_attr/path"), sCatalogPath);
+        }
+
+        //TODO: Now we create the copies (new names) instead of overwrite, but should show table with exist names and new names. If user set the same name - overwrite
+        // |----------------|------------------|
+        // |    dataset1    |  dataset1 (1)    |
+        // |    dataset2    |  dataset2 (1)    |
+        // |    dataset3    |  dataset3 (2)    |
+        // |----------------|------------------|
+
+        wxVector<EXPORTED_DATASET> paExportDatasets;
+        for (size_t i = 0; i < paDatasets.size(); ++i)
+        {
+            wxGxObject* pGxSrcDatasetObj = dynamic_cast<wxGxObject*>(paDatasets[i]);
+            if (NULL == pGxSrcDatasetObj)
+            {
+                continue;
+            }
+            wxString sNewName = CheckUniqName(sPath, pGxSrcDatasetObj->GetBaseName(), pFilter->GetExt());
+            EXPORTED_DATASET ds = { sNewName, paDatasets[i] };
+            paExportDatasets.push_back(ds);
+        }
+
+        ExportMultipleTableDatasets(pWnd, sPath, pFilter, paExportDatasets);
+    }
+}
+
+
 void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset)
 {
     wxCHECK_RET(pFilter && pGxDataset, wxT("The input pointer is NULL"));
@@ -466,7 +673,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     if(pFilter->GetSubType() == enumVecCSV)
     {
         //TODO: set from config
-        //papszLayerOptions = CSLAddNameValue(papszLayerOptions, "GEOMETRY", "AS_WKT");
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "GEOMETRY", "AS_WKT");
         papszLayerOptions = CSLAddNameValue(papszLayerOptions, "CREATE_CSVT", "YES");
         papszLayerOptions = CSLAddNameValue(papszLayerOptions, "SEPARATOR", "SEMICOLON");
         papszLayerOptions = CSLAddNameValue(papszLayerOptions, "WRITE_BOM", "YES");

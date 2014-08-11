@@ -59,12 +59,13 @@ wxIcon wxGISGeoprocessingCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
 			if (!m_IconToolView.IsOk())
 				m_IconToolView = wxIcon(toolview_xpm);
 			return m_IconToolView;
-		case 1:
-		case 2:
+		case enumGISGeoprocessingCmdExport:
+		case enumGISGeoprocessingCmdExportWithParameters:
+        case enumGISGeoprocessingCmdExportAttrbutes:
 			if(!m_IconGPMenu.IsOk())
 				m_IconGPMenu = wxIcon(export_xpm);
 			return m_IconGPMenu;
@@ -77,12 +78,14 @@ wxString wxGISGeoprocessingCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
 			return wxString(_("Show/Hide &Toolbox panel"));
-		case 1:
+		case enumGISGeoprocessingCmdExport:
 			return wxString(_("&Export"));
-		case 2:
+		case enumGISGeoprocessingCmdExportWithParameters:
 			return wxString(_("E&xport with parameters"));
+		case enumGISGeoprocessingCmdExportAttrbutes:
+			return wxString(_("Export &attributes"));
 		default:
 		    return wxEmptyString;
 	}
@@ -92,10 +95,11 @@ wxString wxGISGeoprocessingCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
 			return wxString(_("View"));
-		case 1:
-		case 2:
+		case enumGISGeoprocessingCmdExport:
+		case enumGISGeoprocessingCmdExportWithParameters:
+        case enumGISGeoprocessingCmdExportAttrbutes:
 			return wxString(_("Geoprocessing"));
 		default:
 			return NO_CATEGORY;
@@ -106,10 +110,11 @@ bool wxGISGeoprocessingCmd::GetChecked(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
             return m_pApp->IsApplicationWindowShown(m_pToolboxView);
-		case 1:
-		case 2:
+		case enumGISGeoprocessingCmdExport:
+		case enumGISGeoprocessingCmdExportWithParameters:
+		case enumGISGeoprocessingCmdExportAttrbutes:
 		default:
 	        return false;
 	}
@@ -131,9 +136,9 @@ bool wxGISGeoprocessingCmd::GetEnabled(void)
 
     switch(m_subtype)
 	{
-		case 0://Show/Hide Toolbox panel
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
             return NULL != m_pToolboxView;
-		case 1://Export
+		case enumGISGeoprocessingCmdExport:
 			if (NULL != pSel && NULL != pCat)
 			{
 				for (size_t i = 0; i < pSel->GetCount(); ++i)
@@ -146,7 +151,7 @@ bool wxGISGeoprocessingCmd::GetEnabled(void)
 				}
 			}
 			return false;
-		case 2://Export wit parameters - only one file accepted
+		case enumGISGeoprocessingCmdExportWithParameters:
 			if (NULL != pSel && NULL != pCat)
 			{
 				for (size_t i = 0; i < pSel->GetCount(); ++i)
@@ -159,6 +164,20 @@ bool wxGISGeoprocessingCmd::GetEnabled(void)
 				}
 			}
 			return false;
+        case enumGISGeoprocessingCmdExportAttrbutes:
+            if (NULL != pSel && NULL != pCat)
+			{
+				for (size_t i = 0; i < pSel->GetCount(); ++i)
+				{
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
+					if (NULL != pDSet && pDSet->GetType() == enumGISFeatureDataset)
+					{
+						return true;
+					}
+				}
+			}
+            return false;
 		default:
 			return false;
 	}
@@ -168,10 +187,11 @@ wxGISEnumCommandKind wxGISGeoprocessingCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Show/hide toolbox panel
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
             return enumGISCommandCheck;
-		case 1://Export
-		case 2://Export with parameters
+		case enumGISGeoprocessingCmdExport:
+		case enumGISGeoprocessingCmdExportWithParameters:
+        case enumGISGeoprocessingCmdExportAttrbutes:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -181,12 +201,14 @@ wxString wxGISGeoprocessingCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
 			return wxString(_("Show/Hide Toolbox panel"));
-		case 1:
+		case enumGISGeoprocessingCmdExport:
 			return wxString(_("Export selected item(s) to another format"));
-		case 2:
+		case enumGISGeoprocessingCmdExportWithParameters:
 			return wxString(_("Export selected item to another format"));
+		case enumGISGeoprocessingCmdExportAttrbutes:
+			return wxString(_("Export selected item attributes"));
 		default:
 			return wxEmptyString;
 	}
@@ -201,10 +223,10 @@ void wxGISGeoprocessingCmd::OnClick(void)
 
 	switch (m_subtype)
 	{
-	case 0:
+	case enumGISGeoprocessingCmdShowHideToolboxPane:
 		m_pApp->ShowApplicationWindow(m_pToolboxView, !m_pApp->IsApplicationWindowShown(m_pToolboxView));
         break;
-	case 1:
+	case enumGISGeoprocessingCmdExport:
 		if (NULL != pSel && NULL != pCat)
 		{
 			//1. fill the IGxDataset* array
@@ -230,7 +252,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
 							}
 						}
 					}
-					else if (NULL != pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+					else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
 					{
 						paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
 					}
@@ -249,7 +271,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
             }
 		}
 		break;
-	case 2:
+	case enumGISGeoprocessingCmdExportWithParameters:
 		if (NULL != pSel && NULL != pCat)
 		{
             //1. fill the IGxDataset* array
@@ -275,7 +297,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
                             }
                         }
                     }
-                    else if (NULL != pGxObject && pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+                    else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
                     {
                         paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
                     }
@@ -292,8 +314,58 @@ void wxGISGeoprocessingCmd::OnClick(void)
             {
                 ExportMultipleDatasetsSelectWithParams(pWnd, paDatasets);
             }
+
         }
 		break;
+    case enumGISGeoprocessingCmdExportAttrbutes:
+        if (NULL != pSel && NULL != pCat)
+		{
+            //1. fill the IGxDataset* array
+            wxVector<IGxDataset*> paDatasets;
+            for (size_t i = 0; i < pSel->GetCount(); ++i)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+                if (NULL != pGxObject)
+                {
+                    if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+                    {
+                        wxBusyCursor wait;
+                        wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+                        if (!pCont->HasChildren())
+                            continue;
+                        const wxGxObjectList lObj = pCont->GetChildren();
+                        for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+                        {
+                            IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
+                            if (NULL != pGxDSet && pGxDSet->GetType() == enumGISFeatureDataset)
+                            {
+                                paDatasets.push_back(pGxDSet);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        wxGxDataset* pDSet = wxDynamicCast(pGxObject, wxGxDataset);
+                        if (NULL != pDSet && pDSet->GetType() == enumGISFeatureDataset)
+                        {
+                            paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+                        }
+                    }
+                }
+            }
+
+            //2. GxObject progress
+            wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
+            if (paDatasets.size() == 1)
+            {
+                ExportSingleDatasetAttributes(pWnd, paDatasets[0]);
+            }
+            else if (paDatasets.size() > 1)
+            {
+                ExportMultipleDatasetsAttributes(pWnd, paDatasets);
+            }
+        }
+        break;
 	default:
 		return;
 	}
@@ -310,12 +382,14 @@ wxString wxGISGeoprocessingCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISGeoprocessingCmdShowHideToolboxPane:
 			return wxString(_("Show/Hide Toolbox panel"));
-		case 1:
+		case enumGISGeoprocessingCmdExport:
 			return wxString(_("Export item(s)"));
-		case 2:
+		case enumGISGeoprocessingCmdExportWithParameters:
 			return wxString(_("Export item with parameters"));
+		case enumGISGeoprocessingCmdExportAttrbutes:
+			return wxString(_("Export item's attributes"));
 		default:
 			return wxEmptyString;
 	}
@@ -323,7 +397,7 @@ wxString wxGISGeoprocessingCmd::GetTooltip(void)
 
 unsigned char wxGISGeoprocessingCmd::GetCount(void)
 {
-	return 3;
+	return enumGISGeoprocessingCmdMax;
 }
 
 

@@ -35,8 +35,10 @@ typedef struct _exported_dataset
 
 WXDLLIMPEXP_GIS_CLU void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset);
 WXDLLIMPEXP_GIS_CLU void ExportSingleDatasetSelectWithParams(wxWindow* pWnd, IGxDataset* const pGxDataset);
+WXDLLIMPEXP_GIS_CLU void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleDatasetsSelectWithParams(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets);
+WXDLLIMPEXP_GIS_CLU void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paDatasets);
 
 WXDLLIMPEXP_GIS_CLU void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset);
 
