@@ -91,6 +91,7 @@ public:
 	virtual OGRFeatureDefn* const GetDefinition(void) const;
 protected:
     virtual void SetInternalValues(void);
+ 	virtual bool IsContainer() const;
 protected:
 	OGRCompatibleDataSource* m_poDS;
 	OGRLayer* m_poLayer;

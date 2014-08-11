@@ -25,8 +25,9 @@
 
 #define NOTNODATA -9999.0
 
-/** \enum wxGISEnumDatasetType
-    \brief The dataset types
+/** @enum wxGISEnumDatasetType
+
+    The dataset types
 */
 
 enum wxGISEnumDatasetType
@@ -39,8 +40,9 @@ enum wxGISEnumDatasetType
     enumGISDrawing = 5
 };
 
-/** \enum wxGISEnumVectorDatasetType
-    \brief The vector datasource types
+/** @enum wxGISEnumVectorDatasetType
+
+    The vector datasource types
 */
 enum wxGISEnumVectorDatasetType
 {
@@ -63,8 +65,9 @@ enum wxGISEnumVectorDatasetType
     enumVecMAX
 };
 
-/** \enum wxGISEnumRasterDatasetType
-    \brief The raster datasource types
+/** @enum wxGISEnumRasterDatasetType
+
+    The raster datasource types
 */
 enum wxGISEnumRasterDatasetType
 {
@@ -85,8 +88,9 @@ enum wxGISEnumRasterDatasetType
     enumRasterMAX
 };
 
-/** \enum wxGISEnumTableDatasetType
-    \brief The table datasource types
+/** @enum wxGISEnumTableDatasetType
+
+    The table datasource types
 */
 enum wxGISEnumTableDatasetType
 {
@@ -98,11 +102,15 @@ enum wxGISEnumTableDatasetType
     enumTableMapinfoMif,
     enumTableCSV,
     enumTableFileDBLayer,
+    enumTableODS,
+    enumTableXLS,
+    enumTableXLSX,
     enumTableMAX
 };
 
-/** \enum wxGISEnumPrjFileType
-    \brief The projection file types
+/** @enum wxGISEnumPrjFileType
+
+    The projection file types
 */
 enum wxGISEnumPrjFileType
 {
@@ -111,8 +119,9 @@ enum wxGISEnumPrjFileType
 	enumQPJfile = 3
 };
 
-/** \enum wxGISEnumContainerType
-    \brief The container types
+/** @enum wxGISEnumContainerType
+
+    The container types
 */
 enum wxGISEnumContainerType
 {
@@ -125,8 +134,9 @@ enum wxGISEnumContainerType
     enumContWebServiceConnection
 };
 
-/** \enum wxGISEnumWldExtType
-    \brief The world file ext type
+/** @enum wxGISEnumWldExtType
+
+    The world file ext type
 */
 
 enum wxGISEnumWldExtType

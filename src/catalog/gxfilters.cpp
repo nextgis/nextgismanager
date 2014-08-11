@@ -784,6 +784,12 @@ wxString wxGxTableDatasetFilter::GetName(void) const
         return wxString(_("MapInfo table File (*.mif)"));
     case enumTableCSV:
  	    return wxString(_("Comma Separated Values (*.csv)"));
+    case enumTableODS:
+ 	    return wxString(_("LibreOffice spreadsheet (*.ods)"));
+    case enumTableXLS:
+ 	    return wxString(_("Microsoft Office Excel (*.xls)"));
+    case enumTableXLSX:
+ 	    return wxString(_("Microsoft Office Excel (*.xlsx)"));
     case enumTablePostgres:
     case enumTableFileDBLayer:
  	    return wxString(_("Database table"));
@@ -804,6 +810,12 @@ wxString wxGxTableDatasetFilter::GetExt(void) const
         return wxString(wxT("mif"));
     case enumTableCSV:
         return wxString(wxT("csv"));
+    case enumTableODS:
+        return wxString(wxT("ods"));
+    case enumTableXLS:
+        return wxString(wxT("xls"));
+    case enumTableXLSX:
+        return wxString(wxT("xlsx"));
     case enumTablePostgres:
     case enumTableFileDBLayer:
         return wxEmptyString;

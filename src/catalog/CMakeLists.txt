@@ -109,6 +109,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxlocaldbfactory.h
     ${LIB_HEADERS}/gxgnmfactory.h
     ${LIB_HEADERS}/gxgnm.h
+    ${LIB_HEADERS}/gxssfactory.h
+    ${LIB_HEADERS}/gxssdataset.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -151,6 +153,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxlocaldbfactory.cpp
     ${LIB_SOURCES}/gxgnmfactory.cpp
     ${LIB_SOURCES}/gxgnm.cpp
+    ${LIB_SOURCES}/gxssfactory.cpp
+    ${LIB_SOURCES}/gxssdataset.cpp
 )
 
 add_definitions(-DwxUSE_GUI=0 -DWXMAKINGDLL_GIS_CLT)

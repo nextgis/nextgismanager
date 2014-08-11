@@ -4,6 +4,7 @@
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
 # *   Copyright (C) 2013 Dmitry Baryshnikov
+# *   Copyright (C) 2014 NextGIS
 # *
 # *    This program is free software: you can redistribute it and/or modify
 # *    it under the terms of the GNU General Public License as published by
@@ -147,6 +148,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/createremotedlgs.h
     ${LIB_HEADERS}/gxgnmfactoryui.h
     ${LIB_HEADERS}/gxgnmui.h
+    ${LIB_HEADERS}/gxssfactoryui.h
+    ${LIB_HEADERS}/gxssdatasetui.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -211,6 +214,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/createremotedlgs.cpp
     ${LIB_SOURCES}/gxgnmfactoryui.cpp
     ${LIB_SOURCES}/gxgnmui.cpp
+    ${LIB_SOURCES}/gxssfactoryui.cpp
+    ${LIB_SOURCES}/gxssdatasetui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)

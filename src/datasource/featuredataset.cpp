@@ -256,19 +256,7 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
 		return false;
     }
 
-    SetInternalValues();
-
-    if (IsContainer())
-    {
-        m_nType = enumGISContainer;
-    }
-
 	m_bIsOpened = true;
-
-    if(bCache)
-    {
-        Cache(pTrackCancel);
-    }
 
 	return true;
 }

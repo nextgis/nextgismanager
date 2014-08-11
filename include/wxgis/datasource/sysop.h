@@ -75,6 +75,9 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumTableMapinfoTab:
         case enumTableMapinfoMif:
         case enumTableCSV:
+        case enumTableODS:
+        case enumTableXLS:
+        case enumTableXLSX:
             return true;
         case enumTableFileDBLayer:
         default:
@@ -180,6 +183,12 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
             return wxString(wxT("CSV"));
         case enumTablePostgres:
             return wxString(wxT("PostgreSQL"));
+        case enumTableODS:
+            return wxString(wxT("ODS"));
+        case enumTableXLS:
+            return wxString(wxT("XLS"));
+        case enumTableXLSX:
+            return wxString(wxT("XLSX"));
         case enumTableUnknown:
         case enumTableQueryResult:
             return wxEmptyString;

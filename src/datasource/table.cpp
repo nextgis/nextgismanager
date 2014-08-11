@@ -146,12 +146,21 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
 
 		int nLayerCount = m_poDS->GetLayerCount();
 		if(nLayerCount == 1)
+        {
 			m_poLayer = m_poDS->GetLayer(iLayer);
+        }
 		else
+        {
 			m_nType = enumGISContainer;
+        }
 	}
 
     SetInternalValues();
+
+    if (IsContainer())
+    {
+        m_nType = enumGISContainer;
+    }
 
 	m_bIsOpened = true;
 
@@ -161,6 +170,12 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
     }
 
 	return true;
+}
+
+bool wxGISTable::IsContainer() const
+{
+    //for file datasources only
+    return m_nSubType == enumTableODS || m_nSubType == enumTableXLS || m_nSubType == enumTableXLSX;
 }
 
 size_t wxGISTable::GetSubsetsCount(void) const
