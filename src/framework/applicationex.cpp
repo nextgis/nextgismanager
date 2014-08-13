@@ -353,30 +353,59 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 #endif // __WINDOWS__
 
 #ifdef __UNIX__
-    wxString sGdalDataGCS = wxString::Format(wxT("/usr/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
-    if(!wxFileName::FileExists(sGdalDataGCS))
+    //check config option for gdal directory
+    wxString sGDALPath;
+    wxGISAppConfig oConfig = GetConfig();
+	if(oConfig.IsOk())
     {
-        wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
-        sGdalDataGCS = wxString(wxT("/usr/share/gdal/gcs.csv"));
+        sGDALPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxCommon/GDAL/path")), wxEmptyString);
+    }
+
+    if(sGDALPath.IsEmpty())
+    {
+        int nVerNum = atoi(GDALVersionInfo("VERSION_NUM"));
+        wxString sSubDir;
+        if(nVerNum > 1900)
+        {
+            int nMajorVer = nVerNum / 1000000;
+            int nMinorVer = nVerNum / 10000 - nMajorVer * 100;
+            sSubDir = wxString::Format(wxT("%d.%d"), nMajorVer, nMinorVer);
+        }
+        else
+        {
+            int nMajorVer = nVerNum / 1000;
+            int nMinorVer = nVerNum / 100 - nMajorVer * 10;
+            sSubDir = wxString::Format(wxT("%d.%d"), nMajorVer, nMinorVer);
+        }
+
+        wxString sGdalDataGCS = wxString::Format(wxT("/usr/share/gdal/%s/gcs.csv"), sSubDir.c_str());
         if(!wxFileName::FileExists(sGdalDataGCS))
         {
             wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
-            sGdalDataGCS = wxString::Format(wxT("/usr/local/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
+            sGdalDataGCS = wxString(wxT("/usr/share/gdal/gcs.csv"));
             if(!wxFileName::FileExists(sGdalDataGCS))
             {
                 wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
-                sGdalDataGCS = wxString(wxT("/usr/local/share/gdal/gcs.csv"));
+                sGdalDataGCS = wxString::Format(wxT("/usr/local/share/gdal/%s/gcs.csv"), sSubDir.c_str());
                 if(!wxFileName::FileExists(sGdalDataGCS))
                 {
-                    wxLogError(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
-                    return false;
+                    wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
+                    sGdalDataGCS = wxString(wxT("/usr/local/share/gdal/gcs.csv"));
+                    if(!wxFileName::FileExists(sGdalDataGCS))
+                    {
+                        wxLogError(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
+                        return false;
+                    }
                 }
             }
         }
+
+        wxFileName Name(sGdalDataGCS);
+        sGDALPath =  Name.GetPath();
     }
 
-    wxFileName Name(sGdalDataGCS);
-    CPLSetConfigOption("GDAL_DATA", Name.GetPath().ToUTF8() );
+    CPLSetConfigOption("GDAL_DATA", sGDALPath.ToUTF8() );
+
     //TODO: set path to proj lib
     #ifdef wxGIS_USE_PROJ
     #endif // wxGIS_USE_PROJ
