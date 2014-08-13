@@ -38,6 +38,7 @@ wxGxCatalog::wxGxCatalog(wxGxObject *oParent, const wxString &soName, const CPLS
 {
     m_pWatcher = new wxFileSystemWatcher();
     m_pWatcher->SetOwner(this);
+    m_bFSWatcherEnable = true;
 }
 
 wxGxCatalog::~wxGxCatalog(void)
@@ -71,6 +72,9 @@ void  wxGxCatalog::ObjectRefreshed(long nObjectID)
 
 void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
 {
+    if(!m_bFSWatcherEnable)
+        return;
+
     wxLogDebug(wxT("*** %s ****"), event.ToString().c_str());
 
     switch(event.GetChangeType())
@@ -81,22 +85,23 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetPath();
             wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
-            if(!parent)
-                break;
-            //check doubles
-            //if(parent->IsNameExist(event.GetPath().GetFullName()))
-            //    break;
+            if(parent)
+            {
+                //check doubles
+                //if(parent->IsNameExist(event.GetPath().GetFullName()))
+                //    break;
 
-            CPLString szPath(event.GetPath().GetFullPath().ToUTF8());
-            char **papszFileList = NULL;
-            papszFileList = CSLAddString( papszFileList, szPath );
+                CPLString szPath(event.GetPath().GetFullPath().ToUTF8());
+                char **papszFileList = NULL;
+                papszFileList = CSLAddString( papszFileList, szPath );
 
-            wxArrayLong ChildrenIds;
-            CreateChildren(parent, papszFileList, ChildrenIds);
-            for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                ObjectAdded(ChildrenIds[i]);
+                wxArrayLong ChildrenIds;
+                CreateChildren(parent, papszFileList, ChildrenIds);
+                for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+                    ObjectAdded(ChildrenIds[i]);
 
-            CSLDestroy( papszFileList );
+                CSLDestroy( papszFileList );
+            }
         }
         break;
     case wxFSW_EVENT_DELETE:
@@ -327,6 +332,7 @@ void wxGxCatalog::EnableRootItem(size_t nItemId, bool bEnable)
 
 bool wxGxCatalog::Destroy(void)
 {
+    m_bFSWatcherEnable = false;
     //m_pPointsArray.clear();
 
     //store to config values
@@ -488,3 +494,12 @@ bool wxGxCatalog::IsPathWatched(const wxString& sPath)
 #endif // defined
 }
 
+void wxGxCatalog::StopFSWatcher()
+{
+    m_bFSWatcherEnable = false;
+}
+
+void wxGxCatalog::StartFSWatcher()
+{
+    m_bFSWatcherEnable = true;
+}

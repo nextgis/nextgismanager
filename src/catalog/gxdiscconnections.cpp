@@ -92,10 +92,12 @@ bool wxGxDiscConnections::Destroy(void)
 
 void wxGxDiscConnections::Refresh(void)
 {
+    m_pCatalog->StopFSWatcher();
     if(DestroyChildren())
         LoadConnectionsStorage();
     else
         wxGxJSONConnectionStorage::Refresh();
+    m_pCatalog->StartFSWatcher();
 }
 
 void wxGxDiscConnections::Init(wxXmlNode* const pConfigNode)

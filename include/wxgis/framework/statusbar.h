@@ -27,10 +27,12 @@
 
 class WXDLLIMPEXP_GIS_FRW wxGISApplicationBase;
 
-/** \enum wxGISEnumStatusBarPanes
-    \brief A statusbar panels.
+/** @enum wxGISEnumStatusBarPanes
 
+    A statusbar panels.
     This is predefined statusbar panels list.
+
+    @library{framework}
 */
 enum wxGISEnumStatusBarPanels
 {
@@ -46,10 +48,12 @@ enum wxGISEnumStatusBarPanels
 	enumGISStatusProgress       = 0x0200
 };
 
-/** \class wxGISStatusBar statusbar.h
-    \brief wxGIS statusbar class.
+/** @class wxGISStatusBar
 
+    wxGIS statusbar class.
     This is base class for wxGIS application statusbar.
+
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISStatusBar :	public wxStatusBar
 {
@@ -61,7 +65,7 @@ class WXDLLIMPEXP_GIS_FRW wxGISStatusBar :	public wxStatusBar
     };
 public:
     wxGISStatusBar();
-	wxGISStatusBar(wxWindow *parent, wxWindowID id, long style = wxST_SIZEGRIP, const wxString& name = wxT("statusBar"), wxDword panelsstyle = enumGISStatusMain | enumGISStatusProgress | enumGISStatusAnimation | enumGISStatusPosition | enumGISStatusClock);
+	wxGISStatusBar(wxWindow *parent, wxWindowID id, long style = wxST_SIZEGRIP, const wxString& name = wxT("statusBar"), wxDword panelsstyle = enumGISStatusMain | enumGISStatusProgress | enumGISStatusAnimation | enumGISStatusPosition);
 	~wxGISStatusBar(void);
 //methods
      /** \fn virtual void SetMessage(const wxString& text, int i = 0)

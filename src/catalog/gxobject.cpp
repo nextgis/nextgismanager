@@ -76,7 +76,7 @@ wxString wxGxCatalogBase::ConstructFullName(const wxGxObject* pObject) const
 }
 
 void wxGxCatalogBase::RegisterObject(wxGxObject* pObj)
-{ 
+{
 	pObj->SetId(m_nGlobalId);
 	m_moGxObject[m_nGlobalId] = pObj;
 	m_nGlobalId++;
@@ -127,12 +127,12 @@ bool wxGxCatalogBase::Destroy(void)
     return wxGxObjectContainer::Destroy();
 }
 
-wxString wxGxCatalogBase::GetFullName(void) const 
+wxString wxGxCatalogBase::GetFullName(void) const
 {
     return wxEmptyString;
-}    
+}
 
-wxString wxGxCatalogBase::GetCategory(void) const 
+wxString wxGxCatalogBase::GetCategory(void) const
 {
     return wxString(wxT("Root"));
 }
@@ -157,7 +157,7 @@ void wxGxCatalogBase::SetShowExt(bool bShowExt)
     m_bShowExt = bShowExt;
 }
 
-bool wxGxCatalogBase::AreChildrenViewable(void) const 
+bool wxGxCatalogBase::AreChildrenViewable(void) const
 {
     return true;
 }
@@ -184,12 +184,12 @@ void wxGxObject::SetParent(wxGxObject *oParent)
     m_oParent = oParent;
 }
 
-wxString wxGxObject::GetName(void) const 
+wxString wxGxObject::GetName(void) const
 {
     return m_sName;
 }
 
-CPLString wxGxObject::GetPath(void) const 
+CPLString wxGxObject::GetPath(void) const
 {
     return m_sPath;
 }
@@ -204,12 +204,12 @@ void wxGxObject::SetPath(const CPLString &soPath)
     m_sPath = soPath;
 }
 
-wxString wxGxObject::GetCategory(void) const 
+wxString wxGxObject::GetCategory(void) const
 {
     return wxEmptyString;
 }
 
-wxGxObject *wxGxObject::GetParent(void) const 
+wxGxObject *wxGxObject::GetParent(void) const
 {
     return m_oParent;
 }
@@ -353,9 +353,9 @@ void wxGxObjectContainer::AddChild( wxGxObject *child )
     //    GetGxCatalog()->ObjectAdded(child->GetId());
 }
 
-const wxGxObjectList& wxGxObjectContainer::GetChildren() const 
-{ 
-    return m_Children; 
+const wxGxObjectList& wxGxObjectContainer::GetChildren() const
+{
+    return m_Children;
 }
 
 bool wxGxObjectContainer::CanCreate(long nDataType, long DataSubtype)
@@ -363,9 +363,9 @@ bool wxGxObjectContainer::CanCreate(long nDataType, long DataSubtype)
     return false;
 }
 
-wxGxObjectList& wxGxObjectContainer::GetChildren() 
-{ 
-    return m_Children; 
+wxGxObjectList& wxGxObjectContainer::GetChildren()
+{
+    return m_Children;
 }
 
 void wxGxObjectContainer::RemoveChild( wxGxObject *child )
@@ -386,6 +386,7 @@ bool wxGxObjectContainer::DestroyChild( wxGxObject *child )
 
 bool wxGxObjectContainer::DestroyChildren()
 {
+    wxLogDebug(wxT("Destroy: %s"), m_sName.c_str());
     wxGxObjectList::compatibility_iterator node;
     for ( ;; )
     {

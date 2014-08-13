@@ -32,6 +32,8 @@
 
 #include "wxgisdefs.h"
 
+#include <wx/busyinfo.h>
+
 //--------------------------------------------------------------------------
 // wxGISApplication
 //--------------------------------------------------------------------------
@@ -464,16 +466,21 @@ void wxGISApplication::OnAppOptions(void)
 
     if(PropertySheetDialog.ShowModal() == wxID_OK)
     {
+        wxWindowDisabler disableAll;
+        wxBusyInfo wait(_("Applying new configuration..."));
+
         //apply changes and exit
         for(size_t i = 0; i < PropertySheetDialog.GetBookCtrl()->GetPageCount(); ++i)
         {
             IPropertyPage *pPage = wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);// dynamic_cast<IPropertyPage*>(PropertySheetDialog.GetBookCtrl()->GetPage(i));//
             if(pPage)
-                pPage->Apply();
+            {
+                 wxTheApp->Yield();
+                 pPage->Apply();
+            }
         }
-    }
-
-    oConfig.Save();
+        oConfig.Save();
+     }
 }
 
 bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNamePrefix)

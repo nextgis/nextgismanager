@@ -60,6 +60,9 @@ wxThread::ExitCode wxGxDiscConnectionUI::Entry()
 {
     while (!GetThread()->TestDestroy())
     {
+        if(m_nIsReadable == -2)
+            return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+
         bool bIsOk = wxIsReadable(wxString(m_sPath, wxConvUTF8));
         char nIsReadable = bIsOk == true ? 1 : 0;
         if (nIsReadable != m_nIsReadable)
@@ -93,6 +96,21 @@ bool wxGxDiscConnectionUI::CreateAndRunCheckThread(void)
         return false;
     }
     return true;
+}
+
+void wxGxDiscConnectionUI::DestroyCheckThread(void)
+{
+    if (GetThread() && GetThread()->IsRunning())
+    {
+        m_nIsReadable = -2;
+        GetThread()->Wait();//Kill();//Delete();//
+    }
+}
+
+bool wxGxDiscConnectionUI::Destroy(void)
+{
+    DestroyCheckThread();
+    wxGxDiscConnection::Destroy();
 }
 
 wxIcon wxGxDiscConnectionUI::GetLargeImage(void)

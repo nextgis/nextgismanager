@@ -157,11 +157,10 @@ bool wxGISCatalogApp::OnInit()
 
 int wxGISCatalogApp::OnExit()
 {
-	wxGISAppConfig oConfig = GetConfig();
-
-    SerializeLibs();
+//    SerializeLibs();
 //the config state storing to files while destruction config class (smart pointer)
 //on linux saving file in destructor produce segmentation fault
+	wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
 		oConfig.Save(enumGISHKCU);
     return 0;

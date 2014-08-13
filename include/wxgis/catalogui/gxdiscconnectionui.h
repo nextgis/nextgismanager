@@ -53,10 +53,13 @@ public:
     //IGxDropTarget
     virtual wxDragResult CanDrop(wxDragResult def);
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
+    //gxObject
+    virtual bool Destroy(void);
 protected:
     bool CheckReadable(void);
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunCheckThread(void);
+    bool CreateAndRunCheckThread();
+    void DestroyCheckThread();
 protected:
 	wxIcon m_Conn16, m_Conn48;
 	wxIcon m_ConnDsbld16, m_ConnDsbld48;

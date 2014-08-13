@@ -75,8 +75,11 @@ protected:
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 };
 
-/** \class wxGISConfigRefData config.h
-    \brief The reference data class for wxGISConfig
+/** @class wxGISConfigRefData
+
+    The reference data class for wxGISConfig
+
+    @library{core}
 */
 
 class  wxGISConfigRefData : public wxObjectRefData
@@ -109,10 +112,12 @@ protected:
     wxCriticalSection m_oCritSect;
 };
 
-/** \class wxGISAppConfig config.h
-    \brief The extended config class
+/** @class wxGISAppConfig
 
+    The extended config class.
 	Added methods for Get/Set Locale, System Directory and Log Directory paths, Debug mode
+
+	@library{core}
 */
 
 class WXDLLIMPEXP_GIS_CORE wxGISAppConfig : public wxGISConfig
@@ -135,10 +140,12 @@ public:
     void SetDebugMode(bool bDebug);
 };
 
-/** \fn wxGISAppConfig GetConfig(void)
-    \brief Global config getter.
+/** @fn wxGISAppConfig GetConfig(void)
 
+    Global config getter.
 	If config object is not exist it created, otherwise - AddRef to smart pointer
+
+	@library{core}
  */
 WXDLLIMPEXP_GIS_CORE wxGISAppConfig GetConfig(void);
 

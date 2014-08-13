@@ -165,9 +165,7 @@ wxGxContentView::wxGxContentView(wxWindow* parent, wxWindowID id, const wxPoint&
 wxGxContentView::~wxGxContentView(void)
 {
 	ResetContents();
-
-    DestroyFillMetaThread();
-}
+ }
 
 bool wxGxContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
@@ -256,6 +254,8 @@ void wxGxContentView::InitColumns(void)
 
 void wxGxContentView::Deactivate(void)
 {
+    DestroyFillMetaThread();
+
 	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
 

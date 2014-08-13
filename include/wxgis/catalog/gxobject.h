@@ -27,8 +27,11 @@
 
 #include <map>
 
-/** \class wxGxObject gxobject.h
-    \brief The base class for catalog items
+/** @class wxGxObject
+
+    The base class for catalog items
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxObject :

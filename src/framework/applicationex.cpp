@@ -330,9 +330,10 @@ void wxGISApplicationEx::OnClose(wxCloseEvent& event)
             pView->Deactivate();
     }
 
+ 	SerializeFramePosEx(true);
+
 	wxGISApplication::OnClose(event);
 
- 	SerializeFramePosEx(true);
     m_mgr.UnInit();
 }
 

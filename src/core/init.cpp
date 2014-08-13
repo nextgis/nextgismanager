@@ -81,7 +81,6 @@ void wxGISAppWithLibs::LoadLib(const wxString &sPath, bool bStore)
 void wxGISAppWithLibs::SerializeLibs()
 {
     //TODO: Think about need of this
-    return;
 	wxGISAppConfig oConfig = GetConfig();
     if(!oConfig.IsOk())
 		return;

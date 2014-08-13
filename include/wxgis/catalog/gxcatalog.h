@@ -72,6 +72,8 @@ public:
     virtual bool AddFSWatcherTree(const wxFileName& path, int events = wxFSW_EVENT_ALL, const wxString& filespec = wxEmptyString);
     virtual bool RemoveFSWatcherPath(const wxFileName& path);
     virtual bool RemoveFSWatcherTree(const wxFileName& path);
+    virtual void StopFSWatcher();
+    virtual void StartFSWatcher();
 //events
     virtual void OnFileSystemEvent(wxFileSystemWatcherEvent& event);
 protected:
@@ -91,6 +93,7 @@ protected:
     wxVector<ROOTITEM> m_staRootitems;
 
     wxFileSystemWatcher *m_pWatcher;
+    bool m_bFSWatcherEnable;
 //    wxArrayString m_asWatchPaths;
     wxCriticalSection m_oCritFSSect;
 private:

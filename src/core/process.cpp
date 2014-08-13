@@ -223,7 +223,7 @@ void wxGISProcess::DestroyReadThread(void)
     if (GetThread() && GetThread()->IsRunning())
     {
         m_bKill = true;
-        //GetThread()->Delete();//Wait();//Kill();//
+        GetThread()->Delete();//Wait();//Kill();//
     }
 }
 

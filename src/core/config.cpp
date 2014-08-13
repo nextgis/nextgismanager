@@ -553,11 +553,16 @@ void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXm
         {
             if(Key == enumGISHKAny || m_paConfigFiles[i].eKey & Key)
             {
-                //if(wxFileName::IsFileWritable(m_paConfigFiles[i].sXmlFilePath))
-                wxString sXmlFilePath = m_paConfigFiles[i].sXmlFilePath;
-                bool bSave = m_paConfigFiles[i].pXmlDoc->Save(sXmlFilePath);
-                if(!bSave)
-                    wxLogError(_("Failed to save config '%s'"), sXmlFilePath.c_str());
+                if(m_paConfigFiles[i].pXmlDoc && m_paConfigFiles[i].pXmlDoc->IsOk())
+                {
+                     //if(wxFileName::IsFileWritable(m_paConfigFiles[i].sXmlFilePath))
+                    wxString sXmlFilePath = m_paConfigFiles[i].sXmlFilePath;
+                    bool bSave = m_paConfigFiles[i].pXmlDoc->Save(sXmlFilePath);
+                    if(!bSave)
+                    {
+                        wxLogError(_("Failed to save config '%s'"), sXmlFilePath.c_str());
+                    }
+                }
             }
 	    }
     }
@@ -566,7 +571,12 @@ void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXm
  	    for(size_t i = 0; i < m_paConfigFiles.size(); ++i)
         {
             if(m_paConfigFiles[i].eKey & Key && m_paConfigFiles[i].sXmlFileName.CmpNoCase(sXmlFileName) == 0)
-                m_paConfigFiles[i].pXmlDoc->Save(m_paConfigFiles[i].sXmlFilePath);
+            {
+                if(m_paConfigFiles[i].pXmlDoc && m_paConfigFiles[i].pXmlDoc->IsOk())
+                {
+                    m_paConfigFiles[i].pXmlDoc->Save(m_paConfigFiles[i].sXmlFilePath);
+                }
+            }
 	    }
     }
 }
