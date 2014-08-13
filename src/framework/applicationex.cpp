@@ -356,15 +356,19 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
     wxString sGdalDataGCS = wxString::Format(wxT("/usr/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
     if(!wxFileName::FileExists(sGdalDataGCS))
     {
+        wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
         sGdalDataGCS = wxString(wxT("/usr/share/gdal/gcs.csv"));
         if(!wxFileName::FileExists(sGdalDataGCS))
         {
+            wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
             sGdalDataGCS = wxString::Format(wxT("/usr/local/share/gdal/%s/gcs.csv"), GDALVersionInfo("RELEASE_NAME"));
             if(!wxFileName::FileExists(sGdalDataGCS))
             {
+                wxLogWarning(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
                 sGdalDataGCS = wxString(wxT("/usr/local/share/gdal/gcs.csv"));
                 if(!wxFileName::FileExists(sGdalDataGCS))
                 {
+                    wxLogError(_("Failed to find gdal sys dir in path %s"), sGdalDataGCS.c_str());
                     return false;
                 }
             }
