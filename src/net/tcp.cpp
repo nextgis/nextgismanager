@@ -74,18 +74,18 @@ bool wxServerTCPNetworkPlugin::Stop(void)
     {
         m_listeningSocket->Destroy();
         m_listeningSocket = NULL;
-    }	
+    }
     return true;
 }
 
 bool wxServerTCPNetworkPlugin::CreateUDPNotifier(void)
 {
-	IPaddress LocalAddress; // For the listening 
-	LocalAddress.Service(m_nAdvPort); // port on which we listen for the answers 
+	IPaddress LocalAddress; // For the listening
+	LocalAddress.Service(m_nAdvPort); // port on which we listen for the answers
 
 	bool bIsAddrSet = false;
 	if(m_sAddr.IsEmpty())
-		bIsAddrSet = LocalAddress.AnyAddress(); 
+		bIsAddrSet = LocalAddress.AnyAddress();
 	else
 		bIsAddrSet = LocalAddress.Hostname(m_sAddr);
 	if(!bIsAddrSet)
@@ -113,7 +113,7 @@ void wxServerTCPNetworkPlugin::OnUDPServerEvent(wxSocketEvent& event)
 
 	char buf[BUFF] = {0};
 
-	IPaddress BroadCastAddress; // For broadcast sending 
+	IPaddress BroadCastAddress; // For broadcast sending
 	BroadCastAddress.Service(m_nAdvPort);
 
     switch(event.GetSocketEvent())
@@ -131,7 +131,7 @@ void wxServerTCPNetworkPlugin::OnUDPServerEvent(wxSocketEvent& event)
  			    wxNetMessage msg(val);
                 if(!msg.IsOk())
                     return;
-			
+
                 if(msg.GetCommand() == enumGISNetCmdHello)
                 {
                     wxNetMessage msgout(enumGISNetCmdHello, enumGISNetCmdStOk, enumGISPriorityHigh);
@@ -187,12 +187,12 @@ void wxServerTCPNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
             if (!sock->GetPeer(addr))
             {
                 wxLogError(_("wxServerTCPNetworkPlugin: cannot get peer info"));
-            } 
-            else 
+            }
+            else
             {
                 wxLogMessage(_("wxServerTCPNetworkPlugin: Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
             }
-            
+
             wxGISNetServerConnection* pSrvConn = new wxGISNetServerConnection();
             pSrvConn->SetSocket(sock);
             m_pNetService->AddConnection(pSrvConn);
@@ -206,12 +206,12 @@ void wxServerTCPNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
 
 bool wxServerTCPNetworkPlugin::CreateListenSocket(void)
 {
-	IPaddress LocalAddress; // For the listening 
+	IPaddress LocalAddress; // For the listening
 	LocalAddress.Service(m_nPort); // port on which we listen for clients
 
 	bool bIsAddrSet = false;
 	if(m_sAddr.IsEmpty())
-		bIsAddrSet = LocalAddress.AnyAddress(); 
+		bIsAddrSet = LocalAddress.AnyAddress();
 	else
 		bIsAddrSet = LocalAddress.Hostname(m_sAddr);
 	if(!bIsAddrSet)
@@ -259,7 +259,11 @@ bool wxClientTCPNetFactory::StartServerSearch()
 {
     //send broadcast message
     IPaddress addrPeer;
+#ifdef wxUSE_IPV6
+
+#else
     addrPeer.BroadcastAddress();
+#endif // wxUSE_IPV6
     addrPeer.Service(m_nAdvPort);
     wxNetMessage msg(enumGISNetCmdHello, enumGISNetCmdStUnk, enumGISPriorityHigh);
 
@@ -271,7 +275,7 @@ bool wxClientTCPNetFactory::StartServerSearch()
 
 	    bool bIsAddrSet = false;
 	    if(m_sAddr.IsEmpty())
-		    bIsAddrSet = LocalAddress.AnyAddress(); 
+		    bIsAddrSet = LocalAddress.AnyAddress();
 	    else
 		    bIsAddrSet = LocalAddress.Hostname(m_sAddr); //special interface to listen
 	    if(!bIsAddrSet)
@@ -280,7 +284,7 @@ bool wxClientTCPNetFactory::StartServerSearch()
 		    return false;
 	    }
 
-	    m_udp_socket = new wxDatagramSocket(LocalAddress, wxSOCKET_NOWAIT | wxSOCKET_REUSEADDR); 
+	    m_udp_socket = new wxDatagramSocket(LocalAddress, wxSOCKET_NOWAIT | wxSOCKET_REUSEADDR);
 
         m_udp_socket->SetEventHandler(*this, BROADCAST_ID);
         m_udp_socket->SetNotify(wxSOCKET_INPUT_FLAG);
@@ -313,7 +317,7 @@ void wxClientTCPNetFactory::OnBroadcastEvent(wxSocketEvent& event)
 
 	char buf[BUFF] = {0};
 
-	IPaddress BroadCastAddress; // For broadcast sending 
+	IPaddress BroadCastAddress; // For broadcast sending
 	BroadCastAddress.Service(m_nAdvPort + 2);
 
     switch(event.GetSocketEvent())
@@ -331,7 +335,7 @@ void wxClientTCPNetFactory::OnBroadcastEvent(wxSocketEvent& event)
  			    wxNetMessage msg(val);
                 if(!msg.IsOk())
                     return;
-			
+
                 if(msg.GetState() == enumGISNetCmdStOk)
                 {
                     //add factory_name to message
@@ -381,7 +385,7 @@ void wxClientTCPNetFactory::Serialize(wxXmlNode* pConfigNode, bool bSave)
 }
 
 
-wxGISNetClientConnection* const wxClientTCPNetFactory::GetConnection(const wxJSONValue &oProperties) 
+wxGISNetClientConnection* const wxClientTCPNetFactory::GetConnection(const wxJSONValue &oProperties)
 {
     wxGISNetClientConnection* pConn = new wxClientTCPNetConnection();
     if(pConn->SetAttributes(oProperties))
@@ -417,12 +421,12 @@ wxJSONValue wxClientTCPNetConnection::GetAttributes(void) const
 {
     wxJSONValue val;
     val[wxT("name")] = m_sConnName;
-    val[wxT("user")] = m_sUserName;    
-    val[wxT("pass")] = m_sCryptPass;    
-    val[wxT("host")] = m_sIP;    
-    val[wxT("port")] = m_sPort;    
+    val[wxT("user")] = m_sUserName;
+    val[wxT("pass")] = m_sCryptPass;
+    val[wxT("host")] = m_sIP;
+    val[wxT("port")] = m_sPort;
     val[wxT("class")] = wxString(wxT("wxClientTCPNetFactory"));
-    val[wxT("conn_timeout")] = m_nConnTimeout;    
+    val[wxT("conn_timeout")] = m_nConnTimeout;
     return val;
 }
 
@@ -499,7 +503,7 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
             //send event to advisers
             wxLogDebug(wxT("wxClientTCPNetConnection: INPUT"));
         break;
-        case wxSOCKET_OUTPUT:            
+        case wxSOCKET_OUTPUT:
             wxLogDebug(wxT("wxClientTCPNetConnection: OUTPUT"));
             //ProcessNetMessage();
             break;
