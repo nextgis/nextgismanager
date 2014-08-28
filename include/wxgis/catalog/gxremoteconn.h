@@ -34,11 +34,11 @@ class wxGxRemoteDBSchema;
 
 WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, wxGISDBShemaMap);
 
-/** 
+/**
     @class wxGxRemoteConnection gxremoteconn.h
-    
+
     A Remote Connection GxObject.
-    
+
     @library {catalog}
 */
 
@@ -108,13 +108,13 @@ private:
 };
 
 /** @class wxGxRemoteDBSchema
-    
+
     A Remote Database schema GxObject.
 
     @library {catalog}
 */
 
-class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :	
+class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :
 	public wxGxObjectContainer,
     public IGxObjectEdit,
     public wxThreadHelper,
@@ -174,7 +174,7 @@ private:
 
 
 /** @class wxGxTMSWebService
-    
+
     A TMS Web Service GxObject.
 
     @library {catalog}
@@ -193,7 +193,7 @@ public:
     virtual void FillMetadata(bool bForce = false);
 };
 
-
+#ifdef wxGIS_USE_CURL
 /** @class wxGxNGWService
 
     A NextGIS Web Service GxObject.
@@ -202,7 +202,7 @@ public:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWService :
-    public wxGxObjectContainer, 
+    public wxGxObjectContainer,
     public IGxObjectEdit,
     public IGxRemoteConnection,
     public IGxObjectNoFilter
@@ -313,3 +313,4 @@ public:
     //wxGxObject
     virtual wxString GetCategory(void) const { return wxString(_("NGW service layer")); };
 };
+#endif // wxGIS_USE_CURL

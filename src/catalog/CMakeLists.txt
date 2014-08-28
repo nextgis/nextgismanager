@@ -1,4 +1,4 @@
-# **************************************************************************** 
+# ****************************************************************************
 # * Project:  wxGIS
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -41,7 +41,7 @@ if(GDAL_FOUND)
     include_directories(${GDAL_INCLUDE_DIR}/ogr/ogrsf_frmts)
 endif(GDAL_FOUND)
 
-option(wxGIS_USE_CURL "Set ON to build with curl support" OFF)
+option(wxGIS_USE_CURL "Set ON to build with curl support" ON)
 if(wxGIS_USE_CURL)
     find_package(CURL REQUIRED)
     if(CURL_FOUND)
@@ -65,10 +65,10 @@ if(wxGIS_USE_OPENSSL)
     if(OPENSSL_FOUND)
         include_directories(${OPENSSL_INCLUDE_DIR})
         add_definitions(-DHAVE_OPENSSL)
-    endif(OPENSSL_FOUND) 
+    endif(OPENSSL_FOUND)
 endif(wxGIS_USE_OPENSSL)
 
-set(PROJECT_HHEADERS ${PROJECT_HHEADERS}  
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/catalog.h
     ${LIB_HEADERS}/catop.h
     ${LIB_HEADERS}/gxarchfolder.h
@@ -95,13 +95,13 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxmlconnstor.h
     ${LIB_HEADERS}/gxpostgisdataset.h
     ${LIB_HEADERS}/gxdbconnections.h
-    ${LIB_HEADERS}/gxdbconnfactory.h    
+    ${LIB_HEADERS}/gxdbconnfactory.h
     ${LIB_HEADERS}/gxwebconnections.h
     ${LIB_HEADERS}/gxwebconnfactory.h
     ${LIB_HEADERS}/gxremoteconn.h
     ${LIB_HEADERS}/gxobjectfactory.h
     ${LIB_HEADERS}/gxshellconnections.h
-    ${LIB_HEADERS}/gxshellconnfactory.h 
+    ${LIB_HEADERS}/gxshellconnfactory.h
     ${LIB_HEADERS}/gxshellconn.h
     ${LIB_HEADERS}/gxgisproj.h
     ${LIB_HEADERS}/gxgisprojfactory.h
@@ -135,17 +135,17 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxobject.cpp
     ${LIB_SOURCES}/gxrasterfactory.cpp
     ${LIB_SOURCES}/gxshapefactory.cpp
-    ${LIB_SOURCES}/gxspatreffolder.cpp    
-    ${LIB_SOURCES}/gxmlconnstor.cpp    
+    ${LIB_SOURCES}/gxspatreffolder.cpp
+    ${LIB_SOURCES}/gxmlconnstor.cpp
     ${LIB_SOURCES}/gxpostgisdataset.cpp
     ${LIB_SOURCES}/gxdbconnections.cpp
-    ${LIB_SOURCES}/gxdbconnfactory.cpp    
+    ${LIB_SOURCES}/gxdbconnfactory.cpp
     ${LIB_SOURCES}/gxwebconnections.cpp
     ${LIB_SOURCES}/gxwebconnfactory.cpp
     ${LIB_SOURCES}/gxremoteconn.cpp
     ${LIB_SOURCES}/gxobjectfactory.cpp
     ${LIB_SOURCES}/gxshellconnections.cpp
-    ${LIB_SOURCES}/gxshellconnfactory.cpp 
+    ${LIB_SOURCES}/gxshellconnfactory.cpp
     ${LIB_SOURCES}/gxshellconn.cpp
     ${LIB_SOURCES}/gxgisproj.cpp
     ${LIB_SOURCES}/gxgisprojfactory.cpp
@@ -168,7 +168,7 @@ endif(wxWidgets_FOUND)
 
 if(GDAL_FOUND)
     target_link_libraries(${LIB_NAME} ${GDAL_LIBRARIES})
-endif(GDAL_FOUND) 
+endif(GDAL_FOUND)
 
 target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISDATASOURCE_LIB_NAME} ${WXGISNET_LIB_NAME})
 

@@ -1305,6 +1305,7 @@ bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
     return false;
 }
 
+#ifdef wxGIS_USE_CURL
 //--------------------------------------------------------------
 //class wxGxNGWRoot
 //--------------------------------------------------------------
@@ -1474,3 +1475,4 @@ wxGxNGWLayer::~wxGxNGWLayer()
 {
 
 }
+#endif // wxGIS_USE_CURL
