@@ -1,4 +1,4 @@
-# **************************************************************************** 
+# ****************************************************************************
 # * Project:  wxGIS
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -38,12 +38,19 @@ if(wxWidgets_FOUND)
 endif(wxWidgets_FOUND)
 
 if(wxGIS_HAVE_GTK_INTEGRATION)
-     find_package(GTK2 REQUIRED)
-     if(GTK2_FOUND)
-        include_directories(${GTK2_INCLUDE_DIRS})
-        add_definitions(-DHAVE_GTK2)
-    endif(GTK2_FOUND)
-    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+     find_package(GTK3)
+     if(GTK3_FOUND)
+        include_directories(${GTK3_INCLUDE_DIRS})
+        add_definitions(-DHAVE_GTK3)
+        message(STATUS "GTK3 libs=[${GTK3_LIBRARIES}] headers=[${GTK3_INCLUDE_DIRS}]")
+     else(GTK3_FOUND)
+        find_package(GTK2 REQUIRED)
+        if(GTK2_FOUND)
+            include_directories(${GTK2_INCLUDE_DIRS})
+            add_definitions(-DHAVE_GTK2)
+            message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+        endif(GTK2_FOUND)
+    endif(GTK3_FOUND)
 endif(wxGIS_HAVE_GTK_INTEGRATION)
 
 if(wxGIS_HAVE_UNITY_INTEGRATION)
@@ -64,7 +71,7 @@ endif(CAIRO_FOUND)
 
 include_directories(${LIB_HEADERS})
 
-set(PROJECT_HHEADERS ${PROJECT_HHEADERS} 
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/geoprocessingcmd.h
     ${LIB_HEADERS}/geoprocessingui.h
     ${LIB_HEADERS}/gpcontrols.h
@@ -77,7 +84,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/droptarget.h
 )
 
-set(PROJECT_CSOURCES ${PROJECT_CSOURCES}   
+set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/geoprocessingcmd.cpp
     ${LIB_SOURCES}/gpcontrols.cpp
     ${LIB_SOURCES}/gptaskexecdlg.cpp
@@ -85,8 +92,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gptoolboxview.cpp
     ${LIB_SOURCES}/gptooldlg.cpp
     ${LIB_SOURCES}/gxtoolexecview.cpp
-    ${LIB_SOURCES}/taskcmd.cpp 
-    ${LIB_SOURCES}/droptarget.cpp 
+    ${LIB_SOURCES}/taskcmd.cpp
+    ${LIB_SOURCES}/droptarget.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_GPU)
@@ -100,7 +107,7 @@ endif(wxWidgets_FOUND)
 
 if(GDAL_FOUND)
     target_link_libraries(${LIB_NAME} ${GDAL_LIBRARIES})
-endif(GDAL_FOUND) 
+endif(GDAL_FOUND)
 
 if(CAIRO_FOUND)
     target_link_libraries(${LIB_NAME} ${CAIRO_LIBRARIES})

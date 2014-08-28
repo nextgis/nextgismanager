@@ -1,4 +1,4 @@
-# **************************************************************************** 
+# ****************************************************************************
 # * Project:  wxGIS
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -46,12 +46,19 @@ if(wxGIS_USE_PROJ)
 endif(wxGIS_USE_PROJ)
 
 if(wxGIS_HAVE_GTK_INTEGRATION)
-     find_package(GTK2 REQUIRED)
-     if(GTK2_FOUND)
-        include_directories(${GTK2_INCLUDE_DIRS})
-        add_definitions(-DHAVE_GTK2)
-    endif(GTK2_FOUND)
-    message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+     find_package(GTK3)
+     if(GTK3_FOUND)
+        include_directories(${GTK3_INCLUDE_DIRS})
+        add_definitions(-DHAVE_GTK3)
+        message(STATUS "GTK3 libs=[${GTK3_LIBRARIES}] headers=[${GTK3_INCLUDE_DIRS}]")
+     else(GTK3_FOUND)
+        find_package(GTK2 REQUIRED)
+        if(GTK2_FOUND)
+            include_directories(${GTK2_INCLUDE_DIRS})
+            add_definitions(-DHAVE_GTK2)
+            message(STATUS "GTK2 libs=[${GTK2_LIBRARIES}] headers=[${GTK2_INCLUDE_DIRS}]")
+        endif(GTK2_FOUND)
+    endif(GTK3_FOUND)
 endif(wxGIS_HAVE_GTK_INTEGRATION)
 
 if(wxGIS_HAVE_UNITY_INTEGRATION)
@@ -63,7 +70,7 @@ if(wxGIS_HAVE_UNITY_INTEGRATION)
     message(STATUS "UNITY libs=[${UNITY_LIBRARIES}] headers=[${UNITY_INCLUDE_DIR}]")
 endif(wxGIS_HAVE_UNITY_INTEGRATION)
 
-set(PROJECT_HHEADERS ${PROJECT_HHEADERS}    
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/accelerator.h
     ${LIB_HEADERS}/addcommanddlg.h
     ${LIB_HEADERS}/animation.h
@@ -83,7 +90,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/propertypages.h
     ${LIB_HEADERS}/statusbar.h
     ${LIB_HEADERS}/toolbarmenu.h
-    ${LIB_HEADERS}/dataobject.h    
+    ${LIB_HEADERS}/dataobject.h
     ${LIB_HEADERS}/tabstyle.h
 )
 
@@ -121,15 +128,21 @@ endif(wxWidgets_FOUND)
 
 if(GDAL_FOUND)
     target_link_libraries(${LIB_NAME} ${GDAL_LIBRARIES})
-endif(GDAL_FOUND) 
+endif(GDAL_FOUND)
 
 if(PROJ_FOUND)
     target_link_libraries(${LIB_NAME} ${PROJ_LIBRARY})
 endif(PROJ_FOUND)
 
-if(GTK2_FOUND)
+if(GTK3_FOUND)
+   target_link_libraries(${LIB_NAME} ${GTK3_LIBRARIES})
+elseif(GTK2_FOUND)
    target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
-endif(GTK2_FOUND)
+endif(GTK3_FOUND)
+
+if(GTK3_FOUND)
+   target_link_libraries(${LIB_NAME} ${GTK3_LIBRARIES})
+endif(GTK3_FOUND)
 
 if(UNITY_FOUND)
    target_link_libraries(${LIB_NAME} ${UNITY_LIBRARIES})
