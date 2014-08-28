@@ -1,4 +1,4 @@
-# **************************************************************************** 
+# ****************************************************************************
 # * Project:  wxGIS
 # * Purpose:  cmake script
 # * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -57,15 +57,21 @@ if(wxGIS_USE_OPENSSL)
     if(OPENSSL_FOUND)
         include_directories(${OPENSSL_INCLUDE_DIR})
         add_definitions(-DHAVE_OPENSSL)
-    endif(OPENSSL_FOUND) 
+    endif(OPENSSL_FOUND)
 endif(wxGIS_USE_OPENSSL)
 
 if(wxGIS_HAVE_GTK_INTEGRATION)
-     find_package(GTK2 REQUIRED)
-     if(GTK2_FOUND)
-        include_directories(${GTK2_INCLUDE_DIRS})
-        add_definitions(-DHAVE_GTK2)
-    endif(GTK2_FOUND)
+     find_package(GTK3)
+     if(GTK3_FOUND)
+        include_directories(${GTK3_INCLUDE_DIRS})
+        add_definitions(-DHAVE_GTK3)
+     else(GTK3_FOUND)
+        find_package(GTK2 REQUIRED)
+        if(GTK2_FOUND)
+            include_directories(${GTK2_INCLUDE_DIRS})
+            add_definitions(-DHAVE_GTK2)
+        endif(GTK2_FOUND)
+    endif(GTK3_FOUND)
 endif(wxGIS_HAVE_GTK_INTEGRATION)
 
 if(wxGIS_HAVE_UNITY_INTEGRATION)
@@ -85,7 +91,7 @@ endif(CAIRO_FOUND)
 
 include_directories(${LIB_HEADERS})
 
-set(PROJECT_HHEADERS ${PROJECT_HHEADERS}  
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/catalogcmd.h
     ${LIB_HEADERS}/catalogui.h
     ${LIB_HEADERS}/createnewcmd.h
@@ -194,7 +200,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/spatrefpropertypage.cpp
     ${LIB_SOURCES}/tablepropertypage.cpp
     ${LIB_SOURCES}/vectorpropertypage.cpp
-    ${LIB_SOURCES}/viewscmd.cpp    
+    ${LIB_SOURCES}/viewscmd.cpp
     ${LIB_SOURCES}/gxdbconnectionsui.cpp
     ${LIB_SOURCES}/gxdbconnfactoryui.cpp
     ${LIB_SOURCES}/gxwebconnectionsui.cpp
@@ -229,7 +235,7 @@ endif(wxWidgets_FOUND)
 
 if(GDAL_FOUND)
     target_link_libraries(${LIB_NAME} ${GDAL_LIBRARIES})
-endif(GDAL_FOUND) 
+endif(GDAL_FOUND)
 
 if(CAIRO_FOUND)
     target_link_libraries(${LIB_NAME} ${CAIRO_LIBRARIES})
