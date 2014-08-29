@@ -386,10 +386,12 @@ wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
                     wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
                 }
             }
+            wxThread::Sleep(950);
         }
-
-
-        wxThread::Sleep(950);
+        else
+        {
+            wxThread::Sleep(5000);
+        }
     }
 
     wsDELETE(pDSet);
@@ -782,7 +784,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
     }
 }
 
-void wxGxRemoteDBSchema::CheckChanges()
+bool wxGxRemoteDBSchema::CheckChanges()
 {
     wxArrayString saCurrentTables = FillTableNames();
 
@@ -834,7 +836,7 @@ void wxGxRemoteDBSchema::CheckChanges()
     }
 
     if (saCurrentTables.IsEmpty())
-        return;
+        return false;
 
     if (m_bHasGeog)
     {
@@ -872,7 +874,7 @@ void wxGxRemoteDBSchema::CheckChanges()
     }
 
     if (saCurrentTables.IsEmpty())
-        return;
+        return false;
 
     if (m_bHasRaster)
     {
@@ -908,6 +910,10 @@ void wxGxRemoteDBSchema::CheckChanges()
             }
             wsDELETE(pTableList);
         }
+        else
+        {
+            return false;
+        }
     }
 
     //add new
@@ -924,6 +930,8 @@ void wxGxRemoteDBSchema::CheckChanges()
             }
         }
     }
+
+    return true;
 }
 
 bool wxGxRemoteDBSchema::CreateAndRunThread(void)
@@ -959,9 +967,10 @@ wxThread::ExitCode wxGxRemoteDBSchema::Entry()
 {
     while (!GetThread()->TestDestroy())
     {
-        CheckChanges();
-
-        wxThread::Sleep(950);
+        if(CheckChanges())
+            wxThread::Sleep(950);
+        else
+            wxThread::Sleep(5000);
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;

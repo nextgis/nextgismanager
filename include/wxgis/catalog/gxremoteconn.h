@@ -156,7 +156,7 @@ protected:
     virtual void DeleteTable(const wxString& sSchemaName);
 
     virtual bool CreateAndRunThread(void);
-    virtual void CheckChanges();
+    virtual bool CheckChanges();
     virtual wxThread::ExitCode Entry();
     //events
     virtual void OnThreadFinished(wxThreadEvent& event);

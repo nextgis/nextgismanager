@@ -363,6 +363,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL2(const wxString &sStatement, c
 	wxGISDataset* pDataset(NULL);
     if (NULL != m_poDS4SQL)
 	{
+	    CPLErrorReset();
         CPLString szStatement(sStatement.mb_str(wxConvUTF8));
         const char* szDialect = NULL;
         if (!sDialect.IsEmpty())
@@ -376,11 +377,11 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL2(const wxString &sStatement, c
             pTable->Cache();
             pDataset = static_cast<wxGISDataset*>(pTable);
 		}
-        else
+        /*else
         {
             const char* err = CPLGetLastErrorMsg();
             wxLogError(_("ExecuteSQL failed! GDAL error: %s"), wxString(err, wxConvUTF8).c_str());
-        }
+        }*/
     }
 	wsGET(pDataset);
 }
