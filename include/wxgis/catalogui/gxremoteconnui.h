@@ -153,6 +153,7 @@ protected:
     wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
 };
 
+#ifdef wxGIS_USE_CURL
 /** @class wxGxNGWServiceUI
 
     A NextGIS Web Service GxObjectUI.
@@ -260,3 +261,4 @@ public:
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
+#endif // wxGIS_USE_CURL

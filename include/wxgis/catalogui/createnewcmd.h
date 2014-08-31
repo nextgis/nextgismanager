@@ -33,7 +33,8 @@
 
 enum wxGISEnumCatalogCreateNewCmdType{
     enumGISCatalogCreateNewCmdRemoteDBConnection = 0,
-    enumGISCatalogCreateNewCmdWebServiceConnection,
+    enumGISCatalogCreateNewCmdTMSConnection,
+    enumGISCatalogCreateNewCmdNGWConnection,
     enumGISCatalogCreateNewCmdDBSchema,
     enumGISCatalogCreateNewCmdDBAndConnection,
     enumGISCatalogCreateNewCmdMax

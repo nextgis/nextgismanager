@@ -39,7 +39,7 @@
 //  wxGISCreateDBDlg
 //-------------------------------------------------------------------------------
 
-wxGISCreateDBDlg::wxGISCreateDBDlg( CPLString pszConnPath, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxGISRemoteConnDlg( pszConnPath, parent, id, title, pos, size, style )
+wxGISCreateDBDlg::wxGISCreateDBDlg( CPLString pszConnPath, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxGISRemoteDBConnDlg( pszConnPath, parent, id, title, pos, size, style )
 {
     SetIcon(wxIcon(rdb_create_xpm));
 

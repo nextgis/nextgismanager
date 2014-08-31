@@ -1100,6 +1100,8 @@ void wxGxTMSWebService::FillMetadata(bool bForce)
     }
 }
 
+#ifdef wxGIS_USE_CURL
+
 //--------------------------------------------------------------
 //class wxGxNGWWebService
 //--------------------------------------------------------------
@@ -1261,47 +1263,11 @@ void wxGxNGWService::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
-    new wxGxNGWRoot(this, _("Layers"), CPLString(m_sURL.ToUTF8()));
+    new wxGxNGWRoot(this, _("Resources"), CPLString(m_sURL.ToUTF8()));
+    //TODO: check if no guest
+    new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));
     m_bIsConnected = true;
     m_bChildrenLoaded = true;
-
-    //wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
-    //if (NULL == pDSet)
-    //{
-    //    return;
-    //}
-
-    //wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT nspname,oid FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
-
-    //if (NULL != pInfoSchema)
-    //{
-    //    m_saSchemas = FillSchemaNames(pInfoSchema);
-    //    wsDELETE(pInfoSchema);
-
-    //    pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL(wxT("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"), wxT("PG")), wxGISTableCached);
-
-    //    wxFeatureCursor Cursor = pInfoSchema->Search();
-    //    wxGISFeature Feature;
-    //    while ((Feature = Cursor.Next()).IsOk())
-    //    {
-    //        wxString sName = Feature.GetFieldAsString(0);
-    //        if (sName.IsSameAs(wxT("geometry_columns")))
-    //            m_bHasGeom = true;
-    //        else if (sName.IsSameAs(wxT("geography_columns")))
-    //            m_bHasGeog = true;
-    //        else if (sName.IsSameAs(wxT("raster_columns")))
-    //            m_bHasRaster = true;
-    //    }
-
-
-    //    for (wxGISDBShemaMap::const_iterator it = m_saSchemas.begin(); it != m_saSchemas.end(); ++it)
-    //    {
-    //        CPLString szPath(CPLFormFilename(GetPath(), it->second.mb_str(wxConvUTF8), ""));
-    //        GetNewRemoteDBSchema(it->second, szPath, pDSet);
-    //    }
-    //    m_bChildrenLoaded = true;
-    //}
-    //wsDELETE(pDSet);
 }
 
 bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
@@ -1314,7 +1280,8 @@ bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
     return false;
 }
 
-#ifdef wxGIS_USE_CURL
+#define ROOT_TREE wxT("/resource/0/child/")
+
 //--------------------------------------------------------------
 //class wxGxNGWRoot
 //--------------------------------------------------------------
@@ -1364,7 +1331,7 @@ void wxGxNGWRoot::LoadChildren(void)
         return;
 
     //http://demo.nextgis.ru/ngw_rosavto/api/layer_group/0/tree
-    wxString sURL = wxString::FromUTF8(m_sPath) + wxT("/api/layer_group/0/tree");
+    wxString sURL = wxString::FromUTF8(m_sPath) + wxString(ROOT_TREE);
     if (!sURL.StartsWith(wxT("http")))
     {
         sURL.Prepend(wxT("http://"));
@@ -1389,7 +1356,7 @@ void wxGxNGWRoot::LoadChildren(void)
 
     m_bChildrenLoaded = true;
 
-    wxJSONValue oLayers = JSONRoot[wxT("layers")];
+    /*wxJSONValue oLayers = JSONRoot[wxT("layers")];
     for (size_t i = 0; i < oLayers.Size(); ++i)
     {
         wxString sName = oLayers[i][wxT("display_name")].AsString();
@@ -1407,7 +1374,7 @@ void wxGxNGWRoot::LoadChildren(void)
         AddLayerGroup(oChildren[i], sName, nId);
     }
 
-    m_sName = JSONRoot[wxT("display_name")].AsString();
+    m_sName = JSONRoot[wxT("display_name")].AsString();*/
 
 }
 

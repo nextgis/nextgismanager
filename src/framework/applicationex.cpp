@@ -359,7 +359,7 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
     wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
     {
-        sGDALPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxCommon/GDAL/path")), wxEmptyString);
+        sGDALPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/path")), wxEmptyString);
     }
 
     if(sGDALPath.IsEmpty())

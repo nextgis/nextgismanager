@@ -90,7 +90,7 @@ wxIcon wxGxRemoteConnectionUI::GetSmallImage(void)
 
 void wxGxRemoteConnectionUI::EditProperties(wxWindow *parent)
 {
-	wxGISRemoteConnDlg dlg(m_sPath, parent);
+	wxGISRemoteDBConnDlg dlg(m_sPath, parent);
 	if(dlg.ShowModal() == wxID_OK)
 	{
         Disconnect();
@@ -664,6 +664,7 @@ void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
 }
 
 
+#ifdef wxGIS_USE_CURL
 //--------------------------------------------------------------
 //class wxGxNGWServiceUI
 //--------------------------------------------------------------
@@ -714,7 +715,9 @@ void wxGxNGWServiceUI::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
-    new wxGxNGWRootUI(this, _("Layers"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
+    new wxGxNGWRootUI(this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
+    //TODO: check if no guest
+    new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
     m_bIsConnected = true;
     m_bChildrenLoaded = true;
 }
@@ -824,3 +827,4 @@ wxIcon wxGxNGWLayerUI::GetSmallImage(void)
 {
     return m_icSmallIcon;
 }
+#endif // wxGIS_USE_CURL

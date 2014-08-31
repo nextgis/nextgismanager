@@ -40,7 +40,7 @@ m_bIsValid(false), m_bUseProxy(false), slist(NULL)
 		headstruct.memory = NULL;
 
 		m_sHeaders = sHeaders;
-		
+
         SetDefaultHeader();
 
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, slist);
@@ -78,14 +78,6 @@ wxGISCurl::~wxGISCurl(void)
 void wxGISCurl::SetSSLVersion(long nVer)
 {
     curl_easy_setopt(curl, CURLOPT_SSLVERSION, nVer);
-}
-
-
-void wxGISCurl::SetRestrictions(const wxString & sRestrict)
-{
-	//need convert from restriction (country) to ip:port
-	//if(!m_bUseProxy)
-	//	curl_easy_setopt(curl, CURLOPT_PROXY, wgWX2MB(sRestrict));
 }
 
 void wxGISCurl::AppendHeader(const wxString & sHeadStr)
@@ -136,7 +128,7 @@ PERFORMRESULT wxGISCurl::Get(const wxString & sURL)
 	//
 	if(res == CURLE_OK)
 	{
-		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal, 
+		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal,
         //charset
         int posb = result.sHead.Find(wxT("charset="));
         wxString soSet;//(wxT("default"));
@@ -158,11 +150,11 @@ PERFORMRESULT wxGISCurl::Get(const wxString & sURL)
         else if( soSet.IsSameAs(wxT("utf-32"), false) || soSet.IsSameAs(wxT("utf32"), false) )
         {
             result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
-        }        
+        }
         else if( soSet.IsSameAs(wxT("utf-7"), false) || soSet.IsSameAs(wxT("utf7"), false) )
         {
             result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
-        }         
+        }
         else
         {
             //wxCSConv
@@ -171,7 +163,7 @@ PERFORMRESULT wxGISCurl::Get(const wxString & sURL)
             if(conv.IsOk())
                 result.sBody = wxString((const char*)bodystruct.memory, conv, bodystruct.size);
             else
-                result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);//wxConvLocal, 
+                result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);//wxConvLocal,
         }
 
 		result.iSize = headstruct.size + bodystruct.size;
@@ -214,13 +206,13 @@ PERFORMRESULT wxGISCurl::Post(const wxString & sURL, const wxString & sPostData)
 	PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
+	curl_easy_setopt(curl, CURLOPT_URL, (const char*)sURL.mb_str());
 	curl_easy_setopt(curl, CURLOPT_POST, 1);
 	//const wxWX2MBbuf tmp_buf = wxConvCurrent->cWX2MB(sPostData);
 	//const char *tmp_str = (const char*) tmp_buf;
 	const char *tmp_str = sPostData.mb_str();
 	curl_easy_setopt(curl, CURLOPT_POSTFIELDS , tmp_str);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, -1);
-	curl_easy_setopt(curl, CURLOPT_URL, (const char*)sURL.mb_str());
+	//curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, -1);
 	//curl_easy_setopt(curl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
 	res = curl_easy_perform(curl);

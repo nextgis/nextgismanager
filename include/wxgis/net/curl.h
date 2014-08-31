@@ -89,7 +89,6 @@ private:
 	}
 
 public:
-	virtual void SetRestrictions(const wxString & sRestrict);
 	virtual void AppendHeader(const wxString & sHeadStr);
 	virtual void SetDefaultHeader(void);
 	virtual void FollowLocation(bool bSet, unsigned short iMaxRedirs);

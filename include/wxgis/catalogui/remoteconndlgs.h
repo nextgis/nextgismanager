@@ -21,21 +21,20 @@
 #pragma once
 
 #include "wxgisdefs.h"
+#include "wxgis/catalogui/catalogui.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
-#include "wxgis/catalogui/catalogui.h"
-
 #include <wx/statline.h>
 
-/** @class wxGISRemoteConnDlg
+/** @class wxGISRemoteDBConnDlg
 
     The dialog to configure remote database connection, test it and store in connection file (*.xconn)
 
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISRemoteConnDlg : public wxDialog
+class WXDLLIMPEXP_GIS_CLU wxGISRemoteDBConnDlg : public wxDialog
 {
 protected:
 	enum
@@ -49,12 +48,12 @@ protected:
 		ID_USERSTATICTEXT,
 		ID_PASSSTATICTEXT,
 		ID_PASSTEXTCTRL,
-		ID_TESTBUTTON,
+		ID_TESTBUTTON
 	};
 public:
-    wxGISRemoteConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
-    wxGISRemoteConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
-	virtual ~wxGISRemoteConnDlg();
+    wxGISRemoteDBConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+    wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISRemoteDBConnDlg();
 	virtual CPLString GetPath(void);
 	virtual wxString GetName(void);
 protected:	//events
@@ -97,7 +96,145 @@ protected:
 	wxString m_sOutputPath;
 	CPLString m_sOriginOutput;
 
+private:
     DECLARE_EVENT_TABLE()
 };
 
 #endif //wxGIS_USE_POSTGRES
+
+#ifdef wxGIS_USE_CURL
+
+#include <wx/statline.h>
+
+/** @class wxGISTMSConnDlg
+
+    The dialog to configure TMS connection, test it and store in connection file (*.xconn)
+
+    @library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGISTMSConnDlg : public wxDialog
+{
+protected:
+	enum
+	{
+		ID_REMOTECONNDLG = 1000,
+		ID_TESTBUTTON,
+		ID_CONNNAME,
+		ID_PRESETTYPE
+	};
+public:
+    wxGISTMSConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("TMS Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+    wxGISTMSConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("TMS Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISTMSConnDlg();
+	virtual CPLString GetPath(void);
+	virtual wxString GetName(void);
+protected:	//events
+    virtual void OnTest(wxCommandEvent& event);
+	virtual void OnOK(wxCommandEvent& event);
+protected:
+    void CreateUI(bool bHasConnectionPath = true);
+    void FillDefaults();
+protected:
+	wxBoxSizer* m_bMainSizer;
+	wxTextCtrl* m_ConnName;
+
+	wxButton* m_TestButton;
+	wxStaticLine* m_staticline2;
+	wxStdDialogButtonSizer* m_sdbSizer;
+	wxButton* m_sdbSizerOK;
+	wxButton* m_sdbSizerCancel;
+protected:
+	wxString m_sConnName;
+	wxString m_sPresetTypeChoice;
+	wxString m_sURL;
+	wxString m_sCachePath;
+	wxString m_sCacheDepth;
+	int m_nMaxConnections;
+	wxString m_sTimeout;
+	wxString m_sZeroBlockHttpCodes;
+	wxString m_sZeroBlockOnServerException;
+	wxString m_sOfflineMode;
+	wxString m_sAdviseRead;
+	wxString m_sVerifyAdviseRead;
+	wxString m_sClampRequests;
+	wxString m_sUserAgent;
+	wxString m_sReferer;
+	double m_dfULX;
+	double m_dfULY;
+	double m_dfLRX;
+	double m_dfLRY;
+	wxString m_sOriginTypeChoice;
+	int m_nTileSizeX;
+	int m_nTileSizeY;
+	int m_nBandsCount;
+	wxString m_sUser;
+	wxString m_sPass;
+
+	bool m_bCreateNew;
+    bool m_bIsFile;
+    wxXmlNode* m_pConnectionNode;
+
+	wxString m_sOutputPath;
+	CPLString m_sOriginOutput;
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+/** @class wxGISNGWConnDlg
+
+    The dialog to configure NextGIS Web connection, test it and store in connection file (*.xconn)
+
+    @library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGISNGWConnDlg : public wxDialog
+{
+protected:
+	enum
+	{
+		ID_REMOTECONNDLG = 1000,
+		ID_TESTBUTTON,
+		ID_CONNNAME
+	};
+public:
+    wxGISNGWConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("NGW Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+    wxGISNGWConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("NGW Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISNGWConnDlg();
+	virtual CPLString GetPath(void);
+	virtual wxString GetName(void);
+protected:	//events
+    virtual void OnTest(wxCommandEvent& event);
+	virtual void OnOK(wxCommandEvent& event);
+protected:
+    void CreateUI(bool bHasConnectionPath = true);
+    void FillDefaults();
+protected:
+	wxBoxSizer* m_bMainSizer;
+	wxTextCtrl* m_ConnName;
+
+	wxButton* m_TestButton;
+	wxStaticLine* m_staticline2;
+	wxStdDialogButtonSizer* m_sdbSizer;
+	wxButton* m_sdbSizerOK;
+	wxButton* m_sdbSizerCancel;
+protected:
+	wxString m_sConnName;
+	wxString m_sURL;
+	wxString m_sUser;
+	wxString m_sPass;
+	wxString m_sUserAgent;
+
+	bool m_bCreateNew;
+    bool m_bIsFile;
+    wxXmlNode* m_pConnectionNode;
+
+	wxString m_sOutputPath;
+	CPLString m_sOriginOutput;
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+#endif // wxGIS_USE_CURL

@@ -25,8 +25,11 @@
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalogui/gxview.h"
 
-/** \class wxGxWebConnectionsUI gxwebconnectionsui.h
-    \brief The web service connections root item in user interface.
+/** @class wxGxWebConnectionsUI
+
+    The web service connections root item in user interface.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxWebConnectionsUI :

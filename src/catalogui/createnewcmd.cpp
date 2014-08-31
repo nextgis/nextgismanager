@@ -26,14 +26,12 @@
 #include "wxgis/catalogui/gxselection.h"
 #include "wxgis/catalogui/gxdbconnectionsui.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
+#include "wxgis/catalogui/createremotedlgs.h"
 
 #include "../../art/rdb_create.xpm"
 #include "../../art/web_conn_create.xpm"
 #include "../../art/dbschema_create.xpm"
 
-#ifdef wxGIS_USE_POSTGRES
-    #include "wxgis/catalogui/createremotedlgs.h"
-#endif // wxGIS_USE_POSTGRES
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISCreateNewCmd, wxObject)
@@ -55,7 +53,8 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 			if(!m_IconCreateRemoteConn.IsOk())
 				m_IconCreateRemoteConn = wxIcon(rdb_create_xpm);
 			return m_IconCreateRemoteConn;
-		case enumGISCatalogCreateNewCmdWebServiceConnection:
+		case enumGISCatalogCreateNewCmdTMSConnection:
+        case enumGISCatalogCreateNewCmdNGWConnection:
 			if(!m_IconCreateWebConn.IsOk())
 				m_IconCreateWebConn = wxIcon(web_conn_create_xpm);
 			return m_IconCreateWebConn;
@@ -74,8 +73,10 @@ wxString wxGISCreateNewCmd::GetCaption(void)
 	{
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("&Remote database connection"));
-		case enumGISCatalogCreateNewCmdWebServiceConnection:
-			return wxString(_("&Web service connection"));
+		case enumGISCatalogCreateNewCmdTMSConnection:
+			return wxString(_("&TMS connection"));
+        case enumGISCatalogCreateNewCmdNGWConnection:
+			return wxString(_("&NGW connection"));
         case enumGISCatalogCreateNewCmdDBSchema:
             return wxString(_("&Database schema"));
         case enumGISCatalogCreateNewCmdDBAndConnection:
@@ -90,7 +91,8 @@ wxString wxGISCreateNewCmd::GetCategory(void)
 	switch(m_subtype)
 	{
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
-		case enumGISCatalogCreateNewCmdWebServiceConnection:
+		case enumGISCatalogCreateNewCmdTMSConnection:
+		case enumGISCatalogCreateNewCmdNGWConnection:
 		case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Create"));
@@ -125,8 +127,9 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                 }
             }
             return false;
-		case enumGISCatalogCreateNewCmdWebServiceConnection://Create new web connection
-            if(pCat && pSel)
+		case enumGISCatalogCreateNewCmdTMSConnection://Create new web connection
+        case enumGISCatalogCreateNewCmdNGWConnection://Create new web connection
+           if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
@@ -157,7 +160,8 @@ wxGISEnumCommandKind wxGISCreateNewCmd::GetKind(void)
 	switch(m_subtype)
 	{
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
-        case enumGISCatalogCreateNewCmdWebServiceConnection:
+        case enumGISCatalogCreateNewCmdTMSConnection:
+        case enumGISCatalogCreateNewCmdNGWConnection:
         case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
 		default:
@@ -171,9 +175,11 @@ wxString wxGISCreateNewCmd::GetMessage(void)
 	{
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("Create new remote DB connection"));
-		case enumGISCatalogCreateNewCmdWebServiceConnection:
-			return wxString(_("Create new web service connection"));
-		case enumGISCatalogCreateNewCmdDBSchema:
+		case enumGISCatalogCreateNewCmdTMSConnection:
+			return wxString(_("Create new TMS connection"));
+        case enumGISCatalogCreateNewCmdNGWConnection:
+			return wxString(_("Create new NextGIS Web connection"));
+        case enumGISCatalogCreateNewCmdDBSchema:
 			return wxString(_("Create new database schema"));
 		case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Create new database"));
@@ -205,7 +211,7 @@ void wxGISCreateNewCmd::OnClick(void)
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
                     pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
 
-					wxGISRemoteConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
+					wxGISRemoteDBConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
                         pGxAR->BeginRenameOnAdd(NULL, "");
@@ -245,14 +251,6 @@ void wxGISCreateNewCmd::OnClick(void)
                 wxGxRemoteConnectionUI* pGxDBConnectionUI = wxDynamicCast(pGxObject, wxGxRemoteConnectionUI);
                 if (pGxDBConnectionUI)
                 {
-                    //CPLString pszConnFolder = pGxDBConnectionUI->GetPath();
-                    //CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).mb_str(wxConvUTF8));
-
-                    //wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    //pGxDBConnectionsUI->BeginRenameOnAdd(pGxView, pszConnName);
-
-                    //wxGISRemoteConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
-
                     wxGxAutoRenamer* pGxDBConnectionUIAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
                     if (!pGxDBConnectionUIAR)
                         return;
@@ -270,6 +268,52 @@ void wxGISCreateNewCmd::OnClick(void)
                 }
             }
 #endif //wxGIS_USE_POSTGRES
+            break;
+        case enumGISCatalogCreateNewCmdTMSConnection:
+#ifdef wxGIS_USE_CURL
+        if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
+                if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+                {
+                    CPLString pszConnFolder = pGxObject->GetPath();
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new TMS connection")), wxString(wxT("wconn"))).mb_str(wxConvUTF8));
+
+                    wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
+                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+
+					wxGISTMSConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "wconn"), dynamic_cast<wxWindow*>(m_pApp));
+					if(dlg.ShowModal() != wxID_OK)
+                    {
+                        pGxAR->BeginRenameOnAdd(NULL, "");
+                    }
+                }
+            }
+#endif // wxGIS_USE_CURL
+            break;
+        case enumGISCatalogCreateNewCmdNGWConnection:
+#ifdef wxGIS_USE_CURL
+        if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
+                if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+                {
+                    CPLString pszConnFolder = pGxObject->GetPath();
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new NGW connection")), wxString(wxT("wconn"))).mb_str(wxConvUTF8));
+
+                    wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
+                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+
+					wxGISNGWConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "wconn"), dynamic_cast<wxWindow*>(m_pApp));
+					if(dlg.ShowModal() != wxID_OK)
+                    {
+                        pGxAR->BeginRenameOnAdd(NULL, "");
+                    }
+                }
+            }
+#endif // wxGIS_USE_CURL
             break;
         default:
 			return;
@@ -289,8 +333,10 @@ wxString wxGISCreateNewCmd::GetTooltip(void)
 	{
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 			return wxString(_("Create new remote DB connection"));
-		case enumGISCatalogCreateNewCmdWebServiceConnection:
-			return wxString(_("Create new web service connection"));
+		case enumGISCatalogCreateNewCmdTMSConnection:
+			return wxString(_("Create new TMS connection"));
+		case enumGISCatalogCreateNewCmdNGWConnection:
+			return wxString(_("Create new NGW connection"));
 		case enumGISCatalogCreateNewCmdDBSchema:
 			return wxString(_("Create new database schema"));
 		case enumGISCatalogCreateNewCmdDBAndConnection:

@@ -31,7 +31,7 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISCreateDBDlg : public wxGISRemoteConnDlg
+class WXDLLIMPEXP_GIS_CLU wxGISCreateDBDlg : public wxGISRemoteDBConnDlg
 {
 public:
     wxGISCreateDBDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Create new Remote Database"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
@@ -53,3 +53,5 @@ protected:
 };
 
 #endif //wxGIS_USE_POSTGRES
+
+
