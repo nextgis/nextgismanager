@@ -398,7 +398,11 @@ void wxGISRasterPropertyPage::FillGrid(void)
             char* pszGCPProjection = (char*)poGDALDataset->GetGCPProjection();
             if (pszGCPProjection)
             {
-                wxGISSRS->importFromWkt(&pszGCPProjection );
+                OGRSpatialReference* pSpaRef = new OGRSpatialReference();
+                if(pSpaRef->importFromWkt(&pszGCPProjection ) == OGRERR_NONE)
+                    wxGISSRS = wxGISSpatialReference(pSpaRef);
+                else
+                    delete pSpaRef;
             }
             else
             {
