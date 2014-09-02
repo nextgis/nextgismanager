@@ -66,7 +66,7 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
 
     wxGISDataSource* pDSource = wxDynamicCast(GetDatasetFast(), wxGISDataSource);
 
-    if (NULL == pDSource || !pDSource->Open(FALSE))
+    if (NULL == pDSource || !pDSource->Open(false))
     {
         return;
     }

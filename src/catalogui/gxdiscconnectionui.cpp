@@ -110,7 +110,7 @@ void wxGxDiscConnectionUI::DestroyCheckThread(void)
 bool wxGxDiscConnectionUI::Destroy(void)
 {
     DestroyCheckThread();
-    wxGxDiscConnection::Destroy();
+    return wxGxDiscConnection::Destroy();
 }
 
 wxIcon wxGxDiscConnectionUI::GetLargeImage(void)

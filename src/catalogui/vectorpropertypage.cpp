@@ -58,7 +58,7 @@ bool wxGISVectorPropertyPage::Create(IGxDataset* pGxDataset, wxWindow* parent, w
         return false;
     if (!m_pDataset->IsOpened())
     {
-		if(!m_pDataset->Open(0, TRUE, false))
+		if(!m_pDataset->Open(0, true, true, false))
 			return false;
     }
 

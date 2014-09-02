@@ -222,7 +222,7 @@ wxGISLayer* wxGxMapView::GetLayerFromDataset(wxGxDataset* const pGxDataset)
 		{
 			wxGISFeatureDataset* pGISFeatureDataset = wxDynamicCast(pwxGISDataset, wxGISFeatureDataset);
 			if(!pGISFeatureDataset->IsOpened())
-                pGISFeatureDataset->Open(0, TRUE, true, m_pTrackCancel);
+                pGISFeatureDataset->Open(0, true, true, true, m_pTrackCancel);
 			if(!pGISFeatureDataset->IsCached())
 				pGISFeatureDataset->Cache(m_pTrackCancel);
 			wxGISFeatureLayer* pGISFeatureLayer = new wxGISFeatureLayer(pwxGISDataset->GetName(), pwxGISDataset);

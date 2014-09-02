@@ -167,7 +167,7 @@ void wxGxTableView::LoadData(long nGxObjectId)
 
     if (!pGISTable->IsOpened())
     {
-        pGISTable->Open(0, TRUE, false);
+        pGISTable->Open(0, true, true, false);
     }
     if(pGISTable->IsCaching())
         pGISTable->StopCaching();

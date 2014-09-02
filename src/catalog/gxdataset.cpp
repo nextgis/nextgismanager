@@ -511,7 +511,7 @@ wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* cons
 
     if(NULL != pwxGISTable && !pwxGISTable->IsOpened())
     {
-        if (!pwxGISTable->Open(0, TRUE, bCache, pTrackCancel))
+        if (!pwxGISTable->Open(0, true, true, bCache, pTrackCancel))
         {
             wsDELETE(pwxGISTable);
 		    const char* err = CPLGetLastErrorMsg();
@@ -573,7 +573,7 @@ wxGISDataset* const wxGxFeatureDataset::GetDataset(bool bCache, ITrackCancel* co
 
     if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
     {
-        if (!pwxGISFeatureDataset->Open(0, TRUE, bCache, pTrackCancel))
+        if (!pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
         {
             wsDELETE(pwxGISFeatureDataset);
 		    const char* err = CPLGetLastErrorMsg();
@@ -681,7 +681,7 @@ wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* con
 
     if(pwxGISRasterDataset && !pwxGISRasterDataset->IsOpened())
     {
-        if(!pwxGISRasterDataset->Open(false))
+        if(!pwxGISRasterDataset->Open())
         {
             wsDELETE(pwxGISRasterDataset);
 		    const char* err = CPLGetLastErrorMsg();

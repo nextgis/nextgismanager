@@ -95,7 +95,7 @@ wxGISDataset* const wxGxSpreadsheetDataset::GetDataset(bool bCache, ITrackCancel
 
     if(NULL != pwxGISTable && !pwxGISTable->IsOpened())
     {
-        if (!pwxGISTable->Open(0, TRUE, bCache, pTrackCancel))
+        if (!pwxGISTable->Open(0, true, true, bCache, pTrackCancel))
         {
             wsDELETE(pwxGISTable);
 		    const char* err = CPLGetLastErrorMsg();

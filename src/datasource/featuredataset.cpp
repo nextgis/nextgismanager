@@ -221,7 +221,7 @@ void wxGISFeatureDataset::SetEncoding(const wxFontEncoding &oEncoding)
     m_Encoding = oEncoding;
 }
 
-bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCancel* const pTrackCancel)
+bool wxGISFeatureDataset::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrackCancel* const pTrackCancel)
 {
 	if(IsOpened())
     {
@@ -251,7 +251,7 @@ bool wxGISFeatureDataset::Open(int iLayer, int bUpdate, bool bCache, ITrackCance
         }
     }
 
-	if(!wxGISTable::Open(iLayer, bUpdate, true, false, pTrackCancel))
+    if (!wxGISTable::Open(iLayer, bUpdate, bShared, bCache, pTrackCancel))
     {
 		return false;
     }

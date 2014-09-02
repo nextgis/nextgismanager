@@ -36,7 +36,6 @@ if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
 endif(wxWidgets_FOUND)
 
-option(wxGIS_USE_CURL "Set ON to build with curl support" ON)
 if(wxGIS_USE_CURL)
     find_package(CURL REQUIRED)
     if(CURL_FOUND)

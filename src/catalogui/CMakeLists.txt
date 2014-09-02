@@ -91,6 +91,14 @@ if(CAIRO_FOUND)
     set(wxGIS_USE_CAIRO ON PARENT_SCOPE)
 endif(CAIRO_FOUND)
 
+if(wxGIS_USE_CURL)
+    find_package(CURL REQUIRED)
+    if(CURL_FOUND)
+        include_directories(${CURL_INCLUDE_DIRS})
+        add_definitions(-DHAVE_CURL)
+    endif(CURL_FOUND)
+endif(wxGIS_USE_CURL)
+
 include_directories(${LIB_HEADERS})
 
 set(PROJECT_HHEADERS ${PROJECT_HHEADERS}

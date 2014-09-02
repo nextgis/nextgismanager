@@ -659,7 +659,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     //create progress dialog
     if (!pFeatureDataset->IsOpened())
     {
-        if (!pFeatureDataset->Open(0, 0, false, &ProgressDlg))
+        if (!pFeatureDataset->Open(0, false, true, false, &ProgressDlg))
         {
             wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
             wxLogError(ProgressDlg.GetLastMessage());
@@ -718,7 +718,7 @@ void ExportSingleTableDataset(wxWindow* pWnd, const CPLString &sPath, const wxSt
     //create progress dialog
     if (!pTable->IsOpened())
     {
-        if (!pTable->Open(0, 0, false, &ProgressDlg))
+        if (!pTable->Open(0, false, true, false, &ProgressDlg))
         {
             wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
             wxLogError(ProgressDlg.GetLastMessage());
@@ -787,7 +787,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
                 break;
             if (!apFeatureDatasets[j]->IsOpened())
             {
-                if (!apFeatureDatasets[j]->Open(0, TRUE, false, &ProgressDlg))
+                if (!apFeatureDatasets[j]->Open(0, true, true, false, &ProgressDlg))
                 {
                     wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
                     wxLogError(ProgressDlg.GetLastMessage());

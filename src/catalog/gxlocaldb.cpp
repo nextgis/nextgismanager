@@ -160,7 +160,7 @@ wxGISDataset* const wxGxOpenFileGDB::GetDataset(bool bCached, ITrackCancel* cons
 
     if (NULL != pwxGISDataSource && !pwxGISDataSource->IsOpened())
     {
-        if (!pwxGISDataSource->Open(TRUE))
+        if (!pwxGISDataSource->Open(true))
         {
             wsDELETE(pwxGISDataSource);
             const char* err = CPLGetLastErrorMsg();

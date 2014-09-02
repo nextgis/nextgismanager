@@ -101,23 +101,28 @@ message(STATUS "GDAL_INCLUDE_DIR=[${GDAL_INCLUDE_DIR}]")
 
 if (GDAL_INCLUDE_DIR)
 
-    if(WIN32)
-        file(READ "${GDAL_INCLUDE_DIR}/gcore/gdal_version.h" _gdal_VERSION_H_CONTENTS)
-    else(WIN32)
-	file(READ "${GDAL_INCLUDE_DIR}/gdal_version.h" _gdal_VERSION_H_CONTENTS)
-    endif(WIN32)
-
-    string(REGEX MATCH "GDAL_VERSION_MAJOR[ \t]+([0-9]+)" GDAL_MAJOR_VERSION ${_gdal_VERSION_H_CONTENTS})
-    string(REGEX MATCH "([0-9]+)" GDAL_MAJOR_VERSION ${GDAL_MAJOR_VERSION})
-    string(REGEX MATCH "GDAL_VERSION_MINOR[ \t]+([0-9]+)" GDAL_MINOR_VERSION ${_gdal_VERSION_H_CONTENTS})
-    string(REGEX MATCH "([0-9]+)" GDAL_MINOR_VERSION ${GDAL_MINOR_VERSION})
-    string(REGEX MATCH "GDAL_VERSION_REV[ \t]+([0-9]+)" GDAL_RELEASE_NUMBER ${_gdal_VERSION_H_CONTENTS})  
-    string(REGEX MATCH "([0-9]+)" GDAL_RELEASE_NUMBER ${GDAL_RELEASE_NUMBER})
+    find_path(GDAL_VERSION_DIR gdal_version.h HINTS ${GDAL_INCLUDE_DIR} PATH_SUFFIXES "gcore")
+    if(GDAL_VERSION_DIR)
+        file(READ "${GDAL_VERSION_DIR}/gdal_version.h" _gdal_VERSION_H_CONTENTS)
         
-    # Setup package meta-data
-    set(GDAL_VERSION ${GDAL_MAJOR_VERSION}.${GDAL_MINOR_VERSION} CACHE INTERNAL "The version number for wxgis libraries")
-	DBG_MSG("GDAL_VERSION : ${GDAL_VERSION}")  
+#    if(WIN32)
+#        file(READ "${GDAL_INCLUDE_DIR}/gcore/gdal_version.h" _gdal_VERSION_H_CONTENTS)
+#    else(WIN32)
+#        file(READ "${GDAL_INCLUDE_DIR}/gdal_version.h" _gdal_VERSION_H_CONTENTS)
+#    endif(WIN32)
 
+        string(REGEX MATCH "GDAL_VERSION_MAJOR[ \t]+([0-9]+)" GDAL_MAJOR_VERSION ${_gdal_VERSION_H_CONTENTS})
+        string(REGEX MATCH "([0-9]+)" GDAL_MAJOR_VERSION ${GDAL_MAJOR_VERSION})
+        string(REGEX MATCH "GDAL_VERSION_MINOR[ \t]+([0-9]+)" GDAL_MINOR_VERSION ${_gdal_VERSION_H_CONTENTS})
+        string(REGEX MATCH "([0-9]+)" GDAL_MINOR_VERSION ${GDAL_MINOR_VERSION})
+        string(REGEX MATCH "GDAL_VERSION_REV[ \t]+([0-9]+)" GDAL_RELEASE_NUMBER ${_gdal_VERSION_H_CONTENTS})  
+        string(REGEX MATCH "([0-9]+)" GDAL_RELEASE_NUMBER ${GDAL_RELEASE_NUMBER})
+            
+        # Setup package meta-data
+        set(GDAL_VERSION ${GDAL_MAJOR_VERSION}.${GDAL_MINOR_VERSION} CACHE INTERNAL "The version number for wxgis libraries")
+        DBG_MSG("GDAL_VERSION : ${GDAL_VERSION}")  
+
+    endif()
 endif (GDAL_INCLUDE_DIR)
 
 find_library(GDAL_RELEASE

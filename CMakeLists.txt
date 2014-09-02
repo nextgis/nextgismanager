@@ -71,12 +71,16 @@ add_definitions(-DSTRICT)
 find_package(GDAL REQUIRED)
 if(GDAL_FOUND)
     include_directories(${GDAL_INCLUDE_DIR})
-    include_directories(${GDAL_INCLUDE_DIR}/ogr)
-    include_directories(${GDAL_INCLUDE_DIR}/ogr/ogrsf_frmts)
-    include_directories(${GDAL_INCLUDE_DIR}/port)
-    include_directories(${GDAL_INCLUDE_DIR}/gcore)
-    include_directories(${GDAL_INCLUDE_DIR}/alg)
-    include_directories(${GDAL_INCLUDE_DIR}/frmts/vrt)
+    
+    FOREACH(file_path ${GDAL_INCLUDE_DIR})
+        include_directories(${file_path}/ogr)
+        include_directories(${file_path}/ogr/ogrsf_frmts)
+        include_directories(${file_path}/port)
+        include_directories(${file_path}/gcore)
+        include_directories(${file_path}/alg)
+        include_directories(${file_path}/frmts/vrt)
+    ENDFOREACH()   
+
 endif(GDAL_FOUND)
 
 option(wxGIS_PORTABLE "Set OFF to build non portable version" ON)
@@ -119,6 +123,8 @@ if(UNIX)
         option(wxGIS_HAVE_UNITY_INTEGRATION "Set ON to build with Unity integration" ON)
     endif()
 endif()
+
+option(wxGIS_USE_CURL "Set ON to build with curl support" ON)
 
 #core
 set(WXGISCORE_LIB_NAME "")

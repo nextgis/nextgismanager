@@ -1699,7 +1699,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         CPLString sDSPath = CPLGetPath(sPath);
 
         wxGISPostgresDataSource* pDataSource = new wxGISPostgresDataSource(sDSPath);
-        if (!pDataSource->Open(TRUE))
+        if (!pDataSource->Open())
         {
             wxString sErr(_("Datasource open failed! OGR error: "));
             CPLString sFullErr(sErr.mb_str(wxConvUTF8));
