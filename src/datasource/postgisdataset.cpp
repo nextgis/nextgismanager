@@ -278,7 +278,7 @@ bool wxGISPostgresDataSource::CreateDatabase(const wxString &sDBName, const wxSt
                 if(Open(true, true))
                 {
                     //execute extenstion ...
-                    return ExecuteSQL(wxT("CREATE EXTENSION postgis;"));
+                    return ExecuteSQL(wxT("CREATE EXTENSION IF NOT EXISTS postgis;"));
                 }
                 else
                 {
