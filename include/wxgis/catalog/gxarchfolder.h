@@ -22,7 +22,7 @@
 #include "wxgis/catalog/gxfolder.h"
 
 /** @class wxGxArchiveFolder
-    
+
     The Archive Folder GxObject.
 
     @library{catalog}
@@ -62,6 +62,8 @@ class WXDLLIMPEXP_GIS_CLT wxGxArchive :
 public:
 	wxGxArchive(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxArchive(void);
+	//wxGxObject
+	virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);  //search by Path stored in CPLString sPath
 	//IGxObject
     virtual wxString GetBaseName(void) const;
 	virtual wxString GetCategory(void) const {return wxString(_("Archive"));};

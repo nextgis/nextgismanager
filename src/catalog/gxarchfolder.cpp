@@ -46,17 +46,15 @@ wxString wxGxArchive::GetBaseName(void) const
 
 bool wxGxArchive::Delete(void)
 {
-	int nCount = 0;
-    for(size_t i = 1; i < m_sPath.length(); ++i)
+	wxString sThisPath(m_sPath, wxConvUTF8);
+    wxString sRealPath;
+    if(sThisPath.StartsWith(wxT("/vsizip/"), &sRealPath))
     {
-        nCount++;
-        if(m_sPath[i] == '/')
-            break;
+        sThisPath = sRealPath;
     }
+    CPLString szOldPath(sThisPath.ToUTF8());
 
-    m_sPath.erase(0, nCount + 1);
-
-    if(DeleteFile(m_sPath))
+    if(DeleteFile(szOldPath))
 	{
         return true;
 	}
@@ -71,25 +69,21 @@ bool wxGxArchive::Delete(void)
 
 bool wxGxArchive::Rename(const wxString &sNewName)
 {
-    CPLString szType("/");
-    int nCount = 0;
-    for(size_t i = 1; i < m_sPath.length(); ++i)
+    wxString sThisPath(m_sPath, wxConvUTF8);
+    wxString sRealPath;
+    if(sThisPath.StartsWith(wxT("/vsizip/"), &sRealPath))
     {
-        nCount++;
-        szType += m_sPath[i];
-        if(m_sPath[i] == '/')
-            break;
+        sThisPath = sRealPath;
     }
 
-    m_sPath.erase(0, nCount + 1);
-
-	wxFileName PathName(wxString(m_sPath, wxConvUTF8));
+	wxFileName PathName(sThisPath);
 	PathName.SetName(ClearExt(sNewName));
 
 	wxString sNewPath = PathName.GetFullPath();
 
-    CPLString szNewPath(sNewPath.mb_str(wxConvUTF8));
-    if(RenameFile(m_sPath, szNewPath))
+    CPLString szNewPath(sNewPath.ToUTF8());
+    CPLString szOldPath(sThisPath.ToUTF8());
+    if(RenameFile(szOldPath, szNewPath))
 	{
 		return true;
 	}
@@ -100,6 +94,18 @@ bool wxGxArchive::Rename(const wxString &sNewName)
 		return false;
     }
 	return false;
+}
+
+wxGxObject *wxGxArchive::FindGxObjectByPath(const wxString &sPath)
+{
+    wxString sThisPath(m_sPath, wxConvUTF8);
+
+    if(sThisPath.IsSameAs(sPath, false))
+        return (wxGxObject *)this;
+    wxString sTestPath = wxT("/vsizip/") + sPath;
+    if(sThisPath.IsSameAs(sTestPath, false))
+        return (wxGxObject *)this;
+    return NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -129,6 +135,8 @@ void wxGxArchiveFolder::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
 		return;
 
+
+	m_bIsChildrenLoaded = true;
 #ifdef __WINDOWS__
     wxString sCharset(wxT("cp-866"));
 #endif // __WINDOWS__
@@ -185,8 +193,6 @@ void wxGxArchiveFolder::LoadChildren(void)
 	}
 
     CSLDestroy( papszFileList );
-
-	m_bIsChildrenLoaded = true;
 }
 
 wxGxObject* wxGxArchiveFolder::GetArchiveFolder(wxGxObject *oParent, const wxString &soName, const CPLString &soPath)

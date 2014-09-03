@@ -41,6 +41,15 @@ wxGxFolder::wxGxFolder(wxGxObject *oParent, const wxString &soName, const CPLStr
 
 wxGxFolder::~wxGxFolder(void)
 {
+    wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+#ifdef __UNIX__
+    if(pCatalog)
+    {
+        wxString sPath = wxString(m_sPath, wxConvUTF8);
+        wxFileName oFileName = wxFileName::DirName(sPath);
+        pCatalog->RemoveFSWatcherPath(oFileName);
+    }
+#endif // __UNIX__
 }
 
 wxString wxGxFolder::GetBaseName(void) const
@@ -61,12 +70,21 @@ void wxGxFolder::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
 		return;
 
+    wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+#ifdef __UNIX__
+    if(pCatalog)
+    {
+        wxString sPath = wxString(m_sPath, wxConvUTF8);
+        wxFileName oFileName = wxFileName::DirName(sPath);
+        pCatalog->AddFSWatcherPath(oFileName);
+    }
+#endif // __UNIX__
+
     char **papszItems = CPLReadDir(m_sPath);
     if(papszItems == NULL)
         return;
 
     char **papszFileList = NULL;
-    wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
 
     //remove unused items
     for(int i = CSLCount(papszItems) - 1; i >= 0; i-- )
@@ -89,12 +107,6 @@ void wxGxFolder::LoadChildren(void)
     {
         wxArrayLong ChildrenIds;
         pCatalog->CreateChildren(this, papszFileList, ChildrenIds);
-
-#ifdef __UNIX__
-        wxString sPath = wxString(m_sPath, wxConvUTF8);
-        wxFileName oFileName = wxFileName::DirName(sPath);
-        pCatalog->AddFSWatcherPath(oFileName);
-#endif // __UNIX__
 	}
     CSLDestroy( papszFileList );
 
@@ -108,16 +120,6 @@ bool wxGxFolder::CanDelete(void)
 
 bool wxGxFolder::Delete(void)
 {
-#ifdef __UNIX__
-    wxGxCatalog* pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
-    if(pCatalog)
-    {
-        wxString sPath = wxString(m_sPath, wxConvUTF8);
-        wxFileName oFileName = wxFileName::DirName(sPath);
-        pCatalog->RemoveFSWatcherPath(oFileName);
-    }
-#endif // __UNIX__
-
  	if(DeleteDir(m_sPath))
 	{
         return true;

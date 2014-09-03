@@ -107,34 +107,59 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
     case wxFSW_EVENT_DELETE:
         {
             //search gxobject
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
+            wxFileName oName = event.GetPath();
+            wxString sPath = oName.GetFullPath();
+            wxGxObject *current = FindGxObjectByPath(sPath);
             if(current)
             {
                 current->Destroy();
             }
+
+#ifdef __UNIX__
+            RemoveFSWatcherPath(oName);
+#endif // __UNIX__
         }
         break;
     case wxFSW_EVENT_RENAME:
         {
-
-#ifdef __UNIX__
-            RemoveFSWatcherPath(event.GetPath());
-#endif
-            wxGxObject *current = FindGxObjectByPath(event.GetPath().GetFullPath());
+            wxFileName oName = event.GetPath();
+            wxString sPath = oName.GetFullPath();
+            wxGxObject *current = FindGxObjectByPath(sPath);
             if(current)
             {
-                current->SetName(event.GetNewPath().GetFullName());
-                current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8() ) );
-                ObjectChanged(current->GetId());
-
-#ifdef __UNIX__
-                if(current->IsKindOf(wxCLASSINFO(wxGxFolder)))
+                if(event.GetNewPath().Exists())
                 {
-                    wxString sPath = wxString(current->GetPath(), wxConvUTF8);
-                    wxFileName oFileName = wxFileName::DirName(sPath);
-                    AddFSWatcherPath(oFileName);
+                    current->SetName(event.GetNewPath().GetFullName());
+                    current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8() ) );
+                    ObjectChanged(current->GetId());
                 }
+                else
+                {
+                    current->Destroy();
+#ifdef __UNIX__
+                    RemoveFSWatcherPath(oName);
 #endif // __UNIX__
+                }
+
+            }
+            else
+            {
+                wxFileName oName = event.GetNewPath();
+                wxString sPath = oName.GetPath();
+                wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
+                if(parent)
+                {
+                    CPLString szPath(event.GetNewPath().GetFullPath().ToUTF8());
+                    char **papszFileList = NULL;
+                    papszFileList = CSLAddString( papszFileList, szPath );
+
+                    wxArrayLong ChildrenIds;
+                    CreateChildren(parent, papszFileList, ChildrenIds);
+                    for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+                        ObjectAdded(ChildrenIds[i]);
+
+                    CSLDestroy( papszFileList );
+                }
             }
         }
         break;
