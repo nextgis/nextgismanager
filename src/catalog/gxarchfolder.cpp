@@ -27,7 +27,7 @@
 //----------------------------------------------------------------------------
 // wxGxArchive
 //----------------------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxArchive, wxGxFolder)
+IMPLEMENT_CLASS(wxGxArchive, wxGxArchiveFolder)
 
 wxGxArchive::wxGxArchive(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxArchiveFolder(oParent, soName, soPath)
 {
@@ -44,15 +44,20 @@ wxString wxGxArchive::GetBaseName(void) const
     return FileName.GetName();
 }
 
-bool wxGxArchive::Delete(void)
+CPLString wxGxArchive::GetRealPath() const
 {
-	wxString sThisPath(m_sPath, wxConvUTF8);
+    wxString sThisPath(m_sPath, wxConvUTF8);
     wxString sRealPath;
     if(sThisPath.StartsWith(wxT("/vsizip/"), &sRealPath))
     {
         sThisPath = sRealPath;
     }
-    CPLString szOldPath(sThisPath.ToUTF8());
+    return  CPLString(sThisPath.ToUTF8());
+}
+
+bool wxGxArchive::Delete(void)
+{
+    CPLString szOldPath = GetRealPath();
 
     if(DeleteFile(szOldPath))
 	{
@@ -106,6 +111,28 @@ wxGxObject *wxGxArchive::FindGxObjectByPath(const wxString &sPath)
     if(sThisPath.IsSameAs(sTestPath, false))
         return (wxGxObject *)this;
     return NULL;
+}
+
+bool wxGxArchive::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    if(pTrackCancel)
+        pTrackCancel->PutMessage(wxString(_("Copy file ")) + m_sName, -1, enumGISMessageInfo);
+
+    CPLString szRealPath = GetRealPath();
+	CPLString szFileName = CPLGetBasename(szRealPath);
+	CPLString szNewDestFileName = GetUniqPath(szRealPath, szDestPath, szFileName);
+    return CopyFile(szRealPath, szNewDestFileName, pTrackCancel);
+}
+
+bool wxGxArchive::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    if(pTrackCancel)
+        pTrackCancel->PutMessage(wxString(_("Move file ")) + m_sName, -1, enumGISMessageInfo);
+
+    CPLString szRealPath = GetRealPath();
+	CPLString szFileName = CPLGetBasename(szRealPath);
+	CPLString szNewDestFileName = GetUniqPath(szRealPath, szDestPath, szFileName);
+    return MoveFile(szRealPath, szNewDestFileName, pTrackCancel);
 }
 
 //----------------------------------------------------------------------------

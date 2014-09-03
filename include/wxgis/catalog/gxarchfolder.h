@@ -72,6 +72,10 @@ public:
 	virtual bool CanDelete(void){return true;};
 	virtual bool Rename(const wxString &sNewName);
 	virtual bool CanRename(void){return true;};
+	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+protected:
+    virtual CPLString GetRealPath() const;
 };
 
 
