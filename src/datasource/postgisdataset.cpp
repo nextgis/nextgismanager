@@ -62,6 +62,12 @@ wxGISPostgresDataSource::wxGISPostgresDataSource(const CPLString &szPath) : wxGI
     m_poDS4SQL = NULL;
     m_poDS = NULL;
 
+    GDALDriverH hPostGISRaster = GDALGetDriverByName("PostGISRaster");
+    if(hPostGISRaster != NULL)
+    {
+        GDALDeregisterDriver(hPostGISRaster);
+    }
+
     ReadConnectionFile();
 
     m_Encoding = wxFONTENCODING_UTF8;
