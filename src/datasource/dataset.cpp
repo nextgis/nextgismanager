@@ -138,7 +138,8 @@ void* wxGISDataset::OpenInternal(const CPLString &szPath, bool bUpdate, bool bSh
         return GDALOpenEx( szPath, nOpenFlags, NULL, NULL, NULL );
     #else
     //TODO: now postgis is only support so vector
-        return GDALOpenShared( szPath, bUpdate == true ? GA_Update : GA_ReadOnly );
+        return OGRSFDriverRegistrar::Open(szPath, bUpdate == true ? TRUE : FALSE);
+    //    return GDALOpenShared( szPath, bUpdate == true ? GA_Update : GA_ReadOnly );
     #endif // GDAL_VERSION_NUM
     }
 
