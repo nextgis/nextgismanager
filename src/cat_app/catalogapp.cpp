@@ -123,6 +123,7 @@ bool wxGISCatalogApp::OnInit()
 
     //disable loading drivers on GDAL_DRIVER_PATH env value
     CPLSetConfigOption("GDAL_DRIVER_PATH", "disabled");
+    CPLSetConfigOption("GDAL_SKIP", "PostGISRaster");
     wxString sTempDir = oConfig.GetTempDir();
     if(!wxDirExists(sTempDir))
 		wxFileName::Mkdir(sTempDir, 0777, wxPATH_MKDIR_FULL);
