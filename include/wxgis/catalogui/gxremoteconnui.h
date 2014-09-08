@@ -164,7 +164,10 @@ protected:
 class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
     public wxGxNGWService,
 	public IGxObjectUI,
-    public IGxObjectEditUI
+    public IGxObjectEditUI,
+    public IGxObjectWizard,
+    public IGxDropTarget,
+    public wxGxAutoRenamer
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
@@ -177,6 +180,11 @@ public:
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWServiceUI.NewtMenu")); };
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
+    //IGxObjectWizard
+    virtual bool Invoke(wxWindow* pParentWnd);
+    //IGxDropTarget
+    virtual wxDragResult CanDrop(wxDragResult def);
+    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:
     virtual void LoadChildren(void);
 protected:

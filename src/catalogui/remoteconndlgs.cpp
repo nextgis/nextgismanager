@@ -853,38 +853,8 @@ void wxGISNGWConnDlg::OnTest(wxCommandEvent& event)
 	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
-        int nDNSCacheTimeout = 180;
-        int nTimeout = 1000;
-        int nConnTimeout = 30;
-        wxString sProxy, sHeaders;
-
-        wxGISAppConfig oConfig = GetConfig();
-        if (oConfig.IsOk())
-        {
-            sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), sProxy);
-            sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), sHeaders);
-            nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), nDNSCacheTimeout);
-            nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), nTimeout);
-            nConnTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), nConnTimeout);
-        }
-
-        int pos = 0;
-        if((pos = sHeaders.Find(wxT("User-Agent"))) != wxNOT_FOUND)
-        {
-            wxString sNewHeaders = sHeaders.Left(pos);
-            wxString sSearchHeaders = sHeaders.Right(sHeaders.Len() - pos - 10);
-            pos = sSearchHeaders.Find(wxT("|"));
-            sNewHeaders += wxT("User-Agent: ") + m_sUserAgent;
-            sNewHeaders += sSearchHeaders.Right(sSearchHeaders.Len() - pos);
-            sHeaders = sNewHeaders;
-        }
-        else
-        {
-            sHeaders += wxT("|") + m_sUserAgent;
-        }
-
-        wxGISCurl curl(sProxy, sHeaders, nDNSCacheTimeout, nTimeout, nConnTimeout);
-        if (!curl.IsValid())
+        wxGISCurl curl;
+        if (!curl.IsOk())
         {
             wxMessageBox(wxString(_("cURL initialize failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
             return;

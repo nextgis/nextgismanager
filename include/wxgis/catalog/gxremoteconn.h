@@ -194,6 +194,9 @@ public:
 };
 
 #ifdef wxGIS_USE_CURL
+
+#include "wxgis/net/curl.h"
+
 /** @class wxGxNGWService
 
     A NextGIS Web Service GxObject.
@@ -231,13 +234,17 @@ public:
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);
+    //wxGxNGWService
+    virtual wxGISCurl GetCurl();
 protected:
     virtual void LoadChildren(void);
+    virtual bool ConnectToNGW();
 protected:
     wxString m_sLogin;
     wxString m_sPassword;
     wxString m_sURL;
-    bool m_bChildrenLoaded, m_bIsConnected;
+    bool m_bChildrenLoaded, m_bIsConnected, m_bIsAuthorized;
+    wxString m_sAuthCookie;
 };
 
 /** @class wxGxNGWRoot
@@ -266,11 +273,7 @@ protected:
     virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
 protected:
     bool m_bChildrenLoaded;
-    wxString m_sProxy;
-    wxString m_sHeaders;
-    int m_nDNSCacheTimeout;
-    int m_nTimeout;
-    int m_nConnTimeout;
+    wxGxNGWService *m_pService;
 };
 
 /** @class wxGxNGWLayers

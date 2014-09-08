@@ -22,8 +22,8 @@
 #include "wxgis/catalog/gxremoteconn.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/gxcatalog.h"
-#include "wxgis/net/curl.h"
 #include "wxgis/core/json/jsonreader.h"
+#include "wxgis/core/crypt.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -1111,6 +1111,7 @@ wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, cons
 {
     m_bChildrenLoaded = false;
     m_bIsConnected = false;
+    m_bIsAuthorized = false;
 
     wxXmlDocument doc(wxString::FromUTF8(soPath));
     if (doc.IsOk())
@@ -1118,11 +1119,9 @@ wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, cons
         wxXmlNode* pRootNode = doc.GetRoot();
         if (NULL != pRootNode)
         {
-            wxXmlNode* pDataNode = pRootNode->GetChildren();
-            if (NULL != pDataNode)
-            {
-                m_sURL = pDataNode->GetAttribute(wxT("url"));
-            }
+            m_sURL = pRootNode->GetAttribute(wxT("url"));
+            m_sLogin = pRootNode->GetAttribute(wxT("user"));
+            Decrypt(pRootNode->GetAttribute(wxT("pass")), m_sPassword);
         }
     }
 }
@@ -1206,23 +1205,58 @@ bool wxGxNGWService::Move(const CPLString &szDestPath, ITrackCancel* const pTrac
     return true;
 }
 
-bool wxGxNGWService::Connect(void)
+bool wxGxNGWService::ConnectToNGW()
 {
     if (IsConnected())
     {
         return true;
     }
-    bool bRes = true;
-    //connect with login and passwd
-    //bRes = Login();
-    if (bRes)
-    {
-        LoadChildren();
 
-        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+         return false;
     }
 
-    return bRes;
+    wxString sURL = wxString::FromUTF8(m_sURL) + wxString(wxT("/login"));
+    if (!sURL.StartsWith(wxT("http")))
+    {
+        sURL.Prepend(wxT("http://"));
+    }
+
+    wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.c_str(), m_sPassword.c_str());
+
+    PERFORMRESULT res = curl.Post(sURL, sPostData);
+
+    if(!res.IsValid)
+        return false;
+
+    m_bIsConnected = true;
+
+    int pos;
+    if((pos = res.sHead.Find(wxT("Set-Cookie"))) != wxNOT_FOUND)
+    {
+        m_bIsAuthorized = true;
+        m_sAuthCookie = res.sHead.Right(res.sHead.Len() - 11);
+        pos = m_sAuthCookie.Find(wxT("\r\n"));
+        if(pos != wxNOT_FOUND)
+        {
+            m_sAuthCookie = m_sAuthCookie.Left(pos);
+        }
+    }
+
+    return true;
+}
+
+bool wxGxNGWService::Connect(void)
+{
+    if(!ConnectToNGW())
+        return false;
+
+    LoadChildren();
+    wxGIS_GXCATALOG_EVENT(ObjectChanged);
+
+    return true;
 }
 
 bool wxGxNGWService::Disconnect(void)
@@ -1263,21 +1297,32 @@ void wxGxNGWService::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
+    if(!m_bIsConnected)
+    {
+        ConnectToNGW();
+        if(!m_bIsConnected)
+            return;
+    }
+
+
     new wxGxNGWRoot(this, _("Resources"), CPLString(m_sURL.ToUTF8()));
-    //TODO: check if no guest
-    new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));
-    m_bIsConnected = true;
+
+    if(m_bIsAuthorized)
+        new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));
+
     m_bChildrenLoaded = true;
 }
 
 bool wxGxNGWService::CanCreate(long nDataType, long DataSubtype)
 {
-    //if (nDataType != enumGISContainer)
-    //    return false;
-    //if (DataSubtype != enumContGDBFolder)
-    //    return false;
-    //return true;
     return false;
+}
+
+wxGISCurl wxGxNGWService::GetCurl()
+{
+    wxGISCurl curl;
+    curl.AppendHeader(wxT("Cookie:") + m_sAuthCookie);
+    return curl;
 }
 
 #define ROOT_TREE wxT("/resource/0/child/")
@@ -1290,19 +1335,8 @@ IMPLEMENT_CLASS(wxGxNGWRoot, wxGxObjectContainer)
 wxGxNGWRoot::wxGxNGWRoot(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
 {
     m_bChildrenLoaded = false;
-    m_nDNSCacheTimeout = 180;
-    m_nTimeout = 1000;
-    m_nConnTimeout = 30;
+    m_pService = wxDynamicCast(oParent, wxGxNGWService);
 
-    wxGISAppConfig oConfig = GetConfig();
-    if (oConfig.IsOk())
-    {
-        m_sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
-        m_sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), wxEmptyString);
-        m_nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), m_nDNSCacheTimeout);
-        m_nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), m_nTimeout);
-        m_nConnTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), m_nConnTimeout);
-    }
 }
 
 wxGxNGWRoot::~wxGxNGWRoot(void)
@@ -1326,8 +1360,9 @@ void wxGxNGWRoot::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
-    wxGISCurl curl(m_sProxy, m_sHeaders, m_nDNSCacheTimeout, m_nTimeout, m_nConnTimeout);
-    if (!curl.IsValid())
+
+    wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
         return;
 
     //http://demo.nextgis.ru/ngw_rosavto/api/layer_group/0/tree

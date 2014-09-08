@@ -31,7 +31,8 @@
 
 typedef struct _perform_result
 {
-	wxString sHead, sBody;
+	wxString sHead;
+	wxString sBody;
 	unsigned int iSize;
 	bool IsValid;
 } PERFORMRESULT;
@@ -43,23 +44,67 @@ typedef struct _perform_result
     @library{net}
   */
 
-class WXDLLIMPEXP_GIS_NET wxGISCurl
+class WXDLLIMPEXP_GIS_NET wxGISCurl : public wxObject
 {
+    DECLARE_CLASS(wxGISCurl)
 public:
 	wxGISCurl(const wxString &proxy, const wxString &sHeaders, int dnscachetimeout, int timeout, int conntimeout);
+	wxGISCurl(bool bReplaceUserAgent = true);
 	virtual ~wxGISCurl(void);
-	bool IsValid(void){return m_bIsValid;};
-private:
+	bool IsOk() const;
+
+	bool operator == ( const wxGISCurl& obj ) const;
+    bool operator != (const wxGISCurl& obj) const { return !(*this == obj); };
+
+public:
+	virtual void AppendHeader(const wxString & sHeadStr);
+	virtual void SetDefaultHeader(void);
+	virtual void FollowLocation(bool bSet, unsigned short iMaxRedirs);
+	virtual void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
+	virtual PERFORMRESULT Get(const wxString & sURL);
+	virtual bool GetFile(const wxString & sURL, const wxString & sPath);
+	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+
+protected:
+    virtual wxObjectRefData *CreateRefData() const;
+    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
+};
+
+/** @class wxGISCurlRefData
+
+    A smart class for cURL handler
+
+    @library{net}
+  */
+
+class wxGISCurlRefData : public wxObjectRefData
+{
+    friend class wxGISCurl;
+public:
+    wxGISCurlRefData(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout);
+    virtual ~wxGISCurlRefData(void);
+    wxGISCurlRefData(const wxGISCurlRefData& data);
+    bool operator == (const wxGISCurlRefData& data) const;
+    void SetDefaultHeader(void);
+	void AppendHeader(const wxString & sHeadStr);
+    void FollowLocation(bool bSet, unsigned short iMaxRedirs);
+	void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
+	PERFORMRESULT Get(const wxString & sURL);
+	bool GetFile(const wxString & sURL, const wxString & sPath);
+	PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+protected:
+	struct curl_slist *slist;
+	CURL *m_pCurl;
 	wxString m_sHeaders;
-	bool m_bIsValid, m_bUseProxy;
-	CURL *curl;
+	bool m_bUseProxy;
+
+protected:
 	CURLcode res;
     struct MemoryStruct
 	{
       char *memory;
       size_t size;
     };
-	struct curl_slist *slist;
 	struct MemoryStruct bodystruct;
 	struct MemoryStruct headstruct;
 
@@ -87,15 +132,6 @@ private:
            }
            return realsize;
 	}
-
-public:
-	virtual void AppendHeader(const wxString & sHeadStr);
-	virtual void SetDefaultHeader(void);
-	virtual void FollowLocation(bool bSet, unsigned short iMaxRedirs);
-	virtual void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
-	virtual PERFORMRESULT Get(const wxString & sURL);
-	virtual bool GetFile(const wxString & sURL, const wxString & sPath);
-	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
 };
 
 #endif //wxGIS_USE_CURL

@@ -711,14 +711,37 @@ void wxGxNGWServiceUI::EditProperties(wxWindow *parent)
 {
 }
 
+bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)
+{
+    wxBusyCursor wait;
+    //connect
+	if(!Connect())
+	{
+		wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
+		return false;
+	}
+
+    return true;
+}
+
+wxDragResult wxGxNGWServiceUI::CanDrop(wxDragResult def)
+{
+    return def;
+}
+
+bool wxGxNGWServiceUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
+{
+    return false;
+}
+
 void wxGxNGWServiceUI::LoadChildren(void)
 {
-    if (m_bChildrenLoaded)
+    if (m_bChildrenLoaded || !m_bIsConnected)
         return;
+
     new wxGxNGWRootUI(this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
-    //TODO: check if no guest
-    new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
-    m_bIsConnected = true;
+    if(m_bIsAuthorized)
+        new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
     m_bChildrenLoaded = true;
 }
 
