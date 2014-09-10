@@ -29,6 +29,7 @@
 
 #include <wx/dir.h>
 
+#undef LT_OBJDIR
 #include "cpl_multiproc.h"
 #include "gdal_priv.h"
 #include "gdal.h"

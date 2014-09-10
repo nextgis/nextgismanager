@@ -25,7 +25,7 @@
 
 #include <locale.h>
 
-//#include "ogrsf_frmts.h"
+#undef LT_OBJDIR
 #include "ogr_api.h"
 #include "gdal_priv.h"
 
@@ -42,9 +42,9 @@ wxGISCatalogApp::wxGISCatalogApp(void) : wxApp()
     m_appDisplayName = wxString(wxT("NextGIS Manager"));
     m_className = wxString(wxT("wxGISCatalogApp"));
 
-#if defined(__WXGTK__) && !wxCHECK_VERSION(2, 9, 5)
+//#if defined(__WXGTK__) && !wxCHECK_VERSION(2, 9, 5)
 //    wxSetEnv(wxT("UBUNTU_MENUPROXY"), wxT("0"));
-#endif
+//#endif
     m_pMainFrame = NULL;
     m_bMainFrameCreated = false;
 }
@@ -54,7 +54,7 @@ wxGISCatalogApp::~wxGISCatalogApp(void)
  	GDALDestroyDriverManager();
 	OGRCleanupAll();
 
-	UnLoadLibs();
+	UnLoadLibs();	
 }
 
 bool wxGISCatalogApp::OnInit()

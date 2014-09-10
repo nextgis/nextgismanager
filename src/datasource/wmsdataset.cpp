@@ -25,7 +25,6 @@
 #include "wxgis/datasource/table.h"
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/core/config.h"
-#include "wxgisdefs.h"
 
 //------------------------------------------------------------------------------
 // wxGISWMSDataSource

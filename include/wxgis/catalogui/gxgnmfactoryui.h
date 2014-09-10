@@ -20,12 +20,10 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
-
-#ifdef wxGIS_USE_GDAL_GNM
-
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxgnmfactory.h"
+
+#ifdef wxGIS_USE_GDAL_GNM
 
 /** @class wxGxGNMFactoryUI
 

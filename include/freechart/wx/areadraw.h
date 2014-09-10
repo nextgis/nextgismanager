@@ -173,7 +173,7 @@ private:
 };
 
 WX_DECLARE_HASH_MAP(int, AreaDraw *, wxIntegerHash, wxIntegerEqual, AreaDrawMap);
-class WXDLLIMPEXP_FREECHART AreaDrawMap;
+class AreaDrawMap;
 
 /**
  * Collection of areadraws for series.

@@ -1,6 +1,5 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Purpose:  wxGxShapeFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2014 Dmitry Baryshnikov
@@ -18,34 +17,4 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#pragma once
-
-
-#include "wxgis/catalog/gxobjectfactory.h"
-#include "wxgis/datasource/datasource.h"
-
-#ifdef wxGIS_USE_GDAL_GNM
-
-/** @class wxGxGNMFactory
-
-    A Geography network model (GNM) GxObject factory.
-
-    @library{catalog}
-*/
-
-class WXDLLIMPEXP_GIS_CLT wxGxGNMFactory :
-	public wxGxObjectFactory
-{
-    DECLARE_DYNAMIC_CLASS(wxGxGNMFactory)
-public:
-    wxGxGNMFactory(void);
-    virtual ~wxGxGNMFactory(void);
-	//IGxObjectFactory
-	virtual bool GetChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds);
-    virtual wxString GetName(void) const {return wxString(_("Geography network models"));};
-    //wxGxShapeFactory
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, bool bCheckNames);
-protected:
-    bool m_bHasDriver;
-};
-#endif
+ 

@@ -26,11 +26,17 @@
 #include <wx/dnd.h>
 #include <wx/xml/xml.h>
 
-/** \class IView framework.h
-    \brief A View interface class.
+#undef LT_OBJDIR
+#include "gdal_priv.h"
+#include "gdal.h"
+#include "cpl_string.h"
 
-    Any additional view mast derived from this class.
-*/
+/** @class IView
+ * 
+ * 	A View interface class.
+ *  Any additional view mast derived from this class.
+ * 
+ */
 class IView
 {
 public:

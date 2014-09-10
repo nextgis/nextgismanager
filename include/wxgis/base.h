@@ -369,4 +369,4 @@
     #define WXDLLIMPEXP_TEMPLATE_INSTANCE_CORE(decl)
 #endif /* VC6/others */
 
-#undef WXGISPORTABLE
+#include "wxgisdefs.h"

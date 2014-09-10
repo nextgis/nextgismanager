@@ -167,7 +167,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
         if (eErr != OGRERR_NONE)
         {
             wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
-            CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+            CPLString sFullErr(sErr.ToUTF8());
             sFullErr += CPLGetLastErrorMsg();
             CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
             if (pTrackCancel)
@@ -445,7 +445,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         if(eErr != OGRERR_NONE)
         {
             wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
-            CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+            CPLString sFullErr(sErr.ToUTF8());
             sFullErr += CPLGetLastErrorMsg();
             CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
             if (pTrackCancel)
@@ -498,7 +498,7 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     if (NULL == pDstDataSet)
     {
         wxString sErr(_("Error creating new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
         if (pTrackCancel)
@@ -539,7 +539,7 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
         pDstDataSet->Close();
 
         wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError(CE_Failure, CPLE_FileIO, sFullErr);
         if (pTrackCancel)
@@ -564,7 +564,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     if (!OverWriteGxObject(pObj, pTrackCancel))
     {
         wxString sErr(_("Overwrite failed"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str(wxConvUTF8));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
         if (pTrackCancel)
         {
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -602,7 +602,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     if (NULL == pDstDataSet)
     {
         wxString sErr(_("Error creating new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
         if (pTrackCancel)
@@ -619,7 +619,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     if (!CopyRows(pSrsDataSet, pDstDataSet, eFilterGeomType, bToMulti, pTrackCancel))
     {
         wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError( CE_Failure, CPLE_FileIO, sFullErr );
         if (pTrackCancel)
@@ -643,7 +643,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
         pDstDataSet->Close();
 
         wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
+        CPLString sFullErr(sErr.ToUTF8());
         sFullErr += CPLGetLastErrorMsg();
         CPLError( CE_Failure, CPLE_FileIO, sFullErr );
         if (pTrackCancel)
@@ -672,7 +672,7 @@ bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const w
     if (NULL == pDef)
     {
         wxString sErr(_("Error read dataset definition"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str(wxConvUTF8));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
         if (pTrackCancel)
         {
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -690,7 +690,7 @@ bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const w
     if (!OverWriteGxObject(pObj, pTrackCancel))
     {
         wxString sErr(_("Overwrite failed"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str(wxConvUTF8));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
         if (pTrackCancel)
         {
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -725,7 +725,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
     if (!SrcSpaRef.IsOk() && (nNewSubType == enumVecKML || nNewSubType == enumVecKMZ))
     {
         wxString sErr(_("Input spatial reference is not defined!"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str(wxConvUTF8));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
         if (pTrackCancel)
         {
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -747,7 +747,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
     if(NULL == pDef)
     {
         wxString sErr(_("Error read dataset definition"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.mb_str(wxConvUTF8));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
         if (pTrackCancel)
         {
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -1902,7 +1902,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                 pField->SetType(OFTString);
                 wxString sErr(_("Unsupported type for dbf file - OFTTime. Change to OFTString."));
                 wxLogWarning(sErr);
-                CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str(wxConvUTF8)));
+                CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.ToUTF8()));
                 if(pTrackCancel)
                     pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageWarning);
             }

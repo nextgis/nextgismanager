@@ -21,8 +21,6 @@
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/core/config.h"
 
-#include "gdal_priv.h"
-
 //--------------------------------------------------------------------------
 // wxGISApplicationBase
 //--------------------------------------------------------------------------

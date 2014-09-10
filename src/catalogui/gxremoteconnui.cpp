@@ -20,8 +20,6 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/gxremoteconnui.h"
-#include "wxgisdefs.h"
-
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/processing.h"
 

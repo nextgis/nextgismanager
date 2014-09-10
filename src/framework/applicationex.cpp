@@ -18,18 +18,15 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+
 #include "wxgis/framework/applicationex.h"
 #include "wxgis/framework/customizedlg.h"
 #include "wxgis/framework/toolbarmenu.h"
 #include "wxgis/version.h"
-#include "wxgisdefs.h"
 
 #ifdef wxGIS_USE_PROJ
     #include "proj_api.h"
 #endif
-
-#include "gdal.h"
-#include "cpl_string.h"
 
 //-----------------------------------------------
 // wxGISApplicationEx

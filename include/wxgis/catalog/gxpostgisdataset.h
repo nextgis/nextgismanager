@@ -20,7 +20,6 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
 #include "wxgis/catalog/catalog.h"
 
 #ifdef wxGIS_USE_POSTGRES

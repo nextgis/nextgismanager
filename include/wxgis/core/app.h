@@ -22,9 +22,11 @@
 
 #include "wxgis/core/core.h"
 
-/** \class wxGISApplicationBase app.h
-    \brief Base class for wxGIS application.
-*/
+/** @class wxGISApplicationBase
+ *     
+ * Base class for GIS application.
+ * 
+ */
 
 class WXDLLIMPEXP_GIS_CORE IApplication : public wxObject
 {

@@ -20,14 +20,12 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
-
-#ifdef wxGIS_USE_GDAL_GNM
-
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/dataset.h"
+
+#ifdef wxGIS_USE_GDAL_GNM
 
 /** @class wxGxGNMConnectivity
 

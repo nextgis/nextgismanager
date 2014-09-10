@@ -20,11 +20,10 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
+#include "wxgis/datasource/datasource.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
-//#include "gdal/ogr_pg.h"
 #include "libpq-fe.h"
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/filter.h"

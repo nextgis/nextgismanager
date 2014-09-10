@@ -22,6 +22,7 @@
 
 #include "wxgis/display/color.h"
 
+#undef LT_OBJDIR
 #include "ogrsf_frmts.h"
 #include "gdal_priv.h"
 

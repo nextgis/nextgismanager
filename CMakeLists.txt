@@ -84,9 +84,9 @@ if(GDAL_FOUND)
 endif(GDAL_FOUND)
 
 option(wxGIS_PORTABLE "Set OFF to build non portable version" ON)
-if(wxGIS_PORTABLE)
-    add_definitions(-DwxGIS_PORTABLE)
-endif(wxGIS_PORTABLE)
+#if(wxGIS_PORTABLE) the option added to config
+#    add_definitions(-DwxGIS_PORTABLE)
+#endif(wxGIS_PORTABLE)
 
 if(MSVC OR MSVC_IDE)
     #string(REPLACE "/W4" "/W0" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")

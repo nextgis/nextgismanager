@@ -18,6 +18,7 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+
 #include "wxgis/framework/application.h"
 #include "wxgis/framework/toolbarmenu.h"
 #include "wxgis/framework/propertypages.h"
@@ -29,8 +30,6 @@
 
 #include "wx/propdlg.h"
 #include "wx/tokenzr.h"
-
-#include "wxgisdefs.h"
 
 #include <wx/busyinfo.h>
 

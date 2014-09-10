@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
  * Project:  wxGIS
  * Purpose:  About Dialog class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
@@ -23,8 +23,6 @@
 #include "wxgis/core/config.h"
 #include "wxgis/framework/tabstyle.h"
 #include "wxgis/datasource/gdalinh.h"
-
-#include "wxgisdefs.h"
 
 #include "../../../art/logo.xpm"
 

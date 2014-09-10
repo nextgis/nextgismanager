@@ -23,7 +23,6 @@
 
 #include "wxgis/carto/carto.h"
 
-#include "wxgisdefs.h"
 #ifndef wxGIS_USE_CAIRO
 #error Cairo required
 #endif

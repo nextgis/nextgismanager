@@ -23,7 +23,6 @@
 #ifdef wxGIS_USE_POSTGRES
 
 #include "wxgis/core/config.h"
-#include "wxgisdefs.h"
 #include "wxgis/core/crypt.h"
 #include "wxgis/core/format.h"
 

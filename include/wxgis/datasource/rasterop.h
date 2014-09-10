@@ -20,12 +20,11 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgis/datasource/datasource.h"
+#include "wxgis/datasource/gdalinh.h"
 
-#include "gdal_priv.h"
-
-/** \fn CPLString GetWorldFilePath(const CPLString &soPath);
- *  \brief Get the path for world file if exist
+/** @fn CPLString GetWorldFilePath(const CPLString &soPath);
+ *  
+ *  Get the path for world file if exist
  */
 WXDLLIMPEXP_GIS_DS CPLString GetWorldFilePath(const CPLString &soPath);
 /*

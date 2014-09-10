@@ -23,6 +23,7 @@
 
 #include "wxgis/datasource/datasource.h"
 
+#undef LT_OBJDIR
 #include "gdal_priv.h"
 #include "ogrsf_frmts.h"
 

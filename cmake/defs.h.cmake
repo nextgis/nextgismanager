@@ -21,7 +21,9 @@
 
 #pragma once
 
+#ifndef wxGIS_PORTABLE
 #cmakedefine wxGIS_PORTABLE
+#endif
 
 #cmakedefine wxGIS_HAVE_TASKMANAGER
 

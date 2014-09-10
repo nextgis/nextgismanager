@@ -21,7 +21,6 @@
 #pragma once
 
 #include "wxgis/net/net.h"
-#include "wxgisdefs.h"
 
 #include "wxgis/core/json/jsonval.h"
 #include "wxgis/core/json/jsonreader.h"

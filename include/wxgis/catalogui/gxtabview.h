@@ -39,7 +39,7 @@
 #define LISTSTR _("Content")
 #define PREVIEWSTR _("Preview")
 
-class WXDLLIMPEXP_GIS_CLU wxGxApplication;
+class wxGxApplication;
 
 /** @class wxGxTab
 

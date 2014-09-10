@@ -20,7 +20,7 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
+#include "wxgis/datasource/datasource.h"
 
 #ifdef wxGIS_USE_CURL
 

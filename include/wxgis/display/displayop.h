@@ -24,8 +24,6 @@
 
 #include <wx/xml/xml.h>
 
-#include "ogrsf_frmts.h"
-
 class WXDLLIMPEXP_FWD_GIS_DSP wxGISColor;
 
 WXDLLIMPEXP_GIS_DSP void SetColorValue(wxXmlNode* pNode, const wxString &sAttrName, const wxGISColor &oColor);
@@ -129,9 +127,9 @@ inline void TrimFeatureToBoundary(OGRRawPoint* pOGRRawPointsIn, int nPointCountI
 	}
 }
 
-//DisplayTransformation – This object defines how real-world coordinates are mapped to a output device. Three rectangles define the transformation.
+//DisplayTransformation Â– This object defines how real-world coordinates are mapped to a output device. Three rectangles define the transformation.
 //The Bounds specifies the full extent in real-world coordinates. The VisibleBounds specifies what extent is currently visible.
-//And the DeviceFrame specifies where the VisibleBounds appears on the output device. Since the aspect ratio of the DeviceFrame may not always match the aspect ratio of the specified VisibleBounds, the transformation calculates the actual visible bounds that fits the DeviceFrame. This is called the FittedBounds and is in real-world coordinates. All coordinates can be rotated about the center of the visible bounds by simply setting the transformation’s Rotation property.
+//And the DeviceFrame specifies where the VisibleBounds appears on the output device. Since the aspect ratio of the DeviceFrame may not always match the aspect ratio of the specified VisibleBounds, the transformation calculates the actual visible bounds that fits the DeviceFrame. This is called the FittedBounds and is in real-world coordinates. All coordinates can be rotated about the center of the visible bounds by simply setting the transformationÂ’s Rotation property.
 
 //class wxGISDisplayTransformation :
 //	public IDisplayTransformation

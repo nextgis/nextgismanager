@@ -143,7 +143,7 @@ void* wxGISDataset::OpenInternal(const CPLString &szPath, bool bUpdate, bool bSh
     #endif // GDAL_VERSION_NUM
     }
 
-    CPLError(CE_Failure, CPLE_AppDefined, _("Unsupported dataset type"));
+    CPLError(CE_Failure, CPLE_AppDefined, "Unsupported dataset type");
 
     return NULL;
 }

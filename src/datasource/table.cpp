@@ -193,7 +193,7 @@ wxGISDataset* wxGISTable::GetSubset(size_t nIndex)
         if(poLayer)
         {
 			CPLString szPath;
-			szPath.Printf("%s#%d", m_sPath.c_str(), nIndex);
+			szPath.Printf("%s#%ud", m_sPath.c_str(), nIndex);
 			wxGISTable* pDataSet = new wxGISTable(szPath, m_nSubType, poLayer, m_poDS);
             pDataSet->SetEncoding(m_Encoding);
             return static_cast<wxGISDataset*>(pDataSet);
@@ -583,7 +583,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
             if (pTrackCancel && !pTrackCancel->Continue())
             {
                 wxString sErr(_("Interrupted by user"));
-                CPLString sFullErr(sErr.mb_str());
+                CPLString sFullErr(sErr.ToUTF8());
                 CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
 
                 if (pTrackCancel)
@@ -627,7 +627,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
             if (pTrackCancel && !pTrackCancel->Continue())
             {
                 wxString sErr(_("Interrupted by user"));
-                CPLString sFullErr(sErr.mb_str());
+                CPLString sFullErr(sErr.ToUTF8());
                 CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
 
                 if (pTrackCancel)
@@ -1095,7 +1095,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
             if (pTrackCancel && !pTrackCancel->Continue())
             {
                 wxString sErr(_("Interrupted by user"));
-                CPLString sFullErr(sErr.mb_str());
+                CPLString sFullErr(sErr.ToUTF8());
                 CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
 
                 if (pTrackCancel)
@@ -1141,7 +1141,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
             if (pTrackCancel && !pTrackCancel->Continue())
             {
                 wxString sErr(_("Interrupted by user"));
-                CPLString sFullErr(sErr.mb_str());
+                CPLString sFullErr(sErr.ToUTF8());
                 CPLError(CE_Warning, CPLE_AppDefined, sFullErr);
 
                 if (pTrackCancel)

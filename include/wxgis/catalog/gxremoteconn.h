@@ -20,8 +20,6 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
-
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/core/json/jsonval.h"

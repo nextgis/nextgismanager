@@ -27,9 +27,10 @@
 
 #include <wx/app.h>
 
-/** \class wxGISCatalogApp catalogapp.h
-    \brief Main Catalog class.
-*/
+/** @class wxGISCatalogApp
+ *   
+ *	Main Catalog class.
+ */
 class wxGISCatalogApp :
 	public wxApp,
 	public wxGISAppWithLibs

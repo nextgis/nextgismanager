@@ -21,7 +21,6 @@
 #pragma once
 
 #include "wxgis/catalog/catalog.h"
-#include "wxgisdefs.h"
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
 

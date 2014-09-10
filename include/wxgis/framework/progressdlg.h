@@ -21,7 +21,6 @@
 #pragma once
 
 #include "wxgis/framework/framework.h"
-#include "wxgis/core/core.h"
 
 #include <wx/intl.h>
 
@@ -35,8 +34,6 @@
 #include <wx/button.h>
 #include <wx/dialog.h>
 
-
-#include "wxgisdefs.h"
 
 #ifdef __WXMSW__
     #include <shobjidl.h>

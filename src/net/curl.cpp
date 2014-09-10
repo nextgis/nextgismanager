@@ -19,7 +19,6 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/net/curl.h"
-#include "wxgisdefs.h"
 #include "wxgis/core/app.h"
 #include "wxgis/core/config.h"
 

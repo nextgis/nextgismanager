@@ -29,10 +29,13 @@
 #include "wx/treectrl.h"
 #include "wx/imaglist.h"
 
-class WXDLLIMPEXP_GIS_CLU wxGxApplication;
+class wxGxApplication;
 
-/** \class wxGxTreeItemData gxtreeview.h
- *  \brief The tree view item data.
+/** @class wxGxTreeItemData
+ * 
+ *  The tree view item data.
+ * 
+ *  @library{catalogui}
  */
 
 class wxGxTreeItemData : public wxTreeItemData

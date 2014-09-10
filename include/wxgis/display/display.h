@@ -21,12 +21,13 @@
 
 #pragma once
 
-#include "wxgis/base.h"
 #include "wxgis/datasource/datasource.h"
 
 #include "wx/image.h"
 
-#include "wxgisdefs.h"
+#undef LT_OBJDIR
+#include "ogrsf_frmts.h"
+
 #ifndef wxGIS_USE_CAIRO
     #error Cairo required
 #endif

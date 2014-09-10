@@ -21,12 +21,11 @@
 
 #include "wxgis/core/crypt.h"
 
-#include "wxgisdefs.h"
-
 #ifdef wxGIS_USE_OPENSSL
 
 #include "wxgis/core/config.h"
 
+#undef LT_OBJDIR
 #include "cpl_string.h"
 #include <openssl/evp.h>
 #include <openssl/rand.h>

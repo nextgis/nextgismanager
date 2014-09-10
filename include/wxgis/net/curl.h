@@ -20,11 +20,9 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgisdefs.h"
+#include "wxgis/net/net.h"
 
 #ifdef wxGIS_USE_CURL
-
-#include "wxgis/net/net.h"
 
 #include <curl/curl.h>
 #include <stdlib.h>

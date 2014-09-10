@@ -32,7 +32,9 @@
 #define WXDLLIMPEXP_DATA_FREECHART(type) type
 #endif
 
+#ifndef ABS
 #define ABS(a) ((a) < 0) ? (-1*(a)) : (a)
+#endif //ABS
 
 #define wxREPLACE(dst, src) do {					\
 	wxDELETE(dst);									\
