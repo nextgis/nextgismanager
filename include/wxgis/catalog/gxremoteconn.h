@@ -247,58 +247,101 @@ protected:
     wxString m_sAuthCookie;
 };
 
-/** @class wxGxNGWRoot
 
-    A NextGIS Web Service Root Layers GxObject.
-
-    @library {catalog}
-*/
-class WXDLLIMPEXP_GIS_CLT wxGxNGWRoot :
-    public wxGxObjectContainer,
-    public IGxObjectNoFilter
+enum wxGISEnumNGWResourcesType
 {
-    DECLARE_CLASS(wxGxNGWRoot)
+	enumNGWResourceTypeNone,
+	enumNGWResourceTypeResourceGroup,
+	enumNGWResourceTypePostgisLayer,
+	enumNGWResourceTypePostgisConnection,
+	enumNGWResourceTypeWMSServerService,
+	enumNGWResourceTypeBaseLayers,
+	enumNGWResourceTypeWebMap,
+	enumNGWResourceTypeWFSServerService
+};
+
+
+/** @class wxGxNGWResource
+
+    A NextGIS Web wxGxNGWResource.
+
+    @library{ catalog }
+*/
+class wxGxNGWResource
+{
 public:
-    wxGxNGWRoot(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
-    virtual ~wxGxNGWRoot(void);
+    wxGxNGWResource(const wxJSONValue &Data);
+    virtual ~wxGxNGWResource(void);
+protected:
+    wxGISEnumNGWResourcesType m_eType;
+    bool m_bHasChildren;
+    wxString m_sDescription;
+    wxString m_sDisplayName;
+    int m_nResourceId;
+    //wxArrayString m_aInterfaces;
+    wxString m_sKeyName;
+    int m_nOwnerId;
+    wxArrayString m_aPermissions;
+    wxArrayString m_aScopes;
+};
+
+/** @class wxGxNGWResourceGroup
+
+    A NextGIS Web Service Resource Group GxObject.
+
+    @library{ catalog }
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWResourceGroup :
+    public wxGxObjectContainer,
+    public IGxObjectNoFilter,
+    public wxGxNGWResource
+{
+    DECLARE_CLASS(wxGxNGWResourceGroup)
+public:
+    wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = _("Resource Group"), const CPLString &soPath = "");
+    virtual ~wxGxNGWResourceGroup(void);
     //wxGxObject
-    virtual wxString GetCategory(void) const { return wxString(_("NGW service layers")); };
+    virtual wxString GetCategory(void) const { return wxString(_("Resource Group")); };
+    //wxGxObjectContainer
+    //virtual void LoadChildren(const wxJSONValue &Data);
     virtual void Refresh(void);
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);
 protected:
     virtual void LoadChildren(void);
-    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
-    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
+    virtual void AddResource(const wxJSONValue &Data);
+    virtual wxGISEnumNGWResourcesType GetType(const wxJSONValue &Data) const;
 protected:
     bool m_bChildrenLoaded;
     wxGxNGWService *m_pService;
 };
 
-/** @class wxGxNGWLayers
 
-    A NextGIS Web Service Layers GxObject.
+/** @class wxGxNGWRootResource
 
-    @library{ catalog }
+    A NextGIS Web Service root resource GxObject.
+
+    @library {catalog}
 */
-class WXDLLIMPEXP_GIS_CLT wxGxNGWLayers :
-    public wxGxObjectContainer,
-    public IGxObjectNoFilter
+class WXDLLIMPEXP_GIS_CLT wxGxNGWRootResource :
+    public wxGxNGWResourceGroup
 {
-    DECLARE_CLASS(wxGxNGWLayers)
+    DECLARE_CLASS(wxGxNGWRootResource)
 public:
-    wxGxNGWLayers(wxGxObject *oParent, const wxString &soName = _("Layers"), const CPLString &soPath = "");
-    virtual ~wxGxNGWLayers(void);
+    wxGxNGWRootResource(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName = _("Resources"), const CPLString &soPath = "");
+    virtual ~wxGxNGWRootResource(void);
     //wxGxObject
-    virtual wxString GetCategory(void) const { return wxString(_("NGW service layers")); };
-    //wxGxObjectContainer
-    virtual bool AreChildrenViewable(void) const { return true; };
-    virtual void LoadChildren(const wxJSONValue &Data);
-protected:
-    virtual wxGxObject* AddLayer(const wxString &sName, int nId);
-    virtual wxGxObject* AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId);
+    virtual wxString GetCategory(void) const { return wxString(_("NGW resources")); };
 };
+
+/** @enum wxGISEnumNGWResourcesType
+
+    The NGW resource type.
+
+    @library{catalog}
+ */
 
 /** @class wxGxNGWLayer
 
@@ -306,6 +349,7 @@ protected:
 
     @library {catalog}
 */
+/*
 class WXDLLIMPEXP_GIS_CLT wxGxNGWLayer :
     public wxGxObject
 {
@@ -316,4 +360,5 @@ public:
     //wxGxObject
     virtual wxString GetCategory(void) const { return wxString(_("NGW service layer")); };
 };
+*/
 #endif // wxGIS_USE_CURL

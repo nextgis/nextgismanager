@@ -739,96 +739,81 @@ void wxGxNGWServiceUI::LoadChildren(void)
     if (m_bChildrenLoaded || !m_bIsConnected)
         return;
 
-    new wxGxNGWRootUI(this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm), wxNullIcon, wxIcon(layer_16_xpm));
-    if(m_bIsAuthorized)
+    new wxGxNGWRootResourceUI(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
+/*    if(m_bIsAuthorized)
         new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
+        */
     m_bChildrenLoaded = true;
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWRootUI
+//class wxGxNGWRootResourceUI
 //--------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxNGWRootUI, wxGxNGWRoot)
+IMPLEMENT_CLASS(wxGxNGWRootResourceUI, wxGxNGWResourceGroupUI)
 
-wxGxNGWRootUI::wxGxNGWRootUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeLayerIcon, const wxIcon &icSmallLayerIcon) : wxGxNGWRoot(oParent, soName, soPath)
+wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroupUI(pService, wxJSONValue(), oParent, soName, soPath, icLargeIcon, icSmallIcon)
 {
-    m_icLargeIcon = icLargeIcon;
-    m_icSmallIcon = icSmallIcon;
-    m_icLargeLayerIcon = icLargeLayerIcon;
-    m_icSmallLayerIcon = icSmallLayerIcon;
+    m_nResourceId = 0;
+    m_sName = wxString(_("Resources"));
 }
 
-wxGxNGWRootUI::~wxGxNGWRootUI(void)
+wxGxNGWRootResourceUI::~wxGxNGWRootResourceUI(void)
 {
 }
 
-wxIcon wxGxNGWRootUI::GetLargeImage(void)
+wxIcon wxGxNGWRootResourceUI::GetLargeImage(void)
 {
     return m_icLargeIcon;
 }
 
-wxIcon wxGxNGWRootUI::GetSmallImage(void)
+wxIcon wxGxNGWRootResourceUI::GetSmallImage(void)
 {
     return m_icSmallIcon;
 }
 
-wxGxObject* wxGxNGWRootUI::AddLayer(const wxString &sName, int nId)
-{
-    return wxStaticCast(new wxGxNGWLayerUI(this, sName, "", m_icLargeLayerIcon, m_icSmallLayerIcon), wxGxObject);
-}
-
-wxGxObject* wxGxNGWRootUI::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
-{
-    wxGxNGWLayersUI* pLayers = new wxGxNGWLayersUI(this, sName, "", m_icLargeIcon, m_icSmallIcon, m_icLargeLayerIcon, m_icSmallLayerIcon);
-    pLayers->LoadChildren(Data);
-    return wxStaticCast(pLayers, wxGxObject);
-}
-
 //--------------------------------------------------------------
-//class wxGxNGWLayersUI
+//class wxGxNGWResourceGroupUI
 //--------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxNGWLayersUI, wxGxNGWLayers)
+IMPLEMENT_CLASS(wxGxNGWResourceGroupUI, wxGxNGWResourceGroup)
 
-wxGxNGWLayersUI::wxGxNGWLayersUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeLayerIcon, const wxIcon &icSmallLayerIcon) : wxGxNGWLayers(oParent, soName, soPath)
+wxGxNGWResourceGroupUI::wxGxNGWResourceGroupUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroup(pService, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
-    m_icLargeLayerIcon = icLargeLayerIcon;
-    m_icSmallLayerIcon = icSmallLayerIcon;
 }
 
-wxGxNGWLayersUI::~wxGxNGWLayersUI(void)
+wxGxNGWResourceGroupUI::~wxGxNGWResourceGroupUI(void)
 {
 }
 
-wxIcon wxGxNGWLayersUI::GetLargeImage(void)
+wxIcon wxGxNGWResourceGroupUI::GetLargeImage(void)
 {
     return m_icLargeIcon;
 }
 
-wxIcon wxGxNGWLayersUI::GetSmallImage(void)
+wxIcon wxGxNGWResourceGroupUI::GetSmallImage(void)
 {
     return m_icSmallIcon;
 }
 
-wxGxObject* wxGxNGWLayersUI::AddLayer(const wxString &sName, int nId)
+void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 {
-    return wxStaticCast(new wxGxNGWLayerUI(this, sName, "", m_icLargeLayerIcon, m_icSmallLayerIcon), wxGxObject);
-}
+    wxGISEnumNGWResourcesType eType = GetType(Data);
 
-wxGxObject* wxGxNGWLayersUI::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
-{
-    wxGxNGWLayersUI* pLayers = new wxGxNGWLayersUI(this, sName, "", m_icLargeIcon, m_icSmallIcon, m_icLargeLayerIcon, m_icSmallLayerIcon);
-    pLayers->LoadChildren(Data);
-    return wxStaticCast(pLayers, wxGxObject);
+    switch(eType)
+    {
+    case enumNGWResourceTypeResourceGroup:
+        new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icLargeIcon, m_icSmallIcon);
+        break;
+    }
 }
 
 //--------------------------------------------------------------
 //class wxGxNGWLayerUI
 //--------------------------------------------------------------
-
+/*
 IMPLEMENT_CLASS(wxGxNGWLayerUI, wxGxNGWLayer)
 
 wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(oParent, soName, soPath)
@@ -850,4 +835,6 @@ wxIcon wxGxNGWLayerUI::GetSmallImage(void)
 {
     return m_icSmallIcon;
 }
+
+*/
 #endif // wxGIS_USE_CURL

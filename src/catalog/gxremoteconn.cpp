@@ -1237,7 +1237,7 @@ bool wxGxNGWService::ConnectToNGW()
     if((pos = res.sHead.Find(wxT("Set-Cookie"))) != wxNOT_FOUND)
     {
         m_bIsAuthorized = true;
-        m_sAuthCookie = res.sHead.Right(res.sHead.Len() - 11);
+        m_sAuthCookie = res.sHead.Right(res.sHead.Len() - 11 - pos);
         pos = m_sAuthCookie.Find(wxT("\r\n"));
         if(pos != wxNOT_FOUND)
         {
@@ -1305,10 +1305,10 @@ void wxGxNGWService::LoadChildren(void)
     }
 
 
-    new wxGxNGWRoot(this, _("Resources"), CPLString(m_sURL.ToUTF8()));
+    new wxGxNGWRootResource(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()));
 
-    if(m_bIsAuthorized)
-        new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));
+/*    if(m_bIsAuthorized)
+        new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));*/
 
     m_bChildrenLoaded = true;
 }
@@ -1325,38 +1325,124 @@ wxGISCurl wxGxNGWService::GetCurl()
     return curl;
 }
 
-#define ROOT_TREE wxT("/resource/0/child/")
-
 //--------------------------------------------------------------
-//class wxGxNGWRoot
+//class wxGxNGWRootResource
 //--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxNGWRoot, wxGxObjectContainer)
+IMPLEMENT_CLASS(wxGxNGWRootResource, wxGxNGWResourceGroup)
 
-wxGxNGWRoot::wxGxNGWRoot(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+wxGxNGWRootResource::wxGxNGWRootResource(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxNGWResourceGroup(pService, wxJSONValue(), oParent, soName, soPath)
 {
+    m_nResourceId = 0;
+    m_sName = wxString(_("Resources"));
+}
+
+wxGxNGWRootResource::~wxGxNGWRootResource(void)
+{
+}
+
+//--------------------------------------------------------------
+// wxGxNGWResource
+//--------------------------------------------------------------
+wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
+{
+    wxJSONValue JSONResource = Data[wxT("resource")];
+    m_bHasChildren = JSONResource[wxT("children")].AsBool();
+    m_sDescription = JSONResource[wxT("description")].AsString();
+    m_sDisplayName = JSONResource[wxT("display_name")].AsString();
+    m_nResourceId = JSONResource[wxT("id")].AsInt();
+    //wxArrayString m_aInterfaces;
+    m_sKeyName = JSONResource[wxT("keyname")].AsString();
+    m_nOwnerId = JSONResource[wxT("owner_user")].AsInt();
+    const wxJSONInternalArray* pArr = JSONResource[wxT("permissions")].AsArray();
+    if(pArr)
+    {
+        for(size_t i = 0; i < pArr->size(); ++i)
+        {
+            m_aPermissions.Add(pArr->operator[](i).AsString());
+        }
+    }
+    pArr = JSONResource[wxT("scopes")].AsArray();
+    if(pArr)
+    {
+        for(size_t i = 0; i < pArr->size(); ++i)
+        {
+            m_aScopes.Add(pArr->operator[](i).AsString());
+        }
+    }
+}
+
+wxGxNGWResource::~wxGxNGWResource()
+{
+
+}
+
+
+//--------------------------------------------------------------
+//class wxGxNGWResourceGroup
+//--------------------------------------------------------------
+IMPLEMENT_CLASS(wxGxNGWResourceGroup, wxGxObjectContainer)
+
+wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxGxNGWResource(Data)
+{
+    m_eType = enumNGWResourceTypeResourceGroup;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
     m_bChildrenLoaded = false;
-    m_pService = wxDynamicCast(oParent, wxGxNGWService);
-
 }
 
-wxGxNGWRoot::~wxGxNGWRoot(void)
+wxGxNGWResourceGroup::~wxGxNGWResourceGroup()
 {
+
 }
 
-bool wxGxNGWRoot::HasChildren(void)
+wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data) const
+{
+    wxString sType = Data[wxT("resource")][wxT("cls")].AsString();
+    wxGISEnumNGWResourcesType eType = enumNGWResourceTypeNone;
+    if(sType.IsSameAs(wxT("resource_group")))
+        eType = enumNGWResourceTypeResourceGroup;
+    else if(sType.IsSameAs(wxT("postgis_layer")))
+        eType = enumNGWResourceTypePostgisLayer;
+    else if(sType.IsSameAs(wxT("wmsserver_service")))
+        eType = enumNGWResourceTypeWMSServerService;
+    else if(sType.IsSameAs(wxT("baselayers")))
+        eType = enumNGWResourceTypeBaseLayers;
+    else if(sType.IsSameAs(wxT("postgis_connection")))
+        eType = enumNGWResourceTypePostgisConnection;
+    else if(sType.IsSameAs(wxT("webmap")))
+        eType = enumNGWResourceTypeWebMap;
+    else if(sType.IsSameAs(wxT("wfsserver_service")))
+        eType = enumNGWResourceTypeWFSServerService;
+
+    return eType;
+}
+
+void wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
+{
+    wxGISEnumNGWResourcesType eType = GetType(Data);
+
+    switch(eType)
+    {
+    case enumNGWResourceTypeResourceGroup:
+        new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath);
+        break;
+    }
+}
+
+bool wxGxNGWResourceGroup::HasChildren(void)
 {
     LoadChildren();
     return wxGxObjectContainer::HasChildren();
 }
 
-void wxGxNGWRoot::Refresh(void)
+void wxGxNGWResourceGroup::Refresh(void)
 {
     DestroyChildren();
     LoadChildren();
     wxGxObject::Refresh();
 }
 
-void wxGxNGWRoot::LoadChildren(void)
+void wxGxNGWResourceGroup::LoadChildren(void)
 {
     if (m_bChildrenLoaded)
         return;
@@ -1365,8 +1451,7 @@ void wxGxNGWRoot::LoadChildren(void)
     if(!curl.IsOk())
         return;
 
-    //http://demo.nextgis.ru/ngw_rosavto/api/layer_group/0/tree
-    wxString sURL = wxString::FromUTF8(m_sPath) + wxString(ROOT_TREE);
+    wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/child/"), m_nResourceId);
     if (!sURL.StartsWith(wxT("http")))
     {
         sURL.Prepend(wxT("http://"));
@@ -1389,93 +1474,24 @@ void wxGxNGWRoot::LoadChildren(void)
         return;
     }
 
+    wxLogDebug(res.sBody);
+
     m_bChildrenLoaded = true;
 
-    /*wxJSONValue oLayers = JSONRoot[wxT("layers")];
-    for (size_t i = 0; i < oLayers.Size(); ++i)
+    const wxJSONInternalArray* pArr = JSONRoot.AsArray();
+    if(pArr)
     {
-        wxString sName = oLayers[i][wxT("display_name")].AsString();
-        int nId = oLayers[i][wxT("id")].AsInt();
-
-        AddLayer(sName, nId);
-    }
-
-    wxJSONValue oChildren = JSONRoot[wxT("children")];
-    for (size_t i = 0; i < oChildren.Size(); ++i)
-    {
-        wxString sName = oChildren[i][wxT("display_name")].AsString();
-        int nId = oChildren[i][wxT("id")].AsInt();
-
-        AddLayerGroup(oChildren[i], sName, nId);
-    }
-
-    m_sName = JSONRoot[wxT("display_name")].AsString();*/
-
-}
-
-wxGxObject* wxGxNGWRoot::AddLayer(const wxString &sName, int nId)
-{
-    return wxStaticCast(new wxGxNGWLayer(this, sName), wxGxObject);
-}
-
-wxGxObject* wxGxNGWRoot::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
-{
-    wxGxNGWLayers* pLayers = new wxGxNGWLayers(this, sName);
-    pLayers->LoadChildren(Data);
-    return wxStaticCast(pLayers, wxGxObject);
-}
-
-//--------------------------------------------------------------
-//class wxGxNGWLayers
-//--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxNGWLayers, wxGxObjectContainer)
-
-wxGxNGWLayers::wxGxNGWLayers(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
-{
-}
-
-wxGxNGWLayers::~wxGxNGWLayers()
-{
-
-}
-
-wxGxObject* wxGxNGWLayers::AddLayer(const wxString &sName, int nId)
-{
-    return wxStaticCast(new wxGxNGWLayer(this, sName), wxGxObject);
-}
-
-wxGxObject* wxGxNGWLayers::AddLayerGroup(const wxJSONValue &Data, const wxString &sName, int nId)
-{
-    wxGxNGWLayers* pLayers = new wxGxNGWLayers(this, sName);
-    pLayers->LoadChildren(Data);
-    return wxStaticCast(pLayers, wxGxObject);
-}
-
-void wxGxNGWLayers::LoadChildren(const wxJSONValue &Data)
-{
-    wxJSONValue oLayers = Data[wxT("layers")];
-    for (size_t i = 0; i < oLayers.Size(); ++i)
-    {
-        wxString sName = oLayers[i][wxT("display_name")].AsString();
-        int nId = oLayers[i][wxT("id")].AsInt();
-
-        AddLayer(sName, nId);
-    }
-
-    wxJSONValue oChildren = Data[wxT("children")];
-    for (size_t i = 0; i < oChildren.Size(); ++i)
-    {
-        wxString sName = oChildren[i][wxT("display_name")].AsString();
-        int nId = oChildren[i][wxT("id")].AsInt();
-
-        AddLayerGroup(oChildren[i], sName, nId);
+        for(size_t i = 0; i < pArr->size(); ++i)
+        {
+            wxJSONValue JSONVal = pArr->operator[](i);
+            AddResource(JSONVal);
+        }
     }
 }
-
-
 //--------------------------------------------------------------
 //class wxGxNGWLayer
 //--------------------------------------------------------------
+/*
 IMPLEMENT_CLASS(wxGxNGWLayer, wxGxObject)
 
 wxGxNGWLayer::wxGxNGWLayer(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObject(oParent, soName, soPath)
@@ -1486,4 +1502,5 @@ wxGxNGWLayer::~wxGxNGWLayer()
 {
 
 }
+*/
 #endif // wxGIS_USE_CURL
