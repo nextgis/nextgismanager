@@ -31,6 +31,12 @@
 #include "../../art/dbschema_48.xpm"
 #include "../../art/layers_16.xpm"
 #include "../../art/layer_16.xpm"
+#include "../../art/folder_arch_16.xpm"
+#include "../../art/folder_arch_48.xpm"
+#include "../../art/rdb_conn_16.xpm"
+#include "../../art/rdb_conn_48.xpm"
+#include "../../art/ngw_layer_16.xpm"
+#include "../../art/ngw_layer_48.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -799,22 +805,57 @@ wxIcon wxGxNGWResourceGroupUI::GetSmallImage(void)
 void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 {
     wxGISEnumNGWResourcesType eType = GetType(Data);
-
+	
     switch(eType)
     {
     case enumNGWResourceTypeResourceGroup:
-        new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icLargeIcon, m_icSmallIcon);
+		if(!m_icFolderLargeIcon.IsOk())
+			m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
+ 		if(!m_icFolderSmallIcon.IsOk())
+			m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
+        new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon);
         break;
+	case enumNGWResourceTypePostgisLayer:
+		if(!m_icPGLayerLargeIcon.IsOk())
+			m_icPGLayerLargeIcon = wxIcon(pg_vec_48_xpm);
+ 		if(!m_icPGLayerSmallIcon.IsOk())
+			m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
+		break;
+        if(m_bHasGeoJSON)
+			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon);
+	case enumNGWResourceTypePostgisConnection:
+		if(!m_icPGConnLargeIcon.IsOk())
+			m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
+ 		if(!m_icPGConnSmallIcon.IsOk())
+			m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
+		break;
+	case enumNGWResourceTypeWMSServerService:
+		break;
+	case enumNGWResourceTypeBaseLayers:
+		break;
+	case enumNGWResourceTypeWebMap:
+		break;
+	case enumNGWResourceTypeWFSServerService:
+		break;
+	case enumNGWResourceTypeVectorLayer:
+		if(!m_icNGWLayerLargeIcon.IsOk())
+			m_icNGWLayerLargeIcon = wxIcon(ngw_layer_48_xpm);
+ 		if(!m_icNGWLayerSmallIcon.IsOk())
+			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
+        if(m_bHasGeoJSON)
+			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon);
+
+		break;
     }
 }
 
 //--------------------------------------------------------------
 //class wxGxNGWLayerUI
 //--------------------------------------------------------------
-/*
+
 IMPLEMENT_CLASS(wxGxNGWLayerUI, wxGxNGWLayer)
 
-wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(oParent, soName, soPath)
+wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(pService, eType, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -834,5 +875,4 @@ wxIcon wxGxNGWLayerUI::GetSmallImage(void)
     return m_icSmallIcon;
 }
 
-*/
 #endif // wxGIS_USE_CURL

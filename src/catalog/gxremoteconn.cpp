@@ -1384,10 +1384,11 @@ IMPLEMENT_CLASS(wxGxNGWResourceGroup, wxGxObjectContainer)
 
 wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxGxNGWResource(Data)
 {
-    m_eType = enumNGWResourceTypeResourceGroup;
+    m_eResourceType = enumNGWResourceTypeResourceGroup;
     m_pService = pService;
     m_sName = m_sDisplayName;
     m_bChildrenLoaded = false;
+	m_bHasGeoJSON =  NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
 }
 
 wxGxNGWResourceGroup::~wxGxNGWResourceGroup()
@@ -1413,6 +1414,8 @@ wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data)
         eType = enumNGWResourceTypeWebMap;
     else if(sType.IsSameAs(wxT("wfsserver_service")))
         eType = enumNGWResourceTypeWFSServerService;
+	else if(sType.IsSameAs(wxT("vector_layer")))
+		eType = enumNGWResourceTypeVectorLayer;
 
     return eType;
 }
@@ -1425,6 +1428,14 @@ void wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
     {
     case enumNGWResourceTypeResourceGroup:
         new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath);
+        break;
+    case enumNGWResourceTypePostgisLayer:
+		if(m_bHasGeoJSON)
+			new wxGxNGWLayer(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath);
+        break;
+    case enumNGWResourceTypeVectorLayer:
+        if(m_bHasGeoJSON)
+			new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath);
         break;
     }
 }
@@ -1491,16 +1502,51 @@ void wxGxNGWResourceGroup::LoadChildren(void)
 //--------------------------------------------------------------
 //class wxGxNGWLayer
 //--------------------------------------------------------------
-/*
-IMPLEMENT_CLASS(wxGxNGWLayer, wxGxObject)
 
-wxGxNGWLayer::wxGxNGWLayer(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObject(oParent, soName, soPath)
+IMPLEMENT_CLASS(wxGxNGWLayer, wxGxFeatureDataset)
+
+wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecGeoJSON, oParent, soName, soPath), wxGxNGWResource(Data)
 {
+    m_eResourceType = eType;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
 }
 
 wxGxNGWLayer::~wxGxNGWLayer()
 {
 
 }
-*/
+
+wxString wxGxNGWLayer::GetCategory(void) const
+{ 
+	switch(m_eType)
+	{
+		case enumNGWResourceTypeVectorLayer:
+			return wxString(_("NGW vector layer")); 
+		case enumNGWResourceTypePostgisLayer:
+			return wxString(_("NGW PostGIS layer")); 
+		default:
+			return wxEmptyString;
+	}
+}
+
+wxGISDataset* const wxGxNGWLayer::GetDatasetFast(void)
+{
+ 	if(m_pwxGISDataset == NULL)
+    {
+        wxGISFeatureDataset* pDSet = NULL;
+		
+		wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/geojson/"), m_nResourceId);
+		if (!sURL.StartsWith(wxT("http")))
+		{
+			sURL.Prepend(wxT("http://"));
+		}
+		
+        pDSet = new wxGISFeatureDataset(CPLString(sURL.ToUTF8()), m_eType);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);
+}
+
 #endif // wxGIS_USE_CURL

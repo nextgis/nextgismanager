@@ -166,6 +166,8 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
             return wxString(wxT("GeoJSON"));
         case enumVecCSV:
             return wxString(wxT("CSV"));
+		case enumVecSXF:
+            return wxString(wxT("SXF"));
         }
     }
     break;

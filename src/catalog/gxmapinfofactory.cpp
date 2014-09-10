@@ -32,7 +32,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxMapInfoFactory, wxGxObjectFactory)
 
 wxGxMapInfoFactory::wxGxMapInfoFactory(void)
 {
-    m_bHasDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("MapInfo File");
+    m_bHasDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecMapinfoTab).mb_str());
 }
 
 wxGxMapInfoFactory::~wxGxMapInfoFactory(void)

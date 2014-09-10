@@ -32,7 +32,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxWebConnectionFactory, wxGxObjectFactory)
 
 wxGxWebConnectionFactory::wxGxWebConnectionFactory(void)
 {
-    m_bHasDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("WFS") || GDALGetDriverByName("WMS");
+    m_bHasDriver = GetOGRCompatibleDriverByName("WFS") || GDALGetDriverByName("WMS");
 }
 
 wxGxWebConnectionFactory::~wxGxWebConnectionFactory(void)

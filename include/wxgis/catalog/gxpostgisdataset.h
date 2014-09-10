@@ -27,8 +27,11 @@
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/catalog/gxdataset.h"
 
-/** \class wxGxPostGISTableDataset gxpostgisdataset.h
-    \brief A PostGIS Table Dataset GxObject.
+/** @class wxGxPostGISTableDataset
+ * 
+ * A PostGIS Table Dataset GxObject.
+ * 
+ * @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPostGISTableDataset :
@@ -58,9 +61,12 @@ protected:
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
 };
 
-/** \class wxGxPostGISFeatureDataset gxpostgisdataset.h
-    \brief A PostGIS Feature Dataset GxObject.
-*/
+/** @class wxGxPostGISFeatureDataset
+ *  
+ *  A PostGIS Feature Dataset GxObject.
+ * 
+ *  @library{catalog}
+ */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPostGISFeatureDataset :
 	public wxGxFeatureDataset

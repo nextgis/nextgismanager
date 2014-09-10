@@ -35,7 +35,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxShapeFactory, wxGxObjectFactory)
 
 wxGxShapeFactory::wxGxShapeFactory(void)
 {
-    m_bHasDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("ESRI Shapefile");
+    m_bHasDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecESRIShapefile).mb_str());
 }
 
 wxGxShapeFactory::~wxGxShapeFactory(void)

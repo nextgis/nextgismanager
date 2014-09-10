@@ -171,7 +171,27 @@ class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
-    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon);
+    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon);/******************************************************************************
+ * Project:  wxGIS (GIS Catalog)
+ * Purpose:  Remote Connection UI classes.
+ * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+ ******************************************************************************
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 2 of the License, or
+*    (at your option) any later version.
+*
+*    This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ****************************************************************************/
+
     virtual ~wxGxNGWServiceUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
@@ -216,7 +236,10 @@ protected:
     virtual void AddResource(const wxJSONValue &Data);
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
-//    wxIcon m_icLargeLayerIcon, m_icSmallLayerIcon;
+	wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;
+	wxIcon m_icPGLayerLargeIcon, m_icPGLayerSmallIcon;
+	wxIcon m_icPGConnLargeIcon, m_icPGConnSmallIcon;
+	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
 };
 
 
@@ -247,14 +270,14 @@ public:
 
     @library {catalog}
 */
-/*
+
 class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :
     public wxGxNGWLayer,
     public IGxObjectUI
 {
     DECLARE_CLASS(wxGxNGWLayerUI)
 public:
-    wxGxNGWLayerUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWLayerUI(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWLayerUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
@@ -263,5 +286,5 @@ public:
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayerUI.NewtMenu")); };
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
-};*/
+};
 #endif // wxGIS_USE_CURL

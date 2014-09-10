@@ -30,7 +30,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxCSVFileFactory, wxGxObjectFactory)
 
 wxGxCSVFileFactory::wxGxCSVFileFactory(void)
 {
-    m_bHasDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("CSV");
+    m_bHasDriver = NULL != GetOGRCompatibleDriverByName("CSV");
 }
 
 wxGxCSVFileFactory::~wxGxCSVFileFactory(void)

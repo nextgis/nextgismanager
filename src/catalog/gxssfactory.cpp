@@ -33,9 +33,9 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxSpreadsheetFactory, wxObject)
 
 wxGxSpreadsheetFactory::wxGxSpreadsheetFactory(void)
 {
-    m_bHasODSDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(GetDriverByType(enumGISTableDataset, enumTableODS).mb_str());
-    m_bHasXLSDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(GetDriverByType(enumGISTableDataset, enumTableXLS).mb_str());
-    m_bHasXLSXDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName(GetDriverByType(enumGISTableDataset, enumTableXLSX).mb_str());
+    m_bHasODSDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISTableDataset, enumTableODS).mb_str());
+    m_bHasXLSDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISTableDataset, enumTableXLS).mb_str());
+    m_bHasXLSXDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISTableDataset, enumTableXLSX).mb_str());
 }
 
 wxGxSpreadsheetFactory::~wxGxSpreadsheetFactory(void)

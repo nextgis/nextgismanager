@@ -245,7 +245,13 @@ protected:
     wxString m_sAuthCookie;
 };
 
+/** @enum wxGISEnumNGWResourcesType
 
+    The NGW resource type.
+
+    @library{catalog}
+ */
+ 
 enum wxGISEnumNGWResourcesType
 {
 	enumNGWResourceTypeNone,
@@ -255,7 +261,8 @@ enum wxGISEnumNGWResourcesType
 	enumNGWResourceTypeWMSServerService,
 	enumNGWResourceTypeBaseLayers,
 	enumNGWResourceTypeWebMap,
-	enumNGWResourceTypeWFSServerService
+	enumNGWResourceTypeWFSServerService,
+	enumNGWResourceTypeVectorLayer
 };
 
 
@@ -271,7 +278,7 @@ public:
     wxGxNGWResource(const wxJSONValue &Data);
     virtual ~wxGxNGWResource(void);
 protected:
-    wxGISEnumNGWResourcesType m_eType;
+    wxGISEnumNGWResourcesType m_eResourceType;
     bool m_bHasChildren;
     wxString m_sDescription;
     wxString m_sDisplayName;
@@ -281,6 +288,7 @@ protected:
     int m_nOwnerId;
     wxArrayString m_aPermissions;
     wxArrayString m_aScopes;
+    wxGxNGWService *m_pService;
 };
 
 /** @class wxGxNGWResourceGroup
@@ -313,7 +321,7 @@ protected:
     virtual wxGISEnumNGWResourcesType GetType(const wxJSONValue &Data) const;
 protected:
     bool m_bChildrenLoaded;
-    wxGxNGWService *m_pService;
+	bool m_bHasGeoJSON;
 };
 
 
@@ -334,29 +342,26 @@ public:
     virtual wxString GetCategory(void) const { return wxString(_("NGW resources")); };
 };
 
-/** @enum wxGISEnumNGWResourcesType
-
-    The NGW resource type.
-
-    @library{catalog}
- */
-
 /** @class wxGxNGWLayer
 
     A NextGIS Web Service Layer GxObject.
 
     @library {catalog}
 */
-/*
+
 class WXDLLIMPEXP_GIS_CLT wxGxNGWLayer :
-    public wxGxObject
+    public wxGxNGWResource,
+	public wxGxFeatureDataset
 {
     DECLARE_CLASS(wxGxNGWLayer)
 public:
-    wxGxNGWLayer(wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
+    wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
     virtual ~wxGxNGWLayer(void);
     //wxGxObject
-    virtual wxString GetCategory(void) const { return wxString(_("NGW service layer")); };
+    virtual wxString GetCategory(void) const;
+protected:
+    //create wxGISDataset without openning it
+    virtual wxGISDataset* const GetDatasetFast(void);
 };
-*/
+
 #endif // wxGIS_USE_CURL

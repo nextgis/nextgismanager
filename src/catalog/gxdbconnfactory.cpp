@@ -33,7 +33,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxDBConnectionFactory, wxGxObjectFactory)
 
 wxGxDBConnectionFactory::wxGxDBConnectionFactory(void)
 {
-    m_bHasDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL") || GDALGetDriverByName("PostGISRaster");
+    m_bHasDriver = GetOGRCompatibleDriverByName("PostgreSQL") || GDALGetDriverByName("PostGISRaster");
     m_bLoadSystemTablesAndSchemes = false;
 }
 

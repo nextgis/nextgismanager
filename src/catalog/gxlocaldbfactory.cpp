@@ -30,7 +30,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxLocalDBFactory, wxGxObjectFactory)
 
 wxGxLocalDBFactory::wxGxLocalDBFactory(void)
 {
-    m_bHasOFGDBDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("OpenFileGDB");
+    m_bHasOFGDBDriver = NULL != GetOGRCompatibleDriverByName("OpenFileGDB");
 }
 
 wxGxLocalDBFactory::~wxGxLocalDBFactory(void)

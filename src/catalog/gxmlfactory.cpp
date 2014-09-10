@@ -35,14 +35,14 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxMLFactory, wxObject)
 
 wxGxMLFactory::wxGxMLFactory(void)
 {
-    m_bHasKMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("KML");
-    m_bHasLIBKMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("LIBKML");
-    m_bHasDXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("DXF");
-    m_bHasGMLDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GML");
-    m_bHasJsonDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("GeoJSON");
+    m_bHasKMLDriver = NULL != GetOGRCompatibleDriverByName("KML");
+    m_bHasLIBKMLDriver = NULL != GetOGRCompatibleDriverByName("LIBKML");
+    m_bHasDXFDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecDXF).mb_str());
+    m_bHasGMLDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGML).mb_str());
+    m_bHasJsonDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
 
     CPLSetConfigOption("SXF_LAYER_FULLNAME", "YES");
-    m_bHasSXFDriver = NULL != OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("SXF");
+    m_bHasSXFDriver = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecSXF).mb_str());
 }
 
 wxGxMLFactory::~wxGxMLFactory(void)
