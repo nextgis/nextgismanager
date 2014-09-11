@@ -1325,6 +1325,16 @@ wxGISCurl wxGxNGWService::GetCurl()
     return curl;
 }
 
+wxString wxGxNGWService::GetLogin() const
+{
+	return m_sLogin;
+}
+
+wxString wxGxNGWService::GetPassword() const
+{
+	return m_sPassword;
+}
+
 //--------------------------------------------------------------
 //class wxGxNGWRootResource
 //--------------------------------------------------------------
@@ -1534,15 +1544,15 @@ wxGISDataset* const wxGxNGWLayer::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-        wxGISFeatureDataset* pDSet = NULL;
-		
 		wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/geojson/"), m_nResourceId);
 		if (!sURL.StartsWith(wxT("http")))
 		{
 			sURL.Prepend(wxT("http://"));
 		}
-		
-        pDSet = new wxGISFeatureDataset(CPLString(sURL.ToUTF8()), m_eType);
+
+		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
+		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
+        wxGISFeatureDataset* pDSet = new wxGISFeatureDatasetCached(CPLString(sURL.ToUTF8()), m_eType);
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }

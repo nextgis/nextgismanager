@@ -234,6 +234,8 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxNGWService
     virtual wxGISCurl GetCurl();
+	virtual wxString GetLogin() const;
+	virtual wxString GetPassword() const;
 protected:
     virtual void LoadChildren(void);
     virtual bool ConnectToNGW();
