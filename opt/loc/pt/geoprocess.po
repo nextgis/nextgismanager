@@ -41,23 +41,23 @@ msgstr "Os praâmetros da ferramenta"
 #, c-format
 msgid ""
 "The wxGISGeoprocess (%s)\n"
-"Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
+"Author: Bishop (aka Baryshnikov Dmitry), polimax@mail.ru\n"
 "Copyright (c) 2010-2011"
 msgstr ""
 "The wxGISGeoprocess (%s)\n"
-"Author: Bishop (também conhecido como Barishnikov Dmitriy), polimax@mail.ru\n"
+"Author: Bishop (também conhecido como Baryshnikov Dmitry), polimax@mail.ru\n"
 "Copyright (c) 2010-2011"
 
 #: D:\work\Projects\wxGIS\src\geoprocess/processmain.cpp:109
 #, c-format
 msgid ""
 "The wxGISGeoprocess (%s)\n"
-"Author: Bishop (aka Barishnikov Dmitriy), polimax@mail.ru\n"
+"Author: Bishop (aka Baryshnikov Dmitry), polimax@mail.ru\n"
 "Copyright (c) 2010-2011\n"
 msgstr ""
 "The wxGISGeoprocess (%s)\n"
-"Author: Bishop (também conhecido como Barishnikov Dmitriy), polimax@mail.ru\n"
-"Copyright (c) 2010-2011"
+"Author: Bishop (também conhecido como Baryshnikov Dmitry), polimax@mail.ru\n"
+"Copyright (c) 2010-2011\n"
 
 #: D:\work\Projects\wxGIS\src\geoprocess/processmain.cpp:176
 msgid "Get wxGISToolbox config failed!"

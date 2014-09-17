@@ -83,10 +83,7 @@ if(GDAL_FOUND)
 
 endif(GDAL_FOUND)
 
-option(wxGIS_PORTABLE "Set OFF to build non portable version" ON)
-#if(wxGIS_PORTABLE) the option added to config
-#    add_definitions(-DwxGIS_PORTABLE)
-#endif(wxGIS_PORTABLE)
+option(wxGIS_PORTABLE "Set OFF to build non portable version" OFF)
 
 if(MSVC OR MSVC_IDE)
     #string(REPLACE "/W4" "/W0" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
@@ -135,7 +132,7 @@ set(WXGISNET_LIB_NAME "")
 mark_as_advanced(WXGISNET_LIB_NAME)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/net/)
 #task manager 
-option(wxGIS_BUILD_TASKMANAGER "Set ON to build gis task manager" ON)
+option(wxGIS_BUILD_TASKMANAGER "Set ON to build gis task manager" OFF)
 if(wxGIS_BUILD_TASKMANAGER)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/tskmngr_app/)
     set(wxGIS_HAVE_TASKMANAGER ON)
@@ -163,7 +160,7 @@ if(wxGIS_BUILD_CATALOG)
 endif(wxGIS_BUILD_CATALOG)
 
 #CMAKE_DEPENDENT_OPTION(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" ON "wxGIS_BUILD_DESKTOP OR wxGIS_BUILD_CATALOG" ON)
-option(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" OFF)
+option(wxGIS_BUILD_GEOPROCESSING "Set ON to build geoprocessing" ON)
 if(wxGIS_BUILD_GEOPROCESSING)
     #geoprocessing
     set(WXGISGEOPROCESSING_LIB_NAME "")
@@ -230,7 +227,7 @@ endif(wxGIS_BUILD_DESKTOP)
 INCLUDE(CMakeDependentOption)
 
 #CMAKE_DEPENDENT_OPTION(wxGIS_BUILD_GEOPROCESSINGUI "Set ON to build geoprocessing UI" ON "wxGIS_BUILD_DESKTOP" ON)
-option(wxGIS_BUILD_GEOPROCESSINGUI "Set ON to build geoprocessing UI" OFF)
+option(wxGIS_BUILD_GEOPROCESSINGUI "Set ON to build geoprocessing UI" ON)
 if(wxGIS_BUILD_GEOPROCESSINGUI)
     #geoprocessingui
     set(WXGISGEOPROCESSINGUI_LIB_NAME "")
@@ -240,6 +237,11 @@ if(wxGIS_BUILD_GEOPROCESSINGUI)
     set(wxGIS_HAVE_GEOPROCESSINGUI ON)
     mark_as_advanced(wxGIS_HAVE_GEOPROCESSINGUI)
 endif(wxGIS_BUILD_GEOPROCESSINGUI)
+
+option(wxGIS_BUILD_TRANSLATION "Set ON to build translation" OFF)
+if(wxGIS_BUILD_TRANSLATION)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/opt/)
+endif(wxGIS_BUILD_TRANSLATION)
     
 #option(wxGIS_HAVE_SERVER "Set ON to build server version" ON)
 #if(wxGIS_CATALOG AND wxGIS_HAVE_SERVER)
@@ -256,8 +258,8 @@ endif(wxGIS_BUILD_GEOPROCESSINGUI)
 configure_file(${WXGIS_CURRENT_SOURCE_DIR}/cmake/defs.h.cmake ${WXGIS_CURRENT_BINARY_DIR}/wxgisdefs.h @ONLY)
 
 if(WIN32)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/locale CONFIGURATIONS Debug FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/locale CONFIGURATIONS Release FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
+#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/locale CONFIGURATIONS Debug FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
+#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/locale CONFIGURATIONS Release FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
     install(CODE "FILE(MAKE_DIRECTORY ${WXGIS_CURRENT_BINARY_DIR}/Debug/log)"  CONFIGURATIONS Debug)
     install(CODE "FILE(MAKE_DIRECTORY ${WXGIS_CURRENT_BINARY_DIR}/Release/log)"  CONFIGURATIONS Release)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/sys CONFIGURATIONS Debug)
@@ -273,7 +275,7 @@ else(WIN32)#UNIX
 #        OWNER_WRITE OWNER_READ OWNER_EXECUTE
 #        GROUP_WRITE GROUP_READ GROUP_EXECUTE
 #        WORLD_WRITE WORLD_READ WORLD_EXECUTE)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION share/wxgis/locale FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt" PATTERN ".svn" EXCLUDE)
+#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION share/wxgis/locale FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt" PATTERN ".svn" EXCLUDE)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION share/wxgis/sys FILES_MATCHING PATTERN "*" PATTERN ".svn" EXCLUDE)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION /etc/wxgis FILES_MATCHING PATTERN "*.xml" PATTERN ".svn" EXCLUDE)
     install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/wxGISCommon.xml.nix DESTINATION /etc/wxgis/ RENAME wxGISCommon.xml )    

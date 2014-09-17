@@ -26,6 +26,7 @@
 #include "wxgis/net/curl.h"
 #include "wxgis/catalogui/gxfileui.h"
 #include "wxgis/catalogui/gxobjdialog.h"
+#include "wxgis/catalogui/minimapdlg.h"
 
 #include <wx/valgen.h>
 #include <wx/valtext.h>
@@ -729,10 +730,10 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 {
 	//TODO: do it via separate map window with TMS layer from input parameters to visual testing if layer shown
-	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
-
+		wxGISMiniMapDlg dlg(wxOK, this);
+		dlg.ShowModal();
 	}
 	else
 	{
@@ -742,7 +743,7 @@ void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 
 CPLString wxGISTMSConnDlg::GetPath(void)
 {
-	return CPLString(wxString(m_sOutputPath + wxFileName::GetPathSeparator() + GetName()).mb_str(wxConvUTF8));
+	return CPLString(wxString(m_sOutputPath + wxFileName::GetPathSeparator() + GetName()).ToUTF8());
 }
 
 wxString wxGISTMSConnDlg::GetName(void)
