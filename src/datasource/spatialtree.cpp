@@ -974,7 +974,7 @@ void wxGISQuadTree::CreateQuadTree()
     {
         if(m_pDSet->GetSpatialReference().IsOk() && !m_pDSet->GetSpatialReference()->IsGeographic())
         {
-            wxGISGeometry newGeom = EnvelopeToGeometry(m_Envelope, wxGISSpatialReference(new OGRSpatialReference(SRS_WKT_WGS84)));
+            wxGISGeometry newGeom = EnvelopeToGeometry(m_Envelope, wxGISSpatialReference(wxString(SRS_WKT_WGS84)));
             if(newGeom.Project(m_pDSet->GetSpatialReference()))
             {
                 m_Envelope = newGeom.GetEnvelope();

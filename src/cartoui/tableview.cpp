@@ -170,9 +170,11 @@ void wxGISGridTable::FillForPos(int nRow)
         else
         {
             m_nRows--;
-            //TODO: Check if this is working
-            wxGridTableMessage msg(this, wxGRIDTABLE_NOTIFY_ROWS_DELETED, m_nRows, 1);
-            GetView()->ProcessTableMessage(msg);
+            if(GetView())
+			{
+				wxGridTableMessage msg(this, wxGRIDTABLE_NOTIFY_ROWS_DELETED, m_nRows, 1);
+				GetView()->ProcessTableMessage(msg);
+			}
         }
     }
 }

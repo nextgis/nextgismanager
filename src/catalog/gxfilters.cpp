@@ -115,7 +115,7 @@ wxGISEnumDatasetType wxGxObjectFilter::GetType(void) const
 //------------------------------------------------------------
 // wxGxPrjFileFilter
 //------------------------------------------------------------
-/*
+
 IMPLEMENT_CLASS(wxGxPrjFileFilter, wxGxObjectFilter)
 
 wxGxPrjFileFilter::wxGxPrjFileFilter(void)
@@ -128,7 +128,7 @@ wxGxPrjFileFilter::~wxGxPrjFileFilter(void)
 
 bool wxGxPrjFileFilter::CanChooseObject( wxGxObject* const pObject )
 {
-	wxGxPrjFile* pGxPrjFile = dynamic_cast<wxGxPrjFile*>(pObject);
+	wxGxPrjFile* pGxPrjFile = wxDynamicCast(pObject, wxGxPrjFile);
 	if(pGxPrjFile)
 		return true;
 	else
@@ -137,27 +137,20 @@ bool wxGxPrjFileFilter::CanChooseObject( wxGxObject* const pObject )
 
 bool wxGxPrjFileFilter::CanDisplayObject( wxGxObject* const pObject )
 {
-	IGxObjectContainer* pContainer = dynamic_cast<IGxObjectContainer*>(pObject);
-	if(pContainer)
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
 		return true;
-	wxGxPrjFile* pGxPrjFile = dynamic_cast<wxGxPrjFile*>(pObject);
-	if(pGxPrjFile)
-		return true;
-	else
-		return false;
+	return CanChooseObject(pObject);
 }
 
 wxString wxGxPrjFileFilter::GetName(void) const
 {
-	return wxString(_("Coordinate Systems (*.prj, *.spr)"));
+	return wxString(_("Coordinate Systems (*.prj, *.qpj, *.spr)"));
 }
 
-wxString wxGxPrjFileFilter::GetExt(void)) const
+wxString wxGxPrjFileFilter::GetExt(void) const
 {
 	return wxString(wxT("spr"));
 }
-*/
-
 
 //------------------------------------------------------------
 // wxGxRemoteDBSchemaFilter
@@ -231,7 +224,6 @@ wxGxDatasetFilter::~wxGxDatasetFilter(void)
 
 bool wxGxDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 {
-    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
 	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
 	if(!pGxDataset)
 		return false;
@@ -245,7 +237,6 @@ bool wxGxDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 
 bool wxGxDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 {
-    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
 		return true;
 	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);

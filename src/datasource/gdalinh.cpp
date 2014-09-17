@@ -20,6 +20,7 @@
  ****************************************************************************/
 #include "wxgis/datasource/gdalinh.h"
 #include <wx/encconv.h>
+
 //-----------------------------------------------------------------------------
 // wxGISSpatialReference
 //-----------------------------------------------------------------------------
@@ -32,8 +33,24 @@ wxGISSpatialReference::wxGISSpatialReference(OGRSpatialReference *poSRS)
 {
     m_refData = new wxGISSpatialReferenceRefData(poSRS);
     ((wxGISSpatialReferenceRefData *)m_refData)->Validate();
-
 }
+
+wxGISSpatialReference::wxGISSpatialReference(const wxString &sWKT)
+{
+	OGRSpatialReference* pSpaRef = new OGRSpatialReference();
+    CPLString szWKT(sWKT.mb_str());
+    const char* szpWKT = szWKT.c_str();
+    if(pSpaRef->SetFromUserInput(szpWKT) == OGRERR_NONE)
+    {
+		m_refData = new wxGISSpatialReferenceRefData(pSpaRef);
+		((wxGISSpatialReferenceRefData *)m_refData)->Validate();
+    }
+	else
+	{
+		wxDELETE(pSpaRef);
+	}
+}
+
 
 wxObjectRefData *wxGISSpatialReference::CreateRefData() const
 {
@@ -82,6 +99,75 @@ bool wxGISSpatialReference::IsSame(const wxGISSpatialReference& SpatialReference
     if(!SpatialReference.IsOk() || !IsOk())
         return false;
     return ((wxGISSpatialReferenceRefData *)m_refData)->m_poSRS->IsSame(SpatialReference) == 0 ? false : true;
+}
+
+wxString wxGISSpatialReference::ExportAsWKT() const
+{
+	wxString sOutPut;
+	if(IsOk())
+	{
+		char *pszWKT;
+        ((wxGISSpatialReferenceRefData *)m_refData)->m_poSRS->exportToPrettyWkt( &pszWKT );
+        sOutPut = wxString(pszWKT, *wxConvCurrent);
+        OGRFree( pszWKT );
+	}
+	return sOutPut;
+}
+
+wxString wxGISSpatialReference::GetName()
+{
+	if(!m_sName.IsEmpty())
+		return m_sName;
+		
+	if(!IsOk())	
+		return wxEmptyString;
+	
+	OGRSpatialReference *oSRS = ((wxGISSpatialReferenceRefData *)m_refData)->m_poSRS;
+	
+	const char* pszName = NULL;
+	//search projection srs
+	const OGR_SRSNode *poCS = oSRS->GetAttrNode("PROJCS");
+	if (poCS != NULL)
+	{
+		pszName = oSRS->GetAttrValue("PROJCS");
+		goto EXIT;
+	}
+	
+	poCS = oSRS->GetAttrNode("GEOGCS");
+	if (poCS != NULL)
+	{
+		pszName = oSRS->GetAttrValue("GEOGCS");
+		goto EXIT;
+	}
+	
+	poCS = oSRS->GetAttrNode("GEOCCS");
+	if (poCS != NULL)
+	{
+		pszName = oSRS->GetAttrValue("GEOCCS");
+		goto EXIT;
+	}
+	
+	poCS = oSRS->GetAttrNode("LOCAL_CS");
+	if (poCS != NULL)
+	{
+		pszName = oSRS->GetAttrValue("LOCAL_CS");
+		goto EXIT;
+	}
+
+	poCS = oSRS->GetAttrNode("VERT_CS");
+	if (poCS != NULL)
+	{
+		pszName = oSRS->GetAttrValue("VERT_CS");
+		goto EXIT;
+	}        
+        
+	
+EXIT:
+	if(pszName != NULL)
+	{
+		m_sName = wxString(pszName);
+	}
+	return m_sName;
 }
 
 //-----------------------------------------------------------------------------

@@ -3,7 +3,7 @@
  * Purpose:  controls classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Dmitry Baryshnikov
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,8 +41,11 @@
 #include <wx/grid.h>
 #include  <wx/imaglist.h>
 
-/** \class wxGISDTBase gpcontrols.h
-    \brief The base class for tool dialog controls.
+/** @class wxGISDTBase
+ *  
+ *  The base class for tool dialog controls.
+ * 
+ * 	@library{gpui}
 */
 class WXDLLIMPEXP_GIS_GPU wxGISDTBase : public wxPanel
 {
@@ -75,9 +78,13 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTPath gpcontrols.h
-    \brief The tool dialog control for catalog path value representation.
+/** @class wxGISDTPath
+ * 
+ * 	The tool dialog control for catalog path value representation.
+ * 
+ * 	@library{pgui}
 */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTPath :
     public wxGISDTBase,
     public IViewDropTarget
@@ -109,9 +116,13 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTPath gpcontrols.h
-    \brief The tool dialog control for catalog path value representation.
+/** @class wxGISDTFolderPath
+ * 
+ * 	The tool dialog control for catalog path value representation.
+ * 
+ * 	@library{gpui}
 */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTFolderPath : public wxGISDTPath
 {
     DECLARE_CLASS(wxGISDTFolderPath)
@@ -124,9 +135,13 @@ public:
     virtual void OnOpen(wxCommandEvent& event);
 };
 
-/** \class wxGISDTDigit gpcontrols.h
-    \brief The tool dialog control for digit value representation.
+/** @class wxGISDTDigit
+ * 
+ * 	The tool dialog control for digit value representation.
+ * 
+ *  @library{gpui}
 */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTDigit : public wxGISDTBase
 {
     DECLARE_CLASS(wxGISDTDigit)
@@ -149,9 +164,13 @@ private:
 	DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTChoice gpcontrols.h
-    \brief The tool dialog control for choice value representation.
-*/
+/** @class wxGISDTChoice
+ * 
+ * 	The tool dialog control for choice value representation.
+ * 
+ *  @library{gpui}
+ */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTChoice : public wxGISDTBase
 {
     DECLARE_CLASS(wxGISDTChoice)
@@ -178,9 +197,13 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTFieldChoice gpcontrols.h
-    \brief The tool dialog control for choice fields of ogr vector layer.
-*/
+/** @class wxGISDTFieldChoice
+ * 
+ *  The tool dialog control for choice fields of ogr vector layer.
+ * 
+ *  @library{pgui}
+ */
+ 
 class WXDLLIMPEXP_GIS_GPU wxGISDTFieldChoice : public wxGISDTChoice
 {
     DECLARE_CLASS(wxGISDTFieldChoice)
@@ -194,8 +217,11 @@ public:
     virtual void OnParamChanged(wxGISGPParamEvent &event);
 };
 
-/** \class wxGISDTChoiceEditable gpcontrols.h
-    \brief The tool dialog control for choice value representation. User can change choices list.
+/** @class wxGISDTChoiceEditable
+ * 
+ * 	The tool dialog control for choice value representation. User can change choices list.
+ * 
+ * 	@library{gpui}
 *//*
 class wxGISDTChoiceEditable : public wxGISDTChoice
 {
@@ -208,11 +234,15 @@ protected:
 	wxBitmapButton* m_bpButton;
 
 DECLARE_EVENT_TABLE()
-};
+};*/
 
-/** \class wxGISDTBool gpcontrols.h
-    \brief The tool dialog control for bool value representation.
+/** @class wxGISDTBool
+ * 
+ * 	The tool dialog control for bool value representation.
+ * 
+ * 	@library{gpui}
 */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTBool : public wxGISDTBase
 {
     DECLARE_CLASS(wxGISDTBool)
@@ -232,14 +262,17 @@ public:
     virtual void OnParamChanged(wxGISGPParamEvent &event);
 protected:
     wxCheckBox* m_pCheckBox;
-	wxString m_sFullText;
 private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTText gpcontrols.h
-    \brief The tool dialog control for string value representation.
-*/
+/** @class wxGISDTText
+ * 
+ * 	The tool dialog control for string value representation.
+ * 
+ * 	@library{gpui}
+ */
+
 class WXDLLIMPEXP_GIS_GPU wxGISDTText : public wxGISDTBase
 {
     DECLARE_CLASS(wxGISDTString)
@@ -258,43 +291,37 @@ public:
     virtual void OnParamChanged(wxGISGPParamEvent &event);
 protected:
     wxTextCtrl* m_TextCtrl;
-	wxString m_sFullText;
 private:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTSpatRef gpcontrols.h
-    \brief The tool dialog control for spatial reference value representation.
-*//*
-class wxGISDTSpatRef : public wxGISDTBase
+/** @class wxGISDTSpatRef
+ * 
+ * 	The tool dialog control for spatial reference value representation.
+ * 
+ * 	@library{gpui}
+*/
+
+class WXDLLIMPEXP_GIS_GPU wxGISDTSpatRef : public wxGISDTPath
 {
-    enum
-	{
-		ID_SPATREFSTR = wxID_HIGHEST + 3607
-	};
+	DECLARE_CLASS(wxGISDTSpatRef)
 public:
-	wxGISDTSpatRef( IGPParameter* pParam, IGxCatalog* pCatalog, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
+	wxGISDTSpatRef( const wxGISGPParameterArray &Params, int nParamIndex, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
 	virtual ~wxGISDTSpatRef();
 	//wxGISDTBase
     virtual bool Validate(void);
-    virtual void UpdateValues(void);
-    virtual void UpdateControls(void);
     //events
     virtual void OnOpen(wxCommandEvent& event);
-	virtual void OnTextChange(wxCommandEvent& event);
-	virtual void OnUpdateUI(wxUpdateUIEvent &event);
-protected:
-    wxTextCtrl* m_SpaRefTextCtrl;
-	wxBitmapButton* m_bpButton;
-    IGxCatalog* m_pCatalog;
-
-    DECLARE_EVENT_TABLE()
+    virtual void OnParamChanged(wxGISGPParamEvent& event);
+	//IGxDropTarget
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn);
 };
 
-/** \class wxGISDTMultiParam gpcontrols.h
-    \brief The tool dialog control for multiple parameters.
-
-	The multiple parameters stores in grid.
+/** @class wxGISDTMultiParam
+ * 
+ *  The tool dialog control for multiple parameters. The multiple parameters stores in grid.
+ * 
+ * 	@library{gpui}
 *//*
 class wxGISDTMultiParam : public wxGISDTBase
 {
@@ -319,8 +346,11 @@ protected:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISDTList gpcontrols.h
-    \brief The tool dialog control the list of values.
+/** @class wxGISDTList
+ * 
+ * 	The tool dialog control the list of values.
+ * 
+ * 	@library{gpui}
 *//*
 class wxGISDTList : public wxGISDTBase
 {
@@ -348,8 +378,11 @@ protected:
     DECLARE_EVENT_TABLE()
 };
 
-/** \class wxGISSQLQueryCtrl gpcontrols.h
-    \brief The tool dialog control SQL query representation.
+/** @class wxGISSQLQueryCtrl
+ * 
+ * 	The tool dialog control SQL query representation.
+ * 
+ * 	@library{gpui}
 *//*
 class wxGISSQLQueryCtrl : public wxGISDTBase
 {

@@ -55,7 +55,7 @@ WX_DEFINE_USER_EXPORTED_ARRAY(wxGxObjectFilter*, wxGxObjectFiltersArray, class W
 
     @library{catalog}
  */
-/*
+
 class WXDLLIMPEXP_GIS_CLT wxGxPrjFileFilter : public wxGxObjectFilter
 {
     DECLARE_CLASS(wxGxPrjFileFilter)
@@ -67,7 +67,7 @@ public:
 	virtual wxString GetName(void) const;
     virtual wxString GetExt(void) const;
 };
-*/
+
 
 /** @class wxGxRemoteDBFilter
 

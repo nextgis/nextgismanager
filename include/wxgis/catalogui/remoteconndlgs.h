@@ -120,7 +120,8 @@ protected:
 		ID_REMOTECONNDLG = 1000,
 		ID_TESTBUTTON,
 		ID_CONNNAME,
-		ID_PRESETTYPE
+		ID_PRESETTYPE,
+		ID_SELECTSRS
 	};
 public:
     wxGISTMSConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("TMS Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
@@ -131,13 +132,23 @@ public:
 protected:	//events
     virtual void OnTest(wxCommandEvent& event);
 	virtual void OnOK(wxCommandEvent& event);
+	virtual void OnSelectSRS(wxCommandEvent& event);
+	virtual void OnSelectPreset(wxCommandEvent& event);
 protected:
     void CreateUI(bool bHasConnectionPath = true);
     void FillDefaults();
+	void FillValues(wxXmlNode* pRootNode);
+	void LoadServiceValues(wxXmlNode* pRootNode);
+	void LoadDataWindowValues(wxXmlNode* pRootNode);
+	void LoadValues(wxXmlNode* pRootNode);	
+	wxXmlNode* CreateContentNode(wxXmlNode* pParentNode, wxString sName, wxString sContent);
+	wxXmlNode* CreateContentNode(wxXmlNode* pParentNode, wxString sName, double dfContent);
 protected:
 	wxBoxSizer* m_bMainSizer;
 	wxTextCtrl* m_ConnName;
-
+	wxTextCtrl* m_pSRSTextCtrl;
+	wxChoice *m_PresetsType;
+	
 	wxButton* m_TestButton;
 	wxStaticLine* m_staticline2;
 	wxStdDialogButtonSizer* m_sdbSizer;
@@ -145,7 +156,6 @@ protected:
 	wxButton* m_sdbSizerCancel;
 protected:
 	wxString m_sConnName;
-	wxString m_sPresetTypeChoice;
 	wxString m_sURL;
 	wxString m_sCachePath;
 	wxString m_sCacheDepth;
@@ -169,6 +179,8 @@ protected:
 	int m_nBandsCount;
 	wxString m_sUser;
 	wxString m_sPass;
+	wxString m_sSRS;
+	int m_nTileLevel;
 
 	bool m_bCreateNew;
     bool m_bIsFile;

@@ -24,10 +24,18 @@
 #include "wxgis/core/crypt.h"
 #include "wxgis/core/format.h"
 #include "wxgis/net/curl.h"
+#include "wxgis/catalogui/gxfileui.h"
+#include "wxgis/catalogui/gxobjdialog.h"
 
 #include <wx/valgen.h>
 #include <wx/valtext.h>
 #include <wx/valnum.h>
+#include <wx/collpane.h>
+#include <wx/textfile.h>
+#include <wx/mstream.h>
+#include <wx/txtstrm.h>
+
+#include "../../art/open.xpm"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -328,6 +336,8 @@ void wxGISRemoteDBConnDlg::CreateUI(bool bHasConnectionPath)
 BEGIN_EVENT_TABLE(wxGISTMSConnDlg, wxDialog)
     EVT_BUTTON(wxID_OK, wxGISTMSConnDlg::OnOK)
     EVT_BUTTON(ID_TESTBUTTON, wxGISTMSConnDlg::OnTest)
+	EVT_BUTTON(ID_SELECTSRS, wxGISTMSConnDlg::OnSelectSRS)
+	EVT_CHOICE(ID_PRESETTYPE, wxGISTMSConnDlg::OnSelectPreset)
 END_EVENT_TABLE()
 
 wxGISTMSConnDlg::wxGISTMSConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
@@ -341,13 +351,7 @@ wxGISTMSConnDlg::wxGISTMSConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, w
     if (pConnectionNode)
     {
         m_pConnectionNode = pConnectionNode;
-        /*m_sServer = pConnectionNode->GetAttribute(wxT("server"), m_sServer);
-        m_sPort = pConnectionNode->GetAttribute(wxT("port"), m_sPort);
-        m_sDatabase = pConnectionNode->GetAttribute(wxT("db"), m_sDatabase);
-        m_sUser = pConnectionNode->GetAttribute(wxT("user"), m_sUser);
-        Decrypt(pConnectionNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
-        m_bIsBinaryCursor = GetBoolValue(pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
-        */
+        LoadValues(pConnectionNode);
     }
 
     CreateUI(false);
@@ -375,6 +379,7 @@ wxGISTMSConnDlg::wxGISTMSConnDlg( CPLString pszConnPath, wxWindow* parent, wxWin
 			wxXmlNode* pRootNode = doc.GetRoot();
 			if(pRootNode)
 			{
+				LoadValues(pRootNode);
 			}
 		}
 	}
@@ -398,6 +403,17 @@ void wxGISTMSConnDlg::FillDefaults()
     m_sAdviseRead = wxString(wxT("false"));
     m_sVerifyAdviseRead = wxString(wxT("false"));
     m_sClampRequests = wxString(wxT("true"));
+	
+	m_nTileSizeX = m_nTileSizeY = 256;
+	m_nBandsCount = 3;
+	m_nMaxConnections = 5;
+	m_sSRS = wxString(wxT("..."));
+	m_nTileLevel = 18;
+	
+	m_dfULX = -20037508.34;
+	m_dfULY = 20037508.34;
+	m_dfLRX = 20037508.34;
+	m_dfLRY = -20037508.34;
 
     IApplication *pApp = GetApplication();
     if(NULL != pApp)
@@ -414,12 +430,233 @@ void wxGISTMSConnDlg::FillDefaults()
         m_sCacheDepth = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/cache_depth")), m_sCacheDepth);
         m_sTimeout = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/timeout")), m_sTimeout);
         m_sZeroBlockHttpCodes = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/zero_block_http_codes")), m_sZeroBlockHttpCodes);
-        m_sZeroBlockOnServerException = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/zero_block_onserver_exception")), m_sZeroBlockHttpCodes);
+        m_sZeroBlockOnServerException = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/zero_block_onserver_exception")), m_sZeroBlockOnServerException);
         m_sOfflineMode = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/offline_mode")), m_sOfflineMode);
         m_sAdviseRead = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/advise_read")), m_sAdviseRead);
         m_sVerifyAdviseRead = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/verify_advise_read")), m_sVerifyAdviseRead);
         m_sClampRequests = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/clamp_requests")), m_sClampRequests);
     }
+}
+
+wxXmlNode* wxGISTMSConnDlg::CreateContentNode(wxXmlNode* pParentNode, wxString sName, wxString sContent)
+{
+	wxXmlNode* pNode = new wxXmlNode(pParentNode, wxXML_ELEMENT_NODE, sName);
+	wxXmlNode* pContenNode = new wxXmlNode(pNode, wxXML_TEXT_NODE, wxEmptyString);
+	pContenNode->SetContent(sContent);	
+	return pNode;
+}
+
+wxXmlNode* wxGISTMSConnDlg::CreateContentNode(wxXmlNode* pParentNode, wxString sName, double dfContent)
+{
+	wxString sVal = wxString::Format(wxT("%f"), dfContent);
+	FloatStringToCLoc(sVal);
+	wxXmlNode* pNode = new wxXmlNode(pParentNode, wxXML_ELEMENT_NODE, sName);
+	wxXmlNode* pContenNode = new wxXmlNode(pNode, wxXML_TEXT_NODE, wxEmptyString);
+	pContenNode->SetContent(sVal);	
+	return pNode;
+}    
+
+void wxGISTMSConnDlg::FillValues(wxXmlNode* pRootNode)
+{
+	if(NULL == pRootNode)
+		return;
+		
+	//service
+	wxXmlNode* pServiceNode = new wxXmlNode(pRootNode, wxXML_ELEMENT_NODE, wxT("Service"));
+	pServiceNode->AddAttribute(wxT("name"), wxT("TMS"));
+	CreateContentNode(pServiceNode, wxT("ServerUrl"), m_sURL);
+	
+	//datawindow
+	wxXmlNode* pDataWindowNode = new wxXmlNode(pRootNode, wxXML_ELEMENT_NODE, wxT("DataWindow"));
+	CreateContentNode(pDataWindowNode, wxT("UpperLeftX"), m_dfULX);
+	CreateContentNode(pDataWindowNode, wxT("UpperLeftY"), m_dfULY);
+	CreateContentNode(pDataWindowNode, wxT("LowerRightX"), m_dfLRX);
+	CreateContentNode(pDataWindowNode, wxT("LowerRightY"), m_dfLRY);
+	CreateContentNode(pDataWindowNode, wxT("TileLevel"), wxString::Format(wxT("%d"), m_nTileLevel));
+
+	wxString sOriginType = wxString(wxT("top"));
+	if(m_sOriginTypeChoice.IsSameAs(_("Normal TMS")))
+		sOriginType = wxString(wxT("bottom"));
+
+		
+	CreateContentNode(pDataWindowNode, wxT("YOrigin"), sOriginType);
+
+	CreateContentNode(pRootNode, wxT("Projection"), m_sSRS);
+	CreateContentNode(pRootNode, wxT("BandsCount"), wxString::Format(wxT("%d"), m_nBandsCount));
+	CreateContentNode(pRootNode, wxT("BlockSizeX"), wxString::Format(wxT("%d"), m_nTileSizeX));
+	CreateContentNode(pRootNode, wxT("BlockSizeY"), wxString::Format(wxT("%d"), m_nTileSizeY));
+
+
+	wxXmlNode* pCacheNode = new wxXmlNode(pRootNode, wxXML_ELEMENT_NODE, wxT("Cache"));
+	CreateContentNode(pCacheNode, wxT("Path"), m_sCachePath);
+	CreateContentNode(pCacheNode, wxT("Depth"), m_sCacheDepth);
+		
+	CreateContentNode(pRootNode, wxT("MaxConnections"), wxString::Format(wxT("%d"), m_nMaxConnections));
+	CreateContentNode(pRootNode, wxT("Timeout"), m_sTimeout);
+	CreateContentNode(pRootNode, wxT("OfflineMode"), m_sOfflineMode);
+	CreateContentNode(pRootNode, wxT("AdviseRead"), m_sAdviseRead);
+	CreateContentNode(pRootNode, wxT("VerifyAdviseRead"), m_sVerifyAdviseRead);
+	CreateContentNode(pRootNode, wxT("ClampRequests"), m_sClampRequests);
+	CreateContentNode(pRootNode, wxT("UserAgent"), m_sUserAgent);
+	CreateContentNode(pRootNode, wxT("Referer"), m_sReferer);
+	
+	if(!m_sUser.IsEmpty() || !m_sPass.IsEmpty())
+	{
+		CreateContentNode(pRootNode, wxT("UserPwd"), m_sUser + wxT(":") + m_sPass);
+	}
+	
+	CreateContentNode(pRootNode, wxT("ZeroBlockHttpCodes"), m_sZeroBlockHttpCodes);
+	CreateContentNode(pRootNode, wxT("ZeroBlockOnServerException"), m_sZeroBlockOnServerException);
+}
+
+
+void wxGISTMSConnDlg::LoadValues(wxXmlNode* pRootNode)
+{
+	if(NULL == pRootNode)
+		return;
+	wxXmlNode* pChild = pRootNode->GetChildren();
+	while(pChild)
+	{
+		if(pChild->GetName().IsSameAs(wxT("Service"), false))
+		{
+			LoadServiceValues(pChild);
+		}
+		else if(pChild->GetName().IsSameAs(wxT("DataWindow"), false))
+		{
+			LoadDataWindowValues(pChild);
+		}
+		else if(pChild->GetName().IsSameAs(wxT("Projection"), false))
+		{
+			wxGISSpatialReference SpatRef(pChild->GetNodeContent());
+			if(SpatRef.IsOk())
+				m_sSRS = SpatRef.GetName();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("BandsCount"), false))
+		{
+			m_nBandsCount = wxAtoi(pChild->GetNodeContent());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("BlockSizeX"), false))
+		{
+			m_nTileSizeX = wxAtoi(pChild->GetNodeContent());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("BlockSizeY"), false))
+		{
+			m_nTileSizeY = wxAtoi(pChild->GetNodeContent());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("MaxConnections"), false))
+		{
+			m_nMaxConnections = wxAtoi(pChild->GetNodeContent());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("Timeout"), false))
+		{
+			m_sTimeout = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("OfflineMode"), false))
+		{
+			m_sOfflineMode = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("AdviseRead"), false))
+		{
+			m_sAdviseRead = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("VerifyAdviseRead"), false))
+		{
+			m_sVerifyAdviseRead = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("ClampRequests"), false))
+		{
+			m_sClampRequests = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("UserPwd"), false))
+		{
+			wxString sUP = pChild->GetNodeContent();
+			int nPos = sUP.Find(':');
+			if(nPos != wxNOT_FOUND)
+			{
+				m_sUser = sUP.Left(nPos);
+				m_sPass = sUP.Right(sUP.Len() - nPos - 1);
+			}
+		}
+		else if(pChild->GetName().IsSameAs(wxT("Referer"), false))
+		{
+			m_sReferer = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("ZeroBlockHttpCodes"), false))
+		{
+			m_sZeroBlockHttpCodes = pChild->GetNodeContent(); 
+		}
+		else if(pChild->GetName().IsSameAs(wxT("ZeroBlockOnServerException"), false))
+		{
+			m_sZeroBlockOnServerException = pChild->GetNodeContent();
+		}
+
+		pChild = pChild->GetNext();
+	}
+}
+
+void wxGISTMSConnDlg::LoadServiceValues(wxXmlNode* pRootNode)
+{
+	if(NULL == pRootNode)
+		return;
+	wxXmlNode* pChild = pRootNode->GetChildren();
+	while(pChild)
+	{
+		if(pChild->GetName().IsSameAs(wxT("ServerUrl"), false))
+		{
+			m_sURL = pChild->GetNodeContent();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("SRS"), false))
+		{
+			wxGISSpatialReference SpatRef(pChild->GetNodeContent());
+			if(SpatRef.IsOk())
+				m_sSRS = SpatRef.GetName();
+		}
+		else if(pChild->GetName().IsSameAs(wxT("CRS"), false))
+		{
+			wxGISSpatialReference SpatRef(pChild->GetNodeContent());
+			if(SpatRef.IsOk())
+				m_sSRS = SpatRef.GetName();
+		}
+		pChild = pChild->GetNext();
+	}
+}
+
+void wxGISTMSConnDlg::LoadDataWindowValues(wxXmlNode* pRootNode)
+{
+	if(NULL == pRootNode)
+		return;
+	wxXmlNode* pChild = pRootNode->GetChildren();
+	while(pChild)
+	{
+		if(pChild->GetName().IsSameAs(wxT("UpperLeftX"), false))
+		{
+			m_dfULX = CPLAtofM(pChild->GetNodeContent().mb_str());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("UpperLeftY"), false))
+		{
+			m_dfULY = CPLAtofM(pChild->GetNodeContent().mb_str());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("LowerRightX"), false))
+		{
+			m_dfLRX = CPLAtofM(pChild->GetNodeContent().mb_str());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("LowerRightY"), false))
+		{
+			m_dfLRY = CPLAtofM(pChild->GetNodeContent().mb_str());
+		}
+		else if(pChild->GetName().IsSameAs(wxT("YOrigin"), false))
+		{
+			if(pChild->GetNodeContent().IsSameAs(wxT("top")))
+				m_sOriginTypeChoice = wxString(_("Slippy map"));
+			else
+				m_sOriginTypeChoice = wxString(_("Normal TMS"));
+		}
+		else if(pChild->GetName().IsSameAs(wxT("TileLevel"), false))
+		{
+			m_nTileLevel = wxAtoi(pChild->GetNodeContent());
+		}
+		pChild = pChild->GetNext();
+	}
 }
 
 void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
@@ -429,64 +666,57 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
         if (m_bIsFile)
         {
 		    wxXmlDocument doc;
-		    wxXmlNode* pRootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("connection"));
-/*		    pRootNode->AddAttribute(wxT("server"), m_sServer);
-		    pRootNode->AddAttribute(wxT("port"), m_sPort);
-		    pRootNode->AddAttribute(wxT("db"), m_sDatabase);
-		    pRootNode->AddAttribute(wxT("user"), m_sUser);
-		    pRootNode->AddAttribute(wxT("pass"), sCryptPass);
-
-            SetBoolValue(pRootNode, wxT("isbincursor"), m_bIsBinaryCursor);
-
-		    pRootNode->AddAttribute(wxT("type"), wxT("POSTGIS"));//store server type for future
-		    */
+		    wxXmlNode* pRootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("GDAL_WMS"));
+						
+			FillValues(pRootNode);
 
 		    doc.SetRoot(pRootNode);
+			
 
 		    wxString sFullPath = m_sOutputPath + wxFileName::GetPathSeparator() + GetName();
 		    if(!m_bCreateNew)// && wxGISEQUAL(CPLString(sFullPath.mb_str(wxConvUTF8)), m_sOriginOutput))
 		    {
                 RenameFile(m_sOriginOutput, CPLString(sFullPath.mb_str(wxConvUTF8)));
 		    }
-
-            if(!doc.Save(sFullPath))
+			
+			wxMemoryOutputStream out;
+            if(!doc.Save(out))
 		    {
 			    wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
 			    return;
 		    }
-
+			
+            wxTextFile outputFile(sFullPath);
+			
+			wxMemoryInputStream in(out);
+			wxTextInputStream text(in);
+			wxString line;
+			bool bSkipProlog = true;
+			while (!in.Eof()) {
+				line = text.ReadLine();
+				if(bSkipProlog)
+				{
+					bSkipProlog = false;
+					continue;
+				}
+				
+				if (!line.IsEmpty()) 
+				{
+					outputFile.AddLine(line);
+				}
+			}
+			
+			if(!outputFile.Write())
+			{
+				wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			    return;
+			}
             //m_sOriginOutput = CPLString(sFullPath.mb_str(wxConvUTF8));
         }
         else
         {
-/*            if (m_pConnectionNode->HasAttribute(wxT("server")))
-                m_pConnectionNode->DeleteAttribute(wxT("server"));
-            m_pConnectionNode->AddAttribute(wxT("server"), m_sServer);
-
-            if (m_pConnectionNode->HasAttribute(wxT("port")))
-                m_pConnectionNode->DeleteAttribute(wxT("port"));
-            m_pConnectionNode->AddAttribute(wxT("port"), m_sPort);
-
-            if (m_pConnectionNode->HasAttribute(wxT("db")))
-                m_pConnectionNode->DeleteAttribute(wxT("db"));
-            m_pConnectionNode->AddAttribute(wxT("db"), m_sDatabase);
-
-            if (m_pConnectionNode->HasAttribute(wxT("user")))
-                m_pConnectionNode->DeleteAttribute(wxT("user"));
-            m_pConnectionNode->AddAttribute(wxT("user"), m_sUser);
-
-            if (m_pConnectionNode->HasAttribute(wxT("pass")))
-                m_pConnectionNode->DeleteAttribute(wxT("pass"));
-            m_pConnectionNode->AddAttribute(wxT("pass"), sCryptPass);
-
-            if (m_pConnectionNode->HasAttribute(wxT("isbincursor")))
-                m_pConnectionNode->DeleteAttribute(wxT("isbincursor"));
-            SetBoolValue(m_pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
-
-            if (m_pConnectionNode->HasAttribute(wxT("type")))
-                m_pConnectionNode->DeleteAttribute(wxT("type"));
-            m_pConnectionNode->AddAttribute(wxT("type"), wxT("POSTGIS"));//store server type for future
-            */
+			wxGISConfig::DeleteNodeChildren(m_pConnectionNode);
+			FillValues(m_pConnectionNode);
         }
 		EndModal(wxID_OK);
 	}
@@ -498,6 +728,7 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 
 void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 {
+	//TODO: do it via separate map window with TMS layer from input parameters to visual testing if layer shown
 	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
@@ -537,6 +768,7 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
     //add presets
     wxStaticBoxSizer* sbSizerPresets = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Presets") ), wxVERTICAL );
     wxArrayString saPresetChoices;
+	saPresetChoices.Add(_("No preset"));
     saPresetChoices.Add(wxT("OpenStreetMap"));
     saPresetChoices.Add(wxT("BlueMarble Amazon S3"));
     saPresetChoices.Add(wxT("Google Maps - Map"));
@@ -546,8 +778,9 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
     saPresetChoices.Add(wxT("Google Maps - Terrain, Streets and Water"));
     saPresetChoices.Add(wxT("ArcGIS MapServer Tiles"));
 
-	wxChoice *PresetsType = new wxChoice( this, ID_PRESETTYPE, wxDefaultPosition, wxDefaultSize, saPresetChoices, 0, wxGenericValidator(&m_sPresetTypeChoice) );
-	sbSizerPresets->Add( PresetsType, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	m_PresetsType = new wxChoice( this, ID_PRESETTYPE, wxDefaultPosition, wxDefaultSize, saPresetChoices, 0);
+	m_PresetsType->Select(0);
+	sbSizerPresets->Add( m_PresetsType, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
     m_bMainSizer->Add( sbSizerPresets, 0, wxEXPAND|wxALL, 5 );
 
     //add other controls
@@ -607,6 +840,14 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
 
 
 	// <TileLevel>20</TileLevel> - optional
+	wxStaticText *TileLevelStaticText = new wxStaticText( this, wxID_ANY, _("Tile Level"), wxDefaultPosition, wxDefaultSize, 0 );
+	TileLevelStaticText->Wrap( -1 );
+	fgSizer1->Add( TileLevelStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+
+    wxIntegerValidator<int> val_tilelevel(&m_nTileLevel);
+	wxTextCtrl *TileLevelTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, val_tilelevel );
+	fgSizer1->Add( TileLevelTextCtrl, 0, wxALL|wxEXPAND, 5 );
+	
 	// <TileCountX>1</TileCountX> - optional
 	// <TileCountY>1</TileCountY> - optional
 
@@ -616,11 +857,12 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
 	fgSizer1->Add( TMSTypeStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 
 	wxArrayString saOriginChoices;
-    saOriginChoices.Add(wxT("Slippy map"));
-    saOriginChoices.Add(wxT("Normal TMS"));
+    saOriginChoices.Add(_("Slippy map"));
+    saOriginChoices.Add(_("Normal TMS"));
 
-	wxChoice *TMSType = new wxChoice( this, ID_PRESETTYPE, wxDefaultPosition, wxDefaultSize, saPresetChoices, 0, wxGenericValidator(&m_sOriginTypeChoice) );
-	fgSizer1->Add( TMSType, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	wxChoice *TMSType = new wxChoice( this, ID_PRESETTYPE, wxDefaultPosition, wxDefaultSize, saOriginChoices, 0, wxGenericValidator(&m_sOriginTypeChoice) );
+	TMSType->SetSelection(0);
+	fgSizer1->Add( TMSType, 0, wxALL|wxEXPAND, 5 );
 
 	//<BlockSizeX>256</BlockSizeX>
 
@@ -663,36 +905,50 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
 	fgSizer1->Add( MaxConnectionsStaticTextTextCtrl, 0, wxALL|wxEXPAND, 5 );
 
 	//<Projection>EPSG:900913</Projection>
+	wxStaticText *ProjStaticText = new wxStaticText( this, wxID_ANY, _("Projection:"), wxDefaultPosition, wxDefaultSize, 0 );
+	ProjStaticText->Wrap( -1 );
+	fgSizer1->Add( ProjStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+
+	wxBoxSizer* bPathSizer;
+	bPathSizer = new wxBoxSizer( wxHORIZONTAL );
+
+    m_pSRSTextCtrl = new wxTextCtrl( this, wxID_ANY, m_sSRS, wxDefaultPosition, wxDefaultSize, wxTE_CHARWRAP);
+    m_pSRSTextCtrl->SetEditable(false);
+	bPathSizer->Add(m_pSRSTextCtrl, 1, wxALL | wxEXPAND, 0);
+
+	wxBitmapButton *bpButton = new wxBitmapButton( this, ID_SELECTSRS, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	bPathSizer->Add( bpButton, 0, wxALL, 0 );
+	fgSizer1->Add( bPathSizer, 0, wxALL|wxEXPAND, 5 );
 
 	m_bMainSizer->Add( fgSizer1, 0, wxEXPAND, 5 );
 
-	wxStaticBoxSizer* sbSizer1;
-	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Account") ), wxVERTICAL );
-
+	wxCollapsiblePane *collpane = new wxCollapsiblePane(this, wxID_ANY, _("Account"));
+	m_bMainSizer->Add(collpane, 0, wxGROW|wxALL, 5);
+	
+	wxWindow *win = collpane->GetPane();
 	wxFlexGridSizer* fgSizer2;
 	fgSizer2 = new wxFlexGridSizer( 2, 2, 0, 0 );
 	fgSizer2->AddGrowableCol( 1 );
 	fgSizer2->SetFlexibleDirection( wxBOTH );
 	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-	wxStaticText *UserStaticText = new wxStaticText( this, wxID_ANY, _("User:"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticText *UserStaticText = new wxStaticText( win, wxID_ANY, _("User:"), wxDefaultPosition, wxDefaultSize, 0 );
 	UserStaticText->Wrap( -1 );
 	fgSizer2->Add( UserStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 
-	wxTextCtrl *UsesTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sUser) );
+	wxTextCtrl *UsesTextCtrl = new wxTextCtrl( win, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sUser) );
 	fgSizer2->Add( UsesTextCtrl, 0, wxALL|wxEXPAND, 5 );
 
-	wxStaticText *PassStaticText = new wxStaticText( this, wxID_ANY, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticText *PassStaticText = new wxStaticText( win, wxID_ANY, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
 	PassStaticText->Wrap( -1 );
 	fgSizer2->Add( PassStaticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 
-	wxTextCtrl *PassTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD, wxGenericValidator(&m_sPass) );
+	wxTextCtrl *PassTextCtrl = new wxTextCtrl( win, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD, wxGenericValidator(&m_sPass) );
 	fgSizer2->Add( PassTextCtrl, 0, wxALL|wxEXPAND, 5 );
 
-	sbSizer1->Add( fgSizer2, 1, wxEXPAND, 5 );
-
-	m_bMainSizer->Add( sbSizer1, 0, wxEXPAND|wxALL, 5 );
-
+	win->SetSizer(fgSizer2);
+	fgSizer2->SetSizeHints(win);
+	
 	m_TestButton = new wxButton( this, ID_TESTBUTTON, _("Test Connection"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_bMainSizer->Add( m_TestButton, 0, wxALL|wxEXPAND, 5 );
 
@@ -713,6 +969,172 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
 	this->Centre( wxBOTH );
 }
 
+
+void wxGISTMSConnDlg::OnSelectSRS(wxCommandEvent& event)
+{
+    wxGxObjectDialog dlg(this, wxID_ANY, _("Select Spatial Reference"));
+    dlg.SetAllowMultiSelect(false);
+    dlg.SetAllFilters(false);
+    dlg.SetOwnsFilter(true);
+    dlg.SetStartingLocation(_("Coordinate Systems"));
+	dlg.AddFilter(new wxGxPrjFileFilter());
+    if(dlg.ShowModalOpen() == wxID_OK)
+    {
+		wxString sPath = dlg.GetFullName();
+		wxGxCatalogBase* pCatalog = GetGxCatalog();
+		if(pCatalog)
+		{
+			wxGxObject* pGxObj = pCatalog->FindGxObject(sPath);
+			wxGxPrjFileUI* pGxPrjFileUI = dynamic_cast<wxGxPrjFileUI*>(pGxObj);
+			if(pGxPrjFileUI)
+			{
+				wxGISSpatialReference SpaRef = pGxPrjFileUI->GetSpatialReference();
+				m_pSRSTextCtrl->ChangeValue( SpaRef.GetName() );
+				m_sSRS = SpaRef.ExportAsWKT();
+			}
+		}  
+    }
+}
+
+void wxGISTMSConnDlg::OnSelectPreset(wxCommandEvent& event)
+{
+	int nSel = m_PresetsType->GetCurrentSelection();
+	switch(nSel)
+	{
+		case 0: //"No preset"
+			break;
+		case 1: //"OpenStreetMap"
+			m_sURL = wxString(wxT("http://tile.openstreetmap.org/${z}/${x}/${y}.png"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 20;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 18;
+			TransferDataToWindow();
+			break;
+		case 2: //"BlueMarble Amazon S3"
+			m_sURL = wxString(wxT("http://s3.amazonaws.com/com.modestmaps.bluemarble/${z}-r${y}-c${x}.jpg"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 20;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 9;
+			TransferDataToWindow();
+			break;
+		case 3: //"Google Maps - Map"
+			m_sURL = wxString(wxT("http://mt.google.com/vt/lyrs=m&x=${x}&y=${y}&z=${z}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 5;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 20;
+			TransferDataToWindow();
+			break;
+		case 4: //"Google Maps - Satellite"
+			m_sURL = wxString(wxT("http://mt.google.com/vt/lyrs=s&x=${x}&y=${y}&z=${z}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 5;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 20;
+			TransferDataToWindow();
+			break;
+		case 5: //"Google Maps - Hybrid"
+			m_sURL = wxString(wxT("http://mt.google.com/vt/lyrs=y&x=${x}&y=${y}&z=${z}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 5;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 20;
+			TransferDataToWindow();
+			break;			
+		case 6: //"Google Maps - Terrain"
+			m_sURL = wxString(wxT("http://mt.google.com/vt/lyrs=t&x=${x}&y=${y}&z=${z}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 5;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 20;
+			TransferDataToWindow();
+			break;			
+		case 7: //"Google Maps - Terrain, Streets and Water"
+			m_sURL = wxString(wxT("http://mt.google.com/vt/lyrs=p&x=${x}&y=${y}&z=${z}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 5;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 20;
+			TransferDataToWindow();
+			break;			
+		case 8: //"ArcGIS MapServer Tiles"
+			m_sURL = wxString(wxT("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}"));
+			m_dfULX = -20037508.34;
+			m_dfULY = 20037508.34;
+			m_dfLRX = 20037508.34;
+			m_dfLRY = -20037508.34;
+			m_nMaxConnections = 10;
+			m_sOriginTypeChoice = wxString(_("Slippy map"));
+			m_nTileSizeX = 256;
+			m_nTileSizeY = 256;
+			m_nBandsCount = 3;
+			m_sSRS = wxString(wxT("EPSG:3857"));
+			m_pSRSTextCtrl->ChangeValue( m_sSRS );
+			m_nTileLevel = 17;
+			TransferDataToWindow();
+			break;
+		default:
+			break;
+	}
+}
 
 //-------------------------------------------------------------------------------
 //  wxGISNGWConnDlg

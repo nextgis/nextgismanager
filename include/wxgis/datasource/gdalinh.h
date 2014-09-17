@@ -59,7 +59,7 @@ class WXDLLIMPEXP_GIS_DS wxGISSpatialReference : public wxObject
     DECLARE_CLASS(wxGISSpatialReference)
 public:
     wxGISSpatialReference(OGRSpatialReference *poSRS = NULL);
-
+	wxGISSpatialReference(const wxString &sWKT);
     bool IsOk() const;
 
     bool operator == ( const wxGISSpatialReference& obj ) const;
@@ -68,9 +68,13 @@ public:
     OGRSpatialReference* Clone(void) const;
     OGRSpatialReference* operator->(void) const;
     bool IsSame(const wxGISSpatialReference& SpatialReference) const;
+	wxString ExportAsWKT() const;
+	wxString GetName();
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
+protected:
+	wxString m_sName;
 };
 
 extern WXDLLIMPEXP_DATA_GIS_DS(wxGISSpatialReference) wxNullSpatialReference;

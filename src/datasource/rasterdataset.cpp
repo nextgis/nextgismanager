@@ -531,7 +531,7 @@ const wxGISSpatialReference wxGISRasterDataset::GetSpatialReference(void)
 	{
         const char* pszProjection = m_poDataset->GetProjectionRef();
         if(CPLStrnlen(pszProjection, 10) > 0)
-            m_SpatialReference = wxGISSpatialReference(new OGRSpatialReference(pszProjection));
+            m_SpatialReference = wxGISSpatialReference(wxString(pszProjection));
 	}
 
     return m_SpatialReference;

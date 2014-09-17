@@ -627,16 +627,16 @@ wxIcon wxGxTMSWebServiceUI::GetSmallImage(void)
 
 void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
 {
-	//wxGISRemoteConnDlg dlg(m_sPath, parent);
-	//if(dlg.ShowModal() == wxID_OK)
-	//{
- //       if(!m_pwxGISDataset)
- //           return;
- //       if(m_pwxGISDataset->IsOpened())
- //           m_pwxGISDataset->Close();
- //       wxGIS_GXCATALOG_EVENT(ObjectChanged);
-	//}
-
+	wxGISTMSConnDlg dlg(m_sPath, parent);
+	if(dlg.ShowModal() == wxID_OK)
+	{
+        if(!m_pwxGISDataset)
+            return;
+        if(m_pwxGISDataset->IsOpened())
+            m_pwxGISDataset->Close();
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+	}
+/*
     wxPropertySheetDialog PropertySheetDialog;
     if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
         return;
@@ -665,6 +665,7 @@ void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.Center();
 
     PropertySheetDialog.ShowModal();
+	 */
 }
 
 
