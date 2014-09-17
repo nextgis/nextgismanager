@@ -55,6 +55,9 @@ public:
     virtual wxString GetAppName(void) const { return wxString(wxT("wxGISMiniMapDlg")); };
     virtual wxString GetAppDisplayName(void) const { return wxString(_("Mini map Dialog")); };
     virtual wxString GetAppDisplayNameShort(void) const { return wxString(_("MiniMap Dialog")); };
+	//wxGISMiniMapDlg
+	virtual void AddLayer(wxGISLayer* pLayer);
+	virtual void SetFullExtent();
 protected:
     // events
     virtual void OnCommand(wxCommandEvent& event);

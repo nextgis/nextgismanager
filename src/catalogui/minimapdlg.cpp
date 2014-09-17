@@ -122,6 +122,7 @@ wxGISMiniMapDlg::wxGISMiniMapDlg(wxDword nButtons, wxWindow* parent, wxWindowID 
     m_pGISMapView->Bind(wxEVT_LEFT_DCLICK, &wxGISMiniMapDlg::OnMouseDoubleClick, this);
     m_pGISMapView->Bind(wxEVT_MIDDLE_DCLICK, &wxGISMiniMapDlg::OnMouseDoubleClick, this);
     m_pGISMapView->Bind(wxEVT_RIGHT_DCLICK, &wxGISMiniMapDlg::OnMouseDoubleClick, this);
+	 
     bSizer1->Add(m_pGISMapView, 1, wxEXPAND | wxALL, 0);
 	
 	wxButton* m_sdbSizer1OK;
@@ -282,3 +283,16 @@ void wxGISMiniMapDlg::OnMouseDoubleClick(wxMouseEvent& event)
     wxGISApplicationBase::OnMouseDoubleClick(event);
 }
 
+void wxGISMiniMapDlg::AddLayer(wxGISLayer* pLayer)
+{
+	if(NULL != m_pGISMapView)
+	{
+		m_pGISMapView->AddLayer(pLayer);
+	}
+}
+
+void wxGISMiniMapDlg::SetFullExtent()
+{
+	if(NULL != m_pGISMapView)
+		m_pGISMapView->SetFullExtent();
+}

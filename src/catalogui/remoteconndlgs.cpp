@@ -27,6 +27,7 @@
 #include "wxgis/catalogui/gxfileui.h"
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalogui/minimapdlg.h"
+#include "wxgis/carto/rasterlayer.h"
 
 #include <wx/valgen.h>
 #include <wx/valtext.h>
@@ -732,7 +733,49 @@ void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 	//TODO: do it via separate map window with TMS layer from input parameters to visual testing if layer shown
 	if ( Validate() && TransferDataFromWindow() )
 	{
+		wxXmlDocument doc;
+		wxXmlNode* pRootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("GDAL_WMS"));
+						
+		FillValues(pRootNode);
+
+		doc.SetRoot(pRootNode);
+			
+		wxMemoryOutputStream out;
+		if(!doc.Save(out))
+		{
+			wxMessageBox(wxString(_("Test failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			return;
+		}
+			
+        wxString line, connStr;
+		bool bSkipProlog = true;
+		wxMemoryInputStream in(out);
+		wxTextInputStream text(in);
+		while (!in.Eof()) {
+			line = text.ReadLine();
+			if(bSkipProlog)
+			{
+				bSkipProlog = false;
+				continue;
+			}
+			
+			if (!line.IsEmpty()) 
+			{
+				connStr += line;
+			}
+		}
+			
 		wxGISMiniMapDlg dlg(wxOK, this);
+		wxGISRasterDataset* pDSet = new wxGISRasterDataset(CPLString(connStr.ToUTF8()), enumRasterWMSTMS);
+		wxGISDataset* pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+		pwxGISDataset->Reference();
+		if (!pDSet->IsOpened())
+			pDSet->Open(true);
+		wxGISRasterLayer* pGISRasterLayer = new wxGISRasterLayer(wxT("Test TMS"), pwxGISDataset);
+
+		dlg.AddLayer(pGISRasterLayer);
+		dlg.SetFullExtent();
+				
 		dlg.ShowModal();
 	}
 	else

@@ -610,6 +610,9 @@ void wxGISMapView::PanMoveTo(wxPoint MouseLocation)
 
 void wxGISMapView::PanStop(wxPoint MouseLocation)
 {
+	if(m_nDrawingState != enumGISMapPanning)
+		return;
+		
     ReleaseMouse();
 
 	wxCoord x =  m_StartMouseLocation.x - MouseLocation.x;
