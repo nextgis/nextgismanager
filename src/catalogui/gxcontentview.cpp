@@ -1336,7 +1336,7 @@ wxThread::ExitCode wxGxContentView::Entry()
             IGxDataset* pDSet = dynamic_cast<IGxDataset*>(m_pCatalog->GetRegisterObject(nID));
             if (NULL != pDSet)
             {
-                pDSet->FillMetadata(true);
+                pDSet->FillMetadata(false);
                 m_pCatalog->ObjectChanged(nID);
             }
         }

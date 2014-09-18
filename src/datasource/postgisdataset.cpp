@@ -204,7 +204,7 @@ bool wxGISPostgresDataSource::RenameSchema(const wxString &sSchemaName, const wx
     return ExecuteSQL(wxString::Format(wxT("ALTER SCHEMA \"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sSchemaNewName.c_str()));
 }
 
-bool wxGISPostgresDataSource::RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName)
+bool wxGISPostgresDataSource::RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName, const wxString &sPkIdxName, const wxString &sGeomIdxName)
 {
     if (sTableName == sTableNewName)
     {
@@ -213,25 +213,23 @@ bool wxGISPostgresDataSource::RenameTable(const wxString &sSchemaName, const wxS
     wxCriticalSectionLocker locker(m_CritSect);
     wxString sResultName = wxGISPostgresDataSource::NormalizeTableName(sTableNewName);
     wxString sSQL = wxString::Format(wxT("ALTER TABLE \"%s\".\"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str());
-    sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s_wkb_geometry_geom_idx\" RENAME TO \"%s_wkb_geometry_geom_idx\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
-    sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s_pkey\" RENAME TO \"%s_pkey\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
+	
+	//rename geometry index
+    if(!sGeomIdxName.IsEmpty())
+		sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s\" RENAME TO \"%s_wkb_geometry_geom_idx\";"), sSchemaName.c_str(), sGeomIdxName.c_str(), sResultName.c_str()));
+	
+	//rename PK
+	if(!sPkIdxName.IsEmpty())
+		sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s\" RENAME TO \"%s_pkey\";"), sSchemaName.c_str(), sPkIdxName.c_str(), sResultName.c_str()));
+		
     CPLErrorReset();
     m_poDS->ExecuteSQL(sSQL.ToUTF8(), NULL, NULL);
     if (CPLGetLastErrorNo() != CE_None)
-    {
-		sSQL = wxString::Format(wxT("ALTER TABLE \"%s\".\"%s\" RENAME TO \"%s\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str());
-		sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s_geom_idx\" RENAME TO \"%s_wkb_geometry_geom_idx\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
-		sSQL.Append(wxString::Format(wxT("ALTER INDEX \"%s\".\"%s_pkey\" RENAME TO \"%s_pkey\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str()));
-		CPLErrorReset();
-		m_poDS->ExecuteSQL(sSQL.ToUTF8(), NULL, NULL);
-	
-		if(CPLGetLastErrorNo() != CE_None)
-		{
-			CPLError(CE_Failure, CPLE_AppDefined, CPLGetLastErrorMsg());
-			wxLogError(wxT("wxGISPostgresDataSource: %s"), wxString(CPLGetLastErrorMsg(), wxCSConv(m_Encoding)));
+    {		
+		CPLError(CE_Failure, CPLE_AppDefined, CPLGetLastErrorMsg());
+		wxLogError(wxT("wxGISPostgresDataSource: %s"), wxString(CPLGetLastErrorMsg(), wxCSConv(m_Encoding)));
 
-			return false;			
-		}
+		return false;	
     }
     //sSQL = wxString::Format(wxT("ALTER INDEX \"%s\".\"%s_wkb_geometry_geom_idx\" RENAME TO \"%s_wkb_geometry_geom_idx\";"), sSchemaName.c_str(), sTableName.c_str(), sResultName.c_str());
     //m_poDS->ExecuteSQL(sSQL.ToUTF8(), NULL, NULL);

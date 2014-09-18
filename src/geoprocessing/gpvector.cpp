@@ -1856,7 +1856,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
                     oFieldDefn.SetType(OFTString);
                     wxString sErr(_("Unsupported type for shape file - OFTTime. Change to OFTString."));
                     wxLogWarning(sErr);
-                    CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.mb_str()));
+                    CPLError(CE_Warning, CPLE_AppDefined, CPLString(sErr.ToUTF8()));
                     if (pTrackCancel)
                     {
                         pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageWarning);

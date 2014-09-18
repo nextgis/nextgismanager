@@ -155,7 +155,7 @@ void wxGISTablePropertyPage::FillGrid(void)
     }
     CSLDestroy( papszFileList );
 
-    m_pGxDataset->FillMetadata();
+    m_pGxDataset->FillMetadata(false);
     //size
     AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
     AppendProperty(pid, new wxDateProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate()) );

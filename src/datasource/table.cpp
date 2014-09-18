@@ -298,15 +298,8 @@ void wxGISTable::SetInternalValues()
 
 wxString wxGISTable::GetFIDColumn(void) const
 {
-    OGRFeatureDefn* pDefn = GetDefinition();
-    if(pDefn)
-    {
-        CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
-        return wxString(szFIDCOLName, wxConvUTF8);
-        //int nFIDColIndex = pDefn->GetFieldIndex(szFIDCOLName);
-        //return nFIDColIndex;
-    }
-    return wxEmptyString;
+    CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
+    return wxString(szFIDCOLName, wxConvUTF8);
 }
 
 void wxGISTable::Cache(ITrackCancel* pTrackCancel)

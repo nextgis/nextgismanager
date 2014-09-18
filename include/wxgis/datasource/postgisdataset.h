@@ -113,7 +113,7 @@ public:
     bool CreateSchema(const wxString &sSchemaName);
     bool DeleteSchema(const wxString &sSchemaName);
     bool RenameSchema(const wxString &sSchemaName, const wxString &sSchemaNewName);
-    bool RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName);
+    bool RenameTable(const wxString &sSchemaName, const wxString &sTableName, const wxString &sTableNewName, const wxString &sPkIdxName = wxEmptyString, const wxString &sGeomIdxName = wxEmptyString);
     bool MoveTable(const wxString &sTableName, const wxString &sSchemaName, const wxString &sSchemaNewName);
     //wxGISDataset
 	virtual bool Rename(const wxString &sNewName);

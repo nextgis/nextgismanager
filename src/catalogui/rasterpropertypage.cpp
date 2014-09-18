@@ -202,7 +202,7 @@ void wxGISRasterPropertyPage::FillGrid(void)
         CSLDestroy( papszFileList );
 
         //size
-        m_pGxDataset->FillMetadata();
+        m_pGxDataset->FillMetadata(false);
         AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
         AppendProperty(pid, new wxDateProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate()) );
 

@@ -392,6 +392,12 @@ OGRwkbGeometryType wxGISFeatureDataset::GetGeometryType(void) const
     return m_eGeomType;
 }
 
+wxString wxGISFeatureDataset::GetGeometryColumn(void) const
+{
+	CPLString szFIDCOLName = m_poLayer->GetGeometryColumn();
+    return wxString(szFIDCOLName, wxConvUTF8);
+}
+
 wxFeatureCursor wxGISFeatureDataset::Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
 {
     if(SpaFilter.GetGeometry().IsOk())

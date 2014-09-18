@@ -56,6 +56,7 @@ public:
     virtual void SetCached(bool bCached);
 	virtual OGREnvelope GetEnvelope(void);
     virtual OGRwkbGeometryType GetGeometryType(void) const;
+    virtual wxString GetGeometryColumn(void) const;
     virtual OGRErr SetFilter(const wxGISSpatialFilter &SpaFilter = wxGISNullSpatialFilter);
     virtual wxFeatureCursor Search(const wxGISSpatialFilter &SpaFilter, bool bOnlyFirst = false, ITrackCancel* const pTrackCancel = NULL);
  	virtual wxGISSpatialTreeCursor SearchGeometry(const OGREnvelope &Env);

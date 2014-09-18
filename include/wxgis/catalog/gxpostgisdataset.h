@@ -27,6 +27,33 @@
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/catalog/gxdataset.h"
 
+
+#include <wx/hashmap.h>
+
+WX_DECLARE_STRING_HASH_MAP( wxString, wxGISIndexMap );
+
+/** @class wxGISPostGISBaseTable
+ * 
+ * A base postgis table
+ * 
+ * @library{catalog}
+ */
+ 
+ class wxGISPostGISBaseTable
+ {
+public: 
+	wxGISPostGISBaseTable(const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn);
+	virtual ~wxGISPostGISBaseTable(void);
+	virtual wxULongLong GetTableSize();
+	virtual void FillIndixes();
+protected:
+	wxString m_sTableName;
+    wxString m_sSchemaName;
+    wxString m_sFullyQualifiedName;
+    wxGISPostgresDataSource* m_pwxGISRemoteConn;
+	wxGISIndexMap m_msIndexs;
+ };
+
 /** @class wxGxPostGISTableDataset
  * 
  * A PostGIS Table Dataset GxObject.
@@ -35,7 +62,8 @@
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPostGISTableDataset :
-	public wxGxTableDataset
+	public wxGxTableDataset,
+	public wxGISPostGISBaseTable
 {
     DECLARE_CLASS(wxGxPostGISTableDataset)
 public:
@@ -56,10 +84,6 @@ public:
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
-protected:
-    wxString m_sSchemaName;
-    wxString m_sFullyQualifiedName;
-    wxGISPostgresDataSource* m_pwxGISRemoteConn;
 };
 
 /** @class wxGxPostGISFeatureDataset
@@ -70,7 +94,8 @@ protected:
  */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPostGISFeatureDataset :
-	public wxGxFeatureDataset
+	public wxGxFeatureDataset,
+	public wxGISPostGISBaseTable
 {
     DECLARE_CLASS(wxGxPostGISFeatureDataset)
 public:
@@ -91,10 +116,6 @@ public:
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
-protected:
-    wxString m_sSchemaName;
-    wxString m_sFullyQualifiedName;
-    wxGISPostgresDataSource* m_pwxGISRemoteConn;
 };
 
 #endif //wxGIS_USE_POSTGRES
