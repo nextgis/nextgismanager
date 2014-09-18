@@ -602,13 +602,17 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
     for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
     {
         wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
-        if (!sDesc.StartsWith(_("Unknown")))
-        {
-            if (i == wxFONTENCODING_DEFAULT)
-                sDefault = sDesc;
-            asEnc.Add(sDesc);
-            m_mnEnc[sDesc] = (wxFontEncoding)i;
-        }
+		if(sDesc.StartsWith(_("Unknown")))
+			continue;
+#ifndef __WXMAC__
+		if(sDesc.StartsWith(_("Mac")))
+			continue;
+#endif //MAC
+			
+		if (i == wxFONTENCODING_DEFAULT)
+			sDefault = sDesc;
+		asEnc.Add(sDesc);
+		m_mnEnc[sDesc] = (wxFontEncoding)i;
     }
 
     m_pEncodingsCombo = new wxComboBox(this, ID_ENCODING, sDefault, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_DROPDOWN | wxCB_READONLY | wxCB_SORT);
