@@ -1,4 +1,4 @@
-wxGIS
+NextGIS Manager
 =====
 
-wxGIS is GIS developed using wxWidgets on top of GDAL
+NextGIS Manager is GIS data management tool developed using wxWidgets and GDAL
