@@ -31,6 +31,9 @@
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/catalog/gxdbconnfactory.h"
 
+#define LONG_WAIT 10000
+#define SHORT_WAIT 2900
+
 
 //--------------------------------------------------------------
 //class wxGxRemoteConnection
@@ -46,7 +49,19 @@ wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &
 {
     m_pwxGISDataset = NULL;
     m_bHasGeom = m_bHasGeog = m_bHasRaster = false;
-    m_bChildrenLoaded = false;
+    m_bChildrenLoaded = false;	
+	
+	m_nLongWait = LONG_WAIT;
+	m_nShortWait = SHORT_WAIT;
+	
+	wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+	{
+        m_nLongWait = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/timeout/if_err_wait")), m_nLongWait);
+		m_nShortWait = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/timeout/refresh_wait")), m_nShortWait);
+	}
+	
+	m_bProcessUpdates = false;
 }
 
 wxGxRemoteConnection::~wxGxRemoteConnection(void)
@@ -334,6 +349,7 @@ bool wxGxRemoteConnection::CreateAndRunThread(void)
 
 wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
 {
+	int nStep = m_nShortWait / 10;
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if (NULL == pDSet)
     {
@@ -379,24 +395,36 @@ wxThread::ExitCode wxGxRemoteConnection::CheckChanges()
                 wxGISDBShemaMap::iterator cit = m_saSchemas.find(it->first);
                 if (cit == saCurrentSchemas.end())
                 {
-                    CPLString szPath(CPLFormFilename(GetPath(), it->second.mb_str(wxConvUTF8), ""));
-                    wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(it->second, szPath, pDSet);
                     m_saSchemas[it->first] = it->second;
                     //refresh
-                    wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+					AddSchema(it->second);
                 }
             }
-            wxThread::Sleep(950);
+			
+			for ( size_t i = 0; i < 10; ++i ) 
+			{    
+				wxThread::Sleep(nStep);
+				if(m_bProcessUpdates)
+				{
+					m_bProcessUpdates = false;
+					break;
+				}
+			}
         }
         else
         {
-            wxThread::Sleep(5000);
+            wxThread::Sleep(m_nLongWait);
         }
     }
 
     wsDELETE(pDSet);
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+}
+
+void wxGxRemoteConnection::OnGetUpdates()
+{
+	m_bProcessUpdates = true;
 }
 
 wxThread::ExitCode wxGxRemoteConnection::Entry()
@@ -414,6 +442,22 @@ wxThread::ExitCode wxGxRemoteConnection::Entry()
 void wxGxRemoteConnection::OnThreadFinished(wxThreadEvent& event)
 {
 
+}
+
+void wxGxRemoteConnection::AddSchema(const wxString& sSchemaName)
+{
+	wxGxObjectList::iterator iter;
+    for (iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+    {
+        wxGxObject *current = *iter;
+        if (NULL != current && current->GetName().IsSameAs(sSchemaName))
+			return;
+	}
+	
+	wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+	CPLString szPath(CPLFormFilename(GetPath(), sSchemaName.ToUTF8(), ""));
+	wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(sSchemaName, szPath, pDSet);
+	wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
 }
 
 void wxGxRemoteConnection::DeleteSchema(const wxString& sSchemaName)
@@ -501,7 +545,12 @@ bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
         return false;
     }
 
-    return pDSet->CreateSchema(sSchemaName);
+    if(pDSet->CreateSchema(sSchemaName))
+	{
+		AddSchema(sSchemaName);
+		return true;
+	}
+	return false;
 }
 
 wxString wxGxRemoteConnection::CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd, int nCounter) const
@@ -544,6 +593,17 @@ wxGxRemoteDBSchema::wxGxRemoteDBSchema(bool bHasGeom, bool bHasGeog, bool bHasRa
     m_bHasGeom = bHasGeom;
     m_bHasGeog = bHasGeog;
     m_bHasRaster = bHasRaster;
+	
+	m_nLongWait = LONG_WAIT;
+	m_nShortWait = SHORT_WAIT;
+	m_bProcessUpdates = false;
+	
+	wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+	{
+        m_nLongWait = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/timeout/if_err_wait")), m_nLongWait);
+		m_nShortWait = oConfig.ReadInt(enumGISHKCU, wxString(wxT("wxGISCommon/timeout/refresh_wait")), m_nShortWait);
+	}
 }
 
 wxGxRemoteDBSchema::~wxGxRemoteDBSchema(void)
@@ -609,12 +669,30 @@ bool wxGxRemoteDBSchema::CanRename(void)
 
 bool wxGxRemoteDBSchema::Delete(void)
 {
-    return m_pwxGISRemoteConn->DeleteSchema(m_sName);
+    if( m_pwxGISRemoteConn->DeleteSchema(m_sName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
 }
 
 bool wxGxRemoteDBSchema::Rename(const wxString &sNewName)
 {
-    return m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName);
+    if( m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
 }
 
 bool wxGxRemoteDBSchema::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -963,14 +1041,42 @@ void wxGxRemoteDBSchema::OnThreadFinished(wxThreadEvent& event)
 }
 
 
+void wxGxRemoteDBSchema::OnGetUpdates()
+{
+	m_bProcessUpdates = true;
+}
+
+
 wxThread::ExitCode wxGxRemoteDBSchema::Entry()
 {
+	int nStep = m_nShortWait / 10;
+	int nLongStep = m_nLongWait / 20;
     while (!GetThread()->TestDestroy())
     {
         if(CheckChanges())
-            wxThread::Sleep(950);
+		{
+			for ( size_t i = 0; i < 10; ++i ) 
+			{    
+				wxThread::Sleep(nStep);
+				if(m_bProcessUpdates)
+				{
+					m_bProcessUpdates = false;
+					break;
+				}
+			}
+		}
         else
-            wxThread::Sleep(5000);
+		{
+			for ( size_t i = 0; i < 20; ++i ) 
+			{    
+				wxThread::Sleep(nLongStep);
+				if(m_bProcessUpdates)
+				{
+					m_bProcessUpdates = false;
+					break;
+				}
+			}
+		}
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;

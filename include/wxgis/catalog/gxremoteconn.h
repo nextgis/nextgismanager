@@ -37,7 +37,7 @@ WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, wxGISDBShemaMa
 
     A Remote Connection GxObject.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
@@ -45,7 +45,8 @@ class WXDLLIMPEXP_GIS_CLT wxGxRemoteConnection :
     public IGxObjectEdit,
     public IGxRemoteConnection,
     public wxThreadHelper,
-    public IGxObjectNoFilter
+    public IGxObjectNoFilter,
+	public IGxObjectNotifier
 {
     DECLARE_CLASS(wxGxRemoteConnection)
 public:
@@ -72,6 +73,8 @@ public:
 	virtual bool AreChildrenViewable(void) const {return true;};
 	//virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);
+	//IGxObjectNotifier
+	virtual void OnGetUpdates();
     //wxGxRemoteConnection
     bool CreateSchema(const wxString& sSchemaName);
     wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
@@ -87,7 +90,8 @@ protected:
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
-    wxGISDBShemaMap FillSchemaNames(wxGISTableCached* pInfoSchema);
+    wxGISDBShemaMap FillSchemaNames(wxGISTableCached* pInfoSchema);	
+	void AddSchema(const wxString& sSchemaName);
     void DeleteSchema(const wxString& sSchemaName);
     void RenameSchema(const wxString& sSchemaName, const wxString& sNewSchemaName);
     virtual wxThread::ExitCode Entry();
@@ -101,6 +105,8 @@ protected:
     wxGISDBShemaMap m_saSchemas;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
     bool m_bChildrenLoaded;
+	int m_nLongWait, m_nShortWait;
+	bool m_bProcessUpdates;
 private:
     DECLARE_EVENT_TABLE()
 };
@@ -109,14 +115,15 @@ private:
 
     A Remote Database schema GxObject.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxRemoteDBSchema :
 	public wxGxObjectContainer,
     public IGxObjectEdit,
     public wxThreadHelper,
-    public IGxObjectNoFilter
+    public IGxObjectNoFilter,
+	public IGxObjectNotifier
 {
     DECLARE_CLASS(wxGxRemoteDBSchema)
 public:
@@ -140,6 +147,8 @@ public:
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
     wxString CheckUniqTableName(const wxString& sTableName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
+	//IGxObjectNotifier
+	virtual void OnGetUpdates();
 protected:
     enum
     {
@@ -164,6 +173,8 @@ protected:
     wxCriticalSection m_CritSect;
     bool m_bHasGeom, m_bHasGeog, m_bHasRaster;
     wxArrayString m_saTables;
+	int m_nLongWait, m_nShortWait;
+	bool m_bProcessUpdates;
 private:
     DECLARE_EVENT_TABLE()
 };

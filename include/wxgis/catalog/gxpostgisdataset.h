@@ -3,7 +3,7 @@
  * Purpose:  GxPostGISDataset classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool CanMove(const CPLString &szDestPath);
     virtual bool Rename(const wxString &sNewName);
+	virtual bool Delete(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
@@ -84,6 +85,7 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool CanMove(const CPLString &szDestPath);
     virtual bool Rename(const wxString &sNewName);
+	virtual bool Delete(void);
     virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:

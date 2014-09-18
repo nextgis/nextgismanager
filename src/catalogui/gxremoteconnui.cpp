@@ -160,7 +160,7 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
         wxQueueEvent( this, event.Clone() );
     }
 
-    wxThread::Sleep(5000);
+    wxThread::Sleep(m_nLongWait);
 
     return CheckChanges();
 }
@@ -500,6 +500,8 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
         ExportMultipleTableDatasets(pWnd, GetPath(), pFilter, paTableDatasets);
     }
     wxDELETE(pFilter);
+	
+	CheckChanges();
 
 #endif // wxGIS_HAVE_GEOPROCESSING
 
@@ -544,16 +546,9 @@ wxThread::ExitCode wxGxRemoteDBSchemaUI::Entry()
         wxQueueEvent(this, event.Clone());
     }
 
-    wxThread::Sleep(5000);
+    wxThread::Sleep(m_nLongWait);
 
-    while (!GetThread()->TestDestroy())
-    {
-        CheckChanges();
-
-        wxThread::Sleep(950);
-    }
-
-    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+    return wxGxRemoteDBSchema::Entry();
 }
 
 void wxGxRemoteDBSchemaUI::OnThreadFinished(wxThreadEvent& event)

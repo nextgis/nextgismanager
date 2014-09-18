@@ -435,7 +435,6 @@ void wxGxTreeViewBase::OnObjectRefreshed(wxGxCatalogEvent& event)
             {
                 wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 			    wxGxObjectContainer* pGxObjectContainer = dynamic_cast<wxGxObjectContainer*>(pGxObject);
-				wxBusyCursor wait;
 			    if(NULL != pGxObjectContainer && pGxObjectContainer->HasChildren() && !ItemHasChildren(TreeItemId))
                 {
                     SetItemHasChildren(TreeItemId);

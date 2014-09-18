@@ -95,9 +95,32 @@ bool wxGxPostGISTableDataset::CanMove(const CPLString &szDestPath)
     return false;
 }
 
+bool wxGxPostGISTableDataset::Delete()
+{
+	if( wxGxTableDataset::Delete() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
 bool wxGxPostGISTableDataset::Rename(const wxString &sNewName)
 {
-    return m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName);
+	if( m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
 }
 
 bool wxGxPostGISTableDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -201,9 +224,32 @@ bool wxGxPostGISFeatureDataset::CanMove(const CPLString &szDestPath)
     return false;
 }
 
+bool wxGxPostGISFeatureDataset::Delete()
+{
+	if( wxGxFeatureDataset::Delete() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
 bool wxGxPostGISFeatureDataset::Rename(const wxString &sNewName)
 {
-    return m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName);
+	if( m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
 }
 
 bool wxGxPostGISFeatureDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)

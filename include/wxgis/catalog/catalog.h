@@ -126,6 +126,19 @@ public:
     virtual ~IGxObjectNoFilter(void){};
 };
 
+/** @class IGxObjectNotifier
+
+    An Interface class to notify parant GxObject that it need get updates or something else
+
+    @library{catalog}
+*/
+
+class IGxObjectNotifier
+{
+public:
+    virtual ~IGxObjectNotifier(void){};
+	virtual void OnGetUpdates() = 0;
+};
 
 /*
 class IGxFile

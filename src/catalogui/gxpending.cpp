@@ -26,7 +26,7 @@
 // wxGxPendingUI
 //---------------------------------------------------------------------
 #define UPDATE_TIMER 150
-#define DESTROY_COUNTDOW 2
+#define DESTROY_COUNTDOW 5
 
 IMPLEMENT_CLASS(wxGxPendingUI, wxGxObject)
 
