@@ -1045,12 +1045,14 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
     long nSelItemMax = nChar == WXK_DOWN ? GetItemCount() - 1 : 0;
     long nSelItemNext = nChar == WXK_DOWN ? 0 : GetItemCount() - 1;
     long nSelItemNextAdd = nChar == WXK_DOWN ? 1 : -1;
+	long nShowSelItem = wxNOT_FOUND;
     long nSelItem = GetNextItem(wxNOT_FOUND, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
     if (bShift)
     {
         if (nSelItem == wxNOT_FOUND && m_HighLightItem == wxNOT_FOUND)
         {
             SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+			nShowSelItem = nSelItemNext;
         }
 
         bool bSwitchDirection = false;
@@ -1084,10 +1086,12 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
         if (nMask == wxLIST_STATE_SELECTED)
         {
             SetItemState(nSelItemNextNorm, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
+			nShowSelItem = nSelItemNextNorm;
         }
         else
         {
             SetItemState(nSelItemNextNorm, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+			nShowSelItem = nSelItemNextNorm;
         }
     }
     else
@@ -1095,6 +1099,7 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
         if (nSelItem == wxNOT_FOUND)
         {
             SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+			nShowSelItem = nSelItemNext;
         }
         else
         {
@@ -1111,13 +1116,17 @@ void wxGxContentView::SelectItem(int nChar, bool bShift)
             if (nSelItem == nSelItemMax)
             {
                 SetItemState(nSelItemNext, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+				nShowSelItem = nSelItemNext;
             }
             else
             {
                 SetItemState(nSelItem + nSelItemNextAdd, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+				nShowSelItem = nSelItem + nSelItemNextAdd;
             }
         }
     }
+	
+	EnsureVisible(nShowSelItem);
 }
 
 void wxGxContentView::OnChar(wxKeyEvent& event)
