@@ -153,13 +153,17 @@ wxGISFeatureDetailsPanel::wxGISFeatureDetailsPanel( wxWindow* parent, wxWindowID
     wxString sDefault;
     for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
     {
-        wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
-        if (!sDesc.StartsWith(_("Unknown")))
-        {
-            wxMenuItem* pMItem = pEncMenu->AppendRadioItem(ID_WG_ENCODING_START + i, sDesc);
-            if (i == wxFONTENCODING_DEFAULT)
-                pMItem->Check();
-        }
+		wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+		if(sDesc.StartsWith(_("Unknown")))
+			continue;
+#ifndef __WXMAC__
+		if(sDesc.StartsWith(_("Mac")))
+			continue;
+#endif //MAC
+
+        wxMenuItem* pMItem = pEncMenu->AppendRadioItem(ID_WG_ENCODING_START + i, sDesc);
+		if (i == wxFONTENCODING_DEFAULT)
+			pMItem->Check();
     }
 
     m_pMenu->AppendSubMenu(pEncMenu, _("Encodings"), _("Change text encoding"));
