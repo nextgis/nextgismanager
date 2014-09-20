@@ -44,9 +44,9 @@ class WXDLLIMPEXP_GIS_CLU wxGISTablePropertyPage :
 
 public:
     wxGISTablePropertyPage(void);
-    wxGISTablePropertyPage(wxGxTableDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
+    wxGISTablePropertyPage(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
 	~wxGISTablePropertyPage();
-    virtual bool Create(wxGxTableDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
+    virtual bool Create(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
     virtual wxString GetPageName(void){return wxString(_("Table"));};
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
@@ -55,7 +55,7 @@ public:
     void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
 protected:
     wxGISTable* m_pDataset;
-    wxGxTableDataset* m_pGxDataset;
+    wxGxTable* m_pGxDataset;
 
     wxPropertyGrid* m_pg;
 	long m_nCounter;

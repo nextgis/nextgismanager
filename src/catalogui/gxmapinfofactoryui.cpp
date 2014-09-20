@@ -100,13 +100,13 @@ wxGxObject* wxGxMapInfoFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
             m_SmallTabTIcon = wxIcon(table_tab_16_xpm);
         if(!m_LargeTabTIcon.IsOk())
             m_LargeTabTIcon = wxIcon(table_tab_48_xpm);
-        return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoTab, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
+        return wxStaticCast(new wxGxTableUI(enumTableMapinfoTab, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
     case enumVecMAX + 2:
         if(!m_SmallTabTIcon.IsOk())
             m_SmallTabTIcon = wxIcon(table_tab_16_xpm);
         if(!m_LargeTabTIcon.IsOk())
             m_LargeTabTIcon = wxIcon(table_tab_48_xpm);
-        return wxStaticCast(new wxGxTableDatasetUI(enumTableMapinfoMif, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
+        return wxStaticCast(new wxGxTableUI(enumTableMapinfoMif, pParent, soName, szPath, m_LargeTabTIcon, m_SmallTabTIcon), wxGxObject);
     default:
         return NULL;
     }

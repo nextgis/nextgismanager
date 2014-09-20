@@ -1661,7 +1661,7 @@ bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFea
 wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, ITrackCancel* const pTrackCancel)
 {
 
-    bool bIsFilerValid = pFilter && (pFilter->GetType() == enumGISFeatureDataset || pFilter->GetType() == enumGISTableDataset);
+    bool bIsFilerValid = pFilter && (pFilter->GetType() == enumGISFeatureDataset || pFilter->GetType() == enumGISTable);
     if(!bIsFilerValid)
     {
         CPLError( CE_Failure, CPLE_FileIO, "Input data is invalid: unsuported filter" );
@@ -1692,7 +1692,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     }
 
     OGRCompatibleDataSource *poDS = NULL;
-    if ((pFilter->GetType() == enumGISFeatureDataset && pFilter->GetSubType() == enumVecPostGIS) || (pFilter->GetType() == enumGISTableDataset && pFilter->GetSubType() == enumTablePostgres))
+    if ((pFilter->GetType() == enumGISFeatureDataset && pFilter->GetSubType() == enumVecPostGIS) || (pFilter->GetType() == enumGISTable && pFilter->GetSubType() == enumTablePostgres))
     {
 #ifdef wxGIS_USE_POSTGRES
 
@@ -1892,7 +1892,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         return wxStaticCast(pFeatureDataset, wxGISDataset);
 
     }
-    else if (pFilter->GetType() == enumGISTableDataset)
+    else if (pFilter->GetType() == enumGISTable)
     {
         for(size_t i = 0; i < poFields->GetFieldCount(); ++i)
         {

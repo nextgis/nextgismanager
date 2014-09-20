@@ -99,20 +99,20 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
         //    dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
         //}
     }
-    else if (eType == enumGISTableDataset)
+    else if (eType == enumGISTable)
     {
         for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
             wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
-            if (eCurrentSubType != eSubType && IsFileDataset(enumGISTableDataset, eCurrentSubType))
+            if (eCurrentSubType != eSubType && IsFileDataset(enumGISTable, eCurrentSubType))
             {
                 if (bDefaultSet)
                 {
-                    dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+                    dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), false);
                 }
                 else
                 {
-                    dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                    dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), true);
                     bDefaultSet = true;
                     eDefaulSubType = eCurrentSubType;
                 }
@@ -121,7 +121,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
 
         if (eSubType != enumTablePostgres)
         {
-            dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+            dlg.AddFilter(new wxGxTableFilter(enumTablePostgres), false);
         }
     }
 
@@ -162,7 +162,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
         {
             sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_raster_ds/path"), sStartLoc);
         }
-        else if (eType == enumGISTableDataset)
+        else if (eType == enumGISTable)
         {
             sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_table_ds/path"), sStartLoc);
         }
@@ -196,7 +196,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
             {
                 oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_raster_ds/path"), sCatalogPath);
             }
-            else if (eType == enumGISTableDataset)
+            else if (eType == enumGISTable)
             {
                 oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_table_ds/path"), sCatalogPath);
             }
@@ -210,7 +210,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
         {
             ExportSingleRasterDataset(pWnd, sPath, sName, pFilter, pGxDataset);
         }
-        else if (eType == enumGISTableDataset)
+        else if (eType == enumGISTable)
         {
             ExportSingleTableDataset(pWnd, sPath, sName, pFilter, pGxDataset);
         }
@@ -242,21 +242,21 @@ void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset)
     for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
     {
         wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
-        if (IsFileDataset(enumGISTableDataset, eCurrentSubType))
+        if (IsFileDataset(enumGISTable, eCurrentSubType))
         {
             if (bDefaultSet)
             {
-                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+                dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), false);
             }
             else
             {
-                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), true);
                 bDefaultSet = true;
                 eDefaulSubType = eCurrentSubType;
             }
         }
     }
-    dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+    dlg.AddFilter(new wxGxTableFilter(enumTablePostgres), false);
 
     dlg.SetButtonCaption(_("Export"));
     dlg.SetOverwritePrompt(true);
@@ -382,20 +382,20 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
         //    dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
         //}
     }
-    else if (eType == enumGISTableDataset)
+    else if (eType == enumGISTable)
     {
         for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
             wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
-            if (eCurrentSubType != eSubType && IsFileDataset(enumGISTableDataset, eCurrentSubType))
+            if (eCurrentSubType != eSubType && IsFileDataset(enumGISTable, eCurrentSubType))
             {
                 if (bDefaultSet)
                 {
-                    dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+                    dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), false);
                 }
                 else
                 {
-                    dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                    dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), true);
                     bDefaultSet = true;
                     eDefaulSubType = eCurrentSubType;
                 }
@@ -404,7 +404,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
 
         if (eSubType != enumTablePostgres)
         {
-            dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+            dlg.AddFilter(new wxGxTableFilter(enumTablePostgres), false);
         }
     }
 
@@ -447,7 +447,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
         {
             sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_raster_ds/path"), sStartLoc);
         }
-        else if (eType == enumGISTableDataset)
+        else if (eType == enumGISTable)
         {
             sStartLoc = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_table_ds/path"), sStartLoc);
         }
@@ -479,7 +479,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
             {
                 oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_raster_ds/path"), sCatalogPath);
             }
-            else if (eType == enumGISTableDataset)
+            else if (eType == enumGISTable)
             {
                 oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/expm_table_ds/path"), sCatalogPath);
             }
@@ -513,7 +513,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
         {
             ExportMultipleRasterDatasets(pWnd, sPath, pFilter, paExportDatasets);
         }
-        else if (eType == enumGISTableDataset)
+        else if (eType == enumGISTable)
         {
             ExportMultipleTableDatasets(pWnd, sPath, pFilter, paExportDatasets);
         }
@@ -542,22 +542,22 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
     for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
     {
         wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
-        if (IsFileDataset(enumGISTableDataset, eCurrentSubType))
+        if (IsFileDataset(enumGISTable, eCurrentSubType))
         {
             if (bDefaultSet)
             {
-                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), false);
+                dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), false);
             }
             else
             {
-                dlg.AddFilter(new wxGxTableDatasetFilter(eCurrentSubType), true);
+                dlg.AddFilter(new wxGxTableFilter(eCurrentSubType), true);
                 bDefaultSet = true;
                 eDefaulSubType = eCurrentSubType;
             }
         }
     }
 
-    dlg.AddFilter(new wxGxTableDatasetFilter(enumTablePostgres), false);
+    dlg.AddFilter(new wxGxTableFilter(enumTablePostgres), false);
 
     dlg.AddShowFilter(new wxGxFolderFilter());
     dlg.AddShowFilter(new wxGxRemoteDBSchemaFilter());
@@ -571,7 +571,7 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
         while (NULL != pGxParentObj)
         {
             wxGxObjectContainer* pGxCont = wxDynamicCast(pGxParentObj, wxGxObjectContainer);
-            if (NULL != pGxCont && pGxCont->CanCreate(enumGISTableDataset, eDefaulSubType))
+            if (NULL != pGxCont && pGxCont->CanCreate(enumGISTable, eDefaulSubType))
             {
                 break;
             }

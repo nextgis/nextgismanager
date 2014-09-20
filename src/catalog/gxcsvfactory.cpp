@@ -101,7 +101,7 @@ wxGxObject* wxGxCSVFileFactory::GetGxObject(wxGxObject* pParent, const wxString 
     }
     else
     {
-        wxGxTableDataset* pDataset = new wxGxTableDataset(enumTableCSV, pParent, soName, szPath);
+        wxGxTable* pDataset = new wxGxTable(enumTableCSV, pParent, soName, szPath);
         return wxStaticCast(pDataset, wxGxObject);
     }
 }

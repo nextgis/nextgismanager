@@ -59,7 +59,7 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         }
     }
         break;
-    case enumGISTableDataset:
+    case enumGISTable:
     {
         wxGISEnumTableDatasetType eSubType = (wxGISEnumTableDatasetType)SubType;
         switch (eSubType)
@@ -171,7 +171,7 @@ WXDLLIMPEXP_GIS_DS inline wxString GetDriverByType(wxGISEnumDatasetType eDSType,
         }
     }
     break;
-    case enumGISTableDataset:
+    case enumGISTable:
     {
         wxGISEnumTableDatasetType eSubType = (wxGISEnumTableDatasetType)SubType;
         switch (eSubType)

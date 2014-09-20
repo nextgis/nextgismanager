@@ -39,7 +39,7 @@ wxGISTablePropertyPage::wxGISTablePropertyPage(void)
     m_pGxDataset = NULL;
 }
 
-wxGISTablePropertyPage::wxGISTablePropertyPage(wxGxTableDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISTablePropertyPage::wxGISTablePropertyPage(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
 	m_nCounter = 0;
     m_pDataset = NULL;
@@ -52,7 +52,7 @@ wxGISTablePropertyPage::~wxGISTablePropertyPage()
     wsDELETE(m_pDataset);
 }
 
-bool wxGISTablePropertyPage::Create(wxGxTableDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+bool wxGISTablePropertyPage::Create(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;

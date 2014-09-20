@@ -114,25 +114,25 @@ protected:
     bool m_bIsMetadataFilled;
 };
 
-/** @class wxGxTableDataset
+/** @class wxGxTable
 
-    A Table Dataset GxObject.
+    A Table GxObject
 
     @library{catalog}
 */
 
-class WXDLLIMPEXP_GIS_CLT wxGxTableDataset :
+class WXDLLIMPEXP_GIS_CLT wxGxTable :
 	public wxGxDataset
 {
-    DECLARE_CLASS(wxGxTableDataset)
+    DECLARE_CLASS(wxGxTable)
 public:
-	wxGxTableDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-	virtual ~wxGxTableDataset(void);
+	wxGxTable(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	virtual ~wxGxTable(void);
 	//wGxObject
 	virtual wxString GetCategory(void) const;
 	//wxGxDataset
 	virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
-	virtual wxGISEnumDatasetType GetType(void) const {return enumGISTableDataset;};
+	virtual wxGISEnumDatasetType GetType(void) const {return enumGISTable;};
     virtual int GetSubType(void) const { return m_eType; };
 protected:
     //create wxGISDataset without openning it

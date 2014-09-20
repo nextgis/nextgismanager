@@ -152,9 +152,9 @@ wxGxObject* wxGxMapInfoFactory::GetGxObject(wxGxObject* pParent, const wxString 
     }
 
     if(enumVecMAX + 1)
-        return wxStaticCast(new wxGxTableDataset(enumTableMapinfoTab, pParent, soName, szPath), wxGxObject);
+        return wxStaticCast(new wxGxTable(enumTableMapinfoTab, pParent, soName, szPath), wxGxObject);
 	else if(enumVecMAX + 2)
-        return wxStaticCast(new wxGxTableDataset(enumTableMapinfoMif, pParent, soName, szPath), wxGxObject);
+        return wxStaticCast(new wxGxTable(enumTableMapinfoMif, pParent, soName, szPath), wxGxObject);
 	wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(type, pParent, soName, szPath);
     return wxStaticCast(pDataset, wxGxObject);
 }

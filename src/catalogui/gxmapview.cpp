@@ -146,7 +146,7 @@ bool wxGxMapView::Applies(wxGxSelection* const Selection)
 			case enumGISFeatureDataset:
 			case enumGISContainer:
 				return true;
-			case enumGISTableDataset:
+			case enumGISTable:
 				break;
 			}
 		}

@@ -111,6 +111,8 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxgnm.h
     ${LIB_HEADERS}/gxssfactory.h
     ${LIB_HEADERS}/gxssdataset.h
+    ${LIB_HEADERS}/gxngwconn.h
+    ${LIB_HEADERS}/contupdater.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -155,6 +157,8 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxgnm.cpp
     ${LIB_SOURCES}/gxssfactory.cpp
     ${LIB_SOURCES}/gxssdataset.cpp
+    ${LIB_SOURCES}/gxngwconn.cpp
+    ${LIB_SOURCES}/contupdater.cpp
 )
 
 add_definitions(-DwxUSE_GUI=0 -DWXMAKINGDLL_GIS_CLT)

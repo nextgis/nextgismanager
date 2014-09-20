@@ -81,7 +81,7 @@ public:
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxInitedTableDatasetUI :
-    public wxGxTableDatasetUI
+    public wxGxTableUI
 {
     DECLARE_CLASS(wxGxInitedTableDatasetUI)
 public:

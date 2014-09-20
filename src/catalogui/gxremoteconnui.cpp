@@ -35,8 +35,6 @@
 #include "../../art/folder_arch_48.xpm"
 #include "../../art/rdb_conn_16.xpm"
 #include "../../art/rdb_conn_48.xpm"
-#include "../../art/ngw_layer_16.xpm"
-#include "../../art/ngw_layer_48.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -61,6 +59,10 @@
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxRemoteConnectionUI, wxGxRemoteConnection)
+
+BEGIN_EVENT_TABLE(wxGxRemoteConnectionUI, wxGxRemoteConnection)
+	EVT_THREAD(wxID_ANY, wxGxRemoteConnectionUI::OnThreadFinished)
+END_EVENT_TABLE()
 
 wxGxRemoteConnectionUI::wxGxRemoteConnectionUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnection(oParent, soName, soPath), wxGxAutoRenamer()
 {
@@ -162,7 +164,12 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
 
     wxThread::Sleep(m_nLongWait);
 
-    return CheckChanges();
+    wxThread::ExitCode eCode = wxGxRemoteConnection::Entry();
+	
+	wxThreadEvent event(wxEVT_THREAD, LOADED_EVENT);
+	wxQueueEvent( this, event.Clone() );
+		
+	return eCode;
 }
 
 void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
@@ -196,7 +203,7 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
     //else do nothing
 }
 
-wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
+wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(int nRemoteId, const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
 {
     if(!m_oLargeIconFeatureClass.IsOk())
         m_oLargeIconFeatureClass = wxIcon(pg_vec_48_xpm);
@@ -211,7 +218,7 @@ wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(const wxString 
     if(!m_oSmallIconSchema.IsOk())
         m_oSmallIconSchema = wxIcon(dbschema_16_xpm);
 
-    return wxStaticCast(new wxGxRemoteDBSchemaUI(m_bHasGeom, m_bHasGeog, m_bHasRaster, pwxGISRemoteConn, this, sName, soPath, m_oLargeIconSchema, m_oSmallIconSchema, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass, m_oLargeIconTable, m_oSmallIconTable), wxGxRemoteDBSchema);
+    return wxStaticCast(new wxGxRemoteDBSchemaUI(nRemoteId, pwxGISRemoteConn, this, sName, soPath, m_oLargeIconSchema, m_oSmallIconSchema, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass, m_oLargeIconTable, m_oSmallIconTable), wxGxRemoteDBSchema);
 }
 
 wxDragResult wxGxRemoteConnectionUI::CanDrop(wxDragResult def)
@@ -276,7 +283,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                                 paRasterDatasets.push_back(data);
                             else if (pGxDSet->GetType() == enumGISFeatureDataset)
                                 paVectorDatasets.push_back(data);
-                            else if (pGxDSet->GetType() == enumGISTableDataset)
+                            else if (pGxDSet->GetType() == enumGISTable)
                                 paTableDatasets.push_back(data);
                         }
                     }
@@ -304,7 +311,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                     }
                     wxDELETE(pFilter);
 
-                    pFilter = new wxGxTableDatasetFilter(enumTablePostgres);
+                    pFilter = new wxGxTableFilter(enumTablePostgres);
                     if (paTableDatasets.size() == 1)
                     {
                         ExportSingleTableDataset(pWnd, sDestPath, paTableDatasets[0].sName, pFilter, paTableDatasets[0].pDSet);
@@ -339,7 +346,11 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 
 IMPLEMENT_CLASS(wxGxRemoteDBSchemaUI, wxGxRemoteDBSchema)
 
-wxGxRemoteDBSchemaUI::wxGxRemoteDBSchemaUI(bool bHasGeom, bool bHasGeog, bool bHasRaster, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &LargeIconFeatureClass, const wxIcon &SmallIconFeatureClass, const wxIcon &LargeIconTable, const wxIcon &SmallIconTable) : wxGxRemoteDBSchema(bHasGeom, bHasGeog, bHasRaster, pwxGISRemoteConn, oParent, soName, soPath)
+BEGIN_EVENT_TABLE(wxGxRemoteDBSchemaUI, wxGxRemoteDBSchema)
+	EVT_THREAD(wxID_ANY, wxGxRemoteDBSchemaUI::OnThreadFinished)
+END_EVENT_TABLE()
+
+wxGxRemoteDBSchemaUI::wxGxRemoteDBSchemaUI(int nRemoteId, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &LargeIconFeatureClass, const wxIcon &SmallIconFeatureClass, const wxIcon &LargeIconTable, const wxIcon &SmallIconTable) : wxGxRemoteDBSchema(nRemoteId, pwxGISRemoteConn, oParent, soName, soPath)
 {
     m_oLargeIcon = LargeIcon;
     m_oSmallIcon = SmallIcon;
@@ -380,22 +391,22 @@ bool wxGxRemoteDBSchemaUI::HasChildren(void)
     return wxGxObjectContainer::HasChildren();
 }
 
-wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
+wxGxObject* wxGxRemoteDBSchemaUI::GetNewTable(int nRemoteId, const wxString &sTableName, const wxGISEnumDatasetType eType)
 {
     if (sTableName.IsEmpty())
         return NULL;
 
-    CPLString szPath(CPLFormFilename(GetPath(), sTableName.mb_str(wxConvUTF8), ""));
+    CPLString szPath(CPLFormFilename(GetPath(), sTableName.ToUTF8(), ""));
 
     switch (eType)
     {
     case enumGISFeatureDataset:
-        return new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
+        return new wxGxPostGISFeatureDatasetUI(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
     case enumGISRasterDataset:
         return NULL;
-    case enumGISTableDataset:
+    case enumGISTable:
     default:
-        return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
+        return new wxGxPostGISTableDatasetUI(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
     };
 }
 
@@ -443,7 +454,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                             paRasterDatasets.push_back(data);
                         else if (pGxDSet->GetType() == enumGISFeatureDataset)
                             paVectorDatasets.push_back(data);
-                        else if (pGxDSet->GetType() == enumGISTableDataset)
+                        else if (pGxDSet->GetType() == enumGISTable)
                             paTableDatasets.push_back(data);
                     }
                 }
@@ -459,7 +470,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                         paRasterDatasets.push_back(data);
                     else if (pGxDSet->GetType() == enumGISFeatureDataset)
                         paVectorDatasets.push_back(data);
-                    else if (pGxDSet->GetType() == enumGISTableDataset)
+                    else if (pGxDSet->GetType() == enumGISTable)
                         paTableDatasets.push_back(data);
                 }
             }
@@ -490,7 +501,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     }
     wxDELETE(pFilter);
 
-    pFilter = new wxGxTableDatasetFilter(enumTablePostgres);
+    pFilter = new wxGxTableFilter(enumTablePostgres);
     if (paTableDatasets.size() == 1)
     {
         ExportSingleTableDataset(pWnd, GetPath(), paTableDatasets[0].sName, pFilter, paTableDatasets[0].pDSet);
@@ -501,7 +512,8 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     }
     wxDELETE(pFilter);
 	
-	CheckChanges();
+	wxMilliSleep(500);
+	OnGetUpdates();
 
 #endif // wxGIS_HAVE_GEOPROCESSING
 
@@ -512,7 +524,7 @@ bool wxGxRemoteDBSchemaUI::CreateAndRunThread(void)
 {
     if (GetThread() == NULL)
     {
-        if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+        if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
         {
             wxLogError(_("Could not create the thread!"));
             return false;
@@ -663,212 +675,3 @@ void wxGxTMSWebServiceUI::EditProperties(wxWindow *parent)
 	 */
 }
 
-
-#ifdef wxGIS_USE_CURL
-//--------------------------------------------------------------
-//class wxGxNGWServiceUI
-//--------------------------------------------------------------
-
-IMPLEMENT_CLASS(wxGxNGWServiceUI, wxGxNGWService)
-
-wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl) : wxGxNGWService(oParent, soName, soPath)
-{
-    m_icLargeIcon = icLargeIcon;
-    m_icSmallIcon = icSmallIcon;
-    m_icLargeIconDsbl = icLargeIconDsbl;
-    m_icSmallIconDsbl = icSmallIconDsbl;
-}
-
-wxGxNGWServiceUI::~wxGxNGWServiceUI(void)
-{
-}
-
-wxIcon wxGxNGWServiceUI::GetLargeImage(void)
-{
-    if (IsConnected())
-    {
-        return m_icLargeIcon;
-    }
-    else
-    {
-        return m_icLargeIconDsbl;
-    }
-}
-
-wxIcon wxGxNGWServiceUI::GetSmallImage(void)
-{
-    if (IsConnected())
-    {
-        return m_icSmallIcon;
-    }
-    else
-    {
-        return m_icSmallIconDsbl;
-    }
-}
-
-void wxGxNGWServiceUI::EditProperties(wxWindow *parent)
-{
-}
-
-bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)
-{
-    wxBusyCursor wait;
-    //connect
-	if(!Connect())
-	{
-		wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
-		return false;
-	}
-
-    return true;
-}
-
-wxDragResult wxGxNGWServiceUI::CanDrop(wxDragResult def)
-{
-    return def;
-}
-
-bool wxGxNGWServiceUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
-{
-    return false;
-}
-
-void wxGxNGWServiceUI::LoadChildren(void)
-{
-    if (m_bChildrenLoaded || !m_bIsConnected)
-        return;
-
-    new wxGxNGWRootResourceUI(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
-/*    if(m_bIsAuthorized)
-        new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
-        */
-    m_bChildrenLoaded = true;
-}
-
-//--------------------------------------------------------------
-//class wxGxNGWRootResourceUI
-//--------------------------------------------------------------
-
-IMPLEMENT_CLASS(wxGxNGWRootResourceUI, wxGxNGWResourceGroupUI)
-
-wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroupUI(pService, wxJSONValue(), oParent, soName, soPath, icLargeIcon, icSmallIcon)
-{
-    m_nResourceId = 0;
-    m_sName = wxString(_("Resources"));
-}
-
-wxGxNGWRootResourceUI::~wxGxNGWRootResourceUI(void)
-{
-}
-
-wxIcon wxGxNGWRootResourceUI::GetLargeImage(void)
-{
-    return m_icLargeIcon;
-}
-
-wxIcon wxGxNGWRootResourceUI::GetSmallImage(void)
-{
-    return m_icSmallIcon;
-}
-
-//--------------------------------------------------------------
-//class wxGxNGWResourceGroupUI
-//--------------------------------------------------------------
-
-IMPLEMENT_CLASS(wxGxNGWResourceGroupUI, wxGxNGWResourceGroup)
-
-wxGxNGWResourceGroupUI::wxGxNGWResourceGroupUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroup(pService, Data, oParent, soName, soPath)
-{
-    m_icLargeIcon = icLargeIcon;
-    m_icSmallIcon = icSmallIcon;
-}
-
-wxGxNGWResourceGroupUI::~wxGxNGWResourceGroupUI(void)
-{
-}
-
-wxIcon wxGxNGWResourceGroupUI::GetLargeImage(void)
-{
-    return m_icLargeIcon;
-}
-
-wxIcon wxGxNGWResourceGroupUI::GetSmallImage(void)
-{
-    return m_icSmallIcon;
-}
-
-void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
-{
-    wxGISEnumNGWResourcesType eType = GetType(Data);
-	
-    switch(eType)
-    {
-    case enumNGWResourceTypeResourceGroup:
-		if(!m_icFolderLargeIcon.IsOk())
-			m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
- 		if(!m_icFolderSmallIcon.IsOk())
-			m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
-        new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon);
-        break;
-	case enumNGWResourceTypePostgisLayer:
-		if(!m_icPGLayerLargeIcon.IsOk())
-			m_icPGLayerLargeIcon = wxIcon(pg_vec_48_xpm);
- 		if(!m_icPGLayerSmallIcon.IsOk())
-			m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
-		break;
-        if(m_bHasGeoJSON)
-			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon);
-	case enumNGWResourceTypePostgisConnection:
-		if(!m_icPGConnLargeIcon.IsOk())
-			m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
- 		if(!m_icPGConnSmallIcon.IsOk())
-			m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
-		break;
-	case enumNGWResourceTypeWMSServerService:
-		break;
-	case enumNGWResourceTypeBaseLayers:
-		break;
-	case enumNGWResourceTypeWebMap:
-		break;
-	case enumNGWResourceTypeWFSServerService:
-		break;
-	case enumNGWResourceTypeVectorLayer:
-		if(!m_icNGWLayerLargeIcon.IsOk())
-			m_icNGWLayerLargeIcon = wxIcon(ngw_layer_48_xpm);
- 		if(!m_icNGWLayerSmallIcon.IsOk())
-			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
-        if(m_bHasGeoJSON)
-			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon);
-
-		break;
-    }
-}
-
-//--------------------------------------------------------------
-//class wxGxNGWLayerUI
-//--------------------------------------------------------------
-
-IMPLEMENT_CLASS(wxGxNGWLayerUI, wxGxNGWLayer)
-
-wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(pService, eType, Data, oParent, soName, soPath)
-{
-    m_icLargeIcon = icLargeIcon;
-    m_icSmallIcon = icSmallIcon;
-}
-
-wxGxNGWLayerUI::~wxGxNGWLayerUI(void)
-{
-}
-
-wxIcon wxGxNGWLayerUI::GetLargeImage(void)
-{
-    return m_icLargeIcon;
-}
-
-wxIcon wxGxNGWLayerUI::GetSmallImage(void)
-{
-    return m_icSmallIcon;
-}
-
-#endif // wxGIS_USE_CURL

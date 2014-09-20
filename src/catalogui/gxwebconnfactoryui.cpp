@@ -20,6 +20,7 @@
  ****************************************************************************/
 #include "wxgis/catalogui/gxwebconnfactoryui.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
+#include "wxgis/catalogui/gxngwconnui.h"
 
 #include "../../art/web_tms_conn_16.xpm"
 #include "../../art/web_tms_conn_48.xpm"

@@ -54,7 +54,7 @@ wxGxObject* wxGxDBConnectionFactoryUI::GetGxObject(wxGxObject* pParent, const wx
     //TODO: other DB like MySQL my have different ifdefs
 #ifdef wxGIS_USE_POSTGRES
 	wxGxRemoteConnectionUI* pDataset = new wxGxRemoteConnectionUI(pParent, soName, szPath, m_LargeIconConn, m_SmallIconConn, m_LargeIconDisconn, m_SmallIconDisconn);
-	return wxStaticCast(pDataset, wxGxObject);
+	return wxDynamicCast(pDataset, wxGxObject);
 #else
     return NULL;
 #endif //wxGIS_USE_POSTGRES

@@ -107,7 +107,7 @@ bool wxGxTableView::Applies(wxGxSelection* const Selection)
 			switch(type)
 			{
 			case enumGISFeatureDataset:
-			case enumGISTableDataset:
+			case enumGISTable:
 				return true;
 			case enumGISRasterDataset:
 			case enumGISContainer:

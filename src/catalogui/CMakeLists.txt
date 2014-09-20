@@ -167,6 +167,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/gxssfactoryui.h
     ${LIB_HEADERS}/gxssdatasetui.h
     ${LIB_HEADERS}/minimapdlg.h
+    ${LIB_HEADERS}/gxngwconnui.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -234,6 +235,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/gxssfactoryui.cpp
     ${LIB_SOURCES}/gxssdatasetui.cpp
     ${LIB_SOURCES}/minimapdlg.cpp
+    ${LIB_SOURCES}/gxngwconnui.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_CLU)

@@ -41,29 +41,29 @@
 //class wxGxTableDatasetUI
 //--------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxTableDatasetUI, wxGxTableDataset)
+IMPLEMENT_CLASS(wxGxTableUI, wxGxTable)
 
-wxGxTableDatasetUI::wxGxTableDatasetUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTableDataset(nType, oParent, soName, soPath)
+wxGxTableUI::wxGxTableUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTable(nType, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;
 }
 
-wxGxTableDatasetUI::~wxGxTableDatasetUI(void)
+wxGxTableUI::~wxGxTableUI(void)
 {
 }
 
-wxIcon wxGxTableDatasetUI::GetLargeImage(void)
+wxIcon wxGxTableUI::GetLargeImage(void)
 {
 	return m_LargeIcon;
 }
 
-wxIcon wxGxTableDatasetUI::GetSmallImage(void)
+wxIcon wxGxTableUI::GetSmallImage(void)
 {
 	return m_SmallIcon;
 }
 
-void wxGxTableDatasetUI::EditProperties(wxWindow *parent)
+void wxGxTableUI::EditProperties(wxWindow *parent)
 {
     wxPropertySheetDialog PropertySheetDialog;
     if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
@@ -82,9 +82,9 @@ void wxGxTableDatasetUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.ShowModal();
 }
 
-wxGISDataset* const wxGxTableDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
+wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
-    wxGISDataset* const pOut = wxGxTableDataset::GetDataset(bCached, pTrackCancel);
+    wxGISDataset* const pOut = wxGxTable::GetDataset(bCached, pTrackCancel);
     if(NULL == pOut)
     {
         const char* err = CPLGetLastErrorMsg();
@@ -94,7 +94,7 @@ wxGISDataset* const wxGxTableDatasetUI::GetDataset(bool bCached, ITrackCancel* c
     wsGET(pOut);
 }
 
-bool wxGxTableDatasetUI::Invoke(wxWindow* pParentWnd)
+bool wxGxTableUI::Invoke(wxWindow* pParentWnd)
 {
     EditProperties(pParentWnd);
     return true;

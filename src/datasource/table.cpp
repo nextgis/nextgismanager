@@ -35,7 +35,7 @@ wxGISTable::wxGISTable(const CPLString &sPath, int nSubType, OGRLayer* poLayer, 
 {
 	wsSET(m_poDS, poDS);
 	m_poLayer = poLayer;
-    m_nType = enumGISTableDataset;
+    m_nType = enumGISTable;
     m_nSubType = nSubType;
 
     m_Encoding = wxLocale::GetSystemEncoding();
@@ -275,7 +275,7 @@ void wxGISTable::SetInternalValues()
                 }
             }
         }
-        else if(m_nType == enumGISTableDataset)
+        else if(m_nType == enumGISTable)
         {
             {
 

@@ -20,6 +20,7 @@
  ****************************************************************************/
 #include "wxgis/catalog/gxwebconnfactory.h"
 #include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/catalog/gxngwconn.h"
 
 #include "wxgis/datasource/gdalinh.h"
 #include "wxgis/datasource/sysop.h"

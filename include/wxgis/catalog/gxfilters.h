@@ -205,19 +205,19 @@ protected:
 };
 
 
-/** @class wxGxTableDatasetFilter
+/** @class wxGxTableFilter
 
-    The TableDataset GxObject Filters.
+    The Table GxObject Filters
 
     @library{catalog}
  */
 
-class WXDLLIMPEXP_GIS_CLT wxGxTableDatasetFilter : public wxGxObjectFilter
+class WXDLLIMPEXP_GIS_CLT wxGxTableFilter : public wxGxObjectFilter
 {
-    DECLARE_CLASS(wxGxTableDatasetFilter)
+    DECLARE_CLASS(wxGxTableFilter)
 public:
-	wxGxTableDatasetFilter(wxGISEnumTableDatasetType nSubType);
-	virtual ~wxGxTableDatasetFilter(void);
+	wxGxTableFilter(wxGISEnumTableDatasetType nSubType);
+	virtual ~wxGxTableFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
     virtual bool CanStoreToObject(wxGxObject* const pObject);
@@ -225,7 +225,7 @@ public:
     virtual wxString GetExt(void) const;
     virtual wxString GetDriver(void) const;
     virtual int GetSubType(void) const;
-    virtual wxGISEnumDatasetType GetType(void) const {return enumGISTableDataset;};
+    virtual wxGISEnumDatasetType GetType(void) const {return enumGISTable;};
 protected:
     wxGISEnumTableDatasetType m_nSubType;
 };

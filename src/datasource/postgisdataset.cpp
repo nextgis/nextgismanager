@@ -172,7 +172,7 @@ wxGISDataset* wxGISPostgresDataSource::GetDatasetFromOGRLayer(const CPLString &s
 	}
 	else
 	{
-        wxGISTable* pTable = new wxGISTable(sPath, enumTablePostgres, poLayer, m_poDS);
+        wxGISPostgresTable* pTable = new wxGISPostgresTable(sPath, poLayer, m_poDS);
 		pTable->SetEncoding(m_Encoding);
         pDataset = static_cast<wxGISDataset*>(pTable);
 	}
@@ -547,6 +547,82 @@ bool wxGISPostgresFeatureDataset::CanDelete(void)
 }
 
 bool wxGISPostgresFeatureDataset::Delete(ITrackCancel* const pTrackCancel)
+{
+    if(m_poDS)
+    {
+        int iLayer = wxNOT_FOUND;
+        for (int i = 0; i < m_poDS->GetLayerCount(); ++i)
+        {
+            OGRLayer* poLayer = m_poDS->GetLayer(i);
+            if (NULL != poLayer && wxGISEQUAL(m_poLayer->GetName(), poLayer->GetName()))
+            {
+                iLayer = i;
+                break;
+            }
+        }
+
+        if (iLayer == wxNOT_FOUND)
+        {
+            if(pTrackCancel)
+            {
+                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString(m_poLayer->GetName(), wxConvUTF8).c_str());
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
+        }
+
+        OGRErr eErr = m_poDS->DeleteLayer(iLayer);
+        if(eErr !=  OGRERR_NONE)
+        {
+            const char* err = CPLGetLastErrorMsg();
+		    wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Delete"), wxString(err, wxConvUTF8).c_str());
+            if(pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            }
+            return false;
+        }
+        else
+        {
+		    wxString sMsg = wxString::Format(_("Operation '%s' succeeded!"), _("Delete"));
+            if(pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sMsg, wxNOT_FOUND, enumGISMessageInfo);
+            }
+        }
+    }
+    return true;
+}
+
+//---------------------------------------
+// wxGISPostgresTable
+//---------------------------------------
+
+IMPLEMENT_CLASS(wxGISPostgresTable, wxGISTable)
+
+wxGISPostgresTable::wxGISPostgresTable(const CPLString &sPath, OGRLayer* poLayer, OGRDataSource* poDS) : wxGISTable(sPath, enumTablePostgres, poLayer, poDS)
+{
+    m_nType = enumGISTable;
+
+    if(m_bIsOpened)
+        SetInternalValues();
+}
+
+wxGISPostgresTable::~wxGISPostgresTable(void)
+{
+}
+
+bool wxGISPostgresTable::CanDelete(void)
+{
+    //TODO: check permissions
+    if (m_poDS)
+    {
+        return m_poDS->TestCapability(ODsCDeleteLayer) == 0 ? false : true;
+    }
+    return false;
+}
+
+bool wxGISPostgresTable::Delete(ITrackCancel* const pTrackCancel)
 {
     if(m_poDS)
     {

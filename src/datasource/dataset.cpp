@@ -83,7 +83,7 @@ void wxGISDataset::Close(void)
 
 void* wxGISDataset::OpenInternal(const CPLString &szPath, bool bUpdate, bool bShared)
 {
-    if(m_nType == enumGISFeatureDataset || m_nType == enumGISTableDataset)
+    if(m_nType == enumGISFeatureDataset || m_nType == enumGISTable)
     {
     #if GDAL_VERSION_NUM >= 2000000
         int nOpenFlags = GDAL_OF_VECTOR;

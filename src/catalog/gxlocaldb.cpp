@@ -76,7 +76,7 @@ void wxGxOpenFileGDB::LoadChildren(void)
         case enumGISFeatureDataset:
             new wxGxInitedFeatureDataset(pDSet, wxStaticCast(this, wxGxObject), pDSet->GetName(), wxGxObjectContainer::GetPath());
             break;
-        case enumGISTableDataset:
+        case enumGISTable:
             new wxGxInitedTableDataset(pDSet, wxStaticCast(this, wxGxObject), pDSet->GetName(), wxGxObjectContainer::GetPath());
             break;
         case enumGISRasterDataset:
@@ -354,9 +354,9 @@ wxGxInitedFeatureDataset::~wxGxInitedFeatureDataset(void)
 //--------------------------------------------------------------
 // wxGxInitedTableDataset
 //--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxInitedTableDataset, wxGxTableDataset)
+IMPLEMENT_CLASS(wxGxInitedTableDataset, wxGxTable)
 
-wxGxInitedTableDataset::wxGxInitedTableDataset(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTableDataset(enumTableFileDBLayer, oParent, soName, soPath)
+wxGxInitedTableDataset::wxGxInitedTableDataset(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(enumTableFileDBLayer, oParent, soName, soPath)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 

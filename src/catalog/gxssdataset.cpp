@@ -152,9 +152,9 @@ void wxGxSpreadsheetDataset::LoadChildren(void)
 //--------------------------------------------------------------
 //class wxGxSpreadsheetSubDataset
 //--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxSpreadsheetSubDataset, wxGxTableDataset)
+IMPLEMENT_CLASS(wxGxSpreadsheetSubDataset, wxGxTable)
 
-wxGxSpreadsheetSubDataset::wxGxSpreadsheetSubDataset(wxGISEnumTableDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTableDataset(nType, oParent, soName, soPath)
+wxGxSpreadsheetSubDataset::wxGxSpreadsheetSubDataset(wxGISEnumTableDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(nType, oParent, soName, soPath)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 

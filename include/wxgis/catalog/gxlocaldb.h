@@ -97,7 +97,7 @@ public:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxInitedTableDataset :
-    public wxGxTableDataset
+    public wxGxTable
 {
     DECLARE_CLASS(wxGxInitedTableDataset)
 public:

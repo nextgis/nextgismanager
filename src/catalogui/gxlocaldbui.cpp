@@ -87,7 +87,7 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
 
             new wxGxInitedFeatureDatasetUI(pDSet, wxStaticCast(this, wxGxObject), pDSet->GetName(), wxGxObjectContainer::GetPath(), m_LargeSHPIcon, m_SmallSHPIcon);
             break;
-        case enumGISTableDataset:
+        case enumGISTable:
             if (!m_SmallDBFIcon.IsOk())
                 m_SmallDBFIcon = wxIcon(table_dbf_16_xpm);
             if (!m_LargeDBFIcon.IsOk())
@@ -127,9 +127,9 @@ wxGxInitedFeatureDatasetUI::~wxGxInitedFeatureDatasetUI()
 //---------------------------------------------------------------------------
 // wxGxInitedTableDatasetUI
 //---------------------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxInitedTableDatasetUI, wxGxTableDatasetUI)
+IMPLEMENT_CLASS(wxGxInitedTableDatasetUI, wxGxTableUI)
 
-wxGxInitedTableDatasetUI::wxGxInitedTableDatasetUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTableDatasetUI(enumTableFileDBLayer, oParent, soName, soPath, LargeIcon, SmallIcon)
+wxGxInitedTableDatasetUI::wxGxInitedTableDatasetUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTableUI(enumTableFileDBLayer, oParent, soName, soPath, LargeIcon, SmallIcon)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 

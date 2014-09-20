@@ -23,20 +23,23 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxdataset.h"
 
-/** \class wxGxTableDataset gxdataset.h
-    \brief A Table Dataset GxObject.
-*/
+/** @class wxGxTableUI
+  * 
+  * A Table GxObjectUI
+  * 
+  * @library{catalogui}
+  */
 
-class WXDLLIMPEXP_GIS_CLU wxGxTableDatasetUI :
-	public wxGxTableDataset,
+class WXDLLIMPEXP_GIS_CLU wxGxTableUI :
+	public wxGxTable,
 	public IGxObjectUI,
 	public IGxObjectEditUI,
     public IGxObjectWizard
 {
-    DECLARE_CLASS(wxGxTableDatasetUI)
+    DECLARE_CLASS(wxGxTableUI)
 public:
-	wxGxTableDatasetUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
-	virtual ~wxGxTableDatasetUI(void);
+	wxGxTableUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+	virtual ~wxGxTableUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
@@ -44,7 +47,7 @@ public:
 	virtual wxString NewMenu(void) const {return wxEmptyString;};//{return wxString(wxT("wxGxDataset.NewMenu"));};
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
-    //wxGxTableDataset
+    //wxGxTable
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
@@ -75,15 +78,18 @@ public:
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
-    //wxGxTableDataset
+    //wxGxTable
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
 
-/** \class wxGxRasterDataset gxdataset.h
-    \brief A Raster Dataset GxObject.
-*/
+/** @class wxGxRasterDataset
+  * 
+  * A Raster Dataset GxObject
+  * 
+  * @library{catalogui}
+  */
 
 class WXDLLIMPEXP_GIS_CLU wxGxRasterDatasetUI :
 	public wxGxRasterDataset,

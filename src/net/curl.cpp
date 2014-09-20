@@ -3,7 +3,7 @@
  * Purpose:  cURL class. This is smart clas for cURL handler
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2008,2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2008,2010-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -160,6 +160,11 @@ PERFORMRESULT wxGISCurl::Post(const wxString & sURL, const wxString & sPostData)
     return ((wxGISCurlRefData *)m_refData)->Post(sURL, sPostData);
 }
 
+PERFORMRESULT wxGISCurl::Delete(const wxString & sURL)
+{
+    return ((wxGISCurlRefData *)m_refData)->Delete(sURL);
+}
+
 //-----------------------------------------------------------------------------
 // wxGISCurlRefData
 //-----------------------------------------------------------------------------
@@ -273,6 +278,7 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
+	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1);
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
@@ -287,6 +293,9 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	if(res == CURLE_COULDNT_RESOLVE_HOST)
 		res = curl_easy_perform(m_pCurl);
 	//
+	
+	curl_easy_getinfo (m_pCurl, CURLINFO_RESPONSE_CODE, &result.nHTTPCode);
+	
 	if(res == CURLE_OK)
 	{
 		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal,
@@ -366,6 +375,7 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
+	result.nHTTPCode =0;
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
 	curl_easy_setopt(m_pCurl, CURLOPT_POST, 1);
 	//const wxWX2MBbuf tmp_buf = wxConvCurrent->cWX2MB(sPostData);
@@ -381,6 +391,9 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
     res = curl_easy_perform(m_pCurl);
 	if(res == CURLE_COULDNT_RESOLVE_HOST)
 		res = curl_easy_perform(m_pCurl);
+		
+	curl_easy_getinfo (m_pCurl, CURLINFO_RESPONSE_CODE, &result.nHTTPCode);
+	
 	if(res == CURLE_OK)
 	{
 		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//, wxConvLocal
@@ -402,6 +415,75 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
             result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);
 		result.iSize = headstruct.size + bodystruct.size;
 
+		result.IsValid = true;
+	}
+	return result;
+}
+
+PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
+{
+	PERFORMRESULT result;
+	result.IsValid = false;
+	result.iSize = 0;
+	result.nHTTPCode = 0;
+	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "DELETE"); 
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
+	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+    headstruct.size = 0;
+	bodystruct.size = 0;
+
+	res = curl_easy_perform(m_pCurl);
+
+	//second try
+	if(res == CURLE_COULDNT_RESOLVE_HOST)
+		res = curl_easy_perform(m_pCurl);
+	//
+	
+	curl_easy_getinfo (m_pCurl, CURLINFO_RESPONSE_CODE, &result.nHTTPCode);
+	
+	if(res == CURLE_OK)
+	{
+		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal,
+        //charset
+        int posb = result.sHead.Find(wxT("charset="));
+        wxString soSet;//(wxT("default"));
+        if( posb != wxNOT_FOUND)
+        {
+            soSet = result.sHead.Mid(posb + 8, 50);
+            int pose = soSet.Find(wxT("\r\n"));
+            soSet = soSet.Left(pose);
+        }
+
+        if( soSet.IsSameAs(wxT("utf-8"), false) || soSet.IsSameAs(wxT("utf8"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-16"), false) || soSet.IsSameAs(wxT("utf16"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-32"), false) || soSet.IsSameAs(wxT("utf32"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-7"), false) || soSet.IsSameAs(wxT("utf7"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else
+        {
+            //wxCSConv
+            wxCSConv conv(soSet);
+
+            if(conv.IsOk())
+                result.sBody = wxString((const char*)bodystruct.memory, conv, bodystruct.size);
+            else
+                result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);//wxConvLocal,
+        }
+
+		result.iSize = headstruct.size + bodystruct.size;
 		result.IsValid = true;
 	}
 	return result;

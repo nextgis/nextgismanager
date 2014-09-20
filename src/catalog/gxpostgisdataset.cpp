@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------------
 // wxGISPostGISBaseTable
 //-----------------------------------------------------------------------------------
-wxGISPostGISBaseTable::wxGISPostGISBaseTable(const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn)
+wxGISPostGISBaseTable::wxGISPostGISBaseTable(int nRemoteId, const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn) : wxGxRemoteId(nRemoteId)
 {
     wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = wxT("\"") + sSchema + wxT("\".\"") + soName + wxT("\"");
@@ -85,9 +85,9 @@ void wxGISPostGISBaseTable::FillIndixes()
 // wxGxPostGISTableDataset
 //-----------------------------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxPostGISTableDataset, wxGxTableDataset)
+IMPLEMENT_CLASS(wxGxPostGISTableDataset, wxGxTable)
 
-wxGxPostGISTableDataset::wxGxPostGISTableDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTableDataset(enumTablePostgres, oParent, soName, soPath), wxGISPostGISBaseTable(sSchema, soName, pwxGISRemoteConn)
+wxGxPostGISTableDataset::wxGxPostGISTableDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(enumTablePostgres, oParent, soName, soPath), wxGISPostGISBaseTable(nRemoteId, sSchema, soName, pwxGISRemoteConn)
 {
 }
 
@@ -137,7 +137,7 @@ bool wxGxPostGISTableDataset::CanMove(const CPLString &szDestPath)
 
 bool wxGxPostGISTableDataset::Delete()
 {
-	if( wxGxTableDataset::Delete() )
+	if( wxGxTable::Delete() )
 	{
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
@@ -187,7 +187,7 @@ bool wxGxPostGISTableDataset::Move(const CPLString &szDestPath, ITrackCancel* co
 
 IMPLEMENT_CLASS(wxGxPostGISFeatureDataset, wxGxFeatureDataset)
 
-wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecPostGIS, oParent, soName, soPath), wxGISPostGISBaseTable(sSchema, soName, pwxGISRemoteConn)
+wxGxPostGISFeatureDataset::wxGxPostGISFeatureDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecPostGIS, oParent, soName, soPath), wxGISPostGISBaseTable(nRemoteId, sSchema, soName, pwxGISRemoteConn)
 {
 }
 

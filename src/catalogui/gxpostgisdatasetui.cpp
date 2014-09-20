@@ -39,9 +39,10 @@
 // wxGxPostGISTableDatasetUI
 //-----------------------------------------------------------------------------
 
+class wxGxPostGISTableDatasetUI;
 IMPLEMENT_CLASS(wxGxPostGISTableDatasetUI, wxGxPostGISTableDataset)
 
-wxGxPostGISTableDatasetUI::wxGxPostGISTableDatasetUI(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISTableDataset(sSchema, pwxGISRemoteConn, oParent, soName, soPath)
+wxGxPostGISTableDatasetUI::wxGxPostGISTableDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISTableDataset(nRemoteId, sSchema, pwxGISRemoteConn, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;
@@ -87,7 +88,7 @@ void wxGxPostGISTableDatasetUI::EditProperties(wxWindow *parent)
 
 IMPLEMENT_CLASS(wxGxPostGISFeatureDatasetUI, wxGxPostGISFeatureDataset)
 
-wxGxPostGISFeatureDatasetUI::wxGxPostGISFeatureDatasetUI(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISFeatureDataset(sSchema, pwxGISRemoteConn, oParent, soName, soPath)
+wxGxPostGISFeatureDatasetUI::wxGxPostGISFeatureDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISFeatureDataset(nRemoteId, sSchema, pwxGISRemoteConn, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;

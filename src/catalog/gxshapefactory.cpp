@@ -88,7 +88,7 @@ bool wxGxShapeFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxAr
             }
             if(!bHasShp && m_bHasDriver)
             {
-                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISTableDataset, bCheckNames);
+                pGxObj = GetGxObject(pParent, GetConvName(pFileNames[i]), pFileNames[i], enumGISTable, bCheckNames);
                 if(pGxObj)
                     pChildrenIds.Add(pGxObj->GetId());
             }
@@ -134,9 +134,9 @@ wxGxObject* wxGxShapeFactory::GetGxObject(wxGxObject* pParent, const wxString &s
 	    wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(enumVecESRIShapefile, pParent, soName, szPath);
         return wxStaticCast(pDataset, wxGxObject);
         }
-    case enumGISTableDataset:
+    case enumGISTable:
         {
-        wxGxTableDataset* pDataset = new wxGxTableDataset(enumTableDBF, pParent, soName, szPath);
+        wxGxTable* pDataset = new wxGxTable(enumTableDBF, pParent, soName, szPath);
         return wxStaticCast(pDataset, wxGxObject);
         }
     }

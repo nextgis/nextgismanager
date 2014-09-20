@@ -40,7 +40,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxPostGISTableDatasetUI :
 {
     DECLARE_CLASS(wxGxPostGISTableDatasetUI)
 public:
-	wxGxPostGISTableDatasetUI(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+	wxGxPostGISTableDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
 	virtual ~wxGxPostGISTableDatasetUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
@@ -67,7 +67,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxPostGISFeatureDatasetUI :
 {
     DECLARE_CLASS(wxGxPostGISFeatureDatasetUI)
 public:
-	wxGxPostGISFeatureDatasetUI(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+	wxGxPostGISFeatureDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
 	virtual ~wxGxPostGISFeatureDatasetUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);

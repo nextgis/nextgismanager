@@ -54,7 +54,7 @@ wxGxObject* wxGxCSVFileFactoryUI::GetGxObject(wxGxObject* pParent, const wxStrin
     }
     else
     {
-        wxGxTableDatasetUI* pDataset = new wxGxTableDatasetUI(enumTableCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
+        wxGxTableUI* pDataset = new wxGxTableUI(enumTableCSV, pParent, soName, szPath, m_LargeCSVIcon, m_SmallCSVIcon);
         return wxStaticCast(pDataset, wxGxObject);
     }
 }

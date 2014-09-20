@@ -3,7 +3,7 @@
  * Purpose:  cURL class. This is smart class for cURL handler
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2008,2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2008,2010-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ typedef struct _perform_result
 	wxString sBody;
 	unsigned int iSize;
 	bool IsValid;
+	long nHTTPCode;
 } PERFORMRESULT;
 
 /** @class wxGISCurl
@@ -62,6 +63,7 @@ public:
 	virtual PERFORMRESULT Get(const wxString & sURL);
 	virtual bool GetFile(const wxString & sURL, const wxString & sPath);
 	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+	virtual PERFORMRESULT Delete(const wxString & sURL);
 
 protected:
     virtual wxObjectRefData *CreateRefData() const;
@@ -90,6 +92,7 @@ public:
 	PERFORMRESULT Get(const wxString & sURL);
 	bool GetFile(const wxString & sURL, const wxString & sPath);
 	PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+	PERFORMRESULT Delete(const wxString & sURL);
 protected:
 	struct curl_slist *slist;
 	CURL *m_pCurl;

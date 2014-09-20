@@ -477,23 +477,23 @@ void wxGxDatasetContainer::SetPath(const CPLString &soPath)
 //class wxGxTableDataset
 //--------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxTableDataset, wxGxDataset)
+IMPLEMENT_CLASS(wxGxTable, wxGxDataset)
 
-wxGxTableDataset::wxGxTableDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
+wxGxTable::wxGxTable(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
 {
     m_eType = eType;
 }
 
-wxGxTableDataset::~wxGxTableDataset(void)
+wxGxTable::~wxGxTable(void)
 {
 }
 
-wxString wxGxTableDataset::GetCategory(void) const
+wxString wxGxTable::GetCategory(void) const
 {
 	return wxString(_("Table"));
 }
 
-wxGISDataset* const wxGxTableDataset::GetDatasetFast(void)
+wxGISDataset* const wxGxTable::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
@@ -504,7 +504,7 @@ wxGISDataset* const wxGxTableDataset::GetDatasetFast(void)
     wsGET(m_pwxGISDataset);
 }
 
-wxGISDataset* const wxGxTableDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
+wxGISDataset* const wxGxTable::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISTable* pwxGISTable(NULL);
 	pwxGISTable = wxDynamicCast(GetDatasetFast(), wxGISTable);

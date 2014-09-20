@@ -70,7 +70,7 @@ protected:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxSpreadsheetSubDataset :
-	public wxGxTableDataset
+	public wxGxTable
 {
     DECLARE_CLASS(wxGxSpreadsheetSubDataset)
 public:

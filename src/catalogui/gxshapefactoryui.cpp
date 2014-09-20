@@ -82,13 +82,13 @@ wxGxObject* wxGxShapeFactoryUI::GetGxObject(wxGxObject* pParent, const wxString 
 	        wxGxFeatureDatasetUI* pDataset = new wxGxFeatureDatasetUI(enumVecESRIShapefile, pParent, soName, szPath, m_LargeSHPIcon, m_SmallSHPIcon);
             return wxStaticCast(pDataset, wxGxObject);
         }
-    case enumGISTableDataset:
+    case enumGISTable:
         {
             if(!m_SmallDBFIcon.IsOk())
                 m_SmallDBFIcon = wxIcon(table_dbf_16_xpm);
             if(!m_LargeDBFIcon.IsOk())
                 m_LargeDBFIcon = wxIcon(table_dbf_48_xpm);
-            wxGxTableDatasetUI* pDataset = new wxGxTableDatasetUI(enumTableDBF, pParent, soName, szPath, m_LargeDBFIcon, m_SmallDBFIcon);
+            wxGxTableUI* pDataset = new wxGxTableUI(enumTableDBF, pParent, soName, szPath, m_LargeDBFIcon, m_SmallDBFIcon);
             return wxStaticCast(pDataset, wxGxObject);
         }
     }

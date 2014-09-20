@@ -26,9 +26,7 @@
 
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/catalog/gxdataset.h"
-
-
-#include <wx/hashmap.h>
+#include "wxgis/catalog/contupdater.h"
 
 WX_DECLARE_STRING_HASH_MAP( wxString, wxGISIndexMap );
 
@@ -39,10 +37,11 @@ WX_DECLARE_STRING_HASH_MAP( wxString, wxGISIndexMap );
  * @library{catalog}
  */
  
- class wxGISPostGISBaseTable
+ class wxGISPostGISBaseTable :
+	public wxGxRemoteId
  {
 public: 
-	wxGISPostGISBaseTable(const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn);
+	wxGISPostGISBaseTable(int nRemoteId, const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn);
 	virtual ~wxGISPostGISBaseTable(void);
 	virtual wxULongLong GetTableSize();
 	virtual void FillIndixes();
@@ -62,12 +61,12 @@ protected:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxPostGISTableDataset :
-	public wxGxTableDataset,
+	public wxGxTable,
 	public wxGISPostGISBaseTable
 {
     DECLARE_CLASS(wxGxPostGISTableDataset)
 public:
-	wxGxPostGISTableDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxPostGISTableDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxPostGISTableDataset(void);
 	//wxGxObject
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Table"));};
@@ -99,7 +98,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxPostGISFeatureDataset :
 {
     DECLARE_CLASS(wxGxPostGISFeatureDataset)
 public:
-	wxGxPostGISFeatureDataset(const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxPostGISFeatureDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxPostGISFeatureDataset(void);
 	//wxGxObject
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Feature Dataset"));};

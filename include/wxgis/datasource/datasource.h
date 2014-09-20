@@ -34,7 +34,7 @@ enum wxGISEnumDatasetType
 {
     enumGISAny = 0,
 	enumGISFeatureDataset = 1,
-	enumGISTableDataset = 2,
+	enumGISTable = 2,
 	enumGISRasterDataset = 3,
 	enumGISContainer = 4,
     enumGISDrawing = 5

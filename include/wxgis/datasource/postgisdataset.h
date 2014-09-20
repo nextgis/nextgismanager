@@ -138,7 +138,7 @@ protected:
 
 /** @class wxGISPostgresFeatureDataset
 
-    The PostGIS Feature dataset class.
+    The PostGIS Feature dataset class
 
     @library{datasource}
 */
@@ -149,6 +149,26 @@ class WXDLLIMPEXP_GIS_DS wxGISPostgresFeatureDataset :
 public:
     wxGISPostgresFeatureDataset(const CPLString &sPath, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
 	virtual ~wxGISPostgresFeatureDataset(void);
+    //wxGISDataset
+    virtual bool CanDelete(void);
+    virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
+protected:
+    CPLString m_sLayerName;
+};
+
+/** @class wxGISPostgresTable
+
+    The PostGIS table
+
+    @library{datasource}
+*/
+class WXDLLIMPEXP_GIS_DS wxGISPostgresTable :
+	public wxGISTable
+{
+    DECLARE_CLASS(wxGISPostgresTable)
+public:
+    wxGISPostgresTable(const CPLString &sPath, OGRLayer* poLayer = NULL, OGRDataSource* poDS = NULL);
+	virtual ~wxGISPostgresTable(void);
     //wxGISDataset
     virtual bool CanDelete(void);
     virtual bool Delete(ITrackCancel* const pTrackCancel = NULL);
