@@ -131,7 +131,8 @@ enum wxGISEnumContainerType
     enumContDataset,
 	enumContGDB,
 	enumContRemoteDBConnection,
-    enumContWebServiceConnection
+    enumContWebServiceConnection,
+	enumContNGWResourceGroup
 };
 
 /** @enum wxGISEnumWldExtType

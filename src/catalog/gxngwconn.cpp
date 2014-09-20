@@ -50,6 +50,11 @@ void wxGxNGWService::ReadConnectionFile()
         if (NULL != pRootNode)
         {
             m_sURL = pRootNode->GetAttribute(wxT("url"));
+			if (!m_sURL.StartsWith(wxT("http")))
+			{
+				m_sURL.Prepend(wxT("http://"));
+			}		
+			
             m_sLogin = pRootNode->GetAttribute(wxT("user"));
             Decrypt(pRootNode->GetAttribute(wxT("pass")), m_sPassword);
         }
@@ -149,11 +154,6 @@ bool wxGxNGWService::ConnectToNGW()
     }
 
     wxString sURL = wxString::FromUTF8(m_sURL) + wxString(wxT("/login"));
-    if (!sURL.StartsWith(wxT("http")))
-    {
-        sURL.Prepend(wxT("http://"));
-    }
-
     wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.c_str(), m_sPassword.c_str());
 
     PERFORMRESULT res = curl.Post(sURL, sPostData);
@@ -265,6 +265,11 @@ wxString wxGxNGWService::GetPassword() const
 	return m_sPassword;
 }
 
+wxString wxGxNGWService::GetURL() const
+{
+	return m_sURL;
+}
+
 //--------------------------------------------------------------
 //class wxGxNGWRootResource
 //--------------------------------------------------------------
@@ -272,7 +277,7 @@ IMPLEMENT_CLASS(wxGxNGWRootResource, wxGxNGWResourceGroup)
 
 wxGxNGWRootResource::wxGxNGWRootResource(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxNGWResourceGroup(pService, wxJSONValue(), oParent, soName, soPath)
 {
-    m_nResourceId = 0;
+    m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
 }
 
@@ -309,7 +314,7 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
     m_bHasChildren = JSONResource[wxT("children")].AsBool();
     m_sDescription = JSONResource[wxT("description")].AsString();
     m_sDisplayName = JSONResource[wxT("display_name")].AsString();
-    m_nResourceId = JSONResource[wxT("id")].AsInt();
+    SetRemoteId( JSONResource[wxT("id")].AsInt() );
     //wxArrayString m_aInterfaces;
     m_sKeyName = JSONResource[wxT("keyname")].AsString();
     m_nOwnerId = JSONResource[wxT("owner_user")].AsInt();
@@ -336,11 +341,6 @@ wxGxNGWResource::~wxGxNGWResource()
 
 }
 
-int wxGxNGWResource::GetResourceId() const
-{
-	return m_nResourceId;
-}
-
 bool wxGxNGWResource::DeleteResource()
 {
 	wxGISCurl curl = m_pService->GetCurl();
@@ -348,11 +348,7 @@ bool wxGxNGWResource::DeleteResource()
         return false;
 	
 	// DELETE /resource/0/child/4 0 - parentid 4 - curren id
-    wxString sURL = wxString::FromUTF8(m_pService->GetPath()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nResourceId);
-    if (!sURL.StartsWith(wxT("http")))
-    {
-        sURL.Prepend(wxT("http://"));
-    }
+    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.Delete(sURL);
 	
 	return res.IsValid && res.nHTTPCode < 400;
@@ -380,14 +376,13 @@ Cache-Control: no-cache
 //--------------------------------------------------------------
 //class wxGxNGWResourceGroup
 //--------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxNGWResourceGroup, wxGxObjectContainer)
+IMPLEMENT_CLASS(wxGxNGWResourceGroup, wxGxObjectContainerUpdater)
 
-wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxGxNGWResource(Data)
+wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainerUpdater(oParent, soName, soPath), wxGxNGWResource(Data)
 {
     m_eResourceType = enumNGWResourceTypeResourceGroup;
     m_pService = pService;
     m_sName = m_sDisplayName;
-    m_bChildrenLoaded = false;
 	m_bHasGeoJSON =  NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
 }
 
@@ -420,74 +415,153 @@ wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data)
     return eType;
 }
 
-void wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
+wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
 {
     wxGISEnumNGWResourcesType eType = GetType(Data);
-
+	wxGxObject* pReturnObj(NULL);
     switch(eType)
     {
     case enumNGWResourceTypeResourceGroup:
-        new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath);
+        pReturnObj = wxStaticCast(new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     case enumNGWResourceTypePostgisLayer:
 		if(m_bHasGeoJSON)
-			new wxGxNGWLayer(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath);
+			pReturnObj = wxStaticCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     case enumNGWResourceTypeVectorLayer:
         if(m_bHasGeoJSON)
-			new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath);
+			pReturnObj = wxStaticCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     }
-}
-
-bool wxGxNGWResourceGroup::HasChildren(void)
-{
-    LoadChildren();
-    return wxGxObjectContainer::HasChildren();
+	
+	return pReturnObj;
 }
 
 void wxGxNGWResourceGroup::Refresh(void)
 {
     DestroyChildren();
+	m_bChildrenLoaded = false;
     LoadChildren();
     wxGxObject::Refresh();
 }
 
-void wxGxNGWResourceGroup::LoadChildren(void)
+bool wxGxNGWResourceGroup::Destroy()
 {
-    if (m_bChildrenLoaded)
-        return;
+    StopThread();
 
+    return wxGxObjectContainer::Destroy();
+}
+
+bool wxGxNGWResourceGroup::HasChildren(void)
+{
+    LoadChildren();
+
+    CreateAndRunThread();
+
+    return wxGxObjectContainer::HasChildren();
+}
+
+bool wxGxNGWResourceGroup::CanCreate(long nDataType, long DataSubtype)
+{
+    if (nDataType == enumGISContainer && DataSubtype == enumContNGWResourceGroup)
+    {
+        return true;
+    } 
+
+    if (nDataType == enumGISFeatureDataset)
+    {
+        return true;
+    }
+	
+    if (nDataType == enumGISTable)
+    {
+        return false;
+    }
+	
+    if (nDataType == enumGISRasterDataset)
+    {
+        return false;
+    }
+	
+    return false;
+}
+
+bool wxGxNGWResourceGroup::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWResourceGroup::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWResourceGroup::Delete(void)
+{
+    if( DeleteResource() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWResourceGroup::Rename(const wxString &sNewName)
+{
+    /*if( m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}*/
+	return false;
+}
+
+bool wxGxNGWResourceGroup::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWResourceGroup::CanCopy(const CPLString &szDestPath)
+{
+    return false;
+}
+
+bool wxGxNGWResourceGroup::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWResourceGroup::CanMove(const CPLString &szDestPath)
+{
+    return false;
+}
+
+wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
+{
+	wxGxObjectMap ret;
     wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
-        return;
+        return ret;
 
-    wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/child/"), m_nResourceId);
-    if (!sURL.StartsWith(wxT("http")))
-    {
-        sURL.Prepend(wxT("http://"));
-    }
+    wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Get(sURL);
 
     wxJSONReader reader;
     wxJSONValue  JSONRoot;
     int numErrors = reader.Parse(res.sBody, &JSONRoot);
-    if (numErrors > 0)  {
-        const wxArrayString& errors = reader.GetErrors();
-        wxString sErrMsg(_("GeoJSON parsing error"));
-        for (size_t i = 0; i < errors.GetCount(); ++i)
-        {
-            wxString sErr = errors[i];
-            sErrMsg.Append(wxT("\n"));
-            sErrMsg.Append(wxString::Format(wxT("%ld. %s"), i, sErr.c_str()));
-        }
-        wxLogError(sErrMsg);
-        return;
+    if (numErrors > 0)  {        
+        return ret;
     }
-
-    wxLogDebug(res.sBody);
-
-    m_bChildrenLoaded = true;
 
     const wxJSONInternalArray* pArr = JSONRoot.AsArray();
     if(pArr)
@@ -495,9 +569,42 @@ void wxGxNGWResourceGroup::LoadChildren(void)
         for(size_t i = 0; i < pArr->size(); ++i)
         {
             wxJSONValue JSONVal = pArr->operator[](i);
-            AddResource(JSONVal);
+			wxJSONValue JSONResource = JSONVal[wxT("resource")];
+			wxString sName = JSONResource[wxT("display_name")].AsString();
+			int nId = JSONResource[wxT("id")].AsInt();
+			
+			ret[nId] = sName;
+			m_moJSONData[nId] = JSONVal;
         }
     }
+
+	return ret; 	
+}
+
+void wxGxNGWResourceGroup::LoadChildren(void)
+{
+    if (m_bChildrenLoaded)
+        return;
+		
+	m_smObjects = GetRemoteObjects();
+	if (m_smObjects.empty())
+        return;
+		
+	m_bChildrenLoaded = true;
+	
+	for (wxNGWResourceDataMap::const_iterator it = m_moJSONData.begin(); it != m_moJSONData.end(); ++it)
+	{
+		AddResource(it->second);
+    }
+}
+
+void wxGxNGWResourceGroup::AddObject(int nRemoteId, const wxString &sName)
+{
+	wxGxObject* pObj = AddResource(m_moJSONData[nRemoteId]);
+	if(NULL != pObj)
+	{
+		wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+	}
 }
 
 int wxGxNGWResourceGroup::GetParentResourceId() const
@@ -505,7 +612,34 @@ int wxGxNGWResourceGroup::GetParentResourceId() const
 	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
 	if(NULL == pParentResource)
 		return wxNOT_FOUND;
-	return pParentResource->GetResourceId();
+	return pParentResource->GetRemoteId();
+}
+
+wxString wxGxNGWResourceGroup::CheckUniqName(const wxString& sTableName, const wxString& sAdd, int nCounter) const
+{
+    wxString sResultName;
+    if (nCounter > 0)
+    {
+        sResultName = sTableName + wxString::Format(wxT("%s%d"), sAdd.c_str(), nCounter);
+    }
+    else
+    {
+        sResultName = sTableName;
+    }
+
+	for (wxGxObjectMap::const_iterator it = m_smObjects.begin(); it != m_smObjects.end(); ++it)
+	{
+		if(it->second.IsSameAs(sResultName, false))
+		{
+			return CheckUniqName(sTableName, sAdd, nCounter + 1);
+		}
+	}
+	return sResultName;
+}
+
+bool wxGxNGWResourceGroup::CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType)
+{
+	return false;
 }
 
 //--------------------------------------------------------------
@@ -543,7 +677,7 @@ wxGISDataset* const wxGxNGWLayer::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-		wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/geojson/"), m_nResourceId);
+		wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
 		if (!sURL.StartsWith(wxT("http")))
 		{
 			sURL.Prepend(wxT("http://"));
@@ -564,7 +698,7 @@ int wxGxNGWLayer::GetParentResourceId() const
 	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
 	if(NULL == pParentResource)
 		return wxNOT_FOUND;
-	return pParentResource->GetResourceId();
+	return pParentResource->GetRemoteId();
 }
 
 #endif // wxGIS_USE_CURL

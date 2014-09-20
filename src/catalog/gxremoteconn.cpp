@@ -563,7 +563,6 @@ wxGxObjectMap wxGxRemoteDBSchema::GetRemoteObjects()
 
 void wxGxRemoteDBSchema::LoadChildren(void)
 {
-    wxCriticalSectionLocker locker(m_CritSect);
     if(m_bChildrenLoaded)
         return;
     wxCHECK_RET(m_pwxGISRemoteConn, wxT("wxGISRemoteConnection pointer is NULL"));

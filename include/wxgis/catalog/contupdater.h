@@ -74,6 +74,7 @@ public:
 	wxGxRemoteId(int nRemoteId);
     virtual ~wxGxRemoteId(void);
 	virtual int GetRemoteId() const;
+	virtual void SetRemoteId(int nRemoteId);
 protected:
     int m_nRemoteId;
 };

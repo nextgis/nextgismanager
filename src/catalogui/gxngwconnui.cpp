@@ -150,7 +150,7 @@ IMPLEMENT_CLASS(wxGxNGWRootResourceUI, wxGxNGWResourceGroupUI)
 
 wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroupUI(pService, wxJSONValue(), oParent, soName, soPath, icLargeIcon, icSmallIcon)
 {
-    m_nResourceId = 0;
+    m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
 }
 
@@ -194,9 +194,10 @@ wxIcon wxGxNGWResourceGroupUI::GetSmallImage(void)
     return m_icSmallIcon;
 }
 
-void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
+wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 {
     wxGISEnumNGWResourcesType eType = GetType(Data);
+	wxGxObject* pReturnObj(NULL);
 	
     switch(eType)
     {
@@ -205,16 +206,16 @@ void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
  		if(!m_icFolderSmallIcon.IsOk())
 			m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
-        new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon);
+        pReturnObj = wxStaticCast(new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon), wxGxObject);
         break;
 	case enumNGWResourceTypePostgisLayer:
 		if(!m_icPGLayerLargeIcon.IsOk())
 			m_icPGLayerLargeIcon = wxIcon(pg_vec_48_xpm);
  		if(!m_icPGLayerSmallIcon.IsOk())
 			m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
-		break;
         if(m_bHasGeoJSON)
-			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon);
+			pReturnObj = wxStaticCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon), wxGxObject);
+		break;
 	case enumNGWResourceTypePostgisConnection:
 		if(!m_icPGConnLargeIcon.IsOk())
 			m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
@@ -235,10 +236,12 @@ void wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
  		if(!m_icNGWLayerSmallIcon.IsOk())
 			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
         if(m_bHasGeoJSON)
-			new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon);
+			pReturnObj = wxStaticCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
 
 		break;
     }
+	
+	return pReturnObj;	
 }
 
 //--------------------------------------------------------------

@@ -85,7 +85,7 @@ public:
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
 protected:
-    virtual void AddResource(const wxJSONValue &Data);
+    virtual wxGxObject* AddResource(const wxJSONValue &Data);
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 	wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;

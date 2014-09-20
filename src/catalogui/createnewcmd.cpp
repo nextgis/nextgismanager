@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
  *   Copyright (C) 2011-2012,2014 Dmitry Baryshnikov
+ *   Copyright (C) 2014 NextGIS
  *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,12 +27,13 @@
 #include "wxgis/catalogui/gxselection.h"
 #include "wxgis/catalogui/gxdbconnectionsui.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
+#include "wxgis/catalogui/gxngwconnui.h"
 #include "wxgis/catalogui/createremotedlgs.h"
 
 #include "../../art/rdb_create.xpm"
 #include "../../art/web_conn_create.xpm"
 #include "../../art/dbschema_create.xpm"
-
+#include "../../art/folder_arch_create.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISCreateNewCmd, wxObject)
@@ -62,6 +64,10 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 			if(!m_IconCreateSchema.IsOk())
                 m_IconCreateSchema = wxIcon(dbschema_create_xpm);
             return m_IconCreateSchema;
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:	
+			if(!m_IconCreateResourceGroup.IsOk())
+                m_IconCreateResourceGroup = wxIcon(folder_arch_create_xpm);
+            return m_IconCreateResourceGroup;
         default:
 			return wxNullIcon;
 	}
@@ -81,6 +87,8 @@ wxString wxGISCreateNewCmd::GetCaption(void)
             return wxString(_("&Database schema"));
         case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Rem&ote Database"));
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:	
+			return wxString(_("NGW Resource Group"));
         default:
 			return wxEmptyString;
 	}
@@ -95,6 +103,7 @@ wxString wxGISCreateNewCmd::GetCategory(void)
 		case enumGISCatalogCreateNewCmdNGWConnection:
 		case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
             return wxString(_("Create"));
 		default:
 			return NO_CATEGORY;
@@ -150,6 +159,17 @@ bool wxGISCreateNewCmd::GetEnabled(void)
                 }
             }
             return false;
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+            if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
+                if (pGxObjectContainer)
+                {
+                    return pGxObjectContainer->CanCreate(enumGISContainer, enumContNGWResourceGroup);
+                }
+            }
+            return false;			
         default:
 			return false;
 	}
@@ -164,6 +184,7 @@ wxGISEnumCommandKind wxGISCreateNewCmd::GetKind(void)
         case enumGISCatalogCreateNewCmdNGWConnection:
         case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -183,6 +204,8 @@ wxString wxGISCreateNewCmd::GetMessage(void)
 			return wxString(_("Create new database schema"));
 		case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Create new database"));
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+            return wxString(_("Create new resource group"));		
 		default:
 			return wxEmptyString;
 	}
@@ -206,7 +229,7 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).mb_str(wxConvUTF8));
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).ToUTF8());
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
                     pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
@@ -229,7 +252,7 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).mb_str(wxConvUTF8));
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).ToUTF8());
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
                     pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
@@ -258,7 +281,7 @@ void wxGISCreateNewCmd::OnClick(void)
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
 
                     wxString sSchemaName = pGxDBConnectionUI->CheckUniqSchemaName(_("new_schema"));
-                    pGxDBConnectionUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxDBConnectionUI->GetPath(), sSchemaName.mb_str(wxConvUTF8), "")));
+                    pGxDBConnectionUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxDBConnectionUI->GetPath(), sSchemaName.ToUTF8(), "")));
                     if (!pGxDBConnectionUI->CreateSchema(sSchemaName))
                     {
                         wxMessageBox(_("Create schema failed!"), _("Error"), wxICON_ERROR | wxOK);
@@ -271,14 +294,14 @@ void wxGISCreateNewCmd::OnClick(void)
             break;
         case enumGISCatalogCreateNewCmdTMSConnection:
 #ifdef wxGIS_USE_CURL
-        if(pCat && pSel)
+			if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new TMS connection")), wxString(wxT("wconn"))).mb_str(wxConvUTF8));
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new TMS connection")), wxString(wxT("wconn"))).ToUTF8());
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
                     pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
@@ -294,14 +317,14 @@ void wxGISCreateNewCmd::OnClick(void)
             break;
         case enumGISCatalogCreateNewCmdNGWConnection:
 #ifdef wxGIS_USE_CURL
-        if(pCat && pSel)
+			if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 wxGxAutoRenamer* pGxAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new NGW connection")), wxString(wxT("wconn"))).mb_str(wxConvUTF8));
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new NGW connection")), wxString(wxT("wconn"))).ToUTF8());
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
                     pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
@@ -315,6 +338,32 @@ void wxGISCreateNewCmd::OnClick(void)
             }
 #endif // wxGIS_USE_CURL
             break;
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+#ifdef wxGIS_USE_CURL
+			if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxNGWResourceGroupUI* pGxNGWResourceGroupUI = wxDynamicCast(pGxObject, wxGxNGWResourceGroupUI);
+                if (pGxNGWResourceGroupUI)
+                {
+                    wxGxAutoRenamer* pGxNGWResourceGroupUIAR = dynamic_cast<wxGxAutoRenamer*>(pGxObject);
+                    if (!pGxNGWResourceGroupUIAR)
+                        return;
+
+                    wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
+
+                    wxString sGroupName = pGxNGWResourceGroupUI->CheckUniqName(_("new group"));
+                    pGxNGWResourceGroupUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxNGWResourceGroupUI->GetPath(), sGroupName.ToUTF8(), "")));
+                    if (!pGxNGWResourceGroupUI->CreateResource(sGroupName, enumNGWResourceTypeResourceGroup))
+                    {
+                        wxMessageBox(_("Create resource group failed!"), _("Error"), wxICON_ERROR | wxOK);
+                        pGxNGWResourceGroupUIAR->BeginRenameOnAdd(NULL, "");
+                        return;
+                    }
+                }
+            }
+#endif // wxGIS_USE_CURL		
+			break;
         default:
 			return;
 	}
@@ -341,6 +390,8 @@ wxString wxGISCreateNewCmd::GetTooltip(void)
 			return wxString(_("Create new database schema"));
 		case enumGISCatalogCreateNewCmdDBAndConnection:
 			return wxString(_("Create new database"));
+		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+			return wxString(_("Create new resource group"));
         default:
 			return wxEmptyString;
 	}

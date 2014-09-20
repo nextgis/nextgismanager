@@ -192,3 +192,8 @@ int wxGxRemoteId::GetRemoteId() const
 {
 	return m_nRemoteId;
 }
+
+void wxGxRemoteId::SetRemoteId(int nRemoteId)
+{
+	m_nRemoteId = nRemoteId;
+}

@@ -23,10 +23,13 @@
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/core/json/jsonval.h"
+#include "wxgis/catalog/contupdater.h"
 
 #ifdef wxGIS_USE_CURL
 
 #include "wxgis/net/curl.h"
+
+#include <wx/hashmap.h>
 
 /** @class wxGxNGWService
 
@@ -69,6 +72,7 @@ public:
     virtual wxGISCurl GetCurl();
 	virtual wxString GetLogin() const;
 	virtual wxString GetPassword() const;
+	virtual wxString GetURL() const;
 protected:
     virtual void LoadChildren(void);
     virtual bool ConnectToNGW();
@@ -101,6 +105,8 @@ enum wxGISEnumNGWResourcesType
 	enumNGWResourceTypeVectorLayer
 };
 
+WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResourceDataMap);
+
 
 /** @class wxGxNGWResource
 
@@ -108,12 +114,11 @@ enum wxGISEnumNGWResourcesType
 
     @library{catalog}
 */
-class wxGxNGWResource
+class wxGxNGWResource : public wxGxRemoteId
 {
 public:
     wxGxNGWResource(const wxJSONValue &Data);
     virtual ~wxGxNGWResource(void);
-	virtual int GetResourceId() const;
 protected:
 	virtual bool DeleteResource();
 	virtual int GetParentResourceId() const = 0;
@@ -122,7 +127,6 @@ protected:
     bool m_bHasChildren;
     wxString m_sDescription;
     wxString m_sDisplayName;
-    int m_nResourceId;
     //wxArrayString m_aInterfaces;
     wxString m_sKeyName;
     int m_nOwnerId;
@@ -139,11 +143,9 @@ protected:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWResourceGroup :
-    public wxGxObjectContainer,
-    /*public IGxObjectEdit,
-    public wxThreadHelper,
+    public wxGxObjectContainerUpdater,
+    public IGxObjectEdit,
     public IGxObjectNoFilter,
-	public IGxObjectNotifier,*/
     public wxGxNGWResource
 {
     DECLARE_CLASS(wxGxNGWResourceGroup)
@@ -151,15 +153,16 @@ public:
     wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = _("Resource Group"), const CPLString &soPath = "");
     virtual ~wxGxNGWResourceGroup(void);
     //wxGxObject
-    virtual wxString GetCategory(void) const { return wxString(_("Resource Group")); };
+    virtual bool Destroy();
+	virtual wxString GetCategory(void) const { return wxString(_("Resource Group")); };
     //wxGxObjectContainer
-    //virtual void LoadChildren(const wxJSONValue &Data);
     virtual void Refresh(void);
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);
+    virtual bool CanCreate(long nDataType, long DataSubtype);
     //IGxObjectEdit
-	/*virtual bool Delete(void);
+	virtual bool Delete(void);
     virtual bool CanDelete(void);
 	virtual bool Rename(const wxString& NewName);
     virtual bool CanRename(void);
@@ -167,24 +170,19 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
-    wxString CheckUniqTableName(const wxString& sTableName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
-	//IGxObjectNotifier
-	virtual void OnGetUpdates();	*/
+	//wxGxNGWResourceGroup
+	virtual wxString CheckUniqName(const wxString &sName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
+	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 protected:
     virtual void LoadChildren(void);
-    virtual void AddResource(const wxJSONValue &Data);
+    virtual wxGxObject* AddResource(const wxJSONValue &Data);
     virtual wxGISEnumNGWResourcesType GetType(const wxJSONValue &Data) const;
 	virtual int GetParentResourceId() const;    
-	/*virtual bool CreateAndRunThread(void);
-    virtual bool CheckChanges();
-    virtual wxThread::ExitCode Entry();
-    //events
-    virtual void OnThreadFinished(wxThreadEvent& event);*/
+	virtual wxGxObjectMap GetRemoteObjects();
+	virtual void AddObject(int nRemoteId, const wxString &sName);
 protected:
-    bool m_bChildrenLoaded;
 	bool m_bHasGeoJSON;
-	int m_nLongWait, m_nShortWait;
-	bool m_bProcessUpdates;
+	wxNGWResourceDataMap m_moJSONData;
 };
 
 
@@ -194,6 +192,7 @@ protected:
 
     @library{catalog}
 */
+
 class WXDLLIMPEXP_GIS_CLT wxGxNGWRootResource :
     public wxGxNGWResourceGroup
 {

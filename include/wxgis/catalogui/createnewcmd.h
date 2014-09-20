@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2011-2012,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -37,6 +38,7 @@ enum wxGISEnumCatalogCreateNewCmdType{
     enumGISCatalogCreateNewCmdNGWConnection,
     enumGISCatalogCreateNewCmdDBSchema,
     enumGISCatalogCreateNewCmdDBAndConnection,
+	enumGISCatalogCreateNewCmdNGWResourceGroup,
     enumGISCatalogCreateNewCmdMax
 };
 
@@ -63,5 +65,5 @@ public:
 private:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
-    wxIcon m_IconCreateRemoteConn, m_IconCreateWebConn, m_IconCreateSchema;
+    wxIcon m_IconCreateRemoteConn, m_IconCreateWebConn, m_IconCreateSchema, m_IconCreateResourceGroup;
 };
