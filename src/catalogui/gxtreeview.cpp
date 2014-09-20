@@ -171,8 +171,18 @@ void wxGxTreeViewBase::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
 	wxGxObjectContainer* pContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);//dynamic_cast<IGxObjectContainer*>(pGxObject);
 	if(NULL != pContainer)
     {
-		if(pContainer->AreChildrenViewable())
+		IGxRemoteConnection* pRemoteConnection = dynamic_cast<IGxRemoteConnection*>(pGxObject);
+		if(NULL != pRemoteConnection)
+		{
+			 if(pRemoteConnection->IsConnected())
+			 {
+				 SetItemHasChildren(NewTreeItem);
+			 }
+		}	
+		else if(pContainer->AreChildrenViewable())
+		{
 			SetItemHasChildren(NewTreeItem);
+		}
     }
 
     if(NULL != pGxObjectAttr)
@@ -833,10 +843,14 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 	IGxObjectWizard* pGxObjectWizard = dynamic_cast<IGxObjectWizard*>(pGxObject);
 	if (NULL != pGxObjectWizard)
 	{
-		if (!pGxObjectWizard->Invoke(this))
+		if (pGxObjectWizard->Invoke(this))
 		{
-            Expand(item);
-			return;
+			wxGxObjectContainer* pGxObjectCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
+			if(pGxObjectCont->HasChildren())
+			{
+				SetItemHasChildren(item);
+				Expand(item);
+			}
 		}
 	}
 }

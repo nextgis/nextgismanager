@@ -121,7 +121,6 @@ wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 			wxThread::Sleep(nShortStep); //min sleep is 450
 			if(m_nProcessUpdatesRequests > 0)
 			{
-				wxLogDebug("sleep break");
 				m_nProcessUpdatesRequests--;
 				break;
 			}			

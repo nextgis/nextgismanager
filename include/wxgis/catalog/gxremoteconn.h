@@ -68,7 +68,6 @@ public:
     virtual bool CanMove(const CPLString &szDestPath) { return CanCopy(szDestPath) & CanDelete(); };
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const {return true;};
-	//virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxRemoteConnection
     bool CreateSchema(const wxString& sSchemaName);

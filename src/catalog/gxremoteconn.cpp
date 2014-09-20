@@ -53,15 +53,6 @@ bool wxGxRemoteConnection::Destroy(void)
     return wxGxObjectContainer::Destroy();
 }
 
-
-//bool wxGxRemoteConnection::HasChildren()
-//{
-//    //if(!Connect())
-//    //    return false;
-//    //else
-//        return wxGxObjectContainer::HasChildren();
-//}
-
 wxGISDataset* const wxGxRemoteConnection::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
