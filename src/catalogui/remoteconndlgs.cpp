@@ -30,6 +30,7 @@
 #include "wxgis/carto/rasterlayer.h"
 
 #include <wx/valgen.h>
+#include <wx/valnum.h>
 #include <wx/valtext.h>
 #include <wx/valnum.h>
 #include <wx/collpane.h>
@@ -60,6 +61,19 @@ wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow*
     m_sPort = wxString(wxT("5432"));
     m_sDatabase = wxString(wxT("postgres"));
     m_bIsBinaryCursor = true;
+	m_sDefaultTimeOut = wxString(wxT("30"));
+	m_sDefaultTestTimeOut = wxString(wxT("80"));
+	
+	wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+	{
+        m_sServer = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/server")), m_sServer);
+		m_sPort = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/port")), m_sPort);
+		m_sDatabase = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/db")), m_sDatabase);
+		m_bIsBinaryCursor = oConfig.ReadBool(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/is_binary_cursor")), m_bIsBinaryCursor);
+		m_sDefaultTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/connect_timeout")), m_sDefaultTimeOut);
+		m_sDefaultTestTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/test_connect_timeout")), m_sDefaultTestTimeOut);
+	}
 
     //load values from xconn file
     if (pConnectionNode)
@@ -71,10 +85,11 @@ wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow*
         m_sUser = pConnectionNode->GetAttribute(wxT("user"), m_sUser);
         Decrypt(pConnectionNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
         m_bIsBinaryCursor = GetBoolValue(pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
+		m_sDefaultTimeOut = pConnectionNode->GetAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
     }
 
     //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
-
+	
     CreateUI(false);
 }
 
@@ -90,8 +105,20 @@ wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg( CPLString pszConnPath, wxWindow* par
 	m_sServer = wxString(wxT("localhost"));
 	m_sPort = wxString(wxT("5432"));
 	m_sDatabase = wxString(wxT("postgres"));
-	m_bIsBinaryCursor = true;
-
+	m_bIsBinaryCursor = true;	
+	m_sDefaultTimeOut = wxString(wxT("30"));
+	m_sDefaultTestTimeOut = wxString(wxT("80"));
+	
+	wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+	{
+        m_sServer = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/server")), m_sServer);
+		m_sPort = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/port")), m_sPort);
+		m_sDatabase = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/db")), m_sDatabase);
+		m_bIsBinaryCursor = oConfig.ReadBool(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/is_binary_cursor")), m_bIsBinaryCursor);
+		m_sDefaultTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/connect_timeout")), m_sDefaultTimeOut);
+		m_sDefaultTestTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/test_connect_timeout")), m_sDefaultTestTimeOut);
+	}
 	//load values from xconn file
 	if(!m_bCreateNew)
 	{
@@ -108,6 +135,7 @@ wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg( CPLString pszConnPath, wxWindow* par
 				m_sUser = pRootNode->GetAttribute(wxT("user"), m_sUser);
 				Decrypt(pRootNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
 				m_bIsBinaryCursor = GetBoolValue(pRootNode, wxT("isbincursor"), m_bIsBinaryCursor);
+				m_sDefaultTimeOut = pRootNode->GetAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
 			}
 		}
 	}
@@ -125,6 +153,7 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 {
 	if ( Validate() && TransferDataFromWindow() )
 	{
+		m_sDefaultTimeOut = wxString::Format(wxT("%d"), m_nConnTimeout);
 		wxString sCryptPass;
 		if(!Crypt(m_sPass, sCryptPass))
 		{
@@ -143,6 +172,7 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 		    pRootNode->AddAttribute(wxT("pass"), sCryptPass);
 
             SetBoolValue(pRootNode, wxT("isbincursor"), m_bIsBinaryCursor);
+			pRootNode->AddAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
 
 		    pRootNode->AddAttribute(wxT("type"), wxT("POSTGIS"));//store server type for future
 
@@ -187,6 +217,10 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
             if (m_pConnectionNode->HasAttribute(wxT("isbincursor")))
                 m_pConnectionNode->DeleteAttribute(wxT("isbincursor"));
             SetBoolValue(m_pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
+			
+			if (m_pConnectionNode->HasAttribute(wxT("connect_timeout")))
+                m_pConnectionNode->DeleteAttribute(wxT("connect_timeout"));
+            m_pConnectionNode->AddAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
 
             if (m_pConnectionNode->HasAttribute(wxT("type")))
                 m_pConnectionNode->DeleteAttribute(wxT("type"));
@@ -205,7 +239,8 @@ void wxGISRemoteDBConnDlg::OnTest(wxCommandEvent& event)
 	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
-		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_bIsBinaryCursor);
+		m_sDefaultTimeOut = wxString::Format(wxT("%d"), m_nConnTimeout);
+		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_sDefaultTestTimeOut, m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
 			wxMessageBox(wxString(_("Connected successfully!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
@@ -237,6 +272,7 @@ wxString wxGISRemoteDBConnDlg::GetName(void)
 
 void wxGISRemoteDBConnDlg::CreateUI(bool bHasConnectionPath)
 {
+	m_nConnTimeout = wxAtoi(m_sDefaultTimeOut);
     m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 
     if(bHasConnectionPath)
@@ -274,6 +310,15 @@ void wxGISRemoteDBConnDlg::CreateUI(bool bHasConnectionPath)
 
 	m_DatabaseTextCtrl = new wxTextCtrl( this, ID_DATABASETEXTCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatabase) );
 	fgSizer1->Add( m_DatabaseTextCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	wxStaticText* pTimeoutStaticText = new wxStaticText( this, wxID_ANY, _("Timeout (s):"), wxDefaultPosition, wxDefaultSize, 0 );
+	pTimeoutStaticText->Wrap( -1 );
+	fgSizer1->Add( pTimeoutStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	wxIntegerValidator<unsigned int> val(&m_nConnTimeout);
+	val.SetRange(2, 3600);
+	wxTextCtrl* pTimeoutTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, val );
+	fgSizer1->Add( pTimeoutTextCtrl, 0, wxALL|wxEXPAND, 5 );
 
 	m_bMainSizer->Add( fgSizer1, 0, wxEXPAND, 5 );
 

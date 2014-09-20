@@ -59,7 +59,7 @@ void wxGISCreateDBDlg::OnOK(wxCommandEvent& event)
 	if ( Validate() && TransferDataFromWindow() )
 	{
 	    //try to create db
-	    wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_bIsBinaryCursor);
+	    wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, wxT("30"), m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
 		    if(m_sDBTempate.IsSameAs(NOTEMPLATE_TEXT))
@@ -249,7 +249,7 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 	wxBusyCursor wait;
 	if ( Validate() && TransferDataFromWindow() )
 	{
-		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_bIsBinaryCursor);
+		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, wxT("80"), m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
 		    wxGISTableCached* pInfoSchema = wxDynamicCast(oPostgresDataSource.ExecuteSQL2(wxT("SELECT datname FROM pg_database;"), wxT("PG")), wxGISTableCached);

@@ -94,6 +94,10 @@ protected:
 
 	wxString m_sOutputPath;
 	CPLString m_sOriginOutput;
+	
+	wxString m_sDefaultTimeOut;
+	wxString m_sDefaultTestTimeOut;
+	unsigned int m_nConnTimeout;
 
 private:
     DECLARE_EVENT_TABLE()

@@ -32,7 +32,7 @@
 
 IMPLEMENT_CLASS(wxGISPostgresDataSource, wxGISDataset)
 
-wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort, const wxString &sAddres, const wxString &sDBName, bool bIsBinaryCursor) : wxGISDataset("")
+wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort, const wxString &sAddres, const wxString &sDBName, const wxString &sConnectTimeout, bool bIsBinaryCursor) : wxGISDataset("")
 {
     m_bPathPresent = false;
 	m_bIsOpened = false;
@@ -44,6 +44,7 @@ wxGISPostgresDataSource::wxGISPostgresDataSource(const wxString &sName, const wx
     m_sAddres = sAddres;
     m_sDBName = sDBName;
 	m_bIsBinaryCursor = bIsBinaryCursor;
+	m_sConnectTimeout = sConnectTimeout; 
 
     m_poDS4SQL = NULL;
     m_poDS = NULL;
@@ -80,10 +81,11 @@ void wxGISPostgresDataSource::ReadConnectionFile()
 		if(pRootNode)
 		{
 			m_sAddres = pRootNode->GetAttribute(wxT("server"), wxEmptyString);
-			m_sPort = pRootNode->GetAttribute(wxT("port"), wxEmptyString);
+			m_sPort = pRootNode->GetAttribute(wxT("port"), wxT("5432"));
 			m_sDBName = pRootNode->GetAttribute(wxT("db"), wxEmptyString);
 			m_sName = pRootNode->GetAttribute(wxT("user"), wxEmptyString);
 			Decrypt(pRootNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
+			m_sConnectTimeout = pRootNode->GetAttribute(wxT("connect_timeout"), wxT("30"));
 			m_bIsBinaryCursor = GetBoolValue(pRootNode, wxT("isbincursor"), false);
         }
     }
@@ -438,7 +440,7 @@ bool wxGISPostgresDataSource::Open(bool bUpdate, bool bShared)
 	CPLErrorReset();
 
     //"PG:host='127.0.0.1' dbname='db' port='5432' user='bishop' password='xxx'"
-	wxString sConnStr = wxString::Format(wxT("%s:host='%s' dbname='%s' port='%s' user='%s' password='%s'"), m_bIsBinaryCursor == true ? wxT("PGB") : wxT("PG"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str());
+	wxString sConnStr = wxString::Format(wxT("%s:host='%s' dbname='%s' port='%s' user='%s' password='%s' connect_timeout='%s'"), m_bIsBinaryCursor == true ? wxT("PGB") : wxT("PG"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str(), m_sPass.c_str(), m_sConnectTimeout.c_str());
 	wxLogVerbose(_("Try to connect: host='%s' dbname='%s' port='%s' user='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
     CPLString szConnStr(sConnStr.ToUTF8());
     m_poDS = (OGRDataSource*) wxGISDataset::OpenInternal( szConnStr, bUpdate, bShared );
