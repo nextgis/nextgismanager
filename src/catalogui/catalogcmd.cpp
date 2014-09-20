@@ -3,7 +3,7 @@
  * Purpose:  Catalog Main Commands class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@
 #include "../../art/edit_paste.xpm"
 
 #include "../../art/email.xpm"
+#include "../../art/connect.xpm"
 
 #include <wx/dirdlg.h>
 #include <wx/file.h>
@@ -62,23 +63,6 @@
 #include <wx/dataobj.h>
 #include <wx/mimetype.h>
 #include <wx/uri.h>
-
-//	0	Up One Level
-//	1	Connect Folder
-//	2	Disconnect Folder - duplicate Delete command
-//	3	Location
-//  4   Delete Item
-//  5   Back
-//  6   Forward
-//  7   Create Folder - need in object dialog
-//	8	Rename
-//	9	Refresh
-//  10  Properties
-//  11  Copy
-//  12  Cut
-//  13  Paste
-//  14  send to email
-//  15  ?
 
 //-----------------------------------------------------------------------------------
 // wxGISCatalogMainCmd
@@ -98,23 +82,23 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogMainCmdUpOneLevel:
 			if(!m_IconFolderUp.IsOk())
 				m_IconFolderUp = wxIcon(folder_up_xpm);
 			return m_IconFolderUp;
-		case 1:
+		case enumGISCatalogMainCmdConnectFolder:
 			if(!m_IconFolderConn.IsOk())
 				m_IconFolderConn = wxIcon(folder_conn_new_xpm);
 			return m_IconFolderConn;
-		case 2:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			if(!m_IconFolderConnDel.IsOk())
 				m_IconFolderConnDel = wxIcon(folder_conn_del_xpm);
 			return m_IconFolderConnDel;
-		case 4:
+		case enumGISCatalogMainCmdDelete:
 			if(!m_IconDel.IsOk())
 				m_IconDel = wxIcon(delete_xpm);
 			return m_IconDel;
-		case 5:
+		case enumGISCatalogMainCmdBack:
 			if(!m_IconGoPrev.IsOk())
 			{
 				wxBitmap oGoOrigin(go_xpm);
@@ -124,43 +108,48 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 				m_IconGoPrev.CopyFromBitmap(wxBitmap(oGoPrevious));
 			}
 			return m_IconGoPrev;
-		case 6:
+		case enumGISCatalogMainCmdForward:
 			if(!m_IconGoNext.IsOk())
 				m_IconGoNext = wxIcon(go_xpm);
 			return m_IconGoNext;
-		case 7:
+		case enumGISCatalogMainCmdCreateFolder:
 			if(!m_IconFolderNew.IsOk())
 				m_IconFolderNew = wxIcon(folder_new_xpm);
 			return m_IconFolderNew;
-		case 8:
+		case enumGISCatalogMainCmdRename:
 			if(!m_IconEdit.IsOk())
 				m_IconEdit = wxIcon(edit_xpm);
 			return m_IconEdit;
-		case 9:
+		case enumGISCatalogMainCmdRefresh:
 			if(!m_IconViewRefresh.IsOk())
 				m_IconViewRefresh = wxIcon(view_refresh_xpm);
 			return m_IconViewRefresh;
-		case 10:
+		case enumGISCatalogMainCmdProperties:
 			if(!m_IconProps.IsOk())
 				m_IconProps = wxIcon(properties_xpm);
 			return m_IconProps;
-		case 11:
+		case enumGISCatalogMainCmdCopy:
 			if(!m_CopyIcon.IsOk())
 				m_CopyIcon = wxIcon(edit_copy_xpm);
 			return m_CopyIcon;
-		case 12:
+		case enumGISCatalogMainCmdCut:
 			if(!m_CutIcon.IsOk())
 				m_CutIcon = wxIcon(edit_cut_xpm);
 			return m_CutIcon;
-		case 13:
+		case enumGISCatalogMainCmdPaste:
 			if(!m_PasteIcon.IsOk())
 				m_PasteIcon = wxIcon(edit_paste_xpm);
 			return m_PasteIcon;
-		case 14:
+		case enumGISCatalogMainCmdSendEmail:
             if (!m_EmailIcon.IsOk())
                 m_EmailIcon = wxIcon(email_xpm);
             return m_EmailIcon;
-		case 3:
+		case enumGISCatalogMainCmdConnect:	
+		case enumGISCatalogMainCmdDisconnect:
+			if(!m_ConnectIcon.IsOk())
+				m_ConnectIcon = wxIcon(connect_xpm);
+			return m_ConnectIcon;	
+		case enumGISCatalogMainCmdLocation:
 		default:
 			return wxNullIcon;
 	}
@@ -168,38 +157,45 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 
 wxString wxGISCatalogMainCmd::GetCaption(void)
 {
+    wxGxSelection* pSel = m_pGxApp->GetGxSelection();
+    wxGxCatalogBase* pCat = GetGxCatalog();
+
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogMainCmdUpOneLevel:
 			return wxString(_("&Up One Level"));
-		case 1:
+		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("&Connect folder"));
-		case 2:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("&Disconnect folder"));
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return wxString(_("Location"));
-		case 4:
+		case enumGISCatalogMainCmdDelete:
 			return wxString(_("Delete"));
-		case 5:
+		case enumGISCatalogMainCmdBack:
 			return wxString(_("Back"));
-		case 6:
+		case enumGISCatalogMainCmdForward:
 			return wxString(_("Forward"));
-		case 7:
+		case enumGISCatalogMainCmdCreateFolder:
 			return wxString(_("Create folder"));
-		case 8:
+		case enumGISCatalogMainCmdRename:
 			return wxString(_("Rename"));
-		case 9:
+		case enumGISCatalogMainCmdRefresh:
 			return wxString(_("Refresh"));
-		case 10:
+		case enumGISCatalogMainCmdProperties:
 			return wxString(_("Properties"));
-		case 11:
+		case enumGISCatalogMainCmdCopy:
 			return wxString(_("Copy"));
-		case 12:
+		case enumGISCatalogMainCmdCut:
 			return wxString(_("Cut"));
-		case 13:
+		case enumGISCatalogMainCmdPaste:
 			return wxString(_("Paste"));
-		case 14:
+		case enumGISCatalogMainCmdSendEmail:
 			return wxString(_("e-mail to..."));
+		case enumGISCatalogMainCmdConnect:	
+			return wxString(_("Connect"));
+		case enumGISCatalogMainCmdDisconnect:	
+			return wxString(_("Disconnect"));			
 		default:
 			return wxEmptyString;
 	}
@@ -209,26 +205,29 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 5:
-		case 6:
-		case 9:
+		case enumGISCatalogMainCmdUpOneLevel:
+		case enumGISCatalogMainCmdConnectFolder:
+		case enumGISCatalogMainCmdDisconnectFolder:
+		case enumGISCatalogMainCmdLocation:
+		case enumGISCatalogMainCmdBack:
+		case enumGISCatalogMainCmdForward:
+		case enumGISCatalogMainCmdRefresh:
 			return wxString(_("Catalog"));
-		case 7:
+		case enumGISCatalogMainCmdCreateFolder:
 			return wxString(_("Create"));
-		case 4:
-		case 8:
-		case 11:
-		case 12:
-		case 13:
+		case enumGISCatalogMainCmdDelete:
+		case enumGISCatalogMainCmdRename:
+		case enumGISCatalogMainCmdCopy:
+		case enumGISCatalogMainCmdCut:
+		case enumGISCatalogMainCmdPaste:
 			return wxString(_("Edit"));
-		case 10:
+		case enumGISCatalogMainCmdProperties:
 			return wxString(_("Miscellaneous"));
-		case 14:
+		case enumGISCatalogMainCmdSendEmail:
 			return wxString(_("Send to"));
+		case enumGISCatalogMainCmdConnect:
+		case enumGISCatalogMainCmdDisconnect:
+			return wxString(_("Remote service"));
 		default:
 			return NO_CATEGORY;
 	}
@@ -248,16 +247,16 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
 
     switch(m_subtype)
 	{
-		case 0://Up One Level
+		case enumGISCatalogMainCmdUpOneLevel:
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 return pGxObject != NULL && pGxObject->GetParent();
             }
             return false;
-		case 1:
+		case enumGISCatalogMainCmdConnectFolder:
 			return true;
-		case 2:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			//check if wxGxDiscConnection
             if(pCat && pSel)
             {
@@ -265,9 +264,9 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 return pGxObject != NULL && pGxObject->IsKindOf(wxCLASSINFO(wxGxDiscConnection));
             }
 			return false;
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return true;
-		case 4://delete
+		case enumGISCatalogMainCmdDelete:
              if(pCat && pSel)
              {
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
@@ -279,15 +278,15 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 }
              }
              return false;
-		case 5:
+		case enumGISCatalogMainCmdBack:
             if(pSel)
                 return pSel->CanUndo();
 			return false;
-		case 6:
+		case enumGISCatalogMainCmdForward:
             if(pSel)
                 return pSel->CanRedo();
 			return false;
-        case 7:
+        case enumGISCatalogMainCmdCreateFolder:
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -296,7 +295,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                     return pCont->CanCreate(enumGISContainer, enumContFolder);
             }
 			return false;
-		case 8://Rename
+		case enumGISCatalogMainCmdRename:
             if(pCat && pSel)
             {
                 size_t nCounter(0);
@@ -310,11 +309,11 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 return nCounter == 1 ? true : false;
             }
             return false;
-		case 9://Refresh
+		case enumGISCatalogMainCmdRefresh:
             if(pSel)
                 return pSel->GetCount() > 0;
 			return false;
-		case 10://Properties
+		case enumGISCatalogMainCmdProperties:
 			//check if IGxObjectEditUI
             if(pCat && pSel)
             {
@@ -322,7 +321,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 return  NULL != dynamic_cast<IGxObjectEditUI*>(pGxObject);
             }
 			return false;
-        case 11://Copy
+        case enumGISCatalogMainCmdCopy:
              if(pCat && pSel)
              {
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
@@ -334,7 +333,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 }
              }
              return false;
-        case 12://Cut
+        case enumGISCatalogMainCmdCut:
              if(pCat && pSel)
              {
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
@@ -346,7 +345,7 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
                 }
              }
              return false;
-        case 13://Paste
+        case enumGISCatalogMainCmdPaste:
             #ifdef __WINDOWS__
         {
             IViewDropTarget* pViewDropTarget = dynamic_cast<IViewDropTarget*>(wxWindow::FindFocus());
@@ -384,14 +383,27 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
              #else //LINUX
              return true;
              #endif // __WINDOWS__
-        case 14://e-mail
+        case enumGISCatalogMainCmdSendEmail://e-mail
             if (pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
                 return pGxObject != NULL;
             }
             return false;
-
+		case enumGISCatalogMainCmdConnect:
+		    if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+				IGxRemoteConnection *pConn = dynamic_cast<IGxRemoteConnection*>(pGxObject);
+                return pConn != NULL && !pConn->IsConnected();
+            }
+		case enumGISCatalogMainCmdDisconnect:
+		    if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+				IGxRemoteConnection *pConn = dynamic_cast<IGxRemoteConnection*>(pGxObject);
+                return pConn != NULL && pConn->IsConnected();
+            }
 		default:
 			return false;
 	}
@@ -401,25 +413,27 @@ wxGISEnumCommandKind wxGISCatalogMainCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://Up One Level
-		case 1://Connect folder
-		case 2://Disconnect folder
+		case enumGISCatalogMainCmdUpOneLevel:
+		case enumGISCatalogMainCmdConnectFolder:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			return enumGISCommandNormal;
-		case 3://location
+		case enumGISCatalogMainCmdLocation:
 			return enumGISCommandControl;
-		case 4://delete
+		case enumGISCatalogMainCmdDelete:
 			return enumGISCommandNormal;
-		case 5://back
-		case 6://forward
+		case enumGISCatalogMainCmdBack:
+		case enumGISCatalogMainCmdForward:
 			return enumGISCommandDropDown;
-		case 7://Create folder
-		case 8://Rename
-		case 9://Refresh
-		case 10://Properties
-		case 11://copy
-		case 12://cut
-		case 13://paste
-        case 14://e-mail
+		case enumGISCatalogMainCmdCreateFolder:
+		case enumGISCatalogMainCmdRename:
+		case enumGISCatalogMainCmdRefresh:
+		case enumGISCatalogMainCmdProperties:
+		case enumGISCatalogMainCmdCopy:
+		case enumGISCatalogMainCmdCut:
+		case enumGISCatalogMainCmdPaste:
+        case enumGISCatalogMainCmdSendEmail:
+		case enumGISCatalogMainCmdConnect:
+		case enumGISCatalogMainCmdDisconnect:
         default:
 			return enumGISCommandNormal;
 	}
@@ -429,36 +443,40 @@ wxString wxGISCatalogMainCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogMainCmdUpOneLevel:
 			return wxString(_("Select parent element"));
-		case 1:
+		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("Connect folder"));
-		case 2:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("Disconnect folder"));
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return wxString(_("Set or get location"));
-		case 4:
+		case enumGISCatalogMainCmdDelete:
 			return wxString(_("Delete item"));
-		case 5:
+		case enumGISCatalogMainCmdBack:
 			return wxString(_("Go to previous location"));
-		case 6:
+		case enumGISCatalogMainCmdForward:
 			return wxString(_("Go to next location"));
-		case 7:
+		case enumGISCatalogMainCmdCreateFolder:
 			return wxString(_("Create folder"));
-		case 8:
+		case enumGISCatalogMainCmdRename:
 			return wxString(_("Rename item"));
-		case 9:
+		case enumGISCatalogMainCmdRefresh:
 			return wxString(_("Refresh item"));
-		case 10:
+		case enumGISCatalogMainCmdProperties:
 			return wxString(_("Item properties"));
-		case 11:
+		case enumGISCatalogMainCmdCopy:
 			return wxString(_("Copy item(s)"));
-		case 12:
+		case enumGISCatalogMainCmdCut:
 			return wxString(_("Cut item(s)"));
-		case 13:
+		case enumGISCatalogMainCmdPaste:
 			return wxString(_("Paste item(s)"));
-        case 14:
+        case enumGISCatalogMainCmdSendEmail:
             return wxString(_("Send item(s) by e-mail"));
+		case enumGISCatalogMainCmdConnect:
+			return wxString(_("Connect"));
+        case enumGISCatalogMainCmdDisconnect:
+			return wxString(_("Disconnect"));
         default:
 			return wxEmptyString;
 	}
@@ -473,7 +491,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
     switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogMainCmdUpOneLevel:
 			if (NULL != pSel && NULL != pCat)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -497,7 +515,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 */
             }
 			break;
-		case 1://	1	Connect Folder
+		case enumGISCatalogMainCmdConnectFolder:
 		{
 			wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder to connect")));
 			if (NULL != pSel && NULL != pCat && dlg.ShowModal() == wxID_OK)
@@ -514,7 +532,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 			}
 			return;
 		}
-		case 2://	2	Disconnect Folder - duplicate Delete command
+		case enumGISCatalogMainCmdDisconnectFolder:
 		{
 			if (NULL != pSel && NULL != pCat)
             {
@@ -531,7 +549,7 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
 			return;
 		}
-		case 8:
+		case enumGISCatalogMainCmdRename:
 			if (NULL != pSel && NULL != pCat)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
@@ -542,7 +560,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 				}
             }
 			break;
-        case 4:
+        case enumGISCatalogMainCmdDelete:
 			if (NULL != pSel && NULL != pCat)
             {
                 bool bAskToDelete(true);
@@ -611,7 +629,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
             }
             return;
-        case 5:
+        case enumGISCatalogMainCmdBack:
 			if (NULL != pSel && NULL != pCat)
             {
                 long nSelId = wxNOT_FOUND;
@@ -625,7 +643,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 		        }
             }
             return;
-        case 6:
+        case enumGISCatalogMainCmdForward:
 			if (NULL != pSel && NULL != pCat)
             {
                 long nSelId = wxNOT_FOUND;
@@ -639,7 +657,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 		        }
             }
             return;
-        case 9:
+        case enumGISCatalogMainCmdRefresh:
 			if (NULL != pSel && NULL != pCat)
             {
                 for(size_t i = 0; i < pSel->GetCount(); ++i)
@@ -650,7 +668,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
             }
             return;
-        case 10:
+        case enumGISCatalogMainCmdProperties:
 			if (NULL != pSel && NULL != pCat)
             {
 				wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
@@ -659,7 +677,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                     pGxObjectEdit->EditProperties(dynamic_cast<wxWindow*>(m_pApp));
             }
             return;
-        case 11://copy
+        case enumGISCatalogMainCmdCopy:
 			if (NULL != pSel && NULL != pCat)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
@@ -704,7 +722,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
             }
     		return;
-        case 12://cut
+        case enumGISCatalogMainCmdCut:
 			if (NULL != pSel && NULL != pCat)
             {
                 wxDataObjectComposite *pDragData = new wxDataObjectComposite();
@@ -741,7 +759,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
             }
     		return;
-        case 13://paste
+        case enumGISCatalogMainCmdPaste:
 			if (NULL != pSel && NULL != pCat)
             {
                 IGxDropTarget* pTarget = dynamic_cast<IGxDropTarget*>(pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId()));
@@ -798,7 +816,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
             }
             return;
-        case 7:
+        case enumGISCatalogMainCmdCreateFolder:
 			if (NULL != pSel && NULL != pCat)
             {
                 //create folder
@@ -820,7 +838,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
             }
             return;
-        case 14:
+        case enumGISCatalogMainCmdSendEmail:
             if (NULL != pSel && NULL != pCat)
             {
 #ifdef wxGIS_USE_EMAIL
@@ -865,7 +883,23 @@ void wxGISCatalogMainCmd::OnClick(void)
 #endif //wxGIS_USE_EMAIL
                 return;
             }
-        case 3:
+		case enumGISCatalogMainCmdConnect:		    
+			if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+				IGxRemoteConnection *pConn = dynamic_cast<IGxRemoteConnection*>(pGxObject);
+                if(pConn != NULL)
+					pConn->Connect();
+            }
+		case enumGISCatalogMainCmdDisconnect:
+			if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+				IGxRemoteConnection *pConn = dynamic_cast<IGxRemoteConnection*>(pGxObject);
+                if(pConn != NULL)
+					pConn->Disconnect();
+            }
+        case enumGISCatalogMainCmdLocation:
 		default:
 			return;
 	}
@@ -1052,17 +1086,17 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogMainCmdUpOneLevel:
 			return wxString(_("Up One Level"));
-		case 1:
+		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("Connect folder"));
-		case 2:
+		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("Disconnect folder"));
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return wxString(_("Set or get location"));
-		case 4:
+		case enumGISCatalogMainCmdDelete:
 			return wxString(_("Delete selected item"));
-		case 5:
+		case enumGISCatalogMainCmdBack:
             if(pSel && pCat && GetEnabled())
             {
                 int nPos = pSel->GetDoPos();
@@ -1075,7 +1109,7 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
                 }
             }
 			return wxString(_("Go to previous location"));
-		case 6:
+		case enumGISCatalogMainCmdForward:
             if(pSel && pCat && GetEnabled())
             {
                 int nPos = pSel->GetDoPos();
@@ -1088,22 +1122,26 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
                 }
             }
 			return wxString(_("Go to next location"));
-		case 7:
+		case enumGISCatalogMainCmdCreateFolder:
 			return wxString(_("Create new folder"));
-		case 8:
+		case enumGISCatalogMainCmdRename:
 			return wxString(_("Rename selected item"));
-		case 9:
+		case enumGISCatalogMainCmdRefresh:
 			return wxString(_("Refresh selected item"));
-		case 10:
+		case enumGISCatalogMainCmdProperties:
 			return wxString(_("Show properties of selected item"));
-		case 11:
+		case enumGISCatalogMainCmdCopy:
 			return wxString(_("Copy selected item(s)"));
-		case 12:
+		case enumGISCatalogMainCmdCut:
 			return wxString(_("Cut selected item(s)"));
-		case 13:
+		case enumGISCatalogMainCmdPaste:
 			return wxString(_("Paste selected item(s)"));
-		case 14:
+		case enumGISCatalogMainCmdSendEmail:
 			return wxString(_("Send selected item(s) by e-mail"));
+		case enumGISCatalogMainCmdConnect:
+			return wxString(_("Connect to remote service"));	
+		case enumGISCatalogMainCmdDisconnect:
+			return wxString(_("Disconnect from remote service"));	
 		default:
 			return wxEmptyString;
 	}
@@ -1111,14 +1149,14 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 
 unsigned char wxGISCatalogMainCmd::GetCount(void)
 {
-	return 15;
+	return enumGISCatalogMainCmdMax;
 }
 
 IToolBarControl* wxGISCatalogMainCmd::GetControl(void)
 {
 	switch(m_subtype)
 	{
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			{
 				wxGxLocationComboBox* pGxLocationComboBox = new wxGxLocationComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxSize( 400, 22 ));
 				return static_cast<IToolBarControl*>(pGxLocationComboBox);
@@ -1132,7 +1170,7 @@ wxString wxGISCatalogMainCmd::GetToolLabel(void)
 {
 	switch(m_subtype)
 	{
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return wxString(_("Path")) + wxString(wxT(": "));
 		default:
 			return wxEmptyString;
@@ -1143,7 +1181,7 @@ bool wxGISCatalogMainCmd::HasToolLabel(void)
 {
 	switch(m_subtype)
 	{
-		case 3:
+		case enumGISCatalogMainCmdLocation:
 			return true;
 		default:
 			return false;
@@ -1159,7 +1197,7 @@ wxMenu* wxGISCatalogMainCmd::GetDropDownMenu(void)
 
 	switch(m_subtype)
 	{
-		case 5:
+		case enumGISCatalogMainCmdBack:
             if(pSel && pCat)
             {
                 int nPos = pSel->GetDoPos();
@@ -1185,7 +1223,7 @@ wxMenu* wxGISCatalogMainCmd::GetDropDownMenu(void)
                 return pMenu;
             }
             return NULL;
-		case 6:
+		case enumGISCatalogMainCmdForward:
             if(pSel && pCat)
             {
                 int nPos = pSel->GetDoPos();

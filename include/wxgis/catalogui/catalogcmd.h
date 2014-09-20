@@ -3,7 +3,7 @@
  * Purpose:  Catalog Main Commands class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,12 +23,33 @@
 #include "wxgis/framework/command.h"
 #include "wxgis/catalogui/gxapplication.h"
 
-/** @class wxGISCatalogMainCmd
-    
-    The main catalog commands includes: "Up One Level", "Connect Folder", "Disconnect Folder", "Location", "Delete Item", "Back", "Forward", "Create Folder", "Rename", "Refresh", "Properties", "Copy", "Cut" and "Paste".
+enum wxGISEnumCatalogMainCmdType{
+    enumGISCatalogMainCmdUpOneLevel = 0,
+	enumGISCatalogMainCmdConnectFolder,
+	enumGISCatalogMainCmdDisconnectFolder,
+	enumGISCatalogMainCmdLocation,
+	enumGISCatalogMainCmdDelete,
+	enumGISCatalogMainCmdBack,
+	enumGISCatalogMainCmdForward,
+	enumGISCatalogMainCmdCreateFolder,
+	enumGISCatalogMainCmdRename,
+	enumGISCatalogMainCmdRefresh,
+	enumGISCatalogMainCmdProperties,
+	enumGISCatalogMainCmdCopy,
+	enumGISCatalogMainCmdCut,
+	enumGISCatalogMainCmdPaste,
+	enumGISCatalogMainCmdSendEmail,
+	enumGISCatalogMainCmdConnect,
+	enumGISCatalogMainCmdDisconnect,
+    enumGISCatalogMainCmdMax
+};
 
-    @library {catalogui}
-*/
+/** @class wxGISCatalogMainCmd
+  *
+  * The main catalog commands includes: "Up One Level", "Connect Folder", "Disconnect Folder", "Location", "Delete Item", "Back", "Forward", "Create Folder", "Rename", "Refresh", "Properties", "Copy", "Cut" and "Paste".
+  * 
+  * @library {catalogui}
+  */
 
 class wxGISCatalogMainCmd :
     public wxGISCommand,
@@ -69,6 +90,6 @@ protected:
     wxIcon m_IconFolderNew, m_IconEdit, m_IconViewRefresh, m_IconProps;
     wxIcon m_LargeFolderIcon, m_SmallFolderIcon;
     wxIcon m_CopyIcon, m_CutIcon, m_PasteIcon;
-    wxIcon m_EmailIcon;
+    wxIcon m_EmailIcon, m_ConnectIcon;
     short m_nPrevNextSelCount;
 };
