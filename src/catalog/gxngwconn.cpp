@@ -38,7 +38,12 @@ wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, cons
     m_bIsConnected = false;
     m_bIsAuthorized = false;
 
-    wxXmlDocument doc(wxString::FromUTF8(soPath));
+    ReadConnectionFile();
+}
+
+void wxGxNGWService::ReadConnectionFile()
+{
+	wxXmlDocument doc(wxString::FromUTF8(m_sPath));
     if (doc.IsOk())
     {
         wxXmlNode* pRootNode = doc.GetRoot();

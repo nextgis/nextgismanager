@@ -39,7 +39,7 @@ public:
 	wxGxSpreadsheetFactoryUI(void);
 	virtual ~wxGxSpreadsheetFactoryUI(void);
 	//wxGxSpreadsheetFactoryUI
-    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableDatasetType type, bool bCheckNames);
+    virtual wxGxObject* GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableType type, bool bCheckNames);
 protected:
     wxIcon m_LargeSSIcon, m_SmallSSIcon;
 };

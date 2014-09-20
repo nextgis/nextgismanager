@@ -1919,10 +1919,10 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
             }
         }
 
-        wxGISTable *pTableDataset = new wxGISTable(sPath, pFilter->GetSubType(), poLayerDest, poDS);
-        pTableDataset->SetEncoding(oEncoding);
+        wxGISTable *pTable = new wxGISTable(sPath, pFilter->GetSubType(), poLayerDest, poDS);
+        pTable->SetEncoding(oEncoding);
         wxASSERT_MSG(poDS->Dereference() > 0, wxT("Reference counting error"));
-        return wxStaticCast(pTableDataset, wxGISDataset);
+        return wxStaticCast(pTable, wxGISDataset);
     }
     return NULL;
 }

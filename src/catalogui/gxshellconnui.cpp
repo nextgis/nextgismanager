@@ -247,7 +247,7 @@ wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxG
         return new wxGxPostGISFeatureDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass);
     case enumGISRasterDataset:
         return NULL;
-    case enumGISTableDataset:
+    case enumGISTable:
     default:
         return new wxGxPostGISTableDatasetUI(GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
     };

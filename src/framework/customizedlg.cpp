@@ -136,7 +136,6 @@ wxGISToolBarPanel::wxGISToolBarPanel(wxGISApplicationEx* pApp, wxWindow* parent,
 	{
 		wxGISCommandBar* pBar = MenuBarArray[i];
 		wxString sCaption = pBar->GetCaption();
-		sCaption += wxString(wxT(" ")) + wxString(_("menu"));
 		sCaption.Replace(wxT("&"), wxT(""));
 
 		m_pTreeCtrl->AppendItem(m_nMenubarId, sCaption, -1, -1, new wxBarTreeItemData(pBar));
@@ -149,27 +148,18 @@ wxGISToolBarPanel::wxGISToolBarPanel(wxGISApplicationEx* pApp, wxWindow* parent,
 		if(pBar->GetType() == enumGISCBContextmenu)
 		{
 			wxString sCaption = pBar->GetCaption();
-			sCaption.Replace(wxT("wxGx"), wxT(""));
-			sCaption.Replace(wxT("wxRx"), wxT(""));
-			sCaption.Replace(wxT("wxMx"), wxT(""));
-			if(sCaption.Find(wxT(".NewMenu")) != wxNOT_FOUND)
-			{
-				sCaption += wxString(wxT(" ")) + wxString(_("new menu"));
-				sCaption.Replace(wxT(".NewMenu"), wxT(""));
+			if(pBar->GetName().Find(wxT(".NewMenu")) != wxNOT_FOUND)
+			{				
 				m_pTreeCtrl->AppendItem(m_nNewMenuesId, sCaption, -1, -1, new wxBarTreeItemData(pBar));
 			}
 			else
-			{
-				sCaption += wxString(wxT(" ")) + wxString(_("context menu"));
-				sCaption.Replace(wxT(".ContextMenu"), wxT(""));
+			{				
 				m_pTreeCtrl->AppendItem(m_nContextMenuesId, sCaption, -1, -1, new wxBarTreeItemData(pBar));
 			}
 		}
 		else if(pBar->GetType() == enumGISCBToolbar)
 		{
 			wxString sCaption = pBar->GetCaption();
-			sCaption += wxString(wxT(" ")) + wxString(_("toolbar"));
-
 			int nImgIndex = m_pApp->IsPaneShown(pBar->GetName()) == true ? 1 : 0;
 			m_pTreeCtrl->AppendItem(m_nToolBarsId, sCaption, nImgIndex, nImgIndex, new wxBarTreeItemData(pBar));
 		}
@@ -416,7 +406,6 @@ void wxGISToolBarPanel::OnCreateCommandBar(wxCommandEvent& event)
 			if(m_pApp->AddCommandBar(static_cast<wxGISCommandBar*>(pMenu)))
 			{
 				wxString sCaption = pMenu->GetCaption();
-				sCaption += wxString(wxT(" ")) + wxString(_("menu"));
 				sCaption.Replace(wxT("&"), wxT(""));
 
 				wxGISCommandBar* pBar = static_cast<wxGISCommandBar*>(pMenu);
@@ -430,20 +419,13 @@ void wxGISToolBarPanel::OnCreateCommandBar(wxCommandEvent& event)
 			if(m_pApp->AddCommandBar(static_cast<wxGISCommandBar*>(pMenu)))
 			{
 				wxString sCaption = pMenu->GetCaption();
-				sCaption.Replace(wxT("wxGx"), wxT(""));
-				sCaption.Replace(wxT("wxRx"), wxT(""));
-				sCaption.Replace(wxT("wxMx"), wxT(""));
 				wxGISCommandBar* pBar = static_cast<wxGISCommandBar*>(pMenu);
-				if(sCaption.Find(wxT(".NewMenu")) != wxNOT_FOUND)
+				if(pMenu->GetName().Find(wxT(".NewMenu")) != wxNOT_FOUND)
 				{
-					sCaption += wxString(wxT(" ")) + wxString(_("new menu"));
-					sCaption.Replace(wxT(".NewMenu"), wxT(""));
 					m_pTreeCtrl->AppendItem(m_nNewMenuesId, sCaption, -1, -1, new wxBarTreeItemData(pBar));
 				}
 				else
 				{
-					sCaption += wxString(wxT(" ")) + wxString(_("context menu"));
-					sCaption.Replace(wxT(".ContextMenu"), wxT(""));
 					m_pTreeCtrl->AppendItem(m_nContextMenuesId, sCaption, -1, -1, new wxBarTreeItemData(pBar));
 				}
 			}
@@ -473,7 +455,6 @@ void wxGISToolBarPanel::OnCreateCommandBar(wxCommandEvent& event)
 				pGISToolBar->SetCustomOverflowItems(prepend_items, append_items);
 
 				wxString sCaption = pGISToolBar->GetCaption();
-				sCaption += wxString(wxT(" ")) + wxString(_("toolbar"));
 
 				wxGISCommandBar* pBar = static_cast<wxGISCommandBar*>(pGISToolBar);
 				int nImgIndex = m_pApp->IsPaneShown(pBar->GetName()) == true ? 1 : 0;
@@ -568,7 +549,6 @@ void wxGISToolBarPanel::OnMoveUp(wxCommandEvent& event)
 	if(m_bToolsFocus)
 	{
 		wxString sCaption = pBar->GetCaption();
-		sCaption += wxString(wxT(" ")) + wxString(_("menu"));
 		sCaption.Replace(wxT("&"), wxT(""));
 
 		wxGISMenuBar* pwxGISMenuBar = m_pApp->GetGISMenuBar();
@@ -613,7 +593,6 @@ void wxGISToolBarPanel::OnMoveDown(wxCommandEvent& event)
 	if(m_bToolsFocus)
 	{
 		wxString sCaption = pBar->GetCaption();
-		sCaption += wxString(wxT(" ")) + wxString(_("menu"));
 		sCaption.Replace(wxT("&"), wxT(""));
 
 		wxGISMenuBar* pwxGISMenuBar = m_pApp->GetGISMenuBar();

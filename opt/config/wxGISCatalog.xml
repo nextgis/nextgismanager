@@ -77,12 +77,12 @@
       <menu name="MenuBar.Help" caption="&amp;Help">
         <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="1" name="О &amp;программе"/>
       </menu>
-      <menu name="wxGxCatalog.ContextMenu" caption="wxGxCatalog.ContextMenu">
+      <menu name="wxGxCatalog.ContextMenu" caption="Catalog">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
       </menu>
-      <menu name="wxGxDiscConnection.ContextMenu" caption="wxGxDiscConnection.ContextMenu">
+      <menu name="wxGxDiscConnection.ContextMenu" caption="Folder connection">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="2" name="&amp;Отсоединить папку"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
@@ -91,7 +91,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxFolder.ContextMenu" caption="wxGxFolder.ContextMenu">
+      <menu name="wxGxFolder.ContextMenu" caption="Folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
@@ -105,15 +105,15 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxArchive.ContextMenu" caption="wxGxArchive.ContextMenu">
+      <menu name="wxGxArchive.ContextMenu" caption="Archive">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
       </menu>
-      <menu name="wxGxArchiveFolder.ContextMenu" caption="wxGxArchiveFolder.ContextMenu">
+      <menu name="wxGxArchiveFolder.ContextMenu" caption="Archive folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
-      <menu name="wxGxTableDataset.ContextMenu" caption="wxGxTableDataset.ContextMenu">
+      <menu name="wxGxTable.ContextMenu" caption="Table">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -126,7 +126,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxFeatureDataset.ContextMenu" caption="wxGxFeatureDataset.ContextMenu">
+      <menu name="wxGxFeatureDataset.ContextMenu" caption="Feature class">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -140,7 +140,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxRasterDataset.ContextMenu" caption="wxGxRasterDataset.ContextMenu">
+      <menu name="wxGxRasterDataset.ContextMenu" caption="Raster">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -153,7 +153,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxPrjFile.ContextMenu" caption="wxGxPrjFile.ContextMenu">
+      <menu name="wxGxPrjFile.ContextMenu" caption="Coordinate System">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -164,7 +164,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxSpatialReferencesFolder.ContextMenu" caption="wxGxSpatialReferencesFolder.ContextMenu">
+      <menu name="wxGxSpatialReferencesFolder.ContextMenu" caption="Coordinate Systems Folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
       <menu name="MenuBar.Windows" caption="&amp;Windows">
@@ -175,27 +175,27 @@
       <menu name="MenuBar.Tools" caption="&amp;Tools">
         <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
       </menu>
-      <menu name="wxGxDiscConnection.NewMenu" caption="wxGxDiscConnection.NewMenu">
+      <menu name="wxGxDiscConnection.NewMenu" caption="Folder connection">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
       </menu>
-      <menu name="wxGxFolder.NewMenu" caption="wxGxFolder.NewMenu">
+      <menu name="wxGxFolder.NewMenu" caption="Folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="0" name="Подключение к &amp;БД"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="1" name="&amp;TMS connection"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="2" name="&amp;NGW connection"/>
       </menu>
-      <menu name="wxGxTaskObject.ContextMenu" caption="wxGxTaskObject.ContextMenu">
+      <menu name="wxGxTaskObject.ContextMenu" caption="Task">
         <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="0" name="Показать диалог инструмента"/>
         <Item type="cmd" cmd_name="wxGISTaskCmd" subtype="1" name="Показать диалог исполнения"/>
       </menu>
-      <menu name="wxGxKMLSubDataset.ContextMenu" caption="wxGxKMLSubDataset.ContextMenu">
+      <menu name="wxGxKMLSubDataset.ContextMenu" caption="KML Feature class">
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="2" name="Э&amp;кспорт с параметрами"/>
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="&amp;Экспорт"/>
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="3" name="Export &amp;attributes"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxRemoteServer.ContextMenu" caption="wxGxRemoteServer.ContextMenu">
+      <menu name="wxGxRemoteServer.ContextMenu" caption="Remote Server">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
@@ -203,26 +203,26 @@
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
         <Item type="sep"/>
       </menu>
-      <menu name="wxGxRemoteServers.ContextMenu" caption="wxGxRemoteServers.ContextMenu">
+      <menu name="wxGxRemoteServers.ContextMenu" caption="Remote Servers">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
         <Item type="sep"/>
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
       </menu>
-      <menu name="wxGxRemoteServers.NewMenu" caption="wxGxRemoteServers.NewMenu"/>
-      <menu name="wxGxDBConnections.NewMenu" caption="wxGxDBConnections.NewMenu">
+      <menu name="wxGxRemoteServers.NewMenu" caption="Remote Servers"/>
+      <menu name="wxGxDBConnections.NewMenu" caption="Database connections folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="0" name="Подключение к &amp;БД"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="4" name="&amp;База данных"/>
       </menu>
-      <menu name="wxGxDBConnections.ContextMenu" caption="wxGxDBConnections.ContextMenu">
+      <menu name="wxGxDBConnections.ContextMenu" caption="Database connections folder">
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
-      <menu name="wxGxRemoteConnection.ContextMenu" caption="wxGxRemoteConnection.ContextMenu">
+      <menu name="wxGxRemoteConnection.ContextMenu" caption="Database Connection">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="15" name="Подключить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="16" name="Disconnect"/>
         <Item type="sep"/>
@@ -234,7 +234,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxPostGISTableDataset.ContextMenu" caption="wxGxPostGISTableDataset.ContextMenu">
+      <menu name="wxGxPostGISTable.ContextMenu" caption="PostGIS Table">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -246,7 +246,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxPostGISFeatureDataset.ContextMenu" caption="wxGxPostGISFeatureDataset.ContextMenu">
+      <menu name="wxGxPostGISFeatureDataset.ContextMenu" caption="PostGIS Feature class">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -259,7 +259,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxTMSWebService.ContextMenu" caption="wxGxTMSWebService.ContextMenu">
+      <menu name="wxGxTMSWebService.ContextMenu" caption="Tile Map service">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
@@ -268,10 +268,10 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxDiscConnections.ContextMenu" caption="wxGxDiscConnections.ContextMenu">
+      <menu name="wxGxDiscConnections.ContextMenu" caption="Folder connections">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
-      <menu name="wxGxRemoteDBSchema.ContextMenu" caption="wxGxRemoteDBSchema.ContextMenu">
+      <menu name="wxGxRemoteDBSchema.ContextMenu" caption="Remote Database Schema">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
@@ -281,21 +281,40 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxRemoteConnection.NewMenu" caption="wxGxRemoteConnection.NewMenu">
+      <menu name="wxGxRemoteConnection.NewMenu" caption="Database Connection">
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="3" name="С&amp;хема БД"/>
       </menu>
-      <menu name="wxGxWebConnections.ContextMenu" caption="wxGxWebConnections.ContextMenu">
+      <menu name="wxGxWebConnections.ContextMenu" caption="Web services folder">
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
-      <menu name="wxGxWebConnections.NewMenu" caption="wxGxWebConnections.NewMenu">
+      <menu name="wxGxWebConnections.NewMenu" caption="Web services folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="1" name="&amp;TMS connection"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="2" name="&amp;NGW connection"/>
       </menu>
+      <menu name="wxGxNGWService.ContextMenu" caption="NGW Service">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="15" name="Подключить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="16" name="Disconnect"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxNGWResourceGroup.ContextMenu" caption="NGW resources">
+        <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
+      <menu name="wxGxNGWResourceGroup.NewMenu" caption="NGW resources"/>
     </Menues>
     <MenuBar>
       <menu name="MenuBar.File"/>

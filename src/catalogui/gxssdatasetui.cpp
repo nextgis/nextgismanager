@@ -38,7 +38,7 @@
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxSpreadsheetDatasetUI, wxGxSpreadsheetDataset)
 
-wxGxSpreadsheetDatasetUI::wxGxSpreadsheetDatasetUI(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxSpreadsheetDataset(eType, oParent, soName, soPath), wxThreadHelper()
+wxGxSpreadsheetDatasetUI::wxGxSpreadsheetDatasetUI(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxSpreadsheetDataset(eType, oParent, soName, soPath), wxThreadHelper()
 {
     m_nPendUId = wxNOT_FOUND;
     m_LargeIcon = LargeIcon;
@@ -107,7 +107,7 @@ wxThread::ExitCode wxGxSpreadsheetDatasetUI::Entry()
         {
             wxGISDataset* pwxGISSuDataset = m_pwxGISDataset->GetSubset(i);
             wxString sSubsetName = pwxGISSuDataset->GetName();
-            wxGxSpreadsheetSubDatasetUI* pGxSpreadsheetSubDatasetUI = new wxGxSpreadsheetSubDatasetUI((wxGISEnumTableDatasetType)GetSubType(), pwxGISSuDataset, wxStaticCast(this, wxGxObject), sSubsetName, wxGxObjectContainer::GetPath(), m_LargeSubIcon, m_SmallSubIcon);
+            wxGxSpreadsheetSubDatasetUI* pGxSpreadsheetSubDatasetUI = new wxGxSpreadsheetSubDatasetUI((wxGISEnumTableType)GetSubType(), pwxGISSuDataset, wxStaticCast(this, wxGxObject), sSubsetName, wxGxObjectContainer::GetPath(), m_LargeSubIcon, m_SmallSubIcon);
             wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pGxSpreadsheetSubDatasetUI->GetId());
 	    }
 
@@ -170,7 +170,7 @@ wxGISDataset* const wxGxSpreadsheetDatasetUI::GetDataset(bool bCache, ITrackCanc
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxSpreadsheetSubDatasetUI, wxGxSpreadsheetSubDataset)
 
-wxGxSpreadsheetSubDatasetUI::wxGxSpreadsheetSubDatasetUI(wxGISEnumTableDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxSpreadsheetSubDataset(nType, pwxGISDataset, oParent, soName, soPath)
+wxGxSpreadsheetSubDatasetUI::wxGxSpreadsheetSubDatasetUI(wxGISEnumTableType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxSpreadsheetSubDataset(nType, pwxGISDataset, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;

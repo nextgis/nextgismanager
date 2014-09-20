@@ -25,9 +25,12 @@
 
 class wxGISFeatureLayer;
 
-/** \class wxGISSimpleRenderer featurerenderer.h
-    \brief The vector layer renderer
-*/
+/** @class wxGISSimpleRenderer
+  * 
+  * The vector layer renderer
+  * 
+  * @library{carto}
+  */
 
 class WXDLLIMPEXP_GIS_CRT wxGISFeatureRenderer :
 	public wxGISRenderer
@@ -54,9 +57,12 @@ protected:
 WX_DECLARE_HASH_MAP(long, wxGISSymbol*, wxIntegerHash, wxIntegerEqual, wxGISUniqueValuesSymbolMap);
 
 
-/** \class wxGISSimpleRenderer featurerenderer.h
-    \brief The vector layer renderer
-*/
+/** @class wxGISSimpleRenderer
+  * 
+  * The vector layer renderer
+  * 
+  * @library{carto}
+  */
 
 class WXDLLIMPEXP_GIS_CRT wxGISUniqueValueRenderer  :
 	public wxGISFeatureRenderer

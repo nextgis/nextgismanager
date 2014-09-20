@@ -27,16 +27,14 @@
 #include "../../art/pg_vec_48.xpm"
 #include "../../art/table_pg_16.xpm"
 #include "../../art/table_pg_48.xpm"
-#include "../../art/dbschema_16.xpm"
-#include "../../art/dbschema_48.xpm"
 #include "../../art/layers_16.xpm"
 #include "../../art/layer_16.xpm"
 #include "../../art/folder_arch_16.xpm"
 #include "../../art/folder_arch_48.xpm"
-#include "../../art/rdb_conn_16.xpm"
-#include "../../art/rdb_conn_48.xpm"
 #include "../../art/ngw_layer_16.xpm"
 #include "../../art/ngw_layer_48.xpm"
+#include "../../art/rdb_conn_16.xpm"
+#include "../../art/rdb_conn_48.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -52,6 +50,10 @@
 #include "wx/bookctrl.h"
 
 #ifdef wxGIS_USE_CURL
+
+
+#include "wxgis/catalogui/remoteconndlgs.h"
+
 //--------------------------------------------------------------
 //class wxGxNGWServiceUI
 //--------------------------------------------------------------
@@ -96,6 +98,13 @@ wxIcon wxGxNGWServiceUI::GetSmallImage(void)
 
 void wxGxNGWServiceUI::EditProperties(wxWindow *parent)
 {
+	wxGISNGWConnDlg dlg(m_sPath, parent);
+	if(dlg.ShowModal() == wxID_OK)
+	{
+        Disconnect();
+        //reread settings from connection file
+        ReadConnectionFile();
+	}	
 }
 
 bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)

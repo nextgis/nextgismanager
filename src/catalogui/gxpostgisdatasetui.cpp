@@ -36,34 +36,34 @@
 #include "wx/bookctrl.h"
 
 //-----------------------------------------------------------------------------
-// wxGxPostGISTableDatasetUI
+// wxGxPostGISTableUI
 //-----------------------------------------------------------------------------
 
-class wxGxPostGISTableDatasetUI;
-IMPLEMENT_CLASS(wxGxPostGISTableDatasetUI, wxGxPostGISTableDataset)
+class wxGxPostGISTableUI;
+IMPLEMENT_CLASS(wxGxPostGISTableUI, wxGxPostGISTable)
 
-wxGxPostGISTableDatasetUI::wxGxPostGISTableDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISTableDataset(nRemoteId, sSchema, pwxGISRemoteConn, oParent, soName, soPath)
+wxGxPostGISTableUI::wxGxPostGISTableUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxPostGISTable(nRemoteId, sSchema, pwxGISRemoteConn, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;
 }
 
-wxGxPostGISTableDatasetUI::~wxGxPostGISTableDatasetUI(void)
+wxGxPostGISTableUI::~wxGxPostGISTableUI(void)
 {
 }
 
-wxIcon wxGxPostGISTableDatasetUI::GetLargeImage(void)
+wxIcon wxGxPostGISTableUI::GetLargeImage(void)
 {
 	return m_LargeIcon;
 }
 
-wxIcon wxGxPostGISTableDatasetUI::GetSmallImage(void)
+wxIcon wxGxPostGISTableUI::GetSmallImage(void)
 {
 	return m_SmallIcon;
 }
 
 
-void wxGxPostGISTableDatasetUI::EditProperties(wxWindow *parent)
+void wxGxPostGISTableUI::EditProperties(wxWindow *parent)
 {
     wxPropertySheetDialog PropertySheetDialog;
     if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))

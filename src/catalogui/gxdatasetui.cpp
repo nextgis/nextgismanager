@@ -38,12 +38,12 @@
 #include "wx/propdlg.h"
 
 //--------------------------------------------------------------
-//class wxGxTableDatasetUI
+//class wxGxTableUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxTableUI, wxGxTable)
 
-wxGxTableUI::wxGxTableUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTable(nType, oParent, soName, soPath)
+wxGxTableUI::wxGxTableUI(wxGISEnumTableType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTable(nType, oParent, soName, soPath)
 {
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;

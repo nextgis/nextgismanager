@@ -53,21 +53,21 @@ protected:
 	wxGISIndexMap m_msIndexs;
  };
 
-/** @class wxGxPostGISTableDataset
+/** @class wxGxPostGISTable
  * 
  * A PostGIS Table Dataset GxObject.
  * 
  * @library{catalog}
 */
 
-class WXDLLIMPEXP_GIS_CLT wxGxPostGISTableDataset :
+class WXDLLIMPEXP_GIS_CLT wxGxPostGISTable :
 	public wxGxTable,
 	public wxGISPostGISBaseTable
 {
-    DECLARE_CLASS(wxGxPostGISTableDataset)
+    DECLARE_CLASS(wxGxPostGISTable)
 public:
-	wxGxPostGISTableDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-	virtual ~wxGxPostGISTableDataset(void);
+	wxGxPostGISTable(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	virtual ~wxGxPostGISTable(void);
 	//wxGxObject
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Table"));};
     //wxGxDataset
@@ -101,7 +101,7 @@ public:
 	wxGxPostGISFeatureDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxPostGISFeatureDataset(void);
 	//wxGxObject
-	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Feature Dataset"));};
+	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Feature class"));};
     //wxGxDataset
     virtual void FillMetadata(bool bForce);
     //IGxDatasetEdit

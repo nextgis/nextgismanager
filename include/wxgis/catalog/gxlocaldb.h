@@ -89,18 +89,18 @@ public:
     virtual ~wxGxInitedFeatureDataset(void);
 };
 
-/** @class wxGxInitedTableDataset
+/** @class wxGxInitedTable
 
     An already opened table GxObject.
 
     @library{catalog}
 */
 
-class WXDLLIMPEXP_GIS_CLT wxGxInitedTableDataset :
+class WXDLLIMPEXP_GIS_CLT wxGxInitedTable :
     public wxGxTable
 {
-    DECLARE_CLASS(wxGxInitedTableDataset)
+    DECLARE_CLASS(wxGxInitedTable)
 public:
-    wxGxInitedTableDataset(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-    virtual ~wxGxInitedTableDataset(void);
+    wxGxInitedTable(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+    virtual ~wxGxInitedTable(void);
 };

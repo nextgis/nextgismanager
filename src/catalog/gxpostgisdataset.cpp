@@ -82,20 +82,20 @@ void wxGISPostGISBaseTable::FillIndixes()
 }
 
 //-----------------------------------------------------------------------------------
-// wxGxPostGISTableDataset
+// wxGxPostGISTable
 //-----------------------------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGxPostGISTableDataset, wxGxTable)
+IMPLEMENT_CLASS(wxGxPostGISTable, wxGxTable)
 
-wxGxPostGISTableDataset::wxGxPostGISTableDataset(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(enumTablePostgres, oParent, soName, soPath), wxGISPostGISBaseTable(nRemoteId, sSchema, soName, pwxGISRemoteConn)
+wxGxPostGISTable::wxGxPostGISTable(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(enumTablePostgres, oParent, soName, soPath), wxGISPostGISBaseTable(nRemoteId, sSchema, soName, pwxGISRemoteConn)
 {
 }
 
-wxGxPostGISTableDataset::~wxGxPostGISTableDataset(void)
+wxGxPostGISTable::~wxGxPostGISTable(void)
 {    
 }
 
-wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
+wxGISDataset* const wxGxPostGISTable::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
@@ -107,7 +107,7 @@ wxGISDataset* const wxGxPostGISTableDataset::GetDatasetFast(void)
     wsGET(m_pwxGISDataset);
 }
 
-void wxGxPostGISTableDataset::FillMetadata(bool bForce)
+void wxGxPostGISTable::FillMetadata(bool bForce)
 {
     if (m_bIsMetadataFilled && !bForce)
         return;
@@ -116,26 +116,26 @@ void wxGxPostGISTableDataset::FillMetadata(bool bForce)
 	FillIndixes();
 }
 
-bool wxGxPostGISTableDataset::CanRename(void)
+bool wxGxPostGISTable::CanRename(void)
 {
     //TODO: check permissions
     return m_pwxGISRemoteConn != NULL;
 }
 
-bool wxGxPostGISTableDataset::CanCopy(const CPLString &szDestPath)
+bool wxGxPostGISTable::CanCopy(const CPLString &szDestPath)
 {
     //TODO: not support yet
     return false;
 }
 
-bool wxGxPostGISTableDataset::CanMove(const CPLString &szDestPath)
+bool wxGxPostGISTable::CanMove(const CPLString &szDestPath)
 {
     //TODO: check permissions
     //TODO: not support yet
     return false;
 }
 
-bool wxGxPostGISTableDataset::Delete()
+bool wxGxPostGISTable::Delete()
 {
 	if( wxGxTable::Delete() )
 	{
@@ -149,7 +149,7 @@ bool wxGxPostGISTableDataset::Delete()
 	return false;
 }
 
-bool wxGxPostGISTableDataset::Rename(const wxString &sNewName)
+bool wxGxPostGISTable::Rename(const wxString &sNewName)
 {
 	wxGISTable* pDst = wxDynamicCast(GetDataset(), wxGISTable);		
 	if(NULL == pDst)
@@ -171,12 +171,12 @@ bool wxGxPostGISTableDataset::Rename(const wxString &sNewName)
 	return false;
 }
 
-bool wxGxPostGISTableDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+bool wxGxPostGISTable::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     return false;
 }
 
-bool wxGxPostGISTableDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+bool wxGxPostGISTable::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     return false;
 }

@@ -575,7 +575,7 @@ bool wxGxRemoteDBSchema::CanCreate(long nDataType, long DataSubtype)
     {
         return DataSubtype == emumVecPostGIS;
     }
-    if (nDataType == enumGISTableDataset)
+    if (nDataType == enumGISTable)
     {
         return DataSubtype == enumTablePostgres;
     }

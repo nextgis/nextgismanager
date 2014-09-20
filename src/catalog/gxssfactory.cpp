@@ -78,7 +78,7 @@ bool wxGxSpreadsheetFactory::GetChildren(wxGxObject* pParent, char** &pFileNames
 	return true;
 }
 
-wxGxObject* wxGxSpreadsheetFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableDatasetType type, bool bCheckNames)
+wxGxObject* wxGxSpreadsheetFactory::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableType type, bool bCheckNames)
 {
     if(bCheckNames && IsNameExist(pParent, soName))
     {

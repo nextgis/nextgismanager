@@ -660,7 +660,7 @@ wxGxObject* wxGxRemoteDBSchema::GetNewTable(int nRemoteId, const wxString &sTabl
         return NULL;
     case enumGISTable:
     default:
-        return new wxGxPostGISTableDataset(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath);
+        return new wxGxPostGISTable(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath);
     };
 
     return NULL;

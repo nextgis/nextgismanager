@@ -48,8 +48,8 @@ public:
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxNGWServiceUI.ContextMenu"));};
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWServiceUI.NewtMenu")); };
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxNGWService.ContextMenu"));};
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWService.NewtMenu")); };
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
@@ -83,7 +83,7 @@ public:
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewtMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
 protected:
     virtual void AddResource(const wxJSONValue &Data);
 protected:
@@ -112,8 +112,8 @@ public:
     //IGxObjectUI
     virtual wxIcon GetLargeImage(void);
     virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWRootResource.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWRootResource.NewtMenu")); };
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
 };
 
 /** @class wxGxNGWLayerUI

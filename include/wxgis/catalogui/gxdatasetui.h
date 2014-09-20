@@ -38,12 +38,12 @@ class WXDLLIMPEXP_GIS_CLU wxGxTableUI :
 {
     DECLARE_CLASS(wxGxTableUI)
 public:
-	wxGxTableUI(wxGISEnumTableDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+	wxGxTableUI(wxGISEnumTableType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
 	virtual ~wxGxTableUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxTableDataset.ContextMenu"));};
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxTable.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};//{return wxString(wxT("wxGxDataset.NewMenu"));};
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);

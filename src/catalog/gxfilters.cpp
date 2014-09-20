@@ -697,12 +697,12 @@ wxString wxGxTextFilter::GetExt(void) const
 
 
 //------------------------------------------------------------
-// wxGxTableDatasetFilter
+// wxGxTableFilter
 //------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxTableFilter, wxGxObjectFilter)
 
-wxGxTableFilter::wxGxTableFilter(wxGISEnumTableDatasetType nSubType)
+wxGxTableFilter::wxGxTableFilter(wxGISEnumTableType nSubType)
 {
     m_nSubType = nSubType;
 }

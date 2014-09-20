@@ -72,6 +72,7 @@ public:
 protected:
     virtual void LoadChildren(void);
     virtual bool ConnectToNGW();
+	virtual void ReadConnectionFile();
 protected:
     wxString m_sLogin;
     wxString m_sPassword;

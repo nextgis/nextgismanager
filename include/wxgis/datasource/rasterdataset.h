@@ -22,10 +22,11 @@
 
 #include "wxgis/datasource/dataset.h"
 
-/** \class wxGISRasterDataset rasterdataset.h
-    \brief The GIS RasterDataset class.
-
-    This class stores raster geographic data (imagery & etc.).
+/** @class wxGISRasterDataset
+ * 
+ * The GIS RasterDataset class. This class stores raster geographic data (imagery & etc.).
+ * 
+ * @library{datasource}
 */
 
 class WXDLLIMPEXP_GIS_DS wxGISRasterDataset :

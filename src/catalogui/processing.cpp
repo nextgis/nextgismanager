@@ -103,7 +103,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
     {
         for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
-            wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+            wxGISEnumTableType eCurrentSubType = (wxGISEnumTableType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISTable, eCurrentSubType))
             {
                 if (bDefaultSet)
@@ -212,7 +212,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
         }
         else if (eType == enumGISTable)
         {
-            ExportSingleTableDataset(pWnd, sPath, sName, pFilter, pGxDataset);
+            ExportSingleTable(pWnd, sPath, sName, pFilter, pGxDataset);
         }
     }
 }
@@ -241,7 +241,7 @@ void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset)
 
     for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
     {
-        wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+        wxGISEnumTableType eCurrentSubType = (wxGISEnumTableType)i;
         if (IsFileDataset(enumGISTable, eCurrentSubType))
         {
             if (bDefaultSet)
@@ -313,7 +313,7 @@ void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset)
             oConfig.Write(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/exp_attr/path"), sCatalogPath);
         }
 
-        ExportSingleTableDataset(pWnd, sPath, sName, pFilter, pGxDataset);
+        ExportSingleTable(pWnd, sPath, sName, pFilter, pGxDataset);
     }
 }
 
@@ -386,7 +386,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
     {
         for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
         {
-            wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+            wxGISEnumTableType eCurrentSubType = (wxGISEnumTableType)i;
             if (eCurrentSubType != eSubType && IsFileDataset(enumGISTable, eCurrentSubType))
             {
                 if (bDefaultSet)
@@ -515,7 +515,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
         }
         else if (eType == enumGISTable)
         {
-            ExportMultipleTableDatasets(pWnd, sPath, pFilter, paExportDatasets);
+            ExportMultipleTable(pWnd, sPath, pFilter, paExportDatasets);
         }
     }
 }
@@ -541,7 +541,7 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
 
     for (size_t i = enumTableUnknown + 1; i < enumTableMAX; ++i)
     {
-        wxGISEnumTableDatasetType eCurrentSubType = (wxGISEnumTableDatasetType)i;
+        wxGISEnumTableType eCurrentSubType = (wxGISEnumTableType)i;
         if (IsFileDataset(enumGISTable, eCurrentSubType))
         {
             if (bDefaultSet)
@@ -633,7 +633,7 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
             paExportDatasets.push_back(ds);
         }
 
-        ExportMultipleTableDatasets(pWnd, sPath, pFilter, paExportDatasets);
+        ExportMultipleTable(pWnd, sPath, pFilter, paExportDatasets);
     }
 }
 
@@ -697,7 +697,7 @@ void ExportSingleRasterDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
 
 }
 
-void ExportSingleTableDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset)
+void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset)
 {
     wxCHECK_RET(pFilter && pGxDataset, wxT("The input pointer is NULL"));
 
@@ -818,7 +818,7 @@ void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
 }
 
-void ExportMultipleTableDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets)
+void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets)
 {
 
 }

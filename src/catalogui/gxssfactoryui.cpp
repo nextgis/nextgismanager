@@ -39,7 +39,7 @@ wxGxSpreadsheetFactoryUI::~wxGxSpreadsheetFactoryUI(void)
 {
 }
 
-wxGxObject* wxGxSpreadsheetFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableDatasetType type, bool bCheckNames)
+wxGxObject* wxGxSpreadsheetFactoryUI::GetGxObject(wxGxObject* pParent, const wxString &soName, const CPLString &szPath, wxGISEnumTableType type, bool bCheckNames)
 {
     if(bCheckNames && IsNameExist(pParent, soName))
     {

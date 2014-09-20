@@ -38,7 +38,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxSpreadsheetDataset :
 {
     DECLARE_CLASS(wxGxSpreadsheetDataset)
 public:
-	wxGxSpreadsheetDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxSpreadsheetDataset(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxSpreadsheetDataset(void);
     //wxGxObject
 	virtual wxString GetCategory(void) const;
@@ -59,7 +59,7 @@ protected:
 protected:
     bool m_bIsChildrenLoaded;
     wxGISDataset* m_pwxGISDataset;
-	wxGISEnumTableDatasetType m_eType;
+	wxGISEnumTableType m_eType;
 };
 
 /** @class wxGxSpreadsheetSubDataset
@@ -74,7 +74,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxSpreadsheetSubDataset :
 {
     DECLARE_CLASS(wxGxSpreadsheetSubDataset)
 public:
-	wxGxSpreadsheetSubDataset(wxGISEnumTableDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxSpreadsheetSubDataset(wxGISEnumTableType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxSpreadsheetSubDataset(void);
 	//IGxObject
 	virtual wxString GetCategory(void) const;

@@ -239,7 +239,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 
     wxVector<EXPORTED_DATASET> paVectorDatasets;
     wxVector<EXPORTED_DATASET> paRasterDatasets;
-    wxVector<EXPORTED_DATASET> paTableDatasets;
+    wxVector<EXPORTED_DATASET> paTables;
 
     wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
     wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
@@ -284,7 +284,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                             else if (pGxDSet->GetType() == enumGISFeatureDataset)
                                 paVectorDatasets.push_back(data);
                             else if (pGxDSet->GetType() == enumGISTable)
-                                paTableDatasets.push_back(data);
+                                paTables.push_back(data);
                         }
                     }
 
@@ -312,13 +312,13 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                     wxDELETE(pFilter);
 
                     pFilter = new wxGxTableFilter(enumTablePostgres);
-                    if (paTableDatasets.size() == 1)
+                    if (paTables.size() == 1)
                     {
-                        ExportSingleTableDataset(pWnd, sDestPath, paTableDatasets[0].sName, pFilter, paTableDatasets[0].pDSet);
+                        ExportSingleTable(pWnd, sDestPath, paTables[0].sName, pFilter, paTables[0].pDSet);
                     }
-                    else if (paTableDatasets.size() > 1)
+                    else if (paTables.size() > 1)
                     {
-                        ExportMultipleTableDatasets(pWnd, sDestPath, pFilter, paTableDatasets);
+                        ExportMultipleTable(pWnd, sDestPath, pFilter, paTables);
                     }
                     wxDELETE(pFilter);
                 }
@@ -406,7 +406,7 @@ wxGxObject* wxGxRemoteDBSchemaUI::GetNewTable(int nRemoteId, const wxString &sTa
         return NULL;
     case enumGISTable:
     default:
-        return new wxGxPostGISTableDatasetUI(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
+        return new wxGxPostGISTableUI(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
     };
 }
 
@@ -428,7 +428,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
 
     wxVector<EXPORTED_DATASET> paVectorDatasets;
     wxVector<EXPORTED_DATASET> paRasterDatasets;
-    wxVector<EXPORTED_DATASET> paTableDatasets;
+    wxVector<EXPORTED_DATASET> paTables;
 
     for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
     {
@@ -455,7 +455,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                         else if (pGxDSet->GetType() == enumGISFeatureDataset)
                             paVectorDatasets.push_back(data);
                         else if (pGxDSet->GetType() == enumGISTable)
-                            paTableDatasets.push_back(data);
+                            paTables.push_back(data);
                     }
                 }
             }
@@ -471,7 +471,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                     else if (pGxDSet->GetType() == enumGISFeatureDataset)
                         paVectorDatasets.push_back(data);
                     else if (pGxDSet->GetType() == enumGISTable)
-                        paTableDatasets.push_back(data);
+                        paTables.push_back(data);
                 }
             }
         }
@@ -502,13 +502,13 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     wxDELETE(pFilter);
 
     pFilter = new wxGxTableFilter(enumTablePostgres);
-    if (paTableDatasets.size() == 1)
+    if (paTables.size() == 1)
     {
-        ExportSingleTableDataset(pWnd, GetPath(), paTableDatasets[0].sName, pFilter, paTableDatasets[0].pDSet);
+        ExportSingleTable(pWnd, GetPath(), paTables[0].sName, pFilter, paTables[0].pDSet);
     }
-    else if (paTableDatasets.size() > 1)
+    else if (paTables.size() > 1)
     {
-        ExportMultipleTableDatasets(pWnd, GetPath(), pFilter, paTableDatasets);
+        ExportMultipleTable(pWnd, GetPath(), pFilter, paTables);
     }
     wxDELETE(pFilter);
 	

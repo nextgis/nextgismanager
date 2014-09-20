@@ -26,26 +26,26 @@
 
 #include "wxgis/catalog/gxpostgisdataset.h"
 
-/** @class wxGxPostGISTableDatasetUI
+/** @class wxGxPostGISTableUI
 
     A PostGIS Table Dataset GxObjectUI.
 
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxPostGISTableDatasetUI :
-	public wxGxPostGISTableDataset,
+class WXDLLIMPEXP_GIS_CLU wxGxPostGISTableUI :
+	public wxGxPostGISTable,
 	public IGxObjectUI,
 	public IGxObjectEditUI
 {
-    DECLARE_CLASS(wxGxPostGISTableDatasetUI)
+    DECLARE_CLASS(wxGxPostGISTableUI)
 public:
-	wxGxPostGISTableDatasetUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
-	virtual ~wxGxPostGISTableDatasetUI(void);
+	wxGxPostGISTableUI(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+	virtual ~wxGxPostGISTableUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxPostGISTableDataset.ContextMenu"));};
+	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxPostGISTable.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);

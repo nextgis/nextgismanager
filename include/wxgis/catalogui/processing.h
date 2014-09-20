@@ -43,11 +43,11 @@ WXDLLIMPEXP_GIS_CLU void ExportSingleVectorDataset(wxWindow* pWnd, const CPLStri
 
 WXDLLIMPEXP_GIS_CLU void ExportSingleRasterDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset);
 
-WXDLLIMPEXP_GIS_CLU void ExportSingleTableDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset);
+WXDLLIMPEXP_GIS_CLU void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset);
 
 WXDLLIMPEXP_GIS_CLU void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
-WXDLLIMPEXP_GIS_CLU void ExportMultipleTableDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
+WXDLLIMPEXP_GIS_CLU void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 
 void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs);
 #endif // wxGIS_HAVE_GEOPROCESSING

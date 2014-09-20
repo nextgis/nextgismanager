@@ -474,12 +474,12 @@ void wxGxDatasetContainer::SetPath(const CPLString &soPath)
 }
 
 //--------------------------------------------------------------
-//class wxGxTableDataset
+// wxGxTable
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxTable, wxGxDataset)
 
-wxGxTable::wxGxTable(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
+wxGxTable::wxGxTable(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath)
 {
     m_eType = eType;
 }

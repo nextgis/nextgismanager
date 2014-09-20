@@ -73,18 +73,18 @@ public:
     virtual ~wxGxInitedFeatureDatasetUI(void);
 };
 
-/** @class wxGxInitedTableDatasetUI
+/** @class wxGxInitedTableUI
 
     An already opened table GxObjectUI.
 
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxInitedTableDatasetUI :
+class WXDLLIMPEXP_GIS_CLU wxGxInitedTableUI :
     public wxGxTableUI
 {
-    DECLARE_CLASS(wxGxInitedTableDatasetUI)
+    DECLARE_CLASS(wxGxInitedTableUI)
 public:
-    wxGxInitedTableDatasetUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
-    virtual ~wxGxInitedTableDatasetUI(void);
+    wxGxInitedTableUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon);
+    virtual ~wxGxInitedTableUI(void);
 };

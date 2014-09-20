@@ -216,7 +216,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxTableFilter : public wxGxObjectFilter
 {
     DECLARE_CLASS(wxGxTableFilter)
 public:
-	wxGxTableFilter(wxGISEnumTableDatasetType nSubType);
+	wxGxTableFilter(wxGISEnumTableType nSubType);
 	virtual ~wxGxTableFilter(void);
 	virtual bool CanChooseObject( wxGxObject* const pObject );
 	virtual bool CanDisplayObject( wxGxObject* const pObject );
@@ -227,6 +227,6 @@ public:
     virtual int GetSubType(void) const;
     virtual wxGISEnumDatasetType GetType(void) const {return enumGISTable;};
 protected:
-    wxGISEnumTableDatasetType m_nSubType;
+    wxGISEnumTableType m_nSubType;
 };
 

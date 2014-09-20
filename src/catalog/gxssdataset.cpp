@@ -29,7 +29,7 @@
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxSpreadsheetDataset, wxGxDatasetContainer)
 
-wxGxSpreadsheetDataset::wxGxSpreadsheetDataset(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDatasetContainer(oParent, soName, soPath)
+wxGxSpreadsheetDataset::wxGxSpreadsheetDataset(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDatasetContainer(oParent, soName, soPath)
 {
     m_bIsChildrenLoaded = false;
     m_pwxGISDataset = NULL;
@@ -142,7 +142,7 @@ void wxGxSpreadsheetDataset::LoadChildren(void)
         for(size_t i = 0; i < pDSet->GetSubsetsCount(); ++i)
         {
             wxGISDataset* pwxGISSuDataset = m_pwxGISDataset->GetSubset(i);
-            new wxGxSpreadsheetSubDataset((wxGISEnumTableDatasetType)GetSubType(), pwxGISSuDataset, wxStaticCast(this, wxGxObject), pwxGISSuDataset->GetName(), wxGxObjectContainer::GetPath());
+            new wxGxSpreadsheetSubDataset((wxGISEnumTableType)GetSubType(), pwxGISSuDataset, wxStaticCast(this, wxGxObject), pwxGISSuDataset->GetName(), wxGxObjectContainer::GetPath());
 	    }
         wsDELETE(pDSet);
     }
@@ -154,7 +154,7 @@ void wxGxSpreadsheetDataset::LoadChildren(void)
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxSpreadsheetSubDataset, wxGxTable)
 
-wxGxSpreadsheetSubDataset::wxGxSpreadsheetSubDataset(wxGISEnumTableDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(nType, oParent, soName, soPath)
+wxGxSpreadsheetSubDataset::wxGxSpreadsheetSubDataset(wxGISEnumTableType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(nType, oParent, soName, soPath)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 

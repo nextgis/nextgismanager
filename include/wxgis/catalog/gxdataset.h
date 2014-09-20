@@ -126,7 +126,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxTable :
 {
     DECLARE_CLASS(wxGxTable)
 public:
-	wxGxTable(wxGISEnumTableDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+	wxGxTable(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxTable(void);
 	//wGxObject
 	virtual wxString GetCategory(void) const;
@@ -138,7 +138,7 @@ protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
-    wxGISEnumTableDatasetType m_eType;
+    wxGISEnumTableType m_eType;
 };
 
 /** @class wxGxFeatureDataset

@@ -92,7 +92,7 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
                 m_SmallDBFIcon = wxIcon(table_dbf_16_xpm);
             if (!m_LargeDBFIcon.IsOk())
                 m_LargeDBFIcon = wxIcon(table_dbf_48_xpm);
-            new wxGxInitedTableDatasetUI(pDSet, wxStaticCast(this, wxGxObject), pDSet->GetName(), wxGxObjectContainer::GetPath(), m_LargeDBFIcon, m_SmallDBFIcon);
+            new wxGxInitedTableUI(pDSet, wxStaticCast(this, wxGxObject), pDSet->GetName(), wxGxObjectContainer::GetPath(), m_LargeDBFIcon, m_SmallDBFIcon);
             break;
         case enumGISRasterDataset:
             //TODO:
@@ -125,18 +125,18 @@ wxGxInitedFeatureDatasetUI::~wxGxInitedFeatureDatasetUI()
 
 
 //---------------------------------------------------------------------------
-// wxGxInitedTableDatasetUI
+// wxGxInitedTableUI
 //---------------------------------------------------------------------------
-IMPLEMENT_CLASS(wxGxInitedTableDatasetUI, wxGxTableUI)
+IMPLEMENT_CLASS(wxGxInitedTableUI, wxGxTableUI)
 
-wxGxInitedTableDatasetUI::wxGxInitedTableDatasetUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTableUI(enumTableFileDBLayer, oParent, soName, soPath, LargeIcon, SmallIcon)
+wxGxInitedTableUI::wxGxInitedTableUI(wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon) : wxGxTableUI(enumTableFileDBLayer, oParent, soName, soPath, LargeIcon, SmallIcon)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
 
     m_sPath = CPLString(CPLFormFilename(soPath, soName.mb_str(wxConvUTF8), ""));
 }
 
-wxGxInitedTableDatasetUI::~wxGxInitedTableDatasetUI()
+wxGxInitedTableUI::~wxGxInitedTableUI()
 {
     wsDELETE(m_pwxGISDataset);
 }

@@ -88,11 +88,11 @@ enum wxGISEnumRasterDatasetType
     enumRasterMAX
 };
 
-/** @enum wxGISEnumTableDatasetType
+/** @enum wxGISEnumTableType
 
     The table datasource types
 */
-enum wxGISEnumTableDatasetType
+enum wxGISEnumTableType
 {
 	enumTableUnknown = 0,
     enumTableDBF,
