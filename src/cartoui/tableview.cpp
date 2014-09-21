@@ -20,6 +20,7 @@
  ****************************************************************************/
 #include "wxgis/cartoui/tableview.h"
 #include "wxgis/cartoui/cartoui.h"
+#include "wxgis/framework/applicationbase.h"
 
 #include "../../art/full_arrow.xpm"
 #include "../../art/arrow.xpm"
@@ -199,9 +200,8 @@ bool wxGISGridTable::DeleteCols(size_t pos, size_t numCols)
         OGRErr eResult = m_pGISDataset->DeleteField(i);
         if (eResult != OGRERR_NONE)
         {
-            const char* err = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Operation '%s' failed! OGR error: %s"), _("Delete field"), wxString(err, wxConvUTF8).c_str());
-            wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete field"));
+            wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
 
             return false;
         }

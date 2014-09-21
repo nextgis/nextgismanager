@@ -22,6 +22,28 @@
 #include "wxgis/core/config.h"
 
 //--------------------------------------------------------------------------
+// wxGISErrorMessageBox
+//--------------------------------------------------------------------------
+
+void wxGISErrorMessageBox(const wxString& sAppErr, const wxString &sLibError, const wxString &sLibErrorPrepend)
+{
+	wxString sErrMsg = sAppErr;
+	if(!sLibError.IsEmpty())
+	{
+		if(!sLibErrorPrepend.IsEmpty())
+		{
+			sErrMsg.Append(wxT("\n") + sLibErrorPrepend);
+		}
+		else
+		{
+			sErrMsg.Append(wxT("\n"));
+		}
+		sErrMsg.Append(sLibError);
+	}
+	wxMessageBox(sErrMsg, _("Error"), wxCENTRE | wxOK | wxICON_ERROR);
+}
+
+//--------------------------------------------------------------------------
 // wxGISApplicationBase
 //--------------------------------------------------------------------------
 IMPLEMENT_CLASS(wxGISApplicationBase, IApplication)

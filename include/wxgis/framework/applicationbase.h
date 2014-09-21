@@ -118,3 +118,10 @@ protected:
     WINDOWARRAY m_anWindowsIDs;
 };
 
+/** @fn 
+ * 
+ * Show error dialog to user
+ * 
+ * @library{framework}
+ */
+void WXDLLIMPEXP_GIS_FRW wxGISErrorMessageBox(const wxString& sAppErr, const wxString &sLibError = wxEmptyString, const wxString &sLibErrorPrepend = wxEmptyString);

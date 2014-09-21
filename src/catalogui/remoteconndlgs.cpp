@@ -157,7 +157,7 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 		wxString sCryptPass;
 		if(!Crypt(m_sPass, sCryptPass))
 		{
-			wxMessageBox(wxString(_("Crypt password failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			wxGISErrorMessageBox(_("Crypt password failed!"));
 			return;
 		}
 
@@ -186,7 +186,7 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 
             if(!doc.Save(sFullPath))
 		    {
-			    wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			    wxGISErrorMessageBox(_("Connection create failed!"));
 			    return;
 		    }
 
@@ -230,7 +230,7 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are incorrect!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are incorrect!"));
 	}
 }
 
@@ -243,24 +243,23 @@ void wxGISRemoteDBConnDlg::OnTest(wxCommandEvent& event)
 		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, m_sDefaultTestTimeOut, m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
-			wxMessageBox(wxString(_("Connected successfully!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
+			wxMessageBox(_("Connected successfully!"), _("Information"), wxICON_INFORMATION | wxOK );
 		}
 		else
 		{
-			const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'.\nGDAL error: %s"), wxString(_("Open")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), wxString(err, wxConvLocal).c_str());
-			wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK, this );
+			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'"), _("Open"), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str());
+			wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
 		}
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are not correct!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are not correct!"));
 	}
 }
 
 CPLString wxGISRemoteDBConnDlg::GetPath(void)
 {
-	return CPLString(wxString(m_sOutputPath + wxFileName::GetPathSeparator() + GetName()).mb_str(wxConvUTF8));
+	return CPLString(wxString(m_sOutputPath + wxFileName::GetPathSeparator() + GetName()).ToUTF8());
 }
 
 wxString wxGISRemoteDBConnDlg::GetName(void)
@@ -729,7 +728,7 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 			wxMemoryOutputStream out;
             if(!doc.Save(out))
 		    {
-			    wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			    wxGISErrorMessageBox(_("Connection create failed!"));
 			    return;
 		    }
 			
@@ -755,7 +754,7 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 			
 			if(!outputFile.Write())
 			{
-				wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+				wxGISErrorMessageBox(_("Connection create failed!"));
 			    return;
 			}
             //m_sOriginOutput = CPLString(sFullPath.mb_str(wxConvUTF8));
@@ -769,7 +768,7 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are incorrect!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are incorrect!"));
 	}
 }
 
@@ -788,7 +787,7 @@ void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 		wxMemoryOutputStream out;
 		if(!doc.Save(out))
 		{
-			wxMessageBox(wxString(_("Test failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			wxGISErrorMessageBox(_("Test failed!"));
 			return;
 		}
 			
@@ -825,7 +824,7 @@ void wxGISTMSConnDlg::OnTest(wxCommandEvent& event)
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are not correct!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are not correct!"));
 	}
 }
 
@@ -1309,7 +1308,7 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 	    wxString sCryptPass;
 		if(!Crypt(m_sPass, sCryptPass))
 		{
-			wxMessageBox(wxString(_("Crypt password failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			wxGISErrorMessageBox(_("Crypt password failed!"));
 			return;
 		}
 
@@ -1331,7 +1330,7 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 
             if(!doc.Save(sFullPath))
 		    {
-			    wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+			    wxGISErrorMessageBox(_("Connection create failed!"));
 			    return;
 		    }
 
@@ -1355,7 +1354,7 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are incorrect!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are incorrect!"));
 	}
 }
 
@@ -1367,7 +1366,7 @@ void wxGISNGWConnDlg::OnTest(wxCommandEvent& event)
         wxGISCurl curl;
         if (!curl.IsOk())
         {
-            wxMessageBox(wxString(_("cURL initialize failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+            wxGISErrorMessageBox(_("cURL initialize failed!"));
             return;
         }
 
@@ -1385,17 +1384,17 @@ void wxGISNGWConnDlg::OnTest(wxCommandEvent& event)
         {
             if(res.sHead.Find(wxT("Set-Cookie")) != wxNOT_FOUND)
             {
-                wxMessageBox(wxString(_("Connected successfully!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
+                wxMessageBox(_("Connected successfully!"), _("Information"), wxICON_INFORMATION | wxOK, this );
             }
             else
             {
-                wxMessageBox(wxString(_("Connected successfully as guest!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
+                wxMessageBox(_("Connected successfully as guest!"), _("Information"), wxICON_INFORMATION | wxOK, this );
             }
         }
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are not correct!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(_("Some input values are not correct!"));
 	}
 }
 

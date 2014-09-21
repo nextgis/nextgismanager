@@ -27,6 +27,7 @@
 #include "wxgis/core/crypt.h"
 #include "wxgis/core/format.h"
 #include "wxgis/datasource/postgisdataset.h"
+#include "wxgis/framework/applicationbase.h"
 
 #include "../../art/rdb_create.xpm"
 
@@ -69,7 +70,7 @@ void wxGISCreateDBDlg::OnOK(wxCommandEvent& event)
                 wxString sCryptPass;
                 if(!Crypt(m_sPass, sCryptPass))
                 {
-                    wxMessageBox(wxString(_("Crypt password failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+                    wxGISErrorMessageBox(wxString(_("Crypt password failed!")));
                     return;
                 }
 
@@ -97,7 +98,7 @@ void wxGISCreateDBDlg::OnOK(wxCommandEvent& event)
 
                     if(!doc.Save(sFullPath))
                     {
-                        wxMessageBox(wxString(_("Connection create failed!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+                        wxGISErrorMessageBox(wxString(_("Connection create failed!")));
                         return;
                     }
 
@@ -108,16 +109,15 @@ void wxGISCreateDBDlg::OnOK(wxCommandEvent& event)
 		    }
 		    else
             {
-                const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'.\nGDAL error: %s"), wxString(_("Create DB")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), wxString(err, wxConvLocal).c_str());
-			wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK, this );
+				wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'"), wxString(_("Create DB")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str());
+				wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()) );
             }
 		}
 
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are incorrect!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(wxString(_("Some input values are incorrect!")));
 	}
 }
 
@@ -274,14 +274,13 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 		}
 		else
 		{
-			const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'.\nGDAL error: %s"), wxString(_("Open")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str(), wxString(err, wxConvLocal).c_str());
-			wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK, this );
+			wxString sErr = wxString::Format(_("Operation '%s' failed!\nHost '%s', Database name '%s', Port='%s'"), wxString(_("Open")), m_sServer.c_str(), m_sDatabase.c_str(), m_sPort.c_str());
+			wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
 		}
 	}
 	else
 	{
-		wxMessageBox(wxString(_("Some input values are not correct!")), wxString(_("Error")), wxICON_ERROR | wxOK );
+		wxGISErrorMessageBox(wxString(_("Some input values are not correct!")));
 	}
 }
 

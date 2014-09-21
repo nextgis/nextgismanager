@@ -123,6 +123,7 @@ protected:
 	virtual bool DeleteResource();
 	virtual bool RenameResource(const wxString &sNewName);
 	virtual int GetParentResourceId() const = 0;
+	virtual void ReportError(int nHTTPCode, const wxString& sBody);
 protected:
     wxGISEnumNGWResourcesType m_eResourceType;
     bool m_bHasChildren;

@@ -284,7 +284,7 @@ void wxGISCreateNewCmd::OnClick(void)
                     pGxDBConnectionUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxDBConnectionUI->GetPath(), sSchemaName.ToUTF8(), "")));
                     if (!pGxDBConnectionUI->CreateSchema(sSchemaName))
                     {
-                        wxMessageBox(_("Create schema failed!"), _("Error"), wxICON_ERROR | wxOK);
+                        wxGISErrorMessageBox(_("Create schema failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()));
                         pGxDBConnectionUIAR->BeginRenameOnAdd(NULL, "");
                         return;
                     }
@@ -354,10 +354,13 @@ void wxGISCreateNewCmd::OnClick(void)
 
                     wxString sGroupName = pGxNGWResourceGroupUI->CheckUniqName(_("new group"));
                     pGxNGWResourceGroupUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxNGWResourceGroupUI->GetPath(), sGroupName.ToUTF8(), "")));
+					CPLErrorReset();
                     if (!pGxNGWResourceGroupUI->CreateResource(sGroupName, enumNGWResourceTypeResourceGroup))
-                    {
-                        wxMessageBox(_("Create resource group failed!"), _("Error"), wxICON_ERROR | wxOK);
-                        pGxNGWResourceGroupUIAR->BeginRenameOnAdd(NULL, "");
+                    {						
+						wxString sErrMsg = wxString::Format(_("Create '%s' failed"), sGroupName.c_str());
+						wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));
+						
+						pGxNGWResourceGroupUIAR->BeginRenameOnAdd(NULL, "");
                         return;
                     }
                 }

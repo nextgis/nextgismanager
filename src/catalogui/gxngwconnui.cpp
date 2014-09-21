@@ -22,6 +22,7 @@
 #include "wxgis/catalogui/gxngwconnui.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/processing.h"
+#include "wxgis/framework/applicationbase.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -58,6 +59,7 @@
 //class wxGxNGWServiceUI
 //--------------------------------------------------------------
 
+class wxGxNGWLayerUI;
 IMPLEMENT_CLASS(wxGxNGWServiceUI, wxGxNGWService)
 
 wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl) : wxGxNGWService(oParent, soName, soPath)
@@ -113,7 +115,7 @@ bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)
     //connect
 	if(!Connect())
 	{
-		wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
+		wxGISErrorMessageBox(_("Connect failed!"));
 		return false;
 	}
 
@@ -152,6 +154,7 @@ wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObjec
 {
     m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
+	m_sPath = CPLFormFilename(soPath, "resources", "");
 }
 
 wxGxNGWRootResourceUI::~wxGxNGWRootResourceUI(void)
@@ -206,7 +209,7 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
  		if(!m_icFolderSmallIcon.IsOk())
 			m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
-        pReturnObj = wxStaticCast(new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon), wxGxObject);
+        pReturnObj = wxDynamicCast(new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon), wxGxObject);
         break;
 	case enumNGWResourceTypePostgisLayer:
 		if(!m_icPGLayerLargeIcon.IsOk())
@@ -214,7 +217,7 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
  		if(!m_icPGLayerSmallIcon.IsOk())
 			m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
         if(m_bHasGeoJSON)
-			pReturnObj = wxStaticCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon), wxGxObject);
+			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon), wxGxObject);
 		break;
 	case enumNGWResourceTypePostgisConnection:
 		if(!m_icPGConnLargeIcon.IsOk())
@@ -236,7 +239,7 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
  		if(!m_icNGWLayerSmallIcon.IsOk())
 			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
         if(m_bHasGeoJSON)
-			pReturnObj = wxStaticCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
+			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
 
 		break;
     }

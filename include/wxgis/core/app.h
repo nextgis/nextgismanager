@@ -26,6 +26,7 @@
  *     
  * Base class for GIS application.
  * 
+ * @library{core}
  */
 
 class WXDLLIMPEXP_GIS_CORE IApplication : public wxObject

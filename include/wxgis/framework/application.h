@@ -37,7 +37,8 @@
     @library {framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISApplication :
-	public wxFrame,	public wxGISApplicationBase
+	public wxFrame,	
+	public wxGISApplicationBase
 {
     DECLARE_CLASS(wxGISApplication)
 public:

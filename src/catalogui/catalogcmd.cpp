@@ -527,7 +527,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                     if(pGxDiscConnections && pGxDiscConnections->ConnectFolder(dlg.GetPath()))
                         return;
                     else
-                        wxMessageBox(_("Cannot connect folder"), _("Error"), wxOK | wxICON_ERROR);
+                        wxGISErrorMessageBox(_("Cannot connect folder"));
                 }
 			}
 			return;
@@ -544,7 +544,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 				}
 				else
 				{
-                    wxMessageBox(_("Cannot disconnect folder"), _("Error"), wxOK | wxICON_ERROR);
+                    wxGISErrorMessageBox(_("Cannot disconnect folder"));
 				}
             }
 			return;
@@ -612,16 +612,17 @@ void wxGISCatalogMainCmd::OnClick(void)
                     if(pGxObjectEdit && pGxObjectEdit->CanDelete())
                     {
                         wxString sGxObjectName = pGxObject->GetName();
+						CPLErrorReset();
                         if(!pGxObjectEdit->Delete())
                         {
-                            wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
                             if(i == pSel->GetCount() - 1)
                             {
-                                wxMessageBox(wxString::Format(_("Delete '%s' failed"), sGxObjectName.c_str()), _("Error"), wxOK | wxICON_ERROR, pWnd);
+								wxString sErrMsg = wxString::Format(_("Delete '%s' failed"), sGxObjectName.c_str());
+                                wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));
                                 return;
                             }
 
-                            int nRes = wxMessageBox(wxString::Format(_("Cannot delete '%s'\nContinue?"), sGxObjectName.c_str()), _("Error"), wxYES_NO | wxICON_QUESTION, pWnd);
+                            int nRes = wxMessageBox(wxString::Format(_("Cannot delete '%s'\nContinue?"), sGxObjectName.c_str()), _("Error"), wxYES_NO | wxICON_QUESTION);
                             if(nRes == wxNO)
                                 return;
                         }
@@ -712,12 +713,12 @@ void wxGISCatalogMainCmd::OnClick(void)
                 //! Lock clipboard
                 wxClipboardLocker locker;
                 if(!locker)
-                    wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                    wxGISErrorMessageBox(_("Can't open clipboard"));
                 else
                 {
                     //! Put data to clipboard
                     if(!wxTheClipboard->AddData(pDragData))
-                        wxMessageBox(_("Can't copy file(s) to the clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                        wxGISErrorMessageBox(_("Can't copy file(s) to the clipboard"));
                 }
 
             }
@@ -749,12 +750,12 @@ void wxGISCatalogMainCmd::OnClick(void)
                 //! Lock clipboard
                 wxClipboardLocker locker;
                 if(!locker)
-                    wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                    wxGISErrorMessageBox(_("Can't open clipboard"));
                 else
                 {
                     //! Put data to clipboard
                     if(!wxTheClipboard->AddData(pDragData))
-                        wxMessageBox(_("Can't copy file(s) to the clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                        wxGISErrorMessageBox(_("Can't copy file(s) to the clipboard"));
                 }
 
             }
@@ -781,7 +782,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
                 else
                 {
-                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                     wxGISErrorMessageBox(_("Can't open clipboard"));
                 }
 
                 if(wxTheClipboard->Open())
@@ -796,7 +797,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
                 else
                 {
-                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                     wxGISErrorMessageBox(_("Can't open clipboard"));
                 }
 
                 if(wxTheClipboard->Open())
@@ -811,7 +812,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 }
                 else
                 {
-                     wxMessageBox(_("Can't open clipboard"), _("Error"), wxOK | wxICON_ERROR);
+                     wxGISErrorMessageBox(_("Can't open clipboard"));
                 }
 
             }
@@ -828,11 +829,12 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                 wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
 
-                CPLString sFolderPath = CheckUniqPath(pGxObject->GetPath(), CPLString(wxString(_("New folder")).mb_str(wxConvUTF8)), true, " ");
+                CPLString sFolderPath = CheckUniqPath(pGxObject->GetPath(), CPLString(wxString(_("New folder")).ToUTF8()), true, " ");
                 pGxFolder->BeginRenameOnAdd(pGxView, sFolderPath);
+				CPLErrorReset();
                 if(!CreateDir(sFolderPath))
                 {
-                    wxMessageBox(_("Create folder failed!"), _("Error"), wxICON_ERROR | wxOK );
+                    wxGISErrorMessageBox(_("Create folder failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()));
                     pGxFolder->BeginRenameOnAdd(NULL, "");
                     return;
                 }
@@ -844,11 +846,11 @@ void wxGISCatalogMainCmd::OnClick(void)
 #ifdef wxGIS_USE_EMAIL
                 //create temp zip
                 CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("email"), "zip");
+				CPLErrorReset();
                 void* hZIP = CPLCreateZip(szZipFileName, NULL);
-
                 if (!hZIP)
                 {
-                    wxMessageBox(_("Create zip failed!"), _("Error"), wxICON_ERROR | wxOK );
+                    wxGISErrorMessageBox(_("Create zip failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()) );
                     CPLError(CE_Failure, CPLE_NoWriteAccess, "ERROR creating %s", szZipFileName.c_str());
                     return;
                 }

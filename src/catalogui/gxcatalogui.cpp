@@ -22,6 +22,7 @@
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/gxpending.h"
 #include "wxgis/framework/progressdlg.h"
+#include "wxgis/framework/applicationbase.h"
 
 #include "../../art/mainframecat.xpm"
 #include "../../art/process_working_16.xpm"
@@ -140,7 +141,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
                 {
                     if(!pGxObjectEdit->Move(pPath, &ProgressDlg))
                     {
-                        wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Move"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
+                        wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Move"), pGxObj->GetFullName()));
                         return false;
                     }
                 }
@@ -156,7 +157,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
                 }
                 if(!pGxObjectEdit->Copy(pPath, &ProgressDlg))
                 {
-                    wxMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()), _("Error"), wxOK | wxICON_ERROR);
+                    wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()));
                     return false;
                 }
             }

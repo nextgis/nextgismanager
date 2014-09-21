@@ -693,10 +693,15 @@ void wxGxTreeView::OnEndLabelEdit(wxTreeEvent& event)
 		return;
 	}
 
+	CPLErrorReset();
+
 	if(!pObjEdit->Rename(event.GetLabel()))
 	{
 		event.Veto();
-		wxMessageBox(_("Rename error!"), _("Error"), wxICON_ERROR | wxOK );
+		
+		wxString sErrMsg = wxString::Format(_("Rename '%s' failed"), pGxObject->GetName().c_str());
+		wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));
+		
 		return;
 	}
 

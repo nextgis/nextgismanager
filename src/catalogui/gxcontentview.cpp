@@ -717,6 +717,9 @@ void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
 		event.Veto();
 		return;
 	}
+	
+	CPLErrorReset();
+	
 	if(pObjEdit->Rename(event.GetLabel()))
 	{
     	m_pCatalog->ObjectChanged(pGxObject->GetId());
@@ -724,7 +727,9 @@ void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
     else
     {
 		event.Veto();
-		wxMessageBox(_("Rename failed!"), _("Error"), wxICON_ERROR | wxOK );
+		
+		wxString sErrMsg = wxString::Format(_("Rename '%s' failed"), pGxObject->GetName().c_str());
+		wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));		
 
         SORTDATA sortdata = { m_bSortAsc, m_currentSortCol };
         SortItems(GxObjectCVCompareFunction, (long)&sortdata);

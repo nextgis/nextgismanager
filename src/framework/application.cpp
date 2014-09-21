@@ -418,14 +418,14 @@ void wxGISApplication::OnAppOptions(void)
 	wxGISAppConfig oConfig = GetConfig();
 	if(!oConfig.IsOk())
     {
-        wxMessageBox(_("Get config failed!"), _("Error"), wxICON_ERROR | wxOK );
+        wxGISErrorMessageBox(_("Get config failed!"));
         return;
     }
 
     wxXmlNode *pPPXmlNode = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/propertypages")));
     if(!pPPXmlNode)
     {
-        wxMessageBox(_("No Property Pages"), _("Error"), wxICON_ERROR | wxOK );
+        wxGISErrorMessageBox(_("No Property Pages"));
         return;
     }
     //load pages to the dialog and show

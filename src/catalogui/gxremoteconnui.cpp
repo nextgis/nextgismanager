@@ -22,6 +22,7 @@
 #include "wxgis/catalogui/gxremoteconnui.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/processing.h"
+#include "wxgis/framework/applicationbase.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -113,7 +114,7 @@ bool wxGxRemoteConnectionUI::Invoke(wxWindow* pParentWnd)
     //connect
 	if(!Connect())
 	{
-		wxMessageBox(_("Connect failed!"), _("Error"), wxICON_ERROR | wxOK);
+		wxGISErrorMessageBox(_("Connect failed!"));
 		return false;
 	}
 
@@ -195,9 +196,9 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
             pCat->ObjectRefreshed(GetId());
             pCat->ObjectChanged(GetId());
         }
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed!\nGDAL error: %s"), wxString(_("Connect")), wxString(err, wxConvLocal).c_str());
-        wxMessageBox(sErr, _("Error"), wxICON_ERROR | wxOK);
+
+        wxString sErr = wxString::Format(_("Operation '%s' failed!"), wxString(_("Connect")));
+        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
 
     //else do nothing
@@ -325,8 +326,8 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                 else
                 {
                     //try to create another schema
-
-                    wxMessageBox(wxString::Format(_("Create schema failed\n GDAL error: %s"), wxString::FromUTF8(CPLGetLastErrorMsg())), _("Error"), wxOK | wxICON_ERROR);
+					wxString sErr(_("Create schema failed!"));
+                    wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
 
                     continue;
                 }
@@ -582,7 +583,7 @@ bool wxGxRemoteDBSchemaUI::Delete(void)
 {
     if(m_sName == wxT("public"))
     {
-       wxMessageBox(_("Deletion of the public scheme is not supported!"), _("Error"), wxICON_ERROR | wxOK);
+	   wxGISErrorMessageBox(_("Deletion of the public scheme is not supported!"));
        return false;
     }
     return wxGxRemoteDBSchema::Delete();

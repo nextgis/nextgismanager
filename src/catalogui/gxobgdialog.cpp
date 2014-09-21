@@ -899,7 +899,7 @@ void wxGxObjectDialog::OnOK(wxCommandEvent& event)
 
             if(GetChildren().IsEmpty())
             {
-                wxMessageBox(_("Cannot choose item(s)"), _("Error"), wxICON_ERROR | wxOK, this);
+                wxGISErrorMessageBox(_("Cannot choose item(s)"));
                 return;
             }
         }
@@ -1064,12 +1064,12 @@ bool wxGxObjectDialog::DoSaveObject(wxGISEnumSaveObjectResults Result)
 {
     if(Result == enumGISSaveObjectDeny)
     {
-        wxMessageBox(_("Cannot save item!"), _("Error"), wxICON_ERROR | wxOK, this);
+        wxGISErrorMessageBox(_("Cannot save item!"));
         return false;
     }
     else if(Result == enumGISSaveObjectExists && m_bOverwritePrompt)
     {
-        int nRes = wxMessageBox(_("Item exists! Overwrite?"), _("Question"), wxICON_QUESTION | wxYES_NO | wxCANCEL, this);
+        int nRes = wxMessageBox(_("Item exists! Overwrite?"), _("Question"), wxICON_QUESTION | wxYES_NO | wxCANCEL);
         if(nRes == wxCANCEL)
             return false;
         else if(nRes == wxNO)

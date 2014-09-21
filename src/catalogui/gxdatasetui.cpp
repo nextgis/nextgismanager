@@ -87,9 +87,8 @@ wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pT
     wxGISDataset* const pOut = wxGxTable::GetDataset(bCached, pTrackCancel);
     if(NULL == pOut)
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-        wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
+ 		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
+        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);
 }
@@ -161,9 +160,8 @@ wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel*
     wxGISDataset* const pOut = wxGxFeatureDataset::GetDataset(bCached, pTrackCancel);
     if(NULL == pOut)
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-        wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
+        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);
 }
@@ -244,9 +242,8 @@ wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* 
     wxGISDataset* const pOut = wxGxRasterDataset::GetDataset(bCached, pTrackCancel);
     if(NULL == pOut)
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-        wxMessageBox(sErr, _("Error"), wxOK | wxICON_ERROR);
+		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"));
+        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);
 }

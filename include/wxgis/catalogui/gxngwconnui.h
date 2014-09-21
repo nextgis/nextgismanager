@@ -26,11 +26,12 @@
 
 
 #ifdef wxGIS_USE_CURL
+
 /** @class wxGxNGWServiceUI
 
     A NextGIS Web Service GxObjectUI.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
@@ -38,8 +39,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
 	public IGxObjectUI,
     public IGxObjectEditUI,
     public IGxObjectWizard,
-    public IGxDropTarget,
-    public wxGxAutoRenamer
+    public IGxDropTarget
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
@@ -68,7 +68,7 @@ protected:
 
     A NextGIS Web Service Resource Group GxObjectUI.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI :
@@ -100,7 +100,7 @@ protected:
 
     A NextGIS Web Service Root resource GxObjectUI.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWRootResourceUI :
@@ -121,7 +121,7 @@ public:
 
     A NextGIS Web Service Layer GxObjectUI.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :

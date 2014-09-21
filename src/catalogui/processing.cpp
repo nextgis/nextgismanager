@@ -176,8 +176,7 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
         wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
         if (NULL == pFilter)
         {
-            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
-            wxLogError(_("Null wxGxObjectFilter returned"));
+            wxGISErrorMessageBox(_("Null wxGxObjectFilter returned"));
             return;
         }
 
@@ -296,10 +295,9 @@ void ExportSingleDatasetAttributes(wxWindow* pWnd, IGxDataset* const pGxDataset)
     {
 
         wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
-        if (NULL == pFilter)
+        if (NULL == pFilter)			
         {
-            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
-            wxLogError(_("Null wxGxObjectFilter returned"));
+			wxGISErrorMessageBox(_("Null wxGxObjectFilter returned"));
             return;
         }
 
@@ -461,8 +459,7 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
         wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
         if (NULL == pFilter)
         {
-            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
-            wxLogError(_("Null wxGxObjectFilter returned"));
+            wxGISErrorMessageBox(_("Null wxGxObjectFilter returned"));
             return;
         }
 
@@ -600,8 +597,7 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
         wxGxObjectFilter* pFilter = dlg.GetCurrentFilter();
         if (NULL == pFilter)
         {
-            wxMessageBox(_("Unexpected error"), _("Error"), wxCENTRE | wxOK | wxICON_ERROR, pWnd);
-            wxLogError(_("Null wxGxObjectFilter returned"));
+            wxGISErrorMessageBox(_("Null wxGxObjectFilter returned"));
             return;
         }
 
@@ -651,8 +647,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
 
     if (NULL == pFeatureDataset)
     {
-        wxMessageBox(_("The dataset is empty"), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-        wxLogError(_("wxGISFeatureDataset pointer is null returned"));
+        wxGISErrorMessageBox(_("The dataset is empty"));
         return;
     }
 
@@ -661,8 +656,7 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     {
         if (!pFeatureDataset->Open(0, false, true, false, &ProgressDlg))
         {
-            wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-            wxLogError(ProgressDlg.GetLastMessage());
+            wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
             wsDELETE(pFeatureDataset);
             return;
         }
@@ -710,8 +704,7 @@ void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &s
 
     if (NULL == pTable)
     {
-        wxMessageBox(_("The table is empty"), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-        wxLogError(_("wxGISFeatureDataset pointer is null returned"));
+        wxGISErrorMessageBox(_("The table is empty"));
         return;
     }
 
@@ -720,8 +713,7 @@ void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &s
     {
         if (!pTable->Open(0, false, true, false, &ProgressDlg))
         {
-            wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-            wxLogError(ProgressDlg.GetLastMessage());
+            wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
             wsDELETE(pTable);
             return;
         }
@@ -776,8 +768,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
         if (apFeatureDatasets.size() == 0)
         {
-            wxMessageBox(_("The dataset is empty"), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-            wxLogError(_("wxGISFeatureDataset pointer is null returned"));
+            wxGISErrorMessageBox(_("The dataset is empty"));
             return;
         }
 
@@ -789,8 +780,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
             {
                 if (!apFeatureDatasets[j]->Open(0, true, true, false, &ProgressDlg))
                 {
-                    wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-                    wxLogError(ProgressDlg.GetLastMessage());
+                    wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
                     wsDELETE(apFeatureDatasets[j]);
                     continue;
                 }
@@ -798,8 +788,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
             if (!ExportFormat(apFeatureDatasets[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, true, static_cast<ITrackCancel*>(&ProgressDlg)))
             {
-                wxMessageBox(ProgressDlg.GetLastMessage(), _("Error"), wxCENTRE | wxICON_ERROR | wxOK, pWnd);
-                wxLogError(ProgressDlg.GetLastMessage());
+                wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
                 wsDELETE(apFeatureDatasets[j]);
                 continue;
             }

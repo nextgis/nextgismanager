@@ -153,7 +153,7 @@ bool wxGxNGWService::ConnectToNGW()
          return false;
     }
 
-    wxString sURL = wxString::FromUTF8(m_sURL) + wxString(wxT("/login"));
+    wxString sURL = m_sURL + wxString(wxT("/login"));
     wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.c_str(), m_sPassword.c_str());
 
     PERFORMRESULT res = curl.Post(sURL, sPostData);
@@ -279,6 +279,7 @@ wxGxNGWRootResource::wxGxNGWRootResource(wxGxNGWService *pService, wxGxObject *o
 {
     m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
+	m_sPath = CPLFormFilename(soPath, "resources", "");
 }
 
 wxGxNGWRootResource::~wxGxNGWRootResource(void)
@@ -348,11 +349,17 @@ bool wxGxNGWResource::DeleteResource()
         return false;
 	
 	// DELETE /resource/0/child/4 0 - parentid 4 - curren id
-    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.Delete(sURL);
 	
-	//TODO: report error
-	return res.IsValid && res.nHTTPCode < 400;
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+		return true;
+		
+	ReportError(res.nHTTPCode, res.sBody);
+	
+	return false;
 }
 
 bool wxGxNGWResource::RenameResource(const wxString &sNewName)
@@ -362,10 +369,37 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
         return false;
 	
 	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.c_str());
-    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.PutData(sURL, sPayload);
 	
-	return res.IsValid && res.nHTTPCode < 400;
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+		return true;
+		
+	ReportError(res.nHTTPCode, res.sBody);
+		
+	return false;
+}
+
+void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
+{
+	wxString sErrCode = wxString::Format(_("Error code %d"), nHTTPCode);
+	wxString sErr;		
+	wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(sBody, &JSONRoot);
+    if(numErrors > 0 || !JSONRoot.HasMember("message"))
+	{
+		sErr = wxString (_("Unexpected error"));
+	}	
+	else
+	{
+		sErr = JSONRoot[wxT("message")].AsString();
+	}
+	
+	wxString sFullError = sErr + wxT("(") + sErrCode + wxT(")");
+	CPLError(CE_Failure, CPLE_AppDefined, sFullError.ToUTF8());
 }
 
 /*
@@ -450,6 +484,7 @@ wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSO
     m_eResourceType = enumNGWResourceTypeResourceGroup;
     m_pService = pService;
     m_sName = m_sDisplayName;
+	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
 	m_bHasGeoJSON =  NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
 }
 
@@ -489,15 +524,15 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
     switch(eType)
     {
     case enumNGWResourceTypeResourceGroup:
-        pReturnObj = wxStaticCast(new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
+        pReturnObj = wxDynamicCast(new wxGxNGWResourceGroup(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     case enumNGWResourceTypePostgisLayer:
 		if(m_bHasGeoJSON)
-			pReturnObj = wxStaticCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
+			pReturnObj = wxDynamicCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     case enumNGWResourceTypeVectorLayer:
         if(m_bHasGeoJSON)
-			pReturnObj = wxStaticCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
+			pReturnObj = wxDynamicCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     }
 	
@@ -620,7 +655,7 @@ wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
     if(!curl.IsOk())
         return ret;
 
-    wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Get(sURL);
 
     wxJSONReader reader;
@@ -653,11 +688,11 @@ void wxGxNGWResourceGroup::LoadChildren(void)
     if (m_bChildrenLoaded)
         return;
 		
+	m_bChildrenLoaded = true;
 	m_smObjects = GetRemoteObjects();
 	if (m_smObjects.empty())
         return;
 		
-	m_bChildrenLoaded = true;
 	
 	for (wxNGWResourceDataMap::const_iterator it = m_moJSONData.begin(); it != m_moJSONData.end(); ++it)
 	{
@@ -728,29 +763,18 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 	
 	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
 	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.c_str());
-    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
-	//TODO: report error
-	return res.IsValid && res.nHTTPCode < 400;
-/* create
-POST /resource/0/child/ HTTP/1.1
-Host: bishop.gis.to
-User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
-Accept: application/json
-Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Content-Type: application/json; charset=UTF-8
-X-Requested-With: XMLHttpRequest
-Referer: http://bishop.gis.to/resource/0/create?cls=resource_group
-Content-Length: 118
-Cookie: tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"; tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"
-Connection: keep-alive
-Pragma: no-cache
-Cache-Control: no-cache
-
-{"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
-*/
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+		return true;
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;	
 }
+
 //--------------------------------------------------------------
 //class wxGxNGWLayer
 //--------------------------------------------------------------
@@ -762,6 +786,7 @@ wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType e
     m_eResourceType = eType;
     m_pService = pService;
     m_sName = m_sDisplayName;
+	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
 }
 
 wxGxNGWLayer::~wxGxNGWLayer()
@@ -771,7 +796,7 @@ wxGxNGWLayer::~wxGxNGWLayer()
 
 wxString wxGxNGWLayer::GetCategory(void) const
 { 
-	switch(m_eType)
+	switch(m_eResourceType)
 	{
 		case enumNGWResourceTypeVectorLayer:
 			return wxString(_("NGW vector layer")); 
@@ -786,12 +811,7 @@ wxGISDataset* const wxGxNGWLayer::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-		wxString sURL = wxString::FromUTF8(m_sPath) + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
-		if (!sURL.StartsWith(wxT("http")))
-		{
-			sURL.Prepend(wxT("http://"));
-		}
-
+		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
 		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
 		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
         wxGISFeatureDataset* pDSet = new wxGISFeatureDatasetCached(CPLString(sURL.ToUTF8()), m_eType);
