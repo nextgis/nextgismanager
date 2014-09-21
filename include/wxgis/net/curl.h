@@ -64,7 +64,7 @@ public:
 	virtual bool GetFile(const wxString & sURL, const wxString & sPath);
 	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
 	virtual PERFORMRESULT Delete(const wxString & sURL);
-
+	virtual PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
@@ -93,6 +93,7 @@ public:
 	bool GetFile(const wxString & sURL, const wxString & sPath);
 	PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
 	PERFORMRESULT Delete(const wxString & sURL);
+	PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
 protected:
 	struct curl_slist *slist;
 	CURL *m_pCurl;

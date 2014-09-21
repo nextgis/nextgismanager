@@ -121,6 +121,7 @@ public:
     virtual ~wxGxNGWResource(void);
 protected:
 	virtual bool DeleteResource();
+	virtual bool RenameResource(const wxString &sNewName);
 	virtual int GetParentResourceId() const = 0;
 protected:
     wxGISEnumNGWResourcesType m_eResourceType;
@@ -176,8 +177,10 @@ public:
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
+	virtual bool CreateResourceGroup(const wxString &sName);
     virtual wxGISEnumNGWResourcesType GetType(const wxJSONValue &Data) const;
 	virtual int GetParentResourceId() const;    
+	//wxGxObjectContainerUpdater
 	virtual wxGxObjectMap GetRemoteObjects();
 	virtual void AddObject(int nRemoteId, const wxString &sName);
 protected:

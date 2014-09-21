@@ -73,7 +73,8 @@ protected:
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI :
     public wxGxNGWResourceGroup,
-    public IGxObjectUI
+    public IGxObjectUI,
+	public wxGxAutoRenamer
 {
     DECLARE_CLASS(wxGxNGWResourceGroupUI)
 public:

@@ -351,11 +351,25 @@ bool wxGxNGWResource::DeleteResource()
     wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.Delete(sURL);
 	
+	//TODO: report error
 	return res.IsValid && res.nHTTPCode < 400;
 }
 
-/* create
-POST /resource/0/child/ HTTP/1.1
+bool wxGxNGWResource::RenameResource(const wxString &sNewName)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+	
+	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.c_str());
+    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+	
+	return res.IsValid && res.nHTTPCode < 400;
+}
+
+/*
+PUT /resource/7/child/8 HTTP/1.1
 Host: bishop.gis.to
 User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
 Accept: application/json
@@ -363,14 +377,67 @@ Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
 Accept-Encoding: gzip, deflate
 Content-Type: application/json; charset=UTF-8
 X-Requested-With: XMLHttpRequest
-Referer: http://bishop.gis.to/resource/0/create?cls=resource_group
-Content-Length: 118
-Cookie: tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"; tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"
+Referer: http://bishop.gis.to/resource/8/update
+Content-Length: 109
+Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
 Connection: keep-alive
-Pragma: no-cache
-Cache-Control: no-cache
 
-{"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
+{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":7},"permissions":[],"description":"rrr5"}}
+
+//change parent
+PUT /resource/7/child/8 HTTP/1.1
+Host: bishop.gis.to
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
+Accept: application/json
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/json; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: http://bishop.gis.to/resource/8/update
+Content-Length: 109
+Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
+Connection: keep-alive
+
+{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":0},"permissions":[],"description":"rrr5"}}
+
+forbidden err
+PUT /resource/0/child/8 HTTP/1.1
+Host: bishop.gis.to
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
+Accept: application/json
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/json; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: http://bishop.gis.to/resource/8/update
+Content-Length: 221
+Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
+Connection: keep-alive
+
+{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":0},"permissions":[{"action":"deny","principal":{"id":"2"},"scope":"resource","permission":"update","identity":"","propagate":true}],"description":"rrr5"}}HTTP/1.1 403 Forbidden
+Server: nginx/1.4.6 (Ubuntu)
+Date: Sun, 21 Sep 2014 00:05:31 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 44
+Connection: keep-alive
+
+{"message": "Attribute 'keyname' forbidden"}
+
+//change permissions
+PUT /resource/0/child/8 HTTP/1.1
+Host: bishop.gis.to
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
+Accept: application/json
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/json; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: http://bishop.gis.to/resource/8/update
+Content-Length: 220
+Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
+Connection: keep-alive
+
+{"resource":{"display_name":"test3","keyname":null,"parent":{"id":0},"permissions":[{"action":"deny","principal":{"id":"1"},"scope":"resource","permission":"update","identity":"","propagate":true}
 */
 
 //--------------------------------------------------------------
@@ -514,7 +581,7 @@ bool wxGxNGWResourceGroup::Delete(void)
 
 bool wxGxNGWResourceGroup::Rename(const wxString &sNewName)
 {
-    /*if( m_pwxGISRemoteConn->RenameSchema(m_sName, sNewName) )
+    if( RenameResource(sNewName) )
 	{
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
@@ -522,7 +589,7 @@ bool wxGxNGWResourceGroup::Rename(const wxString &sNewName)
 			pNotify->OnGetUpdates();
 		}
 		return true;
-	}*/
+	}
 	return false;
 }
 
@@ -639,9 +706,51 @@ wxString wxGxNGWResourceGroup::CheckUniqName(const wxString& sTableName, const w
 
 bool wxGxNGWResourceGroup::CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType)
 {
+	switch(eType)
+	{
+		case enumNGWResourceTypeResourceGroup:
+			if( CreateResourceGroup(sName) )
+			{
+				OnGetUpdates();
+				return true;
+			}
+		default:
+			break;	
+	}
 	return false;
 }
 
+bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+	
+	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
+	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.c_str());
+    wxString sURL = wxString::FromUTF8(m_pService->GetURL()) + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	//TODO: report error
+	return res.IsValid && res.nHTTPCode < 400;
+/* create
+POST /resource/0/child/ HTTP/1.1
+Host: bishop.gis.to
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
+Accept: application/json
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/json; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: http://bishop.gis.to/resource/0/create?cls=resource_group
+Content-Length: 118
+Cookie: tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"; tkt="15e47993c5f4288c0aee9b7c06c1fcb84b03efeed6ddd5869772499f83cbbe785a944f1b3bb3d63e6714cd1bd219f01dc06114577113f0d91df2c1b568d8e07b541b5ff54!userid_type:int"
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+{"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
+*/
+}
 //--------------------------------------------------------------
 //class wxGxNGWLayer
 //--------------------------------------------------------------

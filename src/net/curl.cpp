@@ -165,6 +165,11 @@ PERFORMRESULT wxGISCurl::Delete(const wxString & sURL)
     return ((wxGISCurlRefData *)m_refData)->Delete(sURL);
 }
 
+PERFORMRESULT wxGISCurl::PutData(const wxString & sURL, const wxString& sPostData)
+{
+    return ((wxGISCurlRefData *)m_refData)->PutData(sURL, sPostData);
+}
+
 //-----------------------------------------------------------------------------
 // wxGISCurlRefData
 //-----------------------------------------------------------------------------
@@ -279,7 +284,7 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode = 0;
-	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1);
+	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1L);
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -377,7 +382,7 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	result.iSize = 0;
 	result.nHTTPCode =0;
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
-	curl_easy_setopt(m_pCurl, CURLOPT_POST, 1);
+	curl_easy_setopt(m_pCurl, CURLOPT_POST, 1L);
 	//const wxWX2MBbuf tmp_buf = wxConvCurrent->cWX2MB(sPostData);
 	//const char *tmp_str = (const char*) tmp_buf;
 	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.mb_str());
@@ -431,6 +436,75 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
+    headstruct.size = 0;
+	bodystruct.size = 0;
+
+	res = curl_easy_perform(m_pCurl);
+
+	//second try
+	if(res == CURLE_COULDNT_RESOLVE_HOST)
+		res = curl_easy_perform(m_pCurl);
+	//
+	
+	curl_easy_getinfo (m_pCurl, CURLINFO_RESPONSE_CODE, &result.nHTTPCode);
+	
+	if(res == CURLE_OK)
+	{
+		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal,
+        //charset
+        int posb = result.sHead.Find(wxT("charset="));
+        wxString soSet;//(wxT("default"));
+        if( posb != wxNOT_FOUND)
+        {
+            soSet = result.sHead.Mid(posb + 8, 50);
+            int pose = soSet.Find(wxT("\r\n"));
+            soSet = soSet.Left(pose);
+        }
+
+        if( soSet.IsSameAs(wxT("utf-8"), false) || soSet.IsSameAs(wxT("utf8"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-16"), false) || soSet.IsSameAs(wxT("utf16"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-32"), false) || soSet.IsSameAs(wxT("utf32"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-7"), false) || soSet.IsSameAs(wxT("utf7"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else
+        {
+            //wxCSConv
+            wxCSConv conv(soSet);
+
+            if(conv.IsOk())
+                result.sBody = wxString((const char*)bodystruct.memory, conv, bodystruct.size);
+            else
+                result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);//wxConvLocal,
+        }
+
+		result.iSize = headstruct.size + bodystruct.size;
+		result.IsValid = true;
+	}
+	return result;
+}
+
+PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& sPostData)
+{
+	PERFORMRESULT result;
+	result.IsValid = false;
+	result.iSize = 0;
+	result.nHTTPCode = 0;
+	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "PUT");
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.mb_str());
+	
     headstruct.size = 0;
 	bodystruct.size = 0;
 

@@ -25,8 +25,11 @@
 
 
 
-/** \class wxGxView gxview.h
- *  \brief The base class for views.
+/** @class wxGxView
+ * 
+ * 	The base class for views.
+ * 
+ * 	@library{catalogui}
  */
 
 class WXDLLIMPEXP_GIS_CLU wxGxView :
@@ -52,8 +55,11 @@ protected:
     wxIcon m_Icon;
 };
 
-/** \class wxGxAutoRenamer gxview.h
-    \brief Begin Rename created object.
+/** @class wxGxAutoRenamer
+ * 
+ * Begin Rename created object.
+ * 
+ * @library{catalogui}
 */
 
 class wxGxAutoRenamer
