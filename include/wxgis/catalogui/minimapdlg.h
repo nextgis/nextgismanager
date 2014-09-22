@@ -43,7 +43,7 @@
  * @library{catalogui}
  */
 
-class WXDLLIMPEXP_GIS_CTU wxGISMiniMapDlg : 
+class wxGISMiniMapDlg : 
 	public wxDialog, 
 	public wxGISApplicationBase
 {

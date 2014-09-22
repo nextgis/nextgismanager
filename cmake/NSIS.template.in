@@ -1,0 +1,302 @@
+; NGM
+;
+; NSIS Script for NSIS 2.46
+; Requires the ExecDos plugin (http://nsis.sourceforge.net/wiki/ExecDos)
+;
+; Copyright (c) 2008,2014 Bishop
+;
+; This program is free software; you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation; either version 3 of the License, or
+; (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with this program; if not, write to the Free Software
+; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+; Use better compression
+SetCompressor lzma
+
+; Sections
+!include "Sections.nsh"
+
+; Modern User Interface
+!include "MUI2.nsh"
+
+!include "LangFile.nsh"
+
+!define VERSION "@CPACK_PACKAGE_VERSION@"
+!define PRODUCT "NGM ${VERSION}"
+!define BUILD_PATH "@CMAKE_BINARY_DIR@"
+!define SOURCE_PATH "@CMAKE_SOURCE_DIR@"
+
+;TODO: fix paths
+!define PROJ_DIR "D:\work\projects"
+!define BIT "32"
+
+; --------------------------------
+; Configuration
+
+	; General
+	Name "${PRODUCT}"
+	OutFile "@CPACK_PACKAGE_FILE_NAME@.exe"
+
+	;Default installation folder
+	InstallDir "$PROGRAMFILES\nextgis\manager"
+	;Get installation folder from registry if available
+	InstallDirRegKey HKLM "Software\ngm" ""
+	
+	;Request application privileges for Windows Vista
+	RequestExecutionLevel highest
+	  
+	SetDateSave on
+	SetDatablockOptimize on
+	CRCCheck on
+	XPStyle on
+	BrandingText "${PRODUCT}"
+	SetOverwrite ifnewer
+; --------------------------------
+	AutoCloseWindow false
+	ShowInstDetails show
+
+; --------------------------------
+; Interface Settings
+
+	!define MUI_ABORTWARNING
+	!define MUI_COMPONENTSPAGE_CHECKBITMAP "${NSISDIR}\Contrib\Graphics\Checks\colorful.bmp"
+	!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\box-install.ico"
+	!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\box-uninstall.ico"
+	!define MUI_HEADERIMAGE
+	!define MUI_HEADERIMAGE_BITMAP "${SOURCE_PATH}\art\logo.bmp"
+	!define MUI_HEADERIMAGE_UNBITMAP "${SOURCE_PATH}\art\logo.bmp"
+	!define MUI_COMPONENTSPAGE_SMALLDESC
+  
+; --------------------------------
+; Install Pages
+
+	!insertmacro MUI_PAGE_LICENSE $(myLicenseData)
+	!insertmacro MUI_PAGE_DIRECTORY
+	!insertmacro MUI_PAGE_INSTFILES  
+	!insertmacro MUI_PAGE_FINISH 
+; --------------------------------
+; Uninstall Pages
+
+	!insertmacro MUI_UNPAGE_CONFIRM
+  
+	!insertmacro MUI_UNPAGE_INSTFILES  
+
+; --------------------------------	
+
+; Languages
+ 
+	!insertmacro MUI_LANGUAGE "Russian"
+	!insertmacro MUI_LANGUAGE "English"
+	
+;--------------------------------
+; License data
+; Not exactly translated, but it shows what's needed
+LicenseLangString myLicenseData ${LANG_ENGLISH} "${SOURCE_PATH}\docs\COPYING_EN"
+LicenseLangString myLicenseData ${LANG_RUSSIAN} "${SOURCE_PATH}\docs\COPYING_RU"
+
+;--------------------------------
+;Reserve Files
+  
+  ;These files should be inserted before other files in the data block
+  ;Keep these lines before any File command
+  ;Only for solid compression (by default, solid compression is enabled for BZIP2 and LZMA)
+  
+  !insertmacro MUI_RESERVEFILE_LANGDLL
+  
+;--------------------------------
+;Version Information
+
+  VIProductVersion "${VERSION}.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}.0"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© 2009-2013 Dmitry Baryshnikov, © 2014 NextGIS"
+  VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}.0"
+ 
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "ProductName" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "Comments" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "FileDescription" "@CPACK_NSIS_PACKAGE_NAME@"
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "FileVersion" "${VERSION}.0" 
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "LegalCopyright" "© 2009-2013 Dmitry Baryshnikov, © 2014 NextGIS"
+  VIAddVersionKey /LANG=${LANG_RUSSIAN} "ProductVersion" "${VERSION}.0"
+
+;--------------------------------
+;Installer Sections
+
+Section "all" SecCommon
+
+  SetOutPath "$INSTDIR"
+  SectionIn RO
+  
+  SetDetailsPrint textonly
+  DetailPrint "Installing Core Files..."
+  SetDetailsPrint listonly  
+  
+  ;system libs
+  SetOutPath "$INSTDIR\bin"
+  File /r "${PROJ_DIR}\wxGIS\inst\dll${BIT}\*.*"  
+  ;wxWidgets 32 bit libs
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_net_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_xml_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_adv_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_aui_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_core_vc_custom.dll"  
+  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_propgrid_vc_custom.dll"  
+  ;gdal libs
+  File "${PROJ_DIR}\gdal-nextgis-git\build${BIT}\Release\gdal20.dll"  
+  ;proj lib
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\proj4.dll"  
+  ;geos lib
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\geos_c.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\geos.dll"
+  ;curl lib
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libcurl.dll"
+  ;
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\cairo.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libeay32.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libexpat.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libiconv.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libjpeg.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libpng16.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libtiff.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\ssleay32.dll"
+  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\zlib.dll"
+  
+  File "${BUILD_PATH}\Release\wxgiscarto@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgiscartoui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgiscatalog@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgiscatalogui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgiscore@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisdatasource@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisdisplay@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisframework@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisfreechart@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisgeoprocessing@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisgeoprocessingui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  File "${BUILD_PATH}\Release\wxgisnet@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
+  
+  File "${BUILD_PATH}\Release\wxgiscat.exe"
+  
+  File "${BUILD_PATH}\Release\wxgistaskmanager.exe"
+  
+  ;sys dir
+  SetOutPath "$INSTDIR\sys\gdal"
+  File /r "${SOURCE_PATH}\opt\sys\gdal\*.*"
+  SetOutPath "$INSTDIR\sys"
+  File "${SOURCE_PATH}\opt\sys\cs.zip"
+  
+  ;log dir will create by app in it folder
+  
+  ;conf dir
+  SetOutPath "$INSTDIR\config"
+  File "${SOURCE_PATH}\opt\config\wxGISContDialog.xml"
+  File "${SOURCE_PATH}\opt\config\wxGISObjDialog.xml"
+  File "${SOURCE_PATH}\opt\config\wxTranslit.xml"
+  
+  File "${SOURCE_PATH}\opt\config\wxCatalog.xml" 
+  File "${SOURCE_PATH}\opt\config\wxCatalogUI.xml" 
+  File "${SOURCE_PATH}\opt\config\wxGISCatalog.xml"
+  File /oname=wxGISCommon.xml "${SOURCE_PATH}\opt\config\wxGISCommon.xml.win"
+
+  ;locale dir
+  SetOutPath "$INSTDIR\locale"
+  File /r "${BUILD_PATH}\opt\loc\"
+ 
+  ;license
+  SetOutPath "$INSTDIR\docs"
+  File "${SOURCE_PATH}\docs\COPYING_*"
+  
+  SetOutPath "$INSTDIR"
+  
+  ;Store installation folder
+  WriteRegStr HKLM "Software\@CPACK_PACKAGE_INSTALL_REGISTRY_KEY@" "" $INSTDIR
+ 
+  ; Store uninstall information
+  ;Delete previous uninstal info
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}"
+  ;Create uninstal info
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" "DisplayName" "${PRODUCT}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" "DisplayIcon" '"$INSTDIR\Uninstall.exe"'  
+  
+  ;Create uninstaller
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  
+  SetShellVarContext current
+  CreateShortCut "$DESKTOP\nextgismanager.lnk" "$INSTDIR\bin\wxgiscat.exe"
+  CreateShortCut "$QUICKLAUNCH\nextgismanager.lnk" "$INSTDIR\bin\wxgiscat.exe"
+  
+SectionEnd
+
+;--------------------------------
+;Descriptions
+
+;USE A LANGUAGE STRING IF YOU WANT YOUR DESCRIPTIONS TO BE LANGAUGE SPECIFIC
+;--------------------------------
+
+LangString UninstQuiestion ${LANG_ENGLISH} "There is the previous installation in '$INSTDIR'.$\r$\nUninstall?"
+LangString UninstQuiestion ${LANG_RUSSIAN} "Обнаружена предыдущая установка в папке '$INSTDIR'.$\r$\nДеинсталировать?"
+LangString UninstSettings ${LANG_ENGLISH} "Delete user settings?"
+LangString UninstSettings ${LANG_RUSSIAN} "Удалить пользовательские настройки?"
+
+;--------------------------------
+;Uninstaller Section
+
+Section "Uninstall"
+
+  SetDetailsPrint textonly
+  DetailPrint "Uninstalling ${PRODUCT}..."
+  SetDetailsPrint listonly
+
+  Delete "$INSTDIR\Uninstall.exe"
+
+  RMDir /r /REBOOTOK "$INSTDIR"
+
+  DeleteRegKey HKLM "Software\@CPACK_PACKAGE_INSTALL_REGISTRY_KEY@"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}"
+  
+  RMDir /r "$SMPROGRAMS\wxGIS"
+  Delete "$DESKTOP\nextgismanager.lnk"
+  Delete "$QUICKLAUNCH\nextgismanager.lnk"
+  
+  ;RMDir /r "$LOCALAPPDATA\wxGIS"
+  SetShellVarContext all
+  RMDir /r "$APPDATA\wxGIS"
+  MessageBox MB_YESNO $(UninstSettings) IDNO ngm_uninstalled
+	SetShellVarContext current
+	RMDir /r "$APPDATA\wxGIS" 
+ngm_uninstalled:
+SectionEnd
+
+;
+; Miscellaneous functions
+;
+
+Function un.onInit
+
+FunctionEnd
+
+Function .onInit
+	ReadRegStr $0 HKLM Software\@CPACK_PACKAGE_INSTALL_REGISTRY_KEY@ ""
+	
+	IfFileExists $0\Uninstall.exe 0 ngm_notinstalled
+	;remove HKLM settings
+	  SetShellVarContext all
+	  RMDir /r "$APPDATA\wxGIS"
+		MessageBox MB_YESNO $(UninstQuiestion) IDYES ngm_installed
+		Abort "Отменено пользователем"
+ngm_installed:
+		ExecWait "$0\Uninstall.exe"
+ngm_notinstalled:
+FunctionEnd

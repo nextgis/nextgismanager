@@ -23,11 +23,14 @@
 
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxfolder.h"
+#include "wxgis/catalog/gxcatalog.h"
+#include "wxgis/catalog/gxevent.h"
 
-/** \class wxGxWebConnections gxwebconnections.h
-    \brief The web services connections root item.
+/** @class wxGxWebConnections
+    
+    The web services connections root item. This root item can held connections (*.wconn) and folders items
 
-	This root item can held connections (*.wconn) and folders items
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxWebConnections :
@@ -40,7 +43,8 @@ public:
 	virtual ~wxGxWebConnections(void);
 	//wxGxObject
     virtual bool Create(wxGxObject *oParent = NULL, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-	virtual wxString GetCategory(void) const {return wxString(_("Web services folder"));};
+    virtual wxString GetCategory(void) const { return wxString(_("Web services folder")); };
+    virtual void Refresh(void);
 	//wxGxObjectContainer
     virtual bool CanCreate(long nDataType, long DataSubtype);     
     //wxGxObjectContainer
@@ -48,10 +52,12 @@ public:
     //IGxRootObjectProperties
     virtual void Init(wxXmlNode* const pConfigNode);
     virtual void Serialize(wxXmlNode* const pConfigNode);
-//protected:
-//    virtual void LoadChildren(void);
+protected:
+    virtual void StartWatcher(void);
+    virtual void LoadChildren(void);
 protected:
     wxString m_sInternalPath;
+    wxGxCatalog* m_pCatalog;
 };
 
 

@@ -29,7 +29,7 @@
 // wxGISMiniMapDlg
 //----------------------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGISMiniMapDlg, wxDialog)
+IMPLEMENT_CLASS2(wxGISMiniMapDlg, wxDialog, wxGISApplicationBase)
 
 BEGIN_EVENT_TABLE(wxGISMiniMapDlg, wxDialog)
     EVT_MENU_RANGE(ID_PLUGINCMD, ID_PLUGINCMDMAX, wxGISMiniMapDlg::OnCommand)
@@ -50,7 +50,7 @@ BEGIN_EVENT_TABLE(wxGISMiniMapDlg, wxDialog)
     EVT_MOTION(wxGISMiniMapDlg::OnMouseMove)
 END_EVENT_TABLE()
 
-wxGISMiniMapDlg::wxGISMiniMapDlg(wxDword nButtons, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style), wxGISApplicationBase()
+wxGISMiniMapDlg::wxGISMiniMapDlg(wxDword nButtons, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)/*, wxGISApplicationBase()*/
 {
     m_pDropDownCommand = NULL;
     this->SetSizeHints(wxDefaultSize, wxDefaultSize);

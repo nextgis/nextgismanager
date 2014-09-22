@@ -3,7 +3,7 @@
  * Purpose:  wxGxWebConnections class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Dmitry Baryshnikov
+*   Copyright (C) 2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,9 @@ bool wxGxWebConnections::Create(wxGxObject *oParent, const wxString &soName, con
         wxLogError(_("wxGxWebConnections::Create failed. GxObject %s"), wxString(_("Web service connections")).c_str());
         return false;
     }
+
+    m_pCatalog = wxDynamicCast(GetGxCatalog(), wxGxCatalog);
+
     return true;
 }
 
@@ -60,7 +63,7 @@ void wxGxWebConnections::Init(wxXmlNode* const pConfigNode)
 		m_sInternalPath = oConfig.GetLocalConfigDir() + wxFileName::GetPathSeparator() + wxString(wxT("webconnections"));
     }
 
-    m_sInternalPath.Replace(wxT("\\"), wxT("/"));
+    //m_sInternalPath.Replace(wxT("\\"), wxT("/"));
     wxLogMessage(_("wxGxWebConnections: The path is set to '%s'"), m_sInternalPath.c_str());
     CPLSetConfigOption("wxGxWebConnections", m_sInternalPath.mb_str(wxConvUTF8));
 
@@ -82,4 +85,53 @@ bool wxGxWebConnections::CanCreate(long nDataType, long DataSubtype)
 	if(DataSubtype != enumContFolder && DataSubtype != enumContWebServiceConnection)
 		return false;
 	return wxGxFolder::CanCreate(nDataType, DataSubtype);
+}
+
+void wxGxWebConnections::StartWatcher(void)
+{
+    //add itself
+    wxFileName oFileName = wxFileName::DirName(wxString(m_sPath, wxConvUTF8));
+    wxString sPath = oFileName.GetFullPath();
+#if defined(__UNIX__)
+    if (!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
+#elif defined(__WINDOWS__)
+    if (!m_pCatalog->AddFSWatcherTree(oFileName, wxFSW_EVENT_CREATE | wxFSW_EVENT_DELETE | wxFSW_EVENT_RENAME))
+#endif
+    {
+        wxLogError(_("Add File system watcher failed"));
+    }
+
+#ifdef __UNIX__
+    //add children
+    wxGxObjectList::const_iterator iter;
+    for (iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
+    {
+        wxGxObject *current = *iter;
+        if (current)
+        {
+            oFileName = wxFileName::DirName(wxString(current->GetPath(), wxConvUTF8));
+            if (!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_ALL))
+            {
+                wxLogError(_("Add File system watcher failed"));
+            }
+        }
+    }
+#endif
+}
+
+void wxGxWebConnections::LoadChildren(void)
+{
+    if (m_bIsChildrenLoaded)
+        return;
+
+    wxGxFolder::LoadChildren();
+    StartWatcher();
+}
+
+void wxGxWebConnections::Refresh(void)
+{
+    DestroyChildren();
+    m_bIsChildrenLoaded = false;
+    LoadChildren();
+    wxGIS_GXCATALOG_EVENT(ObjectRefreshed);
 }

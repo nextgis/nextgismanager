@@ -258,6 +258,7 @@ void wxGISTable::SetInternalValues()
                 m_nCurrentFID = 1;//TODO: check if kml FID starts with 1
                 m_Encoding = wxFONTENCODING_UTF8;
                 break;
+            case enumVecGeoJSON:
             case enumVecPostGIS://TODO: check encoding
                 m_Encoding = wxFONTENCODING_UTF8;
                 break;

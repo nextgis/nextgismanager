@@ -1,25 +1,25 @@
-# **************************************************************************** 
-# * Project:  wxGIS
-# * Purpose:  cmake script
-# * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
-# ****************************************************************************
-# *   Copyright (C) 2013-2014 Dmitry Baryshnikov
-# *
-# *    This program is free software: you can redistribute it and/or modify
-# *    it under the terms of the GNU General Public License as published by
-# *    the Free Software Foundation, either version 2 of the License, or
-# *    (at your option) any later version.
-# *
-# *    This program is distributed in the hope that it will be useful,
-# *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-# *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# *    GNU General Public License for more details.
-# *
-# *    You should have received a copy of the GNU General Public License
-# *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# ****************************************************************************
+#*************************************************************************** 
+# Project:  wxGIS
+# Purpose:  cmake script
+# Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+#***************************************************************************
+#   Copyright (C) 2013-2014 Dmitry Baryshnikov
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#***************************************************************************
 cmake_minimum_required (VERSION 2.8)
-project (wxgis)
+project (ngm)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 set(CMAKE_COLOR_MAKEFILE ON)
@@ -256,37 +256,12 @@ endif(wxGIS_BUILD_TRANSLATION)
 #endif(wxGIS_CATALOG AND wxGIS_HAVE_SERVER)
 
 configure_file(${WXGIS_CURRENT_SOURCE_DIR}/cmake/defs.h.cmake ${WXGIS_CURRENT_BINARY_DIR}/wxgisdefs.h @ONLY)
-
-if(WIN32)
-#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/locale CONFIGURATIONS Debug FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
-#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/locale CONFIGURATIONS Release FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt")
-    install(CODE "FILE(MAKE_DIRECTORY ${WXGIS_CURRENT_BINARY_DIR}/Debug/log)"  CONFIGURATIONS Debug)
-    install(CODE "FILE(MAKE_DIRECTORY ${WXGIS_CURRENT_BINARY_DIR}/Release/log)"  CONFIGURATIONS Release)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/sys CONFIGURATIONS Debug)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/sys CONFIGURATIONS Release)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/config CONFIGURATIONS Debug FILES_MATCHING PATTERN "*.xml")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/config CONFIGURATIONS Release FILES_MATCHING PATTERN "*.xml")
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/wxGISCommon.xml.win DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Release/config/ RENAME wxGISCommon.xml CONFIGURATIONS Release)    
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/wxGISCommon.xml.win DESTINATION ${WXGIS_CURRENT_BINARY_DIR}/Debug/config/ RENAME wxGISCommon.xml CONFIGURATIONS Debug)    
-    install(DIRECTORY ${WXGIS_CURRENT_BINARY_DIR}/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE PATTERN "src" EXCLUDE)
-else(WIN32)#UNIX
-    FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/wxgis)
-#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/wxgis DESTINATION /var/log/ DIRECTORY_PERMISSIONS
-#        OWNER_WRITE OWNER_READ OWNER_EXECUTE
-#        GROUP_WRITE GROUP_READ GROUP_EXECUTE
-#        WORLD_WRITE WORLD_READ WORLD_EXECUTE)
-#    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/loc/ DESTINATION share/wxgis/locale FILES_MATCHING PATTERN "*.mo" PATTERN "*.txt" PATTERN ".svn" EXCLUDE)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/sys/ DESTINATION share/wxgis/sys FILES_MATCHING PATTERN "*" PATTERN ".svn" EXCLUDE)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION /etc/wxgis FILES_MATCHING PATTERN "*.xml" PATTERN ".svn" EXCLUDE)
-    install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/wxGISCommon.xml.nix DESTINATION /etc/wxgis/ RENAME wxGISCommon.xml )    
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/wxgis DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE)
-    install(DIRECTORY ${WXGIS_CURRENT_BINARY_DIR} DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN ".svn" EXCLUDE PATTERN "src" EXCLUDE)
-
-#    install(FILES ${CMAKE_SOURCE_DIR}/inst/debian/wxgis.conf DESTINATION /etc/ld.so.conf.d)
-#no need - use sudo lddconfig in install script
-#    COMMAND "ldconfig"
-endif(WIN32)
+configure_file(${WXGIS_CURRENT_SOURCE_DIR}/cmake/CPackOptions.cmake.in ${WXGIS_CURRENT_BINARY_DIR}/CPackOptions.cmake @ONLY)
+    
+#CPack definitions
+include(installator)
 
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
 

@@ -3,7 +3,7 @@
 ; wxgis.nsi - NSIS Script for NSIS 2.46
 ; Requires the ExecDos plugin (http://nsis.sourceforge.net/wiki/ExecDos)
 ;
-; Copyright (c) 2008 Bishop
+; Copyright (c) 2008,2014 Bishop
 ;
 ; This program is free software; you can redistribute it and/or modify
 ; it under the terms of the GNU General Public License as published by

@@ -114,7 +114,7 @@ WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResour
 
     @library{catalog}
 */
-class wxGxNGWResource : public wxGxRemoteId
+class WXDLLIMPEXP_GIS_CLT wxGxNGWResource : public wxGxRemoteId
 {
 public:
     wxGxNGWResource(const wxJSONValue &Data);
@@ -222,8 +222,7 @@ public:
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWLayer :
     public wxGxNGWResource,
-	public wxGxFeatureDataset,
-    public IGxObjectEdit
+	public wxGxFeatureDataset
 {
     DECLARE_CLASS(wxGxNGWLayer)
 public:

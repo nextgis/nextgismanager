@@ -37,7 +37,7 @@ WX_DECLARE_STRING_HASH_MAP( wxString, wxGISIndexMap );
  * @library{catalog}
  */
  
- class wxGISPostGISBaseTable :
+class WXDLLIMPEXP_GIS_CLT wxGISPostGISBaseTable :
 	public wxGxRemoteId
  {
 public: 

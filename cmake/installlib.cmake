@@ -1,3 +1,23 @@
+#*************************************************************************** 
+# Project:  wxGIS
+# Purpose:  cmake script
+# Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+#***************************************************************************
+#   Copyright (C) 2013-2014 Dmitry Baryshnikov
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#***************************************************************************
 set_target_properties(${LIB_NAME}
 	PROPERTIES PROJECT_LABEL ${PROJECT_NAME}
     VERSION ${WXGIS_VERSION}
@@ -9,9 +29,9 @@ set_target_properties(${LIB_NAME}
 
 if(WIN32)
     if(CMAKE_CL_64)
-        install(TARGETS ${LIB_NAME} DESTINATION ${WXGIS_CURRENT_SOURCE_DIR}/lib/x64)
+        install(TARGETS ${LIB_NAME} DESTINATION lib/x64 CONFIGURATIONS Debug)
     else()
-        install(TARGETS ${LIB_NAME} DESTINATION ${WXGIS_CURRENT_SOURCE_DIR}/lib/x86)
+        install(TARGETS ${LIB_NAME} DESTINATION lib/x86 CONFIGURATIONS Debug)
      endif()
 else()
     install(TARGETS ${LIB_NAME}
@@ -19,8 +39,5 @@ else()
         ARCHIVE DESTINATION lib #/wxgis
         LIBRARY DESTINATION lib #/wxgis
     )
-
-#    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-#    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib/wxgis")
 endif() 
 

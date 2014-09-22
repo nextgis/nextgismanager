@@ -25,8 +25,11 @@
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalogui/gxview.h"
 
-/** \class wxGxDBConnectionsUI gxdbconnectionsui.h
-    \brief The database connections root item in user interface.
+/** @class wxGxDBConnectionsUI
+    
+    The database connections root item in user interface.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxDBConnectionsUI :

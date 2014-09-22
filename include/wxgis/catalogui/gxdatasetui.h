@@ -55,8 +55,11 @@ protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
 
-/** \class wxGxFeatureDataset gxdataset.h
-    \brief A Feature Dataset GxObject.
+/** @class wxGxFeatureDataset
+
+    A Feature Dataset GxObject.
+
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxFeatureDatasetUI :

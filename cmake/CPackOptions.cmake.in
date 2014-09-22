@@ -3,7 +3,7 @@
 # Purpose:  cmake script
 # Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 #***************************************************************************
-#   Copyright (C) 2013-2014 Dmitry Baryshnikov
+#   Copyright (C) 2014 Dmitry Baryshnikov
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,14 +18,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #***************************************************************************
-#add data
-macro(add_files_macro FPATH FGROUP)
-    file(GLOB PROJECT_AHHEADERS ${FPATH}/*.h  ${FPATH}/*.hpp)
-    set(PROJECT_HHEADERS ${PROJECT_HHEADERS} ${PROJECT_AHHEADERS})
-    source_group("Header Files\\${FGROUP}" FILES ${PROJECT_AHHEADERS})
-    file(GLOB PROJECT_ACSOURCES ${FPATH}/*.cpp ${FPATH}/*.cc ${FPATH}/*.c)
-    set(PROJECT_CSOURCES ${PROJECT_CSOURCES} ${PROJECT_ACSOURCES})
-    source_group("Source Files\\${FGROUP}" FILES ${PROJECT_ACSOURCES})
-endmacro()
 
-
+set( CMAKE_SOURCE_DIR  @CMAKE_SOURCE_DIR@ )
+set( CMAKE_BINARY_DIR  @CMAKE_BINARY_DIR@ )

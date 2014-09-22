@@ -67,7 +67,7 @@ protected:
   * @library{catalog}
   */
   
-class wxGxRemoteId
+class WXDLLIMPEXP_GIS_CLT wxGxRemoteId
 {
 public:
     wxGxRemoteId();
