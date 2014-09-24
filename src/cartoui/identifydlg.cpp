@@ -695,6 +695,11 @@ void wxGISIdentifyDlg::OnDoubleClickSash(wxSplitterEvent& event)
 //-------------------------------------------------------------------
 IMPLEMENT_DYNAMIC_CLASS(wxAxIdentifyView, wxGISIdentifyDlg)
 
+BEGIN_EVENT_TABLE(wxAxIdentifyView, wxGISIdentifyDlg)
+    EVT_MXMAP_LAYER_REMOVED(wxAxIdentifyView::OnLayerRemoved)
+    EVT_MXMAP_CLEARED(wxAxIdentifyView::OnLayerRemoved)
+END_EVENT_TABLE()
+
 wxAxIdentifyView::wxAxIdentifyView(void)
 {
 }
@@ -833,14 +838,19 @@ wxGISSymbol* wxAxIdentifyView::GetDrawSymbol(OGRwkbGeometryType eType) const
 
 void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryBounds)
 {
-    m_pMapView = pMapView;
-	//if(!m_pMapView)//TODO: add/remove layer map events connection point
-	//{
- //       wxWindow* pWnd = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxGISMapView));
- //       m_pMapView = dynamic_cast<wxGISMapView*>(pWnd);
-	//}
-	if(!m_pMapView)
-        return;
+    if (!pMapView)
+        return;   
+    
+    if (m_pMapView != pMapView)
+    {
+        //add/remove layer map events connection point       
+        if (NULL != m_pMapView && m_nConnectionPointMapCookie != wxNOT_FOUND)
+            m_pMapView->Unadvise(m_nConnectionPointMapCookie);
+
+        m_pMapView = pMapView;    
+
+        m_nConnectionPointMapCookie = m_pMapView->Advise(this);
+    }
 
 	wxBusyCursor wait;
 	wxGISSpatialReference SpaRef = m_pMapView->GetSpatialReference();
@@ -1166,4 +1176,11 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 	default:
 	break;
 	}
+
+}
+
+void wxAxIdentifyView::OnLayerRemoved(wxMxMapViewUIEvent& event)
+{
+    m_pFeatureDetailsPanel->Clear(true);
+    m_pTreeCtrl->DeleteAllItems();
 }

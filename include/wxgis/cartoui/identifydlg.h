@@ -241,6 +241,8 @@ public:
 	virtual void OnSelChanged(wxTreeEvent& event);
 	virtual void OnLeftDown(wxMouseEvent& event);
 	virtual void OnMenu(wxCommandEvent& event);
+    virtual void OnLayerRemoved(wxMxMapViewUIEvent& event);
+
     typedef struct _filltreedata{
         wxGISLayer* const pLayer;
         wxGISSpatialTreeCursor Cursor;
@@ -252,6 +254,9 @@ protected:
 	wxString m_sViewName;
     wxGISApplicationBase* m_pApp;
 	wxGISMapView* m_pMapView;
+    long m_nConnectionPointMapCookie;
     //wxGxToolboxTreeView* m_pGxToolboxView;
     //wxGxToolExecuteView *m_pGxToolExecuteView;
+private:
+    DECLARE_EVENT_TABLE()
 };

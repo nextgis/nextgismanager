@@ -77,6 +77,14 @@
       <menu name="MenuBar.Help" caption="&amp;Help">
         <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="1" name="О &amp;программе"/>
       </menu>
+      <menu name="MenuBar.Windows" caption="&amp;Windows">
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="2" name="Показать/скрыть дерево"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="Показать/Скрыть панель &amp;наборов инструментов"/>
+      </menu>
+      <menu name="MenuBar.Tools" caption="&amp;Tools">
+        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
+      </menu>
       <menu name="wxGxCatalog.ContextMenu" caption="Catalog">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
         <Item type="sep"/>
@@ -166,14 +174,6 @@
       </menu>
       <menu name="wxGxSpatialReferencesFolder.ContextMenu" caption="Coordinate Systems Folder">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
-      </menu>
-      <menu name="MenuBar.Windows" caption="&amp;Windows">
-        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="2" name="Показать/скрыть дерево"/>
-        <Item type="sep"/>
-        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="Показать/Скрыть панель &amp;наборов инструментов"/>
-      </menu>
-      <menu name="MenuBar.Tools" caption="&amp;Tools">
-        <Item type="cmd" cmd_name="wxGISCommonCmd" subtype="5" name="Параметры..."/>
       </menu>
       <menu name="wxGxDiscConnection.NewMenu" caption="Folder connection">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="7" name="Создать папку"/>
@@ -296,8 +296,8 @@
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="1" name="&amp;TMS connection"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="2" name="&amp;NGW connection"/>
       </menu>
-      <menu name="wxGxNGWService.ContextMenu" caption="NGW Service">
-        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="15" name="Подключить"/>
+       <menu name="wxGxNGWService.ContextMenu" caption="Подключение NGW">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="15" name="Подключить"/> 
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="16" name="Disconnect"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
@@ -305,17 +305,30 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
-        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxNGWResourceGroup.ContextMenu" caption="NGW resources">
+      <menu name="wxGxNGWResourceGroup.ContextMenu" caption="Группа ресурсов NGW">
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
         <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
+        <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxNGWResourceGroup.NewMenu" caption="NGW resources"/>
-    </Menues>
+      <menu name="wxGxNGWResourceGroup.NewMenu" caption="Группа ресурсов NGW">
+        <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="5" name="NGW Resource Group"/>
+      </menu>
+      <menu name="wxGxNGWLayer.ContextMenu" caption="Слой NGW">
+        <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="&amp;Экспорт"/>
+        <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
+      </menu>
     <MenuBar>
       <menu name="MenuBar.File"/>
       <menu name="MenuBar.Edit"/>

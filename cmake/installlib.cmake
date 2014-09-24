@@ -29,9 +29,9 @@ set_target_properties(${LIB_NAME}
 
 if(WIN32)
     if(CMAKE_CL_64)
-        install(TARGETS ${LIB_NAME} DESTINATION lib/x64 CONFIGURATIONS Debug)
+        install(TARGETS ${LIB_NAME} DESTINATION lib/x64)
     else()
-        install(TARGETS ${LIB_NAME} DESTINATION lib/x86 CONFIGURATIONS Debug)
+        install(TARGETS ${LIB_NAME} DESTINATION lib/x86)
      endif()
 else()
     install(TARGETS ${LIB_NAME}

@@ -74,7 +74,7 @@ bool wxGxNGWService::Delete(void)
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
         return false;
     }
     return true;
@@ -84,14 +84,14 @@ bool wxGxNGWService::Rename(const wxString &sNewName)
 {
     CPLString szDirPath = CPLGetPath(m_sPath);
     CPLString szName = CPLGetBasename(m_sPath);
-    CPLString szNewName(ClearExt(sNewName).mb_str(wxConvUTF8));
+    CPLString szNewName(ClearExt(sNewName).ToUTF8());
     CPLString szNewPath(CPLFormFilename(szDirPath, szNewName, GetExtension(m_sPath, szName)));
 
 
     if (!RenameFile(m_sPath, szNewPath))
     {
         const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
         return false;
     }
     else
@@ -112,7 +112,7 @@ bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrac
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
         wxLogError(sErr);
         if (pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -130,7 +130,7 @@ bool wxGxNGWService::Move(const CPLString &szDestPath, ITrackCancel* const pTrac
     if (!bRet)
     {
         const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString::FromUTF8(err).c_str(), wxString::FromUTF8(m_sPath).c_str());
         wxLogError(sErr);
         if (pTrackCancel)
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
@@ -154,7 +154,7 @@ bool wxGxNGWService::ConnectToNGW()
     }
 
     wxString sURL = m_sURL + wxString(wxT("/login"));
-    wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.c_str(), m_sPassword.c_str());
+    wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.ToUTF8(), m_sPassword.ToUTF8());
 
     PERFORMRESULT res = curl.Post(sURL, sPostData);
 
@@ -368,7 +368,7 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
     if(!curl.IsOk())
         return false;
 	
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.c_str());
+	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.PutData(sURL, sPayload);
 	
@@ -762,7 +762,7 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
         return false;
 	
 	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.c_str());
+    wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;

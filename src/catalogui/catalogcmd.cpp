@@ -893,6 +893,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 if(pConn != NULL)
 					pConn->Connect();
             }
+            return;
 		case enumGISCatalogMainCmdDisconnect:
 			if (pCat && pSel)
             {
@@ -901,6 +902,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                 if(pConn != NULL)
 					pConn->Disconnect();
             }
+            return;
         case enumGISCatalogMainCmdLocation:
 		default:
 			return;

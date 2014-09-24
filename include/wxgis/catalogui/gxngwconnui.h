@@ -135,8 +135,8 @@ public:
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayerUI.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayerUI.NewtMenu")); };
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayer.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayer.NewtMenu")); };
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
