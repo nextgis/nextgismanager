@@ -246,9 +246,9 @@ SectionEnd
 ;--------------------------------
 
 LangString UninstQuiestion ${LANG_ENGLISH} "There is the previous installation in '$INSTDIR'.$\r$\nUninstall?"
-LangString UninstQuiestion ${LANG_RUSSIAN} "Обнаружена предыдущая установка в папке '$INSTDIR'.$\r$\nДеинсталировать?"
+LangString UninstQuiestion ${LANG_RUSSIAN} "ќбнаружена предыдуща€ установка в папке '$INSTDIR'.$\r$\nƒеинсталировать?"
 LangString UninstSettings ${LANG_ENGLISH} "Delete user settings?"
-LangString UninstSettings ${LANG_RUSSIAN} "Удалить пользовательские настройки?"
+LangString UninstSettings ${LANG_RUSSIAN} "”далить пользовательские настройки?"
 
 ;--------------------------------
 ;Uninstaller Section
@@ -295,7 +295,7 @@ Function .onInit
 	  SetShellVarContext all
 	  RMDir /r "$APPDATA\wxGIS"
 		MessageBox MB_YESNO $(UninstQuiestion) IDYES ngm_installed
-		Abort "Отменено пользователем"
+		Abort "ќтменено пользователем"
 ngm_installed:
 		ExecWait "$0\Uninstall.exe"
 ngm_notinstalled:
