@@ -874,7 +874,7 @@ void wxGISTMSConnDlg::CreateUI(bool bHasConnectionPath)
     //add other controls
 
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 9, 2, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 12, 2, 0, 0 );
 	fgSizer1->AddGrowableCol( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );

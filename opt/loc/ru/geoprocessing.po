@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:04+0400\n"
-"PO-Revision-Date: 2014-06-30 05:04+0400\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:17+0300\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -460,7 +460,7 @@ msgstr "Выходной драйвер '%s' не определяется."
 
 #: ../../../src/geoprocessing/gpraster.cpp:135
 #: ../../../src/geoprocessing/gpvector.cpp:102
-#: ../../../src/geoprocessing/gpvector.cpp:294
+#: ../../../src/geoprocessing/gpvector.cpp:295
 msgid "Interrupted by user"
 msgstr "Прервано пользователем"
 
@@ -618,15 +618,15 @@ msgid "Error create the output file '%s'! OGR error: "
 msgstr "Ошибка создания выходного файла '%s'! Ошибка OGR: "
 
 #: ../../../src/geoprocessing/gptable.cpp:52
-#: ../../../src/geoprocessing/gpvector.cpp:1761
+#: ../../../src/geoprocessing/gpvector.cpp:1763
 msgid "Layer_"
 msgstr "Слой_"
 
 #: ../../../src/geoprocessing/gptable.cpp:59
 #: ../../../src/geoprocessing/gptable.cpp:71
-#: ../../../src/geoprocessing/gpvector.cpp:1809
-#: ../../../src/geoprocessing/gpvector.cpp:1866
-#: ../../../src/geoprocessing/gpvector.cpp:1910
+#: ../../../src/geoprocessing/gpvector.cpp:1811
+#: ../../../src/geoprocessing/gpvector.cpp:1868
+#: ../../../src/geoprocessing/gpvector.cpp:1912
 #, c-format
 msgid "Error create the output layer '%s'! OGR error: "
 msgstr "Ошибка создания выходного слоя '%s'! Ошибка OGR: "
@@ -698,12 +698,12 @@ msgid "%H hours %M min. %S sec."
 msgstr "%H час. %M мин. %S сек."
 
 #: ../../../src/geoprocessing/gpvector.cpp:63
-#: ../../../src/geoprocessing/gpvector.cpp:221
+#: ../../../src/geoprocessing/gpvector.cpp:222
 msgid "Input dataset is corrupt"
 msgstr "Входные данные повреждены"
 
-#: ../../../src/geoprocessing/gpvector.cpp:168
-#: ../../../src/geoprocessing/gpvector.cpp:445
+#: ../../../src/geoprocessing/gpvector.cpp:169
+#: ../../../src/geoprocessing/gpvector.cpp:447
 #, c-format
 msgid ""
 "Error create feature!\n"
@@ -714,7 +714,7 @@ msgstr ""
 "Идентификатор записи:%ld\n"
 "Ошибка OGR: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:371
+#: ../../../src/geoprocessing/gpvector.cpp:372
 #, c-format
 msgid ""
 "Geometry transform failed\n"
@@ -723,14 +723,14 @@ msgstr ""
 "Ошибка преобразования геометрий\n"
 "Идентификатор записи %ld"
 
-#: ../../../src/geoprocessing/gpvector.cpp:477
-#: ../../../src/geoprocessing/gpvector.cpp:577
+#: ../../../src/geoprocessing/gpvector.cpp:479
+#: ../../../src/geoprocessing/gpvector.cpp:579
 #, c-format
 msgid "Start copy records from '%s' to '%s'"
 msgstr "Начало копирования записей из '%s' в '%s'"
 
-#: ../../../src/geoprocessing/gpvector.cpp:481
-#: ../../../src/geoprocessing/gpvector.cpp:581
+#: ../../../src/geoprocessing/gpvector.cpp:483
+#: ../../../src/geoprocessing/gpvector.cpp:583
 #, c-format
 msgid ""
 "Start copy records from '%s' to '%s'\n"
@@ -739,13 +739,13 @@ msgstr ""
 "Начало копирования записей из '%s' в '%s'\n"
 "WHERE %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:489
-#: ../../../src/geoprocessing/gpvector.cpp:593
+#: ../../../src/geoprocessing/gpvector.cpp:491
+#: ../../../src/geoprocessing/gpvector.cpp:595
 msgid "No records to export"
 msgstr "Нет записей для экспорта"
 
-#: ../../../src/geoprocessing/gpvector.cpp:498
-#: ../../../src/geoprocessing/gpvector.cpp:602
+#: ../../../src/geoprocessing/gpvector.cpp:500
+#: ../../../src/geoprocessing/gpvector.cpp:604
 msgid ""
 "Error creating new dataset!\n"
 "OGR error: "
@@ -753,10 +753,10 @@ msgstr ""
 "Ошибка создания нового набора данных!\n"
 "Ошибка OGR: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:515
-#: ../../../src/geoprocessing/gpvector.cpp:539
-#: ../../../src/geoprocessing/gpvector.cpp:619
-#: ../../../src/geoprocessing/gpvector.cpp:643
+#: ../../../src/geoprocessing/gpvector.cpp:517
+#: ../../../src/geoprocessing/gpvector.cpp:541
+#: ../../../src/geoprocessing/gpvector.cpp:621
+#: ../../../src/geoprocessing/gpvector.cpp:645
 msgid ""
 "Error copying data to a new dataset!\n"
 "OGR error: "
@@ -764,54 +764,54 @@ msgstr ""
 "Ошибка копирования данных в новый набор!\n"
 "Ошибка OGR: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:564
-#: ../../../src/geoprocessing/gpvector.cpp:690
+#: ../../../src/geoprocessing/gpvector.cpp:566
+#: ../../../src/geoprocessing/gpvector.cpp:692
 msgid "Overwrite failed"
 msgstr "Не удалось перезаписать"
 
-#: ../../../src/geoprocessing/gpvector.cpp:666
-#: ../../../src/geoprocessing/gpvector.cpp:718
+#: ../../../src/geoprocessing/gpvector.cpp:668
+#: ../../../src/geoprocessing/gpvector.cpp:720
 #, c-format
 msgid "Exporting %s to %s"
 msgstr "Экспорт %s в %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:672
-#: ../../../src/geoprocessing/gpvector.cpp:747
+#: ../../../src/geoprocessing/gpvector.cpp:674
+#: ../../../src/geoprocessing/gpvector.cpp:749
 msgid "Error read dataset definition"
 msgstr "Ошибка чтения определения набора данных"
 
-#: ../../../src/geoprocessing/gpvector.cpp:683
+#: ../../../src/geoprocessing/gpvector.cpp:685
 msgid "Get features..."
 msgstr "Получение записей..."
 
-#: ../../../src/geoprocessing/gpvector.cpp:725
+#: ../../../src/geoprocessing/gpvector.cpp:727
 msgid "Input spatial reference is not defined!"
 msgstr "Не задана исходная система координат!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:778
+#: ../../../src/geoprocessing/gpvector.cpp:780
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
-#: ../../../src/geoprocessing/gpvector.cpp:835
-#: ../../../src/geoprocessing/gpvector.cpp:919
+#: ../../../src/geoprocessing/gpvector.cpp:837
+#: ../../../src/geoprocessing/gpvector.cpp:921
 msgid "Remove field 'ogc_fid' from input data"
 msgstr "Удаление поля 'ogc_fid' из входных данных"
 
-#: ../../../src/geoprocessing/gpvector.cpp:863
+#: ../../../src/geoprocessing/gpvector.cpp:865
 #, c-format
 msgid "Check if features geometry is the type of %s"
 msgstr "Проверка типа геометрии %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:894
+#: ../../../src/geoprocessing/gpvector.cpp:896
 #, c-format
 msgid "Force geometry field to %s"
 msgstr "Преобразование поля геометрии к %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1667
+#: ../../../src/geoprocessing/gpvector.cpp:1669
 msgid "Input data is invalid: unsuported filter"
 msgstr "Неверные входные данные: фильтр не поддерживается"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1681
+#: ../../../src/geoprocessing/gpvector.cpp:1683
 #, c-format
 msgid ""
 "The driver '%s' is not available!\n"
@@ -820,25 +820,25 @@ msgstr ""
 "Драйвер '%s' недоступен!\n"
 "Ошибка GDAL: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:1702
+#: ../../../src/geoprocessing/gpvector.cpp:1704
 msgid "Datasource open failed! OGR error: "
 msgstr "Не удалось открыть источник данных! Ошибка OGR: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:1736
+#: ../../../src/geoprocessing/gpvector.cpp:1738
 #, c-format
 msgid "Error create the output file '%s'! GDAL error: "
 msgstr "Ошибка создания выходного файла '%s'! Ошибка GDAL: "
 
-#: ../../../src/geoprocessing/gpvector.cpp:1825
+#: ../../../src/geoprocessing/gpvector.cpp:1827
 msgid "DXF layer does not support arbitrary field creation."
 msgstr "Слой DXF не поддерживает создание полей."
 
-#: ../../../src/geoprocessing/gpvector.cpp:1855
+#: ../../../src/geoprocessing/gpvector.cpp:1857
 msgid "Unsupported type for shape file - OFTTime. Change to OFTString."
 msgstr ""
 "Тип данных OFTTime не поддерживается файлом ESRI shape. Изменен на OFTString."
 
-#: ../../../src/geoprocessing/gpvector.cpp:1901
+#: ../../../src/geoprocessing/gpvector.cpp:1903
 msgid "Unsupported type for dbf file - OFTTime. Change to OFTString."
 msgstr "Тип данных OFTTime не поддерживается файлом dbf. Изменен на OFTString."
 

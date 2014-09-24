@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:03+0400\n"
-"PO-Revision-Date: 2014-06-30 05:03+0400\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:20+0300\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/cartoui\n"
@@ -100,12 +100,12 @@ msgid "Zoom Out"
 msgstr "Уменьшить"
 
 #: ../../../src/cartoui/cartocmd.cpp:464
-#: ../../../src/cartoui/identifydlg.cpp:591
+#: ../../../src/cartoui/identifydlg.cpp:595
 msgid "Pan"
 msgstr "Сдвинуть"
 
 #: ../../../src/cartoui/cartocmd.cpp:466
-#: ../../../src/cartoui/identifydlg.cpp:710
+#: ../../../src/cartoui/identifydlg.cpp:719
 msgid "Identify"
 msgstr "Идентификация"
 
@@ -336,129 +336,133 @@ msgid "Show all rows"
 msgstr "Показать все записи"
 
 #: ../../../src/cartoui/identifydlg.cpp:157
-#: ../../../src/cartoui/tableview.cpp:603
+#: ../../../src/cartoui/tableview.cpp:605
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: ../../../src/cartoui/identifydlg.cpp:165
+#: ../../../src/cartoui/identifydlg.cpp:160
+#: ../../../src/cartoui/tableview.cpp:608
+msgid "Mac"
+msgstr "Mac"
+
+#: ../../../src/cartoui/identifydlg.cpp:169
 msgid "Encodings"
 msgstr "Кодировка"
 
-#: ../../../src/cartoui/identifydlg.cpp:165
+#: ../../../src/cartoui/identifydlg.cpp:169
 msgid "Change text encoding"
 msgstr "Изменить кодировку текста"
 
-#: ../../../src/cartoui/identifydlg.cpp:529
+#: ../../../src/cartoui/identifydlg.cpp:533
 msgid "Identify from:"
 msgstr "Идентифицировать из:"
 
-#: ../../../src/cartoui/identifydlg.cpp:534
+#: ../../../src/cartoui/identifydlg.cpp:538
 msgid "<Top layer>"
 msgstr "<Верхний слой>"
 
-#: ../../../src/cartoui/identifydlg.cpp:535
+#: ../../../src/cartoui/identifydlg.cpp:539
 msgid "<All layers>"
 msgstr "<Все слои>"
 
-#: ../../../src/cartoui/identifydlg.cpp:590
+#: ../../../src/cartoui/identifydlg.cpp:594
 msgid "Flash"
 msgstr "Подсветить"
 
-#: ../../../src/cartoui/identifydlg.cpp:590
+#: ../../../src/cartoui/identifydlg.cpp:594
 msgid "Flash geometry"
 msgstr "Подсветить геометрию"
 
-#: ../../../src/cartoui/identifydlg.cpp:591
+#: ../../../src/cartoui/identifydlg.cpp:595
 msgid "Pan to geometry center"
 msgstr "Перейти к центру геометрии"
 
-#: ../../../src/cartoui/identifydlg.cpp:592
+#: ../../../src/cartoui/identifydlg.cpp:596
 msgid "Zoom"
 msgstr "Увеличить"
 
-#: ../../../src/cartoui/identifydlg.cpp:592
+#: ../../../src/cartoui/identifydlg.cpp:596
 msgid "Zoom to geometry"
 msgstr "Приблизить к геометрии"
 
-#: ../../../src/cartoui/mapview.cpp:715
+#: ../../../src/cartoui/mapview.cpp:718
 #, c-format
 msgid "%.4f degree"
 msgstr "%.4f градусов"
 
-#: ../../../src/cartoui/mapview.cpp:1103
+#: ../../../src/cartoui/mapview.cpp:1106
 msgid "Could not create the thread!"
 msgstr "Не удалось создать поток!"
 
-#: ../../../src/cartoui/mapview.cpp:1109
+#: ../../../src/cartoui/mapview.cpp:1112
 msgid "Could not run the thread!"
 msgstr "Не удалось запустить поток!"
 
-#: ../../../src/cartoui/tableview.cpp:127
+#: ../../../src/cartoui/tableview.cpp:128
 msgid " [*]"
 msgstr " [*]"
 
-#: ../../../src/cartoui/tableview.cpp:201
+#: ../../../src/cartoui/tableview.cpp:203
 #, c-format
-msgid "Operation '%s' failed! OGR error: %s"
-msgstr "Операция '%s' выполнена с ошибкой! Ошибка OGR: %s"
+msgid "Operation '%s' failed!"
+msgstr "Операция '%s' выполнена с ошибкой!"
 
-#: ../../../src/cartoui/tableview.cpp:201
-#: ../../../src/cartoui/tableview.cpp:302
+#: ../../../src/cartoui/tableview.cpp:203
+#: ../../../src/cartoui/tableview.cpp:304
 msgid "Delete field"
 msgstr "Удалить поле"
 
-#: ../../../src/cartoui/tableview.cpp:202
-msgid "Error"
-msgstr "Ошибка"
-
-#: ../../../src/cartoui/tableview.cpp:283
+#: ../../../src/cartoui/tableview.cpp:285
 msgid "Sort ascending"
 msgstr "Сортировать по убыванию"
 
-#: ../../../src/cartoui/tableview.cpp:285
+#: ../../../src/cartoui/tableview.cpp:287
 msgid "Sort descending"
 msgstr "Сортировать по возрастанию"
 
-#: ../../../src/cartoui/tableview.cpp:287
+#: ../../../src/cartoui/tableview.cpp:289
 msgid "Advanced sorting..."
 msgstr "Расширенная сортировка"
 
-#: ../../../src/cartoui/tableview.cpp:290
+#: ../../../src/cartoui/tableview.cpp:292
 msgid "Statistics..."
 msgstr "Статистика..."
 
-#: ../../../src/cartoui/tableview.cpp:292
+#: ../../../src/cartoui/tableview.cpp:294
 msgid "Field calculator..."
 msgstr "Калькулятор поля..."
 
-#: ../../../src/cartoui/tableview.cpp:294
+#: ../../../src/cartoui/tableview.cpp:296
 msgid "Calculate geometry..."
 msgstr "Расчитать геометрию"
 
-#: ../../../src/cartoui/tableview.cpp:297
+#: ../../../src/cartoui/tableview.cpp:299
 msgid "Turn field off"
 msgstr "Отключить поле"
 
-#: ../../../src/cartoui/tableview.cpp:299
+#: ../../../src/cartoui/tableview.cpp:301
 msgid "Freeze/Unfreeze column"
 msgstr "Закрепить/открепить колонку"
 
-#: ../../../src/cartoui/tableview.cpp:318
+#: ../../../src/cartoui/tableview.cpp:320
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../../../src/cartoui/tableview.cpp:547
+#: ../../../src/cartoui/tableview.cpp:549
 msgid "Record:"
 msgstr "Запись:"
 
-#: ../../../src/cartoui/tableview.cpp:593
+#: ../../../src/cartoui/tableview.cpp:595
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../../../src/cartoui/tableview.cpp:685
+#: ../../../src/cartoui/tableview.cpp:691
 #, c-format
 msgid "of %u"
 msgstr "из %u"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"
 
 #~ msgid "Information"
 #~ msgstr "Информация"

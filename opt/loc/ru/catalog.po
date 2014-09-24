@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:03+0400\n"
-"PO-Revision-Date: 2014-06-30 05:06+0400\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:36+0300\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/catalog\n"
@@ -35,58 +35,76 @@ msgstr "Не удалось удалить объект!"
 msgid "Error get destination object"
 msgstr "Не удалось получить конечный объект"
 
-#: ../../../src/catalog/gxarchfolder.cpp:66
-#: ../../../src/catalog/gxarchfolder.cpp:99 ../../../src/catalog/gxfile.cpp:50
-#: ../../../src/catalog/gxfile.cpp:69 ../../../src/catalog/gxfolder.cpp:124
-#: ../../../src/catalog/gxfolder.cpp:152
+#: ../../../src/catalog/contupdater.cpp:62
+msgid "Could not create the thread!"
+msgstr "Не удалось создать поток!"
+
+#: ../../../src/catalog/contupdater.cpp:68
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
+
+#: ../../../src/catalog/gxarchfolder.cpp:69
+#: ../../../src/catalog/gxarchfolder.cpp:98 ../../../src/catalog/gxfile.cpp:50
+#: ../../../src/catalog/gxfile.cpp:69 ../../../src/catalog/gxfolder.cpp:130
+#: ../../../src/catalog/gxfolder.cpp:158
 #: ../../../src/catalog/gxgisproj.cpp:177
 #: ../../../src/catalog/gxgisproj.cpp:205
-#: ../../../src/catalog/gxlocaldb.cpp:218
-#: ../../../src/catalog/gxlocaldb.cpp:254
+#: ../../../src/catalog/gxlocaldb.cpp:219
+#: ../../../src/catalog/gxlocaldb.cpp:255
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s, file '%s'"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, файл '%s'"
 
-#: ../../../src/catalog/gxarchfolder.cpp:66
+#: ../../../src/catalog/gxarchfolder.cpp:69
 #: ../../../src/catalog/gxdataset.cpp:159
 #: ../../../src/catalog/gxdataset.cpp:371 ../../../src/catalog/gxfile.cpp:50
-#: ../../../src/catalog/gxfolder.cpp:124
+#: ../../../src/catalog/gxfolder.cpp:130
 #: ../../../src/catalog/gxgisproj.cpp:177
-#: ../../../src/catalog/gxlocaldb.cpp:218
-#: ../../../src/catalog/gxremoteconn.cpp:98
-#: ../../../src/catalog/gxremoteconn.cpp:1132
+#: ../../../src/catalog/gxlocaldb.cpp:219
+#: ../../../src/catalog/gxngwconn.cpp:77
+#: ../../../src/catalog/gxremoteconn.cpp:82
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../../../src/catalog/gxarchfolder.cpp:99
+#: ../../../src/catalog/gxarchfolder.cpp:98
 #: ../../../src/catalog/gxdataset.cpp:185
 #: ../../../src/catalog/gxdataset.cpp:399 ../../../src/catalog/gxfile.cpp:69
-#: ../../../src/catalog/gxfolder.cpp:152
+#: ../../../src/catalog/gxfolder.cpp:158
 #: ../../../src/catalog/gxgisproj.cpp:205
-#: ../../../src/catalog/gxlocaldb.cpp:254
-#: ../../../src/catalog/gxremoteconn.cpp:115
-#: ../../../src/catalog/gxremoteconn.cpp:1149
+#: ../../../src/catalog/gxlocaldb.cpp:255
+#: ../../../src/catalog/gxngwconn.cpp:94
+#: ../../../src/catalog/gxremoteconn.cpp:99
 msgid "Rename"
 msgstr "Переименовать"
 
-#: ../../../src/catalog/gxcatalog.cpp:185
-#: ../../../src/catalog/gxcatalog.cpp:305
+#: ../../../src/catalog/gxarchfolder.cpp:119
+#: ../../../src/catalog/gxfile.cpp:78
+msgid "Copy file "
+msgstr "Копировать файл"
+
+#: ../../../src/catalog/gxarchfolder.cpp:130
+#: ../../../src/catalog/gxfile.cpp:88
+msgid "Move file "
+msgstr "Переместить файл"
+
+#: ../../../src/catalog/gxcatalog.cpp:216
+#: ../../../src/catalog/gxcatalog.cpp:336
 #, c-format
 msgid "wxGxCatalog: Root Object %s initialized"
 msgstr "wxGxCatalog: Корневой элемент %s инициализирован"
 
-#: ../../../src/catalog/gxcatalog.cpp:192
-#: ../../../src/catalog/gxcatalog.cpp:311
+#: ../../../src/catalog/gxcatalog.cpp:223
+#: ../../../src/catalog/gxcatalog.cpp:342
 #, c-format
 msgid "wxGxCatalog: Root Object %s disabled"
 msgstr "wxGxCatalog: Корневого элемент %s отключен"
 
-#: ../../../src/catalog/gxcatalog.cpp:238
+#: ../../../src/catalog/gxcatalog.cpp:269
 #, c-format
 msgid "wxGxCatalog: ObjectFactory %s initialize"
 msgstr "wxGxCatalog: Инициализация объекта %s фабрики объектов"
 
-#: ../../../src/catalog/gxcatalog.cpp:241
+#: ../../../src/catalog/gxcatalog.cpp:272
 #, c-format
 msgid "wxGxCatalog: Error initializing ObjectFactory %s"
 msgstr "wxGxCatalog: Ошибка инициализации фабрики объектов %s"
@@ -99,19 +117,18 @@ msgstr "wxGxCatalog: Ошибка инициализации фабрики об
 #: ../../../src/catalog/gxdataset.cpp:399
 #: ../../../src/catalog/gxdataset.cpp:430
 #: ../../../src/catalog/gxdataset.cpp:460
-#: ../../../src/catalog/gxfolder.cpp:186 ../../../src/catalog/gxfolder.cpp:213
+#: ../../../src/catalog/gxfolder.cpp:192 ../../../src/catalog/gxfolder.cpp:219
 #: ../../../src/catalog/gxgisproj.cpp:240
 #: ../../../src/catalog/gxgisproj.cpp:267
-#: ../../../src/catalog/gxlocaldb.cpp:285
-#: ../../../src/catalog/gxlocaldb.cpp:320
-#: ../../../src/catalog/gxremoteconn.cpp:98
-#: ../../../src/catalog/gxremoteconn.cpp:115
-#: ../../../src/catalog/gxremoteconn.cpp:151
-#: ../../../src/catalog/gxremoteconn.cpp:186
-#: ../../../src/catalog/gxremoteconn.cpp:1132
-#: ../../../src/catalog/gxremoteconn.cpp:1149
-#: ../../../src/catalog/gxremoteconn.cpp:1170
-#: ../../../src/catalog/gxremoteconn.cpp:1188
+#: ../../../src/catalog/gxlocaldb.cpp:286
+#: ../../../src/catalog/gxlocaldb.cpp:321
+#: ../../../src/catalog/gxngwconn.cpp:77 ../../../src/catalog/gxngwconn.cpp:94
+#: ../../../src/catalog/gxngwconn.cpp:115
+#: ../../../src/catalog/gxngwconn.cpp:133
+#: ../../../src/catalog/gxremoteconn.cpp:82
+#: ../../../src/catalog/gxremoteconn.cpp:99
+#: ../../../src/catalog/gxremoteconn.cpp:135
+#: ../../../src/catalog/gxremoteconn.cpp:170
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s, %s '%s'"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, %s '%s'"
@@ -120,13 +137,13 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, %s '%s
 #: ../../../src/catalog/gxdataset.cpp:229
 #: ../../../src/catalog/gxdataset.cpp:410
 #: ../../../src/catalog/gxdataset.cpp:443
-#: ../../../src/catalog/gxfolder.cpp:177 ../../../src/catalog/gxfolder.cpp:204
+#: ../../../src/catalog/gxfolder.cpp:183 ../../../src/catalog/gxfolder.cpp:210
 #: ../../../src/catalog/gxgisproj.cpp:231
 #: ../../../src/catalog/gxgisproj.cpp:258
-#: ../../../src/catalog/gxlocaldb.cpp:276
-#: ../../../src/catalog/gxlocaldb.cpp:311
-#: ../../../src/catalog/gxremoteconn.cpp:132
-#: ../../../src/catalog/gxremoteconn.cpp:165
+#: ../../../src/catalog/gxlocaldb.cpp:277
+#: ../../../src/catalog/gxlocaldb.cpp:312
+#: ../../../src/catalog/gxremoteconn.cpp:116
+#: ../../../src/catalog/gxremoteconn.cpp:149
 #, c-format
 msgid "%s %s %s"
 msgstr "%s %s %s"
@@ -137,15 +154,15 @@ msgstr "%s %s %s"
 #: ../../../src/catalog/gxdataset.cpp:410
 #: ../../../src/catalog/gxdataset.cpp:419
 #: ../../../src/catalog/gxdataset.cpp:430
-#: ../../../src/catalog/gxfolder.cpp:177 ../../../src/catalog/gxfolder.cpp:186
+#: ../../../src/catalog/gxfolder.cpp:183 ../../../src/catalog/gxfolder.cpp:192
 #: ../../../src/catalog/gxgisproj.cpp:231
 #: ../../../src/catalog/gxgisproj.cpp:240
-#: ../../../src/catalog/gxlocaldb.cpp:276
-#: ../../../src/catalog/gxlocaldb.cpp:285
-#: ../../../src/catalog/gxremoteconn.cpp:132
-#: ../../../src/catalog/gxremoteconn.cpp:140
-#: ../../../src/catalog/gxremoteconn.cpp:151
-#: ../../../src/catalog/gxremoteconn.cpp:1170
+#: ../../../src/catalog/gxlocaldb.cpp:277
+#: ../../../src/catalog/gxlocaldb.cpp:286
+#: ../../../src/catalog/gxngwconn.cpp:115
+#: ../../../src/catalog/gxremoteconn.cpp:116
+#: ../../../src/catalog/gxremoteconn.cpp:124
+#: ../../../src/catalog/gxremoteconn.cpp:135
 msgid "Copy"
 msgstr "Копировать"
 
@@ -153,8 +170,8 @@ msgstr "Копировать"
 #: ../../../src/catalog/gxdataset.cpp:238
 #: ../../../src/catalog/gxdataset.cpp:419
 #: ../../../src/catalog/gxdataset.cpp:450
-#: ../../../src/catalog/gxremoteconn.cpp:140
-#: ../../../src/catalog/gxremoteconn.cpp:174
+#: ../../../src/catalog/gxremoteconn.cpp:124
+#: ../../../src/catalog/gxremoteconn.cpp:158
 #, c-format
 msgid "%s %s %s failed!"
 msgstr "Не удалось %s %s %s!"
@@ -165,15 +182,15 @@ msgstr "Не удалось %s %s %s!"
 #: ../../../src/catalog/gxdataset.cpp:443
 #: ../../../src/catalog/gxdataset.cpp:450
 #: ../../../src/catalog/gxdataset.cpp:460
-#: ../../../src/catalog/gxfolder.cpp:204 ../../../src/catalog/gxfolder.cpp:213
+#: ../../../src/catalog/gxfolder.cpp:210 ../../../src/catalog/gxfolder.cpp:219
 #: ../../../src/catalog/gxgisproj.cpp:258
 #: ../../../src/catalog/gxgisproj.cpp:267
-#: ../../../src/catalog/gxlocaldb.cpp:311
-#: ../../../src/catalog/gxlocaldb.cpp:320
-#: ../../../src/catalog/gxremoteconn.cpp:165
-#: ../../../src/catalog/gxremoteconn.cpp:174
-#: ../../../src/catalog/gxremoteconn.cpp:186
-#: ../../../src/catalog/gxremoteconn.cpp:1188
+#: ../../../src/catalog/gxlocaldb.cpp:312
+#: ../../../src/catalog/gxlocaldb.cpp:321
+#: ../../../src/catalog/gxngwconn.cpp:133
+#: ../../../src/catalog/gxremoteconn.cpp:149
+#: ../../../src/catalog/gxremoteconn.cpp:158
+#: ../../../src/catalog/gxremoteconn.cpp:170
 msgid "Move"
 msgstr "Переместить"
 
@@ -184,8 +201,9 @@ msgstr "Таблица"
 #: ../../../src/catalog/gxdataset.cpp:518
 #: ../../../src/catalog/gxdataset.cpp:580
 #: ../../../src/catalog/gxdataset.cpp:688
-#: ../../../src/catalog/gxlocaldb.cpp:166
+#: ../../../src/catalog/gxlocaldb.cpp:167
 #: ../../../src/catalog/gxmldataset.cpp:111
+#: ../../../src/catalog/gxssdataset.cpp:102
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
@@ -193,8 +211,9 @@ msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
 #: ../../../src/catalog/gxdataset.cpp:518
 #: ../../../src/catalog/gxdataset.cpp:580
 #: ../../../src/catalog/gxdataset.cpp:688
-#: ../../../src/catalog/gxlocaldb.cpp:166
+#: ../../../src/catalog/gxlocaldb.cpp:167
 #: ../../../src/catalog/gxmldataset.cpp:111
+#: ../../../src/catalog/gxssdataset.cpp:102
 msgid "Open"
 msgstr "Открыть"
 
@@ -209,8 +228,8 @@ msgstr "Растр"
 #: ../../../src/catalog/gxdbconnections.cpp:35
 #: ../../../src/catalog/gxdbconnections.cpp:40
 #: ../../../src/catalog/gxdbconnections.cpp:42
-#: ../../../src/catalog/gxremoteconn.cpp:454
-#: ../../../src/catalog/gxremoteconn.cpp:645
+#: ../../../src/catalog/gxremoteconn.cpp:271
+#: ../../../src/catalog/gxremoteconn.cpp:519
 #: ../../../include/wxgis/catalog/gxdbconnfactory.h:38
 msgid "DataBase connections"
 msgstr "Подключение к БД"
@@ -232,6 +251,8 @@ msgstr "wxGxDBConnections: Путь установлен в '%s'"
 #: ../../../src/catalog/gxdiscconnections.cpp:74
 #: ../../../src/catalog/gxshellconnections.cpp:100
 #: ../../../src/catalog/gxshellconnections.cpp:114
+#: ../../../src/catalog/gxwebconnections.cpp:101
+#: ../../../src/catalog/gxwebconnections.cpp:115
 msgid "Add File system watcher failed"
 msgstr "Ошибка добавления отслеживания файловой системы"
 
@@ -246,17 +267,9 @@ msgstr "Подключения"
 msgid "wxGxSpatialReferencesFolder::Create failed. GxObject %s"
 msgstr "wxGxSpatialReferencesFolder: Ошибка создания. GxObject %s"
 
-#: ../../../src/catalog/gxdiscconnections.cpp:146
+#: ../../../src/catalog/gxdiscconnections.cpp:148
 msgid "wxGxDiscConnections: Start scan folder connections"
 msgstr "wxGxDiscConnections: Начало сканирования подключений к папкам"
-
-#: ../../../src/catalog/gxfile.cpp:78
-msgid "Copy file "
-msgstr "Копировать файл"
-
-#: ../../../src/catalog/gxfile.cpp:88
-msgid "Move file "
-msgstr "Переместить файл"
 
 #: ../../../src/catalog/gxfile.cpp:174
 #, c-format
@@ -267,169 +280,187 @@ msgstr "wxGxPrjFile: Ошибка GDAL: %s"
 msgid "Any items (*.*)"
 msgstr "Все типы (*.*)"
 
-#: ../../../src/catalog/gxfilters.cpp:212
+#: ../../../src/catalog/gxfilters.cpp:147
+msgid "Coordinate Systems (*.prj, *.qpj, *.spr)"
+msgstr "Системы координат (*.prj, *.qpj, *.spr)"
+
+#: ../../../src/catalog/gxfilters.cpp:205
 msgid "Database schema"
 msgstr "Схема БД"
 
-#: ../../../src/catalog/gxfilters.cpp:287
+#: ../../../src/catalog/gxfilters.cpp:278
 msgid "Raster (*.img, *.tif, etc.)"
 msgstr "Растровые форматы (*.img, *.tif, etc.)"
 
-#: ../../../src/catalog/gxfilters.cpp:289
+#: ../../../src/catalog/gxfilters.cpp:280
 msgid "Vector (*.shp, *.tab, etc.)"
 msgstr "Векторные форматы  (*.shp, *.tab, etc.)"
 
-#: ../../../src/catalog/gxfilters.cpp:291
+#: ../../../src/catalog/gxfilters.cpp:282
 msgid "Table (*.dbf, *.tab, *.csv, etc.)"
 msgstr "Таблицы (*.dbf, *.tab, *.csv, etc.)"
 
-#: ../../../src/catalog/gxfilters.cpp:368
+#: ../../../src/catalog/gxfilters.cpp:359
 msgid "ESRI Shapefile (*.shp)"
 msgstr "Шейп-файл ESRI (*.shp)"
 
-#: ../../../src/catalog/gxfilters.cpp:370
+#: ../../../src/catalog/gxfilters.cpp:361
 msgid "MapInfo File (*.tab)"
 msgstr "Файл MapInfo (*.tab)"
 
-#: ../../../src/catalog/gxfilters.cpp:372
+#: ../../../src/catalog/gxfilters.cpp:363
 msgid "MapInfo File (*.mid/*.mif)"
 msgstr "Файл MapInfo (*.mid/*.mif)"
 
-#: ../../../src/catalog/gxfilters.cpp:374
+#: ../../../src/catalog/gxfilters.cpp:365
 msgid "KML file (*.kml)"
 msgstr "Файл KML (*.kml)"
 
-#: ../../../src/catalog/gxfilters.cpp:376
+#: ../../../src/catalog/gxfilters.cpp:367
 msgid "KML file (*.kmz)"
 msgstr "Файл KMZ (*.kmz)"
 
-#: ../../../src/catalog/gxfilters.cpp:378
+#: ../../../src/catalog/gxfilters.cpp:369
 msgid "AutoCAD DXF file (*.dxf)"
 msgstr "Файл AutoCAD DXF (*.dxf)"
 
-#: ../../../src/catalog/gxfilters.cpp:380
+#: ../../../src/catalog/gxfilters.cpp:371
+#: ../../../include/wxgis/catalog/gxpostgisdataset.h:104
 msgid "PostGIS Feature class"
 msgstr "Класс пространственных объектов PostGIS"
 
-#: ../../../src/catalog/gxfilters.cpp:382
+#: ../../../src/catalog/gxfilters.cpp:373
 msgid "GML file (*.gml)"
 msgstr "Файл GML (*.gml)"
 
-#: ../../../src/catalog/gxfilters.cpp:384
+#: ../../../src/catalog/gxfilters.cpp:375
 msgid "GeoJSON file (*.geojson)"
 msgstr "Файл GeoJSON (*.geojson)"
 
-#: ../../../src/catalog/gxfilters.cpp:386
+#: ../../../src/catalog/gxfilters.cpp:377
 msgid "WFS"
 msgstr "WFS"
 
-#: ../../../src/catalog/gxfilters.cpp:388
+#: ../../../src/catalog/gxfilters.cpp:379
 msgid "Memory"
 msgstr "Память"
 
-#: ../../../src/catalog/gxfilters.cpp:390
+#: ../../../src/catalog/gxfilters.cpp:381
 msgid "Panorama SXF (*.sxf)"
 msgstr "Формат ГИС Карта SXF (*.sxf)"
 
-#: ../../../src/catalog/gxfilters.cpp:392
+#: ../../../src/catalog/gxfilters.cpp:383
 msgid "s57 format (*.000)"
 msgstr "Формат s57 (*.000)"
 
-#: ../../../src/catalog/gxfilters.cpp:394
+#: ../../../src/catalog/gxfilters.cpp:385
+#: ../../../src/catalog/gxfilters.cpp:777
+msgid "Comma Separated Values (*.csv)"
+msgstr "Значения разделенные запятыми (*.csv)"
+
+#: ../../../src/catalog/gxfilters.cpp:387
 msgid "GeoDatabase Feature class"
 msgstr "Класс пространственных объектов БПД"
 
-#: ../../../src/catalog/gxfilters.cpp:396
-#: ../../../src/catalog/gxfilters.cpp:787
+#: ../../../src/catalog/gxfilters.cpp:389
+#: ../../../src/catalog/gxfilters.cpp:788
 msgid "Any feature classes (*.*)"
 msgstr "Все векторные типы (*.*)"
 
-#: ../../../src/catalog/gxfilters.cpp:463
-#: ../../../src/catalog/gxfilters.cpp:477
-#: ../../../src/catalog/gxfilters.cpp:498
+#: ../../../src/catalog/gxfilters.cpp:458
+#: ../../../src/catalog/gxfilters.cpp:472
+#: ../../../src/catalog/gxfilters.cpp:493
 #: ../../../include/wxgis/catalog/gxfolder.h:45
 msgid "Folder"
 msgstr "Папка"
 
-#: ../../../src/catalog/gxfilters.cpp:465
-#: ../../../src/catalog/gxfilters.cpp:479
+#: ../../../src/catalog/gxfilters.cpp:460
+#: ../../../src/catalog/gxfilters.cpp:474
 #: ../../../include/wxgis/catalog/gxdiscconnection.h:49
 msgid "Folder connection"
 msgstr "Подключение"
 
-#: ../../../src/catalog/gxfilters.cpp:571
+#: ../../../src/catalog/gxfilters.cpp:566
 msgid "Windows Device Independent Bitmap (*.bmp)"
 msgstr "Изображение BMP (*.bmp)"
 
-#: ../../../src/catalog/gxfilters.cpp:573
+#: ../../../src/catalog/gxfilters.cpp:568
 msgid "GeoTIFF (*.tif, *.tiff)"
 msgstr "Изображение GeoTIFF (*.tif, *.tiff)"
 
-#: ../../../src/catalog/gxfilters.cpp:575
+#: ../../../src/catalog/gxfilters.cpp:570
 msgid "JPEG image (*.jpeg, *.jfif, *.jpg, *.jpe)"
 msgstr "Изображение JPEG (*.jpeg, *.jfif, *.jpg, *.jpe)"
 
-#: ../../../src/catalog/gxfilters.cpp:577
+#: ../../../src/catalog/gxfilters.cpp:572
 msgid "Erdas IMAGINE image (*.img)"
 msgstr "Изображение Erdas IMAGINE (*.img)"
 
-#: ../../../src/catalog/gxfilters.cpp:579
+#: ../../../src/catalog/gxfilters.cpp:574
 msgid "Portable Network Graphics (*.png)"
 msgstr "Изображение PNG (*.png)"
 
-#: ../../../src/catalog/gxfilters.cpp:581
+#: ../../../src/catalog/gxfilters.cpp:576
 msgid "Graphics Interchange Format (*.gif)"
 msgstr "Изображение GIF (*.gif)"
 
-#: ../../../src/catalog/gxfilters.cpp:583
+#: ../../../src/catalog/gxfilters.cpp:578
 msgid "SAGA GIS Binary Grid (*.sdat)"
 msgstr "Растр SAGA (*.sdat)"
 
-#: ../../../src/catalog/gxfilters.cpp:585
+#: ../../../src/catalog/gxfilters.cpp:580
 msgid "EarthWatch raster (*.til)"
 msgstr "Растр EarthWatch (*.til)"
 
-#: ../../../src/catalog/gxfilters.cpp:587
+#: ../../../src/catalog/gxfilters.cpp:582
 msgid "Virtual raster (*.vrt)"
 msgstr "Виртуальный растр (*.vrt)"
 
-#: ../../../src/catalog/gxfilters.cpp:589
+#: ../../../src/catalog/gxfilters.cpp:584
 msgid "Web map service"
 msgstr "Картографический веб сервис"
 
-#: ../../../src/catalog/gxfilters.cpp:591
+#: ../../../src/catalog/gxfilters.cpp:586
 msgid "Tile map service"
 msgstr "Тайловый веб сервис"
 
-#: ../../../src/catalog/gxfilters.cpp:593
+#: ../../../src/catalog/gxfilters.cpp:588
 msgid "PostGIS raster"
 msgstr "Таблица PostGIS"
 
-#: ../../../src/catalog/gxfilters.cpp:595
+#: ../../../src/catalog/gxfilters.cpp:590
 msgid "GDB raster"
 msgstr "Растр БПД"
 
-#: ../../../src/catalog/gxfilters.cpp:597
+#: ../../../src/catalog/gxfilters.cpp:592
 msgid "Any rasters (*.*)"
 msgstr "Любые растры (*.*)"
 
-#: ../../../src/catalog/gxfilters.cpp:776
+#: ../../../src/catalog/gxfilters.cpp:771
 msgid "dBase file (*.dbf)"
 msgstr "Файл dBase (*.dbf)"
 
-#: ../../../src/catalog/gxfilters.cpp:778
+#: ../../../src/catalog/gxfilters.cpp:773
 msgid "MapInfo table File (*.tab)"
 msgstr "Файл MapInfo (*.tab)"
 
-#: ../../../src/catalog/gxfilters.cpp:780
+#: ../../../src/catalog/gxfilters.cpp:775
 msgid "MapInfo table File (*.mif)"
 msgstr "Файл MapInfo (*.mid/*.mif)"
 
-#: ../../../src/catalog/gxfilters.cpp:782
-msgid "Comma Separated Values (*.csv)"
-msgstr "Значения разделенные запятыми (*.csv)"
+#: ../../../src/catalog/gxfilters.cpp:779
+msgid "LibreOffice spreadsheet (*.ods)"
+msgstr "Таблица LibreOffice (*.ods)"
 
-#: ../../../src/catalog/gxfilters.cpp:785
+#: ../../../src/catalog/gxfilters.cpp:781
+msgid "Microsoft Office Excel (*.xls)"
+msgstr "Microsoft Office Excel (*.xls)"
+
+#: ../../../src/catalog/gxfilters.cpp:783
+msgid "Microsoft Office Excel (*.xlsx)"
+msgstr "Microsoft Office Excel (*.xlsx)"
+
+#: ../../../src/catalog/gxfilters.cpp:786
 msgid "Database table"
 msgstr "Таблица базы данных"
 
@@ -468,25 +499,28 @@ msgstr "Класс пространственных объектов GML"
 msgid "KML Feature class"
 msgstr "Класс пространственных объектов KML"
 
-#: ../../../src/catalog/gxremoteconn.cpp:322
-#: ../../../src/catalog/gxremoteconn.cpp:935
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
+#: ../../../src/catalog/gxngwconn.cpp:238
+#: ../../../src/catalog/gxngwconn.cpp:281
+#: ../../../include/wxgis/catalog/gxngwconn.h:205
+msgid "Resources"
+msgstr "Ресурсы"
 
-#: ../../../src/catalog/gxremoteconn.cpp:328
-#: ../../../src/catalog/gxremoteconn.cpp:945
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
+#: ../../../src/catalog/gxngwconn.cpp:387
+#, c-format
+msgid "Error code %d"
+msgstr "Код ошибки  %d"
 
-#: ../../../src/catalog/gxremoteconn.cpp:1255
-#: ../../../include/wxgis/catalog/gxremoteconn.h:255
-#: ../../../include/wxgis/catalog/gxremoteconn.h:288
-msgid "Layers"
-msgstr "Слои"
+#: ../../../src/catalog/gxngwconn.cpp:394
+msgid "Unexpected error"
+msgstr "Неожиданная ошибка"
 
-#: ../../../src/catalog/gxremoteconn.cpp:1369
-msgid "GeoJSON parsing error"
-msgstr "Ошибка разбора GeoJSON"
+#: ../../../src/catalog/gxngwconn.cpp:802
+msgid "NGW vector layer"
+msgstr "Векторный слой NGW"
+
+#: ../../../src/catalog/gxngwconn.cpp:804
+msgid "NGW PostGIS layer"
+msgstr "Слой PostGIS NGW"
 
 #: ../../../src/catalog/gxshellconnections.cpp:34
 #: ../../../src/catalog/gxshellconnections.cpp:39
@@ -509,6 +543,18 @@ msgstr "wxGxShellConnections: Путь установлен в '%s'"
 msgid "wxGxSpatialReferencesFolder: The path is set to '%s'"
 msgstr "wxGxSpatialReferencesFolder: Путь установлен в '%s'"
 
+#: ../../../src/catalog/gxssdataset.cpp:48
+msgid "LibreOffice Spreadsheet"
+msgstr "Таблица LibreOffice"
+
+#: ../../../src/catalog/gxssdataset.cpp:51
+msgid "Microsoft Office Excel"
+msgstr "Microsoft Office Excel"
+
+#: ../../../src/catalog/gxssdataset.cpp:176
+msgid "Spreadsheet page"
+msgstr "Страница"
+
 #: ../../../src/catalog/gxwebconnections.cpp:34
 #: ../../../src/catalog/gxwebconnections.cpp:39
 #: ../../../src/catalog/gxwebconnections.cpp:41
@@ -520,7 +566,7 @@ msgstr "Подключения к веб сервисам"
 msgid "wxGxWebConnections::Create failed. GxObject %s"
 msgstr "wxGxWebConnections: Не удалось создать. GxObject %s"
 
-#: ../../../src/catalog/gxwebconnections.cpp:64
+#: ../../../src/catalog/gxwebconnections.cpp:67
 #, c-format
 msgid "wxGxWebConnections: The path is set to '%s'"
 msgstr "wxGxWebConnections: Путь установлен в '%s'"
@@ -529,7 +575,7 @@ msgstr "wxGxWebConnections: Путь установлен в '%s'"
 msgid "Archive folder"
 msgstr "Архивная папка"
 
-#: ../../../include/wxgis/catalog/gxarchfolder.h:67
+#: ../../../include/wxgis/catalog/gxarchfolder.h:69
 msgid "Archive"
 msgstr "Архив"
 
@@ -538,7 +584,7 @@ msgid "Archives"
 msgstr "Архивы"
 
 #: ../../../include/wxgis/catalog/gxcatalog.h:48
-#: ../../../include/wxgis/catalog/gxobject.h:106
+#: ../../../include/wxgis/catalog/gxobject.h:115
 msgid "Catalog"
 msgstr "Каталог"
 
@@ -574,7 +620,7 @@ msgstr "Проект QGIS"
 msgid "GIS Projects"
 msgstr "ГИС проекты"
 
-#: ../../../include/wxgis/catalog/gxgnmfactory.h:46
+#: ../../../include/wxgis/catalog/gxgnmfactory.h:45
 msgid "Geography network models"
 msgstr "Сетевые модели геоданных"
 
@@ -594,13 +640,22 @@ msgstr "Файлы MapInfo"
 msgid "Markup Languages files"
 msgstr "Файлы разметки"
 
-#: ../../../include/wxgis/catalog/gxpostgisdataset.h:43
+#: ../../../include/wxgis/catalog/gxngwconn.h:52
+msgid "NextGIS Web service"
+msgstr "Сервер NextGIS Web"
+
+#: ../../../include/wxgis/catalog/gxngwconn.h:155
+#: ../../../include/wxgis/catalog/gxngwconn.h:159
+msgid "Resource Group"
+msgstr "Группа ресурсов"
+
+#: ../../../include/wxgis/catalog/gxngwconn.h:208
+msgid "NGW resources"
+msgstr "Ресурсы NGW"
+
+#: ../../../include/wxgis/catalog/gxpostgisdataset.h:72
 msgid "PostGIS Table"
 msgstr "Таблица PostGIS"
-
-#: ../../../include/wxgis/catalog/gxpostgisdataset.h:74
-msgid "PostGIS Feature Dataset"
-msgstr "Набор данных PostGIS"
 
 #: ../../../include/wxgis/catalog/gxprjfactory.h:40
 msgid "Coordiante systems"
@@ -610,30 +665,17 @@ msgstr "Системы координат"
 msgid "Raster files"
 msgstr "Растры"
 
-#: ../../../include/wxgis/catalog/gxremoteconn.h:58
+#: ../../../include/wxgis/catalog/gxremoteconn.h:54
 msgid "Database Connection"
 msgstr "Подключение к БД"
 
-#: ../../../include/wxgis/catalog/gxremoteconn.h:129
+#: ../../../include/wxgis/catalog/gxremoteconn.h:108
 msgid "Remote Database Schema"
 msgstr "Схема БД"
 
-#: ../../../include/wxgis/catalog/gxremoteconn.h:191
+#: ../../../include/wxgis/catalog/gxremoteconn.h:153
 msgid "Tile Map service"
 msgstr "Тайловый сервис"
-
-#: ../../../include/wxgis/catalog/gxremoteconn.h:215
-msgid "NextGIS Web service"
-msgstr "Сервер NextGIS Web"
-
-#: ../../../include/wxgis/catalog/gxremoteconn.h:258
-#: ../../../include/wxgis/catalog/gxremoteconn.h:291
-msgid "NGW service layers"
-msgstr "Слои NextGIS Web"
-
-#: ../../../include/wxgis/catalog/gxremoteconn.h:314
-msgid "NGW service layer"
-msgstr "Слой NextGIS Web"
 
 #: ../../../include/wxgis/catalog/gxshapefactory.h:39
 msgid "Shapefiles"
@@ -660,13 +702,29 @@ msgstr "Папка с системами координат"
 msgid "Coordinate Systems"
 msgstr "Системы координат"
 
-#: ../../../include/wxgis/catalog/gxwebconnections.h:43
+#: ../../../include/wxgis/catalog/gxssfactory.h:43
+msgid "Spreadsheet files"
+msgstr "Электронные таблицы"
+
+#: ../../../include/wxgis/catalog/gxwebconnections.h:46
 msgid "Web services folder"
 msgstr "Папка веб сервисов"
 
 #: ../../../include/wxgis/catalog/gxwebconnfactory.h:38
 msgid "Web services"
 msgstr "Веб сервисы"
+
+#~ msgid "Layers"
+#~ msgstr "Слои"
+
+#~ msgid "GeoJSON parsing error"
+#~ msgstr "Ошибка разбора GeoJSON"
+
+#~ msgid "PostGIS Feature Dataset"
+#~ msgstr "Набор данных PostGIS"
+
+#~ msgid "NGW service layers"
+#~ msgstr "Слои NextGIS Web"
 
 #~ msgid "Delete failed! GDAL error: %s, file '%s'"
 #~ msgstr "Ошибка удаления! Ошибка GDAL: %s, файл '%s'"
@@ -688,9 +746,6 @@ msgstr "Веб сервисы"
 
 #~ msgid "wxGxDiscConnections: Add folder connection [%s]"
 #~ msgstr "wxGxDiscConnections: Добавление подключенния к папке [%s]"
-
-#~ msgid "Coordinate Systems (*.prj, *.spr)"
-#~ msgstr "Системы координат (*.prj, *.spr)"
 
 #~ msgid "Copy table dataset "
 #~ msgstr "Копирование табличных данных"

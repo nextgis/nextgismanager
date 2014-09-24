@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:04+0400\n"
-"PO-Revision-Date: 2014-09-20 23:31+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:22+0300\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/framework\n"
@@ -21,19 +21,19 @@ msgstr ""
 
 #: ../../../src/framework/addcommanddlg.cpp:68
 #: ../../../src/framework/customizedlg.cpp:74
-#: ../../../src/framework/customizedlg.cpp:723
+#: ../../../src/framework/customizedlg.cpp:702
 msgid "Command Name"
 msgstr "Имя команды"
 
 #: ../../../src/framework/addcommanddlg.cpp:69
 #: ../../../src/framework/customizedlg.cpp:75
-#: ../../../src/framework/customizedlg.cpp:724
+#: ../../../src/framework/customizedlg.cpp:703
 msgid "Description"
 msgstr "Описание"
 
 #: ../../../src/framework/addcommanddlg.cpp:70
 #: ../../../src/framework/customizedlg.cpp:76
-#: ../../../src/framework/customizedlg.cpp:725
+#: ../../../src/framework/customizedlg.cpp:704
 msgid "KeyCode"
 msgstr "Клавиша"
 
@@ -49,69 +49,72 @@ msgstr "ОК"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: ../../../src/framework/application.cpp:380
+#: ../../../src/framework/application.cpp:343
 msgid "Ready"
 msgstr "Готов"
 
-#: ../../../src/framework/application.cpp:458
+#: ../../../src/framework/application.cpp:421
 msgid "Get config failed!"
 msgstr "Не удалось получить конфигурацию!"
 
-#: ../../../src/framework/application.cpp:458
-#: ../../../src/framework/application.cpp:465
-msgid "Error"
-msgstr "Ошибка"
-
-#: ../../../src/framework/application.cpp:465
+#: ../../../src/framework/application.cpp:428
 msgid "No Property Pages"
 msgstr "Отсутсвуют страницы свойств"
 
-#: ../../../src/framework/application.cpp:471
+#: ../../../src/framework/application.cpp:434
 msgid "Options"
 msgstr "Параметры"
 
-#: ../../../src/framework/application.cpp:519
+#: ../../../src/framework/application.cpp:469
+msgid "Applying new configuration..."
+msgstr "Применение новой конфигурации..."
+
+#: ../../../src/framework/application.cpp:489
 msgid "wxGISApplication: Failed to get log folder"
 msgstr "wxGISApplication: Ошибка получения папки с логами"
 
-#: ../../../src/framework/application.cpp:534
+#: ../../../src/framework/application.cpp:504
 #, c-format
 msgid "wxGISApplication: Failed to open log file %s"
 msgstr "wxGISApplication: Ошибка открытия файла логов %s"
 
-#: ../../../src/framework/application.cpp:548
+#: ../../../src/framework/application.cpp:518
 #, c-format
 msgid "HOST '%s': OS desc - %s, free memory - %s"
 msgstr "Имя ПК '%s': Описание ОС - %s, свободно памяти - %s"
 
-#: ../../../src/framework/application.cpp:549
+#: ../../../src/framework/application.cpp:519
 #, c-format
 msgid "wxGISApplication: %s %s is initializing..."
 msgstr "wxGISApplication: %s %s иннициализируется..."
 
-#: ../../../src/framework/application.cpp:550
+#: ../../../src/framework/application.cpp:520
 #, c-format
 msgid "wxGISApplication: Log file: %s"
 msgstr "wxGISApplication: Лог-файл: %s"
 
-#: ../../../src/framework/application.cpp:560
+#: ../../../src/framework/application.cpp:530
 #, c-format
 msgid "wxGISCatalogApp: System folder is absent! Lookup path '%s'"
 msgstr "wxGISCatalogApp: Отсутствует системная папка! Путь поиска '%s'"
 
-#: ../../../src/framework/application.cpp:568
+#: ../../../src/framework/application.cpp:538
 msgid "wxGISApplication: Initialize locale"
 msgstr "wxGISApplication: Инициализация локали"
 
-#: ../../../src/framework/application.cpp:579
+#: ../../../src/framework/application.cpp:549
 #, c-format
 msgid "wxGISApplication: Language is set to %s"
 msgstr "wxGISApplication: Выбран язык %s"
 
-#: ../../../src/framework/application.cpp:580
+#: ../../../src/framework/application.cpp:550
 #, c-format
 msgid "wxGISApplication: Language locale files path '%s'"
 msgstr "wxGISApplication: Папка файлов локализации '%s'"
+
+#: ../../../src/framework/applicationbase.cpp:43
+msgid "Error"
+msgstr "Ошибка"
 
 #: ../../../src/framework/applicationex.cpp:284
 msgid "wxGISApplicationEx: Start. Creating main application frame..."
@@ -120,6 +123,14 @@ msgstr "wxGISApplicationEx: Начало. Создание главного ок
 #: ../../../src/framework/applicationex.cpp:303
 msgid "wxGISApplicationEx: Creation complete"
 msgstr "wxGISApplicationEx: Создание завершено"
+
+#: ../../../src/framework/applicationex.cpp:382
+#: ../../../src/framework/applicationex.cpp:386
+#: ../../../src/framework/applicationex.cpp:390
+#: ../../../src/framework/applicationex.cpp:394
+#, c-format
+msgid "Failed to find gdal sys dir in path %s"
+msgstr "Ошибка поиска директории системных файлов gdal по пути %s"
 
 #: ../../../src/framework/command.cpp:101
 msgid "E&xit"
@@ -276,7 +287,7 @@ msgid "Move down"
 msgstr "Переместить вниз"
 
 #: ../../../src/framework/customizedlg.cpp:110
-#: ../../../src/framework/customizedlg.cpp:733
+#: ../../../src/framework/customizedlg.cpp:712
 msgid "Set keycode"
 msgstr "Ввести клавишу"
 
@@ -296,42 +307,20 @@ msgstr "Новые меню"
 msgid "ToolBars"
 msgstr "Панели инструментов"
 
-#: ../../../src/framework/customizedlg.cpp:139
-#: ../../../src/framework/customizedlg.cpp:419
-#: ../../../src/framework/customizedlg.cpp:571
-#: ../../../src/framework/customizedlg.cpp:616
-msgid "menu"
-msgstr "меню"
-
-#: ../../../src/framework/customizedlg.cpp:157
-#: ../../../src/framework/customizedlg.cpp:439
-msgid "new menu"
-msgstr "новое меню"
-
-#: ../../../src/framework/customizedlg.cpp:163
-#: ../../../src/framework/customizedlg.cpp:445
-msgid "context menu"
-msgstr "контекстное меню"
-
-#: ../../../src/framework/customizedlg.cpp:171
-#: ../../../src/framework/customizedlg.cpp:476
-msgid "toolbar"
-msgstr "панель инструментов"
-
-#: ../../../src/framework/customizedlg.cpp:877
+#: ../../../src/framework/customizedlg.cpp:856
 msgid "ToolBars & Menues"
 msgstr "Панели инструментов и меню"
 
-#: ../../../src/framework/customizedlg.cpp:878
+#: ../../../src/framework/customizedlg.cpp:857
 msgid "Commands"
 msgstr "Команды"
 
-#: ../../../src/framework/customizedlg.cpp:885
+#: ../../../src/framework/customizedlg.cpp:864
 msgid "Close"
 msgstr "Закрыть"
 
 #: ../../../src/framework/progressdlg.cpp:61
-#: ../../../src/framework/progressdlg.cpp:225
+#: ../../../src/framework/progressdlg.cpp:211
 #: ../../../src/framework/progressdlg.cpp:237
 msgid "Remaining time:"
 msgstr "Осталось времени:"
@@ -341,129 +330,129 @@ msgstr "Осталось времени:"
 msgid " - %d%% done"
 msgstr " - %d%% выполнено"
 
-#: ../../../src/framework/propertypages.cpp:79
+#: ../../../src/framework/propertypages.cpp:80
 msgid "Splash screen"
 msgstr "Стартовый экран"
 
-#: ../../../src/framework/propertypages.cpp:80
+#: ../../../src/framework/propertypages.cpp:81
 msgid "Show"
 msgstr "Показать"
 
-#: ../../../src/framework/propertypages.cpp:88
+#: ../../../src/framework/propertypages.cpp:89
 msgid "Time out (sec.):"
 msgstr "Задержка (сек.):"
 
-#: ../../../src/framework/propertypages.cpp:101
+#: ../../../src/framework/propertypages.cpp:102
 msgid "Locale files folder path"
 msgstr "Путь до папки файлов локализации"
 
-#: ../../../src/framework/propertypages.cpp:118
+#: ../../../src/framework/propertypages.cpp:119
 msgid "Language"
 msgstr "Язык"
 
-#: ../../../src/framework/propertypages.cpp:139
+#: ../../../src/framework/propertypages.cpp:140
 msgid "System files folder path"
 msgstr "Путь до папки системных файлов"
 
-#: ../../../src/framework/propertypages.cpp:155
+#: ../../../src/framework/propertypages.cpp:156
 msgid "Log files folder path"
 msgstr "Путь до папки лог файлов"
 
-#: ../../../src/framework/propertypages.cpp:169
+#: ../../../src/framework/propertypages.cpp:170
 msgid "Log debug GDAL messages"
 msgstr "Логировать собщения GDAL"
 
-#: ../../../src/framework/propertypages.cpp:185
+#: ../../../src/framework/propertypages.cpp:186
 msgid "To apply some changes on this page the application restart needed"
 msgstr ""
 "Для принятия некоторых настроек на этой странице необходим перезапуск "
 "приложения"
 
-#: ../../../src/framework/propertypages.cpp:302
+#: ../../../src/framework/propertypages.cpp:303
 msgid "Choose a folder with locale files"
 msgstr "Выберите путь до папки фалов локализации"
 
-#: ../../../src/framework/propertypages.cpp:320
+#: ../../../src/framework/propertypages.cpp:321
 msgid "Choose a wxGIS system files folder path"
 msgstr "Выберите путь до папки системных файлов"
 
-#: ../../../src/framework/propertypages.cpp:334
+#: ../../../src/framework/propertypages.cpp:335
 msgid "Choose a wxGIS log files folder path"
 msgstr "Выберите путь до папки с логами"
 
-#: ../../../src/framework/propertypages.cpp:381
+#: ../../../src/framework/propertypages.cpp:382
 msgid "Generic Options"
 msgstr "Основные параметры"
 
-#: ../../../src/framework/propertypages.cpp:406
+#: ../../../src/framework/propertypages.cpp:408
 msgid "Web options"
 msgstr "Параметры веб"
 
-#: ../../../src/framework/propertypages.cpp:423
+#: ../../../src/framework/propertypages.cpp:425
 msgid "GDAL Options"
 msgstr "Параметры GDAL"
 
-#: ../../../src/framework/propertypages.cpp:459
+#: ../../../src/framework/propertypages.cpp:460
 msgid "GeoTIFF driver options"
 msgstr "Параметры GeoTIFF"
 
-#: ../../../src/framework/propertypages.cpp:537
+#: ../../../src/framework/propertypages.cpp:538
 msgid "HFA driver options"
 msgstr "Параметры HFA"
 
-#: ../../../src/framework/propertypages.cpp:542
+#: ../../../src/framework/propertypages.cpp:543
 msgid "JPEG driver options"
 msgstr "Параметры JPEG"
 
-#: ../../../src/framework/propertypages.cpp:555
+#: ../../../src/framework/propertypages.cpp:556
 msgid "GRIB driver options"
 msgstr "Параметры GRIB"
 
-#: ../../../src/framework/propertypages.cpp:558
+#: ../../../src/framework/propertypages.cpp:559
 msgid "Other GDAL options"
 msgstr "Другие параметры GDAL"
 
-#: ../../../src/framework/propertypages.cpp:563
+#: ../../../src/framework/propertypages.cpp:564
 msgid "OGR Options"
 msgstr "Параметры OGR"
 
-#: ../../../src/framework/propertypages.cpp:614
+#: ../../../src/framework/propertypages.cpp:615
 msgid "DXF driver options"
 msgstr "Параметры DXF"
 
-#: ../../../src/framework/propertypages.cpp:621
+#: ../../../src/framework/propertypages.cpp:622
 msgid "GML driver options"
 msgstr "Параметры GML"
 
-#: ../../../src/framework/propertypages.cpp:661
+#: ../../../src/framework/propertypages.cpp:662
 msgid "GPX driver options"
 msgstr "Параметры GPX"
 
-#: ../../../src/framework/propertypages.cpp:667
+#: ../../../src/framework/propertypages.cpp:668
 msgid "KML driver options"
 msgstr "Параметры KML"
 
-#: ../../../src/framework/propertypages.cpp:695
+#: ../../../src/framework/propertypages.cpp:696
 msgid "PG driver options"
 msgstr "Параметры PG"
 
-#: ../../../src/framework/propertypages.cpp:707
+#: ../../../src/framework/propertypages.cpp:708
 msgid "WFS driver options"
 msgstr "Параметры WFS"
 
-#: ../../../src/framework/propertypages.cpp:715
+#: ../../../src/framework/propertypages.cpp:716
 msgid "OSM driver options"
 msgstr "Параметры OSM"
 
-#: ../../../src/framework/propertypages.cpp:719
+#: ../../../src/framework/propertypages.cpp:720
 msgid "SQLite options"
 msgstr "Параметры SQLite"
 
-#: ../../../src/framework/propertypages.cpp:724
+#: ../../../src/framework/propertypages.cpp:725
 msgid "SXF options"
 msgstr "Параметры SXF"
 
-#: ../../../src/framework/propertypages.cpp:727
+#: ../../../src/framework/propertypages.cpp:729
 msgid "Other OGR options"
 msgstr "Другие параметры OGR"
 
@@ -560,6 +549,18 @@ msgstr "Прочее"
 #: ../../../include/wxgis/framework/propertypages.h:166
 msgid "GDAL Configuration"
 msgstr "Конфигурация GDAL"
+
+#~ msgid "menu"
+#~ msgstr "меню"
+
+#~ msgid "new menu"
+#~ msgstr "новое меню"
+
+#~ msgid "context menu"
+#~ msgstr "контекстное меню"
+
+#~ msgid "toolbar"
+#~ msgstr "панель инструментов"
 
 #~ msgid "wxGIS log files folder path"
 #~ msgstr "Путь до папки логов"

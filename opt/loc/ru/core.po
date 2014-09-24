@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:04+0400\n"
-"PO-Revision-Date: 2014-06-30 05:04+0400\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:17+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -19,24 +19,24 @@ msgstr ""
 "X-Poedit-SearchPath-0: ../../../include/wxgis/core\n"
 "X-Poedit-SearchPath-1: ../../../src/core\n"
 
-#: ../../../src/core/config.cpp:560
+#: ../../../src/core/config.cpp:563
 #, c-format
 msgid "Failed to save config '%s'"
 msgstr "Ошибка сохранения файла конфигурации '%s'"
 
-#: ../../../src/core/crypt.cpp:190
+#: ../../../src/core/crypt.cpp:189
 msgid "Crypt: Failed EVP_EncryptInit!"
 msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
 
-#: ../../../src/core/crypt.cpp:204
+#: ../../../src/core/crypt.cpp:203
 msgid "Crypt: Failed EVP_EncryptUpdate!"
 msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
 
-#: ../../../src/core/crypt.cpp:234
+#: ../../../src/core/crypt.cpp:233
 msgid "Decrypt: Failed EVP_DecryptInit!"
 msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
 
-#: ../../../src/core/crypt.cpp:249
+#: ../../../src/core/crypt.cpp:248
 msgid "Decrypt: Failed EVP_DecryptUpdate!"
 msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
 
@@ -68,96 +68,96 @@ msgstr "wxGISAppWithLibs: Библиотека %s загружена"
 msgid "wxGISAppWithLibs: Error loading library %s"
 msgstr "wxGISAppWithLibs: Ошибка загрузки библиотеки %s"
 
-#: ../../../src/core/init.cpp:141
+#: ../../../src/core/init.cpp:140
 #, c-format
 msgid "wxGISInitializer: %s %s is initializing..."
 msgstr "wxGISInitializer: %s %s инициализируется..."
 
-#: ../../../src/core/init.cpp:185
+#: ../../../src/core/init.cpp:184
 #, c-format
 msgid "wxGISInitializer: System dir is absent! Lookup path '%s'"
 msgstr ""
 "wxGISInitializer: Не удалось найти директорию системных настроек! Путьпоиска "
 "'%s'"
 
-#: ../../../src/core/init.cpp:199
+#: ../../../src/core/init.cpp:198
 msgid "wxGISInitializer: Failed to get log dir"
 msgstr "wxGISInitializer: Не удалось получить директорию файлов журналов"
 
-#: ../../../src/core/init.cpp:209
+#: ../../../src/core/init.cpp:208
 #, c-format
 msgid "wxGISInitializer: Failed to open log file %s"
 msgstr "wxGISInitializer: Не удалось открыть файл журнала %s"
 
-#: ../../../src/core/init.cpp:224
+#: ../../../src/core/init.cpp:223
 #, c-format
 msgid "HOST '%s': OS desc - %s, free memory - %s"
 msgstr "Хост  '%s': ОС - %s, свободная память - %s"
 
-#: ../../../src/core/init.cpp:225
+#: ../../../src/core/init.cpp:224
 #, c-format
 msgid "wxGISInitializer: Log file: %s"
 msgstr "wxGISInitializer: Файл журнала: %s"
 
-#: ../../../src/core/init.cpp:233
+#: ../../../src/core/init.cpp:232
 msgid "wxGISInitializer: Initialize locale"
 msgstr "wxGISInitializer: Инициализация локализации"
 
-#: ../../../src/core/init.cpp:245
+#: ../../../src/core/init.cpp:244
 #, c-format
 msgid "wxGISInitializer: Language is set to %s"
 msgstr "wxGISInitializer: Выбран язык %s"
 
-#: ../../../src/core/init.cpp:246
+#: ../../../src/core/init.cpp:245
 #, c-format
 msgid "wxGISInitializer: Language locale files path '%s'"
 msgstr "wxGISInitializer: Папка файлов локализации '%s'"
 
-#: ../../../src/core/init.cpp:404
+#: ../../../src/core/init.cpp:403
 msgid "Register service handler failed"
 msgstr "Не удалось зарегистрировать обработчик"
 
-#: ../../../src/core/init.cpp:416
+#: ../../../src/core/init.cpp:415
 msgid "Service started successfuly"
 msgstr "Сервис запущен"
 
-#: ../../../src/core/init.cpp:438
+#: ../../../src/core/init.cpp:437
 msgid "Service stopped"
 msgstr "Сервис установлен"
 
-#: ../../../src/core/init.cpp:445
+#: ../../../src/core/init.cpp:444
 msgid "Service paused"
 msgstr "Сервис поставлен на паузу"
 
-#: ../../../src/core/init.cpp:452
+#: ../../../src/core/init.cpp:451
 msgid "Service continue"
 msgstr "Сервис возобнавлен"
 
-#: ../../../src/core/init.cpp:464
+#: ../../../src/core/init.cpp:463
 msgid "Bad request"
 msgstr "Запрос с ошибкой"
 
-#: ../../../src/core/init.cpp:558
+#: ../../../src/core/init.cpp:557
 msgid "Could not open the message source registry key."
 msgstr "Не удалось найти источник сообщений"
 
-#: ../../../src/core/init.cpp:562
+#: ../../../src/core/init.cpp:561
 msgid "Could not set the event message file registry value."
 msgstr "Не удалось установить файл сообщений "
 
-#: ../../../src/core/init.cpp:567
+#: ../../../src/core/init.cpp:566
 msgid "Could not set the supported types."
 msgstr "Не удалось установить поддерживаемые типы"
 
-#: ../../../src/core/init.cpp:569
+#: ../../../src/core/init.cpp:568
 msgid "Service installed"
 msgstr "Сервис утановлен"
 
-#: ../../../src/core/init.cpp:609
+#: ../../../src/core/init.cpp:608
 msgid "Service uninstalled"
 msgstr "Сервис удален"
 
-#: ../../../src/core/init.cpp:671 ../../../src/core/init.cpp:680
+#: ../../../src/core/init.cpp:670 ../../../src/core/init.cpp:679
 msgid "Cannot disassociate from controlling TTY"
 msgstr "Не удалось отключится от консоли"
 

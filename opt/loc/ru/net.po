@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:04+0400\n"
-"PO-Revision-Date: 2014-06-30 05:04+0400\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:17+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -168,7 +168,7 @@ msgstr "%s: Моуль остановлен..."
 msgid "wxServerTCPNetworkPlugin: Invalid address - %s"
 msgstr "wxServerTCPNetworkPlugin: Неверный адрес - %s"
 
-#: ../../../src/net/tcp.cpp:126 ../../../src/net/tcp.cpp:326
+#: ../../../src/net/tcp.cpp:126 ../../../src/net/tcp.cpp:330
 #, c-format
 msgid "Read error (%d): %s"
 msgstr "Ошибка чтения (%d): %s"
@@ -212,25 +212,25 @@ msgstr "wxServerTCPNetworkPlugin: Не удалось открыть порт! �
 msgid "Server listening at port %d, waiting for connections"
 msgstr "Сервер запущен на порту %d, ожидание подключений"
 
-#: ../../../src/net/tcp.cpp:279
+#: ../../../src/net/tcp.cpp:283
 #, c-format
 msgid "wxClientTCPNetFactory: Invalid address - %s"
 msgstr "wxClientTCPNetFactory: Неверный адрес - %s"
 
-#: ../../../src/net/tcp.cpp:290
+#: ../../../src/net/tcp.cpp:294
 msgid "wxClientTCPNetFactory: Cannot bind listening socket"
 msgstr "wxClientTCPNetFactory: Не удалось подключиться к сокету"
 
-#: ../../../src/net/tcp.cpp:433
+#: ../../../src/net/tcp.cpp:437
 msgid "New connection"
 msgstr "Новое подключение"
 
-#: ../../../src/net/tcp.cpp:489
+#: ../../../src/net/tcp.cpp:493
 #, c-format
 msgid "Error (%d): %s"
 msgstr "Ошибка (%d): %s"
 
-#: ../../../src/net/tcp.cpp:527
+#: ../../../src/net/tcp.cpp:531
 msgid "Could not connect to remote server"
 msgstr "Не удалось выполнить подключение к серверу"
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-30 05:04+0400\n"
-"PO-Revision-Date: 2014-06-30 05:04+0400\n"
+"POT-Creation-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-09-25 00:17+0300\n"
 "Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -29,40 +29,35 @@ msgstr "Не удалось выполнить подключение! Ошиб�
 msgid "Connect succeeded! Path '%s'"
 msgstr "Подключение выполнено удачно. Папка '%s'"
 
-#: ../../../src/datasource/dataset.cpp:145
-msgid "Unsupported dataset type"
-msgstr "Не поддерживаемый тип данных"
-
-#: ../../../src/datasource/dataset.cpp:259
+#: ../../../src/datasource/dataset.cpp:260
 msgid "No files to rename"
 msgstr "Нет файлов для переименования"
 
-#: ../../../src/datasource/dataset.cpp:299
+#: ../../../src/datasource/dataset.cpp:300
 msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
-#: ../../../src/datasource/dataset.cpp:343
+#: ../../../src/datasource/dataset.cpp:344
 #: ../../../src/datasource/rasterdataset.cpp:572
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
 #: ../../../src/datasource/featuredataset.cpp:579
-#: ../../../src/datasource/table.cpp:843
+#: ../../../src/datasource/table.cpp:859
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
 
-#: ../../../src/datasource/postgisdataset.cpp:382
-#: ../../../src/datasource/postgisdataset.cpp:405
+#: ../../../src/datasource/postgisdataset.cpp:414
 #, c-format
 msgid "ExecuteSQL failed! GDAL error: %s"
 msgstr "Не удалось выполнить ExecuteSQL! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/postgisdataset.cpp:435
+#: ../../../src/datasource/postgisdataset.cpp:444
 #, c-format
 msgid "Try to connect: host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Попытка подключения: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:441
+#: ../../../src/datasource/postgisdataset.cpp:450
 #, c-format
 msgid ""
 "Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"
@@ -70,28 +65,34 @@ msgstr ""
 "Ошибка подключения! Ошибка GDAL: %s, хост='%s' база данных='%s' порт='%s' "
 "логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:454
+#: ../../../src/datasource/postgisdataset.cpp:463
 #, c-format
 msgid "Connect succeeded! Host='%s' dbname='%s' port='%s' user='%s'"
 msgstr "Подключение выполнено: хост='%s' база данных='%s' порт='%s' логин='%s'"
 
-#: ../../../src/datasource/postgisdataset.cpp:561
+#: ../../../src/datasource/postgisdataset.cpp:570
+#: ../../../src/datasource/postgisdataset.cpp:646
 #, c-format
 msgid "Operation '%s' failed! No Layer %s found to delete"
 msgstr "Не удалось выполнить '%s'! Слой %s не обнаружен"
 
-#: ../../../src/datasource/postgisdataset.cpp:561
-#: ../../../src/datasource/postgisdataset.cpp:571
+#: ../../../src/datasource/postgisdataset.cpp:570
 #: ../../../src/datasource/postgisdataset.cpp:580
+#: ../../../src/datasource/postgisdataset.cpp:589
+#: ../../../src/datasource/postgisdataset.cpp:646
+#: ../../../src/datasource/postgisdataset.cpp:656
+#: ../../../src/datasource/postgisdataset.cpp:665
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../../../src/datasource/postgisdataset.cpp:571
+#: ../../../src/datasource/postgisdataset.cpp:580
+#: ../../../src/datasource/postgisdataset.cpp:656
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Не удалось выполнить '%s'! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/postgisdataset.cpp:580
+#: ../../../src/datasource/postgisdataset.cpp:589
+#: ../../../src/datasource/postgisdataset.cpp:665
 #, c-format
 msgid "Operation '%s' succeeded!"
 msgstr "Операция '%s' выполнена успешно! "
@@ -169,11 +170,11 @@ msgstr ""
 msgid "Rename file succeeded! Old path '%s', new path '%s'"
 msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
 
-#: ../../../src/datasource/sysop.cpp:668
+#: ../../../src/datasource/sysop.cpp:500
 msgid "Error open input file! OGR error: "
 msgstr "Не возможно открыть входной файл! Ошибка OGR:"
 
-#: ../../../src/datasource/sysop.cpp:682
+#: ../../../src/datasource/sysop.cpp:514
 #, c-format
 msgid "Error create the output file '%s'! OGR error: "
 msgstr "Не возможно создать выходной файл '%s'! Ошибка OGR: "
@@ -183,11 +184,14 @@ msgstr "Не возможно создать выходной файл '%s'! О�
 msgid "Table open failed! Path '%s'. OGR error: %s"
 msgstr "Не удалось открыть таблицу! Путь '%s'.Ошибка OGR: %s"
 
-#: ../../../src/datasource/table.cpp:570 ../../../src/datasource/table.cpp:614
-#: ../../../src/datasource/table.cpp:1075
-#: ../../../src/datasource/table.cpp:1121
+#: ../../../src/datasource/table.cpp:579 ../../../src/datasource/table.cpp:623
+#: ../../../src/datasource/table.cpp:1091
+#: ../../../src/datasource/table.cpp:1137
 msgid "Interrupted by user"
 msgstr "Отменено пользователем"
+
+#~ msgid "Unsupported dataset type"
+#~ msgstr "Не поддерживаемый тип данных"
 
 #~ msgid "AdviseRead failed! GDAL error: %s"
 #~ msgstr "Не удалось выполнить AdviseRead! Ошибка GDAL: %s"
