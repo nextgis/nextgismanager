@@ -329,6 +329,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
+    </Menues>  
     <MenuBar>
       <menu name="MenuBar.File"/>
       <menu name="MenuBar.Edit"/>
