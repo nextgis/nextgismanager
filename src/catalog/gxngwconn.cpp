@@ -654,15 +654,25 @@ wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
 	wxGxObjectMap ret;
     wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
+	{
+		CPLError(CE_Failure, CPLE_AppDefined, "libcurl initialize failed!");
         return ret;
+	}
 
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Get(sURL);
-
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;  
+	if(!bResult)
+	{  
+		ReportError(res.nHTTPCode, res.sBody);	
+		return ret;
+	}
+	
     wxJSONReader reader;
     wxJSONValue  JSONRoot;
     int numErrors = reader.Parse(res.sBody, &JSONRoot);
-    if (numErrors > 0)  {        
+    if (numErrors > 0)  {    
         return ret;
     }
 
