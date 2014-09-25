@@ -1,5 +1,5 @@
 <map id="wxJSONValue::AsLong" name="wxJSONValue::AsLong">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="622,5,802,32"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#ae82d2c1bbedc3e34ed392d43360200a4" title="Return TRUE if the stored value is an integer which fits in a long int. " alt="" coords="211,31,362,57"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="411,31,573,57"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="632,5,819,32"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#ae82d2c1bbedc3e34ed392d43360200a4" title="Return TRUE if the stored value is an integer which fits in a long int. " alt="" coords="213,31,368,57"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="417,31,583,57"/>
 </map>

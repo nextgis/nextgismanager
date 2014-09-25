@@ -35,7 +35,7 @@ class wxGxTreeView;
     
     A catalog application framework class.
 
-    @library {catalogui}
+    @library{catalogui}
  */
 
 class WXDLLIMPEXP_GIS_CLU wxGxApplication :

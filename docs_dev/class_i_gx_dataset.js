@@ -6,5 +6,6 @@ var class_i_gx_dataset =
     [ "GetModificationDate", "class_i_gx_dataset.html#a8bfbbefad4db3ad78753d725a0082b04", null ],
     [ "GetSize", "class_i_gx_dataset.html#a9c249617e7d11e180d0061a22c5f099f", null ],
     [ "GetSubType", "class_i_gx_dataset.html#a015f48a04e8c04015b4a6a8fb028d181", null ],
-    [ "GetType", "class_i_gx_dataset.html#ad44c60f41258c72cd6770162e114d334", null ]
+    [ "GetType", "class_i_gx_dataset.html#ad44c60f41258c72cd6770162e114d334", null ],
+    [ "IsMetadataFilled", "class_i_gx_dataset.html#aa5084f5d33e547df210aa804707cda59", null ]
 ];

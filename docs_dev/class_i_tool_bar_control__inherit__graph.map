@@ -1,4 +1,5 @@
 <map id="IToolBarControl" name="IToolBarControl">
-<area shape="rect" id="node2" href="$classwx_g_i_s_rotation_combo_box.html" title="The frame angle rotation input combobox. " alt="" coords="5,80,176,107"/>
-<area shape="rect" id="node3" href="$classwx_gx_location_combo_box.html" title="A combobox to set gxcatalog path (selection). " alt="" coords="201,80,369,107"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_drawing_layers_combo_box.html" title="wxGISDrawingLayersComboBox" alt="" coords="5,80,219,107"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_rotation_combo_box.html" title="wxGISRotationComboBox" alt="" coords="244,80,420,107"/>
+<area shape="rect" id="node4" href="$classwx_gx_location_combo_box.html" title="wxGxLocationComboBox" alt="" coords="444,80,615,107"/>
 </map>

@@ -1,0 +1,6 @@
+<map id="CategoryDataset::GetCount" name="CategoryDataset::GetCount">
+<area shape="rect" id="node2" href="$class_category_axis.html#a4ec4baa46978a570fe5fddd1640ba885" title="CategoryAxis::UpdateBounds" alt="" coords="240,5,435,32"/>
+<area shape="rect" id="node3" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="270,56,405,83"/>
+<area shape="rect" id="node5" href="$class_pie_plot.html#a10248529a8b867301f267b537aeb859a" title="PiePlot::DrawData" alt="" coords="272,107,403,133"/>
+<area shape="rect" id="node4" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="483,56,640,83"/>
+</map>

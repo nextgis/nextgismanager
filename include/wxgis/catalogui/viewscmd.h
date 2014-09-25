@@ -28,7 +28,7 @@
 
     The main catalog views commands includes: "ContentsView states", "Select All", "Show/hide tree view".
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 

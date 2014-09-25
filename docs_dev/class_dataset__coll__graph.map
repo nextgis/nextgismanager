@@ -1,0 +1,8 @@
+<map id="Dataset" name="Dataset">
+<area shape="rect" id="node6" href="$class_renderer.html" title="Renderer" alt="" coords="115,160,188,187"/>
+<area shape="rect" id="node3" href="$class_ref_object.html" title="RefObject" alt="" coords="222,83,303,109"/>
+<area shape="rect" id="node4" href="$class_observable.html" title="Observable\&lt; DatasetObserver \&gt;" alt="" coords="279,160,488,187"/>
+<area shape="rect" id="node5" href="$class_draw_observer.html" title="DrawObserver" alt="" coords="513,160,620,187"/>
+<area shape="rect" id="node7" href="$class_draw_object.html" title="DrawObject" alt="" coords="107,83,197,109"/>
+<area shape="rect" id="node8" href="$class_observable.html" title="Observable\&lt; DrawObserver \&gt;" alt="" coords="54,5,249,32"/>
+</map>

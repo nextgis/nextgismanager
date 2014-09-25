@@ -1,11 +1,12 @@
 <map id="wxGxDiscConnectionUI" name="wxGxDiscConnectionUI">
-<area shape="rect" id="node2" href="$classwx_gx_disc_connection.html" title="A Disc Connection GxObject. " alt="" coords="632,31,779,57"/>
-<area shape="rect" id="node3" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="493,31,584,57"/>
-<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="297,5,445,32"/>
-<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="155,5,248,32"/>
-<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="319,56,422,83"/>
-<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="659,81,751,108"/>
-<area shape="rect" id="node9" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="648,132,763,159"/>
-<area shape="rect" id="node10" href="$class_i_gx_drop_target.html" title="A DropTarget interface class. " alt="" coords="653,183,758,209"/>
-<area shape="rect" id="node12" href="$classwx_gx_auto_renamer.html" title="Begin Rename created object. " alt="" coords="638,284,773,311"/>
+<area shape="rect" id="node2" href="$classwx_gx_disc_connection.html" title="wxGxDiscConnection" alt="" coords="643,56,792,83"/>
+<area shape="rect" id="node3" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="502,56,594,83"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="302,5,453,32"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="158,5,253,32"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="325,56,429,83"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="314,107,441,133"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="670,107,765,133"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="658,157,777,184"/>
+<area shape="rect" id="node11" href="$class_i_gx_drop_target.html" title="IGxDropTarget" alt="" coords="663,208,771,235"/>
+<area shape="rect" id="node13" href="$classwx_gx_auto_renamer.html" title="wxGxAutoRenamer" alt="" coords="649,309,785,336"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="wxJSONValue::ItemAt" name="wxJSONValue::ItemAt">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a581149b30c5ac84138c69c5c48007d78" title="Returns informations about the object. " alt="" coords="205,90,360,117"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="681,115,861,142"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="425,39,615,66"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="451,90,589,117"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a589b0f879dd3169ee2e7cf4fbed5fe8b" title="Return the array of keys of this JSON object. " alt="" coords="409,141,631,167"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a581149b30c5ac84138c69c5c48007d78" title="Returns informations about the object. " alt="" coords="209,90,367,117"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="691,115,877,142"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="432,39,627,66"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="458,90,601,117"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a589b0f879dd3169ee2e7cf4fbed5fe8b" title="Return the array of keys of this JSON object. " alt="" coords="416,141,643,167"/>
 </map>

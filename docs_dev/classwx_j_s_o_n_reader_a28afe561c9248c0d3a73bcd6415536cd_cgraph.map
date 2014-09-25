@@ -1,4 +1,4 @@
 <map id="wxJSONReader::ConvertCharByChar" name="wxJSONReader::ConvertCharByChar">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#aea842e1af0f627d513f85cc17f642b37" title="Return the number of bytes that make a character in stream input. " alt="" coords="246,12,429,39"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a681697e7fc8e03ff3d60e6bcebf8d190" title="Compute the number of bytes that makes a UTF&#45;8 encoded wide character. " alt="" coords="477,12,691,39"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#aea842e1af0f627d513f85cc17f642b37" title="Return the number of bytes that make a character in stream input. " alt="" coords="253,12,440,39"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a681697e7fc8e03ff3d60e6bcebf8d190" title="Compute the number of bytes that makes a UTF&#45;8 encoded wide character. " alt="" coords="489,12,709,39"/>
 </map>

@@ -1,3 +1,12 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classwx_g_i_s_grid_table.html" title="wxGISGridTable" alt="" coords="176,5,291,32"/>
+<area shape="rect" id="node2" href="$classwx_feature_d_s_event.html" title="The FeatureDS class event. " alt="" coords="148,5,284,32"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_g_p_param_event.html" title="The wxGISProcess class event. " alt="" coords="139,56,293,83"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_net_event.html" title="wxGISNetEvent" alt="" coords="157,107,275,133"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_process_event.html" title="The wxGISProcess class event. " alt="" coords="144,157,288,184"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_task_event.html" title="The Task event. " alt="" coords="153,208,279,235"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_task_manager_event.html" title="wxGISTaskManagerEvent" alt="" coords="129,259,303,285"/>
+<area shape="rect" id="node8" href="$classwx_gx_catalog_event.html" title="The Network event. " alt="" coords="149,309,283,336"/>
+<area shape="rect" id="node9" href="$classwx_gx_selection_event.html" title="The GxSelection class event. " alt="" coords="144,360,288,387"/>
+<area shape="rect" id="node10" href="$classwx_mx_map_view_event.html" title="wxMxMapViewEvent" alt="" coords="143,411,289,437"/>
+<area shape="rect" id="node11" href="$classwx_mx_map_view_u_i_event.html" title="wxMxMapViewUIEvent" alt="" coords="137,461,295,488"/>
 </map>

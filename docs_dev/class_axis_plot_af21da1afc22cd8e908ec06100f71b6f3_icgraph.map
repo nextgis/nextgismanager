@@ -1,0 +1,7 @@
+<map id="AxisPlot::GetDatasetCount" name="AxisPlot::GetDatasetCount">
+<area shape="rect" id="node2" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="245,5,403,32"/>
+<area shape="rect" id="node3" href="$class_gantt_plot.html#ad00fdee6a5bbb2c4566f57e41bea39d0" title="GanttPlot::DrawDatasets" alt="" coords="239,56,409,83"/>
+<area shape="rect" id="node4" href="$class_o_h_l_c_plot.html#ab148725e0689a6438d45e9dc794420c8" title="OHLCPlot::DrawDatasets" alt="" coords="237,107,411,133"/>
+<area shape="rect" id="node5" href="$class_x_y_plot.html#a005cc5fc627ba43687037c1fe0e72f2f" title="XYPlot::DrawDatasets" alt="" coords="247,157,401,184"/>
+<area shape="rect" id="node6" href="$class_bubble_plot.html#a015049bcf4dd0de93d8fff8dafc99e8b" title="BubblePlot::DrawDatasets" alt="" coords="235,208,413,235"/>
+</map>

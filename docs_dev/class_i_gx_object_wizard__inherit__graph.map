@@ -1,7 +1,9 @@
 <map id="IGxObjectWizard" name="IGxObjectWizard">
-<area shape="rect" id="node2" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="177,5,333,32"/>
-<area shape="rect" id="node3" href="$classwx_gx_prj_file_u_i.html" title="A proj file GxObject. " alt="" coords="203,56,307,83"/>
-<area shape="rect" id="node4" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="179,107,330,133"/>
-<area shape="rect" id="node5" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="181,157,329,184"/>
-<area shape="rect" id="node6" href="$classwx_gx_table_dataset_u_i.html" title="wxGxTableDatasetUI" alt="" coords="183,208,326,235"/>
+<area shape="rect" id="node2" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="176,5,336,32"/>
+<area shape="rect" id="node4" href="$classwx_gx_prj_file_u_i.html" title="wxGxPrjFileUI" alt="" coords="203,56,309,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="179,107,333,133"/>
+<area shape="rect" id="node6" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="179,157,333,184"/>
+<area shape="rect" id="node7" href="$classwx_gx_table_u_i.html" title="wxGxTableUI" alt="" coords="205,208,307,235"/>
+<area shape="rect" id="node3" href="$classwx_gx_inited_feature_dataset_u_i.html" title="wxGxInitedFeatureDatasetUI" alt="" coords="384,5,576,32"/>
+<area shape="rect" id="node8" href="$classwx_gx_inited_table_u_i.html" title="wxGxInitedTableUI" alt="" coords="413,208,547,235"/>
 </map>

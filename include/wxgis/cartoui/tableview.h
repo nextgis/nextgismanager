@@ -50,7 +50,7 @@ WX_DECLARE_HASH_MAP(long, wxGISFeature, wxIntegerHash, wxIntegerEqual, wxGISFeat
 
     The grid of values for dataset
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISGridTable :
@@ -91,7 +91,7 @@ private:
 
     The control with grid and buttons (first, last, next, prev) recor count field and etc.
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGridCtrl:

@@ -1,34 +1,33 @@
 <map id="wxGISCatalogFrame" name="wxGISCatalogFrame">
-<area shape="rect" id="node2" href="$classwx_gx_application.html" title="A catalog application framework class. " alt="" coords="2299,269,2418,296"/>
-<area shape="rect" id="node28" href="$classwx_gx_tab_view.html" title="The tab view class. " alt="" coords="2565,255,2669,281"/>
-<area shape="rect" id="node3" href="$classwx_gx_application_base.html" title="An Interface class for GxApplication. " alt="" coords="1885,213,2035,240"/>
-<area shape="rect" id="node4" href="$classwx_gx_selection.html" title="The GxObject Selection class. " alt="" coords="1469,191,1579,217"/>
-<area shape="rect" id="node38" href="$classwx_gx_tree_view_base.html" title="The base class for tree view of gxObjects. " alt="" coords="1723,404,1861,431"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="501,273,712,300"/>
-<area shape="rect" id="node21" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="859,364,957,391"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_application_ex.html" title="An application framework class with aui mngr. " alt="" coords="1890,104,2030,131"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_application.html" title="A wxGISApplication class. " alt="" coords="1462,105,1586,132"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="1108,448,1263,475"/>
-<area shape="rect" id="node32" href="$classwx_g_i_s_new_menu.html" title="The new menu class. " alt="" coords="1465,469,1583,496"/>
-<area shape="rect" id="node10" href="$class_i_application.html" title="IApplication" alt="" coords="737,469,826,496"/>
-<area shape="rect" id="node13" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="547,571,666,597"/>
-<area shape="rect" id="node35" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar class. " alt="" coords="537,645,676,672"/>
-<area shape="rect" id="node12" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="883,571,933,597"/>
-<area shape="rect" id="node14" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="852,419,964,445"/>
-<area shape="rect" id="node16" href="$class_i_drop_down_command.html" title="A IDropDownCommand interface class. " alt="" coords="1114,5,1257,32"/>
-<area shape="rect" id="node17" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1137,56,1234,83"/>
-<area shape="rect" id="node18" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="864,56,952,83"/>
-<area shape="rect" id="node19" href="$classwx_g_i_s_accelerator_table.html" title="wxGISAcceleratorTable" alt="" coords="1107,107,1264,133"/>
-<area shape="rect" id="node20" href="$classwx_gx_catalog_u_i.html" title="The GxCatalogUI class. " alt="" coords="1130,316,1241,343"/>
-<area shape="rect" id="node22" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="542,364,671,391"/>
-<area shape="rect" id="node23" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="302,364,450,391"/>
-<area shape="rect" id="node24" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="157,364,251,391"/>
-<area shape="rect" id="node26" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="862,263,954,289"/>
-<area shape="rect" id="node27" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="851,313,965,340"/>
-<area shape="rect" id="node30" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="1483,581,1565,608"/>
-<area shape="rect" id="node31" href="$class_i_view.html" title="A View interface class. " alt="" coords="1159,581,1212,608"/>
-<area shape="rect" id="node33" href="$classwx_g_i_s_menu.html" title="wxGISMenu class. " alt="" coords="862,683,954,709"/>
-<area shape="rect" id="node36" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="325,645,427,672"/>
-<area shape="rect" id="node37" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="2059,348,2167,375"/>
-<area shape="rect" id="node40" href="$class_i_view_drop_target.html" title="A DropTarget interface class. " alt="" coords="1734,348,1850,375"/>
+<area shape="rect" id="node2" href="$classwx_gx_application.html" title="wxGxApplication" alt="" coords="1875,195,1995,221"/>
+<area shape="rect" id="node27" href="$classwx_gx_tab_view.html" title="wxGxTabView" alt="" coords="2144,105,2251,132"/>
+<area shape="rect" id="node37" href="$classwx_gx_tree_view_base.html" title="The base class for tree view of gxObjects. " alt="" coords="2127,389,2268,416"/>
+<area shape="rect" id="node3" href="$classwx_gx_application_base.html" title="An Interface class for GxApplication. " alt="" coords="1585,181,1735,208"/>
+<area shape="rect" id="node4" href="$classwx_gx_selection.html" title="The GxObject Selection class. " alt="" coords="1331,180,1442,207"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="606,188,821,215"/>
+<area shape="rect" id="node20" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="992,231,1093,257"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_application_ex.html" title="wxGISApplicationEx" alt="" coords="1589,29,1731,56"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_application.html" title="wxGISApplication" alt="" coords="1323,57,1450,84"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="965,396,1121,423"/>
+<area shape="rect" id="node31" href="$classwx_g_i_s_new_menu.html" title="wxGISNewMenu" alt="" coords="1599,452,1721,479"/>
+<area shape="rect" id="node10" href="$class_i_application.html" title="IApplication" alt="" coords="491,351,581,377"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="329,452,452,479"/>
+<area shape="rect" id="node34" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar" alt="" coords="319,519,462,545"/>
+<area shape="rect" id="node12" href="$class_i_tool.html" title="ITool" alt="" coords="688,401,739,428"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="656,300,771,327"/>
+<area shape="rect" id="node16" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="993,7,1093,33"/>
+<area shape="rect" id="node17" href="$class_i_progressor.html" title="IProgressor" alt="" coords="669,7,758,33"/>
+<area shape="rect" id="node18" href="$classwx_g_i_s_accelerator_table.html" title="wxGISAcceleratorTable" alt="" coords="963,57,1123,84"/>
+<area shape="rect" id="node19" href="$classwx_gx_catalog_u_i.html" title="wxGxCatalogUI" alt="" coords="1329,307,1444,333"/>
+<area shape="rect" id="node21" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="648,247,779,273"/>
+<area shape="rect" id="node22" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="315,247,466,273"/>
+<area shape="rect" id="node23" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="165,247,259,273"/>
+<area shape="rect" id="node25" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="995,345,1090,372"/>
+<area shape="rect" id="node26" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="983,281,1102,308"/>
+<area shape="rect" id="node29" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="1892,356,1977,383"/>
+<area shape="rect" id="node30" href="$class_i_view.html" title="IView" alt="" coords="1633,351,1687,377"/>
+<area shape="rect" id="node32" href="$classwx_g_i_s_menu.html" title="wxGISMenu" alt="" coords="666,553,761,580"/>
+<area shape="rect" id="node35" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="161,519,263,545"/>
+<area shape="rect" id="node36" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="2321,389,2431,416"/>
+<area shape="rect" id="node39" href="$class_i_view_drop_target.html" title="IViewDropTarget" alt="" coords="2137,440,2257,467"/>
 </map>

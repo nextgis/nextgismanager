@@ -1,0 +1,5 @@
+<map id="Renderer" name="Renderer">
+<area shape="rect" id="node3" href="$class_draw_object.html" title="DrawObject" alt="" coords="107,80,197,107"/>
+<area shape="rect" id="node4" href="$class_observable.html" title="Observable\&lt; DrawObserver \&gt;" alt="" coords="54,5,249,32"/>
+<area shape="rect" id="node5" href="$class_ref_object.html" title="RefObject" alt="" coords="222,80,303,107"/>
+</map>

@@ -1,8 +1,8 @@
 <map id="wxGxMLDataset" name="wxGxMLDataset">
-<area shape="rect" id="node8" href="$classwx_gx_m_l_dataset_u_i.html" title="A markup language (kml, gml, etc.) dataset GxObject. " alt="" coords="163,379,293,405"/>
-<area shape="rect" id="node2" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="151,229,305,256"/>
-<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,155,152,181"/>
-<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,80,125,107"/>
-<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,155,279,181"/>
-<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="303,155,389,181"/>
+<area shape="rect" id="node8" href="$classwx_gx_m_l_dataset_u_i.html" title="wxGxMLDatasetUI" alt="" coords="165,379,299,405"/>
+<area shape="rect" id="node2" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="153,229,311,256"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="5,155,155,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="33,80,127,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="180,155,284,181"/>
+<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="309,155,397,181"/>
 </map>

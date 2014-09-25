@@ -1,0 +1,12 @@
+<map id="Chart::Draw" name="Chart::Draw">
+<area shape="rect" id="node2" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="386,5,505,32"/>
+<area shape="rect" id="node3" href="$class_text_element_container.html#a71aa2a3b22bb820af156082a30e108a0" title="TextElementContainer\l::IsEmpty" alt="" coords="147,127,299,169"/>
+<area shape="rect" id="node4" href="$class_text_element_container.html#a8afae3ede29063530fca91f4920e4f9d" title="TextElementContainer\l::CalculateExtent" alt="" coords="147,193,299,234"/>
+<area shape="rect" id="node6" href="$class_text_element_container.html#a731c10f31eafaf63ab18be0127a1cd82" title="TextElementContainer\l::Draw" alt="" coords="147,258,299,299"/>
+<area shape="rect" id="node8" href="$class_plot.html#ab4cfaf8e40c1ac95d872f55edac6773e" title="Plot::Draw" alt="" coords="181,76,265,103"/>
+<area shape="rect" id="node5" href="$class_text_element.html#a82698fe7c35641b7a24c02c365ab1388" title="TextElement::CalculateExtent" alt="" coords="347,208,544,235"/>
+<area shape="rect" id="node7" href="$class_text_element.html#a7d16cf2e7b72f842cd8d120c6b1ef7c3" title="TextElement::Draw" alt="" coords="378,265,513,292"/>
+<area shape="rect" id="node9" href="$class_plot.html#aa80da25a5adba3595e7d66ee9da050cb" title="Plot::HasData" alt="" coords="393,56,498,83"/>
+<area shape="rect" id="node10" href="$class_plot.html#a11f3fd07825b7603c22f6c5f616d4b11" title="Plot::DrawData" alt="" coords="389,107,501,133"/>
+<area shape="rect" id="node11" href="$class_plot.html#a8d260821e42834c630e195bc395a0ec2" title="Plot::DrawNoDataMessage" alt="" coords="354,157,537,184"/>
+</map>

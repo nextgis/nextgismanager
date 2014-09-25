@@ -31,7 +31,7 @@
 
     The create menu class. Consist of create new objects items
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISNewMenu :

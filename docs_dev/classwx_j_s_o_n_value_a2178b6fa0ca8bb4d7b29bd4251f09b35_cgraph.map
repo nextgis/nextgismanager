@@ -1,9 +1,9 @@
 <map id="wxJSONValue::AddComment" name="wxJSONValue::AddComment">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="246,31,391,57"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="441,5,621,32"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="449,56,612,83"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="669,56,867,83"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="915,5,1112,32"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="939,56,1087,83"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="917,107,1109,133"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="251,31,400,57"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="448,5,635,32"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="458,56,625,83"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="683,56,885,83"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="934,5,1138,32"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="959,56,1113,83"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="937,107,1135,133"/>
 </map>

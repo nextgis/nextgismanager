@@ -1,0 +1,6 @@
+<map id="BubblePlot::DrawDatasets" name="BubblePlot::DrawDatasets">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af21da1afc22cd8e908ec06100f71b6f3" title="AxisPlot::GetDatasetCount" alt="" coords="257,5,439,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="275,56,421,83"/>
+<area shape="rect" id="node4" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="240,107,456,133"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="233,157,463,184"/>
+</map>

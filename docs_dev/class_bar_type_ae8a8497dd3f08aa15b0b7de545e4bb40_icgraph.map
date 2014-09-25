@@ -1,0 +1,5 @@
+<map id="BarType::GetBarGeometry" name="BarType::GetBarGeometry">
+<area shape="rect" id="node2" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="233,5,343,32"/>
+<area shape="rect" id="node3" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="393,5,527,32"/>
+<area shape="rect" id="node4" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="576,5,733,32"/>
+</map>

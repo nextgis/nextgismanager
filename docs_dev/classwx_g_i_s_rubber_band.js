@@ -15,7 +15,6 @@ var classwx_g_i_s_rubber_band =
     [ "m_bLock", "classwx_g_i_s_rubber_band.html#a449712577828324aaa738883006b5f39", null ],
     [ "m_oPen", "classwx_g_i_s_rubber_band.html#a221f962a3e3a29eed9114709d83c34c7", null ],
     [ "m_pDisp", "classwx_g_i_s_rubber_band.html#a2bf47d8e9bf8521691628affc8a705af", null ],
-    [ "m_PrevRect", "classwx_g_i_s_rubber_band.html#a99b2a82f9187fea36eef9efb8dad5eea", null ],
     [ "m_pWnd", "classwx_g_i_s_rubber_band.html#ac0d66395ceb43c95cc45720cc5e7ce1f", null ],
     [ "m_RetGeom", "classwx_g_i_s_rubber_band.html#a1e696ceeb2a558954fe6ab0c160250d3", null ],
     [ "m_SpaRef", "classwx_g_i_s_rubber_band.html#a8fa2907bac5ae4af9e5688d6286165c2", null ],

@@ -1,9 +1,9 @@
 <map id="wxGxRasterDataset" name="wxGxRasterDataset">
-<area shape="rect" id="node7" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="15,304,165,331"/>
-<area shape="rect" id="node8" href="$classwx_gx_t_m_s_web_service.html" title="A TMS Web Service GxObject. " alt="" coords="190,304,340,331"/>
-<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="127,155,227,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
-<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="253,80,339,107"/>
-<area shape="rect" id="node9" href="$classwx_gx_t_m_s_web_service_u_i.html" title="A TMS Web Service GxObjectUI. " alt="" coords="184,379,347,405"/>
+<area shape="rect" id="node7" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="15,304,168,331"/>
+<area shape="rect" id="node8" href="$classwx_gx_t_m_s_web_service.html" title="wxGxTMSWebService" alt="" coords="193,304,347,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="130,155,232,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,80,104,107"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="129,80,233,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="258,80,347,107"/>
+<area shape="rect" id="node9" href="$classwx_gx_t_m_s_web_service_u_i.html" title="wxGxTMSWebServiceUI" alt="" coords="186,379,355,405"/>
 </map>

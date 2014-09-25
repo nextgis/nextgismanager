@@ -3,9 +3,9 @@ var index =
     [ "User Manual", "index.html#manual_user", null ],
     [ "Reference Manual", "index.html#manual_reference", null ],
     [ "Introduction", "page_introduction.html", [
-      [ "What is wxGIS?", "page_introduction.html#page_introduction_whatis", null ],
-      [ "wxGIS Requirements", "page_introduction.html#page_introduction_requirements", null ],
-      [ "Availability and location of wxGIS", "page_introduction.html#page_introduction_where", null ],
+      [ "What is NextGIS Manager?", "page_introduction.html#page_introduction_whatis", null ],
+      [ "NextGIS Manager Requirements", "page_introduction.html#page_introduction_requirements", null ],
+      [ "Availability and location of NextGIS Manager", "page_introduction.html#page_introduction_where", null ],
       [ "Acknowledgements", "page_introduction.html#page_introduction_acknowledgements", null ]
     ] ],
     [ "Copyrights and Licenses", "page_copyright.html", "page_copyright" ],

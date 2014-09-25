@@ -1,0 +1,17 @@
+<map id="Dataset::DatasetChanged" name="Dataset::DatasetChanged">
+<area shape="rect" id="node2" href="$class_o_h_l_c_dataset.html#a7b43901e7a0470c78b3a0615fe57052d" title="OHLCDataset::SetSerieName" alt="" coords="230,5,429,32"/>
+<area shape="rect" id="node3" href="$class_dataset.html#a7e0d46b9dcae0a8a7217d65a7bf2e1bd" title="Dataset::SetRenderer" alt="" coords="255,56,404,83"/>
+<area shape="rect" id="node4" href="$class_dataset.html#abbd74d3d8dac7de20aa254c4ab380362" title="Dataset::NeedRedraw" alt="" coords="253,107,405,133"/>
+<area shape="rect" id="node5" href="$class_category_simple_dataset.html#a6fc1ff1c990b1bd667a661459710b965" title="CategorySimpleDataset\l::AddSerie" alt="" coords="249,158,410,199"/>
+<area shape="rect" id="node6" href="$class_gantt_simple_dataset.html#aab82011805bd178f29b64a18e0e301a1" title="GanttSimpleDataset\l::AddSerie" alt="" coords="259,223,399,265"/>
+<area shape="rect" id="node7" href="$class_vector_dataset.html#a165d83dced539fbaf4a38b15ec2e1215" title="VectorDataset::Add" alt="" coords="261,289,398,316"/>
+<area shape="rect" id="node8" href="$class_vector_dataset.html#ac93027d11dc6cf99efcb961ff052b06e" title="VectorDataset::Replace" alt="" coords="248,340,411,367"/>
+<area shape="rect" id="node9" href="$class_vector_dataset.html#a059ce3858bd512397d7156da1c238a0d" title="VectorDataset::RemoveAt" alt="" coords="241,391,417,417"/>
+<area shape="rect" id="node10" href="$class_vector_dataset.html#a607405ed5324408edd91b607fe8f6886" title="VectorDataset::Clear" alt="" coords="257,441,402,468"/>
+<area shape="rect" id="node11" href="$class_x_y_dynamic_serie.html#ab2900563c5b3994371b38e50619e6d00" title="XYDynamicSerie::AddXY" alt="" coords="244,492,415,519"/>
+<area shape="rect" id="node12" href="$class_x_y_dynamic_serie.html#a9fbcfcb47af125f0e77e241aa2e9d0cf" title="XYDynamicSerie::Insert" alt="" coords="248,543,411,569"/>
+<area shape="rect" id="node13" href="$class_x_y_dynamic_serie.html#a0a516db8dab6a453e2ef64908624b1ba" title="XYDynamicSerie::Remove" alt="" coords="240,593,419,620"/>
+<area shape="rect" id="node14" href="$class_x_y_dynamic_serie.html#a5c80a2417e0da97ddc0e4b560d5c9dae" title="XYDynamicSerie::Clear" alt="" coords="249,644,410,671"/>
+<area shape="rect" id="node15" href="$class_x_y_dynamic_dataset.html#a8ae337f13edd934d5b7e52af213bb5ee" title="XYDynamicDataset::AddSerie" alt="" coords="230,695,429,721"/>
+<area shape="rect" id="node16" href="$class_x_y_simple_dataset.html#aaaa18837deb6f29e56f51a85a305b08b" title="XYSimpleDataset::AddSerie" alt="" coords="236,745,423,772"/>
+</map>

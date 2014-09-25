@@ -1,0 +1,6 @@
+<map id="NumberAxis::GetDataBounds" name="NumberAxis::GetDataBounds">
+<area shape="rect" id="node2" href="$class_logarithmic_number_axis.html#afbf34f2061de058f9a6bf358f1af0a5a" title="LogarithmicNumberAxis\l::GetValue" alt="" coords="249,5,410,46"/>
+<area shape="rect" id="node3" href="$class_logarithmic_number_axis.html#a8d83387d56c6b45cbd9362cb26c46524" title="LogarithmicNumberAxis\l::ToGraphics" alt="" coords="249,70,410,111"/>
+<area shape="rect" id="node4" href="$class_logarithmic_number_axis.html#a6047f45932c456facc5641d54d6a967a" title="LogarithmicNumberAxis\l::ToData" alt="" coords="249,135,410,177"/>
+<area shape="rect" id="node5" href="$class_logarithmic_number_axis.html#ae3b9d1ee88963bc9123fcdf6d93ca3fc" title="LogarithmicNumberAxis\l::IsVisible" alt="" coords="249,201,410,242"/>
+</map>

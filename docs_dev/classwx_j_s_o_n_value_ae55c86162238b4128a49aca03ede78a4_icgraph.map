@@ -1,12 +1,12 @@
 <map id="wxJSONValue::SetType" name="wxJSONValue::SetType">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="883,26,1037,52"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="667,76,834,103"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="433,102,618,128"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="433,203,617,230"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c" title="Append the specified value in the array. " alt="" coords="221,152,379,179"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#abf4d4e286a6339465e7b47efe48384e9" title="Clear the object value. " alt="" coords="229,254,371,280"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#af167cd46c230324f2571801bd231db19" title="Return the item at the specified index. " alt="" coords="231,304,369,331"/>
-<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#aede1a6d59ba20b3f32c6bbb6e8c8ea99" title="Assign the specified value to this object replacing the old value. " alt="" coords="216,355,384,382"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a3a72aff6716aeacf421bae0419248705" title="wxJSONValue::Append" alt="" coords="447,152,604,179"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a8f0f5b8cc1f8fc41e431725c6f07bbe5" title="Return the item at the specified index. " alt="" coords="441,304,609,331"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="897,27,1055,53"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="675,77,848,104"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="437,103,627,129"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="437,204,627,231"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c" title="Append the specified value in the array. " alt="" coords="224,153,384,180"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#abf4d4e286a6339465e7b47efe48384e9" title="Clear the object value. " alt="" coords="231,255,377,281"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#af167cd46c230324f2571801bd231db19" title="Return the item at the specified index. " alt="" coords="233,305,375,332"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#aede1a6d59ba20b3f32c6bbb6e8c8ea99" title="Assign the specified value to this object replacing the old value. " alt="" coords="219,356,389,383"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a3a72aff6716aeacf421bae0419248705" title="wxJSONValue::Append" alt="" coords="452,153,612,180"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a8f0f5b8cc1f8fc41e431725c6f07bbe5" title="Return the item at the specified index. " alt="" coords="447,305,617,332"/>
 </map>

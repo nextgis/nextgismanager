@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structwx_g_i_s_task_1_1__message.html" title="wxGISTask::_message" alt="" coords="6,5,162,32"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_map_main_cmd.html" title="The wxGISMAp main commands class. " alt="" coords="142,5,285,32"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_remote_cmd.html" title="The Remote Server GxObject commands (in context menu and/or toolbar). " alt="" coords="145,56,281,83"/>
 </map>

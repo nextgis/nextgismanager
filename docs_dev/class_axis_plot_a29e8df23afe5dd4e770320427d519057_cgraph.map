@@ -1,0 +1,8 @@
+<map id="AxisPlot::ToDataCoords" name="AxisPlot::ToDataCoords">
+<area shape="rect" id="node2" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="261,5,408,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="219,56,450,83"/>
+<area shape="rect" id="node4" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="227,107,443,133"/>
+<area shape="rect" id="node5" href="$class_axis.html#a9c899bd2fe9db3b17e8f0944334fa62a" title="Axis::ToData" alt="" coords="285,157,384,184"/>
+<area shape="rect" id="node6" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="499,132,648,159"/>
+<area shape="rect" id="node7" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="518,183,629,209"/>
+</map>

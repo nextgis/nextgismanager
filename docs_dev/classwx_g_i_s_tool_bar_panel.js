@@ -1,6 +1,6 @@
 var classwx_g_i_s_tool_bar_panel =
 [
-    [ "wxGISToolBarPanel", "classwx_g_i_s_tool_bar_panel.html#afc5ea77d0cb10a5ba5b58bed0ef3e6e1", null ],
+    [ "wxGISToolBarPanel", "classwx_g_i_s_tool_bar_panel.html#a6258f4ecfc72180f6eeee0b5fe059110", null ],
     [ "~wxGISToolBarPanel", "classwx_g_i_s_tool_bar_panel.html#afeda89df0bfeeac31950f991e9ad2df0", null ],
     [ "GetSelectedCommandItem", "classwx_g_i_s_tool_bar_panel.html#afc8df54dd2201e107638e66f02e5debb", null ],
     [ "LoadCommands", "classwx_g_i_s_tool_bar_panel.html#a85db904004b24f2e2d1a5526ef9805ad", null ],

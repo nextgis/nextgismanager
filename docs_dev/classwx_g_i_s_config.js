@@ -18,6 +18,7 @@ var classwx_g_i_s_config =
     [ "ReadBool", "classwx_g_i_s_config.html#aaccb471d90cdb9e17ad6c7cf9aa29fdf", null ],
     [ "ReadDouble", "classwx_g_i_s_config.html#ac82b00f9b97e324c5a2e23526dc7513b", null ],
     [ "ReadInt", "classwx_g_i_s_config.html#ae89d7a6ef1e72a59ab0480990fd09215", null ],
+    [ "ReportPaths", "classwx_g_i_s_config.html#a5df72c251c53b689fc35163100625257", null ],
     [ "Save", "classwx_g_i_s_config.html#a076e62755a606c4deae0709be5c2170c", null ],
     [ "SplitPathToAttribute", "classwx_g_i_s_config.html#ae9dae18ba7412b1af1e901dfc3f7165f", null ],
     [ "SplitPathToXml", "classwx_g_i_s_config.html#a193b1ed0b8317f09689e63f19932b154", null ],

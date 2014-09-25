@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classwx_gx_map_view_event.html" title="The MapView class event. " alt="" coords="6,5,146,32"/>
+<area shape="rect" id="node2" href="$structwx_g_i_s_r_tree_node_1_1_sort_bounded_items_by_area_enlargement.html" title="wxGISRTreeNode::SortBounded\lItemsByAreaEnlargement" alt="" coords="166,5,378,46"/>
+<area shape="rect" id="node3" href="$structwx_g_i_s_r_tree_node_1_1_sort_bounded_items_by_distance_from_center.html" title="wxGISRTreeNode::SortBounded\lItemsByDistanceFromCenter" alt="" coords="166,70,378,111"/>
+<area shape="rect" id="node4" href="$structwx_g_i_s_r_tree_node_1_1_sort_bounded_items_by_edge.html" title="wxGISRTreeNode::SortBounded\lItemsByEdge" alt="" coords="166,135,378,177"/>
+<area shape="rect" id="node5" href="$structwx_g_i_s_r_tree_node_1_1_sort_bounded_items_by_overlap_enlargement.html" title="wxGISRTreeNode::SortBounded\lItemsByOverlapEnlargement" alt="" coords="166,201,378,242"/>
 </map>

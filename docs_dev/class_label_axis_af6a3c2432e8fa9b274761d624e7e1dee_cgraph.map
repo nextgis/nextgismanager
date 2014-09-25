@@ -1,0 +1,8 @@
+<map id="LabelAxis::DrawGridLines" name="LabelAxis::DrawGridLines">
+<area shape="rect" id="node2" href="$class_label_axis.html#a8cfb59a44c5f5a1b4374f1a492b01f1a" title="LabelAxis::IsEnd" alt="" coords="237,5,358,32"/>
+<area shape="rect" id="node3" href="$class_label_axis.html#a403504d83feec6983c4d1ec2a36373db" title="LabelAxis::GetValue" alt="" coords="227,56,368,83"/>
+<area shape="rect" id="node4" href="$class_axis.html#a19c39d2941252a78117238b0a93e749f" title="Axis::IsVisible" alt="" coords="244,107,351,133"/>
+<area shape="rect" id="node6" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="435,195,546,221"/>
+<area shape="rect" id="node7" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="236,157,359,184"/>
+<area shape="rect" id="node5" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="416,132,565,159"/>
+</map>

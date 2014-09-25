@@ -2,6 +2,7 @@ var classwx_g_i_s_geometry =
 [
     [ "wxGISGeometry", "classwx_g_i_s_geometry.html#a36675195a307c062ba5c1f97a0fe9230", null ],
     [ "Buffer", "classwx_g_i_s_geometry.html#a1f46d9fab07d51f78ebfaa30abc5016a", null ],
+    [ "Clone", "classwx_g_i_s_geometry.html#ac025ac43892e2fbf07828dfb5bb7b481", null ],
     [ "CloneRefData", "classwx_g_i_s_geometry.html#abd120f128608e5b045697ca60bb3d3c3", null ],
     [ "Copy", "classwx_g_i_s_geometry.html#ad6604132fbf97b5c0a57289635592378", null ],
     [ "CreateRefData", "classwx_g_i_s_geometry.html#ae074325db29f0bcabf68e04128877199", null ],
@@ -18,6 +19,7 @@ var classwx_g_i_s_geometry =
     [ "Project", "classwx_g_i_s_geometry.html#ae87a07cf5eee2c2a3c1ff95edd18474e", null ],
     [ "Project", "classwx_g_i_s_geometry.html#a781c04caea90728f60dd6cde4516fc76", null ],
     [ "SetSpatialReference", "classwx_g_i_s_geometry.html#acd81e0c63e0277890ecf82d369372173", null ],
+    [ "Steal", "classwx_g_i_s_geometry.html#a599b238ab333d090ab3fe3121fadc89f", null ],
     [ "Union", "classwx_g_i_s_geometry.html#ad0c5e91a60893a5f3336b9eb98c8d8e6", null ],
     [ "UnionCascaded", "classwx_g_i_s_geometry.html#a1759abab4ae3011d3fa540388c094a3e", null ]
 ];

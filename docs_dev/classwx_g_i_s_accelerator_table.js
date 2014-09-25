@@ -5,7 +5,7 @@ var classwx_g_i_s_accelerator_table =
     [ "Add", "classwx_g_i_s_accelerator_table.html#a6e6695ca9458f72a245cee259f966071", null ],
     [ "GetAcceleratorTable", "classwx_g_i_s_accelerator_table.html#a95eac6b1bdda97a8f31687dcb9ec18db", null ],
     [ "GetEntry", "classwx_g_i_s_accelerator_table.html#aba6a98ab0a110a01b0752564e4737e4d", null ],
-    [ "GetFlags", "classwx_g_i_s_accelerator_table.html#aff7df959bd22c26fb2208ea74d78b7d5", null ],
+    [ "GetFlags", "classwx_g_i_s_accelerator_table.html#ab85031bc624b8898a626e67906748194", null ],
     [ "GetKeyCode", "classwx_g_i_s_accelerator_table.html#a22180816ac62b32ef9df0c9a91915baa", null ],
     [ "GetText", "classwx_g_i_s_accelerator_table.html#a284032d26e061581e8a5708a21972b5c", null ],
     [ "HasChanges", "classwx_g_i_s_accelerator_table.html#a15aa65b2e437c55fe9e5c1a2ff290547", null ],

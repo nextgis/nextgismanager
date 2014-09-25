@@ -1,10 +1,11 @@
 <map id="wxGxDiscConnectionsUI" name="wxGxDiscConnectionsUI">
-<area shape="rect" id="node2" href="$classwx_gx_disc_connections.html" title="The Disc Connections GxRootObject. " alt="" coords="130,304,283,331"/>
-<area shape="rect" id="node3" href="$classwx_gx_j_s_o_n_connection_storage.html" title="The class support for storing and updating json file connections. " alt="" coords="5,229,203,256"/>
-<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="30,155,177,181"/>
-<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="57,80,151,107"/>
-<area shape="rect" id="node7" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="227,229,393,256"/>
-<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="307,304,399,331"/>
-<area shape="rect" id="node9" href="$class_i_gx_object_sort.html" title="A Interface class for GxObject sort order in GxObjectContainer. " alt="" coords="424,304,528,331"/>
-<area shape="rect" id="node10" href="$classwx_gx_auto_renamer.html" title="Begin Rename created object. " alt="" coords="553,304,687,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="238,304,393,331"/>
+<area shape="rect" id="node3" href="$classwx_gx_j_s_o_n_connection_storage.html" title="wxGxJSONConnectionStorage" alt="" coords="5,229,208,256"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="31,155,181,181"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="59,80,153,107"/>
+<area shape="rect" id="node7" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="232,229,400,256"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="425,229,551,256"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="418,304,512,331"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_sort.html" title="IGxObjectSort" alt="" coords="537,304,641,331"/>
+<area shape="rect" id="node11" href="$classwx_gx_auto_renamer.html" title="wxGxAutoRenamer" alt="" coords="665,304,800,331"/>
 </map>

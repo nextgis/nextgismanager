@@ -1,6 +1,6 @@
 var classwx_g_i_s_customize_dlg =
 [
-    [ "wxGISCustomizeDlg", "classwx_g_i_s_customize_dlg.html#ae6e216ea26e9a323986d65a002d6e6d4", null ],
+    [ "wxGISCustomizeDlg", "classwx_g_i_s_customize_dlg.html#adf514def2467ae414603b82a8fff19ff", null ],
     [ "~wxGISCustomizeDlg", "classwx_g_i_s_customize_dlg.html#afc78e452ff49d0b96f15b61e75ca19b3", null ],
     [ "EndModal", "classwx_g_i_s_customize_dlg.html#ae70ef1066c585ada37d1ecf82f0a59f1", null ],
     [ "SerializeFramePos", "classwx_g_i_s_customize_dlg.html#a3725dcc9fa239ea22d15fb65f6365edd", null ],

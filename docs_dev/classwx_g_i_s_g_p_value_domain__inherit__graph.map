@@ -1,5 +1,5 @@
 <map id="wxGISGPValueDomain" name="wxGISGPValueDomain">
-<area shape="rect" id="node4" href="$classwx_g_i_s_g_p_gx_object_domain.html" title="The domain storing GxObjectFilters. " alt="" coords="5,155,184,181"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_g_p_string_domain.html" title="The domain storing strings. " alt="" coords="208,155,365,181"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="169,5,380,32"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_g_p_gx_object_domain.html" title="The domain storing GxObjectFilters. " alt="" coords="5,155,187,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_g_p_string_domain.html" title="The domain storing strings. " alt="" coords="211,155,369,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="171,5,385,32"/>
 </map>

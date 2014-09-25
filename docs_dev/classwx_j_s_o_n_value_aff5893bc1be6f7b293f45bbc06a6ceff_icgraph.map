@@ -1,16 +1,16 @@
 <map id="wxJSONValue::TypeToString" name="wxJSONValue::TypeToString">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250" title="Return the stored value as a wxWidget&#39;s string. " alt="" coords="243,162,405,189"/>
-<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#aa8e56ed1cce96214b5c9151437391c32" title="Returns informations about the object. " alt="" coords="251,284,397,310"/>
-<area shape="rect" id="node13" href="$classwx_j_s_o_n_value.html#a581149b30c5ac84138c69c5c48007d78" title="Returns informations about the object. " alt="" coords="247,356,401,382"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="689,61,855,88"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="454,36,639,62"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="454,86,639,113"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="455,137,639,164"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a1683db15ee6b7bdff96b98f44950f5ce" title="Return this string value in the provided argument. " alt="" coords="465,188,628,214"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="465,238,628,265"/>
-<area shape="rect" id="node11" href="$classwx_client_t_c_p_net_connection.html#a22f483162d910baf7578a925de46cebb" title="Set Properties of plugin. " alt="" coords="456,290,637,331"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="904,61,1059,88"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="699,238,845,265"/>
-<area shape="rect" id="node14" href="$classwx_j_s_o_n_value.html#a5fbd4722c4e93dc5de165932151e725e" title="Return the item at the specified key. " alt="" coords="477,356,616,382"/>
-<area shape="rect" id="node15" href="$classwx_j_s_o_n_value.html#adce272aa87b69e70dc3567a3ba9f19b2" title="Return the item at the specified key. " alt="" coords="471,406,622,433"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250" title="Return the stored value as a wxWidget&#39;s string. " alt="" coords="249,163,415,189"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#aa8e56ed1cce96214b5c9151437391c32" title="Returns informations about the object. " alt="" coords="257,284,407,311"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_value.html#a581149b30c5ac84138c69c5c48007d78" title="Returns informations about the object. " alt="" coords="253,356,411,383"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="704,61,877,88"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="465,36,655,63"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="465,87,655,113"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="465,137,655,164"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a1683db15ee6b7bdff96b98f44950f5ce" title="Return this string value in the provided argument. " alt="" coords="477,188,643,215"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="477,239,643,265"/>
+<area shape="rect" id="node11" href="$classwx_client_t_c_p_net_connection.html#a22f483162d910baf7578a925de46cebb" title="Set Properties of plugin. " alt="" coords="467,290,653,331"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="926,61,1085,88"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="716,239,865,265"/>
+<area shape="rect" id="node14" href="$classwx_j_s_o_n_value.html#a5fbd4722c4e93dc5de165932151e725e" title="Return the item at the specified key. " alt="" coords="489,356,631,383"/>
+<area shape="rect" id="node15" href="$classwx_j_s_o_n_value.html#adce272aa87b69e70dc3567a3ba9f19b2" title="Return the item at the specified key. " alt="" coords="483,407,637,433"/>
 </map>

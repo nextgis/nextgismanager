@@ -1,0 +1,10 @@
+<map id="GanttRenderer::Draw" name="GanttRenderer::Draw">
+<area shape="rect" id="node2" href="$class_dataset.html#af622220ac28820f2fb1a5d32b713c732" title="Dataset::GetSerieCount" alt="" coords="213,5,376,32"/>
+<area shape="rect" id="node3" href="$class_date_time_dataset.html#aa2c3c302e5d8a024e61b4e17dabf8a8d" title="DateTimeDataset::GetCount" alt="" coords="200,56,389,83"/>
+<area shape="rect" id="node4" href="$class_gantt_dataset.html#abe0b6f2c06495026874efa722870c63e" title="GanttDataset::GetStart" alt="" coords="216,107,373,133"/>
+<area shape="rect" id="node5" href="$class_gantt_dataset.html#aa8a79c700958e7885a89c21acc3ce837" title="GanttDataset::GetEnd" alt="" coords="219,157,371,184"/>
+<area shape="rect" id="node6" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="233,208,356,235"/>
+<area shape="rect" id="node9" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="235,259,354,285"/>
+<area shape="rect" id="node7" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="437,183,587,209"/>
+<area shape="rect" id="node8" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="457,233,567,260"/>
+</map>

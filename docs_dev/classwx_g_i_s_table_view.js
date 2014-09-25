@@ -9,7 +9,7 @@ var classwx_g_i_s_table_view =
     [ "OnBtnLast", "classwx_g_i_s_table_view.html#a1cd1295860868500cf7eb7fed4a564ad", null ],
     [ "OnBtnNext", "classwx_g_i_s_table_view.html#aebc534e6af9ea7b2be6b63d2783b8a6b", null ],
     [ "OnBtnPrev", "classwx_g_i_s_table_view.html#aec2aef2fcf093bc65b1187c93ebd1cb6", null ],
-    [ "OnLabelLeftClick", "classwx_g_i_s_table_view.html#aa93b2a783aab598172aa9b4959db673c", null ],
+    [ "OnEncodingSelect", "classwx_g_i_s_table_view.html#a3d788121db8495f25f6c70a9ae791bb6", null ],
     [ "OnSelectCell", "classwx_g_i_s_table_view.html#abd6aae5ffc11116df7653b627ede3804", null ],
     [ "OnSetPos", "classwx_g_i_s_table_view.html#a7f1965a7927fc18dde8e8d5353c7193c", null ],
     [ "SetReadOnly", "classwx_g_i_s_table_view.html#afa96e1cafe2f9402e69b70c7c177ebff", null ],
@@ -19,7 +19,12 @@ var classwx_g_i_s_table_view =
     [ "m_bpNext", "classwx_g_i_s_table_view.html#a9d20ddb124ea130f7402a0f5409424c7", null ],
     [ "m_bpPrev", "classwx_g_i_s_table_view.html#a2a2ed74248c30aa40e16b42bcf82e58e", null ],
     [ "m_grid", "classwx_g_i_s_table_view.html#acdde3a9702f2176f504f4a9285672958", null ],
+    [ "m_mnEnc", "classwx_g_i_s_table_view.html#a9e022e089bf4a7b67d2f7499563118be", null ],
+    [ "m_pEncodingsCombo", "classwx_g_i_s_table_view.html#ac2820e518f9eb7420ac5f5ed71a30a16", null ],
     [ "m_position", "classwx_g_i_s_table_view.html#a4e0a1a03ae6625130d7eb5590323119d", null ],
+    [ "m_staticline1", "classwx_g_i_s_table_view.html#ace49a4aba6569ddbe4440b2c95dca85e", null ],
     [ "m_staticText1", "classwx_g_i_s_table_view.html#ae5fce936a37360a061edf07072df818d", null ],
-    [ "m_staticText2", "classwx_g_i_s_table_view.html#a3b443301c0371fdc232853fffff1e40c", null ]
+    [ "m_staticText2", "classwx_g_i_s_table_view.html#a3b443301c0371fdc232853fffff1e40c", null ],
+    [ "m_staticText3", "classwx_g_i_s_table_view.html#a66137e86a37d45d3991cae5999e5baef", null ],
+    [ "m_staticText4", "classwx_g_i_s_table_view.html#a2228a264af16b5f11ccb22253dd29c3b", null ]
 ];

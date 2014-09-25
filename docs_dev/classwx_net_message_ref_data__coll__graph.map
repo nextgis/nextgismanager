@@ -1,5 +1,5 @@
 <map id="wxNetMessageRefData" name="wxNetMessageRefData">
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html" title="The JSON value class implementation. " alt="" coords="153,187,257,213"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="146,96,264,123"/>
-<area shape="rect" id="node5" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="134,5,276,32"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html" title="The JSON value class implementation. " alt="" coords="155,187,263,213"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="147,96,271,123"/>
+<area shape="rect" id="node5" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="136,5,283,32"/>
 </map>

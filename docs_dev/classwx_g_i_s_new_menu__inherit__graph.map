@@ -1,6 +1,6 @@
 <map id="wxGISNewMenu" name="wxGISNewMenu">
-<area shape="rect" id="node2" href="$classwx_g_i_s_menu.html" title="wxGISMenu class. " alt="" coords="103,155,195,181"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar class. " alt="" coords="100,80,239,107"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="219,155,337,181"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="115,5,216,32"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_menu.html" title="wxGISMenu" alt="" coords="102,155,196,181"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar" alt="" coords="99,80,241,107"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="221,155,344,181"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="117,5,219,32"/>
 </map>

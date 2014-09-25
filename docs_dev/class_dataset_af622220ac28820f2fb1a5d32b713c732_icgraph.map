@@ -1,0 +1,13 @@
+<map id="Dataset::GetSerieCount" name="Dataset::GetSerieCount">
+<area shape="rect" id="node2" href="$class_normal_bar_type.html#a0c2a1065e899e41ca9a1e511cd9d0e42" title="NormalBarType::GetBarGeometry" alt="" coords="219,5,437,32"/>
+<area shape="rect" id="node3" href="$class_layered_bar_type.html#ad4605c6aa659a7718b537d78ad962e69" title="LayeredBarType::GetBarGeometry" alt="" coords="217,56,439,83"/>
+<area shape="rect" id="node4" href="$class_gantt_renderer.html#a7606b103450021ad5c49dffe31baa82c" title="GanttRenderer::Draw" alt="" coords="255,107,401,133"/>
+<area shape="rect" id="node6" href="$class_pie_plot.html#aa55d3d950736f153cfdd463f6d3c8dfc" title="PiePlot::HasData" alt="" coords="266,157,390,184"/>
+<area shape="rect" id="node7" href="$class_x_y_dataset.html#a367c1d95f5cf0dd3d2ed06208c4de372" title="XYDataset::GetMaxY" alt="" coords="253,208,403,235"/>
+<area shape="rect" id="node9" href="$class_x_y_dataset.html#a95748cd6a445cef0d77b625149fdbee9" title="XYDataset::GetMinY" alt="" coords="255,309,401,336"/>
+<area shape="rect" id="node11" href="$class_x_y_dataset.html#a9f3d82b6f49f167ca080aedf9926b2d0" title="XYDataset::GetMaxX" alt="" coords="253,259,403,285"/>
+<area shape="rect" id="node12" href="$class_x_y_dataset.html#afc0b3af8ebc4ed48591fa0bbb070d5c7" title="XYDataset::GetMinX" alt="" coords="255,360,401,387"/>
+<area shape="rect" id="node5" href="$class_gantt_plot.html#ad00fdee6a5bbb2c4566f57e41bea39d0" title="GanttPlot::DrawDatasets" alt="" coords="490,107,659,133"/>
+<area shape="rect" id="node8" href="$class_x_y_dataset.html#a94b8dc048476f68cf53fa97799db12f5" title="XYDataset::GetMaxValue" alt="" coords="488,247,661,273"/>
+<area shape="rect" id="node10" href="$class_x_y_dataset.html#a525bd0a24fda458b9959968e9d9b9c37" title="XYDataset::GetMinValue" alt="" coords="490,323,659,349"/>
+</map>

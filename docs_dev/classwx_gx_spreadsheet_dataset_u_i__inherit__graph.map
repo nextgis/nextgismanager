@@ -1,0 +1,10 @@
+<map id="wxGxSpreadsheetDatasetUI" name="wxGxSpreadsheetDatasetUI">
+<area shape="rect" id="node2" href="$classwx_gx_spreadsheet_dataset.html" title="wxGxSpreadsheetDataset" alt="" coords="145,304,319,331"/>
+<area shape="rect" id="node3" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="153,229,311,256"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="5,155,155,181"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="33,80,127,107"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="180,155,284,181"/>
+<area shape="rect" id="node8" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="309,155,397,181"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="343,304,437,331"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="462,304,580,331"/>
+</map>

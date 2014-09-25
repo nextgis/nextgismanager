@@ -1,7 +1,7 @@
 var classwx_g_i_s_command_panel =
 [
     [ "CATEGORYMAP", "classwx_g_i_s_command_panel.html#ae65f824c8bce6df9ba76e1ac6453ae5c", null ],
-    [ "wxGISCommandPanel", "classwx_g_i_s_command_panel.html#ac2d7c210a3b2147aebc05570d3689195", null ],
+    [ "wxGISCommandPanel", "classwx_g_i_s_command_panel.html#a36010e5608cba4f1c2703f26c3bd2eeb", null ],
     [ "~wxGISCommandPanel", "classwx_g_i_s_command_panel.html#a8c8688eddf6132769f00f11b5a394546", null ],
     [ "m_splitter2OnIdle", "classwx_g_i_s_command_panel.html#aaa749858825574e0d826fdb45ffe6e9f", null ],
     [ "OnDoubleClickSash", "classwx_g_i_s_command_panel.html#a376b821a78d79277e8d98d0cd73c014a", null ],

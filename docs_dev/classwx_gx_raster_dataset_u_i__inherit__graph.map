@@ -1,10 +1,10 @@
 <map id="wxGxRasterDatasetUI" name="wxGxRasterDatasetUI">
-<area shape="rect" id="node2" href="$classwx_gx_raster_dataset.html" title="A Raster Dataset GxObject. " alt="" coords="108,229,247,256"/>
-<area shape="rect" id="node3" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="127,155,227,181"/>
-<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
-<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
-<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="253,80,339,107"/>
-<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="271,229,363,256"/>
-<area shape="rect" id="node9" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="388,229,503,256"/>
-<area shape="rect" id="node10" href="$class_i_gx_object_wizard.html" title="A Interface class for GxObject wisards. " alt="" coords="527,229,648,256"/>
+<area shape="rect" id="node2" href="$classwx_gx_raster_dataset.html" title="wxGxRasterDataset" alt="" coords="111,229,251,256"/>
+<area shape="rect" id="node3" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="130,155,232,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,80,104,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="129,80,233,107"/>
+<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="258,80,347,107"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="277,229,371,256"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="395,229,513,256"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_wizard.html" title="IGxObjectWizard" alt="" coords="539,229,661,256"/>
 </map>

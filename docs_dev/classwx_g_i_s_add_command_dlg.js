@@ -1,7 +1,7 @@
 var classwx_g_i_s_add_command_dlg =
 [
     [ "CATEGORYMAP", "classwx_g_i_s_add_command_dlg.html#abb2b9f4d5872ade4e671e8f5a236466f", null ],
-    [ "wxGISAddCommandDlg", "classwx_g_i_s_add_command_dlg.html#a24c8d1eb70cf68bddcb2ee2f35a0e85a", null ],
+    [ "wxGISAddCommandDlg", "classwx_g_i_s_add_command_dlg.html#abee216e1e5710ef61a208ee923681356", null ],
     [ "~wxGISAddCommandDlg", "classwx_g_i_s_add_command_dlg.html#a18e1d0e37eeed89afa7efc0af66dfbf1", null ],
     [ "EndModal", "classwx_g_i_s_add_command_dlg.html#ac4bfb5cdac80de4cf736d8530a0a2a2b", null ],
     [ "FillIDArray", "classwx_g_i_s_add_command_dlg.html#a3bdedc6c9b1449dbd665bf41cb1cd872", null ],

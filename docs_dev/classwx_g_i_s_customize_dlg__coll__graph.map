@@ -1,13 +1,12 @@
 <map id="wxGISCustomizeDlg" name="wxGISCustomizeDlg">
-<area shape="rect" id="node3" href="$classwx_g_i_s_application_ex.html" title="An application framework class with aui mngr. " alt="" coords="275,443,415,469"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_application.html" title="A wxGISApplication class. " alt="" coords="283,365,407,392"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="104,275,259,301"/>
-<area shape="rect" id="node7" href="$class_i_application.html" title="IApplication" alt="" coords="47,133,136,160"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="122,83,240,109"/>
-<area shape="rect" id="node9" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="157,184,205,211"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="252,184,364,211"/>
-<area shape="rect" id="node13" href="$class_i_drop_down_command.html" title="A IDropDownCommand interface class. " alt="" coords="283,275,425,301"/>
-<area shape="rect" id="node14" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="467,275,564,301"/>
-<area shape="rect" id="node15" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="472,184,560,211"/>
-<area shape="rect" id="node16" href="$classwx_g_i_s_accelerator_table.html" title="wxGISAcceleratorTable" alt="" coords="589,275,747,301"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_application_ex.html" title="wxGISApplicationEx" alt="" coords="191,443,333,469"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_application.html" title="wxGISApplication" alt="" coords="199,365,325,392"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="110,275,265,301"/>
+<area shape="rect" id="node7" href="$class_i_application.html" title="IApplication" alt="" coords="5,133,96,160"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="79,83,201,109"/>
+<area shape="rect" id="node9" href="$class_i_tool.html" title="ITool" alt="" coords="115,184,165,211"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="204,184,319,211"/>
+<area shape="rect" id="node13" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="290,275,389,301"/>
+<area shape="rect" id="node14" href="$class_i_progressor.html" title="IProgressor" alt="" coords="343,184,432,211"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_accelerator_table.html" title="wxGISAcceleratorTable" alt="" coords="413,275,572,301"/>
 </map>

@@ -1,0 +1,6 @@
+<map id="Renderer::GetSerieColour" name="Renderer::GetSerieColour">
+<area shape="rect" id="node2" href="$class_renderer.html#a89c3a0fc8cc946017643c6bda9805ba0" title="Renderer::DrawLegendSymbol" alt="" coords="227,5,427,32"/>
+<area shape="rect" id="node5" href="$class_x_y_area_renderer.html#adc1bb12c848b96544c31269906dee23c" title="XYAreaRenderer::Draw" alt="" coords="247,56,406,83"/>
+<area shape="rect" id="node3" href="$class_legend.html#ade1b55dc49cb705a172e4ddcbe442fce" title="Legend::Draw" alt="" coords="475,5,578,32"/>
+<area shape="rect" id="node4" href="$class_pie_plot.html#a10248529a8b867301f267b537aeb859a" title="PiePlot::DrawData" alt="" coords="627,5,757,32"/>
+</map>

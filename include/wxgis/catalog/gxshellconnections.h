@@ -29,7 +29,7 @@
 
     The shell connections root item.  This root item can held connections (*.shconn) and folder items
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxShellConnections :

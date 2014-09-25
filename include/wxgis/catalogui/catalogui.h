@@ -41,7 +41,7 @@
     
     A Interface class for GxObject sort order in GxObjectContainer.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxObjectSort
 {
@@ -55,7 +55,7 @@ public:
     
     A Interface class for GxObject wisards. If double clicked on gxobject inherited from this interface the Invoke method is executed
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxObjectWizard
 {
@@ -68,7 +68,7 @@ public:
     
     A Interface class for GxObject UI. This interface class provides some UI onformation (icons, menues, etc.)
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxObjectUI
 {
@@ -85,7 +85,7 @@ public:
     
     A Interface class for GxObject UI edits. This interface class provides edit properties dialog for "Properties" command
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxObjectEditUI
 {
@@ -107,7 +107,7 @@ enum wxGISEnumContentsViewStyle
 
     The IGxContentsView interface class. The GxViews which should support Style Changing like switch between report view to list view mast derived from this class.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxContentsView
 {
@@ -123,7 +123,7 @@ public:
     
     A DropTarget interface class. The GxObject which should support drag'n'drop capability mast derived from this class.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxDropTarget
 {
@@ -137,7 +137,7 @@ public:
     
     A Interface class for GxObject item view and behaviour in tree.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 class IGxObjectTreeAttr
 {

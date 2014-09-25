@@ -1,8 +1,9 @@
 <map id="wxGISDTPath" name="wxGISDTPath">
-<area shape="rect" id="node2" href="$classwx_g_i_s_d_t_base.html" title="The base class for tool dialog controls. " alt="" coords="920,56,1027,83"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_g_p_parameter_array.html" title="wxGISGPParameterArray" alt="" coords="632,56,803,83"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_g_p_parameter.html" title="A Geoprocessing tools parameter class. " alt="" coords="648,132,787,159"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="5,89,216,116"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_g_p_value_domain.html" title="wxGISGPValueDomain" alt="" coords="353,132,509,159"/>
-<area shape="rect" id="node9" href="$class_i_g_i_s_g_p_domain_parent.html" title="IGISGPDomainParent" alt="" coords="37,216,185,243"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_d_t_base.html" title="wxGISDTBase" alt="" coords="938,56,1049,83"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_g_p_parameter_array.html" title="wxGISGPParameterArray" alt="" coords="643,56,815,83"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_g_p_parameter.html" title="A Geoprocessing tools parameter class. " alt="" coords="659,132,800,159"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="6,89,221,116"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_g_p_value_domain.html" title="wxGISGPValueDomain" alt="" coords="361,132,519,159"/>
+<area shape="rect" id="node9" href="$class_i_g_i_s_g_p_domain_parent.html" title="IGISGPDomainParent" alt="" coords="38,216,189,243"/>
+<area shape="rect" id="node12" href="$class_i_view_drop_target.html" title="IViewDropTarget" alt="" coords="933,107,1053,133"/>
 </map>

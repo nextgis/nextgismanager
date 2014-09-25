@@ -1,2 +1,7 @@
 <map id="wxFeatureCursorRefData" name="wxFeatureCursorRefData">
+<area shape="rect" id="node3" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="209,251,303,277"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="71,173,179,200"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="44,83,207,109"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="231,83,333,109"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="203,173,417,200"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="wxGISMap" name="wxGISMap">
-<area shape="rect" id="node2" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="5,173,163,200"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="187,173,289,200"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="193,83,284,109"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="5,96,168,123"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="192,96,299,123"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="199,5,292,32"/>
 </map>

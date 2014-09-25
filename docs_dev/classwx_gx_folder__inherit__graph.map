@@ -1,16 +1,23 @@
 <map id="wxGxFolder" name="wxGxFolder">
-<area shape="rect" id="node6" href="$classwx_gx_archive_folder.html" title="The Archive Folder GxObject. " alt="" coords="643,56,776,83"/>
-<area shape="rect" id="node10" href="$classwx_gx_d_b_connections.html" title="The database connections root item. " alt="" coords="637,107,782,133"/>
-<area shape="rect" id="node12" href="$classwx_gx_disc_connection.html" title="A Disc Connection GxObject. " alt="" coords="636,157,783,184"/>
-<area shape="rect" id="node14" href="$classwx_gx_folder_u_i.html" title="A folder GxObject. " alt="" coords="658,208,761,235"/>
-<area shape="rect" id="node15" href="$classwx_gx_web_connections.html" title="The web services connections root item. " alt="" coords="632,259,787,285"/>
-<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="297,132,445,159"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="155,132,248,159"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="319,183,422,209"/>
-<area shape="rect" id="node7" href="$classwx_gx_archive.html" title="The Archive GxObject. " alt="" coords="870,5,967,32"/>
-<area shape="rect" id="node9" href="$classwx_gx_archive_folder_u_i.html" title="An archive folder GxObject. " alt="" coords="846,56,991,83"/>
-<area shape="rect" id="node8" href="$classwx_gx_archive_u_i.html" title="An archive GxObject. " alt="" coords="1051,5,1160,32"/>
-<area shape="rect" id="node11" href="$classwx_gx_d_b_connections_u_i.html" title="The database connections root item in user interface. " alt="" coords="840,107,997,133"/>
-<area shape="rect" id="node13" href="$classwx_gx_disc_connection_u_i.html" title="A Disc Connection GxObject. " alt="" coords="839,157,998,184"/>
-<area shape="rect" id="node16" href="$classwx_gx_web_connections_u_i.html" title="The web service connections root item in user interface. " alt="" coords="835,259,1002,285"/>
+<area shape="rect" id="node7" href="$classwx_gx_archive_folder.html" title="wxGxArchiveFolder" alt="" coords="655,81,791,108"/>
+<area shape="rect" id="node15" href="$classwx_gx_d_b_connections.html" title="wxGxDBConnections" alt="" coords="649,157,797,184"/>
+<area shape="rect" id="node17" href="$classwx_gx_disc_connection.html" title="wxGxDiscConnection" alt="" coords="648,208,797,235"/>
+<area shape="rect" id="node19" href="$classwx_gx_folder_u_i.html" title="wxGxFolderUI" alt="" coords="669,259,776,285"/>
+<area shape="rect" id="node20" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="643,309,802,336"/>
+<area shape="rect" id="node22" href="$classwx_gx_web_connections.html" title="wxGxWebConnections" alt="" coords="645,360,801,387"/>
+<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="302,183,453,209"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="158,183,253,209"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="325,233,429,260"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="314,284,441,311"/>
+<area shape="rect" id="node8" href="$classwx_gx_archive.html" title="wxGxArchive" alt="" coords="887,5,987,32"/>
+<area shape="rect" id="node10" href="$classwx_gx_archive_folder_u_i.html" title="wxGxArchiveFolderUI" alt="" coords="862,56,1013,83"/>
+<area shape="rect" id="node12" href="$classwx_gx_prj_folder.html" title="wxGxPrjFolder" alt="" coords="883,107,991,133"/>
+<area shape="rect" id="node9" href="$classwx_gx_archive_u_i.html" title="wxGxArchiveUI" alt="" coords="1115,5,1229,32"/>
+<area shape="rect" id="node11" href="$classwx_gx_prj_folder_u_i.html" title="wxGxPrjFolderUI" alt="" coords="1111,56,1233,83"/>
+<area shape="rect" id="node13" href="$classwx_gx_spatial_references_folder.html" title="wxGxSpatialReferencesFolder" alt="" coords="1073,107,1271,133"/>
+<area shape="rect" id="node14" href="$classwx_gx_spatial_references_folder_u_i.html" title="wxGxSpatialReferencesFolderUI" alt="" coords="1320,107,1533,133"/>
+<area shape="rect" id="node16" href="$classwx_gx_d_b_connections_u_i.html" title="wxGxDBConnectionsUI" alt="" coords="856,157,1019,184"/>
+<area shape="rect" id="node18" href="$classwx_gx_disc_connection_u_i.html" title="wxGxDiscConnectionUI" alt="" coords="856,208,1019,235"/>
+<area shape="rect" id="node21" href="$classwx_gx_shell_connections_u_i.html" title="wxGxShellConnectionsUI" alt="" coords="851,309,1023,336"/>
+<area shape="rect" id="node23" href="$classwx_gx_web_connections_u_i.html" title="wxGxWebConnectionsUI" alt="" coords="852,360,1023,387"/>
 </map>

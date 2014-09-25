@@ -4,6 +4,7 @@ var classwx_gx_feature_dataset_filter =
     [ "~wxGxFeatureDatasetFilter", "classwx_gx_feature_dataset_filter.html#ac25ae704c33eff7515f081639d0527cc", null ],
     [ "CanChooseObject", "classwx_gx_feature_dataset_filter.html#a07481c156af83682663adaffafb53792", null ],
     [ "CanDisplayObject", "classwx_gx_feature_dataset_filter.html#a9183618ece07d98501ac8ecab3082439", null ],
+    [ "CanStoreToObject", "classwx_gx_feature_dataset_filter.html#acaee6528cb0fa742837d1fa84ca6d612", null ],
     [ "GetDriver", "classwx_gx_feature_dataset_filter.html#ac968f0668c83ec54e1925294a88370ee", null ],
     [ "GetExt", "classwx_gx_feature_dataset_filter.html#a776d937efccb9e0d141c910f8e09a9d5", null ],
     [ "GetName", "classwx_gx_feature_dataset_filter.html#a72ae0a32a12dbce7b3c29a74293802f5", null ],

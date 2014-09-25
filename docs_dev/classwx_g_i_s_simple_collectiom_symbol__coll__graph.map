@@ -1,9 +1,0 @@
-<map id="wxGISSimpleCollectiomSymbol" name="wxGISSimpleCollectiomSymbol">
-<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="325,264,429,291"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_simple_marker_symbol.html" title="The class for simple marker symbols. " alt="" coords="5,341,189,368"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_simple_line_symbol.html" title="The class for simple line symbols. " alt="" coords="235,341,403,368"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_simple_fill_symbol.html" title="The class for simple fill symbols. " alt="" coords="359,432,520,459"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="140,173,241,200"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="244,83,335,109"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="367,173,469,200"/>
-</map>

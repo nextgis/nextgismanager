@@ -1,7 +1,7 @@
 <map id="wxGxDialogContentView" name="wxGxDialogContentView">
-<area shape="rect" id="node2" href="$classwx_gx_content_view.html" title="The catalog content view class. " alt="" coords="148,155,276,181"/>
-<area shape="rect" id="node4" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="108,80,191,107"/>
-<area shape="rect" id="node5" href="$class_i_view.html" title="A View interface class. " alt="" coords="123,5,176,32"/>
-<area shape="rect" id="node6" href="$class_i_gx_contents_view.html" title="The IGxContentsView interface class. " alt="" coords="215,80,337,107"/>
-<area shape="rect" id="node7" href="$class_i_view_drop_target.html" title="A DropTarget interface class. " alt="" coords="362,80,477,107"/>
+<area shape="rect" id="node2" href="$classwx_gx_content_view.html" title="wxGxContentView" alt="" coords="217,155,347,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="111,80,196,107"/>
+<area shape="rect" id="node5" href="$class_i_view.html" title="IView" alt="" coords="126,5,180,32"/>
+<area shape="rect" id="node6" href="$class_i_gx_contents_view.html" title="IGxContentsView" alt="" coords="220,80,345,107"/>
+<area shape="rect" id="node7" href="$class_i_view_drop_target.html" title="IViewDropTarget" alt="" coords="369,80,489,107"/>
 </map>

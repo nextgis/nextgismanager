@@ -1,6 +1,6 @@
 <map id="wxGISLocalNetworkService" name="wxGISLocalNetworkService">
-<area shape="rect" id="node2" href="$classwx_g_i_s_network_service.html" title="A Server side Network Service. " alt="" coords="443,132,592,159"/>
-<area shape="rect" id="node6" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="163,157,250,184"/>
-<area shape="rect" id="node7" href="$classwx_msg_out_thread.html" title="A Server output message thread. " alt="" coords="145,208,268,235"/>
-<area shape="rect" id="node9" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="139,259,275,285"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_network_service.html" title="A Server side Network Service. " alt="" coords="453,132,608,159"/>
+<area shape="rect" id="node6" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="167,157,257,184"/>
+<area shape="rect" id="node7" href="$classwx_msg_out_thread.html" title="A Server output message thread. " alt="" coords="149,208,275,235"/>
+<area shape="rect" id="node9" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="142,259,282,285"/>
 </map>

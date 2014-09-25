@@ -1,6 +1,8 @@
 <map id="wxGxTreeViewBase" name="wxGxTreeViewBase">
-<area shape="rect" id="node5" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="5,229,112,256"/>
-<area shape="rect" id="node6" href="$classwx_tree_view_combo_popup.html" title="The tree view class on top of GxObjDialog. " alt="" coords="137,229,305,256"/>
-<area shape="rect" id="node3" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="152,80,235,107"/>
-<area shape="rect" id="node4" href="$class_i_view.html" title="A View interface class. " alt="" coords="167,5,220,32"/>
+<area shape="rect" id="node5" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="118,229,228,256"/>
+<area shape="rect" id="node8" href="$classwx_tree_view_combo_popup.html" title="wxTreeViewComboPopup" alt="" coords="253,229,427,256"/>
+<area shape="rect" id="node3" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="269,80,355,107"/>
+<area shape="rect" id="node4" href="$class_i_view.html" title="IView" alt="" coords="285,5,339,32"/>
+<area shape="rect" id="node6" href="$classwx_gx_toolbox_tree_view.html" title="wxGxToolboxTreeView" alt="" coords="5,304,163,331"/>
+<area shape="rect" id="node7" href="$classwx_tree_container_view.html" title="wxTreeContainerView" alt="" coords="187,304,337,331"/>
 </map>

@@ -1,11 +1,11 @@
 <map id="wxGISQuadTree" name="wxGISQuadTree">
-<area shape="rect" id="node2" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="140,264,265,291"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="276,355,425,381"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="247,83,405,109"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="459,173,564,200"/>
-<area shape="rect" id="node6" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="5,173,101,200"/>
-<area shape="rect" id="node7" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="9,83,97,109"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="467,264,557,291"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="505,83,607,109"/>
-<area shape="rect" id="node12" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="589,173,800,200"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="143,264,271,291"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_feature_dataset.html" title="wxGISFeatureDataset" alt="" coords="280,355,432,381"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="252,83,415,109"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="467,173,575,200"/>
+<area shape="rect" id="node6" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="5,173,104,200"/>
+<area shape="rect" id="node7" href="$class_i_progressor.html" title="IProgressor" alt="" coords="10,83,99,109"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="474,264,568,291"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="514,83,616,109"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="599,173,813,200"/>
 </map>

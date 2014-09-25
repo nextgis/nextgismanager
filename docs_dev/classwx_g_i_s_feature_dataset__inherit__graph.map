@@ -1,7 +1,7 @@
 <map id="wxGISFeatureDataset" name="wxGISFeatureDataset">
-<area shape="rect" id="node7" href="$classwx_g_i_s_feature_dataset_cached.html" title="The GIS FeatureDataset class. " alt="" coords="93,304,285,331"/>
-<area shape="rect" id="node2" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="144,155,235,181"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="46,80,151,107"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="105,5,207,32"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="176,80,387,107"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_feature_dataset_cached.html" title="wxGISFeatureDatasetCached" alt="" coords="95,304,292,331"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="146,155,240,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="47,80,155,107"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="107,5,209,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="179,80,393,107"/>
 </map>

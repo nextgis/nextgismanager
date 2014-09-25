@@ -1,6 +1,6 @@
 <map id="wxGISSimpleMarkerSymbol" name="wxGISSimpleMarkerSymbol">
-<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="204,264,308,291"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="5,173,107,200"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="277,83,368,109"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="334,173,436,200"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="204,187,311,213"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="5,96,107,123"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="279,5,372,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="335,96,441,123"/>
 </map>

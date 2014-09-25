@@ -30,7 +30,7 @@
 
     A Remote Connection GxObjectUI.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteConnectionUI :
@@ -84,7 +84,7 @@ private:
 
     A Remote Database schema GxObjectUI.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
@@ -137,7 +137,7 @@ private:
 
     A Tile Map Service GxObjectUI.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxTMSWebServiceUI :

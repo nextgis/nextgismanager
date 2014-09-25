@@ -1,6 +1,6 @@
 <map id="wxServerTCPNetworkPlugin" name="wxServerTCPNetworkPlugin">
-<area shape="rect" id="node2" href="$class_i_network_plugin.html" title="A Server side INetworkPlugin interface. " alt="" coords="5,83,112,109"/>
-<area shape="rect" id="node4" href="$class_i_net_plugin.html" title="A Server side INetPlugin interface. " alt="" coords="137,83,217,109"/>
-<area shape="rect" id="node5" href="$class_i_network_service.html" title="The network service base interface class. " alt="" coords="243,83,357,109"/>
-<area shape="rect" id="node6" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="382,83,468,109"/>
+<area shape="rect" id="node2" href="$class_i_network_plugin.html" title="A Server side INetworkPlugin interface. " alt="" coords="5,83,115,109"/>
+<area shape="rect" id="node4" href="$class_i_net_plugin.html" title="INetPlugin" alt="" coords="140,83,221,109"/>
+<area shape="rect" id="node5" href="$class_i_network_service.html" title="The network service base interface class. " alt="" coords="246,83,364,109"/>
+<area shape="rect" id="node6" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="389,83,480,109"/>
 </map>

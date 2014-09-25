@@ -1,7 +1,7 @@
 <map id="wxJSONReader::UTF8NumBytes" name="wxJSONReader::UTF8NumBytes">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#aea842e1af0f627d513f85cc17f642b37" title="Return the number of bytes that make a character in stream input. " alt="" coords="267,12,450,39"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a28afe561c9248c0d3a73bcd6415536cd" title="Convert a UTF&#45;8 memory buffer one char at a time. " alt="" coords="499,5,690,46"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="739,12,925,39"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="974,12,1141,39"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="1189,12,1344,39"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#aea842e1af0f627d513f85cc17f642b37" title="Return the number of bytes that make a character in stream input. " alt="" coords="275,12,461,39"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a28afe561c9248c0d3a73bcd6415536cd" title="Convert a UTF&#45;8 memory buffer one char at a time. " alt="" coords="510,5,709,46"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="758,12,949,39"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="997,12,1171,39"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="1219,12,1378,39"/>
 </map>

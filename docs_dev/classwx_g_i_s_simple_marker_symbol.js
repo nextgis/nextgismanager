@@ -3,6 +3,7 @@ var classwx_g_i_s_simple_marker_symbol =
     [ "wxGISSimpleMarkerSymbol", "classwx_g_i_s_simple_marker_symbol.html#ab1b61c92242845ae8cd0710fe0c1b4fa", null ],
     [ "wxGISSimpleMarkerSymbol", "classwx_g_i_s_simple_marker_symbol.html#a1d2eef646800d4f6412f5b46c8f13fed", null ],
     [ "~wxGISSimpleMarkerSymbol", "classwx_g_i_s_simple_marker_symbol.html#af5a63ad6315b0c3b6be0703e39a12126", null ],
+    [ "Clone", "classwx_g_i_s_simple_marker_symbol.html#acb16ed4dfb4e367acfe1c66c247ef13b", null ],
     [ "Draw", "classwx_g_i_s_simple_marker_symbol.html#af9d46aafb9d220f6a8f2beb8979c8f68", null ],
     [ "GetOutlineColor", "classwx_g_i_s_simple_marker_symbol.html#afdd65d222ca5bbda21f58f34eb6578e9", null ],
     [ "GetOutlineSize", "classwx_g_i_s_simple_marker_symbol.html#a8cfcff6d4a68ea0b7a4ee48d7a116ab5", null ],

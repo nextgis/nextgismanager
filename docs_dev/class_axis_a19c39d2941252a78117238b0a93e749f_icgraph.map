@@ -1,0 +1,8 @@
+<map id="Axis::IsVisible" name="Axis::IsVisible">
+<area shape="rect" id="node2" href="$class_axis.html#ac41f60cc1125cb3761635c65df188150" title="Axis::IntersectsWindow" alt="" coords="166,5,327,32"/>
+<area shape="rect" id="node4" href="$class_axis_share.html#af070420700aafd5ae584ebe592104c12" title="AxisShare::IsVisible" alt="" coords="177,56,317,83"/>
+<area shape="rect" id="node5" href="$class_label_axis.html#af6a3c2432e8fa9b274761d624e7e1dee" title="LabelAxis::DrawGridLines" alt="" coords="160,107,333,133"/>
+<area shape="rect" id="node6" href="$class_line_marker.html#ac2d31b4faef59f5eff36fb72a690ed01" title="LineMarker::Draw" alt="" coords="184,157,309,184"/>
+<area shape="rect" id="node7" href="$class_x_y_histo_renderer.html#a72b741c886e010440a489e11c142fe15" title="XYHistoRenderer::Draw" alt="" coords="165,208,328,235"/>
+<area shape="rect" id="node3" href="$class_x_y_area_renderer.html#adc1bb12c848b96544c31269906dee23c" title="XYAreaRenderer::Draw" alt="" coords="382,5,541,32"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="AxisPlot::GetDatasetVerticalAxis" name="AxisPlot::GetDatasetVerticalAxis">
+<area shape="rect" id="node2" href="$class_axis_plot.html#a29e8df23afe5dd4e770320427d519057" title="AxisPlot::ToDataCoords" alt="" coords="290,5,454,32"/>
+<area shape="rect" id="node3" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="293,56,451,83"/>
+<area shape="rect" id="node4" href="$class_gantt_plot.html#ad00fdee6a5bbb2c4566f57e41bea39d0" title="GanttPlot::DrawDatasets" alt="" coords="287,107,457,133"/>
+<area shape="rect" id="node5" href="$class_o_h_l_c_plot.html#a59ee55f4ed7bdb99eb3f38891645aa2d" title="OHLCPlot::DrawOHLCDataset" alt="" coords="270,157,474,184"/>
+<area shape="rect" id="node7" href="$class_x_y_plot.html#aec55ca9c9fa04573f297c6e87f7e7cdc" title="XYPlot::DrawXYDataset" alt="" coords="289,208,455,235"/>
+<area shape="rect" id="node9" href="$class_bubble_plot.html#a015049bcf4dd0de93d8fff8dafc99e8b" title="BubblePlot::DrawDatasets" alt="" coords="283,259,461,285"/>
+<area shape="rect" id="node6" href="$class_o_h_l_c_plot.html#ab148725e0689a6438d45e9dc794420c8" title="OHLCPlot::DrawDatasets" alt="" coords="523,157,698,184"/>
+<area shape="rect" id="node8" href="$class_x_y_plot.html#a005cc5fc627ba43687037c1fe0e72f2f" title="XYPlot::DrawDatasets" alt="" coords="533,208,688,235"/>
+</map>

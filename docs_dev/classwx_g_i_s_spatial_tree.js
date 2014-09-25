@@ -16,7 +16,7 @@ var classwx_g_i_s_spatial_tree =
     [ "RemoveAll", "classwx_g_i_s_spatial_tree.html#a3adb1aa42283d6f50e2773c483377862", null ],
     [ "Search", "classwx_g_i_s_spatial_tree.html#af27625ce2dff6e4f100ee8aa18230890", null ],
     [ "m_bIsLoaded", "classwx_g_i_s_spatial_tree.html#af5bd05ddb0c798e8be1865ddc893d1cd", null ],
-    [ "m_Mutex", "classwx_g_i_s_spatial_tree.html#a95ecf92740c24c4ae4afb8fe346eeacb", null ],
+    [ "m_CritSect", "classwx_g_i_s_spatial_tree.html#a453bbb79627d712ed422906e8751f19e", null ],
     [ "m_nPreloadItemCount", "classwx_g_i_s_spatial_tree.html#a4c33248362d82ba55ad6ae8f0570692c", null ],
     [ "m_nReadPos", "classwx_g_i_s_spatial_tree.html#a0f3605235ebd3f052aa4b6dd88ac84c2", null ],
     [ "m_pDSet", "classwx_g_i_s_spatial_tree.html#a10d782f22f3372bcd57602ed797228b8", null ],

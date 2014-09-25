@@ -1,6 +1,10 @@
 <map id="wxGxDiscConnections" name="wxGxDiscConnections">
-<area shape="rect" id="node2" href="$classwx_gx_j_s_o_n_connection_storage.html" title="The class support for storing and updating json file connections. " alt="" coords="5,237,203,264"/>
-<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="30,160,177,187"/>
-<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="57,83,151,109"/>
-<area shape="rect" id="node6" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="227,237,393,264"/>
+<area shape="rect" id="node2" href="$classwx_gx_j_s_o_n_connection_storage.html" title="wxGxJSONConnectionStorage" alt="" coords="311,288,513,315"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="302,160,452,187"/>
+<area shape="rect" id="node9" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="244,237,373,264"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="330,83,424,109"/>
+<area shape="rect" id="node6" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="443,339,611,365"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="635,339,761,365"/>
+<area shape="rect" id="node8" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="240,339,341,365"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="5,237,219,264"/>
 </map>

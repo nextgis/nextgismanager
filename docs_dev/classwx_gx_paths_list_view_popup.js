@@ -4,7 +4,7 @@ var classwx_gx_paths_list_view_popup =
     [ "~wxGxPathsListViewPopup", "classwx_gx_paths_list_view_popup.html#ad4075bb1abaa60b71c59e28242a15517", null ],
     [ "Append", "classwx_gx_paths_list_view_popup.html#a9147d654b2314ae9aa8f98adc023a168", null ],
     [ "GetViewRect", "classwx_gx_paths_list_view_popup.html#aab78360bcd0324e64db3eff03331c2e9", null ],
-    [ "IsSelected", "classwx_gx_paths_list_view_popup.html#afebc7b034abfe651c9e1bc93edba17eb", null ],
+    [ "IsSelected", "classwx_gx_paths_list_view_popup.html#a085e23b624668ba824c17983f10907ff", null ],
     [ "OnChar", "classwx_gx_paths_list_view_popup.html#a1fa7cb3dc9d6471d6802e46d64a299aa", null ],
     [ "OnMouseClick", "classwx_gx_paths_list_view_popup.html#a830455d167dc91840fc17209e63feb70", null ],
     [ "OnMouseWheel", "classwx_gx_paths_list_view_popup.html#a78193ab14e604957940076da0e6716dc", null ],

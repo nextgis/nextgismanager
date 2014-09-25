@@ -29,7 +29,7 @@
 
     The database connections root item in user interface.
 
-    @library {catalogui}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxShellConnectionsUI :

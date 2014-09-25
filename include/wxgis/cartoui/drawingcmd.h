@@ -44,7 +44,7 @@ enum wxGISEnumDrawingToolType{
 
     The list of drawing layers in current map
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class wxGISDrawingLayersComboBox :
@@ -72,7 +72,7 @@ private:
 
     The carto drawing tools (polygon, line, point, etc)
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISDrawingTool :
@@ -127,7 +127,7 @@ enum wxGISEnumDrawingToolMenuType{
 
     The carto drawing tools menu (polygon, line, point, etc)
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class WXDLLIMPEXP_GIS_CTU wxGISDrawingToolMenu :

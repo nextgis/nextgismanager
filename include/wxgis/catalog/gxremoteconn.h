@@ -139,7 +139,7 @@ protected:
 
     A TMS Web Service GxObject.
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxTMSWebService :

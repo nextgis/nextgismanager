@@ -1,6 +1,6 @@
 var classwx_gx_object_dialog =
 [
-    [ "wxGxObjectDialog", "classwx_gx_object_dialog.html#a4e721ff94837fe31d47485708cbd4415", null ],
+    [ "wxGxObjectDialog", "classwx_gx_object_dialog.html#abadbc7e0c384c11cd93d3e177702c3c7", null ],
     [ "~wxGxObjectDialog", "classwx_gx_object_dialog.html#ae7c79fa8335ee8788c6641e06ea45ed9", null ],
     [ "AddFilter", "classwx_gx_object_dialog.html#a5bbb180109e938d8ccc3b37371f235a2", null ],
     [ "Command", "classwx_gx_object_dialog.html#a46a4399307d6efa28ca8a1ab408aa458", null ],

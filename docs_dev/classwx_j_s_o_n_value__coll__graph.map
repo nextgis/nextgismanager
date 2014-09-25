@@ -1,4 +1,4 @@
 <map id="wxJSONValue" name="wxJSONValue">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="17,96,135,123"/>
-<area shape="rect" id="node3" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="5,5,147,32"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="17,96,140,123"/>
+<area shape="rect" id="node3" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="5,5,152,32"/>
 </map>

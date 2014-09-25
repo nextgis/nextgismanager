@@ -6,7 +6,7 @@ var class_i_track_cancel =
     [ "Continue", "class_i_track_cancel.html#a4c2bbc35f8c62b6b258546d80e923b9e", null ],
     [ "GetLastMessage", "class_i_track_cancel.html#a64934278fd1418f4abbb42c8471080a9", null ],
     [ "GetProgressor", "class_i_track_cancel.html#a3d8964ca8c256966c8f6f40a5fefa8ca", null ],
-    [ "PutMessage", "class_i_track_cancel.html#a5557682f744eded622c47d24c8291351", null ],
+    [ "PutMessage", "class_i_track_cancel.html#a1fd88428256c76f425755ea4d0c1596d", null ],
     [ "Reset", "class_i_track_cancel.html#a3187dc310d5a7fd196fe0bf1f7254221", null ],
     [ "SetProgressor", "class_i_track_cancel.html#a8a5fcc3846d2b4f02c5da6ad580d776b", null ],
     [ "m_bIsCanceled", "class_i_track_cancel.html#a4805da47d57e21210dab642d2b000333", null ],

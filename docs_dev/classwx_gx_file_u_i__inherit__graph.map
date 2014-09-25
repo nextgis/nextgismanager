@@ -1,7 +1,7 @@
 <map id="wxGxFileUI" name="wxGxFileUI">
-<area shape="rect" id="node2" href="$classwx_gx_file.html" title="A file GxObject. " alt="" coords="78,155,153,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
-<area shape="rect" id="node6" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="178,155,269,181"/>
-<area shape="rect" id="node7" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="295,155,409,181"/>
+<area shape="rect" id="node2" href="$classwx_gx_file.html" title="wxGxFile" alt="" coords="80,155,156,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,80,104,107"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="129,80,233,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="182,155,276,181"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="301,155,419,181"/>
 </map>

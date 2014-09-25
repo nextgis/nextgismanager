@@ -1,6 +1,6 @@
 <map id="IProgressor" name="IProgressor">
-<area shape="rect" id="node2" href="$classwx_g_i_s_animation.html" title="The rotating globe animation class. " alt="" coords="5,80,123,107"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_progress_dlg.html" title="The dialog showing progress and some buttons. " alt="" coords="148,80,279,107"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_progressor.html" title="The progressor (gauge) class. " alt="" coords="303,80,425,107"/>
-<area shape="rect" id="node5" href="$classwx_g_p_task_executor.html" title="The geoprocessing task exec class. " alt="" coords="450,80,587,107"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_animation.html" title="wxGISAnimation" alt="" coords="5,80,125,107"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_progress_dlg.html" title="wxGISProgressDlg" alt="" coords="150,80,284,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_progressor.html" title="wxGISProgressor" alt="" coords="309,80,435,107"/>
+<area shape="rect" id="node5" href="$classwx_g_p_task_executor.html" title="The geoprocessing task exec class. " alt="" coords="459,80,597,107"/>
 </map>

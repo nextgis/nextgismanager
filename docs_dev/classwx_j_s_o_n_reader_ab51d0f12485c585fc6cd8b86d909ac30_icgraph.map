@@ -1,14 +1,14 @@
 <map id="wxJSONReader::AddError" name="wxJSONReader::AddError">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="955,235,1109,262"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="738,235,905,262"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="230,83,415,110"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#af01a3c6fc2e9d4f1ef841bb3f74e622a" title="wxJSONReader::AddError" alt="" coords="237,488,409,515"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a17ca424dc515b6f1cc400e0719479e2f" title="Add a warning message to the warning&#39;s array. " alt="" coords="227,286,419,312"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#a40d5b9959258339765cfa6bf28ff0e4e" title="Skip a comment. " alt="" coords="476,362,679,388"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="485,210,670,236"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="485,311,669,338"/>
-<area shape="rect" id="node11" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="467,159,687,186"/>
-<area shape="rect" id="node12" href="$classwx_j_s_o_n_reader.html#a3acd7665d5c519f6d7488beceb90f048" title="The function appends a Unice Escaped Sequence to the temporary UTF8 buffer. " alt="" coords="227,235,419,262"/>
-<area shape="rect" id="node13" href="$classwx_j_s_o_n_reader.html#a5caf37fc25e2460f089d025985510b25" title="Store the comment string in the value it refers to. " alt="" coords="473,412,681,439"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="736,362,907,388"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="974,235,1133,261"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="751,235,924,261"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="233,83,423,109"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#af01a3c6fc2e9d4f1ef841bb3f74e622a" title="wxJSONReader::AddError" alt="" coords="240,488,416,515"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_reader.html#a17ca424dc515b6f1cc400e0719479e2f" title="Add a warning message to the warning&#39;s array. " alt="" coords="230,285,426,312"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_reader.html#a40d5b9959258339765cfa6bf28ff0e4e" title="Skip a comment. " alt="" coords="484,361,692,388"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="493,209,683,236"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="493,311,683,337"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="475,159,701,185"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_reader.html#a3acd7665d5c519f6d7488beceb90f048" title="The function appends a Unice Escaped Sequence to the temporary UTF8 buffer. " alt="" coords="229,235,427,261"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_reader.html#a5caf37fc25e2460f089d025985510b25" title="Store the comment string in the value it refers to. " alt="" coords="481,412,695,439"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="750,361,925,388"/>
 </map>

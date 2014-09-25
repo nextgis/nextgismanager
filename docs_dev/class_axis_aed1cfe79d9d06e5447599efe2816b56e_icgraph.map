@@ -1,0 +1,17 @@
+<map id="Axis::ToGraphics" name="Axis::ToGraphics">
+<area shape="rect" id="node2" href="$class_axis_share.html#a006ad9b9ee2cdb4f6cea0324f62fe842" title="AxisShare::ToGraphics" alt="" coords="200,5,357,32"/>
+<area shape="rect" id="node3" href="$class_comp_date_axis.html#a6335ad130d52bc18ae9f4ce6bb689f74" title="CompDateAxis::DrawGridLines" alt="" coords="176,56,381,83"/>
+<area shape="rect" id="node4" href="$class_comp_date_axis.html#a7e21b53bd9760be249ca37e18381cce5" title="CompDateAxis::ToGraphics" alt="" coords="185,107,372,133"/>
+<area shape="rect" id="node5" href="$class_label_axis.html#af6a3c2432e8fa9b274761d624e7e1dee" title="LabelAxis::DrawGridLines" alt="" coords="192,157,365,184"/>
+<area shape="rect" id="node6" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="223,208,334,235"/>
+<area shape="rect" id="node9" href="$class_gantt_renderer.html#a7606b103450021ad5c49dffe31baa82c" title="GanttRenderer::Draw" alt="" coords="205,259,352,285"/>
+<area shape="rect" id="node11" href="$class_line_marker.html#ac2d31b4faef59f5eff36fb72a690ed01" title="LineMarker::Draw" alt="" coords="216,309,341,336"/>
+<area shape="rect" id="node12" href="$class_range_marker.html#a3b19c7efb5311c0e5b1ffb5d08b5b9c9" title="RangeMarker::Draw" alt="" coords="209,360,348,387"/>
+<area shape="rect" id="node13" href="$class_o_h_l_c_plot.html#a59ee55f4ed7bdb99eb3f38891645aa2d" title="OHLCPlot::DrawOHLCDataset" alt="" coords="177,411,381,437"/>
+<area shape="rect" id="node15" href="$class_x_y_area_renderer.html#adc1bb12c848b96544c31269906dee23c" title="XYAreaRenderer::Draw" alt="" coords="199,461,358,488"/>
+<area shape="rect" id="node16" href="$class_x_y_histo_renderer.html#a72b741c886e010440a489e11c142fe15" title="XYHistoRenderer::Draw" alt="" coords="197,512,360,539"/>
+<area shape="rect" id="node7" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="450,208,585,235"/>
+<area shape="rect" id="node8" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="653,208,811,235"/>
+<area shape="rect" id="node10" href="$class_gantt_plot.html#ad00fdee6a5bbb2c4566f57e41bea39d0" title="GanttPlot::DrawDatasets" alt="" coords="433,259,602,285"/>
+<area shape="rect" id="node14" href="$class_o_h_l_c_plot.html#ab148725e0689a6438d45e9dc794420c8" title="OHLCPlot::DrawDatasets" alt="" coords="430,411,605,437"/>
+</map>

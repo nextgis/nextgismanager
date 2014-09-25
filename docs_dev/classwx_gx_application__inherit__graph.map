@@ -1,8 +1,8 @@
 <map id="wxGxApplication" name="wxGxApplication">
-<area shape="rect" id="node9" href="$classwx_g_i_s_catalog_frame.html" title="wxGISCatalogFrame" alt="" coords="93,453,235,480"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_catalog_frame.html" title="wxGISCatalogFrame" alt="" coords="93,453,237,480"/>
 <area shape="rect" id="node2" href="$classwx_gx_application_base.html" title="An Interface class for GxApplication. " alt="" coords="5,304,155,331"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_application_ex.html" title="An application framework class with aui mngr. " alt="" coords="179,304,319,331"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_application.html" title="A wxGISApplication class. " alt="" coords="187,229,311,256"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="241,155,396,181"/>
-<area shape="rect" id="node7" href="$class_i_application.html" title="IApplication" alt="" coords="274,80,363,107"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_application_ex.html" title="wxGISApplicationEx" alt="" coords="179,304,321,331"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_application.html" title="wxGISApplication" alt="" coords="187,229,313,256"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="243,155,399,181"/>
+<area shape="rect" id="node7" href="$class_i_application.html" title="IApplication" alt="" coords="276,80,367,107"/>
 </map>

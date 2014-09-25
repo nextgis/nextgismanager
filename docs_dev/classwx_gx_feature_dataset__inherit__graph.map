@@ -1,9 +1,11 @@
 <map id="wxGxFeatureDataset" name="wxGxFeatureDataset">
-<area shape="rect" id="node7" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="13,304,168,331"/>
-<area shape="rect" id="node8" href="$classwx_gx_m_l_sub_dataset.html" title="A ml layer GxObject. " alt="" coords="193,304,335,331"/>
-<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="127,155,227,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
-<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="253,80,339,107"/>
-<area shape="rect" id="node9" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="A kml layer GxObject. " alt="" coords="187,379,340,405"/>
+<area shape="rect" id="node7" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="21,304,180,331"/>
+<area shape="rect" id="node9" href="$classwx_gx_inited_feature_dataset.html" title="wxGxInitedFeatureDataset" alt="" coords="205,304,384,331"/>
+<area shape="rect" id="node10" href="$classwx_gx_m_l_sub_dataset.html" title="wxGxMLSubDataset" alt="" coords="409,304,551,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="243,155,345,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="123,80,217,107"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="243,80,347,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="371,80,460,107"/>
+<area shape="rect" id="node8" href="$classwx_gx_inited_feature_dataset_u_i.html" title="wxGxInitedFeatureDatasetUI" alt="" coords="5,379,197,405"/>
+<area shape="rect" id="node11" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="wxGxMLSubDatasetUI" alt="" coords="401,379,559,405"/>
 </map>

@@ -1,8 +1,8 @@
 <map id="wxJSONWriter::WriteIndent" name="wxJSONWriter::WriteIndent">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="749,90,912,117"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_writer.html#a0925fb052f25691a3eb838659f307e6d" title="Write the comment strings, if any. " alt="" coords="499,40,701,66"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_writer.html#ab6b9066328cc7a023090211ac9255e21" title="Write the provided string to the output object. " alt="" coords="253,91,433,132"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_writer.html#ac88c78050ecf6dd425995b98525152e6" title="Write a JSON value of type memory buffer. " alt="" coords="235,174,450,201"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="960,90,1107,117"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_writer.html#a7bf20360ec0721d6adfe5c035cb26113" title="Write the key of a key/value element to the output stream. " alt="" coords="515,141,685,168"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="766,90,933,117"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_writer.html#a0925fb052f25691a3eb838659f307e6d" title="Write the comment strings, if any. " alt="" coords="510,40,717,66"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_writer.html#ab6b9066328cc7a023090211ac9255e21" title="Write the provided string to the output object. " alt="" coords="259,91,442,132"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_writer.html#ac88c78050ecf6dd425995b98525152e6" title="Write a JSON value of type memory buffer. " alt="" coords="241,174,461,201"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="981,90,1131,117"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_writer.html#a7bf20360ec0721d6adfe5c035cb26113" title="Write the key of a key/value element to the output stream. " alt="" coords="527,141,699,168"/>
 </map>

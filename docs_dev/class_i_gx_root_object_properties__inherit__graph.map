@@ -1,10 +1,14 @@
 <map id="IGxRootObjectProperties" name="IGxRootObjectProperties">
-<area shape="rect" id="node2" href="$classwx_gx_d_b_connections.html" title="The database connections root item. " alt="" coords="17,80,161,107"/>
-<area shape="rect" id="node4" href="$classwx_gx_disc_connections.html" title="The Disc Connections GxRootObject. " alt="" coords="195,80,348,107"/>
-<area shape="rect" id="node6" href="$classwx_gx_remote_servers.html" title="A Remote Servers GxRootObject. " alt="" coords="378,80,520,107"/>
-<area shape="rect" id="node8" href="$classwx_gx_web_connections.html" title="The web services connections root item. " alt="" coords="557,80,712,107"/>
-<area shape="rect" id="node3" href="$classwx_gx_d_b_connections_u_i.html" title="The database connections root item in user interface. " alt="" coords="5,155,163,181"/>
-<area shape="rect" id="node5" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="187,155,352,181"/>
-<area shape="rect" id="node7" href="$classwx_gx_remote_servers_u_i.html" title="A Remote Servers UI GxRootObject. " alt="" coords="376,155,531,181"/>
-<area shape="rect" id="node9" href="$classwx_gx_web_connections_u_i.html" title="The web service connections root item in user interface. " alt="" coords="555,155,721,181"/>
+<area shape="rect" id="node2" href="$classwx_gx_d_b_connections.html" title="wxGxDBConnections" alt="" coords="247,5,395,32"/>
+<area shape="rect" id="node4" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="243,56,399,83"/>
+<area shape="rect" id="node6" href="$classwx_gx_remote_servers.html" title="A Remote Servers GxRootObject. " alt="" coords="248,107,395,133"/>
+<area shape="rect" id="node8" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="242,157,401,184"/>
+<area shape="rect" id="node10" href="$classwx_gx_spatial_references_folder.html" title="wxGxSpatialReferencesFolder" alt="" coords="222,208,421,235"/>
+<area shape="rect" id="node12" href="$classwx_gx_web_connections.html" title="wxGxWebConnections" alt="" coords="243,259,399,285"/>
+<area shape="rect" id="node3" href="$classwx_gx_d_b_connections_u_i.html" title="wxGxDBConnectionsUI" alt="" coords="495,5,657,32"/>
+<area shape="rect" id="node5" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="491,56,661,83"/>
+<area shape="rect" id="node7" href="$classwx_gx_remote_servers_u_i.html" title="A Remote Servers UI GxRootObject. " alt="" coords="495,107,657,133"/>
+<area shape="rect" id="node9" href="$classwx_gx_shell_connections_u_i.html" title="wxGxShellConnectionsUI" alt="" coords="490,157,662,184"/>
+<area shape="rect" id="node11" href="$classwx_gx_spatial_references_folder_u_i.html" title="wxGxSpatialReferencesFolderUI" alt="" coords="469,208,683,235"/>
+<area shape="rect" id="node13" href="$classwx_gx_web_connections_u_i.html" title="wxGxWebConnectionsUI" alt="" coords="491,259,661,285"/>
 </map>

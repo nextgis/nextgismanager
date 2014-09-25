@@ -1,5 +1,5 @@
 <map id="wxGISLocalServerConnection" name="wxGISLocalServerConnection">
-<area shape="rect" id="node2" href="$classwx_g_i_s_net_server_connection.html" title="The network server connection interface class. " alt="" coords="109,155,291,181"/>
-<area shape="rect" id="node3" href="$class_i_net_connection.html" title="The network connection interface class. " alt="" coords="145,80,255,107"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="5,5,216,32"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_net_server_connection.html" title="The network server connection interface class. " alt="" coords="111,155,297,181"/>
+<area shape="rect" id="node3" href="$class_i_net_connection.html" title="INetConnection" alt="" coords="147,80,260,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="5,5,219,32"/>
 </map>

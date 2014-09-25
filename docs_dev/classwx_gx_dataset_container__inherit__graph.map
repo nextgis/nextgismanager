@@ -1,8 +1,12 @@
 <map id="wxGxDatasetContainer" name="wxGxDatasetContainer">
-<area shape="rect" id="node7" href="$classwx_gx_m_l_dataset.html" title="A markup language GxObject. " alt="" coords="169,304,287,331"/>
-<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,155,152,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,80,125,107"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,155,279,181"/>
-<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="303,155,389,181"/>
-<area shape="rect" id="node8" href="$classwx_gx_m_l_dataset_u_i.html" title="A markup language (kml, gml, etc.) dataset GxObject. " alt="" coords="163,379,293,405"/>
+<area shape="rect" id="node7" href="$classwx_gx_m_l_dataset.html" title="wxGxMLDataset" alt="" coords="19,304,139,331"/>
+<area shape="rect" id="node9" href="$classwx_gx_open_file_g_d_b.html" title="wxGxOpenFileGDB" alt="" coords="170,304,307,331"/>
+<area shape="rect" id="node11" href="$classwx_gx_spreadsheet_dataset.html" title="wxGxSpreadsheetDataset" alt="" coords="338,304,512,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="11,155,161,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="39,80,133,107"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="187,155,291,181"/>
+<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="315,155,404,181"/>
+<area shape="rect" id="node8" href="$classwx_gx_m_l_dataset_u_i.html" title="wxGxMLDatasetUI" alt="" coords="5,379,139,405"/>
+<area shape="rect" id="node10" href="$classwx_gx_open_file_g_d_b_u_i.html" title="wxGxOpenFileGDBUI" alt="" coords="163,379,313,405"/>
+<area shape="rect" id="node12" href="$classwx_gx_spreadsheet_dataset_u_i.html" title="wxGxSpreadsheetDatasetUI" alt="" coords="339,379,528,405"/>
 </map>

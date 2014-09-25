@@ -11,11 +11,16 @@ var classwx_gx_paths_list_view =
     [ "Activate", "classwx_gx_paths_list_view.html#a17dd86f4457c56abc17a07dcbe7b2de2", null ],
     [ "Append", "classwx_gx_paths_list_view.html#a335ef6890741eeca3c5a54c7f9741d84", null ],
     [ "Create", "classwx_gx_paths_list_view.html#a3b1da70701a5a7d24d54f8fc024185cd", null ],
+    [ "Deactivate", "classwx_gx_paths_list_view.html#a3bd50ed6bee111d00f830267d5852d33", null ],
     [ "GetIconPos", "classwx_gx_paths_list_view.html#a6d6437985b1e344cb4f384a419d73003", null ],
     [ "OnChar", "classwx_gx_paths_list_view.html#a5e358c70d9a1af374da2233ba37f6eb9", null ],
     [ "OnMouseClick", "classwx_gx_paths_list_view.html#a5a908ab4a32bde98ab3a1ed6f30c847b", null ],
     [ "OnMouseMove", "classwx_gx_paths_list_view.html#afa103097119b200e81f7d66bbbbff80d", null ],
+    [ "OnObjectChanged", "classwx_gx_paths_list_view.html#abd90232c97425891b00012c96a8de0e8", null ],
+    [ "OnObjectDeleted", "classwx_gx_paths_list_view.html#a5953592fecc1e75d7b3b9f5e7f370655", null ],
+    [ "m_ConnectionPointCatalogCookie", "classwx_gx_paths_list_view.html#abba8d035940259cdf60499b80dae7526", null ],
     [ "m_HighLightItem", "classwx_gx_paths_list_view.html#a7d53a6dc144a10cc992ac473202b39de", null ],
     [ "m_IconsArray", "classwx_gx_paths_list_view.html#ac058d69955b4d28c3533a19ae162f808", null ],
-    [ "m_ImageListSmall", "classwx_gx_paths_list_view.html#a5a21bec1025b2fadeef8023df9d7bf56", null ]
+    [ "m_ImageListSmall", "classwx_gx_paths_list_view.html#a5a21bec1025b2fadeef8023df9d7bf56", null ],
+    [ "m_pCatalog", "classwx_gx_paths_list_view.html#a5a4666583e45fe6984ec172738870301", null ]
 ];

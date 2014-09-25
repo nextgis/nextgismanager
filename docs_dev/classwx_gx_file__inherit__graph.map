@@ -1,9 +1,9 @@
 <map id="wxGxFile" name="wxGxFile">
-<area shape="rect" id="node5" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="5,229,93,256"/>
-<area shape="rect" id="node6" href="$classwx_gx_prj_file.html" title="A proj file GxObject. " alt="" coords="118,229,209,256"/>
-<area shape="rect" id="node8" href="$classwx_gx_text_file.html" title="A text file GxObject. " alt="" coords="240,229,341,256"/>
-<area shape="rect" id="node2" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="56,80,149,107"/>
-<area shape="rect" id="node4" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="174,80,276,107"/>
-<area shape="rect" id="node7" href="$classwx_gx_prj_file_u_i.html" title="A proj file GxObject. " alt="" coords="109,304,213,331"/>
-<area shape="rect" id="node9" href="$classwx_gx_text_file_u_i.html" title="A text file GxObject. " alt="" coords="238,304,351,331"/>
+<area shape="rect" id="node5" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="5,229,96,256"/>
+<area shape="rect" id="node6" href="$classwx_gx_prj_file.html" title="wxGxPrjFile" alt="" coords="120,229,213,256"/>
+<area shape="rect" id="node8" href="$classwx_gx_text_file.html" title="wxGxTextFile" alt="" coords="245,229,347,256"/>
+<area shape="rect" id="node2" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="58,80,152,107"/>
+<area shape="rect" id="node4" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="177,80,281,107"/>
+<area shape="rect" id="node7" href="$classwx_gx_prj_file_u_i.html" title="wxGxPrjFileUI" alt="" coords="111,304,217,331"/>
+<area shape="rect" id="node9" href="$classwx_gx_text_file_u_i.html" title="wxGxTextFileUI" alt="" coords="241,304,357,331"/>
 </map>

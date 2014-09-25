@@ -1,11 +1,11 @@
 <map id="wxGISRasterPropertyPage" name="wxGISRasterPropertyPage">
-<area shape="rect" id="node3" href="$classwx_gx_raster_dataset.html" title="A Raster Dataset GxObject. " alt="" coords="341,365,480,392"/>
-<area shape="rect" id="node4" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="323,264,423,291"/>
-<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,173,101,200"/>
-<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="218,173,320,200"/>
-<area shape="rect" id="node8" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="345,173,431,200"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="483,173,588,200"/>
-<area shape="rect" id="node13" href="$classwx_g_i_s_raster_dataset.html" title="The GIS RasterDataset class. " alt="" coords="475,315,617,341"/>
-<area shape="rect" id="node12" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="457,83,615,109"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="640,83,741,109"/>
+<area shape="rect" id="node3" href="$classwx_gx_raster_dataset.html" title="wxGxRasterDataset" alt="" coords="348,365,488,392"/>
+<area shape="rect" id="node4" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="329,264,431,291"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,173,104,200"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="221,173,325,200"/>
+<area shape="rect" id="node8" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="350,173,439,200"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="491,173,599,200"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_raster_dataset.html" title="wxGISRasterDataset" alt="" coords="483,315,629,341"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="464,83,627,109"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="651,83,753,109"/>
 </map>

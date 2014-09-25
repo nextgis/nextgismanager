@@ -1,0 +1,10 @@
+<map id="OHLCPlot::DrawOHLCDataset" name="OHLCPlot::DrawOHLCDataset">
+<area shape="rect" id="node2" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="267,5,483,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="259,56,490,83"/>
+<area shape="rect" id="node4" href="$class_o_h_l_c_dataset.html#aa4f5b68b994426debdcba012248c4274" title="OHLCDataset::GetCount" alt="" coords="290,107,459,133"/>
+<area shape="rect" id="node5" href="$class_o_h_l_c_dataset.html#a1805d9a1bec298426af92fe596384a52" title="OHLCDataset::GetItem" alt="" coords="295,157,455,184"/>
+<area shape="rect" id="node6" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="313,208,436,235"/>
+<area shape="rect" id="node9" href="$class_o_h_l_c_renderer.html#aeff5707fc47ba81e6d2d23e96f92e936" title="OHLCRenderer::DrawItem" alt="" coords="286,259,463,285"/>
+<area shape="rect" id="node7" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="539,183,688,209"/>
+<area shape="rect" id="node8" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="558,233,669,260"/>
+</map>

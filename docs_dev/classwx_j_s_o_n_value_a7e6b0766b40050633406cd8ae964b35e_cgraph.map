@@ -1,6 +1,6 @@
 <map id="wxJSONValue::wxJSONValue" name="wxJSONValue::wxJSONValue">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a349907f49a128beb86437b945b9195a0" title="Initialize the JSON value class. " alt="" coords="251,56,381,83"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="430,5,610,32"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="446,56,594,83"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a824b88ed0e52f8b3bde246bd1162e5ae" title="Set the pointer to the referenced data. " alt="" coords="431,107,609,133"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a349907f49a128beb86437b945b9195a0" title="Initialize the JSON value class. " alt="" coords="257,56,391,83"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="440,5,627,32"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="456,56,611,83"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a824b88ed0e52f8b3bde246bd1162e5ae" title="Set the pointer to the referenced data. " alt="" coords="441,107,626,133"/>
 </map>

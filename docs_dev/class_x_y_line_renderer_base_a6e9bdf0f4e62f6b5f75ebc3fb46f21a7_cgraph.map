@@ -1,0 +1,6 @@
+<map id="XYLineRendererBase::DrawLegendSymbol" name="XYLineRendererBase::DrawLegendSymbol">
+<area shape="rect" id="node2" href="$class_x_y_line_renderer_base.html#ac66386eaf93711f7677fe1d9f850ddba" title="XYLineRendererBase\l::GetSeriePen" alt="" coords="216,5,363,46"/>
+<area shape="rect" id="node3" href="$class_x_y_line_renderer_base.html#adb71e225e0b0a702165b2c32d376f4de" title="XYLineRendererBase\l::GetSerieColour" alt="" coords="216,70,363,111"/>
+<area shape="rect" id="node4" href="$class_renderer.html#a74b75b0751b951de42699d7ebdc028a1" title="Renderer::GetSerieSymbol" alt="" coords="200,136,379,163"/>
+<area shape="rect" id="node5" href="$class_symbol.html#a009e28d0bbed1e8e6c2235dea2daadc2" title="Symbol::Draw" alt="" coords="237,187,342,213"/>
+</map>

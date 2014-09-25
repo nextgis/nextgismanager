@@ -1,0 +1,7 @@
+<map id="Polynom" name="Polynom">
+<area shape="rect" id="node2" href="$class_x_y_dataset.html" title="XYDataset" alt="" coords="189,155,275,181"/>
+<area shape="rect" id="node3" href="$class_dataset.html" title="Dataset" alt="" coords="198,80,265,107"/>
+<area shape="rect" id="node5" href="$class_ref_object.html" title="RefObject" alt="" coords="107,5,188,32"/>
+<area shape="rect" id="node6" href="$class_observable.html" title="Observable\&lt; DatasetObserver \&gt;" alt="" coords="212,5,421,32"/>
+<area shape="rect" id="node7" href="$class_draw_observer.html" title="DrawObserver" alt="" coords="447,5,553,32"/>
+</map>

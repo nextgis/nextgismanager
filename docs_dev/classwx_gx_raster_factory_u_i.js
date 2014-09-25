@@ -2,7 +2,7 @@ var classwx_gx_raster_factory_u_i =
 [
     [ "wxGxRasterFactoryUI", "classwx_gx_raster_factory_u_i.html#ac4e13fbc094dcf2d261073adcc6cc4cc", null ],
     [ "~wxGxRasterFactoryUI", "classwx_gx_raster_factory_u_i.html#a82d40c43de03e5b6b32314fdb6dafd49", null ],
-    [ "GetGxObject", "classwx_gx_raster_factory_u_i.html#a2ab78607600707ec47e1783d89155434", null ],
+    [ "GetGxObject", "classwx_gx_raster_factory_u_i.html#ac50a3b8ea1ef407f29bc4e8adb460b23", null ],
     [ "m_icBMPLargeIcon", "classwx_gx_raster_factory_u_i.html#ab8578f13b7dd45eedee47affe045d5f0", null ],
     [ "m_icBMPSmallIcon", "classwx_gx_raster_factory_u_i.html#a819e1c766e23efb840c7eaf1001dd0fe", null ],
     [ "m_icGIFLargeIcon", "classwx_gx_raster_factory_u_i.html#a20e083e58ab63c70d0b824b89affa965", null ],

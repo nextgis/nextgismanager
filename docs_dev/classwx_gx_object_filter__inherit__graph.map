@@ -1,7 +1,10 @@
 <map id="wxGxObjectFilter" name="wxGxObjectFilter">
-<area shape="rect" id="node3" href="$classwx_gx_dataset_filter.html" title="The Dataset GxObject Filters. " alt="" coords="323,5,453,32"/>
-<area shape="rect" id="node4" href="$classwx_gx_feature_dataset_filter.html" title="The FeatureDataset GxObject Filters. " alt="" coords="301,56,475,83"/>
-<area shape="rect" id="node5" href="$classwx_gx_folder_filter.html" title="The Folder GxObject Filters. " alt="" coords="328,107,448,133"/>
-<area shape="rect" id="node6" href="$classwx_gx_table_dataset_filter.html" title="The TableDataset GxObject Filters. " alt="" coords="308,157,468,184"/>
-<area shape="rect" id="node7" href="$classwx_gx_text_filter.html" title="wxGxTextFilter" alt="" coords="333,208,443,235"/>
+<area shape="rect" id="node3" href="$classwx_gx_dataset_filter.html" title="wxGxDatasetFilter" alt="" coords="336,5,467,32"/>
+<area shape="rect" id="node4" href="$classwx_gx_feature_dataset_filter.html" title="wxGxFeatureDatasetFilter" alt="" coords="314,56,489,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_folder_filter.html" title="wxGxFolderFilter" alt="" coords="341,107,462,133"/>
+<area shape="rect" id="node6" href="$classwx_gx_prj_file_filter.html" title="wxGxPrjFileFilter" alt="" coords="340,157,463,184"/>
+<area shape="rect" id="node7" href="$classwx_gx_raster_dataset_filter.html" title="wxGxRasterDatasetFilter" alt="" coords="316,208,487,235"/>
+<area shape="rect" id="node8" href="$classwx_gx_remote_d_b_schema_filter.html" title="wxGxRemoteDBSchemaFilter" alt="" coords="302,259,501,285"/>
+<area shape="rect" id="node9" href="$classwx_gx_table_filter.html" title="wxGxTableFilter" alt="" coords="343,309,460,336"/>
+<area shape="rect" id="node10" href="$classwx_gx_text_filter.html" title="wxGxTextFilter" alt="" coords="346,360,457,387"/>
 </map>

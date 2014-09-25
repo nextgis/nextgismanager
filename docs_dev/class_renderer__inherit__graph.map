@@ -1,0 +1,18 @@
+<map id="Renderer" name="Renderer">
+<area shape="rect" id="node6" href="$class_bar_renderer.html" title="BarRenderer" alt="" coords="529,5,623,32"/>
+<area shape="rect" id="node7" href="$class_category_renderer.html" title="CategoryRenderer" alt="" coords="512,56,640,83"/>
+<area shape="rect" id="node8" href="$class_gantt_renderer.html" title="GanttRenderer" alt="" coords="523,107,629,133"/>
+<area shape="rect" id="node9" href="$class_o_h_l_c_renderer.html" title="OHLCRenderer" alt="" coords="520,157,632,184"/>
+<area shape="rect" id="node12" href="$class_x_y_renderer.html" title="XYRenderer" alt="" coords="529,208,623,235"/>
+<area shape="rect" id="node18" href="$class_x_y_z_renderer.html" title="XYZRenderer" alt="" coords="525,259,627,285"/>
+<area shape="rect" id="node3" href="$class_draw_object.html" title="DrawObject" alt="" coords="251,132,341,159"/>
+<area shape="rect" id="node4" href="$class_observable.html" title="Observable\&lt; DrawObserver \&gt;" alt="" coords="6,132,202,159"/>
+<area shape="rect" id="node5" href="$class_ref_object.html" title="RefObject" alt="" coords="255,183,337,209"/>
+<area shape="rect" id="node10" href="$class_o_h_l_c_bar_renderer.html" title="OHLCBarRenderer" alt="" coords="713,107,845,133"/>
+<area shape="rect" id="node11" href="$class_o_h_l_c_candlestick_renderer.html" title="OHLCCandlestickRenderer" alt="" coords="688,157,869,184"/>
+<area shape="rect" id="node13" href="$class_x_y_area_renderer.html" title="XYAreaRenderer" alt="" coords="719,208,839,235"/>
+<area shape="rect" id="node14" href="$class_x_y_histo_renderer.html" title="XYHistoRenderer" alt="" coords="717,259,841,285"/>
+<area shape="rect" id="node15" href="$class_x_y_line_renderer_base.html" title="XYLineRendererBase" alt="" coords="705,309,852,336"/>
+<area shape="rect" id="node16" href="$class_x_y_line_renderer.html" title="XYLineRenderer" alt="" coords="931,284,1048,311"/>
+<area shape="rect" id="node17" href="$class_x_y_line_step_renderer.html" title="XYLineStepRenderer" alt="" coords="917,335,1061,361"/>
+</map>

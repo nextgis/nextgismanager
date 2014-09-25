@@ -3,6 +3,7 @@ var classwx_g_i_s_simple_fill_symbol =
     [ "wxGISSimpleFillSymbol", "classwx_g_i_s_simple_fill_symbol.html#aaadb7d4172f801213017c43fc4195f09", null ],
     [ "wxGISSimpleFillSymbol", "classwx_g_i_s_simple_fill_symbol.html#aff2d4c73a89ff312a9a2f83c3fa9037e", null ],
     [ "~wxGISSimpleFillSymbol", "classwx_g_i_s_simple_fill_symbol.html#ad72b5b30c7e1ca5dc61253f3659f2ccf", null ],
+    [ "Clone", "classwx_g_i_s_simple_fill_symbol.html#af2e56bb2bc479a63debdf3ecaa5d3fea", null ],
     [ "Draw", "classwx_g_i_s_simple_fill_symbol.html#ac5f645a8e7ac255a32517f2f6d163323", null ],
     [ "GetFillRule", "classwx_g_i_s_simple_fill_symbol.html#a8eec01792f69498d6e04584aafbd42ca", null ],
     [ "GetSimpleLineSymbol", "classwx_g_i_s_simple_fill_symbol.html#ad8697c4cbed07c82154b7821e1c6a5b0", null ],

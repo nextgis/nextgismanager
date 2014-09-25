@@ -1,4 +1,4 @@
 <map id="wxGISLocalNetworkPlugin" name="wxGISLocalNetworkPlugin">
-<area shape="rect" id="node2" href="$class_i_network_plugin.html" title="A Server side INetworkPlugin interface. " alt="" coords="5,83,112,109"/>
-<area shape="rect" id="node4" href="$class_i_network_service.html" title="The network service base interface class. " alt="" coords="137,83,252,109"/>
+<area shape="rect" id="node2" href="$class_i_net_plugin.html" title="INetPlugin" alt="" coords="16,83,97,109"/>
+<area shape="rect" id="node4" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="123,83,213,109"/>
 </map>

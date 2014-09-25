@@ -1,46 +1,49 @@
 <map id="wxGxObject" name="wxGxObject">
-<area shape="rect" id="node3" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="321,132,421,159"/>
-<area shape="rect" id="node14" href="$classwx_gx_file.html" title="A file GxObject. " alt="" coords="333,284,409,311"/>
-<area shape="rect" id="node20" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="297,411,445,437"/>
-<area shape="rect" id="node46" href="$classwx_gx_pending_u_i.html" title="The pending item in tree or content view. " alt="" coords="313,461,428,488"/>
-<area shape="rect" id="node4" href="$classwx_gx_feature_dataset.html" title="A Feature Dataset GxObject. " alt="" coords="521,56,665,83"/>
-<area shape="rect" id="node8" href="$classwx_gx_raster_dataset.html" title="A Raster Dataset GxObject. " alt="" coords="524,107,663,133"/>
-<area shape="rect" id="node12" href="$classwx_gx_table_dataset.html" title="A Table Dataset GxObject. " alt="" coords="528,157,659,184"/>
-<area shape="rect" id="node5" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="742,5,898,32"/>
-<area shape="rect" id="node6" href="$classwx_gx_m_l_sub_dataset.html" title="A ml layer GxObject. " alt="" coords="749,56,891,83"/>
-<area shape="rect" id="node7" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="A kml layer GxObject. " alt="" coords="954,56,1107,83"/>
-<area shape="rect" id="node9" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="745,107,895,133"/>
-<area shape="rect" id="node10" href="$classwx_gx_t_m_s_web_service.html" title="A TMS Web Service GxObject. " alt="" coords="745,157,895,184"/>
-<area shape="rect" id="node11" href="$classwx_gx_t_m_s_web_service_u_i.html" title="A TMS Web Service GxObjectUI. " alt="" coords="949,157,1112,184"/>
-<area shape="rect" id="node13" href="$classwx_gx_table_dataset_u_i.html" title="wxGxTableDatasetUI" alt="" coords="749,208,891,235"/>
-<area shape="rect" id="node15" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="549,208,637,235"/>
-<area shape="rect" id="node16" href="$classwx_gx_prj_file.html" title="A proj file GxObject. " alt="" coords="547,259,639,285"/>
-<area shape="rect" id="node18" href="$classwx_gx_text_file.html" title="A text file GxObject. " alt="" coords="543,309,644,336"/>
-<area shape="rect" id="node17" href="$classwx_gx_prj_file_u_i.html" title="A proj file GxObject. " alt="" coords="768,259,872,285"/>
-<area shape="rect" id="node19" href="$classwx_gx_text_file_u_i.html" title="A text file GxObject. " alt="" coords="763,309,877,336"/>
-<area shape="rect" id="node21" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="529,360,658,387"/>
-<area shape="rect" id="node27" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="516,461,671,488"/>
-<area shape="rect" id="node30" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="548,613,639,640"/>
-<area shape="rect" id="node42" href="$classwx_gx_j_s_o_n_connection_storage.html" title="The class support for storing and updating json file connections. " alt="" coords="494,715,693,741"/>
-<area shape="rect" id="node45" href="$classwx_rx_object_container.html" title="The base class for Remote GxObjectContainers (RxObjectContainers). " alt="" coords="747,411,893,437"/>
-<area shape="rect" id="node22" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="771,360,869,387"/>
-<area shape="rect" id="node23" href="$classwx_gx_catalog_u_i.html" title="The GxCatalogUI class. " alt="" coords="975,360,1086,387"/>
-<area shape="rect" id="node24" href="$classwx_rx_catalog.html" title="The root of Remote GxObjects (RxObjects). " alt="" coords="981,411,1080,437"/>
-<area shape="rect" id="node25" href="$classwx_gx_remote_server.html" title="A Remote Server GxObject. " alt="" coords="1163,411,1299,437"/>
-<area shape="rect" id="node26" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="1347,411,1495,437"/>
-<area shape="rect" id="node28" href="$classwx_gx_m_l_dataset.html" title="A markup language GxObject. " alt="" coords="761,461,879,488"/>
-<area shape="rect" id="node29" href="$classwx_gx_m_l_dataset_u_i.html" title="A markup language (kml, gml, etc.) dataset GxObject. " alt="" coords="965,461,1096,488"/>
-<area shape="rect" id="node31" href="$classwx_gx_archive_folder.html" title="The Archive Folder GxObject. " alt="" coords="753,537,887,564"/>
-<area shape="rect" id="node35" href="$classwx_gx_d_b_connections.html" title="The database connections root item. " alt="" coords="747,588,893,615"/>
-<area shape="rect" id="node37" href="$classwx_gx_disc_connection.html" title="A Disc Connection GxObject. " alt="" coords="747,639,893,665"/>
-<area shape="rect" id="node39" href="$classwx_gx_folder_u_i.html" title="A folder GxObject. " alt="" coords="769,689,871,716"/>
-<area shape="rect" id="node40" href="$classwx_gx_web_connections.html" title="The web services connections root item. " alt="" coords="743,740,897,767"/>
-<area shape="rect" id="node32" href="$classwx_gx_archive.html" title="The Archive GxObject. " alt="" coords="982,512,1079,539"/>
-<area shape="rect" id="node34" href="$classwx_gx_archive_folder_u_i.html" title="An archive folder GxObject. " alt="" coords="958,563,1103,589"/>
-<area shape="rect" id="node33" href="$classwx_gx_archive_u_i.html" title="An archive GxObject. " alt="" coords="1176,512,1285,539"/>
-<area shape="rect" id="node36" href="$classwx_gx_d_b_connections_u_i.html" title="The database connections root item in user interface. " alt="" coords="952,613,1109,640"/>
-<area shape="rect" id="node38" href="$classwx_gx_disc_connection_u_i.html" title="A Disc Connection GxObject. " alt="" coords="951,664,1110,691"/>
-<area shape="rect" id="node41" href="$classwx_gx_web_connections_u_i.html" title="The web service connections root item in user interface. " alt="" coords="947,740,1114,767"/>
-<area shape="rect" id="node43" href="$classwx_gx_disc_connections.html" title="The Disc Connections GxRootObject. " alt="" coords="743,791,897,817"/>
-<area shape="rect" id="node44" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="948,791,1113,817"/>
+<area shape="rect" id="node3" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="326,284,429,311"/>
+<area shape="rect" id="node20" href="$classwx_gx_file.html" title="wxGxFile" alt="" coords="339,487,416,513"/>
+<area shape="rect" id="node26" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="302,873,453,900"/>
+<area shape="rect" id="node49" href="$classwx_gx_pending_u_i.html" title="The pending item in tree or content view. " alt="" coords="319,924,436,951"/>
+<area shape="rect" id="node4" href="$classwx_gx_feature_dataset.html" title="wxGxFeatureDataset" alt="" coords="529,233,676,260"/>
+<area shape="rect" id="node10" href="$classwx_gx_raster_dataset.html" title="wxGxRasterDataset" alt="" coords="532,309,673,336"/>
+<area shape="rect" id="node14" href="$classwx_gx_table.html" title="wxGxTable" alt="" coords="559,81,647,108"/>
+<area shape="rect" id="node5" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="772,259,932,285"/>
+<area shape="rect" id="node7" href="$classwx_gx_inited_feature_dataset.html" title="wxGxInitedFeatureDataset" alt="" coords="763,157,941,184"/>
+<area shape="rect" id="node8" href="$classwx_gx_m_l_sub_dataset.html" title="wxGxMLSubDataset" alt="" coords="781,208,923,235"/>
+<area shape="rect" id="node6" href="$classwx_gx_inited_feature_dataset_u_i.html" title="wxGxInitedFeatureDatasetUI" alt="" coords="1011,259,1203,285"/>
+<area shape="rect" id="node9" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="wxGxMLSubDatasetUI" alt="" coords="1028,208,1185,235"/>
+<area shape="rect" id="node11" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="775,309,929,336"/>
+<area shape="rect" id="node12" href="$classwx_gx_t_m_s_web_service.html" title="wxGxTMSWebService" alt="" coords="775,360,929,387"/>
+<area shape="rect" id="node13" href="$classwx_gx_t_m_s_web_service_u_i.html" title="wxGxTMSWebServiceUI" alt="" coords="1022,360,1191,387"/>
+<area shape="rect" id="node15" href="$classwx_gx_inited_table.html" title="wxGxInitedTable" alt="" coords="792,107,912,133"/>
+<area shape="rect" id="node16" href="$classwx_gx_spreadsheet_sub_dataset.html" title="wxGxSpreadsheetSubDataset" alt="" coords="753,5,951,32"/>
+<area shape="rect" id="node18" href="$classwx_gx_table_u_i.html" title="wxGxTableUI" alt="" coords="801,56,903,83"/>
+<area shape="rect" id="node17" href="$classwx_gx_spreadsheet_sub_dataset_u_i.html" title="wxGxSpreadsheetSubDatasetUI" alt="" coords="1001,5,1213,32"/>
+<area shape="rect" id="node19" href="$classwx_gx_inited_table_u_i.html" title="wxGxInitedTableUI" alt="" coords="1039,56,1174,83"/>
+<area shape="rect" id="node21" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="557,461,648,488"/>
+<area shape="rect" id="node22" href="$classwx_gx_prj_file.html" title="wxGxPrjFile" alt="" coords="556,512,649,539"/>
+<area shape="rect" id="node24" href="$classwx_gx_text_file.html" title="wxGxTextFile" alt="" coords="551,411,654,437"/>
+<area shape="rect" id="node23" href="$classwx_gx_prj_file_u_i.html" title="wxGxPrjFileUI" alt="" coords="799,461,905,488"/>
+<area shape="rect" id="node25" href="$classwx_gx_text_file_u_i.html" title="wxGxTextFileUI" alt="" coords="793,411,911,437"/>
+<area shape="rect" id="node27" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="537,1117,668,1144"/>
+<area shape="rect" id="node31" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="523,588,682,615"/>
+<area shape="rect" id="node36" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="557,816,649,843"/>
+<area shape="rect" id="node43" href="$classwx_gx_j_s_o_n_connection_storage.html" title="wxGxJSONConnectionStorage" alt="" coords="501,873,704,900"/>
+<area shape="rect" id="node45" href="$classwx_gx_object_container_updater.html" title="wxGxObjectContainerUpdater" alt="" coords="505,924,701,951"/>
+<area shape="rect" id="node46" href="$classwx_gx_q_g_i_s_proj_file.html" title="wxGxQGISProjFile" alt="" coords="536,987,669,1013"/>
+<area shape="rect" id="node48" href="$classwx_rx_object_container.html" title="The base class for Remote GxObjectContainers (RxObjectContainers). " alt="" coords="777,1069,927,1096"/>
+<area shape="rect" id="node28" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="801,1120,903,1147"/>
+<area shape="rect" id="node29" href="$classwx_gx_catalog_u_i.html" title="wxGxCatalogUI" alt="" coords="1049,1120,1164,1147"/>
+<area shape="rect" id="node30" href="$classwx_rx_catalog.html" title="The root of Remote GxObjects (RxObjects). " alt="" coords="1056,1069,1157,1096"/>
+<area shape="rect" id="node32" href="$classwx_gx_m_l_dataset.html" title="wxGxMLDataset" alt="" coords="792,613,912,640"/>
+<area shape="rect" id="node34" href="$classwx_gx_open_file_g_d_b.html" title="wxGxOpenFileGDB" alt="" coords="783,512,921,539"/>
+<area shape="rect" id="node35" href="$classwx_gx_spreadsheet_dataset.html" title="wxGxSpreadsheetDataset" alt="" coords="765,563,939,589"/>
+<area shape="rect" id="node33" href="$classwx_gx_m_l_dataset_u_i.html" title="wxGxMLDatasetUI" alt="" coords="1039,613,1174,640"/>
+<area shape="rect" id="node37" href="$classwx_gx_archive_folder.html" title="wxGxArchiveFolder" alt="" coords="784,917,920,944"/>
+<area shape="rect" id="node38" href="$classwx_gx_d_b_connections.html" title="wxGxDBConnections" alt="" coords="778,664,926,691"/>
+<area shape="rect" id="node39" href="$classwx_gx_disc_connection.html" title="wxGxDiscConnection" alt="" coords="777,715,927,741"/>
+<area shape="rect" id="node40" href="$classwx_gx_folder_u_i.html" title="wxGxFolderUI" alt="" coords="799,765,905,792"/>
+<area shape="rect" id="node41" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="773,816,931,843"/>
+<area shape="rect" id="node42" href="$classwx_gx_web_connections.html" title="wxGxWebConnections" alt="" coords="774,867,930,893"/>
+<area shape="rect" id="node44" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="774,968,930,995"/>
+<area shape="rect" id="node47" href="$classwx_gx_q_g_i_s_proj_file_u_i.html" title="wxGxQGISProjFileUI" alt="" coords="779,1019,925,1045"/>
 </map>

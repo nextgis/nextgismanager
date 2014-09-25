@@ -1,0 +1,8 @@
+<map id="AreaDrawCollection::GetAreaDraw" name="AreaDrawCollection::GetAreaDraw">
+<area shape="rect" id="node2" href="$class_bar_renderer.html#acf8b1288e0e53ad9b80f771fbaf2414e" title="BarRenderer::GetBarDraw" alt="" coords="205,31,379,57"/>
+<area shape="rect" id="node7" href="$class_x_y_histo_renderer.html#ab71bcdf74fc6e613e4b10fc0ee887648" title="XYHistoRenderer::GetBarArea" alt="" coords="192,81,392,108"/>
+<area shape="rect" id="node3" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="495,5,606,32"/>
+<area shape="rect" id="node6" href="$class_bar_renderer.html#af4e4fc3c0ed770cbe82068d812c93a09" title="BarRenderer::DrawLegendSymbol" alt="" coords="441,56,661,83"/>
+<area shape="rect" id="node4" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="710,5,845,32"/>
+<area shape="rect" id="node5" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="893,5,1051,32"/>
+</map>

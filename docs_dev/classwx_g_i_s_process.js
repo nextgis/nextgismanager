@@ -2,7 +2,7 @@ var classwx_g_i_s_process =
 [
     [ "wxGISProcess", "classwx_g_i_s_process.html#a11f2a557b4b541740f679877cdae1783", null ],
     [ "~wxGISProcess", "classwx_g_i_s_process.html#a28742e11dbe5d4af71274949ffe12785", null ],
-    [ "AddInfo", "classwx_g_i_s_process.html#a9daff9581fe5dea773407d5c9a6b6103", null ],
+    [ "AddInfo", "classwx_g_i_s_process.html#a0246c293a7b9ff7dc8a6015e5a338c2a", null ],
     [ "CreateAndRunReadThread", "classwx_g_i_s_process.html#a1cdb797bb16363ad50b158054a379e80", null ],
     [ "DestroyReadThread", "classwx_g_i_s_process.html#a836a40223114afa71bd74668e9b0e346", null ],
     [ "Entry", "classwx_g_i_s_process.html#ad0a1db2b54f24ba3193488c1aba6cd4d", null ],
@@ -16,6 +16,7 @@ var classwx_g_i_s_process =
     [ "Start", "classwx_g_i_s_process.html#a9a15c9d28d8e4e010866b2cbad9028a7", null ],
     [ "Stop", "classwx_g_i_s_process.html#aba7ebcaef0f0c42d64ecc377fae01078", null ],
     [ "UpdatePercent", "classwx_g_i_s_process.html#aca6aa81763c225872d7c549ac1b52d62", null ],
+    [ "m_bKill", "classwx_g_i_s_process.html#aa5a60cf110b3ddda1e01445b9d82b38d", null ],
     [ "m_dfDone", "classwx_g_i_s_process.html#ae69ac4738f6fcdd810bbbeb8b5f9351b", null ],
     [ "m_dtBeg", "classwx_g_i_s_process.html#a8efc6245820849b3eeaef50c67cc9fab", null ],
     [ "m_dtEstEnd", "classwx_g_i_s_process.html#aaf9ffec31fbec1068a117a029bbae76b", null ],

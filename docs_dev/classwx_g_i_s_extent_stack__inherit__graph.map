@@ -1,6 +1,8 @@
 <map id="wxGISExtentStack" name="wxGISExtentStack">
-<area shape="rect" id="node3" href="$classwx_g_i_s_map_view.html" title="The MapView class draw layers to wxWindow. " alt="" coords="135,155,248,181"/>
-<area shape="rect" id="node2" href="$classwx_g_i_s_map.html" title="The Map class &#45; array of layers. " alt="" coords="149,5,235,32"/>
-<area shape="rect" id="node4" href="$classwx_gx_map_view.html" title="The view for map showing. " alt="" coords="5,229,112,256"/>
-<area shape="rect" id="node5" href="$classwx_mx_map_view.html" title="This is the map view class in MxApplication. " alt="" coords="137,229,247,256"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_map_bitmap.html" title="wxGISMapBitmap" alt="" coords="5,155,133,181"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_map_view.html" title="wxGISMapView" alt="" coords="158,155,273,181"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_map.html" title="wxGISMap" alt="" coords="99,5,185,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_drawing_map_view.html" title="wxGISDrawingMapView" alt="" coords="54,229,217,256"/>
+<area shape="rect" id="node7" href="$classwx_mx_map_view.html" title="This is the map view class in MxApplication. " alt="" coords="242,229,352,256"/>
+<area shape="rect" id="node6" href="$classwx_gx_map_view.html" title="The view for map showing. " alt="" coords="81,304,191,331"/>
 </map>

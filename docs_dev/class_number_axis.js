@@ -1,0 +1,25 @@
+var class_number_axis =
+[
+    [ "NumberAxis", "class_number_axis.html#aa3bf28f4eb9b68abd3f73a6ad38bda75", null ],
+    [ "~NumberAxis", "class_number_axis.html#a10e002eeb2562c80a6be88f829c22a31", null ],
+    [ "AcceptDataset", "class_number_axis.html#a74cda238e33e5aea129563b88d906f05", null ],
+    [ "GetDataBounds", "class_number_axis.html#afec95e5780d7ff09279af18ba6c34dde", null ],
+    [ "GetLabel", "class_number_axis.html#aa2c5601bee6d7cbdce1f8bc7d632671f", null ],
+    [ "GetLabelCount", "class_number_axis.html#a85c2a3db68f49a41b507e707fa57f970", null ],
+    [ "GetLongestLabelExtent", "class_number_axis.html#a31a9df31f3a3fa937bbdf24aee29c564", null ],
+    [ "GetMultiplier", "class_number_axis.html#a4a5f1d0b5412dd0ff1ed62d776cff643", null ],
+    [ "GetValue", "class_number_axis.html#ae646afa5b4b1b552fdf42f278332019f", null ],
+    [ "HasLabels", "class_number_axis.html#ac2615f4b26f967ab7ff180e72747b4ac", null ],
+    [ "IntegerValues", "class_number_axis.html#a04ac50d90c34c9c8b09ef11470dfdd7d", null ],
+    [ "IsEnd", "class_number_axis.html#adb7269c649d60f94635e136a6345b18c", null ],
+    [ "SetFixedBounds", "class_number_axis.html#a4f0b24a7e1cf37d20cb1cc1f16caadad", null ],
+    [ "SetLabelCount", "class_number_axis.html#af7eb4bf685f99e92edd1b71158405a4b", null ],
+    [ "SetMultiplier", "class_number_axis.html#ab46c6488236222faee8aebaead77e77d", null ],
+    [ "SetTickFormat", "class_number_axis.html#a07b6aeff506a9e6de96886eeebe3479a", null ],
+    [ "UpdateBounds", "class_number_axis.html#ae78cb4facd4db4bd42c2cdc47f72f002", null ],
+    [ "UpdateTickValues", "class_number_axis.html#ae32dc83eccc1232261c8085f4e513eb7", null ],
+    [ "m_fixedBounds", "class_number_axis.html#a272376f7b6e7aeed81f682e90904dfa0", null ],
+    [ "m_hasLabels", "class_number_axis.html#a91feb4fa45d67922193e43bed218791d", null ],
+    [ "m_maxValue", "class_number_axis.html#a0b6e0c742a920f845fc72c937204ea6e", null ],
+    [ "m_minValue", "class_number_axis.html#a6e36140475a86ae9efa06b7d7b6cc709", null ]
+];

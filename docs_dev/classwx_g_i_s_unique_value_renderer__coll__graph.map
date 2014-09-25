@@ -1,18 +1,18 @@
 <map id="wxGISUniqueValueRenderer" name="wxGISUniqueValueRenderer">
-<area shape="rect" id="node2" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="1419,347,1575,373"/>
-<area shape="rect" id="node15" href="$classwx_g_i_s_feature_layer.html" title="The class represent vector datasource in map. " alt="" coords="1793,267,1929,293"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="1139,347,1251,373"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="863,277,955,304"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,240,293,267"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="527,183,633,209"/>
-<area shape="rect" id="node14" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="857,457,961,484"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="475,119,685,145"/>
-<area shape="rect" id="node21" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="864,165,955,192"/>
-<area shape="rect" id="node16" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1435,97,1560,124"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,335,264,361"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="529,529,631,556"/>
-<area shape="rect" id="node12" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="168,559,259,585"/>
-<area shape="rect" id="node20" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="1120,165,1269,192"/>
-<area shape="rect" id="node18" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1146,108,1243,135"/>
-<area shape="rect" id="node19" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="865,108,953,135"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="1571,309,1730,336"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_feature_layer.html" title="wxGISFeatureLayer" alt="" coords="1951,309,2089,336"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="1285,304,1400,331"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_layer.html" title="wxGISLayer" alt="" coords="1009,319,1103,345"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="280,181,443,208"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="667,229,775,256"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="668,449,775,476"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="614,280,829,307"/>
+<area shape="rect" id="node20" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="1009,203,1103,229"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1587,100,1715,127"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="310,345,413,372"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="308,496,415,523"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="5,525,99,552"/>
+<area shape="rect" id="node19" href="$classwx_g_i_s_feature_dataset.html" title="wxGISFeatureDataset" alt="" coords="1267,203,1419,229"/>
+<area shape="rect" id="node17" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1293,40,1393,67"/>
+<area shape="rect" id="node18" href="$class_i_progressor.html" title="IProgressor" alt="" coords="1011,51,1101,77"/>
 </map>

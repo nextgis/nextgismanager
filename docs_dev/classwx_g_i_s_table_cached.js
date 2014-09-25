@@ -1,6 +1,6 @@
 var classwx_g_i_s_table_cached =
 [
-    [ "wxGISTableCached", "classwx_g_i_s_table_cached.html#a9ee6dd565eec36209d8bbedd24b3702c", null ],
+    [ "wxGISTableCached", "classwx_g_i_s_table_cached.html#a45cd0c942d2cfd17b4b0f9e2fe8faee4", null ],
     [ "~wxGISTableCached", "classwx_g_i_s_table_cached.html#a7d8f605c23465803693be1c51f738d96", null ],
     [ "Cache", "classwx_g_i_s_table_cached.html#aab0d1d89afcd502f61b62dc9617d91f9", null ],
     [ "Close", "classwx_g_i_s_table_cached.html#af21709fbb63a7f2c91c4917634e3ba40", null ],
@@ -11,6 +11,7 @@ var classwx_g_i_s_table_cached =
     [ "IsCaching", "classwx_g_i_s_table_cached.html#a089186ec6b4d7942c3e97570cffef914", null ],
     [ "Next", "classwx_g_i_s_table_cached.html#a24195e336d896b359a4ec5a821cda346", null ],
     [ "Reset", "classwx_g_i_s_table_cached.html#ad97ad0896b2ec16adfa2b763c38f7529", null ],
+    [ "Search", "classwx_g_i_s_table_cached.html#a17607f79ac2dbdca7ff21c62418f07eb", null ],
     [ "SetFeature", "classwx_g_i_s_table_cached.html#ae97b32b5d36c149bf0652b94ac853fdd", null ],
     [ "StoreFeature", "classwx_g_i_s_table_cached.html#a95e82156db30af4704dddfdc1a4b0521", null ],
     [ "m_bIsCaching", "classwx_g_i_s_table_cached.html#a7500cbab3c9c8b9a904cfa1b64b458a2", null ],

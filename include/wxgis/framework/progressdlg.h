@@ -48,7 +48,7 @@
 
     The dialog showing progress and some buttons.
 
-    @library {framework}
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISProgressDlg :
 	public wxDialog,

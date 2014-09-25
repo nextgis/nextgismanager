@@ -1,6 +1,6 @@
 <map id="wxGISNetClientConnection" name="wxGISNetClientConnection">
-<area shape="rect" id="node2" href="$class_i_net_connection.html" title="The network connection interface class. " alt="" coords="229,83,339,109"/>
-<area shape="rect" id="node5" href="$classwx_net_reader_thread.html" title="The network connection reader thread. " alt="" coords="444,173,583,200"/>
-<area shape="rect" id="node7" href="$classwx_net_writer_thread.html" title="The network connection writer thread. " alt="" coords="218,173,349,200"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="89,5,300,32"/>
+<area shape="rect" id="node2" href="$class_i_net_connection.html" title="INetConnection" alt="" coords="231,83,344,109"/>
+<area shape="rect" id="node5" href="$classwx_net_reader_thread.html" title="wxNetReaderThread" alt="" coords="450,173,592,200"/>
+<area shape="rect" id="node7" href="$classwx_net_writer_thread.html" title="wxNetWriterThread" alt="" coords="221,173,355,200"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="89,5,303,32"/>
 </map>

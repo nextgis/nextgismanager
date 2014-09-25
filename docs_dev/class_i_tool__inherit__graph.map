@@ -1,5 +1,7 @@
 <map id="ITool" name="ITool">
-<area shape="rect" id="node4" href="$classwx_g_i_s_carto_frame_tool.html" title="The carto frame tools and commands. " alt="" coords="5,229,157,256"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_carto_main_tool.html" title="The carto main tool. " alt="" coords="182,229,324,256"/>
-<area shape="rect" id="node2" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="107,80,225,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_carto_frame_tool.html" title="wxGISCartoFrameTool" alt="" coords="5,229,160,256"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_carto_main_tool.html" title="wxGISCartoMainTool" alt="" coords="185,229,332,256"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_drawing_tool.html" title="wxGISDrawingTool" alt="" coords="357,229,491,256"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_drawing_tool_menu.html" title="wxGISDrawingToolMenu" alt="" coords="515,229,681,256"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="280,80,403,107"/>
 </map>

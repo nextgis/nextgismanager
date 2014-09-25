@@ -1,4 +1,4 @@
 <map id="wxGISDataset" name="wxGISDataset">
-<area shape="rect" id="node4" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="43,83,201,109"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="227,83,328,109"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="44,83,207,109"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="231,83,333,109"/>
 </map>

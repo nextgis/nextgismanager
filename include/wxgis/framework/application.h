@@ -34,7 +34,7 @@
 
     A wxGISApplication class. Application class with menu, commands and toolbars
 
-    @library {framework}
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISApplication :
 	public wxFrame,	

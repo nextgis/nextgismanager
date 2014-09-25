@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structwx_g_i_s_g_p_tool_manager_1_1__toolinfo.html" title="wxGISGPToolManager\l::_toolinfo" alt="" coords="6,5,159,46"/>
+<area shape="rect" id="node2" href="$classwx_feature_cursor_ref_data.html" title="The reference data class for wxFeatureCursor. " alt="" coords="201,5,372,32"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_config_ref_data.html" title="wxGISConfigRefData" alt="" coords="212,56,361,83"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_feature_ref_data.html" title="wxGISFeatureRefData" alt="" coords="209,107,364,133"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_geometry_ref_data.html" title="wxGISGeometryRefData" alt="" coords="203,157,371,184"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_spatial_reference_ref_data.html" title="wxGISSpatialReferenceRefData" alt="" coords="181,208,392,235"/>
+<area shape="rect" id="node7" href="$classwx_net_message_ref_data.html" title="wxNetMessageRefData" alt="" coords="205,259,368,285"/>
 </map>

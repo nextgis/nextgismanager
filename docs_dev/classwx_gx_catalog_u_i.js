@@ -9,6 +9,7 @@ var classwx_gx_catalog_u_i =
     [ "GetLargeImage", "classwx_gx_catalog_u_i.html#ac5a18cb40062c42021f4367ea5a4f021", null ],
     [ "GetOpenLastPath", "classwx_gx_catalog_u_i.html#a4dc6498e7c4572fc7df3e0bf1b477921", null ],
     [ "GetSmallImage", "classwx_gx_catalog_u_i.html#a4421b423fda5cbe307fa1326c1eb40d8", null ],
+    [ "Init", "classwx_gx_catalog_u_i.html#afeae0927b1d5be27cb76fb098d950b55", null ],
     [ "NewMenu", "classwx_gx_catalog_u_i.html#a1a4887699b7c05a95defd01d5e9b1906", null ],
     [ "RemovePending", "classwx_gx_catalog_u_i.html#afd875e27eae795efc12f1e49b05dd0ec", null ],
     [ "SetOpenLastPath", "classwx_gx_catalog_u_i.html#a0e166cfd8decdc0183ada2f23c03c58d", null ],

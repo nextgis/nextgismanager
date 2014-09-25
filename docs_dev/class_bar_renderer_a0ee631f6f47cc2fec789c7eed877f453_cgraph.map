@@ -1,0 +1,12 @@
+<map id="BarRenderer::Draw" name="BarRenderer::Draw">
+<area shape="rect" id="node2" href="$class_category_dataset.html#a888d474a030c55c2998066e04f8bbff1" title="CategoryDataset::GetCount" alt="" coords="190,36,375,63"/>
+<area shape="rect" id="node3" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="227,87,338,113"/>
+<area shape="rect" id="node4" href="$class_bar_type.html#ae8a8497dd3f08aa15b0b7de545e4bb40" title="BarType::GetBarGeometry" alt="" coords="425,8,602,35"/>
+<area shape="rect" id="node5" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="452,59,575,85"/>
+<area shape="rect" id="node8" href="$class_bar_renderer.html#acf8b1288e0e53ad9b80f771fbaf2414e" title="BarRenderer::GetBarDraw" alt="" coords="426,113,601,140"/>
+<area shape="rect" id="node11" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="454,164,573,191"/>
+<area shape="rect" id="node6" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="651,5,800,32"/>
+<area shape="rect" id="node7" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="670,56,781,83"/>
+<area shape="rect" id="node9" href="$class_area_draw_collection.html#a43443e8c7ad5b20ab05dabfb784f625b" title="AreaDrawCollection\l::GetAreaDraw" alt="" coords="656,107,795,149"/>
+<area shape="rect" id="node10" href="$class_area_draw_collection.html#a14ae682bd4f08ec9093c12fbcf644e53" title="AreaDrawCollection\l::SetAreaDraw" alt="" coords="656,173,795,214"/>
+</map>

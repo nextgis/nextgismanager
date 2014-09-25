@@ -1,9 +1,9 @@
 <map id="wxGISTask" name="wxGISTask">
-<area shape="rect" id="node2" href="$classwx_g_i_s_task_base.html" title="The base task class. " alt="" coords="579,56,698,83"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="251,56,461,83"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_process.html" title="The process class which stores the application execution data. " alt="" coords="585,132,693,159"/>
-<area shape="rect" id="node8" href="$class_i_g_i_s_process_parent.html" title="The wxGISProcess parent interface class. " alt="" coords="289,208,423,235"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html" title="The JSON value class implementation. " alt="" coords="586,207,691,233"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="297,259,415,285"/>
-<area shape="rect" id="node11" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="6,259,149,285"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_task_base.html" title="wxGISTaskBase" alt="" coords="587,56,709,83"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="254,56,469,83"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_process.html" title="The process class which stores the application execution data. " alt="" coords="593,132,703,159"/>
+<area shape="rect" id="node8" href="$class_i_g_i_s_process_parent.html" title="The wxGISProcess parent interface class. " alt="" coords="294,208,429,235"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html" title="The JSON value class implementation. " alt="" coords="594,207,702,233"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_ref_data.html" title="The reference counted JSON value data (internal use). " alt="" coords="299,259,423,285"/>
+<area shape="rect" id="node11" href="$unionwx_j_s_o_n_value_holder.html" title="The actual value held by the wxJSONValue class (internal use) " alt="" coords="5,259,152,285"/>
 </map>

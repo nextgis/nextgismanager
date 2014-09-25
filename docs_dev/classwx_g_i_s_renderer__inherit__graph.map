@@ -1,9 +1,9 @@
 <map id="wxGISRenderer" name="wxGISRenderer">
-<area shape="rect" id="node3" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="291,20,447,47"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_raster_renderer.html" title="The base class for renderers. " alt="" coords="294,100,445,127"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_unique_value_renderer.html" title="wxGISUniqueValueRenderer" alt="" coords="509,5,694,32"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="496,56,707,83"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_raster_raster_colormap_renderer.html" title="The raster layer renderer for Palette Index data. " alt="" coords="506,107,697,149"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_raster_r_g_b_a_renderer.html" title="The raster layer renderer for RGB data and Alpha channel. " alt="" coords="508,173,695,200"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_raster_packed_r_g_b_a_renderer.html" title="The raster layer renderer for packed RGB data and Alpha channel. " alt="" coords="755,56,986,83"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="294,20,453,47"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_raster_renderer.html" title="The base class for renderers. " alt="" coords="296,100,451,127"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_unique_value_renderer.html" title="wxGISUniqueValueRenderer" alt="" coords="515,5,704,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="502,56,717,83"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_raster_raster_colormap_renderer.html" title="The raster layer renderer for Palette Index data. " alt="" coords="511,107,707,149"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_raster_r_g_b_a_renderer.html" title="The raster layer renderer for RGB data and Alpha channel. " alt="" coords="513,173,705,200"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_raster_packed_r_g_b_a_renderer.html" title="The raster layer renderer for packed RGB data and Alpha channel. " alt="" coords="766,56,1002,83"/>
 </map>

@@ -4,6 +4,7 @@ var classwx_gx_dataset_filter =
     [ "~wxGxDatasetFilter", "classwx_gx_dataset_filter.html#a5221a875c2a584d77def977530ac2521", null ],
     [ "CanChooseObject", "classwx_gx_dataset_filter.html#abcbba2ba0c8d350c99f05928f67f59c3", null ],
     [ "CanDisplayObject", "classwx_gx_dataset_filter.html#a59c24b57e4cb3c6214e387dc7d876ace", null ],
+    [ "CanStoreToObject", "classwx_gx_dataset_filter.html#a55df0c9ea1b904d4bfd7f84ea87b6e74", null ],
     [ "GetName", "classwx_gx_dataset_filter.html#a6a4be4481c762c7d06abea53ccca212e", null ],
     [ "GetSubType", "classwx_gx_dataset_filter.html#aa028b8489331cc5eec70440245f4d07c", null ],
     [ "GetType", "classwx_gx_dataset_filter.html#ad87314425b8a6689289fc330d7b37c6a", null ],

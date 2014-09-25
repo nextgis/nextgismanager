@@ -1,6 +1,6 @@
 var classwx_g_i_s_feature_dataset_cached =
 [
-    [ "wxGISFeatureDatasetCached", "classwx_g_i_s_feature_dataset_cached.html#a740354ae6e01b50f81a6420b0d2a9150", null ],
+    [ "wxGISFeatureDatasetCached", "classwx_g_i_s_feature_dataset_cached.html#a0fd1031c5bc8e46fbd0a778818839c41", null ],
     [ "~wxGISFeatureDatasetCached", "classwx_g_i_s_feature_dataset_cached.html#ace14e8794e64df68687c5a6234f6680e", null ],
     [ "Cache", "classwx_g_i_s_feature_dataset_cached.html#a90496f49ef2c94875365604067a015cf", null ],
     [ "Close", "classwx_g_i_s_feature_dataset_cached.html#aeb8a3cbd9f1057d8f6dd10139d577750", null ],
@@ -13,6 +13,7 @@ var classwx_g_i_s_feature_dataset_cached =
     [ "GetSubset", "classwx_g_i_s_feature_dataset_cached.html#adc83bd3fa281da692b8b7957e9a4cc55", null ],
     [ "Next", "classwx_g_i_s_feature_dataset_cached.html#aaff93dc187945e1554c28e10b931df46", null ],
     [ "Reset", "classwx_g_i_s_feature_dataset_cached.html#a1b47a03eb5a70ace732e3cc30d71d7fa", null ],
+    [ "SetEncoding", "classwx_g_i_s_feature_dataset_cached.html#a1004944976cb516f952b4ad72ede8e1f", null ],
     [ "SetFeature", "classwx_g_i_s_feature_dataset_cached.html#a187106b82ed888c9d43ed225b46588a6", null ],
     [ "StoreFeature", "classwx_g_i_s_feature_dataset_cached.html#a446540045803817211a81bce03dda4e7", null ],
     [ "wxGISQuadTree", "classwx_g_i_s_feature_dataset_cached.html#a2d134693ac530c23c00252ef3dd658f0", null ],

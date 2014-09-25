@@ -2,7 +2,6 @@ var classwx_gx_folder_u_i =
 [
     [ "wxGxFolderUI", "classwx_gx_folder_u_i.html#a3c89af9dc02409925b13738938a12c3c", null ],
     [ "~wxGxFolderUI", "classwx_gx_folder_u_i.html#a20c9a60683f87aa64c87861c45270018", null ],
-    [ "CanDrop", "classwx_gx_folder_u_i.html#ae53fe89ddcfc7911c9eed07e817b6361", null ],
     [ "ContextMenu", "classwx_gx_folder_u_i.html#a018094efd5d60aadaaa68b7d9e20ada1", null ],
     [ "Drop", "classwx_gx_folder_u_i.html#aa84f1704d6079e4af5a02dfc6bd170aa", null ],
     [ "EditProperties", "classwx_gx_folder_u_i.html#ac7508d996ba715e8e64d74f724260a23", null ],

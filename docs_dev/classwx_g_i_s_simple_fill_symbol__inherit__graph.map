@@ -1,4 +1,6 @@
 <map id="wxGISSimpleFillSymbol" name="wxGISSimpleFillSymbol">
-<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="47,80,151,107"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="105,5,207,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_simple_circle_symbol.html" title="wxGISSimpleCircleSymbol" alt="" coords="5,229,184,256"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_simple_ellipse_symbol.html" title="wxGISSimpleEllipseSymbol" alt="" coords="209,229,393,256"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="144,80,251,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="203,5,305,32"/>
 </map>

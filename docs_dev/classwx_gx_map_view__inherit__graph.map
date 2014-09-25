@@ -1,8 +1,9 @@
 <map id="wxGxMapView" name="wxGxMapView">
-<area shape="rect" id="node2" href="$classwx_g_i_s_map_view.html" title="The MapView class draw layers to wxWindow. " alt="" coords="318,155,431,181"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_extent_stack.html" title="The class keep history of map bounds changes. " alt="" coords="113,80,244,107"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_map.html" title="The Map class &#45; array of layers. " alt="" coords="136,5,221,32"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="269,80,480,107"/>
-<area shape="rect" id="node8" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="541,155,624,181"/>
-<area shape="rect" id="node9" href="$class_i_view.html" title="A View interface class. " alt="" coords="643,80,696,107"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_drawing_map_view.html" title="wxGISDrawingMapView" alt="" coords="199,229,363,256"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_map_view.html" title="wxGISMapView" alt="" coords="223,155,339,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_extent_stack.html" title="wxGISExtentStack" alt="" coords="115,80,249,107"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_map.html" title="wxGISMap" alt="" coords="139,5,225,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="274,80,488,107"/>
+<area shape="rect" id="node9" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="388,229,473,256"/>
+<area shape="rect" id="node10" href="$class_i_view.html" title="IView" alt="" coords="403,155,457,181"/>
 </map>

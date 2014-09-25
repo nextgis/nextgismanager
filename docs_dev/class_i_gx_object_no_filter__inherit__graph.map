@@ -1,0 +1,25 @@
+<map id="IGxObjectNoFilter" name="IGxObjectNoFilter">
+<area shape="rect" id="node2" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="182,107,338,133"/>
+<area shape="rect" id="node4" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="214,233,306,260"/>
+<area shape="rect" id="node22" href="$classwx_gx_pending_u_i.html" title="The pending item in tree or content view. " alt="" coords="201,284,319,311"/>
+<area shape="rect" id="node23" href="$classwx_gx_q_g_i_s_proj_file.html" title="wxGxQGISProjFile" alt="" coords="193,360,327,387"/>
+<area shape="rect" id="node3" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="387,56,557,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_archive_folder.html" title="wxGxArchiveFolder" alt="" coords="404,107,540,133"/>
+<area shape="rect" id="node13" href="$classwx_gx_d_b_connections.html" title="wxGxDBConnections" alt="" coords="398,157,546,184"/>
+<area shape="rect" id="node15" href="$classwx_gx_disc_connection.html" title="wxGxDiscConnection" alt="" coords="397,208,547,235"/>
+<area shape="rect" id="node17" href="$classwx_gx_folder_u_i.html" title="wxGxFolderUI" alt="" coords="419,259,525,285"/>
+<area shape="rect" id="node18" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="393,309,551,336"/>
+<area shape="rect" id="node20" href="$classwx_gx_web_connections.html" title="wxGxWebConnections" alt="" coords="394,360,550,387"/>
+<area shape="rect" id="node6" href="$classwx_gx_archive.html" title="wxGxArchive" alt="" coords="642,5,742,32"/>
+<area shape="rect" id="node8" href="$classwx_gx_archive_folder_u_i.html" title="wxGxArchiveFolderUI" alt="" coords="617,56,767,83"/>
+<area shape="rect" id="node10" href="$classwx_gx_prj_folder.html" title="wxGxPrjFolder" alt="" coords="638,107,746,133"/>
+<area shape="rect" id="node7" href="$classwx_gx_archive_u_i.html" title="wxGxArchiveUI" alt="" coords="869,5,984,32"/>
+<area shape="rect" id="node9" href="$classwx_gx_prj_folder_u_i.html" title="wxGxPrjFolderUI" alt="" coords="865,56,988,83"/>
+<area shape="rect" id="node11" href="$classwx_gx_spatial_references_folder.html" title="wxGxSpatialReferencesFolder" alt="" coords="827,107,1026,133"/>
+<area shape="rect" id="node12" href="$classwx_gx_spatial_references_folder_u_i.html" title="wxGxSpatialReferencesFolderUI" alt="" coords="1075,107,1288,133"/>
+<area shape="rect" id="node14" href="$classwx_gx_d_b_connections_u_i.html" title="wxGxDBConnectionsUI" alt="" coords="611,157,773,184"/>
+<area shape="rect" id="node16" href="$classwx_gx_disc_connection_u_i.html" title="wxGxDiscConnectionUI" alt="" coords="611,208,773,235"/>
+<area shape="rect" id="node19" href="$classwx_gx_shell_connections_u_i.html" title="wxGxShellConnectionsUI" alt="" coords="606,309,778,336"/>
+<area shape="rect" id="node21" href="$classwx_gx_web_connections_u_i.html" title="wxGxWebConnectionsUI" alt="" coords="607,360,777,387"/>
+<area shape="rect" id="node24" href="$classwx_gx_q_g_i_s_proj_file_u_i.html" title="wxGxQGISProjFileUI" alt="" coords="399,411,545,437"/>
+</map>

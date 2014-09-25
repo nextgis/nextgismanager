@@ -1,0 +1,11 @@
+<map id="wxGxSpatialReferencesFolder" name="wxGxSpatialReferencesFolder">
+<area shape="rect" id="node11" href="$classwx_gx_spatial_references_folder_u_i.html" title="wxGxSpatialReferencesFolderUI" alt="" coords="207,528,420,555"/>
+<area shape="rect" id="node2" href="$classwx_gx_prj_folder.html" title="wxGxPrjFolder" alt="" coords="178,379,285,405"/>
+<area shape="rect" id="node3" href="$classwx_gx_archive_folder.html" title="wxGxArchiveFolder" alt="" coords="164,304,299,331"/>
+<area shape="rect" id="node4" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="186,229,277,256"/>
+<area shape="rect" id="node5" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="5,155,155,181"/>
+<area shape="rect" id="node6" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="33,80,127,107"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="180,155,284,181"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="309,155,435,181"/>
+<area shape="rect" id="node10" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="311,379,479,405"/>
+</map>

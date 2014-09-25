@@ -1,5 +1,5 @@
 <map id="wxJSONReader::SkipComment" name="wxJSONReader::SkipComment">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="256,5,427,32"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="258,56,425,83"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="475,31,629,57"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="262,5,437,32"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="263,56,436,83"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="486,31,645,57"/>
 </map>

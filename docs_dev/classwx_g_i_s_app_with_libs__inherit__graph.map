@@ -1,5 +1,5 @@
 <map id="wxGISAppWithLibs" name="wxGISAppWithLibs">
-<area shape="rect" id="node2" href="$classwx_g_i_s_catalog_app.html" title="Main Catalog class. " alt="" coords="5,80,131,107"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_map_app.html" title="wxGISMapApp" alt="" coords="155,80,263,107"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_server_app.html" title="Main Server class. " alt="" coords="287,80,405,107"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_catalog_app.html" title="wxGISCatalogApp" alt="" coords="5,80,135,107"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_map_app.html" title="wxGISMapApp" alt="" coords="161,80,271,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_server_app.html" title="Main Server class. " alt="" coords="296,80,419,107"/>
 </map>

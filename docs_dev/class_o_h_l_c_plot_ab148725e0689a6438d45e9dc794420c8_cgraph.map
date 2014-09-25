@@ -1,0 +1,15 @@
+<map id="OHLCPlot::DrawDatasets" name="OHLCPlot::DrawDatasets">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af21da1afc22cd8e908ec06100f71b6f3" title="AxisPlot::GetDatasetCount" alt="" coords="241,5,423,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="259,56,405,83"/>
+<area shape="rect" id="node4" href="$class_o_h_l_c_plot.html#a59ee55f4ed7bdb99eb3f38891645aa2d" title="OHLCPlot::DrawOHLCDataset" alt="" coords="230,183,434,209"/>
+<area shape="rect" id="node13" href="$class_x_y_plot.html#aec55ca9c9fa04573f297c6e87f7e7cdc" title="XYPlot::DrawXYDataset" alt="" coords="249,107,415,133"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="491,132,707,159"/>
+<area shape="rect" id="node6" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="483,81,714,108"/>
+<area shape="rect" id="node7" href="$class_o_h_l_c_dataset.html#aa4f5b68b994426debdcba012248c4274" title="OHLCDataset::GetCount" alt="" coords="514,233,683,260"/>
+<area shape="rect" id="node8" href="$class_o_h_l_c_dataset.html#a1805d9a1bec298426af92fe596384a52" title="OHLCDataset::GetItem" alt="" coords="519,284,679,311"/>
+<area shape="rect" id="node9" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="537,335,660,361"/>
+<area shape="rect" id="node12" href="$class_o_h_l_c_renderer.html#aeff5707fc47ba81e6d2d23e96f92e936" title="OHLCRenderer::DrawItem" alt="" coords="510,183,687,209"/>
+<area shape="rect" id="node10" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="763,309,912,336"/>
+<area shape="rect" id="node11" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="782,360,893,387"/>
+<area shape="rect" id="node14" href="$class_x_y_renderer.html#ab208b127f5cf5ab4474e27f7b29f04a6" title="XYRenderer::Draw" alt="" coords="533,31,665,57"/>
+</map>

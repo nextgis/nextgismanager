@@ -4,7 +4,7 @@ var classwx_gx_tab_view =
     [ "wxGxTabView", "classwx_gx_tab_view.html#a490c6ab3c327212fad9269b16f6ac763", null ],
     [ "~wxGxTabView", "classwx_gx_tab_view.html#a099837ba0ea2ae2dd8d053e7b498e176", null ],
     [ "Activate", "classwx_gx_tab_view.html#ae8439b6527910dd338b11a2b6d31e6b7", null ],
-    [ "Create", "classwx_gx_tab_view.html#a96dbe97a9131634f399666875a5e872d", null ],
+    [ "Create", "classwx_gx_tab_view.html#af9da8e02e3a004aced7a4e9286af3fbf", null ],
     [ "Deactivate", "classwx_gx_tab_view.html#ad302c4dc4098d05e48a8e6c1d2c414b5", null ],
     [ "OnAUINotebookPageChanged", "classwx_gx_tab_view.html#abc9bbb1e8ea621140f3e0115a1438053", null ],
     [ "OnSelectionChanged", "classwx_gx_tab_view.html#ab6bbe4a2fa6e7fb981ad161ef28b3af9", null ],

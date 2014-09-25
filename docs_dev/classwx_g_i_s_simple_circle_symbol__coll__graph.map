@@ -1,0 +1,8 @@
+<map id="wxGISSimpleCircleSymbol" name="wxGISSimpleCircleSymbol">
+<area shape="rect" id="node2" href="$classwx_g_i_s_simple_fill_symbol.html" title="wxGISSimpleFillSymbol" alt="" coords="152,355,315,381"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="155,187,261,213"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_simple_line_symbol.html" title="wxGISSimpleLineSymbol" alt="" coords="229,264,400,291"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="107,96,209,123"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="255,5,348,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="336,96,443,123"/>
+</map>

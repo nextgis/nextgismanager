@@ -1,4 +1,6 @@
 <map id="wxGISDTPath" name="wxGISDTPath">
-<area shape="rect" id="node4" href="$classwx_g_i_s_d_t_folder_path.html" title="wxGISDTFolderPath" alt="" coords="5,229,144,256"/>
-<area shape="rect" id="node2" href="$classwx_g_i_s_d_t_base.html" title="The base class for tool dialog controls. " alt="" coords="21,80,128,107"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_d_t_folder_path.html" title="wxGISDTFolderPath" alt="" coords="5,229,147,256"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_d_t_spat_ref.html" title="wxGISDTSpatRef" alt="" coords="172,229,300,256"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_d_t_base.html" title="wxGISDTBase" alt="" coords="31,80,141,107"/>
+<area shape="rect" id="node4" href="$class_i_view_drop_target.html" title="IViewDropTarget" alt="" coords="167,80,287,107"/>
 </map>

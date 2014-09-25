@@ -1,0 +1,17 @@
+<map id="BarPlot::DrawDatasets" name="BarPlot::DrawDatasets">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af21da1afc22cd8e908ec06100f71b6f3" title="AxisPlot::GetDatasetCount" alt="" coords="236,5,417,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="253,56,400,83"/>
+<area shape="rect" id="node4" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="219,107,435,133"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="211,157,442,184"/>
+<area shape="rect" id="node6" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="259,208,394,235"/>
+<area shape="rect" id="node7" href="$class_category_dataset.html#a888d474a030c55c2998066e04f8bbff1" title="CategoryDataset::GetCount" alt="" coords="491,183,677,209"/>
+<area shape="rect" id="node8" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="529,233,639,260"/>
+<area shape="rect" id="node9" href="$class_bar_type.html#ae8a8497dd3f08aa15b0b7de545e4bb40" title="BarType::GetBarGeometry" alt="" coords="726,155,903,181"/>
+<area shape="rect" id="node10" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="753,205,876,232"/>
+<area shape="rect" id="node13" href="$class_bar_renderer.html#acf8b1288e0e53ad9b80f771fbaf2414e" title="BarRenderer::GetBarDraw" alt="" coords="727,260,902,287"/>
+<area shape="rect" id="node16" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="755,311,874,337"/>
+<area shape="rect" id="node11" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="952,152,1101,179"/>
+<area shape="rect" id="node12" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="971,203,1082,229"/>
+<area shape="rect" id="node14" href="$class_area_draw_collection.html#a43443e8c7ad5b20ab05dabfb784f625b" title="AreaDrawCollection\l::GetAreaDraw" alt="" coords="957,254,1096,295"/>
+<area shape="rect" id="node15" href="$class_area_draw_collection.html#a14ae682bd4f08ec9093c12fbcf644e53" title="AreaDrawCollection\l::SetAreaDraw" alt="" coords="957,319,1096,361"/>
+</map>

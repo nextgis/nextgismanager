@@ -1,6 +1,6 @@
 var classwx_g_i_s_t_c_p_client_panel =
 [
-    [ "ID_SEARCHBT", "classwx_g_i_s_t_c_p_client_panel.html#ac2f45e43d35089773dfa31962e02d727ab1150034b38f3f69d5cc13ff5f73264e", null ],
+    [ "ID_SEARCHBT", "classwx_g_i_s_t_c_p_client_panel.html#a8cd59a15e90e4f2673e7b623f38cdbcdab1150034b38f3f69d5cc13ff5f73264e", null ],
     [ "wxGISTCPClientPanel", "classwx_g_i_s_t_c_p_client_panel.html#a1cfe198b77b5dca5cb6d2315eb5bc9b3", null ],
     [ "~wxGISTCPClientPanel", "classwx_g_i_s_t_c_p_client_panel.html#afd43504208eecfdf0c5357ec95f8f94a", null ],
     [ "OnSave", "classwx_g_i_s_t_c_p_client_panel.html#a715b9d72cdd8514cb41a898832b27bca", null ],

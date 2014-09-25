@@ -1,4 +1,4 @@
 <map id="wxGISProgressDlg" name="wxGISProgressDlg">
-<area shape="rect" id="node3" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="155,5,252,32"/>
-<area shape="rect" id="node4" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="277,5,365,32"/>
+<area shape="rect" id="node3" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="105,5,204,32"/>
+<area shape="rect" id="node4" href="$class_i_progressor.html" title="IProgressor" alt="" coords="229,5,317,32"/>
 </map>

@@ -1,14 +1,14 @@
 <map id="wxGISRasterPackedRGBARenderer" name="wxGISRasterPackedRGBARenderer">
-<area shape="rect" id="node2" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="676,445,887,472"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_raster_renderer.html" title="The base class for renderers. " alt="" coords="594,355,744,381"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="663,173,775,200"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="471,264,563,291"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="381,83,539,109"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="129,173,233,200"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="259,173,469,200"/>
-<area shape="rect" id="node15" href="$classwx_g_i_s_raster_dataset.html" title="The GIS RasterDataset class. " alt="" coords="207,264,349,291"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="131,83,232,109"/>
-<area shape="rect" id="node12" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="799,173,901,200"/>
-<area shape="rect" id="node13" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="805,83,896,109"/>
-<area shape="rect" id="node16" href="$classwx_g_i_s_stretch.html" title="The base class for stretch from pixel field to display field. " alt="" coords="769,355,871,381"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="90,445,304,472"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_raster_renderer.html" title="The base class for renderers. " alt="" coords="5,355,159,381"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="48,173,163,200"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_layer.html" title="wxGISLayer" alt="" coords="362,264,456,291"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="601,83,764,109"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="855,173,963,200"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="617,173,831,200"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_raster_dataset.html" title="wxGISRasterDataset" alt="" coords="656,264,803,291"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="870,83,972,109"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="485,173,592,200"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="479,83,572,109"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_stretch.html" title="The base class for stretch from pixel field to display field. " alt="" coords="184,355,288,381"/>
 </map>

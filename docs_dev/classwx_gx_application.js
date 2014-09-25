@@ -8,6 +8,8 @@ var classwx_gx_application =
     [ "GetAppIcon", "classwx_gx_application.html#a3e7fe17ce67e57aa4a97ef1550455f33", null ],
     [ "GetAppName", "classwx_gx_application.html#ae490351c76463adda9f7492930c7741f", null ],
     [ "OnClose", "classwx_gx_application.html#a79a4abeb5c4365dd3e44b79bdf76fcb5", null ],
+    [ "UpdateNewMenu", "classwx_gx_application.html#a19bf1851b9734959815aca2cb83409a0", null ],
+    [ "UpdateNewMenuInCommands", "classwx_gx_application.html#a3163333e882c108d6b816e148753ea8c", null ],
     [ "m_pAppIcon", "classwx_gx_application.html#a39b8d08011e686fa8e74fc534b0366b5", null ],
     [ "m_pCatalog", "classwx_gx_application.html#a905ebbff42148a4eb9a6c853963e3435", null ],
     [ "m_pNewMenu", "classwx_gx_application.html#a54d983e6cb5bb172caceabe2fac1e082", null ],

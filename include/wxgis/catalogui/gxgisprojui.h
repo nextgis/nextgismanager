@@ -27,7 +27,7 @@
 
     The QGIS project file
 
-    @library {catalog}
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxQGISProjFileUI :

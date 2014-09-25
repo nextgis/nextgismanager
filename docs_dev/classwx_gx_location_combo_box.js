@@ -9,6 +9,7 @@ var classwx_gx_location_combo_box =
     [ "GetControlText", "classwx_gx_location_combo_box.html#a09817bd33b1c4ed0f755c31e9603c319", null ],
     [ "OnChar", "classwx_gx_location_combo_box.html#a4e5360a93afd53248823abdefd9e98e6", null ],
     [ "OnKillFocus", "classwx_gx_location_combo_box.html#a926397d24e18052a180df058a655b5dc", null ],
+    [ "OnMouseDblClick", "classwx_gx_location_combo_box.html#a448c968e42914fdb66d8f6983fe0768e", null ],
     [ "OnMouseWheel", "classwx_gx_location_combo_box.html#ac4c285f29ca8fd6475e131468c65e217", null ],
     [ "OnSelectionChanged", "classwx_gx_location_combo_box.html#a6a9878d48cf5b52e938d85033be646d1", null ],
     [ "OnText", "classwx_gx_location_combo_box.html#a54f7d674ca9a714abedaa8de31051239", null ],

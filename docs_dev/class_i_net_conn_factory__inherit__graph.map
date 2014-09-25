@@ -1,5 +1,5 @@
 <map id="INetConnFactory" name="INetConnFactory">
-<area shape="rect" id="node4" href="$classwx_client_t_c_p_net_factory.html" title="The factory to create net connections. " alt="" coords="120,155,280,181"/>
-<area shape="rect" id="node2" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="5,5,216,32"/>
-<area shape="rect" id="node5" href="$classwx_client_t_c_p_net_factory_u_i.html" title="The UI factory to create net connections. " alt="" coords="114,229,285,256"/>
+<area shape="rect" id="node4" href="$classwx_client_t_c_p_net_factory.html" title="wxClientTCPNetFactory" alt="" coords="121,155,285,181"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="5,5,219,32"/>
+<area shape="rect" id="node5" href="$classwx_client_t_c_p_net_factory_u_i.html" title="The UI factory to create net connections. " alt="" coords="115,229,293,256"/>
 </map>

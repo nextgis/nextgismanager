@@ -1,0 +1,11 @@
+<map id="XYPlot" name="XYPlot">
+<area shape="rect" id="node9" href="$class_bar_plot.html" title="BarPlot" alt="" coords="255,304,320,331"/>
+<area shape="rect" id="node10" href="$class_o_h_l_c_plot.html" title="OHLCPlot" alt="" coords="345,304,427,331"/>
+<area shape="rect" id="node2" href="$class_axis_plot.html" title="AxisPlot" alt="" coords="302,155,372,181"/>
+<area shape="rect" id="node3" href="$class_plot.html" title="Plot" alt="" coords="76,80,121,107"/>
+<area shape="rect" id="node4" href="$class_observable.html" title="Observable\&lt; PlotObserver \&gt;" alt="" coords="5,5,192,32"/>
+<area shape="rect" id="node5" href="$class_draw_observer.html" title="DrawObserver" alt="" coords="145,80,252,107"/>
+<area shape="rect" id="node6" href="$class_dataset_observer.html" title="DatasetObserver" alt="" coords="277,80,397,107"/>
+<area shape="rect" id="node7" href="$class_axis_observer.html" title="AxisObserver" alt="" coords="423,80,524,107"/>
+<area shape="rect" id="node8" href="$class_chart_panel_observer.html" title="ChartPanelObserver" alt="" coords="549,80,688,107"/>
+</map>

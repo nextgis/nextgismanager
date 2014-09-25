@@ -1,6 +1,6 @@
 <map id="wxGxCatalog" name="wxGxCatalog">
-<area shape="rect" id="node2" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="14,237,143,264"/>
-<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,160,152,187"/>
-<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="168,237,379,264"/>
+<area shape="rect" id="node2" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="15,237,144,264"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="5,160,155,187"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="33,83,127,109"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="170,237,384,264"/>
 </map>

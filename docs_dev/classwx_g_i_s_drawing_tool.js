@@ -1,0 +1,25 @@
+var classwx_g_i_s_drawing_tool =
+[
+    [ "wxGISDrawingTool", "classwx_g_i_s_drawing_tool.html#aa8b385e67d5977f79c7a05bdf84ed2f9", null ],
+    [ "~wxGISDrawingTool", "classwx_g_i_s_drawing_tool.html#ad920984be4b33a73e9cd95f756d20034", null ],
+    [ "GetBitmap", "classwx_g_i_s_drawing_tool.html#ae4eee32c8fcc5da202fb7ef77beecf3b", null ],
+    [ "GetCaption", "classwx_g_i_s_drawing_tool.html#a4c367afbe4a5db8e3212470d0cc59bac", null ],
+    [ "GetCategory", "classwx_g_i_s_drawing_tool.html#a501a457753587329ec4dca43a62e6280", null ],
+    [ "GetChecked", "classwx_g_i_s_drawing_tool.html#ab2002231ab81550a5b4e644657090afd", null ],
+    [ "GetControl", "classwx_g_i_s_drawing_tool.html#a63c0abaeb4f84fbb702e17191b9103b7", null ],
+    [ "GetCount", "classwx_g_i_s_drawing_tool.html#aec2596e9dab7d7819edb5852914857b5", null ],
+    [ "GetCursor", "classwx_g_i_s_drawing_tool.html#af65bd0d16024aaef09c3d16069245612", null ],
+    [ "GetEnabled", "classwx_g_i_s_drawing_tool.html#a29d9de27d35e10b78c61e18e32ddea26", null ],
+    [ "GetKind", "classwx_g_i_s_drawing_tool.html#aa81b5fcf9d7fd3d8685663a3dcf89291", null ],
+    [ "GetMessage", "classwx_g_i_s_drawing_tool.html#a5ac278501e9ec95b5c3be154639bdeb2", null ],
+    [ "GetToolLabel", "classwx_g_i_s_drawing_tool.html#aa2914e443eac14b32e9c470f171d1df7", null ],
+    [ "GetTooltip", "classwx_g_i_s_drawing_tool.html#a10eacb287af4b864390625e1985ed004", null ],
+    [ "HasToolLabel", "classwx_g_i_s_drawing_tool.html#a2b21d967c2b252cda994aea263b43fba", null ],
+    [ "OnClick", "classwx_g_i_s_drawing_tool.html#af22fb9908acc330cb983693a5d7f72e6", null ],
+    [ "OnCreate", "classwx_g_i_s_drawing_tool.html#ae217ea0b2268d728bf960cc42b8d5dbd", null ],
+    [ "OnMouseDoubleClick", "classwx_g_i_s_drawing_tool.html#a20f0468e0affde1cc3bd772e9b8ec972", null ],
+    [ "OnMouseDown", "classwx_g_i_s_drawing_tool.html#a5b20cd6c017714b9909a50782169c00c", null ],
+    [ "OnMouseMove", "classwx_g_i_s_drawing_tool.html#a6dd9ccd5314f0196cc83400bf58f9ffc", null ],
+    [ "OnMouseUp", "classwx_g_i_s_drawing_tool.html#a6df1287c76dd9fc79d7945dc9a7bf3f2", null ],
+    [ "SetChecked", "classwx_g_i_s_drawing_tool.html#acf2dbc1a6a6f721b35a7ded5b2b28fa2", null ]
+];

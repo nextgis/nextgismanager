@@ -1,0 +1,9 @@
+<map id="AxisPlot::AddObjects" name="AxisPlot::AddObjects">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af150073d2e3f02f59e0419121af79f40" title="AxisPlot::AddDataset" alt="" coords="234,5,382,32"/>
+<area shape="rect" id="node4" href="$class_axis_plot.html#a1689868a3316498d556080fb6471de13" title="AxisPlot::AddAxis" alt="" coords="244,56,372,83"/>
+<area shape="rect" id="node7" href="$class_axis_plot.html#ac212b8f666a1c526c3f3546147ffd5b8" title="AxisPlot::LinkDataVerticalAxis" alt="" coords="207,107,409,133"/>
+<area shape="rect" id="node8" href="$class_axis_plot.html#a8952942d2942acd142bb3fe590fbc560" title="AxisPlot::LinkDataHorizontalAxis" alt="" coords="200,157,416,184"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a5d14de73ca2a6953288ed42b55a456d7" title="AxisPlot::AcceptDataset" alt="" coords="465,5,631,32"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#a1805b354cbf2f6ae3cd7d6bcaa217fef" title="AxisPlot::AcceptAxis" alt="" coords="475,56,621,83"/>
+<area shape="rect" id="node6" href="$class_axis.html#a5fb9bb1c558fe521b656af7f06cbd353" title="Axis::GetLocation" alt="" coords="485,107,611,133"/>
+</map>

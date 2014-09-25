@@ -1,8 +1,8 @@
 <map id="wxRxObjectContainer" name="wxRxObjectContainer">
-<area shape="rect" id="node6" href="$classwx_rx_catalog.html" title="The root of Remote GxObjects (RxObjects). " alt="" coords="29,304,128,331"/>
-<area shape="rect" id="node2" href="$classwx_rx_object.html" title="The base class for Remote GxObjects (RxObjects). " alt="" coords="33,155,124,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="149,155,296,181"/>
-<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="176,80,269,107"/>
-<area shape="rect" id="node7" href="$classwx_gx_remote_server.html" title="A Remote Server GxObject. " alt="" coords="11,379,147,405"/>
-<area shape="rect" id="node8" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="5,453,152,480"/>
+<area shape="rect" id="node6" href="$classwx_rx_catalog.html" title="The root of Remote GxObjects (RxObjects). " alt="" coords="31,304,132,331"/>
+<area shape="rect" id="node2" href="$classwx_rx_object.html" title="The base class for Remote GxObjects (RxObjects). " alt="" coords="34,155,128,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="153,155,303,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="181,80,275,107"/>
+<area shape="rect" id="node7" href="$classwx_gx_remote_server.html" title="A Remote Server GxObject. " alt="" coords="11,379,151,405"/>
+<area shape="rect" id="node8" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="4,453,157,480"/>
 </map>

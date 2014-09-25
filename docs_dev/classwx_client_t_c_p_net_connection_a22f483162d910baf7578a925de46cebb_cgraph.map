@@ -1,12 +1,12 @@
 <map id="wxClientTCPNetConnection::SetAttributes" name="wxClientTCPNetConnection::SetAttributes">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="445,355,597,382"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#afa38ce831d893208d26934d5439b7388" title="Return a value or a default value. " alt="" coords="246,56,381,83"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250" title="Return the stored value as a wxWidget&#39;s string. " alt="" coords="440,152,603,179"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a242c0d23e7f02cf52640e7c4d17bde6f" title="Returns the value as a long integer. " alt="" coords="235,254,392,280"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="668,304,831,331"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="897,203,1077,230"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="680,203,819,230"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a58e15053f9ca05ed9289e4e10765ef79" title="Convert memory buffer object to a string representation. " alt="" coords="651,86,847,128"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="655,152,844,179"/>
-<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#ae82d2c1bbedc3e34ed392d43360200a4" title="Return TRUE if the stored value is an integer which fits in a long int. " alt="" coords="446,304,597,331"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="454,355,610,382"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#afa38ce831d893208d26934d5439b7388" title="Return a value or a default value. " alt="" coords="251,57,389,83"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250" title="Return the stored value as a wxWidget&#39;s string. " alt="" coords="449,153,615,179"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a242c0d23e7f02cf52640e7c4d17bde6f" title="Returns the value as a long integer. " alt="" coords="240,254,400,281"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="682,305,849,331"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="915,203,1101,230"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="694,203,837,230"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a58e15053f9ca05ed9289e4e10765ef79" title="Convert memory buffer object to a string representation. " alt="" coords="664,87,867,128"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="668,153,863,179"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#ae82d2c1bbedc3e34ed392d43360200a4" title="Return TRUE if the stored value is an integer which fits in a long int. " alt="" coords="455,305,609,331"/>
 </map>

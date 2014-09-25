@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2013 Bishop
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,7 +26,7 @@
 
 @author Dmitry Baryshnikov
 
-@date October, 2013
+@date October, 2014
 
 @image html logo.png
 

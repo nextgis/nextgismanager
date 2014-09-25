@@ -1,0 +1,8 @@
+<map id="wxGISRubberPolygon" name="wxGISRubberPolygon">
+<area shape="rect" id="node2" href="$classwx_g_i_s_rubber_line.html" title="wxGISRubberLine" alt="" coords="232,264,360,291"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_rubber_band.html" title="wxGISRubberBand" alt="" coords="229,187,363,213"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="133,96,296,123"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_geometry.html" title="wxGISGeometry" alt="" coords="321,96,439,123"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="464,96,571,123"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="471,5,564,32"/>
+</map>

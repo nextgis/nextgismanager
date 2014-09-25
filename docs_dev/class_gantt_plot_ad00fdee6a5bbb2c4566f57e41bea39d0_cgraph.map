@@ -1,0 +1,15 @@
+<map id="GanttPlot::DrawDatasets" name="GanttPlot::DrawDatasets">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af21da1afc22cd8e908ec06100f71b6f3" title="AxisPlot::GetDatasetCount" alt="" coords="249,5,431,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="267,56,413,83"/>
+<area shape="rect" id="node4" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="232,107,448,133"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="225,157,455,184"/>
+<area shape="rect" id="node6" href="$class_gantt_renderer.html#a7606b103450021ad5c49dffe31baa82c" title="GanttRenderer::Draw" alt="" coords="267,208,413,235"/>
+<area shape="rect" id="node7" href="$class_dataset.html#af622220ac28820f2fb1a5d32b713c732" title="Dataset::GetSerieCount" alt="" coords="517,81,680,108"/>
+<area shape="rect" id="node8" href="$class_date_time_dataset.html#aa2c3c302e5d8a024e61b4e17dabf8a8d" title="DateTimeDataset::GetCount" alt="" coords="504,132,693,159"/>
+<area shape="rect" id="node9" href="$class_gantt_dataset.html#abe0b6f2c06495026874efa722870c63e" title="GanttDataset::GetStart" alt="" coords="520,183,677,209"/>
+<area shape="rect" id="node10" href="$class_gantt_dataset.html#aa8a79c700958e7885a89c21acc3ce837" title="GanttDataset::GetEnd" alt="" coords="523,233,675,260"/>
+<area shape="rect" id="node11" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="537,284,660,311"/>
+<area shape="rect" id="node14" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="539,335,658,361"/>
+<area shape="rect" id="node12" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="741,259,891,285"/>
+<area shape="rect" id="node13" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="761,309,871,336"/>
+</map>

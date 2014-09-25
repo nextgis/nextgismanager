@@ -1,8 +1,8 @@
 var classwx_g_i_s_search_server_dlg =
 [
-    [ "ID_SEARCHBT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3ab3052796722d0e12e902b79c96baf974", null ],
-    [ "ID_STOPBT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3a0a15817082068cdb1dc3a58127af6fc8", null ],
-    [ "ID_ACCEPT", "classwx_g_i_s_search_server_dlg.html#ac474e600c7af1250f87bd5a3a32b1ac3a0d094df79ea2a43de3cdbda970a2e2dd", null ],
+    [ "ID_SEARCHBT", "classwx_g_i_s_search_server_dlg.html#a835ac13a61e4acc10b5ef12482bbada6ab3052796722d0e12e902b79c96baf974", null ],
+    [ "ID_STOPBT", "classwx_g_i_s_search_server_dlg.html#a835ac13a61e4acc10b5ef12482bbada6a0a15817082068cdb1dc3a58127af6fc8", null ],
+    [ "ID_ACCEPT", "classwx_g_i_s_search_server_dlg.html#a835ac13a61e4acc10b5ef12482bbada6a0d094df79ea2a43de3cdbda970a2e2dd", null ],
     [ "wxGISSearchServerDlg", "classwx_g_i_s_search_server_dlg.html#a1216b50a86215a3f546ad83ef22bf2ff", null ],
     [ "~wxGISSearchServerDlg", "classwx_g_i_s_search_server_dlg.html#a03629033d9140c72312efedef0bf62fa", null ],
     [ "AddServer", "classwx_g_i_s_search_server_dlg.html#a0eb4655f46b207188c7d454ac8f7f8af", null ],

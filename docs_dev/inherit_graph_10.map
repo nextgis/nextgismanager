@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_gx_remote_connection.html" title="A GxObject remote connection interface. " alt="" coords="5,5,157,32"/>
+<area shape="rect" id="node1" href="$class_bar_type.html" title="BarType" alt="" coords="6,56,77,83"/>
+<area shape="rect" id="node2" href="$class_layered_bar_type.html" title="LayeredBarType" alt="" coords="127,5,244,32"/>
+<area shape="rect" id="node3" href="$class_normal_bar_type.html" title="NormalBarType" alt="" coords="129,56,242,83"/>
+<area shape="rect" id="node4" href="$class_stacked_bar_type.html" title="StackedBarType" alt="" coords="126,107,245,133"/>
 </map>

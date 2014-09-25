@@ -1,0 +1,9 @@
+<map id="Dataset::GetCount" name="Dataset::GetCount">
+<area shape="rect" id="node2" href="$class_x_y_area_renderer.html#adc1bb12c848b96544c31269906dee23c" title="XYAreaRenderer::Draw" alt="" coords="187,5,346,32"/>
+<area shape="rect" id="node3" href="$class_x_y_dataset.html#a367c1d95f5cf0dd3d2ed06208c4de372" title="XYDataset::GetMaxY" alt="" coords="192,56,341,83"/>
+<area shape="rect" id="node5" href="$class_x_y_dataset.html#a95748cd6a445cef0d77b625149fdbee9" title="XYDataset::GetMinY" alt="" coords="194,157,339,184"/>
+<area shape="rect" id="node7" href="$class_x_y_dataset.html#a9f3d82b6f49f167ca080aedf9926b2d0" title="XYDataset::GetMaxX" alt="" coords="192,107,341,133"/>
+<area shape="rect" id="node8" href="$class_x_y_dataset.html#afc0b3af8ebc4ed48591fa0bbb070d5c7" title="XYDataset::GetMinX" alt="" coords="194,208,339,235"/>
+<area shape="rect" id="node4" href="$class_x_y_dataset.html#a94b8dc048476f68cf53fa97799db12f5" title="XYDataset::GetMaxValue" alt="" coords="395,95,568,121"/>
+<area shape="rect" id="node6" href="$class_x_y_dataset.html#a525bd0a24fda458b9959968e9d9b9c37" title="XYDataset::GetMinValue" alt="" coords="397,171,566,197"/>
+</map>

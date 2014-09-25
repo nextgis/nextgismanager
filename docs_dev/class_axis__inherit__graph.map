@@ -1,0 +1,11 @@
+<map id="Axis" name="Axis">
+<area shape="rect" id="node4" href="$class_axis_share.html" title="AxisShare" alt="" coords="5,155,87,181"/>
+<area shape="rect" id="node5" href="$class_comp_date_axis.html" title="CompDateAxis" alt="" coords="113,155,223,181"/>
+<area shape="rect" id="node6" href="$class_label_axis.html" title="LabelAxis" alt="" coords="247,155,325,181"/>
+<area shape="rect" id="node3" href="$class_observable.html" title="Observable\&lt; AxisObserver \&gt;" alt="" coords="153,5,343,32"/>
+<area shape="rect" id="node7" href="$class_category_axis.html" title="CategoryAxis" alt="" coords="123,229,224,256"/>
+<area shape="rect" id="node8" href="$class_date_axis.html" title="DateAxis" alt="" coords="249,229,324,256"/>
+<area shape="rect" id="node9" href="$class_number_axis.html" title="NumberAxis" alt="" coords="349,229,443,256"/>
+<area shape="rect" id="node10" href="$class_julian_date_axis.html" title="JulianDateAxis" alt="" coords="261,304,371,331"/>
+<area shape="rect" id="node11" href="$class_logarithmic_number_axis.html" title="LogarithmicNumberAxis" alt="" coords="395,304,556,331"/>
+</map>

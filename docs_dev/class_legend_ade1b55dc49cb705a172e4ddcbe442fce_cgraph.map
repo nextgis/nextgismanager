@@ -1,0 +1,6 @@
+<map id="Legend::Draw" name="Legend::Draw">
+<area shape="rect" id="node2" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="198,5,317,32"/>
+<area shape="rect" id="node3" href="$class_dataset.html#a3d01edf567e431c10e7a708930cf4aaf" title="Dataset::GetSerieName" alt="" coords="176,56,339,83"/>
+<area shape="rect" id="node4" href="$class_renderer.html#a89c3a0fc8cc946017643c6bda9805ba0" title="Renderer::DrawLegendSymbol" alt="" coords="157,107,357,133"/>
+<area shape="rect" id="node5" href="$class_renderer.html#ac4b33318e40661337ae444d3d5e15fb4" title="Renderer::GetSerieColour" alt="" coords="406,107,578,133"/>
+</map>

@@ -1,14 +1,14 @@
 <map id="wxRxCatalog" name="wxRxCatalog">
-<area shape="rect" id="node9" href="$classwx_rx_object.html" title="The base class for Remote GxObjects (RxObjects). " alt="" coords="1401,43,1493,69"/>
-<area shape="rect" id="node2" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="896,52,995,79"/>
-<area shape="rect" id="node3" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="563,48,693,75"/>
-<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="333,48,481,75"/>
-<area shape="rect" id="node8" href="$classwx_rx_object_container.html" title="The base class for Remote GxObjectContainers (RxObjectContainers). " alt="" coords="1544,43,1691,69"/>
-<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="157,99,251,125"/>
-<area shape="rect" id="node12" href="$class_i_net_connection.html" title="The network connection interface class. " alt="" coords="573,167,683,193"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="301,107,512,133"/>
-<area shape="rect" id="node10" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="877,103,1013,129"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_net_client_connection.html" title="The network connection interface class. " alt="" coords="856,153,1035,180"/>
-<area shape="rect" id="node13" href="$classwx_net_reader_thread.html" title="The network connection reader thread. " alt="" coords="876,212,1015,239"/>
-<area shape="rect" id="node15" href="$classwx_net_writer_thread.html" title="The network connection writer thread. " alt="" coords="879,336,1011,363"/>
+<area shape="rect" id="node9" href="$classwx_rx_object.html" title="The base class for Remote GxObjects (RxObjects). " alt="" coords="1427,43,1522,69"/>
+<area shape="rect" id="node2" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="911,52,1012,79"/>
+<area shape="rect" id="node3" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="573,48,704,75"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="339,48,490,75"/>
+<area shape="rect" id="node8" href="$classwx_rx_object_container.html" title="The base class for Remote GxObjectContainers (RxObjectContainers). " alt="" coords="1574,43,1725,69"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="161,99,255,125"/>
+<area shape="rect" id="node12" href="$class_i_net_connection.html" title="INetConnection" alt="" coords="582,167,695,193"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="307,107,522,133"/>
+<area shape="rect" id="node10" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="891,103,1031,129"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_net_client_connection.html" title="The network connection interface class. " alt="" coords="870,153,1053,180"/>
+<area shape="rect" id="node13" href="$classwx_net_reader_thread.html" title="wxNetReaderThread" alt="" coords="890,212,1033,239"/>
+<area shape="rect" id="node15" href="$classwx_net_writer_thread.html" title="wxNetWriterThread" alt="" coords="894,336,1029,363"/>
 </map>

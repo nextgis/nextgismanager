@@ -1,5 +1,5 @@
 <map id="wxGISFeatureDetailsPanel" name="wxGISFeatureDetailsPanel">
-<area shape="rect" id="node3" href="$classwx_g_i_s_feature.html" title="The OGRFeature wrapper class. " alt="" coords="100,83,204,109"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_coordinates_format_menu.html" title="The class to format coordinates according different masks. " alt="" coords="228,83,431,109"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_coordinates_format.html" title="The class to format coordinates according different masks. " alt="" coords="349,5,520,32"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_feature.html" title="wxGISFeature" alt="" coords="101,83,208,109"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_coordinates_format_menu.html" title="The class to format coordinates according different masks. " alt="" coords="232,83,437,109"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_coordinates_format.html" title="The class to format coordinates according different masks. " alt="" coords="353,5,527,32"/>
 </map>

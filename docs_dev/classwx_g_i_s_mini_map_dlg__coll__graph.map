@@ -1,0 +1,18 @@
+<map id="wxGISMiniMapDlg" name="wxGISMiniMapDlg">
+<area shape="rect" id="node3" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="899,75,1055,101"/>
+<area shape="rect" id="node4" href="$class_i_application.html" title="IApplication" alt="" coords="483,5,573,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="300,56,423,83"/>
+<area shape="rect" id="node16" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="280,157,443,184"/>
+<area shape="rect" id="node6" href="$class_i_tool.html" title="ITool" alt="" coords="645,56,696,83"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="613,107,728,133"/>
+<area shape="rect" id="node10" href="$class_i_drop_down_command.html" title="IDropDownCommand" alt="" coords="1414,201,1562,228"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_drawing_map_view.html" title="wxGISDrawingMapView" alt="" coords="1406,151,1570,177"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_map_view.html" title="wxGISMapView" alt="" coords="1238,237,1354,264"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_extent_stack.html" title="wxGISExtentStack" alt="" coords="910,136,1045,163"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_map.html" title="wxGISMap" alt="" coords="627,157,714,184"/>
+<area shape="rect" id="node17" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="308,208,415,235"/>
+<area shape="rect" id="node18" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="5,208,99,235"/>
+<area shape="rect" id="node19" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="870,288,1085,315"/>
+<area shape="rect" id="node21" href="$class_i_progressor.html" title="IProgressor" alt="" coords="626,336,715,363"/>
+<area shape="rect" id="node22" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="927,187,1027,213"/>
+</map>

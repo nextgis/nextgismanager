@@ -9,7 +9,7 @@ var classwx_gx_tree_view =
     [ "OnBeginDrag", "classwx_gx_tree_view.html#a5d9382b8eba1ae666722025c5759cae1", null ],
     [ "OnBeginLabelEdit", "classwx_gx_tree_view.html#a4380a23097348dee87ff88431c480950", null ],
     [ "OnDragOver", "classwx_gx_tree_view.html#afcf8009a8b68a43cad859591ade0b45a", null ],
-    [ "OnDropObjects", "classwx_gx_tree_view.html#acf35d0fb533e09881a7de1260271bb34", null ],
+    [ "OnDropObjects", "classwx_gx_tree_view.html#a60ba3ee5b43aa82c9fe8a1616da83593", null ],
     [ "OnEndLabelEdit", "classwx_gx_tree_view.html#a53267d68f31da9aa8b76eb9bab1c6b34", null ],
     [ "OnItemRightClick", "classwx_gx_tree_view.html#aec1f976ceac246bfc7d993b3c9c03451", null ],
     [ "OnLeave", "classwx_gx_tree_view.html#aeb149d3862f9c52e7a8b3b9c525731bd", null ],

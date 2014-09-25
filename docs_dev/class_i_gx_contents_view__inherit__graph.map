@@ -1,5 +1,5 @@
 <map id="IGxContentsView" name="IGxContentsView">
-<area shape="rect" id="node2" href="$classwx_g_i_s_tool_execute_view.html" title="The tasks execution view class. " alt="" coords="5,80,165,107"/>
-<area shape="rect" id="node3" href="$classwx_gx_content_view.html" title="The catalog content view class. " alt="" coords="189,80,317,107"/>
-<area shape="rect" id="node4" href="$classwx_gx_dialog_content_view.html" title="The content view class on center of GxObjDialog. " alt="" coords="171,155,335,181"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_tool_execute_view.html" title="wxGISToolExecuteView" alt="" coords="5,80,168,107"/>
+<area shape="rect" id="node3" href="$classwx_gx_content_view.html" title="wxGxContentView" alt="" coords="193,80,323,107"/>
+<area shape="rect" id="node4" href="$classwx_gx_dialog_content_view.html" title="wxGxDialogContentView" alt="" coords="175,155,343,181"/>
 </map>

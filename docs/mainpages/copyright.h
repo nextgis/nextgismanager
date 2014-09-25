@@ -1,9 +1,10 @@
 /******************************************************************************
- * Project:  wxGIS
+ * Project:  NextGIS Manager
  * Purpose:  Main page of the Doxygen manual
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,12 +26,12 @@
 
 Copyright (c) Dmitry Baryshnikov
 
-wxGIS and all it components is free software: you can redistribute it and/or modify
+NextGIS Manager and all it components is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version. See license of wxGIS and it components on special page: @subpage page_copyright_license
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version. See license of NextGIS Manager and it components on special page: @subpage page_copyright_license
 
-@page page_copyright_license wxGIS License
+@page page_copyright_license NextGIS Manager License
 
 @verbinclude "COPYING_EN"
 

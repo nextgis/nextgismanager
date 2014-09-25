@@ -1,6 +1,6 @@
 <map id="wxGISIdentifyDlg" name="wxGISIdentifyDlg">
-<area shape="rect" id="node3" href="$classwx_g_i_s_feature_details_panel.html" title="wxGISFeatureDetailsPanel" alt="" coords="74,173,251,200"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_feature.html" title="The OGRFeature wrapper class. " alt="" coords="107,83,211,109"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_coordinates_format_menu.html" title="The class to format coordinates according different masks. " alt="" coords="235,83,437,109"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_coordinates_format.html" title="The class to format coordinates according different masks. " alt="" coords="356,5,527,32"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_feature_details_panel.html" title="wxGISFeatureDetailsPanel" alt="" coords="75,173,255,200"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_feature.html" title="wxGISFeature" alt="" coords="108,83,215,109"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_coordinates_format_menu.html" title="The class to format coordinates according different masks. " alt="" coords="239,83,444,109"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_coordinates_format.html" title="The class to format coordinates according different masks. " alt="" coords="360,5,533,32"/>
 </map>

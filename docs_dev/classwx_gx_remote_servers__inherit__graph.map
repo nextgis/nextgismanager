@@ -1,5 +1,5 @@
 <map id="wxGxRemoteServers" name="wxGxRemoteServers">
-<area shape="rect" id="node4" href="$classwx_gx_remote_servers_u_i.html" title="A Remote Servers UI GxRootObject. " alt="" coords="124,155,279,181"/>
-<area shape="rect" id="node2" href="$classwx_gx_x_m_l_connection_storage.html" title="The class support for storing and updating xml file connections. " alt="" coords="5,5,195,32"/>
-<area shape="rect" id="node3" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="219,5,385,32"/>
+<area shape="rect" id="node4" href="$classwx_gx_remote_servers_u_i.html" title="A Remote Servers UI GxRootObject. " alt="" coords="125,155,285,181"/>
+<area shape="rect" id="node2" href="$classwx_gx_x_m_l_connection_storage.html" title="wxGxXMLConnectionStorage" alt="" coords="5,5,200,32"/>
+<area shape="rect" id="node3" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="224,5,392,32"/>
 </map>

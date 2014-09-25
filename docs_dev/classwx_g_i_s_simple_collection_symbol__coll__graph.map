@@ -1,0 +1,9 @@
+<map id="wxGISSimpleCollectionSymbol" name="wxGISSimpleCollectionSymbol">
+<area shape="rect" id="node2" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="329,187,436,213"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_simple_marker_symbol.html" title="wxGISSimpleMarkerSymbol" alt="" coords="5,264,192,291"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_simple_line_symbol.html" title="wxGISSimpleLineSymbol" alt="" coords="236,264,407,291"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_simple_fill_symbol.html" title="wxGISSimpleFillSymbol" alt="" coords="363,355,525,381"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="141,96,243,123"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="245,5,339,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="369,96,476,123"/>
+</map>

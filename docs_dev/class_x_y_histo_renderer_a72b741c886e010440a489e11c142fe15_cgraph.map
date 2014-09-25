@@ -1,0 +1,8 @@
+<map id="XYHistoRenderer::Draw" name="XYHistoRenderer::Draw">
+<area shape="rect" id="node2" href="$class_x_y_dataset.html#a557ce08bc8ebad2e96e57e5ca1b958f3" title="XYDataset::GetX" alt="" coords="217,5,341,32"/>
+<area shape="rect" id="node3" href="$class_x_y_dataset.html#a7131abf96987e31911eb5b81e1f40600" title="XYDataset::GetY" alt="" coords="217,56,341,83"/>
+<area shape="rect" id="node4" href="$class_axis.html#a19c39d2941252a78117238b0a93e749f" title="Axis::IsVisible" alt="" coords="225,107,332,133"/>
+<area shape="rect" id="node6" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="217,157,340,184"/>
+<area shape="rect" id="node5" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="389,107,539,133"/>
+<area shape="rect" id="node7" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="409,157,519,184"/>
+</map>

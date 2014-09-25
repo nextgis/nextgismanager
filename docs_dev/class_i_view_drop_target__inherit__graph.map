@@ -1,6 +1,11 @@
 <map id="IViewDropTarget" name="IViewDropTarget">
-<area shape="rect" id="node2" href="$classwx_gx_content_view.html" title="The catalog content view class. " alt="" coords="23,80,151,107"/>
-<area shape="rect" id="node4" href="$classwx_gx_tab.html" title="A tab in tab view. " alt="" coords="175,80,251,107"/>
-<area shape="rect" id="node5" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="275,80,383,107"/>
-<area shape="rect" id="node3" href="$classwx_gx_dialog_content_view.html" title="The content view class on center of GxObjDialog. " alt="" coords="5,155,168,181"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_d_t_path.html" title="wxGISDTPath" alt="" coords="185,56,292,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_content_view.html" title="wxGxContentView" alt="" coords="173,107,304,133"/>
+<area shape="rect" id="node7" href="$classwx_gx_tab.html" title="wxGxTab" alt="" coords="199,157,278,184"/>
+<area shape="rect" id="node8" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="183,208,294,235"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_d_t_folder_path.html" title="wxGISDTFolderPath" alt="" coords="365,5,507,32"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_d_t_spat_ref.html" title="wxGISDTSpatRef" alt="" coords="372,56,500,83"/>
+<area shape="rect" id="node6" href="$classwx_gx_dialog_content_view.html" title="wxGxDialogContentView" alt="" coords="352,107,520,133"/>
+<area shape="rect" id="node9" href="$classwx_gx_toolbox_tree_view.html" title="wxGxToolboxTreeView" alt="" coords="357,183,515,209"/>
+<area shape="rect" id="node10" href="$classwx_tree_container_view.html" title="wxTreeContainerView" alt="" coords="361,233,511,260"/>
 </map>

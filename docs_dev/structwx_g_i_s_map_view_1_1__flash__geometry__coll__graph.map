@@ -1,7 +1,7 @@
 <map id="wxGISMapView::_flash_geometry" name="wxGISMapView::_flash_geometry">
-<area shape="rect" id="node2" href="$classwx_g_i_s_geometry.html" title="The OGRGeometry wrapper class. " alt="" coords="5,264,123,291"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="147,264,251,291"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="127,173,228,200"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="252,83,343,109"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="354,173,456,200"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_geometry.html" title="wxGISGeometry" alt="" coords="5,187,123,213"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="148,187,255,213"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="127,96,229,123"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="275,5,368,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="356,96,463,123"/>
 </map>

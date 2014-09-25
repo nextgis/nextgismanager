@@ -1,7 +1,7 @@
 var page_topics =
 [
-    [ "Starting with wxGIS", "page_topics.html#page_topics_starting", null ],
-    [ "Important wxGIS Topics", "page_topics.html#page_topics_programming", null ],
+    [ "Starting with NextGIS Manager", "page_topics.html#page_topics_starting", null ],
+    [ "Important NextGIS Manager Topics", "page_topics.html#page_topics_programming", null ],
     [ "Non-GUI Classes", "page_topics.html#page_topics_nongui", null ],
     [ "GUI Classes", "page_topics.html#page_topics_gui", null ],
     [ "Geoprocessing Overviews", "page_topics.html#page_topics_gp", null ],

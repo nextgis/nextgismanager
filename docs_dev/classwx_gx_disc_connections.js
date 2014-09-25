@@ -17,8 +17,7 @@ var classwx_gx_disc_connections =
     [ "IsObjectExist", "classwx_gx_disc_connections.html#ae62b5b70accc8136398d566e0a6522bd", null ],
     [ "Refresh", "classwx_gx_disc_connections.html#a5c79eb7e98e12aed2f6d9415fd319306", null ],
     [ "Serialize", "classwx_gx_disc_connections.html#a80a166859ae4bdaf90f6d387c5b2d345", null ],
-    [ "m_bIsChildrenLoaded", "classwx_gx_disc_connections.html#a7e9d942e7003ad79f7eb3fdc2c0bc7db", null ],
-    [ "m_oCritSect", "classwx_gx_disc_connections.html#aab405d5bfd54f52183668cf84359ca51", null ],
-    [ "m_pWatcher", "classwx_gx_disc_connections.html#acfee41fc35104fd18a9c9d7c3bcb7ee9", null ],
+    [ "m_ConnectionPointCatalogCookie", "classwx_gx_disc_connections.html#aa7b6000fed4134345c7168ba19bcc672", null ],
+    [ "m_pCatalog", "classwx_gx_disc_connections.html#aad230a89f4daed5d4c6f1092e2418e85", null ],
     [ "m_sUserConfigDir", "classwx_gx_disc_connections.html#a2a2a55dd73577e87bba0be20d43b2bbf", null ]
 ];

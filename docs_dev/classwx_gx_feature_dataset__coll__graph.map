@@ -1,9 +1,9 @@
 <map id="wxGxFeatureDataset" name="wxGxFeatureDataset">
-<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="278,264,377,291"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,173,101,200"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="218,173,320,200"/>
-<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="345,173,431,200"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="455,173,560,200"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="429,83,587,109"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="612,83,713,109"/>
+<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="282,264,384,291"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,173,104,200"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="221,173,325,200"/>
+<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="350,173,439,200"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="463,173,571,200"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="436,83,599,109"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="623,83,725,109"/>
 </map>

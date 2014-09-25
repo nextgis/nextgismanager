@@ -48,7 +48,7 @@ enum wxGISEnumCatalogMainCmdType{
   *
   * The main catalog commands includes: "Up One Level", "Connect Folder", "Disconnect Folder", "Location", "Delete Item", "Back", "Forward", "Create Folder", "Rename", "Refresh", "Properties", "Copy", "Cut" and "Paste".
   * 
-  * @library {catalogui}
+  * @library{catalogui}
   */
 
 class wxGISCatalogMainCmd :

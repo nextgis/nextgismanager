@@ -1,0 +1,8 @@
+<map id="OHLCDataset::GetItem" name="OHLCDataset::GetItem">
+<area shape="rect" id="node2" href="$class_moving_average.html#a0c8c39f0225967eb75017a7547068162" title="MovingAverage::GetY" alt="" coords="241,5,391,32"/>
+<area shape="rect" id="node3" href="$class_o_h_l_c_dataset.html#a821db5b4ce493957c626922ab1a6d299" title="OHLCDataset::GetMaxValue" alt="" coords="220,56,412,83"/>
+<area shape="rect" id="node4" href="$class_o_h_l_c_dataset.html#aa52fe2c85bb98717e44fee3acfa15464" title="OHLCDataset::GetMinValue" alt="" coords="222,107,410,133"/>
+<area shape="rect" id="node5" href="$class_o_h_l_c_dataset.html#a92e056548d1f3cc399dc36979ed1758c" title="OHLCDataset::GetDate" alt="" coords="235,157,397,184"/>
+<area shape="rect" id="node6" href="$class_o_h_l_c_plot.html#a59ee55f4ed7bdb99eb3f38891645aa2d" title="OHLCPlot::DrawOHLCDataset" alt="" coords="214,208,418,235"/>
+<area shape="rect" id="node7" href="$class_o_h_l_c_plot.html#ab148725e0689a6438d45e9dc794420c8" title="OHLCPlot::DrawDatasets" alt="" coords="467,208,642,235"/>
+</map>

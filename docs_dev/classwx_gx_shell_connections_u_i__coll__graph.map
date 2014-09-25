@@ -1,0 +1,16 @@
+<map id="wxGxShellConnectionsUI" name="wxGxShellConnectionsUI">
+<area shape="rect" id="node2" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="1134,108,1293,135"/>
+<area shape="rect" id="node3" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="571,112,663,139"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="307,56,458,83"/>
+<area shape="rect" id="node11" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="552,56,683,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="161,56,255,83"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="331,115,435,141"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="319,165,446,192"/>
+<area shape="rect" id="node9" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="776,159,944,185"/>
+<area shape="rect" id="node10" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="809,56,911,83"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="510,5,725,32"/>
+<area shape="rect" id="node13" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="1166,159,1261,185"/>
+<area shape="rect" id="node14" href="$classwx_gx_auto_renamer.html" title="wxGxAutoRenamer" alt="" coords="1145,209,1281,236"/>
+<area shape="rect" id="node15" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="817,209,903,236"/>
+<area shape="rect" id="node16" href="$class_i_view.html" title="IView" alt="" coords="590,209,645,236"/>
+</map>

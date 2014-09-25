@@ -1,0 +1,5 @@
+<map id="ChartPanelMode" name="ChartPanelMode">
+<area shape="rect" id="node3" href="$class_pan_mode.html" title="PanMode" alt="" coords="5,155,81,181"/>
+<area shape="rect" id="node4" href="$class_zoom_mode.html" title="ZoomMode" alt="" coords="107,155,193,181"/>
+<area shape="rect" id="node2" href="$class_chart_panel_observer.html" title="ChartPanelObserver" alt="" coords="27,5,167,32"/>
+</map>

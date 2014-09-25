@@ -1,0 +1,10 @@
+<map id="AreaDrawCollection::SetAreaDraw" name="AreaDrawCollection::SetAreaDraw">
+<area shape="rect" id="node2" href="$class_bar_renderer.html#a5dfd06763f1e19822722e73fafae5080" title="BarRenderer::SetBarDraw" alt="" coords="205,5,379,32"/>
+<area shape="rect" id="node3" href="$class_bar_renderer.html#acf8b1288e0e53ad9b80f771fbaf2414e" title="BarRenderer::GetBarDraw" alt="" coords="205,56,379,83"/>
+<area shape="rect" id="node8" href="$class_gantt_renderer.html#af641733b81649cf29f01498b2e64faeb" title="GanttRenderer::SetSerieDraw" alt="" coords="194,107,390,133"/>
+<area shape="rect" id="node9" href="$class_x_y_histo_renderer.html#a98e773b7bd278d4fff522a1ec98a3570" title="XYHistoRenderer::SetBarArea" alt="" coords="193,157,391,184"/>
+<area shape="rect" id="node4" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="495,31,606,57"/>
+<area shape="rect" id="node7" href="$class_bar_renderer.html#af4e4fc3c0ed770cbe82068d812c93a09" title="BarRenderer::DrawLegendSymbol" alt="" coords="441,81,661,108"/>
+<area shape="rect" id="node5" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="710,31,845,57"/>
+<area shape="rect" id="node6" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="893,31,1051,57"/>
+</map>

@@ -1,6 +1,6 @@
 var classwx_g_i_s_feature_layer =
 [
-    [ "wxGISFeatureLayer", "classwx_g_i_s_feature_layer.html#a30a2ed0c77de45059d0e22d650c325d0", null ],
+    [ "wxGISFeatureLayer", "classwx_g_i_s_feature_layer.html#aea817e53e542cf8368472d01eb82fab1", null ],
     [ "~wxGISFeatureLayer", "classwx_g_i_s_feature_layer.html#a6a4d76cdf0df452578d576df72873a9d", null ],
     [ "Draw", "classwx_g_i_s_feature_layer.html#a750418352a1d0c10812c299bd8261322", null ],
     [ "GetFeatureByID", "classwx_g_i_s_feature_layer.html#a154ddbeeed30995bca89640f8b4eaeac", null ],
@@ -9,6 +9,7 @@ var classwx_g_i_s_feature_layer =
     [ "GetType", "classwx_g_i_s_feature_layer.html#af745482366e24a4a234e04b58e8da244", null ],
     [ "Idetify", "classwx_g_i_s_feature_layer.html#abebd7cc1cbb26f7aa3e79fb5dca48d14", null ],
     [ "IsCacheNeeded", "classwx_g_i_s_feature_layer.html#a3f0b0c714806cccc8ca9319b52c44f07", null ],
+    [ "IsLoading", "classwx_g_i_s_feature_layer.html#a6a5c1ddd297224c91ced8e91b180d1d0", null ],
     [ "IsValid", "classwx_g_i_s_feature_layer.html#a3a1d5ac71a03e43edcb3ea9d2efca104", null ],
     [ "OnDSClosed", "classwx_g_i_s_feature_layer.html#acdc0efb780402de87dd53555bc8c03c3", null ],
     [ "OnDSFeatureAdded", "classwx_g_i_s_feature_layer.html#a6bacbb02ac3ce3b5e81fc5ad9abbd48f", null ],

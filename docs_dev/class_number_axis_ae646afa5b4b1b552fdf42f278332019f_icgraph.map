@@ -1,0 +1,5 @@
+<map id="NumberAxis::GetValue" name="NumberAxis::GetValue">
+<area shape="rect" id="node2" href="$class_julian_date_axis.html#a70ea8d1b347863b3944beb4283965097" title="JulianDateAxis::GetLabel" alt="" coords="211,5,381,32"/>
+<area shape="rect" id="node3" href="$class_number_axis.html#aa2c5601bee6d7cbdce1f8bc7d632671f" title="NumberAxis::GetLabel" alt="" coords="219,56,373,83"/>
+<area shape="rect" id="node4" href="$class_logarithmic_number_axis.html#abdb06ceaf0b1d0c35ad81878e606d25f" title="LogarithmicNumberAxis\l::GetLabel" alt="" coords="430,49,591,90"/>
+</map>

@@ -1,4 +1,12 @@
 <map id="wxGxPathsListViewPopupParent" name="wxGxPathsListViewPopupParent">
-<area shape="rect" id="node2" href="$classwx_gx_paths_list_view_popup.html" title="A popup window with list of gxobject probably full names with icons. " alt="" coords="170,173,344,200"/>
-<area shape="rect" id="node4" href="$classwx_gx_paths_list_view.html" title="wxGxPathsListView" alt="" coords="429,83,568,109"/>
+<area shape="rect" id="node2" href="$classwx_gx_paths_list_view_popup.html" title="wxGxPathsListViewPopup" alt="" coords="169,573,345,600"/>
+<area shape="rect" id="node4" href="$classwx_gx_paths_list_view.html" title="wxGxPathsListView" alt="" coords="430,483,569,509"/>
+<area shape="rect" id="node6" href="$classwx_gx_catalog_u_i.html" title="wxGxCatalogUI" alt="" coords="524,392,639,419"/>
+<area shape="rect" id="node7" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="408,315,509,341"/>
+<area shape="rect" id="node8" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="245,237,375,264"/>
+<area shape="rect" id="node9" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="235,160,385,187"/>
+<area shape="rect" id="node10" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="263,83,357,109"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="401,237,615,264"/>
+<area shape="rect" id="node13" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="534,315,628,341"/>
+<area shape="rect" id="node14" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="653,315,771,341"/>
 </map>

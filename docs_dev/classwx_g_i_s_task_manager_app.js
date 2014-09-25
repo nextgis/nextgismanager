@@ -16,5 +16,9 @@ var classwx_g_i_s_task_manager_app =
     [ "OnExit", "classwx_g_i_s_task_manager_app.html#a021b3d828dd133f1276880c6bf9760e6", null ],
     [ "OnInit", "classwx_g_i_s_task_manager_app.html#a70573bd084266dab7457c3bba1604c97", null ],
     [ "OnInitCmdLine", "classwx_g_i_s_task_manager_app.html#a9fd1b648176767c41917421986733a3a", null ],
-    [ "SetupSys", "classwx_g_i_s_task_manager_app.html#a4abce84d5351d7c674eae3ccdee30c2f", null ]
+    [ "SetupSys", "classwx_g_i_s_task_manager_app.html#a4abce84d5351d7c674eae3ccdee30c2f", null ],
+    [ "m_bService", "classwx_g_i_s_task_manager_app.html#ad426b5f790529d463a3143cbe1cf3a31", null ],
+    [ "m_ExitLock", "classwx_g_i_s_task_manager_app.html#ac023c2f4ad5741e5f2a86a5f082c6ebd", null ],
+    [ "m_oConfig", "classwx_g_i_s_task_manager_app.html#af1af070315859ee75f46a053d9bb73d3", null ],
+    [ "m_pTaskManager", "classwx_g_i_s_task_manager_app.html#a21af17b11bbd32e3b55031339e856c02", null ]
 ];

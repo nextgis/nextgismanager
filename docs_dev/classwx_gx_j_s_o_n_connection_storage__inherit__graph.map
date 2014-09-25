@@ -1,6 +1,6 @@
 <map id="wxGxJSONConnectionStorage" name="wxGxJSONConnectionStorage">
-<area shape="rect" id="node5" href="$classwx_gx_disc_connections.html" title="The Disc Connections GxRootObject. " alt="" coords="27,304,180,331"/>
-<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="30,155,177,181"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="57,80,151,107"/>
-<area shape="rect" id="node6" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="21,379,187,405"/>
+<area shape="rect" id="node5" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="29,304,184,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="31,155,181,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="59,80,153,107"/>
+<area shape="rect" id="node6" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="21,379,192,405"/>
 </map>

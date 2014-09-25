@@ -1,6 +1,6 @@
 var classwx_g_i_s_new_menu =
 [
-    [ "wxGISNewMenu", "classwx_g_i_s_new_menu.html#ac110ab1ee1af486c31d2eaa19c8b6de2", null ],
+    [ "wxGISNewMenu", "classwx_g_i_s_new_menu.html#a7c893b5284a0e6f06bef68a153af0baf", null ],
     [ "~wxGISNewMenu", "classwx_g_i_s_new_menu.html#a4eeb37d3f8805e52504610df7be03ab5", null ],
     [ "AddCommand", "classwx_g_i_s_new_menu.html#a4156072f416682c1750c664f760b5060", null ],
     [ "GetBitmap", "classwx_g_i_s_new_menu.html#a059389da24f8f082e40e21c813a2d932", null ],

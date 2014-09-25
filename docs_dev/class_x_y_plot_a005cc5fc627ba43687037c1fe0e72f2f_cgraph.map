@@ -1,0 +1,8 @@
+<map id="XYPlot::DrawDatasets" name="XYPlot::DrawDatasets">
+<area shape="rect" id="node2" href="$class_axis_plot.html#af21da1afc22cd8e908ec06100f71b6f3" title="AxisPlot::GetDatasetCount" alt="" coords="208,5,389,32"/>
+<area shape="rect" id="node3" href="$class_axis_plot.html#a08213f781097ffbc378ef97b87ba4ada" title="AxisPlot::GetDataset" alt="" coords="225,56,372,83"/>
+<area shape="rect" id="node4" href="$class_x_y_plot.html#aec55ca9c9fa04573f297c6e87f7e7cdc" title="XYPlot::DrawXYDataset" alt="" coords="215,107,382,133"/>
+<area shape="rect" id="node5" href="$class_axis_plot.html#ad89856f6f3c3876f1d0306b5c4879453" title="AxisPlot::GetDatasetVerticalAxis" alt="" coords="445,56,661,83"/>
+<area shape="rect" id="node6" href="$class_axis_plot.html#a3f08583ad9653f59dd4c054bdf4b2c25" title="AxisPlot::GetDatasetHorizontalAxis" alt="" coords="438,107,669,133"/>
+<area shape="rect" id="node7" href="$class_x_y_renderer.html#ab208b127f5cf5ab4474e27f7b29f04a6" title="XYRenderer::Draw" alt="" coords="487,157,619,184"/>
+</map>

@@ -12,7 +12,7 @@ var class_i_net_connection =
     [ "ProcessInputNetMessage", "class_i_net_connection.html#a11bfb9f9032d145b15998f13dfdd19d0", null ],
     [ "ProcessOutputNetMessage", "class_i_net_connection.html#a385ea055370c53cec2d670ee5d6ec175", null ],
     [ "SendNetMessageAsync", "class_i_net_connection.html#ad428561d28c4e6c77b7faa5ad07f025f", null ],
-    [ "SendNetMessageSync", "class_i_net_connection.html#a3689325836e279f3fec01211fcca74a0", null ],
+    [ "SendNetMessageSync", "class_i_net_connection.html#a25ce23e83a54951db14bcff715109da8", null ],
     [ "SetId", "class_i_net_connection.html#a41ef2c3fe86b1e88e1bd6e17487e4ff9", null ],
     [ "wxNetReaderThread", "class_i_net_connection.html#a437d0ea9fe51cd0ce81c3ff293378af1", null ],
     [ "wxNetWriterThread", "class_i_net_connection.html#a5d2e04a77d0e0b4810e170c18a8220c3", null ],

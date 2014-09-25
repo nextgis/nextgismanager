@@ -1,6 +1,6 @@
 <map id="wxGxPrjFile" name="wxGxPrjFile">
-<area shape="rect" id="node2" href="$classwx_gx_file.html" title="A file GxObject. " alt="" coords="217,160,292,187"/>
-<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,83,101,109"/>
-<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="218,83,320,109"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="317,160,475,187"/>
+<area shape="rect" id="node2" href="$classwx_gx_file.html" title="wxGxFile" alt="" coords="220,160,296,187"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="10,83,104,109"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="221,83,325,109"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="321,160,484,187"/>
 </map>

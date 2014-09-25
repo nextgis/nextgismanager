@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2013 Bishop
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,7 +26,7 @@
 
 @tableofcontents
 
-wxGIS consists the set of libraries and executable which uses them. The libraries 
+NextGIS Manager consists the set of libraries and executable which uses them. The libraries 
 briefly described below. This diagram shows the dependencies between them:
 
 @dot
@@ -99,7 +100,7 @@ Requires @ref page_libs_wxgiscore.
 
 @section page_libs_wxgisnet wxGISNet
 
-The library needed to communicate with different wxGIS components. Using the library classes applications can transfer data or messages throw the network 
+The library needed to communicate with different NextGIS Manager components. Using the library classes applications can transfer data or messages throw the network 
 or inside the same PC. The background processes (e.g. geoprocessing) communicate 
 with foreground (e.g. wxGISCatalog application) using library or wxGISProcess from
 the wxGISCore library. There are client side and server side classes.
@@ -114,7 +115,7 @@ Requires @ref page_libs_wxgiscore.
 
 Basic GUI classes such as controls, dialogues, buttons, menus, toolbars, accelerators, 
 progressors and progress animations are in this library. All
-wxGIS GUI components (usually library name ended with UI) must link against this library, only console mode libraries don't. There are several classes to construct the 
+NextGIS Manager GUI components (usually library name ended with UI) must link against this library, only console mode libraries don't. There are several classes to construct the 
 main application interface:
 @li wxGISApplicationBase
 @li wxGISApplication
@@ -175,7 +176,7 @@ Requires @ref page_libs_wxgiscore, @ref page_libs_wxgisdatasource, @ref page_lib
 The geoprocess is one or several operation with spatial data (e.g. buffer, 
 reprojection, etc.). The library provides unified interface for such operations. 
 The geoprocessing operations executed with special application, which controlled 
-by wxGIS UI components (e.g. wxGISCatalog application). If geoprocessing crashed 
+by NextGIS Manager UI components (e.g. wxGISCatalog application). If geoprocessing crashed 
 this is not influence on host application. User will be notified about problem with 
 geoprocessing operation.
 

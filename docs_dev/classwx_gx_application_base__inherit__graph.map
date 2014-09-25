@@ -1,5 +1,6 @@
 <map id="wxGxApplicationBase" name="wxGxApplicationBase">
-<area shape="rect" id="node2" href="$classwx_gx_application.html" title="A catalog application framework class. " alt="" coords="17,80,135,107"/>
-<area shape="rect" id="node4" href="$classwx_gx_object_dialog.html" title="The GxObjDialog class. " alt="" coords="159,80,288,107"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_catalog_frame.html" title="wxGISCatalogFrame" alt="" coords="5,155,147,181"/>
+<area shape="rect" id="node2" href="$classwx_gx_application.html" title="wxGxApplication" alt="" coords="17,80,137,107"/>
+<area shape="rect" id="node4" href="$classwx_gx_container_dialog.html" title="wxGxContainerDialog" alt="" coords="161,80,309,107"/>
+<area shape="rect" id="node5" href="$classwx_gx_object_dialog.html" title="wxGxObjectDialog" alt="" coords="335,80,464,107"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_catalog_frame.html" title="wxGISCatalogFrame" alt="" coords="5,155,149,181"/>
 </map>

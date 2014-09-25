@@ -12,7 +12,9 @@ var classwx_g_i_s_tool_bar =
     [ "GetRightDockable", "classwx_g_i_s_tool_bar.html#aa3619c79f36385983970b6a71f7b9629", null ],
     [ "MoveCommandLeft", "classwx_g_i_s_tool_bar.html#ae44b3c099f2f14ced35a087149dd089d", null ],
     [ "MoveCommandRight", "classwx_g_i_s_tool_bar.html#adbccf38981d5960d6b75f6b7dba63a4a", null ],
+    [ "OnDropDownCommand", "classwx_g_i_s_tool_bar.html#a781c1020accca6c4d00e8410b56f08da", null ],
     [ "OnMotion", "classwx_g_i_s_tool_bar.html#a531b9d8ce28432f7ea5025d40e8ac8a6", null ],
+    [ "OnToolDropDown", "classwx_g_i_s_tool_bar.html#adf48df735b23f82118f35f69ad2c54b5", null ],
     [ "ReAddCommand", "classwx_g_i_s_tool_bar.html#a3c3549484c5ac9f3e1c272594ee420e7", null ],
     [ "RemoveCommand", "classwx_g_i_s_tool_bar.html#a1791405e1d2ff50971c6391c0b560580", null ],
     [ "Serialize", "classwx_g_i_s_tool_bar.html#a025b8d500a8d88725e92abf9841af720", null ],
@@ -24,6 +26,7 @@ var classwx_g_i_s_tool_bar =
     [ "m_bActive", "classwx_g_i_s_tool_bar.html#a0d462a43a06c88d88d5100f8b8cb3893", null ],
     [ "m_bLDock", "classwx_g_i_s_tool_bar.html#a94464a695c636bfaea917c3ba89378f4", null ],
     [ "m_bRDock", "classwx_g_i_s_tool_bar.html#ac6d96b23824175102be850a171656cb6", null ],
+    [ "m_pDropDownCommand", "classwx_g_i_s_tool_bar.html#aeec8b8a4d64237d084a68715b0b3903f", null ],
     [ "m_pStatusBar", "classwx_g_i_s_tool_bar.html#a096171a811006cb656f5b18587aa88b7", null ],
     [ "m_RemControlMap", "classwx_g_i_s_tool_bar.html#a828c2db975de5ce8917bdf0ab38d60fd", null ]
 ];

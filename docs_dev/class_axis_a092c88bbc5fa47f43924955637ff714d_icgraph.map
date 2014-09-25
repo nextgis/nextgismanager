@@ -1,0 +1,29 @@
+<map id="Axis::GetDataBounds" name="Axis::GetDataBounds">
+<area shape="rect" id="node2" href="$class_axis.html#a19c39d2941252a78117238b0a93e749f" title="Axis::IsVisible" alt="" coords="241,132,348,159"/>
+<area shape="rect" id="node9" href="$class_axis.html#a21985938d2a97385d5ebe41584f3121a" title="Axis::BoundValue" alt="" coords="231,664,358,691"/>
+<area shape="rect" id="node11" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="233,385,356,412"/>
+<area shape="rect" id="node23" href="$class_axis.html#a9c899bd2fe9db3b17e8f0944334fa62a" title="Axis::ToData" alt="" coords="245,740,344,767"/>
+<area shape="rect" id="node27" href="$class_axis_share.html#a99e0397b5ce34d343bd551dac2a5c491" title="AxisShare::GetDataBounds" alt="" coords="203,841,386,868"/>
+<area shape="rect" id="node3" href="$class_axis.html#ac41f60cc1125cb3761635c65df188150" title="Axis::IntersectsWindow" alt="" coords="457,5,618,32"/>
+<area shape="rect" id="node5" href="$class_axis_share.html#af070420700aafd5ae584ebe592104c12" title="AxisShare::IsVisible" alt="" coords="467,56,607,83"/>
+<area shape="rect" id="node6" href="$class_label_axis.html#af6a3c2432e8fa9b274761d624e7e1dee" title="LabelAxis::DrawGridLines" alt="" coords="451,107,624,133"/>
+<area shape="rect" id="node7" href="$class_line_marker.html#ac2d31b4faef59f5eff36fb72a690ed01" title="LineMarker::Draw" alt="" coords="475,157,600,184"/>
+<area shape="rect" id="node8" href="$class_x_y_histo_renderer.html#a72b741c886e010440a489e11c142fe15" title="XYHistoRenderer::Draw" alt="" coords="456,208,619,235"/>
+<area shape="rect" id="node4" href="$class_x_y_area_renderer.html#adc1bb12c848b96544c31269906dee23c" title="XYAreaRenderer::Draw" alt="" coords="697,183,855,209"/>
+<area shape="rect" id="node10" href="$class_axis_share.html#af5da49e9fc065ef0ba61372e54c2c04b" title="AxisShare::BoundValue" alt="" coords="457,664,617,691"/>
+<area shape="rect" id="node12" href="$class_axis_share.html#a006ad9b9ee2cdb4f6cea0324f62fe842" title="AxisShare::ToGraphics" alt="" coords="459,613,616,640"/>
+<area shape="rect" id="node13" href="$class_comp_date_axis.html#a6335ad130d52bc18ae9f4ce6bb689f74" title="CompDateAxis::DrawGridLines" alt="" coords="435,259,640,285"/>
+<area shape="rect" id="node14" href="$class_comp_date_axis.html#a7e21b53bd9760be249ca37e18381cce5" title="CompDateAxis::ToGraphics" alt="" coords="444,309,631,336"/>
+<area shape="rect" id="node15" href="$class_bar_type.html#a99e9ae8b9fcaa05578b3953b670dfab4" title="BarType::Draw" alt="" coords="482,411,593,437"/>
+<area shape="rect" id="node18" href="$class_gantt_renderer.html#a7606b103450021ad5c49dffe31baa82c" title="GanttRenderer::Draw" alt="" coords="464,512,611,539"/>
+<area shape="rect" id="node20" href="$class_range_marker.html#a3b19c7efb5311c0e5b1ffb5d08b5b9c9" title="RangeMarker::Draw" alt="" coords="468,461,607,488"/>
+<area shape="rect" id="node21" href="$class_o_h_l_c_plot.html#a59ee55f4ed7bdb99eb3f38891645aa2d" title="OHLCPlot::DrawOHLCDataset" alt="" coords="435,563,639,589"/>
+<area shape="rect" id="node16" href="$class_bar_renderer.html#a0ee631f6f47cc2fec789c7eed877f453" title="BarRenderer::Draw" alt="" coords="709,411,843,437"/>
+<area shape="rect" id="node17" href="$class_bar_plot.html#a94a149075db9ff1eacf6d1aaffacfe0c" title="BarPlot::DrawDatasets" alt="" coords="912,411,1069,437"/>
+<area shape="rect" id="node19" href="$class_gantt_plot.html#ad00fdee6a5bbb2c4566f57e41bea39d0" title="GanttPlot::DrawDatasets" alt="" coords="691,512,861,539"/>
+<area shape="rect" id="node22" href="$class_o_h_l_c_plot.html#ab148725e0689a6438d45e9dc794420c8" title="OHLCPlot::DrawDatasets" alt="" coords="689,563,863,589"/>
+<area shape="rect" id="node24" href="$class_axis_share.html#ab529dae11a6d2cbfe6ee7c4e91c70578" title="AxisShare::ToData" alt="" coords="471,715,604,741"/>
+<area shape="rect" id="node25" href="$class_comp_date_axis.html#aad7c323194b3ee73de163b08000ad8ba" title="CompDateAxis::ToData" alt="" coords="456,765,619,792"/>
+<area shape="rect" id="node26" href="$class_axis_plot.html#a29e8df23afe5dd4e770320427d519057" title="AxisPlot::ToDataCoords" alt="" coords="455,816,619,843"/>
+<area shape="rect" id="node28" href="$class_axis.html#a86fb3f4249042673db62329d802807c0" title="Axis::GetWindowBounds" alt="" coords="453,867,621,893"/>
+</map>

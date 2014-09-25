@@ -38,7 +38,7 @@ enum wxGISEnumGisProjectType
     
     A Gis Projects (QGIS, MapInfo wor, ArcGIS mxd, etc.) factory.
 
-    @library {catalog}
+    @library{catalog}
 */
 class WXDLLIMPEXP_GIS_CLT wxGxGisProjectFactory :
 	public wxGxObjectFactory

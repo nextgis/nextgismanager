@@ -1,7 +1,8 @@
 var NAVTREE =
 [
-  [ "wxGIS", "index.html", [
+  [ "ngm", "index.html", [
     [ "Documentation", "index.html", "index" ],
+    [ "NextGIS Manager", "md__home_bishop_work_projects_nextgismanager__r_e_a_d_m_e.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
@@ -21,29 +22,36 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"0__conf_2confmain_8h_source.html",
-"class_i_track_cancel.html#a4c2bbc35f8c62b6b258546d80e923b9e",
-"classwx_g_i_s_accelerator_table.html#a6916f4f9a9bc58ef7521a0749b4b4e80",
-"classwx_g_i_s_catalog_general_property_page.html#ad1aa351653c9aba6b677e4624ccfcee7",
-"classwx_g_i_s_create_command_bar_dlg.html#a920115177fd398ce48520825c9aa5a6f",
-"classwx_g_i_s_display.html#ae30bcd35ec132ea88577960bc988a3fa",
-"classwx_g_i_s_g_p_multi_parameter.html#a15f9844689bf6db2d64e802463755454",
-"classwx_g_i_s_identify_dlg.html#a871ddf193a375bd08b4114e9a0a4b730",
-"classwx_g_i_s_misc_property_page.html#a8fe3777a46504c2112edff696ab4c3bca4fbeaefe47ccce2a33809e4b634da9ee",
-"classwx_g_i_s_r_tree_node.html#a588f116f07a0f41141183d7334926b01",
-"classwx_g_i_s_server_app.html#a6adb2c9060477aa9b276326c0c54151f",
-"classwx_g_i_s_table.html#a8f85aed25021a3a07db8be7f46de4307",
-"classwx_g_i_s_task_manager.html#a08dd11aebd5e98dc40f5d69ac3a1c1f4",
-"classwx_g_p_task_executor.html#a283b17621dbcc764d4cdfee78b62dee5",
-"classwx_gx_content_view.html#ab745beb5460a28f1d450c5fbec3b579a",
-"classwx_gx_feature_dataset_u_i.html#ab3b4437e5dd0ce21f9c45ef29f718507",
-"classwx_gx_object.html#a46c5bfbee89e9b622c0376d02b10cb21",
-"classwx_gx_raster_factory_u_i.html#a20e083e58ab63c70d0b824b89affa965",
-"classwx_gx_text_file.html",
-"classwx_j_s_o_n_value.html#a72434813da3225efb48d339d783537a1",
-"classwx_rx_catalog.html#a0d76d31fd7aba61e73d777cb6c96db6a",
-"gxfolderfactory_8h_source.html",
-"structwx_g_i_s_status_bar_1_1__statuspanel.html"
+"accelerator_8h_source.html",
+"class_color_scheme.html#a921f4050aefd3a90755964052ea948b3",
+"class_i_gx_remote_connection.html#a414920a0afd751ef70add15b5e2d6458",
+"class_logarithmic_number_axis.html#afbf34f2061de058f9a6bf358f1af0a5a",
+"class_triangle_symbol.html#a81ce9e5ff60b0ace7c6924df4ab9e3da",
+"classwx_feature_cursor.html#a7d911bcfd2aca45d2ca52e0da904cb06",
+"classwx_g_i_s_carto_main_cmd.html#a5a32170db4f2ba58c79806995cde427e",
+"classwx_g_i_s_config.html#ac0cc9b38f3c5d8817823745962cad1b4",
+"classwx_g_i_s_data_source.html#a39aafd3d7945749b946c3ad04889c259",
+"classwx_g_i_s_feature.html#a3c23262ceeb89dcb0b8006de68919b78",
+"classwx_g_i_s_g_p_ortho_correct_tool.html#a10e890bdada82b5592ad7844b34a39ad",
+"classwx_g_i_s_identify_dlg.html#a63a3a7d10ae79c83a0e9281dc944f556",
+"classwx_g_i_s_menu_bar.html#af9f97a4544d45c60c20e4fbb0075d041",
+"classwx_g_i_s_progressor.html#aeaed89e9a4ad4ecabf094442bf96df0a",
+"classwx_g_i_s_rubber_band.html#a449712577828324aaa738883006b5f39",
+"classwx_g_i_s_spatial_tree.html#a27dbace31c01c4b9e80ffd1c7a8cccf1",
+"classwx_g_i_s_task.html#a49f39156843ea5b35925b4437497295b",
+"classwx_g_i_s_tool_bar.html#a67b05ceba543079035e6af23560f7ece",
+"classwx_gx_archive_folder.html#a2357ddfaa1e4f70219004053a42b05b2",
+"classwx_gx_content_view.html#abc8de38fcc21d2cea6cb7fbb7f5e8b3d",
+"classwx_gx_file.html#a3ab031b67c188e03d5a354767aa2bd7d",
+"classwx_gx_map_view.html#a1d7fa92a38471bf2a0f5a99ad1938a56",
+"classwx_gx_paths_list_view.html#aef12e68b826a7231e05c3d71890978a6",
+"classwx_gx_remote_servers.html#a3aa43ce507bcb96e64955db61f0839d4",
+"classwx_gx_tab_view.html#a66be6a49bf02ab2a1873f09df199fda8",
+"classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3",
+"classwx_net_message.html#a050aa512a9895005b40e0548a9ffa588",
+"functions_func.html",
+"page_libs.html#page_libs_wxgisdatasource",
+"wxfreechartdefs_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
@@ -156,7 +164,7 @@ function createIndent(o,domNode,node,level)
     span.style.display = 'inline-block';
     span.style.width   = 16*(level+1)+'px';
     span.style.height  = '22px';
-    span.innerHTML = '&nbsp;';
+    span.innerHTML = '&#160;';
     domNode.appendChild(span);
   } 
 }

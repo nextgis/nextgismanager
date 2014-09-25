@@ -1,0 +1,6 @@
+<map id="BarRenderer::DrawLegendSymbol" name="BarRenderer::DrawLegendSymbol">
+<area shape="rect" id="node2" href="$class_bar_renderer.html#acf8b1288e0e53ad9b80f771fbaf2414e" title="BarRenderer::GetBarDraw" alt="" coords="275,44,450,71"/>
+<area shape="rect" id="node5" href="$class_area_draw.html#a14bb9a1881f55342f3430377f2cd5fd5" title="AreaDraw::Draw" alt="" coords="303,95,422,121"/>
+<area shape="rect" id="node3" href="$class_area_draw_collection.html#a43443e8c7ad5b20ab05dabfb784f625b" title="AreaDrawCollection\l::GetAreaDraw" alt="" coords="499,5,637,46"/>
+<area shape="rect" id="node4" href="$class_area_draw_collection.html#a14ae682bd4f08ec9093c12fbcf644e53" title="AreaDrawCollection\l::SetAreaDraw" alt="" coords="499,70,637,111"/>
+</map>

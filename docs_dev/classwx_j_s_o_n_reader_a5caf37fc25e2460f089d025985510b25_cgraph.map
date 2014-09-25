@@ -1,14 +1,14 @@
 <map id="wxJSONReader::StoreComment" name="wxJSONReader::StoreComment">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a59211d693f3ed5870df27f1f27addb1b" title="Return the line number of this JSON value object. " alt="" coords="502,56,677,83"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a2178b6fa0ca8bb4d7b29bd4251f09b35" title="Add a comment to this JSON value object. " alt="" coords="261,107,453,133"/>
-<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="281,5,433,32"/>
-<area shape="rect" id="node13" href="$classwx_j_s_o_n_reader.html#ab51d0f12485c585fc6cd8b86d909ac30" title="Add a error message to the error&#39;s array. " alt="" coords="271,157,443,184"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="726,56,906,83"/>
-<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="517,107,662,133"/>
-<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="735,107,897,133"/>
-<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="955,107,1152,133"/>
-<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="1200,56,1397,83"/>
-<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="1225,107,1373,133"/>
-<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="1203,157,1395,184"/>
-<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="508,5,671,32"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a59211d693f3ed5870df27f1f27addb1b" title="Return the line number of this JSON value object. " alt="" coords="512,56,691,83"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a2178b6fa0ca8bb4d7b29bd4251f09b35" title="Add a comment to this JSON value object. " alt="" coords="267,107,463,133"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="287,5,443,32"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_reader.html#ab51d0f12485c585fc6cd8b86d909ac30" title="Add a error message to the error&#39;s array. " alt="" coords="277,157,453,184"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="739,56,925,83"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="527,107,676,133"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="749,107,915,133"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="973,107,1176,133"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="1225,56,1429,83"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="1249,107,1404,133"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="1227,157,1426,184"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="518,5,685,32"/>
 </map>

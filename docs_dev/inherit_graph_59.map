@@ -1,3 +1,397 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classwx_g_i_s_task_message.html" title="The Task message. " alt="" coords="5,5,147,32"/>
+<area shape="rect" id="node1" href="$class_axis_observer.html" title="AxisObserver" alt="" coords="308,107,409,133"/>
+<area shape="rect" id="node2" href="$class_axis_plot.html" title="AxisPlot" alt="" coords="566,208,637,235"/>
+<area shape="rect" id="node8" href="$class_chart.html" title="Chart" alt="" coords="574,5,629,32"/>
+<area shape="rect" id="node3" href="$class_bubble_plot.html" title="BubblePlot" alt="" coords="815,183,900,209"/>
+<area shape="rect" id="node4" href="$class_gantt_plot.html" title="GanttPlot" alt="" coords="819,233,896,260"/>
+<area shape="rect" id="node5" href="$class_x_y_plot.html" title="XYPlot" alt="" coords="826,132,889,159"/>
+<area shape="rect" id="node6" href="$class_bar_plot.html" title="BarPlot" alt="" coords="1110,157,1175,184"/>
+<area shape="rect" id="node7" href="$class_o_h_l_c_plot.html" title="OHLCPlot" alt="" coords="1101,107,1184,133"/>
+<area shape="rect" id="node9" href="$class_chart_panel_observer.html" title="ChartPanelObserver" alt="" coords="289,157,429,184"/>
+<area shape="rect" id="node10" href="$class_chart_panel_mode.html" title="ChartPanelMode" alt="" coords="542,157,661,184"/>
+<area shape="rect" id="node13" href="$class_crosshair.html" title="Crosshair" alt="" coords="562,107,641,133"/>
+<area shape="rect" id="node11" href="$class_pan_mode.html" title="PanMode" alt="" coords="819,81,896,108"/>
+<area shape="rect" id="node12" href="$class_zoom_mode.html" title="ZoomMode" alt="" coords="814,31,901,57"/>
+<area shape="rect" id="node14" href="$class_dataset_observer.html" title="DatasetObserver" alt="" coords="298,360,419,387"/>
+<area shape="rect" id="node15" href="$class_moving_average.html" title="MovingAverage" alt="" coords="1087,385,1199,412"/>
+<area shape="rect" id="node16" href="$class_pie_plot.html" title="PiePlot" alt="" coords="569,360,633,387"/>
+<area shape="rect" id="node17" href="$class_date_time_dataset.html" title="DateTimeDataset" alt="" coords="539,309,664,336"/>
+<area shape="rect" id="node18" href="$class_gantt_dataset_date_helper.html" title="GanttDatasetDateHelper" alt="" coords="774,335,941,361"/>
+<area shape="rect" id="node19" href="$class_o_h_l_c_dataset.html" title="OHLCDataset" alt="" coords="805,385,910,412"/>
+<area shape="rect" id="node21" href="$class_time_series_dataset.html" title="TimeSeriesDataset" alt="" coords="1075,284,1210,311"/>
+<area shape="rect" id="node20" href="$class_o_h_l_c_simple_dataset.html" title="OHLCSimpleDataset" alt="" coords="1070,335,1215,361"/>
+<area shape="rect" id="node22" href="$class_draw_observer.html" title="DrawObserver" alt="" coords="305,639,412,665"/>
+<area shape="rect" id="node23" href="$class_dataset.html" title="Dataset" alt="" coords="567,689,635,716"/>
+<area shape="rect" id="node36" href="$class_x_y_histo_renderer.html" title="XYHistoRenderer" alt="" coords="1081,841,1205,868"/>
+<area shape="rect" id="node24" href="$class_x_y_dataset.html" title="XYDataset" alt="" coords="814,588,901,615"/>
+<area shape="rect" id="node25" href="$class_category_dataset.html" title="CategoryDataset" alt="" coords="1082,487,1203,513"/>
+<area shape="rect" id="node29" href="$class_julian_time_series_dataset.html" title="JulianTimeSeriesDataset" alt="" coords="1059,537,1227,564"/>
+<area shape="rect" id="node30" href="$class_polynom.html" title="Polynom" alt="" coords="1106,588,1179,615"/>
+<area shape="rect" id="node31" href="$class_sine_function.html" title="SineFunction" alt="" coords="1093,639,1192,665"/>
+<area shape="rect" id="node32" href="$class_vector_dataset.html" title="VectorDataset" alt="" coords="1089,689,1196,716"/>
+<area shape="rect" id="node33" href="$class_x_y_dynamic_dataset.html" title="XYDynamicDataset" alt="" coords="1073,740,1212,767"/>
+<area shape="rect" id="node34" href="$class_x_y_simple_dataset.html" title="XYSimpleDataset" alt="" coords="1079,791,1206,817"/>
+<area shape="rect" id="node35" href="$class_x_y_z_dataset.html" title="XYZDataset" alt="" coords="1095,436,1190,463"/>
+<area shape="rect" id="node26" href="$class_category_simple_dataset.html" title="CategorySimpleDataset" alt="" coords="1345,512,1506,539"/>
+<area shape="rect" id="node27" href="$class_gantt_dataset.html" title="GanttDataset" alt="" coords="1375,461,1475,488"/>
+<area shape="rect" id="node28" href="$class_gantt_simple_dataset.html" title="GanttSimpleDataset" alt="" coords="1622,461,1762,488"/>
+<area shape="rect" id="node37" href="$class_i_drop_down_command.html" title="IDropDownCommand" alt="" coords="1069,3577,1217,3604"/>
+<area shape="rect" id="node38" href="$classwx_g_i_s_catalog_main_cmd.html" title="wxGISCatalogMainCmd" alt="" coords="1344,3349,1507,3376"/>
+<area shape="rect" id="node39" href="$classwx_g_i_s_catalog_views_cmd.html" title="wxGISCatalogViewsCmd" alt="" coords="1340,3648,1511,3675"/>
+<area shape="rect" id="node40" href="$classwx_g_i_s_drawing_tool_menu.html" title="wxGISDrawingToolMenu" alt="" coords="1342,3565,1509,3592"/>
+<area shape="rect" id="node41" href="$class_i_g_i_s_g_p_domain_parent.html" title="IGISGPDomainParent" alt="" coords="283,5072,434,5099"/>
+<area shape="rect" id="node42" href="$classwx_g_i_s_g_p_parameter.html" title="A Geoprocessing tools parameter class. " alt="" coords="531,5072,672,5099"/>
+<area shape="rect" id="node43" href="$classwx_g_i_s_g_p_multi_parameter.html" title="A Geoprocessing tools multiparameter class. " alt="" coords="773,5072,942,5099"/>
+<area shape="rect" id="node45" href="$classwx_g_i_s_g_p_tool.html" title="wxGISGPTool" alt="" coords="548,1525,655,1552"/>
+<area shape="rect" id="node46" href="$classwx_g_i_s_g_p_comp_stat_tool.html" title="wxGISGPCompStatTool" alt="" coords="775,1652,940,1679"/>
+<area shape="rect" id="node47" href="$classwx_g_i_s_g_p_create_overviews_tool.html" title="The geoprocessing tool create raster overviews. " alt="" coords="754,1703,961,1729"/>
+<area shape="rect" id="node48" href="$classwx_g_i_s_g_p_export_tool.html" title="The geoprocessing tool export vector data to various formats. " alt="" coords="785,1297,929,1324"/>
+<area shape="rect" id="node49" href="$classwx_g_i_s_g_p_geom_vertices_to_points_tool.html" title="The geoprocessing tool converts geometry vertices to points. " alt="" coords="737,1348,978,1375"/>
+<area shape="rect" id="node50" href="$classwx_g_i_s_g_p_mean_by_column_tool.html" title="The geoprocessing tool calculate mean column data by other colum with equil data. ..." alt="" coords="758,1399,957,1425"/>
+<area shape="rect" id="node51" href="$classwx_g_i_s_g_p_ortho_correct_tool.html" title="The geoprocessing tool create ortho corrected rasters. " alt="" coords="767,1449,948,1476"/>
+<area shape="rect" id="node52" href="$classwx_g_i_s_g_p_project_vector_tool.html" title="wxGISGPProjectVectorTool" alt="" coords="765,1500,950,1527"/>
+<area shape="rect" id="node53" href="$classwx_g_i_s_g_p_shape_to_text_tool.html" title="The geoprocessing tool write shape cordinates to text file. " alt="" coords="765,1551,949,1577"/>
+<area shape="rect" id="node54" href="$classwx_g_i_s_g_p_sub_raster_by_vector_tool.html" title="The geoprocessing tool create subraster by vector cutline. " alt="" coords="746,1601,969,1628"/>
+<area shape="rect" id="node55" href="$class_i_gx_contents_view.html" title="IGxContentsView" alt="" coords="795,8416,920,8443"/>
+<area shape="rect" id="node56" href="$classwx_g_i_s_tool_execute_view.html" title="wxGISToolExecuteView" alt="" coords="1061,8416,1225,8443"/>
+<area shape="rect" id="node57" href="$classwx_gx_content_view.html" title="wxGxContentView" alt="" coords="1077,8264,1208,8291"/>
+<area shape="rect" id="node58" href="$classwx_gx_dialog_content_view.html" title="wxGxDialogContentView" alt="" coords="1341,8264,1509,8291"/>
+<area shape="rect" id="node59" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="813,4920,902,4947"/>
+<area shape="rect" id="node60" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="1091,4869,1194,4896"/>
+<area shape="rect" id="node77" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="1063,5161,1222,5188"/>
+<area shape="rect" id="node61" href="$classwx_gx_feature_dataset.html" title="wxGxFeatureDataset" alt="" coords="1352,4464,1499,4491"/>
+<area shape="rect" id="node67" href="$classwx_gx_raster_dataset.html" title="wxGxRasterDataset" alt="" coords="1355,4667,1496,4693"/>
+<area shape="rect" id="node71" href="$classwx_gx_table.html" title="wxGxTable" alt="" coords="1381,4515,1469,4541"/>
+<area shape="rect" id="node62" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="1612,4489,1772,4516"/>
+<area shape="rect" id="node64" href="$classwx_gx_inited_feature_dataset.html" title="wxGxInitedFeatureDataset" alt="" coords="1603,4236,1781,4263"/>
+<area shape="rect" id="node65" href="$classwx_gx_m_l_sub_dataset.html" title="wxGxMLSubDataset" alt="" coords="1621,4287,1763,4313"/>
+<area shape="rect" id="node63" href="$classwx_gx_inited_feature_dataset_u_i.html" title="wxGxInitedFeatureDatasetUI" alt="" coords="1851,4489,2043,4516"/>
+<area shape="rect" id="node66" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="wxGxMLSubDatasetUI" alt="" coords="1868,4793,2025,4820"/>
+<area shape="rect" id="node68" href="$classwx_gx_raster_dataset_u_i.html" title="wxGxRasterDatasetUI" alt="" coords="1615,4641,1769,4668"/>
+<area shape="rect" id="node69" href="$classwx_gx_t_m_s_web_service.html" title="wxGxTMSWebService" alt="" coords="1615,4591,1769,4617"/>
+<area shape="rect" id="node70" href="$classwx_gx_t_m_s_web_service_u_i.html" title="wxGxTMSWebServiceUI" alt="" coords="1862,4895,2031,4921"/>
+<area shape="rect" id="node72" href="$classwx_gx_inited_table.html" title="wxGxInitedTable" alt="" coords="1632,4337,1752,4364"/>
+<area shape="rect" id="node73" href="$classwx_gx_spreadsheet_sub_dataset.html" title="wxGxSpreadsheetSubDataset" alt="" coords="1593,4388,1791,4415"/>
+<area shape="rect" id="node75" href="$classwx_gx_table_u_i.html" title="wxGxTableUI" alt="" coords="1641,4540,1743,4567"/>
+<area shape="rect" id="node74" href="$classwx_gx_spreadsheet_sub_dataset_u_i.html" title="wxGxSpreadsheetSubDatasetUI" alt="" coords="1841,4844,2053,4871"/>
+<area shape="rect" id="node76" href="$classwx_gx_inited_table_u_i.html" title="wxGxInitedTableUI" alt="" coords="1879,4540,2014,4567"/>
+<area shape="rect" id="node78" href="$classwx_gx_m_l_dataset.html" title="wxGxMLDataset" alt="" coords="1365,5161,1485,5188"/>
+<area shape="rect" id="node80" href="$classwx_gx_open_file_g_d_b.html" title="wxGxOpenFileGDB" alt="" coords="1357,5111,1494,5137"/>
+<area shape="rect" id="node82" href="$classwx_gx_spreadsheet_dataset.html" title="wxGxSpreadsheetDataset" alt="" coords="1338,5212,1513,5239"/>
+<area shape="rect" id="node79" href="$classwx_gx_m_l_dataset_u_i.html" title="wxGxMLDatasetUI" alt="" coords="1625,5148,1759,5175"/>
+<area shape="rect" id="node81" href="$classwx_gx_open_file_g_d_b_u_i.html" title="wxGxOpenFileGDBUI" alt="" coords="1617,5097,1767,5124"/>
+<area shape="rect" id="node83" href="$classwx_gx_spreadsheet_dataset_u_i.html" title="wxGxSpreadsheetDatasetUI" alt="" coords="1597,5249,1787,5276"/>
+<area shape="rect" id="node84" href="$class_i_gx_drop_target.html" title="IGxDropTarget" alt="" coords="1371,5655,1479,5681"/>
+<area shape="rect" id="node85" href="$classwx_gx_d_b_connections_u_i.html" title="wxGxDBConnectionsUI" alt="" coords="1611,5908,1773,5935"/>
+<area shape="rect" id="node86" href="$classwx_gx_disc_connection_u_i.html" title="wxGxDiscConnectionUI" alt="" coords="1611,5807,1773,5833"/>
+<area shape="rect" id="node87" href="$classwx_gx_folder_u_i.html" title="wxGxFolderUI" alt="" coords="1639,5756,1745,5783"/>
+<area shape="rect" id="node88" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="805,5173,909,5200"/>
+<area shape="rect" id="node89" href="$classwx_gx_file.html" title="wxGxFile" alt="" coords="1104,5060,1181,5087"/>
+<area shape="rect" id="node95" href="$classwx_gx_folder.html" title="wxGxFolder" alt="" coords="1097,5705,1189,5732"/>
+<area shape="rect" id="node110" href="$classwx_gx_q_g_i_s_proj_file.html" title="wxGxQGISProjFile" alt="" coords="1076,5212,1209,5239"/>
+<area shape="rect" id="node90" href="$classwx_gx_file_u_i.html" title="wxGxFileUI" alt="" coords="1647,5047,1737,5073"/>
+<area shape="rect" id="node91" href="$classwx_gx_prj_file.html" title="wxGxPrjFile" alt="" coords="1379,4787,1472,4813"/>
+<area shape="rect" id="node93" href="$classwx_gx_text_file.html" title="wxGxTextFile" alt="" coords="1374,5009,1477,5036"/>
+<area shape="rect" id="node92" href="$classwx_gx_prj_file_u_i.html" title="wxGxPrjFileUI" alt="" coords="1639,4692,1745,4719"/>
+<area shape="rect" id="node94" href="$classwx_gx_text_file_u_i.html" title="wxGxTextFileUI" alt="" coords="1633,4996,1751,5023"/>
+<area shape="rect" id="node96" href="$classwx_gx_archive_folder.html" title="wxGxArchiveFolder" alt="" coords="1357,5553,1493,5580"/>
+<area shape="rect" id="node104" href="$classwx_gx_d_b_connections.html" title="wxGxDBConnections" alt="" coords="1351,5908,1499,5935"/>
+<area shape="rect" id="node105" href="$classwx_gx_disc_connection.html" title="wxGxDiscConnection" alt="" coords="1351,5705,1500,5732"/>
+<area shape="rect" id="node106" href="$classwx_gx_shell_connections.html" title="wxGxShellConnections" alt="" coords="1346,5807,1505,5833"/>
+<area shape="rect" id="node108" href="$classwx_gx_web_connections.html" title="wxGxWebConnections" alt="" coords="1347,5959,1503,5985"/>
+<area shape="rect" id="node97" href="$classwx_gx_archive.html" title="wxGxArchive" alt="" coords="1642,5655,1742,5681"/>
+<area shape="rect" id="node99" href="$classwx_gx_archive_folder_u_i.html" title="wxGxArchiveFolderUI" alt="" coords="1617,5553,1767,5580"/>
+<area shape="rect" id="node101" href="$classwx_gx_prj_folder.html" title="wxGxPrjFolder" alt="" coords="1638,5705,1746,5732"/>
+<area shape="rect" id="node98" href="$classwx_gx_archive_u_i.html" title="wxGxArchiveUI" alt="" coords="1889,5503,2004,5529"/>
+<area shape="rect" id="node100" href="$classwx_gx_prj_folder_u_i.html" title="wxGxPrjFolderUI" alt="" coords="1885,5553,2008,5580"/>
+<area shape="rect" id="node102" href="$classwx_gx_spatial_references_folder.html" title="wxGxSpatialReferencesFolder" alt="" coords="1847,5705,2046,5732"/>
+<area shape="rect" id="node103" href="$classwx_gx_spatial_references_folder_u_i.html" title="wxGxSpatialReferencesFolderUI" alt="" coords="2101,5655,2315,5681"/>
+<area shape="rect" id="node107" href="$classwx_gx_shell_connections_u_i.html" title="wxGxShellConnectionsUI" alt="" coords="1606,5857,1778,5884"/>
+<area shape="rect" id="node109" href="$classwx_gx_web_connections_u_i.html" title="wxGxWebConnectionsUI" alt="" coords="1607,5959,1777,5985"/>
+<area shape="rect" id="node111" href="$classwx_gx_q_g_i_s_proj_file_u_i.html" title="wxGxQGISProjFileUI" alt="" coords="1619,5199,1765,5225"/>
+<area shape="rect" id="node112" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="1366,4908,1485,4935"/>
+<area shape="rect" id="node113" href="$classwx_gx_catalog_u_i.html" title="wxGxCatalogUI" alt="" coords="1635,4743,1749,4769"/>
+<area shape="rect" id="node114" href="$class_i_gx_object_no_filter.html" title="IGxObjectNoFilter" alt="" coords="794,5908,921,5935"/>
+<area shape="rect" id="node115" href="$classwx_gx_disc_connections.html" title="wxGxDiscConnections" alt="" coords="1347,6111,1503,6137"/>
+<area shape="rect" id="node117" href="$classwx_gx_pending_u_i.html" title="The pending item in tree or content view. " alt="" coords="1633,6212,1751,6239"/>
+<area shape="rect" id="node116" href="$classwx_gx_disc_connections_u_i.html" title="The Disc Connections GxRootObject. " alt="" coords="1607,6111,1777,6137"/>
+<area shape="rect" id="node118" href="$class_i_gx_object_notifier.html" title="IGxObjectNotifier" alt="" coords="796,6161,919,6188"/>
+<area shape="rect" id="node119" href="$classwx_gx_object_container_updater.html" title="wxGxObjectContainerUpdater" alt="" coords="1045,6212,1241,6239"/>
+<area shape="rect" id="node120" href="$class_i_gx_object_sort.html" title="IGxObjectSort" alt="" coords="1373,6161,1478,6188"/>
+<area shape="rect" id="node121" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="1378,5415,1473,5441"/>
+<area shape="rect" id="node122" href="$classwx_gx_remote_servers_u_i.html" title="A Remote Servers UI GxRootObject. " alt="" coords="1611,6009,1773,6036"/>
+<area shape="rect" id="node123" href="$classwx_gx_remote_server_u_i.html" title="A Remote Server UI GxObject. " alt="" coords="2131,4439,2285,4465"/>
+<area shape="rect" id="node124" href="$class_i_gx_object_wizard.html" title="IGxObjectWizard" alt="" coords="1364,4565,1487,4592"/>
+<area shape="rect" id="node125" href="$class_i_gx_root_object_properties.html" title="IGxRootObjectProperties" alt="" coords="1059,5959,1227,5985"/>
+<area shape="rect" id="node126" href="$classwx_gx_remote_servers.html" title="A Remote Servers GxRootObject. " alt="" coords="1352,6009,1499,6036"/>
+<area shape="rect" id="node127" href="$class_i_mx_application.html" title="A IMxApplication interface class. " alt="" coords="1371,3223,1479,3249"/>
+<area shape="rect" id="node128" href="$classwx_mx_application.html" title="A map application framework class. " alt="" coords="1631,3248,1753,3275"/>
+<area shape="rect" id="node129" href="$classwx_g_i_s_map_frame.html" title="The wxGISMapFrame class is a main frame of wxGISMap. " alt="" coords="1885,3248,2009,3275"/>
+<area shape="rect" id="node130" href="$class_i_net_conn_factory_u_i.html" title="The network connection factory UI interface class. " alt="" coords="789,4515,925,4541"/>
+<area shape="rect" id="node131" href="$classwx_client_t_c_p_net_factory_u_i.html" title="The UI factory to create net connections. " alt="" coords="1053,4540,1232,4567"/>
+<area shape="rect" id="node132" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="289,4376,429,4403"/>
+<area shape="rect" id="node133" href="$classwx_g_i_s_task_manager.html" title="Task Manager Server communicate class. " alt="" coords="531,4401,672,4428"/>
+<area shape="rect" id="node134" href="$classwx_rx_catalog.html" title="The root of Remote GxObjects (RxObjects). " alt="" coords="1641,4185,1743,4212"/>
+<area shape="rect" id="node135" href="$classwx_gx_remote_server.html" title="A Remote Server GxObject. " alt="" coords="1877,4287,2017,4313"/>
+<area shape="rect" id="node137" href="$classwx_g_i_s_network_service.html" title="A Server side Network Service. " alt="" coords="524,8492,679,8519"/>
+<area shape="rect" id="node138" href="$classwx_g_i_s_local_network_service.html" title="wxGISLocalNetworkService" alt="" coords="764,8619,951,8645"/>
+<area shape="rect" id="node139" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="313,8441,404,8468"/>
+<area shape="rect" id="node141" href="$classwx_g_i_s_g_p_tool_manager.html" title="A Geoprocessing tools manager. " alt="" coords="523,4452,679,4479"/>
+<area shape="rect" id="node142" href="$class_i_progressor.html" title="IProgressor" alt="" coords="813,6871,902,6897"/>
+<area shape="rect" id="node143" href="$classwx_g_i_s_animation.html" title="wxGISAnimation" alt="" coords="1083,7327,1203,7353"/>
+<area shape="rect" id="node144" href="$classwx_g_i_s_progress_dlg.html" title="wxGISProgressDlg" alt="" coords="1075,6820,1210,6847"/>
+<area shape="rect" id="node145" href="$classwx_g_i_s_progressor.html" title="wxGISProgressor" alt="" coords="1080,6769,1205,6796"/>
+<area shape="rect" id="node146" href="$classwx_g_p_task_executor.html" title="The geoprocessing task exec class. " alt="" coords="1073,6719,1212,6745"/>
+<area shape="rect" id="node148" href="$class_i_tool_control.html" title="IToolControl" alt="" coords="1096,3375,1189,3401"/>
+<area shape="rect" id="node149" href="$classwx_g_i_s_carto_frame_tool.html" title="wxGISCartoFrameTool" alt="" coords="1347,3451,1503,3477"/>
+<area shape="rect" id="node150" href="$classwx_g_i_s_drawing_tool.html" title="wxGISDrawingTool" alt="" coords="1358,3400,1493,3427"/>
+<area shape="rect" id="node151" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="807,6769,907,6796"/>
+<area shape="rect" id="node152" href="$classwx_gx_track_cancel.html" title="wxGxTrackCancel" alt="" coords="1077,6668,1208,6695"/>
+<area shape="rect" id="node153" href="$class_i_view.html" title="IView" alt="" coords="574,8416,629,8443"/>
+<area shape="rect" id="node154" href="$classwx_ax_identify_view.html" title="wxAxIdentifyView" alt="" coords="1079,8151,1206,8177"/>
+<area shape="rect" id="node155" href="$classwx_gx_view.html" title="wxGxView" alt="" coords="815,8517,900,8544"/>
+<area shape="rect" id="node156" href="$classwx_ax_toolbox_view.html" title="wxAxToolboxView" alt="" coords="1077,8669,1208,8696"/>
+<area shape="rect" id="node157" href="$classwx_gx_map_view.html" title="The view for map showing. " alt="" coords="1637,7771,1747,7797"/>
+<area shape="rect" id="node158" href="$classwx_gx_no_view.html" title="wxGxNoView" alt="" coords="1091,8315,1194,8341"/>
+<area shape="rect" id="node159" href="$classwx_gx_table_view.html" title="wxGxTableView" alt="" coords="1084,8467,1201,8493"/>
+<area shape="rect" id="node160" href="$classwx_gx_tab_view.html" title="wxGxTabView" alt="" coords="1089,8720,1196,8747"/>
+<area shape="rect" id="node161" href="$classwx_gx_tree_view_base.html" title="The base class for tree view of gxObjects. " alt="" coords="1072,8568,1213,8595"/>
+<area shape="rect" id="node162" href="$classwx_gx_tree_view.html" title="The tree view in Catalog. " alt="" coords="1370,8568,1481,8595"/>
+<area shape="rect" id="node165" href="$classwx_tree_view_combo_popup.html" title="wxTreeViewComboPopup" alt="" coords="1339,8669,1512,8696"/>
+<area shape="rect" id="node163" href="$classwx_gx_toolbox_tree_view.html" title="wxGxToolboxTreeView" alt="" coords="1613,8593,1771,8620"/>
+<area shape="rect" id="node164" href="$classwx_tree_container_view.html" title="wxTreeContainerView" alt="" coords="1617,8543,1767,8569"/>
+<area shape="rect" id="node166" href="$class_i_view_drop_target.html" title="IViewDropTarget" alt="" coords="797,7707,917,7733"/>
+<area shape="rect" id="node167" href="$classwx_g_i_s_d_t_path.html" title="wxGISDTPath" alt="" coords="1089,7783,1196,7809"/>
+<area shape="rect" id="node170" href="$classwx_gx_tab.html" title="wxGxTab" alt="" coords="1103,7833,1182,7860"/>
+<area shape="rect" id="node168" href="$classwx_g_i_s_d_t_folder_path.html" title="wxGISDTFolderPath" alt="" coords="1354,7757,1497,7784"/>
+<area shape="rect" id="node169" href="$classwx_g_i_s_d_t_spat_ref.html" title="wxGISDTSpatRef" alt="" coords="1361,7808,1489,7835"/>
+<area shape="rect" id="node171" href="$class_observable.html" title="Observable\&lt; AxisObserver \&gt;" alt="" coords="263,1829,454,1856"/>
+<area shape="rect" id="node172" href="$class_axis.html" title="Axis" alt="" coords="577,1829,625,1856"/>
+<area shape="rect" id="node173" href="$class_axis_share.html" title="AxisShare" alt="" coords="816,1804,899,1831"/>
+<area shape="rect" id="node174" href="$class_comp_date_axis.html" title="CompDateAxis" alt="" coords="802,1855,913,1881"/>
+<area shape="rect" id="node175" href="$class_label_axis.html" title="LabelAxis" alt="" coords="818,1753,897,1780"/>
+<area shape="rect" id="node176" href="$class_category_axis.html" title="CategoryAxis" alt="" coords="1092,1737,1193,1764"/>
+<area shape="rect" id="node177" href="$class_date_axis.html" title="DateAxis" alt="" coords="1105,1788,1181,1815"/>
+<area shape="rect" id="node178" href="$class_number_axis.html" title="NumberAxis" alt="" coords="1095,1687,1190,1713"/>
+<area shape="rect" id="node179" href="$class_julian_date_axis.html" title="JulianDateAxis" alt="" coords="1370,1712,1481,1739"/>
+<area shape="rect" id="node180" href="$class_logarithmic_number_axis.html" title="LogarithmicNumberAxis" alt="" coords="1345,1661,1506,1688"/>
+<area shape="rect" id="node181" href="$class_observable.html" title="Observable\&lt; ChartObserver \&gt;" alt="" coords="260,5,457,32"/>
+<area shape="rect" id="node182" href="$class_observable.html" title="Observable\&lt; DatasetObserver \&gt;" alt="" coords="253,689,464,716"/>
+<area shape="rect" id="node183" href="$class_observable.html" title="Observable\&lt; DrawObserver \&gt;" alt="" coords="6,1044,202,1071"/>
+<area shape="rect" id="node184" href="$class_draw_object.html" title="DrawObject" alt="" coords="313,1044,404,1071"/>
+<area shape="rect" id="node185" href="$class_area_draw.html" title="AreaDraw" alt="" coords="561,1044,641,1071"/>
+<area shape="rect" id="node189" href="$class_marker.html" title="Marker" alt="" coords="570,1171,633,1197"/>
+<area shape="rect" id="node193" href="$class_renderer.html" title="Renderer" alt="" coords="564,841,639,868"/>
+<area shape="rect" id="node186" href="$class_fill_area_draw.html" title="FillAreaDraw" alt="" coords="809,1044,906,1071"/>
+<area shape="rect" id="node187" href="$class_gradient_area_draw.html" title="GradientAreaDraw" alt="" coords="793,1095,922,1121"/>
+<area shape="rect" id="node188" href="$class_no_area_draw.html" title="NoAreaDraw" alt="" coords="809,993,906,1020"/>
+<area shape="rect" id="node190" href="$class_line_marker.html" title="LineMarker" alt="" coords="814,1196,901,1223"/>
+<area shape="rect" id="node191" href="$class_point_marker.html" title="PointMarker" alt="" coords="811,1247,903,1273"/>
+<area shape="rect" id="node192" href="$class_range_marker.html" title="RangeMarker" alt="" coords="807,1145,907,1172"/>
+<area shape="rect" id="node194" href="$class_bar_renderer.html" title="BarRenderer" alt="" coords="810,740,905,767"/>
+<area shape="rect" id="node195" href="$class_category_renderer.html" title="CategoryRenderer" alt="" coords="793,791,921,817"/>
+<area shape="rect" id="node196" href="$class_gantt_renderer.html" title="GanttRenderer" alt="" coords="804,841,911,868"/>
+<area shape="rect" id="node197" href="$class_o_h_l_c_renderer.html" title="OHLCRenderer" alt="" coords="801,892,913,919"/>
+<area shape="rect" id="node200" href="$class_x_y_renderer.html" title="XYRenderer" alt="" coords="811,943,904,969"/>
+<area shape="rect" id="node205" href="$class_x_y_z_renderer.html" title="XYZRenderer" alt="" coords="807,689,908,716"/>
+<area shape="rect" id="node198" href="$class_o_h_l_c_bar_renderer.html" title="OHLCBarRenderer" alt="" coords="1077,943,1209,969"/>
+<area shape="rect" id="node199" href="$class_o_h_l_c_candlestick_renderer.html" title="OHLCCandlestickRenderer" alt="" coords="1052,892,1233,919"/>
+<area shape="rect" id="node201" href="$class_x_y_area_renderer.html" title="XYAreaRenderer" alt="" coords="1083,1044,1203,1071"/>
+<area shape="rect" id="node202" href="$class_x_y_line_renderer_base.html" title="XYLineRendererBase" alt="" coords="1069,993,1216,1020"/>
+<area shape="rect" id="node203" href="$class_x_y_line_renderer.html" title="XYLineRenderer" alt="" coords="1367,1019,1484,1045"/>
+<area shape="rect" id="node204" href="$class_x_y_line_step_renderer.html" title="XYLineStepRenderer" alt="" coords="1353,968,1497,995"/>
+<area shape="rect" id="node206" href="$class_observable.html" title="Observable\&lt; PlotObserver \&gt;" alt="" coords="10,208,198,235"/>
+<area shape="rect" id="node207" href="$class_plot.html" title="Plot" alt="" coords="336,208,381,235"/>
+<area shape="rect" id="node208" href="$class_multi_plot.html" title="MultiPlot" alt="" coords="565,56,638,83"/>
+<area shape="rect" id="node209" href="$class_plot_observer.html" title="PlotObserver" alt="" coords="309,56,408,83"/>
+<area shape="rect" id="node210" href="$class_ref_object.html" title="RefObject" alt="" coords="318,791,399,817"/>
+<area shape="rect" id="node212" href="$classwx_g_i_s_catalog_app.html" title="wxGISCatalogApp" alt="" coords="1077,6567,1208,6593"/>
+<area shape="rect" id="node213" href="$classwx_g_i_s_map_app.html" title="wxGISMapApp" alt="" coords="1087,6617,1198,6644"/>
+<area shape="rect" id="node215" href="$classwx_g_i_s_server_app.html" title="Main Server class. " alt="" coords="1081,6465,1204,6492"/>
+<area shape="rect" id="node216" href="$classwx_g_i_s_task_manager_app.html" title="wxGISTaskManagerApp" alt="" coords="1061,6516,1225,6543"/>
+<area shape="rect" id="node219" href="$classwx_g_i_s_tool_bar.html" title="wxGISToolBar" alt="" coords="804,3603,911,3629"/>
+<area shape="rect" id="node221" href="$classwx_list_view_combo_popup.html" title="wxListViewComboPopup" alt="" coords="1341,8619,1509,8645"/>
+<area shape="rect" id="node224" href="$classwx_g_i_s_about_dialog.html" title="wxGISAboutDialog" alt="" coords="1076,6871,1209,6897"/>
+<area shape="rect" id="node225" href="$classwx_g_i_s_add_command_dlg.html" title="wxGISAddCommandDlg" alt="" coords="1060,6921,1225,6948"/>
+<area shape="rect" id="node226" href="$classwx_g_i_s_create_command_bar_dlg.html" title="wxGISCreateCommandBarDlg" alt="" coords="1042,6972,1243,6999"/>
+<area shape="rect" id="node227" href="$classwx_g_i_s_create_network_conn_dlg.html" title="The create network connection dialog. " alt="" coords="1042,7023,1243,7049"/>
+<area shape="rect" id="node228" href="$classwx_g_i_s_customize_dlg.html" title="wxGISCustomizeDlg" alt="" coords="1070,7073,1215,7100"/>
+<area shape="rect" id="node229" href="$classwx_g_i_s_mini_map_dlg.html" title="wxGISMiniMapDlg" alt="" coords="1077,4667,1208,4693"/>
+<area shape="rect" id="node230" href="$classwx_g_i_s_search_server_dlg.html" title="The dialog to search remote servers. " alt="" coords="1062,7124,1223,7151"/>
+<area shape="rect" id="node231" href="$classwx_gx_container_dialog.html" title="wxGxContainerDialog" alt="" coords="1068,4135,1217,4161"/>
+<area shape="rect" id="node232" href="$classwx_gx_object_dialog.html" title="wxGxObjectDialog" alt="" coords="1077,4084,1208,4111"/>
+<area shape="rect" id="node233" href="$classwx_key_code_dlg.html" title="wxKeyCodeDlg" alt="" coords="1086,7175,1199,7201"/>
+<area shape="rect" id="node235" href="$class_i_net_connection.html" title="INetConnection" alt="" coords="545,4819,658,4845"/>
+<area shape="rect" id="node241" href="$class_i_net_conn_factory.html" title="The network connection factory interface class. " alt="" coords="540,4604,663,4631"/>
+<area shape="rect" id="node243" href="$class_i_net_plugin.html" title="INetPlugin" alt="" coords="560,5123,643,5149"/>
+<area shape="rect" id="node246" href="$class_i_network_plugin.html" title="A Server side INetworkPlugin interface. " alt="" coords="546,5199,657,5225"/>
+<area shape="rect" id="node247" href="$classwx_g_i_s_layer.html" title="wxGISLayer" alt="" coords="554,4667,649,4693"/>
+<area shape="rect" id="node251" href="$classwx_g_i_s_rubber_band.html" title="wxGISRubberBand" alt="" coords="534,7035,669,7061"/>
+<area shape="rect" id="node259" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="554,5275,649,5301"/>
+<area shape="rect" id="node236" href="$classwx_g_i_s_local_client_connection.html" title="The connection to communicate with local Task Manager Server. " alt="" coords="761,5021,954,5048"/>
+<area shape="rect" id="node237" href="$classwx_g_i_s_net_client_connection.html" title="The network connection interface class. " alt="" coords="766,4768,949,4795"/>
+<area shape="rect" id="node239" href="$classwx_g_i_s_net_server_connection.html" title="The network server connection interface class. " alt="" coords="764,4819,951,4845"/>
+<area shape="rect" id="node238" href="$classwx_client_t_c_p_net_connection.html" title="wxClientTCPNetConnection" alt="" coords="1049,4768,1236,4795"/>
+<area shape="rect" id="node240" href="$classwx_g_i_s_local_server_connection.html" title="wxGISLocalServerConnection" alt="" coords="1044,4819,1241,4845"/>
+<area shape="rect" id="node242" href="$classwx_client_t_c_p_net_factory.html" title="wxClientTCPNetFactory" alt="" coords="775,4565,940,4592"/>
+<area shape="rect" id="node244" href="$classwx_g_i_s_local_network_plugin.html" title="wxGISLocalNetworkPlugin" alt="" coords="768,5123,947,5149"/>
+<area shape="rect" id="node245" href="$classwx_server_t_c_p_network_plugin.html" title="A Server side TCPNetworkPlugin. " alt="" coords="763,5224,952,5251"/>
+<area shape="rect" id="node248" href="$classwx_g_i_s_drawing_layer.html" title="wxGISDrawingLayer" alt="" coords="786,4717,929,4744"/>
+<area shape="rect" id="node249" href="$classwx_g_i_s_feature_layer.html" title="wxGISFeatureLayer" alt="" coords="788,4616,927,4643"/>
+<area shape="rect" id="node250" href="$classwx_g_i_s_raster_layer.html" title="wxGISRasterLayer" alt="" coords="791,4667,924,4693"/>
+<area shape="rect" id="node252" href="$classwx_g_i_s_rubber_circle.html" title="wxGISRubberCircle" alt="" coords="788,7060,927,7087"/>
+<area shape="rect" id="node253" href="$classwx_g_i_s_rubber_envelope.html" title="wxGISRubberEnvelope" alt="" coords="778,7009,937,7036"/>
+<area shape="rect" id="node255" href="$classwx_g_i_s_rubber_free_hand.html" title="wxGISRubberFreeHand" alt="" coords="777,7111,938,7137"/>
+<area shape="rect" id="node256" href="$classwx_g_i_s_rubber_line.html" title="wxGISRubberLine" alt="" coords="793,7237,921,7264"/>
+<area shape="rect" id="node258" href="$classwx_g_i_s_rubber_marker.html" title="wxGISRubberMarker" alt="" coords="785,6668,929,6695"/>
+<area shape="rect" id="node254" href="$classwx_g_i_s_rubber_ellipse.html" title="wxGISRubberEllipse" alt="" coords="1071,7225,1214,7252"/>
+<area shape="rect" id="node257" href="$classwx_g_i_s_rubber_polygon.html" title="wxGISRubberPolygon" alt="" coords="1067,7276,1218,7303"/>
+<area shape="rect" id="node260" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="782,5325,933,5352"/>
+<area shape="rect" id="node261" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="1077,4920,1208,4947"/>
+<area shape="rect" id="node263" href="$classwx_gx_j_s_o_n_connection_storage.html" title="wxGxJSONConnectionStorage" alt="" coords="1041,6060,1244,6087"/>
+<area shape="rect" id="node264" href="$classwx_rx_object_container.html" title="The base class for Remote GxObjectContainers (RxObjectContainers). " alt="" coords="1067,4413,1218,4440"/>
+<area shape="rect" id="node262" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="1375,4616,1476,4643"/>
+<area shape="rect" id="node266" href="$classwx_g_i_s_application.html" title="wxGISApplication" alt="" coords="1079,3223,1206,3249"/>
+<area shape="rect" id="node267" href="$classwx_g_i_s_application_ex.html" title="wxGISApplicationEx" alt="" coords="1354,3273,1497,3300"/>
+<area shape="rect" id="node268" href="$classwx_gx_application.html" title="wxGxApplication" alt="" coords="1632,3653,1752,3680"/>
+<area shape="rect" id="node269" href="$classwx_g_i_s_catalog_frame.html" title="wxGISCatalogFrame" alt="" coords="1875,3653,2019,3680"/>
+<area shape="rect" id="node271" href="$classwx_g_i_s_app_with_libs.html" title="wxGISAppWithLibs" alt="" coords="789,6567,925,6593"/>
+<area shape="rect" id="node272" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="251,4528,466,4555"/>
+<area shape="rect" id="node273" href="$classwx_g_i_s_g_p_value_domain.html" title="wxGISGPValueDomain" alt="" coords="522,4287,681,4313"/>
+<area shape="rect" id="node276" href="$classwx_g_i_s_map_view.html" title="wxGISMapView" alt="" coords="1085,6364,1201,6391"/>
+<area shape="rect" id="node279" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="810,3856,905,3883"/>
+<area shape="rect" id="node284" href="$classwx_g_i_s_task_base.html" title="wxGISTaskBase" alt="" coords="541,4185,662,4212"/>
+<area shape="rect" id="node288" href="$classwx_gx_selection.html" title="The GxObject Selection class. " alt="" coords="546,4503,657,4529"/>
+<area shape="rect" id="node274" href="$classwx_g_i_s_g_p_gx_object_domain.html" title="The domain storing GxObjectFilters. " alt="" coords="767,4312,948,4339"/>
+<area shape="rect" id="node275" href="$classwx_g_i_s_g_p_string_domain.html" title="The domain storing strings. " alt="" coords="777,4261,937,4288"/>
+<area shape="rect" id="node277" href="$classwx_g_i_s_drawing_map_view.html" title="wxGISDrawingMapView" alt="" coords="1343,7023,1507,7049"/>
+<area shape="rect" id="node278" href="$classwx_mx_map_view.html" title="This is the map view class in MxApplication. " alt="" coords="1370,6415,1481,6441"/>
+<area shape="rect" id="node280" href="$classwx_g_i_s_feature_dataset.html" title="wxGISFeatureDataset" alt="" coords="1067,3932,1219,3959"/>
+<area shape="rect" id="node282" href="$classwx_g_i_s_table_cached.html" title="wxGISTableCached" alt="" coords="1073,3983,1212,4009"/>
+<area shape="rect" id="node281" href="$classwx_g_i_s_feature_dataset_cached.html" title="wxGISFeatureDatasetCached" alt="" coords="1327,3932,1524,3959"/>
+<area shape="rect" id="node283" href="$classwx_g_i_s_table_query.html" title="wxGISTableQuery" alt="" coords="1361,3983,1490,4009"/>
+<area shape="rect" id="node285" href="$classwx_g_i_s_task.html" title="wxGISTask" alt="" coords="1380,4211,1471,4237"/>
+<area shape="rect" id="node287" href="$classwx_g_i_s_task_category.html" title="wxGISTaskCategory" alt="" coords="785,4160,929,4187"/>
+<area shape="rect" id="node286" href="$classwx_g_i_s_task_edit.html" title="wxGISTaskEdit" alt="" coords="1635,4135,1749,4161"/>
+<area shape="rect" id="node289" href="$classwx_g_i_s_coordinates_format.html" title="The class to format coordinates according different masks. " alt="" coords="515,3121,688,3148"/>
+<area shape="rect" id="node290" href="$classwx_g_i_s_coordinates_format_menu.html" title="The class to format coordinates according different masks. " alt="" coords="755,3476,960,3503"/>
+<area shape="rect" id="node291" href="$classwx_g_i_s_initializer.html" title="wxGISInitializer" alt="" coords="800,6719,915,6745"/>
+<area shape="rect" id="node292" href="$classwx_g_i_s_map.html" title="wxGISMap" alt="" coords="558,6415,645,6441"/>
+<area shape="rect" id="node293" href="$classwx_g_i_s_extent_stack.html" title="wxGISExtentStack" alt="" coords="790,6415,925,6441"/>
+<area shape="rect" id="node294" href="$classwx_g_i_s_map_bitmap.html" title="wxGISMapBitmap" alt="" coords="1079,6415,1207,6441"/>
+<area shape="rect" id="node295" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="307,3780,410,3807"/>
+<area shape="rect" id="node296" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar" alt="" coords="530,3552,673,3579"/>
+<area shape="rect" id="node300" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="547,3755,655,3781"/>
+<area shape="rect" id="node303" href="$classwx_g_i_s_symbol.html" title="wxGISSymbol" alt="" coords="548,3805,655,3832"/>
+<area shape="rect" id="node297" href="$classwx_g_i_s_menu.html" title="wxGISMenu" alt="" coords="810,3552,905,3579"/>
+<area shape="rect" id="node298" href="$classwx_g_i_s_new_menu.html" title="wxGISNewMenu" alt="" coords="1082,3780,1203,3807"/>
+<area shape="rect" id="node299" href="$classwx_g_i_s_tool_bar_menu.html" title="wxGISToolBarMenu" alt="" coords="1073,3729,1212,3756"/>
+<area shape="rect" id="node301" href="$classwx_g_i_s_data_source.html" title="wxGISDataSource" alt="" coords="792,3755,923,3781"/>
+<area shape="rect" id="node302" href="$classwx_g_i_s_raster_dataset.html" title="wxGISRasterDataset" alt="" coords="784,3704,931,3731"/>
+<area shape="rect" id="node304" href="$classwx_g_i_s_simple_collection_symbol.html" title="wxGISSimpleCollectionSymbol" alt="" coords="755,3907,959,3933"/>
+<area shape="rect" id="node305" href="$classwx_g_i_s_simple_fill_symbol.html" title="wxGISSimpleFillSymbol" alt="" coords="776,3805,939,3832"/>
+<area shape="rect" id="node308" href="$classwx_g_i_s_simple_line_symbol.html" title="wxGISSimpleLineSymbol" alt="" coords="772,4059,943,4085"/>
+<area shape="rect" id="node309" href="$classwx_g_i_s_simple_marker_symbol.html" title="wxGISSimpleMarkerSymbol" alt="" coords="764,4109,951,4136"/>
+<area shape="rect" id="node306" href="$classwx_g_i_s_simple_circle_symbol.html" title="wxGISSimpleCircleSymbol" alt="" coords="1053,3881,1233,3908"/>
+<area shape="rect" id="node307" href="$classwx_g_i_s_simple_ellipse_symbol.html" title="wxGISSimpleEllipseSymbol" alt="" coords="1050,3831,1235,3857"/>
+<area shape="rect" id="node311" href="$classwx_gx_application_base.html" title="An Interface class for GxApplication. " alt="" coords="782,3957,933,3984"/>
+<area shape="rect" id="node312" href="$classwx_gx_auto_renamer.html" title="wxGxAutoRenamer" alt="" coords="1357,5857,1493,5884"/>
+<area shape="rect" id="node313" href="$classwx_gx_x_m_l_connection_storage.html" title="wxGxXMLConnectionStorage" alt="" coords="1045,6009,1240,6036"/>
+<area shape="rect" id="node315" href="$classwx_gx_paths_list_view.html" title="wxGxPathsListView" alt="" coords="1073,8365,1213,8392"/>
+<area shape="rect" id="node318" href="$class_i_application.html" title="IApplication" alt="" coords="556,3653,647,3680"/>
+<area shape="rect" id="node321" href="$classwx_feature_cursor.html" title="The class represents an array of OGRFeatures, received by some selection. " alt="" coords="540,2235,663,2261"/>
+<area shape="rect" id="node322" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="796,3425,919,3452"/>
+<area shape="rect" id="node330" href="$classwx_g_i_s_config.html" title="wxGISConfig" alt="" coords="551,2589,651,2616"/>
+<area shape="rect" id="node332" href="$classwx_g_i_s_feature.html" title="wxGISFeature" alt="" coords="548,3223,655,3249"/>
+<area shape="rect" id="node333" href="$classwx_g_i_s_geometry.html" title="wxGISGeometry" alt="" coords="542,3273,661,3300"/>
+<area shape="rect" id="node334" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="544,2133,659,2160"/>
+<area shape="rect" id="node342" href="$classwx_g_i_s_shape.html" title="wxGISShape" alt="" coords="552,3324,651,3351"/>
+<area shape="rect" id="node343" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="520,2032,683,2059"/>
+<area shape="rect" id="node344" href="$classwx_gx_object_factory.html" title="A base class for GxObject factory. " alt="" coords="532,2792,671,2819"/>
+<area shape="rect" id="node373" href="$classwx_gx_object_filter.html" title="wxGxObjectFilter" alt="" coords="540,2285,663,2312"/>
+<area shape="rect" id="node382" href="$classwx_net_message.html" title="wxNetMessage" alt="" coords="545,2083,658,2109"/>
+<area shape="rect" id="node383" href="$class_x_y_dynamic_serie.html" title="XYDynamicSerie" alt="" coords="540,2184,663,2211"/>
+<area shape="rect" id="node319" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="779,4008,935,4035"/>
+<area shape="rect" id="node320" href="$classwx_g_i_s_server.html" title="The main Server class. " alt="" coords="807,3653,907,3680"/>
+<area shape="rect" id="node323" href="$class_i_tool.html" title="ITool" alt="" coords="1117,3476,1168,3503"/>
+<area shape="rect" id="node325" href="$classwx_g_i_s_carto_main_cmd.html" title="wxGISCartoMainCmd" alt="" coords="1067,3324,1218,3351"/>
+<area shape="rect" id="node326" href="$classwx_g_i_s_common_cmd.html" title="wxGISCommonCmd" alt="" coords="1071,3425,1214,3452"/>
+<area shape="rect" id="node327" href="$classwx_g_i_s_create_new_cmd.html" title="wxGISCreateNewCmd" alt="" coords="1065,3527,1221,3553"/>
+<area shape="rect" id="node328" href="$classwx_g_i_s_geoprocessing_cmd.html" title="wxGISGeoprocessingCmd" alt="" coords="1054,3628,1231,3655"/>
+<area shape="rect" id="node329" href="$classwx_g_i_s_task_cmd.html" title="wxGISTaskCmd" alt="" coords="1083,3172,1202,3199"/>
+<area shape="rect" id="node324" href="$classwx_g_i_s_carto_main_tool.html" title="wxGISCartoMainTool" alt="" coords="1352,3501,1499,3528"/>
+<area shape="rect" id="node331" href="$classwx_g_i_s_app_config.html" title="wxGISAppConfig" alt="" coords="796,2412,919,2439"/>
+<area shape="rect" id="node335" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="778,1956,937,1983"/>
+<area shape="rect" id="node337" href="$classwx_g_i_s_raster_renderer.html" title="The base class for renderers. " alt="" coords="780,1905,935,1932"/>
+<area shape="rect" id="node336" href="$classwx_g_i_s_unique_value_renderer.html" title="wxGISUniqueValueRenderer" alt="" coords="1048,2007,1237,2033"/>
+<area shape="rect" id="node338" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="1035,1956,1250,1983"/>
+<area shape="rect" id="node340" href="$classwx_g_i_s_raster_raster_colormap_renderer.html" title="The raster layer renderer for Palette Index data. " alt="" coords="1045,1839,1241,1881"/>
+<area shape="rect" id="node341" href="$classwx_g_i_s_raster_r_g_b_a_renderer.html" title="The raster layer renderer for RGB data and Alpha channel. " alt="" coords="1047,1905,1239,1932"/>
+<area shape="rect" id="node339" href="$classwx_g_i_s_raster_packed_r_g_b_a_renderer.html" title="The raster layer renderer for packed RGB data and Alpha channel. " alt="" coords="1307,1956,1543,1983"/>
+<area shape="rect" id="node345" href="$classwx_gx_archive_factory.html" title="A GxArchive factory. " alt="" coords="785,3121,929,3148"/>
+<area shape="rect" id="node347" href="$classwx_gx_c_s_v_file_factory.html" title="A GxCSVFile object factory. " alt="" coords="783,2463,932,2489"/>
+<area shape="rect" id="node349" href="$classwx_gx_d_b_connection_factory.html" title="A DataBase connection (*.xconn) GxObject factory. " alt="" coords="765,2513,950,2540"/>
+<area shape="rect" id="node351" href="$classwx_gx_file_factory.html" title="A GxFile object factory. " alt="" coords="797,2564,918,2591"/>
+<area shape="rect" id="node353" href="$classwx_gx_folder_factory.html" title="A GxFolder factory. " alt="" coords="789,2615,925,2641"/>
+<area shape="rect" id="node355" href="$classwx_gx_gis_project_factory.html" title="wxGxGisProjectFactory" alt="" coords="777,2665,938,2692"/>
+<area shape="rect" id="node357" href="$classwx_gx_local_d_b_factory.html" title="wxGxLocalDBFactory" alt="" coords="782,2716,933,2743"/>
+<area shape="rect" id="node359" href="$classwx_gx_map_info_factory.html" title="A MapInfo GxObject factory. " alt="" coords="784,2767,931,2793"/>
+<area shape="rect" id="node361" href="$classwx_gx_m_l_factory.html" title="A markup lang GxObject factory. " alt="" coords="798,2817,917,2844"/>
+<area shape="rect" id="node363" href="$classwx_gx_prj_factory.html" title="A Projection definition GxObject factory. " alt="" coords="799,2868,915,2895"/>
+<area shape="rect" id="node365" href="$classwx_gx_raster_factory.html" title="wxGxRasterFactory" alt="" coords="788,2919,927,2945"/>
+<area shape="rect" id="node367" href="$classwx_gx_shape_factory.html" title="A shape file GxObject factory. " alt="" coords="789,2969,926,2996"/>
+<area shape="rect" id="node369" href="$classwx_gx_spreadsheet_factory.html" title="wxGxSpreadsheetFactory" alt="" coords="771,3020,944,3047"/>
+<area shape="rect" id="node371" href="$classwx_gx_web_connection_factory.html" title="A Web service connection (*.wconn) GxObject factory. " alt="" coords="761,3071,954,3097"/>
+<area shape="rect" id="node346" href="$classwx_gx_archive_factory_u_i.html" title="A GxArchiveUI factory. " alt="" coords="1063,3121,1222,3148"/>
+<area shape="rect" id="node348" href="$classwx_gx_c_s_v_file_factory_u_i.html" title="A GxCSVFile UI object factory. " alt="" coords="1061,2463,1224,2489"/>
+<area shape="rect" id="node350" href="$classwx_gx_d_b_connection_factory_u_i.html" title="A DataBase connection (*.xconn) GxObjectUI factory. " alt="" coords="1043,2513,1242,2540"/>
+<area shape="rect" id="node352" href="$classwx_gx_file_factory_u_i.html" title="wxGxFileFactoryUI" alt="" coords="1075,2564,1210,2591"/>
+<area shape="rect" id="node354" href="$classwx_gx_folder_factory_u_i.html" title="A GxFolderUI factory. " alt="" coords="1067,2615,1218,2641"/>
+<area shape="rect" id="node356" href="$classwx_gx_gis_project_factory_u_i.html" title="wxGxGisProjectFactoryUI" alt="" coords="1055,2665,1230,2692"/>
+<area shape="rect" id="node358" href="$classwx_gx_local_d_b_factory_u_i.html" title="wxGxLocalDBFactoryUI" alt="" coords="1061,2716,1225,2743"/>
+<area shape="rect" id="node360" href="$classwx_gx_map_info_factory_u_i.html" title="A MapInfo dataset GxObjectUI factory. " alt="" coords="1062,2767,1223,2793"/>
+<area shape="rect" id="node362" href="$classwx_gx_m_l_factory_u_i.html" title="A markup lang GxObject factory. " alt="" coords="1077,2817,1209,2844"/>
+<area shape="rect" id="node364" href="$classwx_gx_prj_factory_u_i.html" title="A Projection definition GxObjectUI factory. " alt="" coords="1077,2868,1208,2895"/>
+<area shape="rect" id="node366" href="$classwx_gx_raster_factory_u_i.html" title="A raster GxObject factory. " alt="" coords="1066,2919,1219,2945"/>
+<area shape="rect" id="node368" href="$classwx_gx_shape_factory_u_i.html" title="A shape file GxObject factory. " alt="" coords="1067,2969,1218,2996"/>
+<area shape="rect" id="node370" href="$classwx_gx_spreadsheet_factory_u_i.html" title="wxGxSpreadsheetFactoryUI" alt="" coords="1049,3020,1236,3047"/>
+<area shape="rect" id="node372" href="$classwx_gx_web_connection_factory_u_i.html" title="A Web service connection (*.wconn) GxObjectUI factory. " alt="" coords="1039,3071,1246,3097"/>
+<area shape="rect" id="node374" href="$classwx_gx_dataset_filter.html" title="wxGxDatasetFilter" alt="" coords="792,2311,923,2337"/>
+<area shape="rect" id="node375" href="$classwx_gx_feature_dataset_filter.html" title="wxGxFeatureDatasetFilter" alt="" coords="770,2361,945,2388"/>
+<area shape="rect" id="node376" href="$classwx_gx_folder_filter.html" title="wxGxFolderFilter" alt="" coords="797,2007,918,2033"/>
+<area shape="rect" id="node377" href="$classwx_gx_prj_file_filter.html" title="wxGxPrjFileFilter" alt="" coords="796,2057,919,2084"/>
+<area shape="rect" id="node378" href="$classwx_gx_raster_dataset_filter.html" title="wxGxRasterDatasetFilter" alt="" coords="772,2108,943,2135"/>
+<area shape="rect" id="node379" href="$classwx_gx_remote_d_b_schema_filter.html" title="wxGxRemoteDBSchemaFilter" alt="" coords="758,2159,957,2185"/>
+<area shape="rect" id="node380" href="$classwx_gx_table_filter.html" title="wxGxTableFilter" alt="" coords="799,2209,916,2236"/>
+<area shape="rect" id="node381" href="$classwx_gx_text_filter.html" title="wxGxTextFilter" alt="" coords="802,2260,913,2287"/>
+<area shape="rect" id="node385" href="$class_i_property_page.html" title="IPropertyPage" alt="" coords="805,7504,910,7531"/>
+<area shape="rect" id="node389" href="$classwx_chart_split_panel.html" title="wxChartSplitPanel" alt="" coords="792,7808,923,7835"/>
+<area shape="rect" id="node390" href="$classwx_g_i_s_command_panel.html" title="wxGISCommandPanel" alt="" coords="780,7859,935,7885"/>
+<area shape="rect" id="node391" href="$classwx_g_i_s_d_t_base.html" title="wxGISDTBase" alt="" coords="802,7605,913,7632"/>
+<area shape="rect" id="node397" href="$classwx_g_i_s_feature_details_panel.html" title="wxGISFeatureDetailsPanel" alt="" coords="767,7909,947,7936"/>
+<area shape="rect" id="node398" href="$classwx_g_i_s_identify_dlg.html" title="wxGISIdentifyDlg" alt="" coords="795,7757,920,7784"/>
+<area shape="rect" id="node399" href="$classwx_g_i_s_raster_histogram_property_page.html" title="wxGISRasterHistogramPropertyPage" alt="" coords="737,7960,977,7987"/>
+<area shape="rect" id="node400" href="$classwx_g_i_s_raster_property_page.html" title="wxGISRasterPropertyPage" alt="" coords="767,8011,947,8037"/>
+<area shape="rect" id="node401" href="$classwx_g_i_s_simple_text_panel.html" title="wxGISSimpleTextPanel" alt="" coords="777,8061,938,8088"/>
+<area shape="rect" id="node402" href="$classwx_g_i_s_spatial_reference_property_page.html" title="wxGISSpatialReferencePropertyPage" alt="" coords="737,8112,978,8139"/>
+<area shape="rect" id="node403" href="$classwx_g_i_s_table_property_page.html" title="wxGISTablePropertyPage" alt="" coords="771,8163,944,8189"/>
+<area shape="rect" id="node404" href="$classwx_g_i_s_table_view.html" title="wxGISTableView" alt="" coords="796,8467,919,8493"/>
+<area shape="rect" id="node405" href="$classwx_g_i_s_tool_bar_panel.html" title="wxGISToolBarPanel" alt="" coords="787,8213,927,8240"/>
+<area shape="rect" id="node406" href="$classwx_g_i_s_vector_property_page.html" title="wxGISVectorPropertyPage" alt="" coords="768,8264,947,8291"/>
+<area shape="rect" id="node407" href="$classwx_net_property_page.html" title="wxNetPropertyPage" alt="" coords="788,7428,927,7455"/>
+<area shape="rect" id="node386" href="$classwx_g_i_s_catalog_general_property_page.html" title="wxGISCatalogGeneralPropertyPage" alt="" coords="1027,7529,1258,7556"/>
+<area shape="rect" id="node387" href="$classwx_g_i_s_g_d_a_l_conf_property_page.html" title="wxGISGDALConfPropertyPage" alt="" coords="1040,7428,1245,7455"/>
+<area shape="rect" id="node388" href="$classwx_g_i_s_misc_property_page.html" title="wxGISMiscPropertyPage" alt="" coords="1058,7479,1227,7505"/>
+<area shape="rect" id="node392" href="$classwx_g_i_s_d_t_bool.html" title="wxGISDTBool" alt="" coords="1089,7681,1196,7708"/>
+<area shape="rect" id="node393" href="$classwx_g_i_s_d_t_choice.html" title="wxGISDTChoice" alt="" coords="1082,7631,1203,7657"/>
+<area shape="rect" id="node395" href="$classwx_g_i_s_d_t_digit.html" title="wxGISDTDigit" alt="" coords="1089,7580,1196,7607"/>
+<area shape="rect" id="node396" href="$classwx_g_i_s_d_t_text.html" title="wxGISDTText" alt="" coords="1089,7732,1196,7759"/>
+<area shape="rect" id="node394" href="$classwx_g_i_s_d_t_field_choice.html" title="wxGISDTFieldChoice" alt="" coords="1351,7631,1500,7657"/>
+<area shape="rect" id="node408" href="$classwx_g_i_s_t_c_p_client_panel.html" title="The tcp network connection property page. " alt="" coords="1065,7377,1221,7404"/>
+<area shape="rect" id="node410" href="$classwx_g_i_s_process.html" title="The process class which stores the application execution data. " alt="" coords="1087,4971,1198,4997"/>
+<area shape="rect" id="node411" href="$classwx_g_p_process.html" title="A Geoprocess class. " alt="" coords="1372,4959,1479,4985"/>
+<area shape="rect" id="node412" href="$classwx_rx_object.html" title="The base class for Remote GxObjects (RxObjects). " alt="" coords="810,4413,905,4440"/>
+<area shape="rect" id="node414" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1079,6263,1207,6289"/>
+<area shape="rect" id="node415" href="$classwx_g_i_s_quad_tree.html" title="wxGISQuadTree" alt="" coords="1366,6263,1485,6289"/>
+<area shape="rect" id="node416" href="$classwx_g_i_s_r_tree.html" title="wxGISRTree" alt="" coords="1376,6313,1475,6340"/>
 </map>

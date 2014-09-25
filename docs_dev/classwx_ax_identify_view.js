@@ -14,11 +14,13 @@ var classwx_ax_identify_view =
     [ "GetViewIcon", "classwx_ax_identify_view.html#ac79446306c281dc235b4e0936e460248", null ],
     [ "GetViewName", "classwx_ax_identify_view.html#a249ce4acb3f690e88c7fe69926ce754e", null ],
     [ "Identify", "classwx_ax_identify_view.html#aeb5e89d4330641288a41c9e9efecad8a", null ],
+    [ "OnLayerRemoved", "classwx_ax_identify_view.html#a165b460c6bdb0651d08a091bf90bc833", null ],
     [ "OnLeftDown", "classwx_ax_identify_view.html#abcd77d7e3688ca8aac56430d2e677a75", null ],
     [ "OnMenu", "classwx_ax_identify_view.html#a20c0ce1f49dc03e14f346e8986fd80e0", null ],
     [ "OnSelChanged", "classwx_ax_identify_view.html#a136932a0ff1d629d9d7b3b8bf93823d3", null ],
     [ "Refresh", "classwx_ax_identify_view.html#a96ec0367c6825a21c13cf315f58a218c", null ],
     [ "SetViewIcon", "classwx_ax_identify_view.html#a0ee8564a88b4a47eba28be6c350dbe31", null ],
+    [ "m_nConnectionPointMapCookie", "classwx_ax_identify_view.html#ad3728d68f844d72076f5e646c502c1fe", null ],
     [ "m_pApp", "classwx_ax_identify_view.html#a9d03e0e57f990e809975eefa66601933", null ],
     [ "m_pMapView", "classwx_ax_identify_view.html#afd39a768613cbd9096a962b2f128b675", null ],
     [ "m_sViewName", "classwx_ax_identify_view.html#a18a3af43cfc87c30d6de52f0e17913d5", null ]

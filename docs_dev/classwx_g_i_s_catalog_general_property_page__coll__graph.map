@@ -1,12 +1,12 @@
 <map id="wxGISCatalogGeneralPropertyPage" name="wxGISCatalogGeneralPropertyPage">
-<area shape="rect" id="node2" href="$class_i_property_page.html" title="A IPropertyPage interface class for property pages in options dialogs. " alt="" coords="112,392,216,419"/>
-<area shape="rect" id="node4" href="$classwx_gx_catalog_u_i.html" title="The GxCatalogUI class. " alt="" coords="289,392,399,419"/>
-<area shape="rect" id="node5" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="175,315,273,341"/>
-<area shape="rect" id="node6" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="14,237,143,264"/>
-<area shape="rect" id="node7" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,160,152,187"/>
-<area shape="rect" id="node8" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="168,237,379,264"/>
-<area shape="rect" id="node11" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="298,315,389,341"/>
-<area shape="rect" id="node12" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="415,315,529,341"/>
-<area shape="rect" id="node13" href="$classwx_g_i_s_check_list.html" title="A List View with check box. " alt="" coords="501,392,619,419"/>
+<area shape="rect" id="node2" href="$class_i_property_page.html" title="IPropertyPage" alt="" coords="114,392,219,419"/>
+<area shape="rect" id="node4" href="$classwx_gx_catalog_u_i.html" title="wxGxCatalogUI" alt="" coords="293,392,408,419"/>
+<area shape="rect" id="node5" href="$classwx_gx_catalog.html" title="wxGxCatalog" alt="" coords="177,315,279,341"/>
+<area shape="rect" id="node6" href="$classwx_gx_catalog_base.html" title="wxGxCatalogBase" alt="" coords="15,237,144,264"/>
+<area shape="rect" id="node7" href="$classwx_gx_object_container.html" title="wxGxObjectContainer" alt="" coords="5,160,155,187"/>
+<area shape="rect" id="node8" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="33,83,127,109"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="170,237,384,264"/>
+<area shape="rect" id="node11" href="$class_i_gx_object_u_i.html" title="IGxObjectUI" alt="" coords="303,315,397,341"/>
+<area shape="rect" id="node12" href="$class_i_gx_object_edit_u_i.html" title="IGxObjectEditUI" alt="" coords="422,315,540,341"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_check_list.html" title="wxGISCheckList" alt="" coords="510,392,631,419"/>
 </map>

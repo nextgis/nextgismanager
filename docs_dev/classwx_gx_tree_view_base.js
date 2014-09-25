@@ -30,7 +30,7 @@ var classwx_gx_tree_view_base =
     [ "m_pApp", "classwx_gx_tree_view_base.html#ad9c509eea94777c209871783609428fa", null ],
     [ "m_pCatalog", "classwx_gx_tree_view_base.html#a5102a4457f564d14c9892fa8a2ccb94b", null ],
     [ "m_pDeleteCmd", "classwx_gx_tree_view_base.html#a74a50f2538d0f6aea5eb08885becf50c", null ],
-    [ "m_pNewMenu", "classwx_gx_tree_view_base.html#a55ba51593190bd543c5814f9312be54e", null ],
+    [ "m_pGxApp", "classwx_gx_tree_view_base.html#a26cbb1f98a671008163714aef97ee748", null ],
     [ "m_pSelection", "classwx_gx_tree_view_base.html#a5f2c8fc2629ad26fd14a2a9e10d22604", null ],
     [ "m_TreeImageList", "classwx_gx_tree_view_base.html#a767e4e5120c201ec58565aaea4c48546", null ],
     [ "m_TreeMap", "classwx_gx_tree_view_base.html#a05d968415ac4ecf8071083f6c2a388dd", null ]

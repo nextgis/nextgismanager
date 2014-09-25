@@ -1,0 +1,11 @@
+<map id="XYAreaRenderer::Draw" name="XYAreaRenderer::Draw">
+<area shape="rect" id="node2" href="$class_renderer.html#ac4b33318e40661337ae444d3d5e15fb4" title="Renderer::GetSerieColour" alt="" coords="214,5,386,32"/>
+<area shape="rect" id="node3" href="$class_dataset.html#a2aad2d70ac9481fa842356e9d7f7114f" title="Dataset::GetCount" alt="" coords="234,56,366,83"/>
+<area shape="rect" id="node4" href="$class_x_y_dataset.html#a557ce08bc8ebad2e96e57e5ca1b958f3" title="XYDataset::GetX" alt="" coords="238,107,362,133"/>
+<area shape="rect" id="node5" href="$class_x_y_dataset.html#a7131abf96987e31911eb5b81e1f40600" title="XYDataset::GetY" alt="" coords="238,157,362,184"/>
+<area shape="rect" id="node6" href="$class_axis.html#ac41f60cc1125cb3761635c65df188150" title="Axis::IntersectsWindow" alt="" coords="219,208,381,235"/>
+<area shape="rect" id="node9" href="$class_axis.html#aed1cfe79d9d06e5447599efe2816b56e" title="Axis::ToGraphics" alt="" coords="239,259,361,285"/>
+<area shape="rect" id="node7" href="$class_axis.html#a19c39d2941252a78117238b0a93e749f" title="Axis::IsVisible" alt="" coords="437,208,544,235"/>
+<area shape="rect" id="node8" href="$class_axis.html#a092c88bbc5fa47f43924955637ff714d" title="Axis::GetDataBounds" alt="" coords="595,233,744,260"/>
+<area shape="rect" id="node10" href="$class_axis.html#aca33bbc1b3b93f097ec831769fbbc579" title="Axis::IsVertical" alt="" coords="435,309,546,336"/>
+</map>

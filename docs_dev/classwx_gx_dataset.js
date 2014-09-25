@@ -15,6 +15,7 @@ var classwx_gx_dataset =
     [ "GetSize", "classwx_gx_dataset.html#abe3e92b2e4a5013d1751b077beedf124", null ],
     [ "GetSubType", "classwx_gx_dataset.html#ab626fe2860a36b9fba05f4d2bc4eec09", null ],
     [ "GetType", "classwx_gx_dataset.html#a3f10d6025197d525fcab25b4b2460bcc", null ],
+    [ "IsMetadataFilled", "classwx_gx_dataset.html#aec184f65f5628d265bf5bee38a13afde", null ],
     [ "Move", "classwx_gx_dataset.html#a6f91edbac0c4234985a2bbbfadf99af4", null ],
     [ "Rename", "classwx_gx_dataset.html#aa3895a92981894782da617e81fbf4d56", null ],
     [ "SetPath", "classwx_gx_dataset.html#aa0adc984a546add0b861bd486426efe6", null ],

@@ -1,0 +1,9 @@
+<map id="wxGISMapBitmap" name="wxGISMapBitmap">
+<area shape="rect" id="node2" href="$classwx_g_i_s_extent_stack.html" title="wxGISExtentStack" alt="" coords="97,277,231,304"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_map.html" title="wxGISMap" alt="" coords="121,187,207,213"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="5,96,168,123"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="192,96,299,123"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="199,5,292,32"/>
+<area shape="rect" id="node8" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="255,277,355,304"/>
+<area shape="rect" id="node9" href="$class_i_progressor.html" title="IProgressor" alt="" coords="261,187,349,213"/>
+</map>

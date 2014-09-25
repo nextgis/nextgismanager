@@ -1,9 +1,10 @@
 /******************************************************************************
- * Project:  wxGIS
+ * Project:  NextGIS Manager
  * Purpose:  Main page of the Doxygen manual
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013 Dmitry Baryshnikov 
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,27 +26,27 @@
 
 @tableofcontents
 
-@section page_introduction_whatis What is wxGIS?
+@section page_introduction_whatis What is NextGIS Manager?
 
-wxGIS is OpenSource GIS written with C++ and wxWidgets and GDAL libraries.
-wxGIS is following ArcGIS ideology in developing GIS. Now wxGIS includes:
+NextGIS Manager is OpenSource GIS written with C++ and wxWidgets and GDAL libraries.
+NextGIS Manager is following ArcGIS ideology in developing GIS. Now NextGIS Manager includes:
 
-@li wxGISCatalog - ArcCatalog analogue.
-@li wxGISToolbox - ArcToolbox analogue.
+@li NextGIS Manager - ArcCatalog analogue.
+@li NextGIS Manager Toolbox - ArcToolbox analogue.
 
-@todo Add intro to wxGIS
+@todo Add intro to NextGIS Manager
 
-@section page_introduction_requirements wxGIS Requirements
+@section page_introduction_requirements NextGIS Manager Requirements
 
-@todo Add wxGIS Requirements
+@todo Add NextGIS Manager Requirements
 
-@section page_introduction_where Availability and location of wxGIS
+@section page_introduction_where Availability and location of NextGIS Manager
 
-@todo Add Availability and location of wxGIS
+@todo Add Availability and location of NextGIS Manager
 
 @section page_introduction_acknowledgements Acknowledgements
 
-The developer of wxGIS is Dmitry Baryshnikov.
+The developer of NextGIS Manager is Dmitry Baryshnikov.
 
 @todo Add Acknowledgements
 

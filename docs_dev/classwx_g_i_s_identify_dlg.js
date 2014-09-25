@@ -16,6 +16,7 @@ var classwx_g_i_s_identify_dlg =
     [ "OnMenu", "classwx_g_i_s_identify_dlg.html#a9a62efb65da95db5f957c52b55260a27", null ],
     [ "OnSelChanged", "classwx_g_i_s_identify_dlg.html#a8b3b15ea1b5b159798551e092ef1b34e", null ],
     [ "OnSwitchSplit", "classwx_g_i_s_identify_dlg.html#a5c0b8887e96cf1f41f9eb208c821b03e", null ],
+    [ "SetEncoding", "classwx_g_i_s_identify_dlg.html#a2df5ed4e6d4114ad016a25a2d34aa54a", null ],
     [ "SplitterOnIdle", "classwx_g_i_s_identify_dlg.html#a9bd155d54b226e788225fab699e0ebdc", null ],
     [ "m_bMainSizer", "classwx_g_i_s_identify_dlg.html#a478fd1eb1298c30798b911ed9c9fd60b", null ],
     [ "m_BmpHorz", "classwx_g_i_s_identify_dlg.html#add5930b9254760fe3b52c5e1504ce95b", null ],

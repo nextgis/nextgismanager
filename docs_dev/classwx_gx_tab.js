@@ -10,7 +10,7 @@ var classwx_gx_tab =
     [ "GetWindow", "classwx_gx_tab.html#ae4d8045e3a86eef978443ef950c0ea74", null ],
     [ "OnChoice", "classwx_gx_tab.html#a02aad735e619d9e9dc64d8fd0a1940c8", null ],
     [ "OnDragOver", "classwx_gx_tab.html#a4b64dd1c80b6f62358d1bf304cdfb101", null ],
-    [ "OnDropObjects", "classwx_gx_tab.html#ae1d8eddc2226d484bd24ab61ea39c6d2", null ],
+    [ "OnDropObjects", "classwx_gx_tab.html#a4f1870876a788442e8b48e208ae7c5e1", null ],
     [ "OnLeave", "classwx_gx_tab.html#a92b08ef7cc341b3e59a20a3100d0651c", null ],
     [ "OnSelectionChanged", "classwx_gx_tab.html#acccc849b3dc97be292ee91b1ec081896", null ],
     [ "Show", "classwx_gx_tab.html#a0ec53739951e5b550d60e28cec8c3ae3", null ],

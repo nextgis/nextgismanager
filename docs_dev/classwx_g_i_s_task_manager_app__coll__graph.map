@@ -1,3 +1,17 @@
 <map id="wxGISTaskManagerApp" name="wxGISTaskManagerApp">
-<area shape="rect" id="node4" href="$classwx_g_i_s_initializer.html" title="The Initializer class for logs, locale, libs and etc. " alt="" coords="277,5,387,32"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_initializer.html" title="wxGISInitializer" alt="" coords="1216,107,1331,133"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_app_config.html" title="wxGISAppConfig" alt="" coords="1212,208,1335,235"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_config.html" title="wxGISConfig" alt="" coords="885,152,985,179"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_task_manager.html" title="Task Manager Server communicate class. " alt="" coords="1203,329,1344,356"/>
+<area shape="rect" id="node10" href="$class_i_net_event_processor.html" title="INetEventProcessor" alt="" coords="174,299,314,325"/>
+<area shape="rect" id="node20" href="$classwx_g_i_s_network_service.html" title="A Server side Network Service. " alt="" coords="517,225,672,252"/>
+<area shape="rect" id="node15" href="$class_i_net_connection.html" title="INetConnection" alt="" coords="538,512,651,539"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="137,677,351,704"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="883,728,986,755"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_local_client_connection.html" title="The connection to communicate with local Task Manager Server. " alt="" coords="838,492,1031,519"/>
+<area shape="rect" id="node16" href="$classwx_net_reader_thread.html" title="wxNetReaderThread" alt="" coords="863,592,1006,619"/>
+<area shape="rect" id="node18" href="$classwx_net_writer_thread.html" title="wxNetWriterThread" alt="" coords="867,423,1002,449"/>
+<area shape="rect" id="node24" href="$classwx_msg_out_thread.html" title="A Server output message thread. " alt="" coords="181,91,307,117"/>
+<area shape="rect" id="node19" href="$classwx_g_i_s_local_network_service.html" title="wxGISLocalNetworkService" alt="" coords="841,253,1028,280"/>
+<area shape="rect" id="node23" href="$class_i_net_service.html" title="The network service base interface class. " alt="" coords="199,243,289,269"/>
 </map>

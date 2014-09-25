@@ -1,10 +1,10 @@
 <map id="wxGISRasterLayer" name="wxGISRasterLayer">
-<area shape="rect" id="node2" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="849,135,941,161"/>
-<area shape="rect" id="node9" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="1100,197,1212,224"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="475,108,685,135"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,179,293,205"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="527,231,633,257"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,229,264,256"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="529,7,631,33"/>
-<area shape="rect" id="node11" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="168,7,259,33"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_layer.html" title="wxGISLayer" alt="" coords="859,135,954,161"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="1113,197,1228,224"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="wxGISConnectionPointContainer" alt="" coords="478,56,693,83"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="133,136,296,163"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="531,179,639,205"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="163,237,266,264"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_display.html" title="wxGISDisplay" alt="" coords="532,255,639,281"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_color.html" title="wxGISColor" alt="" coords="168,288,261,315"/>
 </map>

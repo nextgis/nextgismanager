@@ -1,0 +1,7 @@
+<map id="JulianDateAxis" name="JulianDateAxis">
+<area shape="rect" id="node2" href="$class_number_axis.html" title="NumberAxis" alt="" coords="155,328,249,355"/>
+<area shape="rect" id="node3" href="$class_label_axis.html" title="LabelAxis" alt="" coords="163,251,241,277"/>
+<area shape="rect" id="node4" href="$class_axis.html" title="Axis" alt="" coords="179,173,227,200"/>
+<area shape="rect" id="node6" href="$class_observable.html" title="Observable\&lt; AxisObserver \&gt;" alt="" coords="107,83,297,109"/>
+<area shape="rect" id="node7" href="$class_dataset_array.html" title="DatasetArray" alt="" coords="323,83,421,109"/>
+</map>

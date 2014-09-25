@@ -39,7 +39,7 @@
     
     A command bar types. This is predefined command bar types.
 
-    @library {framework}
+    @library{framework}
 */
 enum wxGISEnumCommandBars
 {
@@ -54,7 +54,7 @@ enum wxGISEnumCommandBars
 
     This is base class for application command bars.   
 
-    @library {framework}
+    @library{framework}
 */
 
 class WXDLLIMPEXP_GIS_FRW wxGISCommandBar : 
@@ -90,7 +90,7 @@ protected:
     
     A CommandBar array.
 
-    @library {framework}
+    @library{framework}
 */
 WX_DEFINE_ARRAY_PTR(wxGISCommandBar*, wxGISCommandBarPtrArray);
 
@@ -98,7 +98,7 @@ WX_DEFINE_ARRAY_PTR(wxGISCommandBar*, wxGISCommandBarPtrArray);
 
     wxGISMenu class.  Menu context or dropdown
 
-    @library {framework}
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISMenu :
 	public wxMenu,
@@ -126,7 +126,7 @@ protected:
 
    Toolbar in main application window. 
 
-    @library {framework}
+    @library{framework}
 */
 class WXDLLIMPEXP_GIS_FRW wxGISToolBar :
 	public wxAuiToolBar,

@@ -29,7 +29,7 @@
 
     The frame angle rotation input combobox.
 
-    @library {cartoui}
+    @library{cartoui}
 */
 
 class wxGISRotationComboBox : 

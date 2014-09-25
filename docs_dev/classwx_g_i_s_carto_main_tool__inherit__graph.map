@@ -1,4 +1,4 @@
 <map id="wxGISCartoMainTool" name="wxGISCartoMainTool">
-<area shape="rect" id="node2" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="51,155,100,181"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="17,80,135,107"/>
+<area shape="rect" id="node2" href="$class_i_tool.html" title="ITool" alt="" coords="53,155,104,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="17,80,140,107"/>
 </map>

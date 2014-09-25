@@ -1,0 +1,14 @@
+<map id="wxGISRasterHistogramPropertyPage" name="wxGISRasterHistogramPropertyPage">
+<area shape="rect" id="node3" href="$classwx_gx_raster_dataset.html" title="wxGxRasterDataset" alt="" coords="1168,163,1309,189"/>
+<area shape="rect" id="node4" href="$classwx_gx_dataset.html" title="wxGxDataset" alt="" coords="806,136,909,163"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="wxGxObject" alt="" coords="474,44,569,71"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="IGxObjectEdit" alt="" coords="469,95,573,121"/>
+<area shape="rect" id="node8" href="$class_i_gx_dataset.html" title="IGxDataset" alt="" coords="477,145,566,172"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_dataset.html" title="wxGISDataset" alt="" coords="467,205,575,232"/>
+<area shape="rect" id="node17" href="$classwx_g_i_s_raster_dataset.html" title="wxGISRasterDataset" alt="" coords="997,215,1144,241"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_spatial_reference.html" title="wxGISSpatialReference" alt="" coords="133,205,296,232"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="163,256,266,283"/>
+<area shape="rect" id="node13" href="$classwx_chart_panel.html" title="wxChartPanel" alt="" coords="1187,300,1291,327"/>
+<area shape="rect" id="node15" href="$class_chart_observer.html" title="ChartObserver" alt="" coords="804,316,911,343"/>
+<area shape="rect" id="node16" href="$class_observable.html" title="Observable\&lt; ChartPanelObserver \&gt;" alt="" coords="742,367,973,393"/>
+</map>

@@ -32,33 +32,33 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = wxGIS
+PROJECT_NAME           = ngm
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 0.5.0
+PROJECT_NUMBER         = 0.6.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = wxGIS
+PROJECT_BRIEF          = NextGIS Manager
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels
 # and the maximum width should not exceed 200 pixels. Doxygen will copy the logo
 # to the output directory.
 
-PROJECT_LOGO           = D:/work/projects/wxGIS/docs/images/logo_cut.png
+PROJECT_LOGO           = /home/bishop/work/projects/nextgismanager/docs/images/logo_cut.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = D:/work/projects/wxGIS_old/html
+OUTPUT_DIRECTORY       = /home/bishop/work/projects/nextgismanager/docs_dev
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -820,7 +820,7 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = D:/work/projects/wxGIS
+INPUT                  = /home/bishop/work/projects/nextgismanager
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -896,18 +896,14 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = D:/work/projects/wxGIS/info \
-                         D:/work/projects/wxGIS/build32 \
-                         D:/work/projects/wxGIS/build64 \
-                         D:/work/projects/wxGIS/build4 \
-                         D:/work/projects/wxGIS/.svn \
-                         D:/work/projects/wxGIS/app_*/ \
-                         D:/work/projects/wxGIS/art \
-                         D:/work/projects/wxGIS/cmake \
-                         D:/work/projects/wxGIS/dialogs \
-                         D:/work/projects/wxGIS/gisdata \
-                         D:/work/projects/wxGIS/inst \
-                         D:/work/projects/wxGIS/lib
+EXCLUDE                = /home/bishop/work/projects/nextgismanager/build \
+                         /home/bishop/work/projects/nextgismanager/.git \
+                         /home/bishop/work/projects/nextgismanager/app_*/ \
+                         /home/bishop/work/projects/nextgismanager/art \
+                         /home/bishop/work/projects/nextgismanager/cmake \
+                         /home/bishop/work/projects/nextgismanager/opt \
+                         /home/bishop/work/projects/nextgismanager/inst \
+                         /home/bishop/work/projects/nextgismanager/lib
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -940,7 +936,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = D:/work/projects/wxGIS/docs
+EXAMPLE_PATH           = /home/bishop/work/projects/nextgismanager/docs
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -2436,3 +2432,4 @@ GENERATE_LEGEND        = YES
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 DOT_CLEANUP            = YES
+

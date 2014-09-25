@@ -2,6 +2,7 @@ var classwx_net_message =
 [
     [ "wxNetMessage", "classwx_net_message.html#a2ee6f3b8d2e272a091ee725acc4da5f3", null ],
     [ "wxNetMessage", "classwx_net_message.html#aa598f0935fdfd1ed7ecd4643e8b7aefe", null ],
+    [ "Clone", "classwx_net_message.html#a81a8de6942da1b8afb1a556830f2747b", null ],
     [ "CloneRefData", "classwx_net_message.html#a36ba7de3059f03e3e11745651662ff35", null ],
     [ "CreateRefData", "classwx_net_message.html#a050aa512a9895005b40e0548a9ffa588", null ],
     [ "GetCommand", "classwx_net_message.html#a752b493e1f057fb3d5372d3722b4f359", null ],

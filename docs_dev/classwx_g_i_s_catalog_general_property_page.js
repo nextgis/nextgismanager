@@ -3,7 +3,7 @@ var classwx_g_i_s_catalog_general_property_page =
     [ "wxGISCatalogGeneralPropertyPage", "classwx_g_i_s_catalog_general_property_page.html#a017d17f4ae29d7bce334d03ee4524cdf", null ],
     [ "~wxGISCatalogGeneralPropertyPage", "classwx_g_i_s_catalog_general_property_page.html#a5f8df8282bf83b6ad214c6b37d0fa743", null ],
     [ "Apply", "classwx_g_i_s_catalog_general_property_page.html#ad9325cab78667f4a3ca87d730a36d718", null ],
-    [ "Create", "classwx_g_i_s_catalog_general_property_page.html#a804a954d8e5af100fff2fe2d3c3d5187", null ],
+    [ "Create", "classwx_g_i_s_catalog_general_property_page.html#a1f3c5f83a36e112862315123f12e8c60", null ],
     [ "GetPageName", "classwx_g_i_s_catalog_general_property_page.html#a04405c073ab0868dc0dfc0d34fd5a0d1", null ],
     [ "m_button2", "classwx_g_i_s_catalog_general_property_page.html#ae3d6cb393e8772236737a25c93228b41", null ],
     [ "m_button3", "classwx_g_i_s_catalog_general_property_page.html#a6339900f8dd48f24d2b2cb6b3c66e9f6", null ],

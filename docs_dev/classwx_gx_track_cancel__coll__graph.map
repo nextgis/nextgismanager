@@ -1,12 +1,12 @@
 <map id="wxGxTrackCancel" name="wxGxTrackCancel">
-<area shape="rect" id="node2" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="5,325,101,352"/>
-<area shape="rect" id="node3" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="60,184,148,211"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_animation.html" title="The rotating globe animation class. " alt="" coords="241,275,359,301"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_progressor.html" title="The progressor (gauge) class. " alt="" coords="93,275,216,301"/>
-<area shape="rect" id="node4" href="$classwx_g_i_s_status_bar.html" title="wxGIS statusbar class. " alt="" coords="241,376,359,403"/>
-<area shape="rect" id="node10" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="384,275,539,301"/>
-<area shape="rect" id="node11" href="$class_i_application.html" title="IApplication" alt="" coords="481,133,569,160"/>
-<area shape="rect" id="node14" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="557,83,675,109"/>
-<area shape="rect" id="node13" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="577,184,625,211"/>
-<area shape="rect" id="node15" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="376,184,488,211"/>
+<area shape="rect" id="node2" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="5,325,104,352"/>
+<area shape="rect" id="node3" href="$class_i_progressor.html" title="IProgressor" alt="" coords="58,184,147,211"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_animation.html" title="wxGISAnimation" alt="" coords="243,275,363,301"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_progressor.html" title="wxGISProgressor" alt="" coords="93,275,219,301"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_status_bar.html" title="wxGISStatusBar" alt="" coords="243,376,363,403"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_application_base.html" title="wxGISApplicationBase" alt="" coords="387,275,543,301"/>
+<area shape="rect" id="node11" href="$class_i_application.html" title="IApplication" alt="" coords="485,133,576,160"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_command.html" title="wxGISCommand" alt="" coords="561,83,684,109"/>
+<area shape="rect" id="node13" href="$class_i_tool.html" title="ITool" alt="" coords="583,184,633,211"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="380,184,495,211"/>
 </map>

@@ -2,6 +2,7 @@ var classwx_g_i_s_raster_renderer =
 [
     [ "wxGISRasterRenderer", "classwx_g_i_s_raster_renderer.html#a58e545d3152ed1ce785810a5014c5f05", null ],
     [ "~wxGISRasterRenderer", "classwx_g_i_s_raster_renderer.html#aeafb6ef34a502d69ef3cae5d153f94f6", null ],
+    [ "Apply", "classwx_g_i_s_raster_renderer.html#a3050429ed5cb7c6ab1b34183359b9a02", null ],
     [ "CanRender", "classwx_g_i_s_raster_renderer.html#ae6c5971a15999ff70484d55c27ce2e84", null ],
     [ "Draw", "classwx_g_i_s_raster_renderer.html#a88ed26fb66f1818a48fa4ffda885d71c", null ],
     [ "Draw", "classwx_g_i_s_raster_renderer.html#a84e538dc1267db3289adedd6f33c19d2", null ],

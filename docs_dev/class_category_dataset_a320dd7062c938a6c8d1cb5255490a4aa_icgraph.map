@@ -1,0 +1,7 @@
+<map id="CategoryDataset::GetValue" name="CategoryDataset::GetValue">
+<area shape="rect" id="node2" href="$class_normal_bar_type.html#a0c2a1065e899e41ca9a1e511cd9d0e42" title="NormalBarType::GetBarGeometry" alt="" coords="241,5,460,32"/>
+<area shape="rect" id="node3" href="$class_stacked_bar_type.html#aedf187d815ddfc82ab102f0d04e970c4" title="StackedBarType::GetBarGeometry" alt="" coords="238,56,463,83"/>
+<area shape="rect" id="node4" href="$class_layered_bar_type.html#ad4605c6aa659a7718b537d78ad962e69" title="LayeredBarType::GetBarGeometry" alt="" coords="239,107,462,133"/>
+<area shape="rect" id="node5" href="$class_category_dataset.html#afe19448272f4ce88c0175f9ae33bcdcc" title="CategoryDataset::GetY" alt="" coords="271,157,430,184"/>
+<area shape="rect" id="node6" href="$class_pie_plot.html#a10248529a8b867301f267b537aeb859a" title="PiePlot::DrawData" alt="" coords="285,208,416,235"/>
+</map>

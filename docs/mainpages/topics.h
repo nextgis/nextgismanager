@@ -1,9 +1,10 @@
 /******************************************************************************
- * Project:  wxGIS
+ * Project:  NextGIS Manager
  * Purpose:  Main page of the Doxygen manual
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2013 Bishop
+*   Copyright (C) 2013 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,17 +27,17 @@
 @tableofcontents
 
 The guides here cover all high level details of a full range of development
-topics related to building applications with wxGIS.
+topics related to building applications with NextGIS Manager.
 
 
 
-@section page_topics_starting Starting with wxGIS
+@section page_topics_starting Starting with NextGIS Manager
 
-@todo Write Starting with wxGIS section
+@todo Write Starting with NextGIS Manager section
 
-@section page_topics_programming Important wxGIS Topics
+@section page_topics_programming Important NextGIS Manager Topics
 
-@todo Write Important wxGIS Topics section
+@todo Write Important NextGIS Manager Topics section
 
 @section page_topics_nongui Non-GUI Classes
 

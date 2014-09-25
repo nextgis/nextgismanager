@@ -1,8 +1,10 @@
 <map id="wxGISDataset" name="wxGISDataset">
-<area shape="rect" id="node4" href="$classwx_g_i_s_raster_dataset.html" title="The GIS RasterDataset class. " alt="" coords="5,155,147,181"/>
-<area shape="rect" id="node5" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="172,155,263,181"/>
-<area shape="rect" id="node3" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="153,5,255,32"/>
-<area shape="rect" id="node6" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="60,229,209,256"/>
-<area shape="rect" id="node8" href="$classwx_g_i_s_table_cached.html" title="A GIS cached Table class. " alt="" coords="234,229,368,256"/>
-<area shape="rect" id="node7" href="$classwx_g_i_s_feature_dataset_cached.html" title="The GIS FeatureDataset class. " alt="" coords="38,304,231,331"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_data_source.html" title="wxGISDataSource" alt="" coords="5,155,135,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_raster_dataset.html" title="wxGISRasterDataset" alt="" coords="160,155,307,181"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_table.html" title="wxGISTable" alt="" coords="331,155,425,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_pointer.html" title="wxGISPointer" alt="" coords="239,5,341,32"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_feature_dataset.html" title="wxGISFeatureDataset" alt="" coords="219,229,371,256"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_table_cached.html" title="wxGISTableCached" alt="" coords="404,229,543,256"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_feature_dataset_cached.html" title="wxGISFeatureDatasetCached" alt="" coords="192,304,389,331"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_table_query.html" title="wxGISTableQuery" alt="" coords="414,304,543,331"/>
 </map>

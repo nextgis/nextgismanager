@@ -1,5 +1,5 @@
 <map id="wxJSONWriter::WriteStringValue" name="wxJSONWriter::WriteStringValue">
-<area shape="rect" id="node2" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="453,12,616,39"/>
-<area shape="rect" id="node4" href="$classwx_j_s_o_n_writer.html#a7bf20360ec0721d6adfe5c035cb26113" title="Write the key of a key/value element to the output stream. " alt="" coords="235,37,405,64"/>
-<area shape="rect" id="node3" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="664,12,811,39"/>
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_writer.html#ada1f03f44bcaa3df72cd05fd09e53895" title="Perform the real write operation. " alt="" coords="459,12,626,39"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_writer.html#a7bf20360ec0721d6adfe5c035cb26113" title="Write the key of a key/value element to the output stream. " alt="" coords="238,37,410,64"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_writer.html#af661a40c62b1ee0378cd69d2c3c98aa2" title="wxJSONWriter::Write" alt="" coords="675,12,824,39"/>
 </map>
