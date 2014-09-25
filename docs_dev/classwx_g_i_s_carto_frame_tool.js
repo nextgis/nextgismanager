@@ -1,0 +1,25 @@
+var classwx_g_i_s_carto_frame_tool =
+[
+    [ "wxGISCartoFrameTool", "classwx_g_i_s_carto_frame_tool.html#acd4370700fcdb45a7b4c590d331e7a8f", null ],
+    [ "~wxGISCartoFrameTool", "classwx_g_i_s_carto_frame_tool.html#a5fce3e5e8d84a4505a95509ac04ba662", null ],
+    [ "GetBitmap", "classwx_g_i_s_carto_frame_tool.html#a9bd7892937c2332a00b31bd89cb335e8", null ],
+    [ "GetCaption", "classwx_g_i_s_carto_frame_tool.html#a9f0b80a1f2908e763b766faf8cdba78d", null ],
+    [ "GetCategory", "classwx_g_i_s_carto_frame_tool.html#a76b7efc80e709e50779a7deb1674d770", null ],
+    [ "GetChecked", "classwx_g_i_s_carto_frame_tool.html#aaacb5414f4177946cbc5c4259efe5281", null ],
+    [ "GetControl", "classwx_g_i_s_carto_frame_tool.html#abd5a669e2d2f551189ca2333654e3835", null ],
+    [ "GetCount", "classwx_g_i_s_carto_frame_tool.html#a2a4ff38a38df29d72fa9df83b2e2f2b1", null ],
+    [ "GetCursor", "classwx_g_i_s_carto_frame_tool.html#a7c755502949472a115dd6b44a60357fc", null ],
+    [ "GetEnabled", "classwx_g_i_s_carto_frame_tool.html#a161def0d8aaf8dbdb11dada0b314186f", null ],
+    [ "GetKind", "classwx_g_i_s_carto_frame_tool.html#a2c601ae32d24c9efce3e306977821a60", null ],
+    [ "GetMessage", "classwx_g_i_s_carto_frame_tool.html#ae2425059198603f0fc58ae86b953a74f", null ],
+    [ "GetToolLabel", "classwx_g_i_s_carto_frame_tool.html#a360299c31bb689bfc8fa3b7b806477c3", null ],
+    [ "GetTooltip", "classwx_g_i_s_carto_frame_tool.html#ae115bd3433ab761a33293f6528581fe1", null ],
+    [ "HasToolLabel", "classwx_g_i_s_carto_frame_tool.html#a38161f076f71249cf90d10557e864272", null ],
+    [ "OnClick", "classwx_g_i_s_carto_frame_tool.html#aab96cf9c0d1d0c48befb3de2142cb627", null ],
+    [ "OnCreate", "classwx_g_i_s_carto_frame_tool.html#a99947baf1f2aee842c2d135448e9f743", null ],
+    [ "OnMouseDoubleClick", "classwx_g_i_s_carto_frame_tool.html#af9996df98a927872816f4d676f713468", null ],
+    [ "OnMouseDown", "classwx_g_i_s_carto_frame_tool.html#a008ebda22904251ef5dc3aaf14bc1678", null ],
+    [ "OnMouseMove", "classwx_g_i_s_carto_frame_tool.html#a5ceb9cca7df41306487377a6d5976a1f", null ],
+    [ "OnMouseUp", "classwx_g_i_s_carto_frame_tool.html#add8326ea4b1b8702a593652343df72bc", null ],
+    [ "SetChecked", "classwx_g_i_s_carto_frame_tool.html#a0833896dfb09246e03b033d9231f5a51", null ]
+];

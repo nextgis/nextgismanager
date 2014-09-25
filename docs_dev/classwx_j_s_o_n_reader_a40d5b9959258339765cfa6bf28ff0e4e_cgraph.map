@@ -1,0 +1,6 @@
+<map id="wxJSONReader::SkipComment" name="wxJSONReader::SkipComment">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_reader.html#a3ca6ec5ce63c26c4be811e3698e8f44c" title="Read a character from the input JSON document. " alt="" coords="263,5,441,32"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_reader.html#aff1920222130765f6c70211b6831f870" title="Peek a character from the input JSON document. " alt="" coords="496,44,675,71"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_reader.html#a17ca424dc515b6f1cc400e0719479e2f" title="Add a warning message to the warning&#39;s array. " alt="" coords="256,107,448,133"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_reader.html#ab51d0f12485c585fc6cd8b86d909ac30" title="Add a error message to the error&#39;s array. " alt="" coords="499,120,671,147"/>
+</map>

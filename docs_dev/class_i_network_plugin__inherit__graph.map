@@ -1,0 +1,4 @@
+<map id="INetworkPlugin" name="INetworkPlugin">
+<area shape="rect" id="node3" href="$classwx_g_i_s_local_network_plugin.html" title="A Server side Network Plugin. " alt="" coords="5,155,179,181"/>
+<area shape="rect" id="node4" href="$classwx_server_t_c_p_network_plugin.html" title="A Server side TCPNetworkPlugin. " alt="" coords="203,155,385,181"/>
+</map>

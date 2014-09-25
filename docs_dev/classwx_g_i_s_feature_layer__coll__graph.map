@@ -1,0 +1,17 @@
+<map id="wxGISFeatureLayer" name="wxGISFeatureLayer">
+<area shape="rect" id="node19" href="$classwx_g_i_s_feature_renderer.html" title="wxGISFeatureRenderer" alt="" coords="2041,356,2197,383"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_layer.html" title="The base class for map layers. " alt="" coords="863,271,955,297"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="524,337,636,364"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="475,99,685,125"/>
+<area shape="rect" id="node18" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="864,132,955,159"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="134,187,293,213"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="527,233,633,260"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_spatial_tree.html" title="wxGISSpatialTree" alt="" coords="1427,115,1552,141"/>
+<area shape="rect" id="node20" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="857,444,961,471"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="163,301,264,328"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="529,516,631,543"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="168,545,259,572"/>
+<area shape="rect" id="node17" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="1112,171,1261,197"/>
+<area shape="rect" id="node15" href="$class_i_track_cancel.html" title="A TrackCancel interface class. " alt="" coords="1138,108,1235,135"/>
+<area shape="rect" id="node16" href="$class_i_progressor.html" title="A progressor interface class. " alt="" coords="865,81,953,108"/>
+</map>

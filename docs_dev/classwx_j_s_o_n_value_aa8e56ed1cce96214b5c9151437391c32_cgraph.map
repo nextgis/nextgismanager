@@ -1,0 +1,8 @@
+<map id="wxJSONValue::Dump" name="wxJSONValue::Dump">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="438,141,618,168"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="213,40,376,66"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="200,90,389,117"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="225,141,364,168"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#af4740508a910a5ac96ca8c81a01037e2" title="Return the stored value as a map object. " alt="" coords="217,192,372,218"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a7b0d808f369ae2de942acccfb7aacabb" title="Find an element. " alt="" coords="225,242,364,269"/>
+</map>

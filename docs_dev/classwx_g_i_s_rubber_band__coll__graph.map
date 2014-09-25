@@ -1,0 +1,6 @@
+<map id="wxGISRubberBand" name="wxGISRubberBand">
+<area shape="rect" id="node3" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="129,173,287,200"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_geometry.html" title="The OGRGeometry wrapper class. " alt="" coords="312,173,429,200"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="454,173,556,200"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="460,83,551,109"/>
+</map>

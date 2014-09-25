@@ -1,0 +1,33 @@
+<map id="wxJSONValue::UnRef" name="wxJSONValue::UnRef">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a349907f49a128beb86437b945b9195a0" title="Initialize the JSON value class. " alt="" coords="240,5,371,32"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#ae982b0679b6fdd55369388b1e0b73839" title="Dtor &#45; calls UnRef(). " alt="" coords="203,56,407,83"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#abf4d4e286a6339465e7b47efe48384e9" title="Clear the object value. " alt="" coords="1177,93,1319,120"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#a04c2967d388a63ce35ed71c9660702d8" title="Increments the referenced data counter. " alt="" coords="239,208,371,235"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#a72434813da3225efb48d339d783537a1" title="Do a deep copy of the other object. " alt="" coords="219,259,392,285"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="207,157,404,184"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#ab297ae154241e77c41f61af52d5d653f" title="Constructors. " alt="" coords="457,5,653,32"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a88c653e4d2a1c2655ef6ae3c0f2dbbe6" title="Copy constructor. " alt="" coords="457,259,653,285"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a4b31e174daa47a2c2907d74aadb647be" title="Assignment operator using reference counting. " alt="" coords="471,208,639,235"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="473,157,636,184"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="702,335,847,361"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c" title="Append the specified value in the array. " alt="" coords="1169,448,1327,475"/>
+<area shape="rect" id="node18" href="$classwx_j_s_o_n_value.html#ac54c8fcf6850632525692c3f88769bd2" title="Concatenate a string to this string object. " alt="" coords="933,183,1067,209"/>
+<area shape="rect" id="node19" href="$classwx_j_s_o_n_value.html#a1d6cee560c7e268fd6051ca8d3d18a3c" title="Remove the item at the specified index or key. " alt="" coords="921,233,1079,260"/>
+<area shape="rect" id="node20" href="$classwx_j_s_o_n_value.html#af167cd46c230324f2571801bd231db19" title="Return the item at the specified index. " alt="" coords="1179,144,1317,171"/>
+<area shape="rect" id="node22" href="$classwx_j_s_o_n_value.html#a2178b6fa0ca8bb4d7b29bd4251f09b35" title="Add a comment to this JSON value object. " alt="" coords="1152,651,1344,677"/>
+<area shape="rect" id="node26" href="$classwx_j_s_o_n_value.html#a84ecb292a3431c3f7f1a275463dee80d" title="Clear all comment strings. " alt="" coords="897,455,1103,481"/>
+<area shape="rect" id="node27" href="$classwx_j_s_o_n_value.html#ae55c86162238b4128a49aca03ede78a4" title="Set the type of the stored value. " alt="" coords="919,335,1081,361"/>
+<area shape="rect" id="node30" href="$classwx_j_s_o_n_value.html#adf4f802bababc857e3d9182e44d8d05e" title="Set the line number of this JSON value object. " alt="" coords="1161,549,1335,576"/>
+<area shape="rect" id="node14" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="1410,397,1595,424"/>
+<area shape="rect" id="node17" href="$classwx_j_s_o_n_value.html#a3a72aff6716aeacf421bae0419248705" title="wxJSONValue::Append" alt="" coords="1424,347,1581,373"/>
+<area shape="rect" id="node15" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="1663,473,1830,500"/>
+<area shape="rect" id="node16" href="$classwx_j_s_o_n_reader.html#ae57a01852ad2f18262a8a6cfdadc339c" title="wxJSONReader::Parse" alt="" coords="1880,549,2035,576"/>
+<area shape="rect" id="node21" href="$classwx_j_s_o_n_value.html#a8f0f5b8cc1f8fc41e431725c6f07bbe5" title="Return the item at the specified index. " alt="" coords="1419,144,1587,171"/>
+<area shape="rect" id="node23" href="$classwx_j_s_o_n_reader.html#a5caf37fc25e2460f089d025985510b25" title="Store the comment string in the value it refers to. " alt="" coords="1399,651,1607,677"/>
+<area shape="rect" id="node25" href="$classwx_j_s_o_n_value.html#a734b496d9027169832346bea126f9c5f" title="Add one or more comments to this JSON value object. " alt="" coords="1407,701,1599,728"/>
+<area shape="rect" id="node24" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="1661,651,1832,677"/>
+<area shape="rect" id="node28" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="1156,296,1340,323"/>
+<area shape="rect" id="node29" href="$classwx_j_s_o_n_value.html#aede1a6d59ba20b3f32c6bbb6e8c8ea99" title="Assign the specified value to this object replacing the old value. " alt="" coords="1164,347,1332,373"/>
+<area shape="rect" id="node31" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="1410,448,1595,475"/>
+<area shape="rect" id="node32" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="1393,499,1613,525"/>
+</map>

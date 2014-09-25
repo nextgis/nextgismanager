@@ -1,0 +1,7 @@
+<map id="wxGISSymbol" name="wxGISSymbol">
+<area shape="rect" id="node4" href="$classwx_g_i_s_simple_collectiom_symbol.html" title="The class for simple geometry collecton symbols. " alt="" coords="307,5,512,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_simple_fill_symbol.html" title="The class for simple fill symbols. " alt="" coords="329,56,490,83"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_simple_line_symbol.html" title="The class for simple line symbols. " alt="" coords="325,107,493,133"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_simple_marker_symbol.html" title="The class for simple marker symbols. " alt="" coords="317,157,501,184"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="5,107,107,133"/>
+</map>

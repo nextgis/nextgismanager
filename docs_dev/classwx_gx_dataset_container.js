@@ -1,0 +1,25 @@
+var classwx_gx_dataset_container =
+[
+    [ "wxGxDatasetContainer", "classwx_gx_dataset_container.html#a63570fd7fe20fc969faa298cdb36628f", null ],
+    [ "~wxGxDatasetContainer", "classwx_gx_dataset_container.html#a9771852f11cdace770585ece34cd1066", null ],
+    [ "CanCopy", "classwx_gx_dataset_container.html#a0a1d27e9b273399833893e0ae2871315", null ],
+    [ "CanDelete", "classwx_gx_dataset_container.html#ace87c948b573bf4d22eac5a3be2701e2", null ],
+    [ "CanMove", "classwx_gx_dataset_container.html#a49c0ab345cbd1853ae0eb9793dcafefb", null ],
+    [ "CanRename", "classwx_gx_dataset_container.html#aae827bdddecf3b40d21973eb3ef19067", null ],
+    [ "Copy", "classwx_gx_dataset_container.html#a52f84c8a98e9fcd206ebf3679a68617e", null ],
+    [ "Delete", "classwx_gx_dataset_container.html#abefb6daeb0af8d6ba42bed8b9e346497", null ],
+    [ "FillMetadata", "classwx_gx_dataset_container.html#aac5b6f045b61df7092443ab2a1164874", null ],
+    [ "GetDataset", "classwx_gx_dataset_container.html#ad1cb0e098fb7e31b6af506352f84660d", null ],
+    [ "GetDatasetFast", "classwx_gx_dataset_container.html#a9ce94188a25a8023cd7a19a4d6c2468c", null ],
+    [ "GetModificationDate", "classwx_gx_dataset_container.html#a4e0ace7fb050d166a47fb09160a49b62", null ],
+    [ "GetSize", "classwx_gx_dataset_container.html#a9a668fc11664e3fa4e4388b77be32659", null ],
+    [ "GetSubType", "classwx_gx_dataset_container.html#a1386fa368a2059f4cd81ba5348287d23", null ],
+    [ "GetType", "classwx_gx_dataset_container.html#a0a941ef1db7379915429e143bf8c5f9b", null ],
+    [ "Move", "classwx_gx_dataset_container.html#a9c2c28aeade623f2853773c24619c8a7", null ],
+    [ "Rename", "classwx_gx_dataset_container.html#adab226706ff6e88fb4cc51ccd184fc22", null ],
+    [ "SetPath", "classwx_gx_dataset_container.html#a7a4a0683ea9e7c16800c17af7513d9d0", null ],
+    [ "m_bIsMetadataFilled", "classwx_gx_dataset_container.html#a6489896277a4980aa91fd6094e3885f1", null ],
+    [ "m_dtMod", "classwx_gx_dataset_container.html#af7207f16cc60c2bc53c0dd0b28dc3a01", null ],
+    [ "m_nSize", "classwx_gx_dataset_container.html#a088449e8796a828630598c22d349fc98", null ],
+    [ "m_pwxGISDataset", "classwx_gx_dataset_container.html#aac0c3c85c70c1e3f3b4eeda6f4f176df", null ]
+];

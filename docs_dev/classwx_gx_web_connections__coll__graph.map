@@ -1,0 +1,7 @@
+<map id="wxGxWebConnections" name="wxGxWebConnections">
+<area shape="rect" id="node2" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="145,237,236,264"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,160,152,187"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,160,279,187"/>
+<area shape="rect" id="node7" href="$class_i_gx_root_object_properties.html" title="A Interface class for Root GxObject. " alt="" coords="261,237,427,264"/>
+</map>

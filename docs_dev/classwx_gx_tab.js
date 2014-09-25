@@ -1,0 +1,28 @@
+var classwx_gx_tab =
+[
+    [ "wxGxTab", "classwx_gx_tab.html#a629dea20d8534c0af3928068fa433c0d", null ],
+    [ "~wxGxTab", "classwx_gx_tab.html#a7c42d3a17ac669c1fd6d5a09628fe2a1", null ],
+    [ "CanPaste", "classwx_gx_tab.html#ad7ef986dd9794ffa03cc9c339084d18b", null ],
+    [ "Deactivate", "classwx_gx_tab.html#a9984d5d53b7f7386b2c611387c9a0187", null ],
+    [ "GetCount", "classwx_gx_tab.html#aaa4c3570979c950390ec9bb5e77f485b", null ],
+    [ "GetCurrentWindow", "classwx_gx_tab.html#a7ba8a57ce2f05cf7358c32a0f339addf", null ],
+    [ "GetName", "classwx_gx_tab.html#a571afd6348e81841ae1ea149f2740ec1", null ],
+    [ "GetWindow", "classwx_gx_tab.html#ae4d8045e3a86eef978443ef950c0ea74", null ],
+    [ "OnChoice", "classwx_gx_tab.html#a02aad735e619d9e9dc64d8fd0a1940c8", null ],
+    [ "OnDragOver", "classwx_gx_tab.html#a4b64dd1c80b6f62358d1bf304cdfb101", null ],
+    [ "OnDropObjects", "classwx_gx_tab.html#ae1d8eddc2226d484bd24ab61ea39c6d2", null ],
+    [ "OnLeave", "classwx_gx_tab.html#a92b08ef7cc341b3e59a20a3100d0651c", null ],
+    [ "OnSelectionChanged", "classwx_gx_tab.html#acccc849b3dc97be292ee91b1ec081896", null ],
+    [ "Show", "classwx_gx_tab.html#a0ec53739951e5b550d60e28cec8c3ae3", null ],
+    [ "m_bShowChoices", "classwx_gx_tab.html#aecf5386df63b3b40b08625e88ce453c1", null ],
+    [ "m_bSizerMain", "classwx_gx_tab.html#adc838725a4703ed40eae4f0e42de6404", null ],
+    [ "m_choice", "classwx_gx_tab.html#a418b92882651349fcc18c3f69fa29ad0", null ],
+    [ "m_pApp", "classwx_gx_tab.html#a41fdf5d75e4d9d33c3550571f505a22f", null ],
+    [ "m_pCurrentWnd", "classwx_gx_tab.html#af5bc3775e46d3d884282624152e97bac", null ],
+    [ "m_pNoWnd", "classwx_gx_tab.html#ad9717403a9c5dda53caba6c2a737c4f5", null ],
+    [ "m_pWindows", "classwx_gx_tab.html#a1376de4bd0d8994a4c2991aa0976267b", null ],
+    [ "m_sName", "classwx_gx_tab.html#a8b0755b951fb5c2af8cd5c7ca6aa1ad2", null ],
+    [ "m_staticText", "classwx_gx_tab.html#aeed652085f86d7a0b70fffa176b464e8", null ],
+    [ "m_tabselector", "classwx_gx_tab.html#a24a80f0c31a5bc02cfbeff632202e043", null ],
+    [ "m_tabwnd", "classwx_gx_tab.html#a955e3fdc749c73c1f2d533111b6b5a64", null ]
+];

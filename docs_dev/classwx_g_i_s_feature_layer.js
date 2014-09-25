@@ -1,0 +1,25 @@
+var classwx_g_i_s_feature_layer =
+[
+    [ "wxGISFeatureLayer", "classwx_g_i_s_feature_layer.html#a30a2ed0c77de45059d0e22d650c325d0", null ],
+    [ "~wxGISFeatureLayer", "classwx_g_i_s_feature_layer.html#a6a4d76cdf0df452578d576df72873a9d", null ],
+    [ "Draw", "classwx_g_i_s_feature_layer.html#a750418352a1d0c10812c299bd8261322", null ],
+    [ "GetFeatureByID", "classwx_g_i_s_feature_layer.html#a154ddbeeed30995bca89640f8b4eaeac", null ],
+    [ "GetGeometryType", "classwx_g_i_s_feature_layer.html#a72e4ccf1db48f59e924f92a4b3862dba", null ],
+    [ "GetPointsInGeometry", "classwx_g_i_s_feature_layer.html#a9fb9b68377e8560bd79b240ac1aa74e7", null ],
+    [ "GetType", "classwx_g_i_s_feature_layer.html#af745482366e24a4a234e04b58e8da244", null ],
+    [ "Idetify", "classwx_g_i_s_feature_layer.html#abebd7cc1cbb26f7aa3e79fb5dca48d14", null ],
+    [ "IsCacheNeeded", "classwx_g_i_s_feature_layer.html#a3f0b0c714806cccc8ca9319b52c44f07", null ],
+    [ "IsValid", "classwx_g_i_s_feature_layer.html#a3a1d5ac71a03e43edcb3ea9d2efca104", null ],
+    [ "OnDSClosed", "classwx_g_i_s_feature_layer.html#acdc0efb780402de87dd53555bc8c03c3", null ],
+    [ "OnDSFeatureAdded", "classwx_g_i_s_feature_layer.html#a6bacbb02ac3ce3b5e81fc5ad9abbd48f", null ],
+    [ "OnDSFeatureChanged", "classwx_g_i_s_feature_layer.html#a94d1abda0b537554975f25d8fdb3b5c1", null ],
+    [ "OnDSFeatureDeleted", "classwx_g_i_s_feature_layer.html#a81316a383b0b9e931be9e28075e833ae", null ],
+    [ "OnDSFeaturesAdded", "classwx_g_i_s_feature_layer.html#a2d9ad0755fa8118f78fb55880f87565e", null ],
+    [ "SearchGeometry", "classwx_g_i_s_feature_layer.html#a4c72ed24f6dde0156b0cdd60c9854dd0", null ],
+    [ "SetRenderer", "classwx_g_i_s_feature_layer.html#ad08db990cf698b3a9a727edde3e3e573", null ],
+    [ "SetSpatialReference", "classwx_g_i_s_feature_layer.html#a4a182f158ebd0f574d915a966b689246", null ],
+    [ "m_nConnectionPointDSCookie", "classwx_g_i_s_feature_layer.html#a1754e28767fafefebbef9c86a22a0ea9", null ],
+    [ "m_pFeatureRenderer", "classwx_g_i_s_feature_layer.html#a82ffd64cedbf994081f38969264b76e4", null ],
+    [ "m_pSpatialTree", "classwx_g_i_s_feature_layer.html#aa58e96d681cb426c75cf6b43582b2f33", null ],
+    [ "m_pwxGISFeatureDataset", "classwx_g_i_s_feature_layer.html#a4ebaee23a6068323cbd49c42700ce20d", null ]
+];

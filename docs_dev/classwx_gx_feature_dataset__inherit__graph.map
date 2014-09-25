@@ -1,0 +1,9 @@
+<map id="wxGxFeatureDataset" name="wxGxFeatureDataset">
+<area shape="rect" id="node7" href="$classwx_gx_feature_dataset_u_i.html" title="wxGxFeatureDatasetUI" alt="" coords="13,304,168,331"/>
+<area shape="rect" id="node8" href="$classwx_gx_m_l_sub_dataset.html" title="A ml layer GxObject. " alt="" coords="193,304,335,331"/>
+<area shape="rect" id="node2" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="127,155,227,181"/>
+<area shape="rect" id="node3" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
+<area shape="rect" id="node5" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="253,80,339,107"/>
+<area shape="rect" id="node9" href="$classwx_gx_m_l_sub_dataset_u_i.html" title="A kml layer GxObject. " alt="" coords="187,379,340,405"/>
+</map>

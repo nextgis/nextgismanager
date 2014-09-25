@@ -1,0 +1,8 @@
+<map id="wxGISTable" name="wxGISTable">
+<area shape="rect" id="node6" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="32,229,181,256"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_table_cached.html" title="A GIS cached Table class. " alt="" coords="206,229,340,256"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="46,80,151,107"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="105,5,207,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="176,80,387,107"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_feature_dataset_cached.html" title="The GIS FeatureDataset class. " alt="" coords="10,304,203,331"/>
+</map>

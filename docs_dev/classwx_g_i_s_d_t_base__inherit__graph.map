@@ -1,0 +1,9 @@
+<map id="wxGISDTBase" name="wxGISDTBase">
+<area shape="rect" id="node3" href="$classwx_g_i_s_d_t_bool.html" title="wxGISDTBool" alt="" coords="5,155,107,181"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_d_t_choice.html" title="The tool dialog control for choice value representation. " alt="" coords="131,155,247,181"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_d_t_digit.html" title="The tool dialog control for digit value representation. " alt="" coords="271,155,373,181"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_d_t_path.html" title="The tool dialog control for catalog path value representation. " alt="" coords="398,155,500,181"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_d_t_text.html" title="The tool dialog control for string value representation. " alt="" coords="525,155,627,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_d_t_field_choice.html" title="The tool dialog control for choice fields of ogr vector layer. " alt="" coords="117,229,261,256"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_d_t_folder_path.html" title="wxGISDTFolderPath" alt="" coords="380,229,519,256"/>
+</map>

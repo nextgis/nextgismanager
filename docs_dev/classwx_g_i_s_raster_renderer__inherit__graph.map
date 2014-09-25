@@ -1,0 +1,7 @@
+<map id="wxGISRasterRenderer" name="wxGISRasterRenderer">
+<area shape="rect" id="node4" href="$classwx_g_i_s_raster_grey_scale_renderer.html" title="The raster layer renderer for grey scale data. " alt="" coords="491,5,701,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_raster_raster_colormap_renderer.html" title="The raster layer renderer for Palette Index data. " alt="" coords="501,57,691,98"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_raster_r_g_b_a_renderer.html" title="The raster layer renderer for RGB data and Alpha channel. " alt="" coords="503,123,689,149"/>
+<area shape="rect" id="node2" href="$classwx_g_i_s_renderer.html" title="The base class for renderers. " alt="" coords="131,64,243,91"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_raster_packed_r_g_b_a_renderer.html" title="The raster layer renderer for packed RGB data and Alpha channel. " alt="" coords="750,5,981,32"/>
+</map>

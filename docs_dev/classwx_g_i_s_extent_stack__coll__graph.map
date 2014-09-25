@@ -1,0 +1,6 @@
+<map id="wxGISExtentStack" name="wxGISExtentStack">
+<area shape="rect" id="node2" href="$classwx_g_i_s_map.html" title="The Map class &#45; array of layers. " alt="" coords="119,264,204,291"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="5,173,163,200"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_display.html" title="The class to draw map contents. " alt="" coords="187,173,289,200"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_color.html" title="The color class. " alt="" coords="193,83,284,109"/>
+</map>

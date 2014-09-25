@@ -1,0 +1,6 @@
+<map id="wxGISTaskEdit" name="wxGISTaskEdit">
+<area shape="rect" id="node2" href="$classwx_g_i_s_task.html" title="The task class. " alt="" coords="83,155,171,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_task_base.html" title="The base task class. " alt="" coords="67,80,185,107"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="105,5,316,32"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_process.html" title="The process class which stores the application execution data. " alt="" coords="330,80,437,107"/>
+</map>

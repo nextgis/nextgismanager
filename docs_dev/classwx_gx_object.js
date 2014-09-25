@@ -1,0 +1,26 @@
+var classwx_gx_object =
+[
+    [ "wxGxObject", "classwx_gx_object.html#a18bd0ad20f06df98fa553a6bc8c2c9a9", null ],
+    [ "wxGxObject", "classwx_gx_object.html#a9b389367dd7bbc594ffcd35b0c986ec4", null ],
+    [ "~wxGxObject", "classwx_gx_object.html#a9875087d27bc225a902f9a57999e9dd9", null ],
+    [ "Create", "classwx_gx_object.html#af18654a1b6672643a52cc02f62605961", null ],
+    [ "Destroy", "classwx_gx_object.html#a5d10563dc58dda3015db6d5f35b29c58", null ],
+    [ "FindGxObject", "classwx_gx_object.html#a1c934a8322558f57a7e1fefefac435d5", null ],
+    [ "FindGxObjectByPath", "classwx_gx_object.html#a154011b214a121a26bcd916bb93baf67", null ],
+    [ "GetBaseName", "classwx_gx_object.html#af6b59366686ece760d818a2fa52dad4d", null ],
+    [ "GetCategory", "classwx_gx_object.html#aad0d95597541869773d732f0ca8d45af", null ],
+    [ "GetFullName", "classwx_gx_object.html#ab8780be368d96783a8c4d58e8ef59624", null ],
+    [ "GetId", "classwx_gx_object.html#a46c5bfbee89e9b622c0376d02b10cb21", null ],
+    [ "GetName", "classwx_gx_object.html#a75399f48d6ccacbacf9bccb5fb5d4239", null ],
+    [ "GetParent", "classwx_gx_object.html#ad696363365ddfd2e8e50585e3a750b9c", null ],
+    [ "GetPath", "classwx_gx_object.html#a45a5ccbc3f1ca07b89354074b201db34", null ],
+    [ "Refresh", "classwx_gx_object.html#a00002aa2cf0addb3d34e5fc5046c1127", null ],
+    [ "SetId", "classwx_gx_object.html#aef3cb9167cb0964223fc560ee83b7ed6", null ],
+    [ "SetName", "classwx_gx_object.html#a3842d10414dca89c51f3462e481cb55d", null ],
+    [ "SetParent", "classwx_gx_object.html#a8ef6dbb9061b35324da2722165bc0656", null ],
+    [ "SetPath", "classwx_gx_object.html#a548a597f4419c1c34b37e9a4840b20f4", null ],
+    [ "m_nId", "classwx_gx_object.html#aba6354fefdb7d08cd28baf380b690638", null ],
+    [ "m_oParent", "classwx_gx_object.html#a047fc3f402427f95ea07c551d7726695", null ],
+    [ "m_sName", "classwx_gx_object.html#a630ae4b1fb635a559f2802dca416b1da", null ],
+    [ "m_sPath", "classwx_gx_object.html#acddc3288d9eeb9e070addeb30632d42b", null ]
+];

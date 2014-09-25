@@ -1,0 +1,16 @@
+<map id="wxGxDiscConnectionUI" name="wxGxDiscConnectionUI">
+<area shape="rect" id="node2" href="$classwx_gx_disc_connection.html" title="A Disc Connection GxObject. " alt="" coords="1048,83,1195,109"/>
+<area shape="rect" id="node3" href="$classwx_gx_folder.html" title="The Folder GxObject. " alt="" coords="561,107,652,133"/>
+<area shape="rect" id="node4" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="302,64,450,91"/>
+<area shape="rect" id="node9" href="$classwx_gx_catalog_base.html" title="The root GxObject class for GxObject items. " alt="" coords="542,56,671,83"/>
+<area shape="rect" id="node5" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="157,64,251,91"/>
+<area shape="rect" id="node7" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="325,123,427,149"/>
+<area shape="rect" id="node8" href="$classwx_gx_catalog.html" title="The GxCatalog class. " alt="" coords="763,56,861,83"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="501,5,712,32"/>
+<area shape="rect" id="node11" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="1075,133,1167,160"/>
+<area shape="rect" id="node12" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="1064,184,1179,211"/>
+<area shape="rect" id="node13" href="$class_i_gx_drop_target.html" title="A DropTarget interface class. " alt="" coords="1069,235,1174,261"/>
+<area shape="rect" id="node15" href="$classwx_gx_auto_renamer.html" title="Begin Rename created object. " alt="" coords="1054,336,1189,363"/>
+<area shape="rect" id="node16" href="$classwx_gx_view.html" title="The base class for views. " alt="" coords="771,336,853,363"/>
+<area shape="rect" id="node17" href="$class_i_view.html" title="A View interface class. " alt="" coords="580,336,633,363"/>
+</map>

@@ -1,0 +1,46 @@
+<map id="wxJSONReader::Parse" name="wxJSONReader::Parse">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#adf4f802bababc857e3d9182e44d8d05e" title="Set the line number of this JSON value object. " alt="" coords="705,107,879,133"/>
+<area shape="rect" id="node10" href="$classwx_j_s_o_n_reader.html#add3a6ce3bae1828c8dd956be5d069f9c" title="Returns the start of the document. " alt="" coords="208,1617,379,1644"/>
+<area shape="rect" id="node15" href="$classwx_j_s_o_n_reader.html#ab51d0f12485c585fc6cd8b86d909ac30" title="Add a error message to the error&#39;s array. " alt="" coords="954,1161,1126,1188"/>
+<area shape="rect" id="node21" href="$classwx_j_s_o_n_value.html#ae55c86162238b4128a49aca03ede78a4" title="Set the type of the stored value. " alt="" coords="959,208,1121,235"/>
+<area shape="rect" id="node22" href="$classwx_j_s_o_n_reader.html#a0489ac2d5b7485d7fd84d83a7eac4929" title="Reads the JSON text document (internal use) " alt="" coords="210,715,377,741"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a7e6742a3c4be71ba31a0bb94a241cbdf" title="Make sure the referenced data is unique. " alt="" coords="1226,208,1371,235"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="1454,385,1634,412"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a1d5383846903c1f8412f7b832a34b0fb" title="Makes an exclusive copy of shared data. " alt="" coords="1463,208,1625,235"/>
+<area shape="rect" id="node6" href="$classwx_j_s_o_n_value.html#ab0ae7daf80906e7f466412958b5d83b2" title="Makes a private copy of the referenced data. " alt="" coords="1683,208,1880,235"/>
+<area shape="rect" id="node7" href="$classwx_j_s_o_n_value.html#a2c06c8ea64af3d7aabaf2c8a645a361f" title="Create a new data structure. " alt="" coords="1928,157,2125,184"/>
+<area shape="rect" id="node8" href="$classwx_j_s_o_n_value.html#a6975b86b1564e9e0c1a44836edd9a016" title="Unreferences the shared data. " alt="" coords="1953,208,2101,235"/>
+<area shape="rect" id="node9" href="$classwx_j_s_o_n_value.html#a16283f50c713f0f6d0bbc01f7ad25178" title="Make a copy of the referenced data. " alt="" coords="1931,259,2123,285"/>
+<area shape="rect" id="node11" href="$classwx_j_s_o_n_reader.html#a3ca6ec5ce63c26c4be811e3698e8f44c" title="Read a character from the input JSON document. " alt="" coords="951,1491,1129,1517"/>
+<area shape="rect" id="node13" href="$classwx_j_s_o_n_reader.html#a40d5b9959258339765cfa6bf28ff0e4e" title="Skip a comment. " alt="" coords="436,1643,639,1669"/>
+<area shape="rect" id="node16" href="$classwx_j_s_o_n_reader.html#a5caf37fc25e2460f089d025985510b25" title="Store the comment string in the value it refers to. " alt="" coords="433,1592,641,1619"/>
+<area shape="rect" id="node12" href="$classwx_j_s_o_n_reader.html#aff1920222130765f6c70211b6831f870" title="Peek a character from the input JSON document. " alt="" coords="1209,1553,1388,1580"/>
+<area shape="rect" id="node14" href="$classwx_j_s_o_n_reader.html#a17ca424dc515b6f1cc400e0719479e2f" title="Add a warning message to the warning&#39;s array. " alt="" coords="696,1136,888,1163"/>
+<area shape="rect" id="node17" href="$classwx_j_s_o_n_value.html#a59211d693f3ed5870df27f1f27addb1b" title="Return the line number of this JSON value object. " alt="" coords="1211,1731,1386,1757"/>
+<area shape="rect" id="node18" href="$classwx_j_s_o_n_value.html#a2178b6fa0ca8bb4d7b29bd4251f09b35" title="Add a comment to this JSON value object. " alt="" coords="944,1617,1136,1644"/>
+<area shape="rect" id="node19" href="$classwx_j_s_o_n_value.html#aee8e051425083e92545fe3e5cb158ba9" title="Return TRUE if the value stored is valid. " alt="" coords="716,664,868,691"/>
+<area shape="rect" id="node20" href="$classwx_j_s_o_n_value.html#a464f3962a62fc31bd9b096ff7401495a" title="Return the type of the value stored in the object. " alt="" coords="1217,411,1380,437"/>
+<area shape="rect" id="node23" href="$classwx_j_s_o_n_reader.html#af1967ef5ace0f846dff902748d9f0a73" title="Skip all whitespaces. " alt="" coords="428,1288,647,1315"/>
+<area shape="rect" id="node24" href="$classwx_j_s_o_n_value.html#a2c6b7c0903809221d7eb43aff7257133" title="Return TRUE if the type of this value is a key/value map. " alt="" coords="711,360,873,387"/>
+<area shape="rect" id="node25" href="$classwx_j_s_o_n_value.html#a379ac1a8d9ef32e2d674dd8e9e0aa924" title="Return TRUE if the type of the value stored is an array type. " alt="" coords="715,309,869,336"/>
+<area shape="rect" id="node26" href="$classwx_j_s_o_n_reader.html#a8d32e77a17426cd3f9a78efb963f62c3" title="Store a value in the parent object. " alt="" coords="445,309,630,336"/>
+<area shape="rect" id="node27" href="$classwx_j_s_o_n_value.html#a46de573c4f4e5afa5b3a1577135c2250" title="Return the stored value as a wxWidget&#39;s string. " alt="" coords="711,461,873,488"/>
+<area shape="rect" id="node34" href="$classwx_j_s_o_n_reader.html#a43baf667a5bb28b1b028e4784d34cfdb" title="Read a string value. " alt="" coords="445,921,630,948"/>
+<area shape="rect" id="node40" href="$classwx_j_s_o_n_value.html#af70a963da46eaa2e80ff94255df9564d" title="Return TRUE if the type of the value stored is a wxString object. " alt="" coords="713,715,871,741"/>
+<area shape="rect" id="node42" href="$classwx_j_s_o_n_reader.html#ada5e3440e9817975bd7c3326034b22e3" title="Read a memory buffer type. " alt="" coords="427,765,647,792"/>
+<area shape="rect" id="node44" href="$classwx_j_s_o_n_reader.html#ac1823640fbf9e16493a46b6d5bf7da5a" title="Read a value from input stream. " alt="" coords="445,613,629,640"/>
+<area shape="rect" id="node31" href="$classwx_j_s_o_n_value.html#a9ae9caef81e6e2f5b10853cdcbccb33c" title="Append the specified value in the array. " alt="" coords="713,157,871,184"/>
+<area shape="rect" id="node32" href="$classwx_j_s_o_n_value.html#a7f119169edbd8f0a2c7b552c53ba08f0" title="Return the stored value as an array object. " alt="" coords="960,259,1120,285"/>
+<area shape="rect" id="node33" href="$classwx_j_s_o_n_value.html#a84ecb292a3431c3f7f1a275463dee80d" title="Clear all comment strings. " alt="" coords="937,5,1143,32"/>
+<area shape="rect" id="node28" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="1229,360,1368,387"/>
+<area shape="rect" id="node29" href="$classwx_j_s_o_n_value.html#a58e15053f9ca05ed9289e4e10765ef79" title="Convert memory buffer object to a string representation. " alt="" coords="942,513,1138,554"/>
+<area shape="rect" id="node30" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="945,579,1135,605"/>
+<area shape="rect" id="node35" href="$classwx_j_s_o_n_reader.html#a4cad89a3613dae4bac3f639e707b1e6d" title="Read a 4&#45;hex&#45;digit unicode character. " alt="" coords="703,1440,881,1467"/>
+<area shape="rect" id="node36" href="$classwx_j_s_o_n_reader.html#a3acd7665d5c519f6d7488beceb90f048" title="The function appends a Unice Escaped Sequence to the temporary UTF8 buffer. " alt="" coords="696,1187,888,1213"/>
+<area shape="rect" id="node37" href="$classwx_j_s_o_n_reader.html#a28afe561c9248c0d3a73bcd6415536cd" title="Convert a UTF&#45;8 memory buffer one char at a time. " alt="" coords="697,969,887,1010"/>
+<area shape="rect" id="node41" href="$classwx_j_s_o_n_value.html#a42f650507f1818fe6b663303e1e03792" title="wxJSONValue::Cat" alt="" coords="973,815,1107,841"/>
+<area shape="rect" id="node38" href="$classwx_j_s_o_n_reader.html#aea842e1af0f627d513f85cc17f642b37" title="Return the number of bytes that make a character in stream input. " alt="" coords="949,976,1131,1003"/>
+<area shape="rect" id="node39" href="$classwx_j_s_o_n_reader.html#a681697e7fc8e03ff3d60e6bcebf8d190" title="Compute the number of bytes that makes a UTF&#45;8 encoded wide character. " alt="" coords="1192,976,1405,1003"/>
+<area shape="rect" id="node43" href="$classwx_j_s_o_n_value.html#ae8dad636f85bf05253295a44b49dc484" title="Return TRUE if the type of this value is a binary memory buffer. " alt="" coords="944,761,1136,788"/>
+<area shape="rect" id="node45" href="$classwx_j_s_o_n_reader.html#a0400c8fee173af7e9ae6e83cfe984f66" title="Reads a token string. " alt="" coords="699,613,885,640"/>
+</map>

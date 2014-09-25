@@ -1,0 +1,10 @@
+<map id="wxGxMLDataset" name="wxGxMLDataset">
+<area shape="rect" id="node2" href="$classwx_gx_dataset_container.html" title="wxGxDatasetContainer" alt="" coords="255,264,409,291"/>
+<area shape="rect" id="node3" href="$classwx_gx_object_container.html" title="A GxObject with children GxObjects. " alt="" coords="5,173,152,200"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="32,83,125,109"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="177,173,279,200"/>
+<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="303,173,389,200"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="442,173,547,200"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_spatial_reference.html" title="The OGRSpatialReference wrapper class. " alt="" coords="415,83,573,109"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_pointer.html" title="A simple smart pointer class. " alt="" coords="599,83,700,109"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="wxGxFeatureDatasetUI" name="wxGxFeatureDatasetUI">
+<area shape="rect" id="node2" href="$classwx_gx_feature_dataset.html" title="A Feature Dataset GxObject. " alt="" coords="105,229,249,256"/>
+<area shape="rect" id="node3" href="$classwx_gx_dataset.html" title="A base GxDataset class. " alt="" coords="127,155,227,181"/>
+<area shape="rect" id="node4" href="$classwx_gx_object.html" title="The base class for catalog items. " alt="" coords="8,80,101,107"/>
+<area shape="rect" id="node6" href="$class_i_gx_object_edit.html" title="A GxObject edit interface. " alt="" coords="126,80,228,107"/>
+<area shape="rect" id="node7" href="$class_i_gx_dataset.html" title="A GxObject dataset interface. " alt="" coords="253,80,339,107"/>
+<area shape="rect" id="node8" href="$class_i_gx_object_u_i.html" title="A Interface class for GxObject UI. " alt="" coords="274,229,365,256"/>
+<area shape="rect" id="node9" href="$class_i_gx_object_edit_u_i.html" title="A Interface class for GxObject UI edits. " alt="" coords="391,229,505,256"/>
+<area shape="rect" id="node10" href="$class_i_gx_object_wizard.html" title="A Interface class for GxObject wisards. " alt="" coords="530,229,651,256"/>
+</map>

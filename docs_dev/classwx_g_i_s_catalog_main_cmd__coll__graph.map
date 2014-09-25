@@ -1,0 +1,5 @@
+<map id="wxGISCatalogMainCmd" name="wxGISCatalogMainCmd">
+<area shape="rect" id="node2" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="5,80,123,107"/>
+<area shape="rect" id="node4" href="$class_i_tool_control.html" title="A IToolControl interface class. " alt="" coords="148,80,239,107"/>
+<area shape="rect" id="node5" href="$class_i_drop_down_command.html" title="A IDropDownCommand interface class. " alt="" coords="263,80,405,107"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="wxGISLayer" name="wxGISLayer">
+<area shape="rect" id="node4" href="$classwx_g_i_s_feature_layer.html" title="The class represent vector datasource in map. " alt="" coords="5,155,141,181"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_raster_layer.html" title="The class represent raster datasource in map. " alt="" coords="165,155,296,181"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_connection_point_container.html" title="The class for event connection store. " alt="" coords="137,5,348,32"/>
+</map>

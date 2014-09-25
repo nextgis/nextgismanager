@@ -1,0 +1,6 @@
+<map id="wxJSONValue::IsSameAs" name="wxJSONValue::IsSameAs">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="697,78,877,105"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#a948390e8f4cabf3be8a64b5c9defd3cc" title="Compares two memory buffer objects. " alt="" coords="227,28,461,54"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="509,78,648,105"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#a7c3070f8cb80e599609461eb679ceec3" title="Return the item at the specified index. " alt="" coords="269,129,419,156"/>
+</map>

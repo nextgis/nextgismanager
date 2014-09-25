@@ -1,0 +1,26 @@
+var classwx_g_i_s_stretch =
+[
+    [ "wxGISStretch", "classwx_g_i_s_stretch.html#a088bc413a539698f0b0c7e9b6ac97f86", null ],
+    [ "~wxGISStretch", "classwx_g_i_s_stretch.html#ac666861d815e343397cc19dc3ca4176c", null ],
+    [ "CalcEquation", "classwx_g_i_s_stretch.html#aba6054c07d0896b8d174044de70778cc", null ],
+    [ "GetInvert", "classwx_g_i_s_stretch.html#aa65958f73b89938fef1d894083e6cec0", null ],
+    [ "GetNoData", "classwx_g_i_s_stretch.html#a651aa169aad359c5afcd9ba5262be254", null ],
+    [ "GetStdDevParam", "classwx_g_i_s_stretch.html#a6f4dcd29ffb165cf9a8c2c096a91a6fe", null ],
+    [ "GetValue", "classwx_g_i_s_stretch.html#a078444f311d0dfd32583165ae3568700", null ],
+    [ "IsNoData", "classwx_g_i_s_stretch.html#a31745f847268cdfac8e7dd515ee0e6c2", null ],
+    [ "RecalcEquation", "classwx_g_i_s_stretch.html#a3d622153fadfedb02a21d0fcb32d5b03", null ],
+    [ "SetInvert", "classwx_g_i_s_stretch.html#a45804d677021b4c8e08d05841ff42016", null ],
+    [ "SetNoData", "classwx_g_i_s_stretch.html#a9232826fcb1111c4786b61882ffa7b75", null ],
+    [ "SetStats", "classwx_g_i_s_stretch.html#a58ddd9a0323f49689d7b1277f1ab049a", null ],
+    [ "SetStdDevParam", "classwx_g_i_s_stretch.html#ab9dbc446e53df9b9285ed11e8711455f", null ],
+    [ "m_bInvert", "classwx_g_i_s_stretch.html#a79b02c2ad4d069fe14a17321635fd525", null ],
+    [ "m_dfDX", "classwx_g_i_s_stretch.html#a4cdb36579e7aedbf1ae05dc2e6a5abac", null ],
+    [ "m_dfM", "classwx_g_i_s_stretch.html#ad1f6857ef498209f14e99b3ce41ed138", null ],
+    [ "m_dfMax", "classwx_g_i_s_stretch.html#a0fcf0a12644c759f8e1c64dbfabc7cd2", null ],
+    [ "m_dfMean", "classwx_g_i_s_stretch.html#a1cb1ced5c4234bd83a2d5adcdce07bb9", null ],
+    [ "m_dfMin", "classwx_g_i_s_stretch.html#a697953e56192e9feb807788914bff214", null ],
+    [ "m_dfNoData", "classwx_g_i_s_stretch.html#ae678e84d4a81e38b30668e3c5b9e2fdd", null ],
+    [ "m_dfStdDev", "classwx_g_i_s_stretch.html#abdfabca7f0154d6f057869f74bc9cbd7", null ],
+    [ "m_dfStdDevParam", "classwx_g_i_s_stretch.html#a7404b6dc8b6b307a517c372d1d12451a", null ],
+    [ "m_eType", "classwx_g_i_s_stretch.html#a581d4ca417722d2787cfd20c13f596c2", null ]
+];

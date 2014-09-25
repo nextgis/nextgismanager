@@ -1,0 +1,6 @@
+<map id="wxJSONValue::AsString" name="wxJSONValue::AsString">
+<area shape="rect" id="node2" href="$classwx_j_s_o_n_value.html#a83d9809d5ccdf302f9bbc53843bd0220" title="Return the pointer to the referenced data structure. " alt="" coords="462,6,642,33"/>
+<area shape="rect" id="node3" href="$classwx_j_s_o_n_value.html#ada3c7903ca595c195d501cbdcbf6b706" title="Return the size of the array or map stored in this value. " alt="" coords="245,31,384,58"/>
+<area shape="rect" id="node4" href="$classwx_j_s_o_n_value.html#a58e15053f9ca05ed9289e4e10765ef79" title="Convert memory buffer object to a string representation. " alt="" coords="217,83,413,124"/>
+<area shape="rect" id="node5" href="$classwx_j_s_o_n_value.html#aff5893bc1be6f7b293f45bbc06a6ceff" title="Return a string description of the type. " alt="" coords="220,149,409,175"/>
+</map>

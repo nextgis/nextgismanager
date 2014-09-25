@@ -1,0 +1,27 @@
+var classwx_gx_map_view =
+[
+    [ "wxGxMapView", "classwx_gx_map_view.html#a2acaf06cea7905a155f77293df9b3995", null ],
+    [ "wxGxMapView", "classwx_gx_map_view.html#aca1ef945abc5133dc728521a18b2ac41", null ],
+    [ "~wxGxMapView", "classwx_gx_map_view.html#a709353cf1982df9293dee2b9991d37e1", null ],
+    [ "Activate", "classwx_gx_map_view.html#a9bac82d3fbc969ee0b8280f3de42c71e", null ],
+    [ "Applies", "classwx_gx_map_view.html#acd0ed1d803950338451f06a6a26839be", null ],
+    [ "Create", "classwx_gx_map_view.html#a4ffdc743411733225f02a13eef627b66", null ],
+    [ "Deactivate", "classwx_gx_map_view.html#a4222c62c54bfd6569146ba8bd0a95dc4", null ],
+    [ "GetLayerFromDataset", "classwx_gx_map_view.html#a9d6498c7dfacfc5ef402a0832d5158e2", null ],
+    [ "LoadData", "classwx_gx_map_view.html#ad1db77a1eaf27f815362a0ebac8eea51", null ],
+    [ "LoadLayer", "classwx_gx_map_view.html#a081df4a1c8a7ebe4af0444f97e954c5c", null ],
+    [ "LoadLayers", "classwx_gx_map_view.html#a9c7b61e09dc4a6bc6ef093726d21625b", null ],
+    [ "OnMouseDoubleClick", "classwx_gx_map_view.html#a731409f60e18b2f198e99bf2dd426e94", null ],
+    [ "OnMouseDown", "classwx_gx_map_view.html#a6c7d08d18a0f29864cd2bf40b3fa72a2", null ],
+    [ "OnMouseMove", "classwx_gx_map_view.html#af3c64d35e2d3b13ef2c6759a5c70bdb3", null ],
+    [ "OnMouseUp", "classwx_gx_map_view.html#a11a458b4bf3b6a81f09e9250e573cb88", null ],
+    [ "OnSelectionChanged", "classwx_gx_map_view.html#a4d8c60c57483298dddb614cd14720778", null ],
+    [ "m_CFormat", "classwx_gx_map_view.html#a240e4bd44822ecb7fdc68a9079e76c63", null ],
+    [ "m_ConnectionPointCatalogCookie", "classwx_gx_map_view.html#a7fca0f5c32f7e5df1687c1ae1c0be216", null ],
+    [ "m_ConnectionPointSelectionCookie", "classwx_gx_map_view.html#ae7b7d93668ec2b0f39f970293ff3bbed", null ],
+    [ "m_nParentGxObjectID", "classwx_gx_map_view.html#a44eabf6c03e5264e93f6f0b39ed34dd8", null ],
+    [ "m_pApp", "classwx_gx_map_view.html#a1d7fa92a38471bf2a0f5a99ad1938a56", null ],
+    [ "m_pCatalog", "classwx_gx_map_view.html#afd4d205ca08970618bc601a1148cf19d", null ],
+    [ "m_pSelection", "classwx_gx_map_view.html#a739c4deb1778a77a37e822d8bcb6a107", null ],
+    [ "m_pStatusBar", "classwx_gx_map_view.html#a538303a22d7b33c5235ed07965fd9fb1", null ]
+];

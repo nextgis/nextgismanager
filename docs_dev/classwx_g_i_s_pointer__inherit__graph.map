@@ -1,0 +1,19 @@
+<map id="wxGISPointer" name="wxGISPointer">
+<area shape="rect" id="node2" href="$classwx_g_i_s_command_bar.html" title="wxGISCommandBar class. " alt="" coords="155,68,293,95"/>
+<area shape="rect" id="node7" href="$classwx_g_i_s_dataset.html" title="The base class for datasets. " alt="" coords="171,169,277,196"/>
+<area shape="rect" id="node13" href="$classwx_g_i_s_symbol.html" title="The interface base class for all symbols. " alt="" coords="172,245,276,272"/>
+<area shape="rect" id="node18" href="$classwx_g_i_s_task_manager.html" title="Task Manager Server communicate class. " alt="" coords="155,296,293,323"/>
+<area shape="rect" id="node3" href="$classwx_g_i_s_menu.html" title="wxGISMenu class. " alt="" coords="398,17,490,44"/>
+<area shape="rect" id="node6" href="$classwx_g_i_s_tool_bar.html" title="wxGISToolBar" alt="" coords="392,68,496,95"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_new_menu.html" title="The new menu class. " alt="" coords="611,5,728,32"/>
+<area shape="rect" id="node5" href="$classwx_g_i_s_tool_bar_menu.html" title="wxGISToolBarMenu" alt="" coords="601,56,737,83"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_raster_dataset.html" title="The GIS RasterDataset class. " alt="" coords="373,119,515,145"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_table.html" title="A GIS Table class. " alt="" coords="399,169,489,196"/>
+<area shape="rect" id="node10" href="$classwx_g_i_s_feature_dataset.html" title="The GIS FeatureDataset class. " alt="" coords="595,132,744,159"/>
+<area shape="rect" id="node12" href="$classwx_g_i_s_table_cached.html" title="A GIS cached Table class. " alt="" coords="602,183,737,209"/>
+<area shape="rect" id="node11" href="$classwx_g_i_s_feature_dataset_cached.html" title="The GIS FeatureDataset class. " alt="" coords="793,132,986,159"/>
+<area shape="rect" id="node14" href="$classwx_g_i_s_simple_collectiom_symbol.html" title="The class for simple geometry collecton symbols. " alt="" coords="341,220,547,247"/>
+<area shape="rect" id="node15" href="$classwx_g_i_s_simple_fill_symbol.html" title="The class for simple fill symbols. " alt="" coords="363,271,525,297"/>
+<area shape="rect" id="node16" href="$classwx_g_i_s_simple_line_symbol.html" title="The class for simple line symbols. " alt="" coords="360,321,528,348"/>
+<area shape="rect" id="node17" href="$classwx_g_i_s_simple_marker_symbol.html" title="The class for simple marker symbols. " alt="" coords="352,372,536,399"/>
+</map>

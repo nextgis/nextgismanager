@@ -1,0 +1,8 @@
+<map id="wxGISGDALConfPropertyPage" name="wxGISGDALConfPropertyPage">
+<area shape="rect" id="node2" href="$class_i_property_page.html" title="A IPropertyPage interface class for property pages in options dialogs. " alt="" coords="5,275,109,301"/>
+<area shape="rect" id="node4" href="$classwx_g_i_s_application_base.html" title="Base class for wxGIS application. " alt="" coords="133,275,288,301"/>
+<area shape="rect" id="node5" href="$class_i_application.html" title="IApplication" alt="" coords="77,133,165,160"/>
+<area shape="rect" id="node8" href="$classwx_g_i_s_command.html" title="A wxGISCommand base abstract class for commnads. " alt="" coords="151,83,269,109"/>
+<area shape="rect" id="node7" href="$class_i_tool.html" title="A ITool interface class. " alt="" coords="186,184,235,211"/>
+<area shape="rect" id="node9" href="$classwx_g_i_s_menu_bar.html" title="wxGISMenuBar" alt="" coords="281,184,393,211"/>
+</map>
