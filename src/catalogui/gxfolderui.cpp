@@ -68,11 +68,6 @@ void wxGxFolderUI::EditProperties(wxWindow *parent)
 #endif
 }
 
-wxDragResult wxGxFolderUI::CanDrop(wxDragResult def)
-{
-    return def;
-}
-
 bool wxGxFolderUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
 {
     return FolderDrop(m_sPath, saGxObjectPaths, bMove);

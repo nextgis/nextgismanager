@@ -53,11 +53,6 @@ wxIcon wxGxDBConnectionsUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-wxDragResult wxGxDBConnectionsUI::CanDrop(wxDragResult def)
-{
-    return def;
-}
-
 bool wxGxDBConnectionsUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
 {
     return FolderDrop(m_sPath, saGxObjectPaths, bMove);

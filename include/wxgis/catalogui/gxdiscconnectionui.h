@@ -51,7 +51,6 @@ public:
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
     //IGxDropTarget
-    virtual wxDragResult CanDrop(wxDragResult def);
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
     //gxObject
     virtual bool Destroy(void);

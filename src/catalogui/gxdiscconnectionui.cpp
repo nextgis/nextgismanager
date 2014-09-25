@@ -133,11 +133,6 @@ void wxGxDiscConnectionUI::EditProperties(wxWindow *parent)
 {
 }
 
-wxDragResult wxGxDiscConnectionUI::CanDrop(wxDragResult def)
-{
-    return def;
-}
-
 bool wxGxDiscConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
 {
     return FolderDrop(m_sPath, saGxObjectPaths, bMove);

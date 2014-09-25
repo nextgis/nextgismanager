@@ -1391,6 +1391,10 @@ void wxGISNGWConnDlg::OnTest(wxCommandEvent& event)
                 wxMessageBox(_("Connected successfully as guest!"), _("Information"), wxICON_INFORMATION | wxOK, this );
             }
         }
+		else
+		{
+			wxGISErrorMessageBox(_("Connect failed!"));
+		}
 	}
 	else
 	{

@@ -285,7 +285,7 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	result.iSize = 0;
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1L);
-	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
@@ -352,7 +352,7 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath)
 	if(wxFileName::FileExists(sPath))
 		return true/*false*/;
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1);
-	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -381,11 +381,11 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode =0;
-	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 	curl_easy_setopt(m_pCurl, CURLOPT_POST, 1L);
 	//const wxWX2MBbuf tmp_buf = wxConvCurrent->cWX2MB(sPostData);
 	//const char *tmp_str = (const char*) tmp_buf;
-	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDSIZE, -1);
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, false);
@@ -432,7 +432,7 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 	result.iSize = 0;
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "DELETE"); 
-	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
@@ -501,9 +501,9 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 	result.iSize = 0;
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "PUT");
-	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
-	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.mb_str());
+	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	
     headstruct.size = 0;
 	bodystruct.size = 0;

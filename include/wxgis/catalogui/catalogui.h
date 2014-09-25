@@ -129,7 +129,7 @@ class IGxDropTarget
 {
 public:
 	virtual ~IGxDropTarget(void){};
-    virtual wxDragResult CanDrop(wxDragResult def) = 0;
+    virtual wxDragResult CanDrop(wxDragResult def)  { return def; };
     virtual bool Drop(const wxArrayString& GxObjects, bool bMove) = 0;
 };
 

@@ -23,6 +23,7 @@
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/core/json/jsonreader.h"
+#include "wxgis/core/json/jsonwriter.h"
 #include "wxgis/core/crypt.h"
 
 #ifdef wxGIS_USE_CURL
@@ -367,7 +368,7 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
         return false;
-	
+		
 	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.PutData(sURL, sPayload);
@@ -762,6 +763,7 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
         return false;
 	
 	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
+	
     wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);

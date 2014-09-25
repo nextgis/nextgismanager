@@ -23,6 +23,7 @@
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/processing.h"
 #include "wxgis/framework/applicationbase.h"
+#include "wxgis/catalogui/remoteconndlgs.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -51,8 +52,6 @@
 #include "wx/bookctrl.h"
 
 #ifdef wxGIS_USE_POSTGRES
-
-#include "wxgis/catalogui/remoteconndlgs.h"
 #include "wxgis/catalogui/gxpostgisdatasetui.h"
 
 //--------------------------------------------------------------
@@ -220,11 +219,6 @@ wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(int nRemoteId, 
         m_oSmallIconSchema = wxIcon(dbschema_16_xpm);
 
     return wxStaticCast(new wxGxRemoteDBSchemaUI(nRemoteId, pwxGISRemoteConn, this, sName, soPath, m_oLargeIconSchema, m_oSmallIconSchema, m_oLargeIconFeatureClass, m_oSmallIconFeatureClass, m_oLargeIconTable, m_oSmallIconTable), wxGxRemoteDBSchema);
-}
-
-wxDragResult wxGxRemoteConnectionUI::CanDrop(wxDragResult def)
-{
-    return def;
 }
 
 bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
@@ -409,11 +403,6 @@ wxGxObject* wxGxRemoteDBSchemaUI::GetNewTable(int nRemoteId, const wxString &sTa
     default:
         return new wxGxPostGISTableUI(nRemoteId, GetName(), m_pwxGISRemoteConn, this, sTableName, szPath, m_oLargeIconTable, m_oSmallIconTable);
     };
-}
-
-wxDragResult wxGxRemoteDBSchemaUI::CanDrop(wxDragResult def)
-{
-    return def;
 }
 
 bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)

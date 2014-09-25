@@ -38,8 +38,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
     public wxGxNGWService,
 	public IGxObjectUI,
     public IGxObjectEditUI,
-    public IGxObjectWizard,
-    public IGxDropTarget
+    public IGxObjectWizard
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
@@ -54,9 +53,6 @@ public:
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
-    //IGxDropTarget
-    virtual wxDragResult CanDrop(wxDragResult def);
-    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:
     virtual void LoadChildren(void);
 protected:
@@ -74,7 +70,9 @@ protected:
 class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI :
     public wxGxNGWResourceGroup,
     public IGxObjectUI,
-	public wxGxAutoRenamer
+	public wxGxAutoRenamer,
+    public IGxDropTarget,
+    public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWResourceGroupUI)
 public:
@@ -85,6 +83,10 @@ public:
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
+    //IGxDropTarget
+    virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
+	//IGxObjectEditUI
+	virtual void EditProperties(wxWindow *parent);
 protected:
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
 protected:
@@ -126,7 +128,8 @@ public:
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :
     public wxGxNGWLayer,
-    public IGxObjectUI
+    public IGxObjectUI,
+    public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWLayerUI)
 public:
@@ -137,6 +140,8 @@ public:
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayer.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayer.NewtMenu")); };
+	//IGxObjectEditUI
+	virtual void EditProperties(wxWindow *parent);
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };

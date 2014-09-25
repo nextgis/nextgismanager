@@ -62,7 +62,6 @@ public:
     //IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
     //IGxDropTarget
-    virtual wxDragResult CanDrop(wxDragResult def);
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:
     //wxGxRemoteConnection
@@ -115,7 +114,6 @@ public:
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
     //IGxDropTarget
-    virtual wxDragResult CanDrop(wxDragResult def);
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
     //events
     void OnThreadFinished(wxThreadEvent& event);

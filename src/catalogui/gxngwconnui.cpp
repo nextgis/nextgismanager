@@ -122,16 +122,6 @@ bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)
     return true;
 }
 
-wxDragResult wxGxNGWServiceUI::CanDrop(wxDragResult def)
-{
-    return def;
-}
-
-bool wxGxNGWServiceUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
-{
-    return false;
-}
-
 void wxGxNGWServiceUI::LoadChildren(void)
 {
     if (m_bChildrenLoaded || !m_bIsConnected)
@@ -247,6 +237,67 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 	return pReturnObj;	
 }
 
+bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
+{
+    wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }
+
+    wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
+    wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
+
+    wxBusyCursor wait;
+
+    for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+    {
+        wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
+        if (NULL != pGxObject)
+        {
+			wxGxNGWResource* pNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObject);
+            if (NULL != pNGWResource)
+            {
+				if(bMove) //TODO: check if this same NGW
+				{
+					
+				}
+				else //TODO: check if this is not same NGW
+				{
+					
+				}
+			}
+			else if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFeatureDataset)))
+			{
+				
+			}
+		}
+	}
+	
+    return true;
+}
+
+void wxGxNGWResourceGroupUI::EditProperties(wxWindow *parent)
+{
+    wxPropertySheetDialog PropertySheetDialog;
+    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
+        return;
+    PropertySheetDialog.SetIcon(properties_xpm);
+    PropertySheetDialog.CreateButtons(wxOK);
+    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	
+	//TODO: add NGW property page
+	
+	//TODO: add permissions property page
+
+
+    //PropertySheetDialog.LayoutDialog();
+    PropertySheetDialog.SetSize(480,640);
+    PropertySheetDialog.Center();
+
+    PropertySheetDialog.ShowModal();
+}
+
 //--------------------------------------------------------------
 //class wxGxNGWLayerUI
 //--------------------------------------------------------------
@@ -271,6 +322,37 @@ wxIcon wxGxNGWLayerUI::GetLargeImage(void)
 wxIcon wxGxNGWLayerUI::GetSmallImage(void)
 {
     return m_icSmallIcon;
+}
+
+void wxGxNGWLayerUI::EditProperties(wxWindow *parent)
+{
+    wxPropertySheetDialog PropertySheetDialog;
+    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
+        return;
+    PropertySheetDialog.SetIcon(properties_xpm);
+    PropertySheetDialog.CreateButtons(wxOK);
+    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	
+	//TODO: add NGW property page
+
+    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
+    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
+	
+	//TODO: add fields property page
+
+	wxGISDataset* pDset = GetDataset();
+	if(pDset)
+	{
+		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
+		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+        wsDELETE(pDset);
+	}
+
+    //PropertySheetDialog.LayoutDialog();
+    PropertySheetDialog.SetSize(480,640);
+    PropertySheetDialog.Center();
+
+    PropertySheetDialog.ShowModal();
 }
 
 #endif // wxGIS_USE_CURL
