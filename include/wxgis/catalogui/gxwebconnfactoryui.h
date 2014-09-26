@@ -41,4 +41,5 @@ protected:
     wxIcon m_LargeIconDisconn, m_SmallIconDisconn;
     wxIcon m_LargeIconNGWConn, m_SmallIconNGWConn;
     wxIcon m_LargeIconNGWDisconn, m_SmallIconNGWDisconn;
+    wxIcon m_LargeIconNGWConnGuest, m_SmallIconNGWConnGuest;
 };

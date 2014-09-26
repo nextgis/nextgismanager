@@ -36,14 +36,13 @@
 #include "../../art/ngw_layer_48.xpm"
 #include "../../art/rdb_conn_16.xpm"
 #include "../../art/rdb_conn_48.xpm"
+#include "../../art/properties.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/catalogui/tablepropertypage.h"
-
-#include "../../art/properties.xpm"
 
 #include "wx/busyinfo.h"
 #include "wx/utils.h"
@@ -62,12 +61,14 @@
 class wxGxNGWLayerUI;
 IMPLEMENT_CLASS(wxGxNGWServiceUI, wxGxNGWService)
 
-wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl) : wxGxNGWService(oParent, soName, soPath)
+wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl, const wxIcon &icLargeIconGuest, const wxIcon &icSmallIconGuest) : wxGxNGWService(oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
     m_icLargeIconDsbl = icLargeIconDsbl;
     m_icSmallIconDsbl = icSmallIconDsbl;
+    m_icLargeIconGuest = icLargeIconGuest;
+    m_icSmallIconGuest = icSmallIconGuest;
 }
 
 wxGxNGWServiceUI::~wxGxNGWServiceUI(void)
@@ -78,7 +79,14 @@ wxIcon wxGxNGWServiceUI::GetLargeImage(void)
 {
     if (IsConnected())
     {
-        return m_icLargeIcon;
+		if(m_bIsAuthorized)
+		{
+			return m_icLargeIcon;
+		}
+		else
+		{
+			return m_icLargeIconGuest;
+		}
     }
     else
     {
@@ -90,7 +98,14 @@ wxIcon wxGxNGWServiceUI::GetSmallImage(void)
 {
     if (IsConnected())
     {
-        return m_icSmallIcon;
+		if(m_bIsAuthorized)
+		{
+			return m_icSmallIcon;			
+		}
+		else
+		{
+			return m_icSmallIconGuest;	
+		}
     }
     else
     {

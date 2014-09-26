@@ -30,6 +30,8 @@
 #include "../../art/ngw_conn_48.xpm"
 #include "../../art/ngw_disconn_16.xpm"
 #include "../../art/ngw_disconn_48.xpm"
+#include "../../art/ngw_conn_guest_16.xpm"
+#include "../../art/ngw_conn_guest_48.xpm"
 
 //------------------------------------------------------------------------------
 // wxGxWebConnectionFactoryUI
@@ -48,6 +50,8 @@ wxGxWebConnectionFactoryUI::wxGxWebConnectionFactoryUI(void) : wxGxWebConnection
     m_SmallIconNGWConn = wxIcon(ngw_conn_16_xpm);
     m_LargeIconNGWDisconn = wxIcon(ngw_disconn_48_xpm);
     m_SmallIconNGWDisconn = wxIcon(ngw_disconn_16_xpm);
+    m_LargeIconNGWConnGuest = wxIcon(ngw_conn_guest_48_xpm);
+    m_SmallIconNGWConnGuest = wxIcon(ngw_conn_guest_16_xpm);
 }
 
 wxGxWebConnectionFactoryUI::~wxGxWebConnectionFactoryUI(void)
@@ -71,7 +75,7 @@ wxGxObject* wxGxWebConnectionFactoryUI::GetGxObject(wxGxObject* pParent, const w
         {
             if (pRoot->GetName().IsSameAs(wxT("NGW"), false))
             {
-                wxGxNGWServiceUI* pDataset = new wxGxNGWServiceUI(pParent, soName, szPath, m_LargeIconNGWConn, m_SmallIconNGWConn, m_LargeIconNGWDisconn, m_SmallIconNGWDisconn);
+                wxGxNGWServiceUI* pDataset = new wxGxNGWServiceUI(pParent, soName, szPath, m_LargeIconNGWConn, m_SmallIconNGWConn, m_LargeIconNGWDisconn, m_SmallIconNGWDisconn, m_LargeIconNGWConnGuest, m_SmallIconNGWConnGuest);
                 return wxStaticCast(pDataset, wxGxObject);
             }
             else if (pRoot->GetName().IsSameAs(wxT("GDAL_WMS"), false))

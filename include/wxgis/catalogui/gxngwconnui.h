@@ -42,7 +42,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
-    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon);
+    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon, const wxIcon &icLargeIconGuest = wxNullIcon, const wxIcon &icSmallIconGuest = wxNullIcon);
     virtual ~wxGxNGWServiceUI(void);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
@@ -58,6 +58,7 @@ protected:
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
     wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
+    wxIcon m_icLargeIconGuest, m_icSmallIconGuest;
 };
 
 /** @class wxGxNGWResourceGroupUI
