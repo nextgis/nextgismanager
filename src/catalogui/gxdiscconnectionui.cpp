@@ -21,17 +21,20 @@
 #include "wxgis/catalogui/gxdiscconnectionui.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 
+
+#define STEP 10
+
 //------------------------------------------------------------------------------------
 // wxGxDiscConnectionUI
 //------------------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC_CLASS(wxGxDiscConnectionUI, wxGxDiscConnection)
 
-wxGxDiscConnectionUI::wxGxDiscConnectionUI() : wxGxAutoRenamer(), wxGxDiscConnection(), wxThreadHelper()
+wxGxDiscConnectionUI::wxGxDiscConnectionUI() : wxGxAutoRenamer(), wxGxDiscConnection(), wxGISThreadHelper()
 {
     m_nIsReadable = wxNOT_FOUND;
 }
 
-wxGxDiscConnectionUI::wxGxDiscConnectionUI(wxGxObject *oParent, int nStoreId, const wxString &soName, const CPLString &soPath, const wxIcon &SmallIco, const wxIcon &LargeIco, const wxIcon &SmallIcoDsbl, const wxIcon &LargeIcoDsbl) : wxGxAutoRenamer(), wxGxDiscConnection(oParent, nStoreId, soName, soPath), wxThreadHelper()
+wxGxDiscConnectionUI::wxGxDiscConnectionUI(wxGxObject *oParent, int nStoreId, const wxString &soName, const CPLString &soPath, const wxIcon &SmallIco, const wxIcon &LargeIco, const wxIcon &SmallIcoDsbl, const wxIcon &LargeIcoDsbl) : wxGxAutoRenamer(), wxGxDiscConnection(oParent, nStoreId, soName, soPath), wxGISThreadHelper()
 {
     m_nIsReadable = wxNOT_FOUND;
 	m_Conn16 = SmallIco;
@@ -49,7 +52,7 @@ bool wxGxDiscConnectionUI::CheckReadable(void)
     if(m_nIsReadable == wxNOT_FOUND)
     {
         m_nIsReadable = 0;
-        CreateAndRunCheckThread();
+        CreateAndRunThread();
     }
     return m_nIsReadable == 0 ? false: true;
 }
@@ -58,12 +61,10 @@ bool wxGxDiscConnectionUI::CheckReadable(void)
 //before exit we assume that folder is not readable
 wxThread::ExitCode wxGxDiscConnectionUI::Entry()
 {
-    while (!GetThread()->TestDestroy())
+    int nShortStep = TM_CHECKING / STEP;
+    while (!TestDestroy())
     {
-        if(m_nIsReadable == -2)
-            return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
-
-        bool bIsOk = wxIsReadable(wxString(m_sPath, wxConvUTF8));
+        bool bIsOk = wxIsReadable(wxString::FromUTF8(m_sPath));
         char nIsReadable = bIsOk == true ? 1 : 0;
         if (nIsReadable != m_nIsReadable)
         {
@@ -76,41 +77,17 @@ wxThread::ExitCode wxGxDiscConnectionUI::Entry()
             wxGIS_GXCATALOG_EVENT(ObjectChanged);
         }
 
-        wxThread::Sleep(TM_CHECKING);
+        for (size_t i = 0; i < STEP; ++i)
+        {
+            if (TestDestroy())
+            {
+                return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+            }
+            wxThread::Sleep(nShortStep);
+        }
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
-}
-
-bool wxGxDiscConnectionUI::CreateAndRunCheckThread(void)
-{
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
-}
-
-void wxGxDiscConnectionUI::DestroyCheckThread(void)
-{
-    if (GetThread() && GetThread()->IsRunning())
-    {
-        m_nIsReadable = -2;
-        GetThread()->Wait();//Kill();//Delete();//
-    }
-}
-
-bool wxGxDiscConnectionUI::Destroy(void)
-{
-    DestroyCheckThread();
-    return wxGxDiscConnection::Destroy();
 }
 
 wxIcon wxGxDiscConnectionUI::GetLargeImage(void)

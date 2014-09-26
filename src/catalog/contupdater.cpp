@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 IMPLEMENT_ABSTRACT_CLASS(wxGxObjectContainerUpdater, wxGxObjectContainer)
 
-wxGxObjectContainerUpdater::wxGxObjectContainerUpdater(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxThreadHelper(wxTHREAD_DETACHED)
+wxGxObjectContainerUpdater::wxGxObjectContainerUpdater(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath), wxGISThreadHelper()
 {
 	m_nLongWait = LONG_WAIT;
 	m_nShortWait = SHORT_WAIT;
@@ -52,38 +52,11 @@ wxGxObjectContainerUpdater::~wxGxObjectContainerUpdater(void)
 
 }
 
-bool wxGxObjectContainerUpdater::CreateAndRunThread(void)
-{
-    if (GetThread() && GetThread()->IsRunning())
-        return true;
-
-    if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
-}
-
-void wxGxObjectContainerUpdater::StopThread()
-{
-	if (GetThread() && GetThread()->IsRunning())
-    {
-        GetThread()->Delete();// Wait();
-    }	
-}
-
 wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 {
 	int nShortStep = m_nShortWait / SHORT_STEP;
 	
-	while (!GetThread()->TestDestroy())
+	while (!TestDestroy())
     {
         wxGxObjectMap smCurrentObjects = GetRemoteObjects();
         for (wxGxObjectMap::iterator it = m_smObjects.begin(); it != m_smObjects.end(); ++it)
@@ -118,6 +91,10 @@ wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 			
 		for ( size_t i = 0; i < SHORT_STEP; ++i ) 
 		{    
+            if (TestDestroy())
+            {
+                return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+            }
 			wxThread::Sleep(nShortStep); //min sleep is 450
 			if(m_nProcessUpdatesRequests > 0)
 			{

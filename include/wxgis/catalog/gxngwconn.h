@@ -155,7 +155,6 @@ public:
     wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = _("Resource Group"), const CPLString &soPath = "");
     virtual ~wxGxNGWResourceGroup(void);
     //wxGxObject
-    virtual bool Destroy();
 	virtual wxString GetCategory(void) const { return wxString(_("Resource Group")); };
     //wxGxObjectContainer
     virtual void Refresh(void);

@@ -548,13 +548,6 @@ void wxGxNGWResourceGroup::Refresh(void)
     wxGxObject::Refresh();
 }
 
-bool wxGxNGWResourceGroup::Destroy()
-{
-    StopThread();
-
-    return wxGxObjectContainer::Destroy();
-}
-
 bool wxGxNGWResourceGroup::HasChildren(void)
 {
     LoadChildren();

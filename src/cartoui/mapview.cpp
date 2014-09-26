@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(wxGISMapView, wxWindow)
 END_EVENT_TABLE()
 
 
-wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxThreadHelper(wxTHREAD_JOINABLE)
+wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper(wxTHREAD_JOINABLE)
 {
 	m_pGISDisplay = NULL;
 	m_pTrackCancel = NULL;
@@ -72,7 +72,7 @@ wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxThreadHelper(wxTHREAD_J
     m_dtNow = wxDateTime::Now();
 }
 
-wxGISMapView::wxGISMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISExtentStack(), wxThreadHelper(wxTHREAD_DETACHED)
+wxGISMapView::wxGISMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISExtentStack(), wxGISThreadHelper(wxTHREAD_JOINABLE)
 {
 	m_pGISDisplay = NULL;
 	m_pTrackCancel = NULL;
@@ -129,7 +129,7 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 
 	if(m_pGISDisplay)
 	{
-	    if(!GetThread() && m_pGISDisplay->IsDerty())//m_nDrawingState = enumGISMapDrawing
+        if (GetThread() && m_pGISDisplay->IsDerty())//m_nDrawingState = enumGISMapDrawing
         {
             return;
         }
@@ -831,9 +831,10 @@ void wxGISMapView::StartFlashing(wxGISEnumFlashStyle eFlashStyle)
     Refresh();
 
     //wait drawings end to flash
-    if (GetThread() && GetThread()->IsRunning())
+    wxCriticalSectionLocker locker(m_critSection);
+    if (m_thread && m_thread->IsRunning())
     {
-        GetThread()->Wait();
+        m_thread->Wait();
     }
 
     int nMilliSec = TM_DEFAULT_FLASH_PERIOD;
@@ -875,9 +876,9 @@ void wxGISMapView::Flash(wxGISEnumFlashStyle eFlashStyle)
 {
     wxCriticalSectionLocker locker(m_FlashCritSect);
     //wait drawings end to flash
-    if (GetThread() && GetThread()->IsRunning())
+    if (m_thread && m_thread->IsRunning())
     {
-        GetThread()->Wait();
+        m_thread->Wait();
     }
 
     //draw geometries
@@ -1101,21 +1102,13 @@ bool wxGISMapView::CreateAndRunDrawThread(void)
     if(IsDrawing()|| !m_pGISDisplay->IsDerty())
         return true;
 
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
+    if (CreateAndRunThread())
     {
-        wxLogError(_("Could not create the thread!"));
-        return false;
+        m_timer.Start(TM_REFRESH);//refresh time for map during drawing
+        return true;
     }
 
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-
-    m_timer.Start(TM_REFRESH);//refresh time for map during drawing
-
-    return true;
+    return false;
 }
 
 void wxGISMapView::DestroyDrawThread(void)
@@ -1129,7 +1122,7 @@ void wxGISMapView::DestroyDrawThread(void)
 
     if(IsDrawing())
     {
-        GetThread()->Wait();//Delete();//
+        DestroyThread();
     }
 }
 

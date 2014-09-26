@@ -23,6 +23,7 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxssdataset.h"
+#include "wxgis/core/process.h"
 
 /** @class wxGxSpreadsheetDatasetUI
 
@@ -35,7 +36,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxSpreadsheetDatasetUI :
     public wxGxSpreadsheetDataset,
 	public IGxObjectUI,
 	public IGxObjectEditUI,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
     DECLARE_CLASS(wxGxSpreadsheetDatasetUI)
 public:
@@ -53,7 +54,6 @@ public:
 	virtual void LoadChildren(void);
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunCheckThread(void);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
     wxIcon m_LargeSubIcon, m_SmallSubIcon;

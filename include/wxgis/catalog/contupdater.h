@@ -21,6 +21,7 @@
 #pragma once
 
 #include "wxgis/catalog/gxobject.h"
+#include "wxgis/core/process.h"
 
 #include <wx/hashmap.h>
 
@@ -35,7 +36,7 @@ WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, wxGxObjectMap)
  
 class WXDLLIMPEXP_GIS_CLT wxGxObjectContainerUpdater :
 	public wxGxObjectContainer,
-	public wxThreadHelper,
+    public wxGISThreadHelper,
 	public IGxObjectNotifier
 {
 	DECLARE_ABSTRACT_CLASS(wxGxObjectContainerUpdater)
@@ -46,8 +47,6 @@ public:
 	virtual void OnGetUpdates();
 protected:
     virtual wxThread::ExitCode Entry();
-    virtual bool CreateAndRunThread(void);
-	virtual void StopThread();
 	virtual wxGxObject *GetChildByRemoteId(int nRemoteId) const;
     virtual wxGxObjectMap GetRemoteObjects() = 0;
 	virtual void DeleteObject(int nRemoteId);

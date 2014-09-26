@@ -22,6 +22,7 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxmldataset.h"
+#include "wxgis/core/process.h"
 
 /** @class wxGxMLDatasetUI
 
@@ -34,7 +35,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxMLDatasetUI :
     public wxGxMLDataset,
 	public IGxObjectUI,
 	public IGxObjectEditUI,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
     DECLARE_CLASS(wxGxMLDatasetUI)
 public:
@@ -52,7 +53,6 @@ public:
 	virtual void LoadChildren(void);
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunCheckThread(void);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
     wxIcon m_LargeSubIcon, m_SmallSubIcon;

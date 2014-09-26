@@ -25,6 +25,7 @@
 #include "wxgis/carto/map.h"
 #include "wxgis/cartoui/mxeventui.h"
 #include "wxgis/carto/mxevent.h"
+#include "wxgis/core/process.h"
 
 /** @class wxGISMapView
 
@@ -37,7 +38,7 @@ class WXDLLIMPEXP_GIS_CTU wxGISMapView :
 	public wxWindow,
 	public wxGISExtentStack,
 	public wxGISConnectionPointContainer,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
     DECLARE_CLASS(wxGISMapView)
 	enum

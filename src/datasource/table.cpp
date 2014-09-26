@@ -312,7 +312,6 @@ void wxGISTable::Close(void)
 {
     if(IsOpened())
     {
-	    m_poLayer = NULL;
         if(m_poDS)
 	    {
 		    if(m_nSubType == enumTableQueryResult && m_poLayer)
@@ -322,6 +321,7 @@ void wxGISTable::Close(void)
 	        m_poDS = NULL;
 	    }
 
+	    m_poLayer = NULL;
 	    m_Encoding = wxLocale::GetSystemEncoding();
 
 	    m_bHasFID = false;

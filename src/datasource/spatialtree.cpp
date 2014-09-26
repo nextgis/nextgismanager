@@ -86,7 +86,7 @@ wxGISSpatialTreeData* wxGISSpatialTreeData::Clone() const
 // wxGISSpatialTree
 //----------------------------------------------------------------------------
 
-wxGISSpatialTree::wxGISSpatialTree(wxGISFeatureDataset* pDSet) : wxThreadHelper(wxTHREAD_DETACHED)
+wxGISSpatialTree::wxGISSpatialTree(wxGISFeatureDataset* pDSet) : wxGISThreadHelper()
 {
     wsSET(m_pDSet, pDSet);
 
@@ -98,8 +98,6 @@ wxGISSpatialTree::wxGISSpatialTree(wxGISFeatureDataset* pDSet) : wxThreadHelper(
 
 wxGISSpatialTree::~wxGISSpatialTree(void)
 {
-    DestroyLoadGeometryThread();
-
     wsDELETE(m_pDSet);
 }
 
@@ -119,7 +117,7 @@ bool wxGISSpatialTree::Load(const wxGISSpatialReference &SpatRef, ITrackCancel* 
         if(IsLoading())
             return true;
 
-	    return CreateAndRunLoadGeometryThread();
+	    return CreateAndRunThread();
     }
     return false;
 }
@@ -131,7 +129,7 @@ bool wxGISSpatialTree::IsLoading(void) const
 
 void wxGISSpatialTree::CancelLoading()
 {
-    DestroyLoadGeometryThread();
+    DestroyThread();
 }
 
 wxThread::ExitCode wxGISSpatialTree::Entry()
@@ -219,7 +217,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
         m_nReadPos++;
         nItemCounter++;
 
-        if (GetThread()->TestDestroy())
+        if (TestDestroy())
         {
             saIgnoredFields.Clear();
             m_pDSet->SetIgnoredFields(saIgnoredFields);
@@ -282,33 +280,6 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 
 	return (wxThread::ExitCode)wxTHREAD_NO_ERROR;     // success
 
-}
-
-bool wxGISSpatialTree::CreateAndRunLoadGeometryThread(void)
-{
-    if(CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(wxT("Could not create the worker thread!"));
-        return false;
-    }
-    // go!
-    if(GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(wxT("Could not run the worker thread!"));
-        return false;
-    }
-
-    return true;
-}
-
-void wxGISSpatialTree::DestroyLoadGeometryThread(void)
-{
-    if(IsLoading())
-    {
-        //if (m_pTrackCancel)
-        //    m_pTrackCancel->Cancel();
-        GetThread()->Delete();//Wait();//
-    }
 }
 
 void wxGISSpatialTree::Insert(const wxGISGeometry &Geom, long nFID)

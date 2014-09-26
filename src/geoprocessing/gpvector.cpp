@@ -529,11 +529,14 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
         return false;
     }
 
-    //remove filter
-    pSrsDataSet->SetFilter();
+
 
     CPLErrorReset();
     eErr = pDstDataSet->CommitTransaction();
+
+    //remove filter
+    pSrsDataSet->SetFilter();    
+    
     if (CPLGetLastErrorType() != OGRERR_NONE)
     {
         pDstDataSet->Close();
@@ -633,11 +636,12 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
         return false;
     }
 
+    CPLErrorReset();
+    eErr = pDstDataSet->CommitTransaction();
+
     //remove filter
     pSrsDataSet->SetFilter();
 
-    CPLErrorReset();
-    eErr = pDstDataSet->CommitTransaction();
     if (CPLGetLastErrorType() != OGRERR_NONE)
     {
         pDstDataSet->Close();

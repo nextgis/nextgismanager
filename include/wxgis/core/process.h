@@ -3,7 +3,7 @@
  * Purpose:  external process common classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2010-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -25,10 +25,34 @@
 #include <wx/process.h>
 #include <wx/thread.h>
 
+/** @class wxGISThreadHelper
+
+    The gis classes thread helper. The main purpose - garanted destroy
+
+    @library{core}
+*/
+
+class WXDLLIMPEXP_GIS_CORE wxGISThreadHelper : public wxThreadHelper
+{
+public:
+    wxGISThreadHelper(wxThreadKind kind = wxTHREAD_DETACHED);
+    virtual ~wxGISThreadHelper();
+protected:
+    void KillThread();
+    bool TestDestroy();
+    bool CreateAndRunThread(void);
+    void DestroyThread(void);
+protected:
+    bool m_bKill;
+};
+
 class WXDLLIMPEXP_GIS_CORE wxGISProcess;
 
-/** \class IGISProcessParent core.h
- *  \brief The wxGISProcess parent interface class.
+/** @class IGISProcessParent
+
+    The wxGISProcess parent interface class.
+
+    @library{core}
  */
 class IGISProcessParent
 {
@@ -37,12 +61,15 @@ public:
     virtual void OnFinish(wxGISProcess* pProcess, bool bHasErrors) = 0;
 };
 
-/** \class wxGISProcess process.h
- *  \brief The process class which stores the application execution data.
+/** @class wxGISProcess
+
+    The process class which stores the application execution data.
+
+    @library{core}
  */
 class WXDLLIMPEXP_GIS_CORE wxGISProcess :
 	public wxProcess,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
 public:
     wxGISProcess(IGISProcessParent* pParent = NULL);
@@ -58,11 +85,8 @@ public:
 	virtual wxGISEnumTaskStateType GetState(void) const {return m_nState;};
     virtual wxDateTime GetStart(void) const {return m_dtBeg;};
     virtual wxDateTime GetFinish(void) const {return m_dtEstEnd;};
-
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunReadThread(void);
-    void DestroyReadThread(void);
     virtual long Execute(void) = 0;
     virtual void UpdatePercent(const wxString &sPercentData);
     virtual void AddInfo(wxGISEnumMessageType eType, const wxString &sInfoData) = 0;
@@ -74,39 +98,6 @@ protected:
 	wxDateTime m_dtEstEnd;
     wxGISEnumTaskStateType m_nState;
     double m_dfDone;
-    bool m_bKill;
 };
 
-/*
-/** \class IProcess core.h
- *  \brief The process interface class.
- */
-/*
 
-class IProcess
-{
-public:
-	IProcess(wxString sCommand, wxArrayString saParams)
-	{
-		m_sCommand = sCommand;
-        m_saParams = saParams;
-		m_nState = enumGISTaskPaused;
-	}
-	virtual ~IProcess(void){};
-    virtual void Start(void) = 0;
-    virtual void Cancel(void) = 0;
-	virtual void SetState(wxGISEnumTaskStateType nState){m_nState = nState;};
-	virtual wxGISEnumTaskStateType GetState(void){return m_nState;};
-	virtual wxString GetCommand(void){return m_sCommand;};
-	virtual wxArrayString GetParameters(void){return m_saParams;};
-    virtual wxDateTime GetBeginTime(void){return m_dtBeg;};
-    virtual wxDateTime GetEndTime(void){return m_dtEstEnd;};
-protected:
-	wxDateTime m_dtBeg;
-	wxDateTime m_dtEstEnd;
-    wxGISEnumTaskStateType m_nState;
-    wxString m_sCommand;
-    wxArrayString m_saParams;
-};
-
-*/

@@ -33,6 +33,9 @@
 #include "../../art/document_48.xpm"
 #include "../../art/small_arrow.xpm"
 
+#define WAIT 1050
+#define STEP 10
+
 //--------------------------------------------------------------------------------
 // MyCompareFunction
 //--------------------------------------------------------------------------------
@@ -152,12 +155,12 @@ BEGIN_EVENT_TABLE(wxGxContentView, wxListCtrl)
 	EVT_GXSELECTION_CHANGED(wxGxContentView::OnSelectionChanged)
 END_EVENT_TABLE()
 
-wxGxContentView::wxGxContentView(void) : wxListCtrl()
+wxGxContentView::wxGxContentView(void) : wxListCtrl(), wxGISThreadHelper()
 {
     m_HighLightItem = wxNOT_FOUND;
 }
 
-wxGxContentView::wxGxContentView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
+wxGxContentView::wxGxContentView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISThreadHelper()
 {
     Create(parent, id, pos, size, style, wxT("ContentView"));
 }
@@ -205,7 +208,7 @@ bool wxGxContentView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 	SetImageList(&m_ImageListLarge, wxIMAGE_LIST_NORMAL);
 	SetImageList(&m_ImageListSmall, wxIMAGE_LIST_SMALL);
 
-    CreateAndRunFillMetaThread();
+    CreateAndRunThread();
 
     return true;
 }
@@ -254,8 +257,6 @@ void wxGxContentView::InitColumns(void)
 
 void wxGxContentView::Deactivate(void)
 {
-    DestroyFillMetaThread();
-
 	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
 
@@ -1296,32 +1297,10 @@ bool wxGxContentView::CanPaste()
     //& wxTheClipboard->IsSupported(wxDF_TEXT); | wxDF_BITMAP | wxDF_TIFF | wxDF_DIB | wxDF_UNICODETEXT | wxDF_HTML
 }
 
-bool wxGxContentView::CreateAndRunFillMetaThread(void)
-{
-    if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-
-    return true;
-}
-
-void wxGxContentView::DestroyFillMetaThread(void)
-{
-    if (GetThread() && GetThread()->IsRunning())
-        GetThread()->Delete();//
-}
-
 wxThread::ExitCode wxGxContentView::Entry()
 {
-    while (!GetThread()->TestDestroy())
+    int nShortStep = WAIT / STEP;
+    while (!TestDestroy())
     {
         long nID = wxNOT_FOUND;
         m_CritSectFillMeta.Enter();
@@ -1334,7 +1313,14 @@ wxThread::ExitCode wxGxContentView::Entry()
 
         if (nID == wxNOT_FOUND)
         {
-            wxThread::Sleep(950);
+            for (size_t i = 0; i < STEP; ++i)
+            {
+                if (TestDestroy())
+                {
+                    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+                }
+                wxThread::Sleep(nShortStep); 
+            }
         }
         else
         {

@@ -21,6 +21,7 @@
 #pragma once
 
 #include "wxgis/datasource/gdalinh.h"
+#include "wxgis/core/process.h"
 
 #include "wx/thread.h"
 #include <wx/list.h>
@@ -60,7 +61,7 @@ extern WXDLLIMPEXP_DATA_GIS_DS(wxGISSpatialTreeCursor) wxNullSpatialTreeCursor;
     @library{datasource}
 */
 
-class WXDLLIMPEXP_GIS_DS wxGISSpatialTree : public wxThreadHelper
+class WXDLLIMPEXP_GIS_DS wxGISSpatialTree : public wxGISThreadHelper
 {
 public:
 	wxGISSpatialTree(wxGISFeatureDataset* pDSet);
@@ -78,8 +79,6 @@ public:
     virtual bool HasFID(long nFID) const = 0;
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunLoadGeometryThread(void);
-    void DestroyLoadGeometryThread(void);
 protected:
     wxGISFeatureDataset* m_pDSet;
     long m_nReadPos;

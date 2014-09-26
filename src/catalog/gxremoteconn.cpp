@@ -47,12 +47,6 @@ wxGxRemoteConnection::~wxGxRemoteConnection(void)
     wsDELETE(m_pwxGISDataset);
 }
 
-bool wxGxRemoteConnection::Destroy(void)
-{
-    Disconnect();
-    return wxGxObjectContainer::Destroy();
-}
-
 wxGISDataset* const wxGxRemoteConnection::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
@@ -212,7 +206,7 @@ bool wxGxRemoteConnection::Disconnect(void)
         return true;
     }
 
-    StopThread();
+    DestroyThread();
 
 
     wxGISDataset* pDSet = GetDatasetFast();
@@ -403,13 +397,6 @@ wxGxRemoteDBSchema::wxGxRemoteDBSchema(int nRemoteId, wxGISPostgresDataSource* p
 wxGxRemoteDBSchema::~wxGxRemoteDBSchema(void)
 {
     wsDELETE(m_pwxGISRemoteConn);
-}
-
-bool wxGxRemoteDBSchema::Destroy()
-{
-    StopThread();
-
-    return wxGxObjectContainer::Destroy();
 }
 
 bool wxGxRemoteDBSchema::HasChildren(void)

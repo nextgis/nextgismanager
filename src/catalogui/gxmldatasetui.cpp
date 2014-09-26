@@ -37,7 +37,7 @@
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxMLDatasetUI, wxGxMLDataset)
 
-wxGxMLDatasetUI::wxGxMLDatasetUI(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxMLDataset(eType, oParent, soName, soPath), wxThreadHelper()
+wxGxMLDatasetUI::wxGxMLDatasetUI(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxMLDataset(eType, oParent, soName, soPath), wxGISThreadHelper()
 {
     m_nPendUId = wxNOT_FOUND;
     m_LargeIcon = LargeIcon;
@@ -98,7 +98,7 @@ void wxGxMLDatasetUI::LoadChildren(void)
         m_nPendUId = pCat->AddPending(GetId());
     }
 
-    CreateAndRunCheckThread();
+    CreateAndRunThread();
 
 	m_bIsChildrenLoaded = true;
 }
@@ -130,22 +130,6 @@ wxThread::ExitCode wxGxMLDatasetUI::Entry()
     //wxGIS_GXCATALOG_EVENT(ObjectChanged);
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
-}
-
-bool wxGxMLDatasetUI::CreateAndRunCheckThread(void)
-{
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
 }
 
 wxGISDataset* const wxGxMLDatasetUI::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)

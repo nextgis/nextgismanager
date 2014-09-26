@@ -22,6 +22,7 @@
 
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalog/gxdiscconnection.h"
+#include "wxgis/core/process.h"
 
 /** @class wxGxDiscConnectionUI
 
@@ -35,7 +36,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxDiscConnectionUI :
     public IGxObjectUI,
     public IGxObjectEditUI,
     public IGxDropTarget,
-    public wxThreadHelper,
+    public wxGISThreadHelper,
     public wxGxAutoRenamer
 {
     DECLARE_DYNAMIC_CLASS(wxGxDiscConnectionUI)
@@ -52,13 +53,9 @@ public:
 	virtual void EditProperties(wxWindow *parent);
     //IGxDropTarget
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
-    //gxObject
-    virtual bool Destroy(void);
 protected:
     bool CheckReadable(void);
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunCheckThread();
-    void DestroyCheckThread();
 protected:
 	wxIcon m_Conn16, m_Conn48;
 	wxIcon m_ConnDsbld16, m_ConnDsbld48;

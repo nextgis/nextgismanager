@@ -24,17 +24,92 @@
 #include <wx/txtstrm.h>
 
 #define READ_LINE_DELAY 50
+
 //------------------------------------------------------------------------------
 // Class wxGISProcess
 //------------------------------------------------------------------------------
 
-wxGISProcess::wxGISProcess(IGISProcessParent* pParent) : wxProcess(wxPROCESS_REDIRECT), wxThreadHelper(wxTHREAD_DETACHED) //wxTHREAD_DETACHED//wxTHREAD_JOINABLE
+wxGISThreadHelper::wxGISThreadHelper(wxThreadKind kind) : wxThreadHelper(kind) //wxTHREAD_JOINABLE
+{
+    m_bKill = false;
+}
+
+wxGISThreadHelper::~wxGISThreadHelper()
+{
+    KillThread();
+}
+
+bool wxGISThreadHelper::CreateAndRunThread(void)
+{
+    wxCriticalSectionLocker locker(m_critSection);
+    if (!m_thread)
+    {
+        if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)//wxTHREAD_JOINABLE
+        {
+            wxLogError(_("Could not create the thread!"));
+            return false;
+        }
+    }
+
+    if (!m_thread->IsRunning())
+    {
+        if (m_thread->Run() != wxTHREAD_NO_ERROR)
+        {
+            wxLogError(_("Could not run the thread!"));
+            return false;
+        }
+    }
+    return true;
+}
+
+void wxGISThreadHelper::DestroyThread(void)
+{
+    wxLogMessage(wxT("wxGISThreadHelper::DestroyThread"));
+    wxCriticalSectionLocker locker(m_critSection);
+    if (m_thread && m_thread->IsRunning())
+    {
+        m_bKill = true;
+        if (m_kind == wxTHREAD_DETACHED)
+            m_thread->Delete();//Wait();//Kill();//
+        else if (m_kind == wxTHREAD_JOINABLE)
+            m_thread->Wait();//Kill();//
+    }
+}
+
+bool wxGISThreadHelper::TestDestroy()
+{
+    wxCriticalSectionLocker locker(m_critSection);
+    if (m_bKill)
+        return true;
+    if (m_thread)
+        return m_thread->TestDestroy();
+    return false;
+}
+
+void wxGISThreadHelper::KillThread()
+{
+    wxCriticalSectionLocker locker(m_critSection);
+    if (m_thread && m_thread->IsRunning())
+    {
+        m_thread->Kill();
+
+        if (m_kind == wxTHREAD_JOINABLE)
+            delete m_thread;
+
+        m_thread = NULL;
+    }
+}
+
+//------------------------------------------------------------------------------
+// Class wxGISProcess
+//------------------------------------------------------------------------------
+
+wxGISProcess::wxGISProcess(IGISProcessParent* pParent) : wxProcess(wxPROCESS_REDIRECT), wxGISThreadHelper()
 {
     m_pParent = pParent;
     m_dtBeg = wxDateTime::Now();
     m_dtEstEnd = wxDateTime::Now();
     m_pid = 0;
-    m_bKill = false;
 }
 
 wxGISProcess::~wxGISProcess(void)
@@ -53,7 +128,7 @@ bool wxGISProcess::Start()
 	//create and start read thread stdin
 	if(IsInputOpened())
 	{
-        return CreateAndRunReadThread();
+        return CreateAndRunThread();
 	}
 
     //start err thread ?
@@ -62,7 +137,7 @@ bool wxGISProcess::Start()
 
 void wxGISProcess::OnTerminate(int pid, int status)
 {
-    DestroyReadThread();
+    DestroyThread();
     if(m_nState == enumGISTaskPaused)//process paused
     {
         m_dfDone = 0;
@@ -99,7 +174,7 @@ void wxGISProcess::Stop(void)
             {
                 m_pid = 0;
 
-                DestroyReadThread();
+                DestroyThread();
 	           //and detach
 		        Detach();
             }
@@ -177,9 +252,9 @@ wxThread::ExitCode wxGISProcess::Entry()
     //wxTextInputStream (wxInputStream &stream, const wxString &sep=" \t", const wxMBConv &conv=wxConvAuto())
     wxInputStream &InStream = *GetInputStream();
 	wxTextInputStream InputStr(InStream, wxT(" \t"), *wxConvCurrent);
-    while (!GetThread()->TestDestroy())
+    while (!TestDestroy())
     {
-        if (m_bKill || InStream.Eof())
+        if (InStream.Eof())
             break;
         if(InStream.IsOk() && InStream.CanRead())
         {
@@ -194,36 +269,5 @@ wxThread::ExitCode wxGISProcess::Entry()
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
 }
 
-bool wxGISProcess::CreateAndRunReadThread(void)
-{
-    if (!GetThread())
-    {
-        if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)//wxTHREAD_JOINABLE//wxTHREAD_DETACHED
-        {
-            wxLogError(_("Could not create the thread!"));
-            return false;
-        }
-    }
 
-    m_bKill = false;
-
-    if (!GetThread()->IsRunning())
-    {
-        if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-        {
-            wxLogError(_("Could not run the thread!"));
-            return false;
-        }
-    }
-    return true;
-}
-
-void wxGISProcess::DestroyReadThread(void)
-{
-    if (GetThread() && GetThread()->IsRunning())
-    {
-        m_bKill = true;
-        GetThread()->Delete();//Wait();//Kill();//
-    }
-}
 

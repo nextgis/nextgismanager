@@ -22,6 +22,7 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxgnm.h"
+#include "wxgis/core/process.h"
 
 #ifdef wxGIS_USE_GDAL_GNM
 
@@ -36,7 +37,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxGNMConnectivityUI :
     public wxGxGNMConnectivity,
 	public IGxObjectUI,
 	public IGxObjectEditUI,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
     DECLARE_CLASS(wxGxMLDatasetUI)
 public:
@@ -54,7 +55,6 @@ public:
 	virtual void LoadChildren(void);
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunCheckThread(void);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
     wxIcon m_LargeSubIcon, m_SmallSubIcon;

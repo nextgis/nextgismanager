@@ -25,6 +25,7 @@
 #include "wxgis/catalog/gxevent.h"
 #include "wxgis/catalogui/gxeventui.h"
 #include "wxgis/catalogui/gxapplication.h"
+#include "wxgis/core/process.h"
 
 #include "wx/listctrl.h"
 #include "wx/imaglist.h"
@@ -63,7 +64,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxContentView :
 	public wxGxView,
     public IGxContentsView,
     public IViewDropTarget,
-    public wxThreadHelper
+    public wxGISThreadHelper
 {
     DECLARE_DYNAMIC_CLASS(wxGxContentView)
 public:
@@ -129,8 +130,6 @@ protected:
     virtual void InitColumns(void);
     virtual void SelectItem(int nChar = WXK_DOWN, bool bShift = false);
     virtual wxThread::ExitCode Entry();
-    virtual bool CreateAndRunFillMetaThread(void);
-    virtual void DestroyFillMetaThread(void);
 protected:
 	bool m_bSortAsc;
 	short m_currentSortCol;

@@ -39,7 +39,7 @@
 //--------------------------------------------------------------
 IMPLEMENT_CLASS(wxGxGNMConnectivityUI, wxGxGNMConnectivity)
 
-wxGxGNMConnectivityUI::wxGxGNMConnectivityUI(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxGNMConnectivity(eType, oParent, soName, soPath), wxThreadHelper()
+wxGxGNMConnectivityUI::wxGxGNMConnectivityUI(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxGNMConnectivity(eType, oParent, soName, soPath), wxGISThreadHelper()
 {
     m_nPendUId = wxNOT_FOUND;
     m_LargeIcon = LargeIcon;
@@ -100,7 +100,7 @@ void wxGxGNMConnectivityUI::LoadChildren(void)
         m_nPendUId = pCat->AddPending(GetId());
     }
 
-    CreateAndRunCheckThread();
+    CreateAndRunThread();
 
 	m_bIsChildrenLoaded = true;
 }
@@ -135,21 +135,6 @@ wxThread::ExitCode wxGxGNMConnectivityUI::Entry()
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
 }
 
-bool wxGxGNMConnectivityUI::CreateAndRunCheckThread(void)
-{
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
-}
 
 /*
 wxGISDataset* const wxGxGNMConnectivityUI::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)

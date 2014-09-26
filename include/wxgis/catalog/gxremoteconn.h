@@ -50,7 +50,6 @@ public:
 	wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteConnection(void);
     //wxGxObject
-    virtual bool Destroy(void);
     virtual wxString GetCategory(void) const { return wxString(_("Database Connection")); };
     virtual void Refresh(void);
     //IGxRemoteConnection
@@ -104,7 +103,6 @@ public:
 	wxGxRemoteDBSchema(int nRemoteId, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxRemoteDBSchema(void);
 	//wxGxObject
-    virtual bool Destroy();
     virtual wxString GetCategory(void) const { return wxString(_("Remote Database Schema")); };
     virtual void Refresh(void);
 	//wxGxObjectContainer

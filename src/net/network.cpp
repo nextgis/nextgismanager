@@ -180,13 +180,14 @@ bool INetConnection::CreateAndRunThreads(void)
 
 void INetConnection::DestroyThreads(void)
 {
-    if (NULL != m_pInThread && m_pInThread->IsRunning())
+    wxLogMessage(wxT("INetConnection::DestroyThreads"));
+    if (NULL != m_pInThread)
     {
         m_pInThread->Delete();
         m_pInThread = NULL;
     }
 
-    if (NULL != m_pOutThread && m_pOutThread->IsRunning())
+    if (NULL != m_pOutThread)
     {
         m_pOutThread->Delete();
         m_pOutThread = NULL;
