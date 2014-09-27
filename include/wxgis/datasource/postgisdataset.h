@@ -91,7 +91,7 @@ class WXDLLIMPEXP_GIS_DS wxGISPostgresDataSource :
 {
     DECLARE_CLASS(wxGISPostgresDataSource)
 public:
-	wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort = wxT("5432"), const wxString &sAddres = wxT("localhost"), const wxString &sDBName = wxT("postgres"), const wxString &sConnectTimeout = wxT("30"), bool bIsBinaryCursor = false);
+	wxGISPostgresDataSource(const wxString &sName, const wxString &sPass, const wxString &sPort = wxT("5432"), const wxString &sAddres = wxT("localhost"), const wxString &sDBName = wxT("postgres"), const wxString &sConnectTimeout = wxT("30"), bool bIsBinaryCursor = true);
     wxGISPostgresDataSource(const CPLString &szPath);
 	virtual ~wxGISPostgresDataSource(void);
 

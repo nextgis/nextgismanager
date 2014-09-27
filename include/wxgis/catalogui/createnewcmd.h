@@ -39,6 +39,7 @@ enum wxGISEnumCatalogCreateNewCmdType{
     enumGISCatalogCreateNewCmdDBSchema,
     enumGISCatalogCreateNewCmdDBAndConnection,
 	enumGISCatalogCreateNewCmdNGWResourceGroup,
+	enumGISCatalogCreateNewCmdNGWPostGISConnection,
     enumGISCatalogCreateNewCmdMax
 };
 

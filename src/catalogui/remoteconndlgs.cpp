@@ -56,6 +56,8 @@ END_EVENT_TABLE()
 wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
     m_bIsFile = false;
+	
+	m_pConnectionNode = NULL;
 
     m_sServer = wxString(wxT("localhost"));
     m_sPort = wxString(wxT("5432"));
@@ -91,6 +93,37 @@ wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow*
     //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
 	
     CreateUI(false);
+}
+
+wxGISRemoteDBConnDlg::wxGISRemoteDBConnDlg(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
+{
+    m_bIsFile = false;
+	
+	m_sConnName = sName;
+	m_pConnectionNode = NULL;
+
+    m_sServer = sServer;
+    m_sPort = wxString(wxT("5432"));
+    m_sDatabase = sDatabase;
+    m_bIsBinaryCursor = true;
+	m_sDefaultTimeOut = wxString(wxT("30"));
+	m_sDefaultTestTimeOut = wxString(wxT("80"));
+	
+	wxGISAppConfig oConfig = GetConfig();
+    if(oConfig.IsOk())
+	{
+		m_sPort = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/port")), m_sPort);
+		m_bIsBinaryCursor = oConfig.ReadBool(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/is_binary_cursor")), m_bIsBinaryCursor);
+		m_sDefaultTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/connect_timeout")), m_sDefaultTimeOut);
+		m_sDefaultTestTimeOut = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/postgres/test_connect_timeout")), m_sDefaultTestTimeOut);
+	}
+
+	m_sUser = sUser;
+	m_sPass = sPassword;
+
+    //this->SetSizeHints( wxSize( 320,REMOTECONNDLG_MAX_HEIGHT ), wxSize( -1,REMOTECONNDLG_MAX_HEIGHT ) );
+	
+    CreateUI(true);
 }
 
 
@@ -194,37 +227,40 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
         }
         else
         {
-            if (m_pConnectionNode->HasAttribute(wxT("server")))
-                m_pConnectionNode->DeleteAttribute(wxT("server"));
-            m_pConnectionNode->AddAttribute(wxT("server"), m_sServer);
+			if(m_pConnectionNode)
+			{
+				if (m_pConnectionNode->HasAttribute(wxT("server")))
+					m_pConnectionNode->DeleteAttribute(wxT("server"));
+				m_pConnectionNode->AddAttribute(wxT("server"), m_sServer);
 
-            if (m_pConnectionNode->HasAttribute(wxT("port")))
-                m_pConnectionNode->DeleteAttribute(wxT("port"));
-            m_pConnectionNode->AddAttribute(wxT("port"), m_sPort);
+				if (m_pConnectionNode->HasAttribute(wxT("port")))
+					m_pConnectionNode->DeleteAttribute(wxT("port"));
+				m_pConnectionNode->AddAttribute(wxT("port"), m_sPort);
 
-            if (m_pConnectionNode->HasAttribute(wxT("db")))
-                m_pConnectionNode->DeleteAttribute(wxT("db"));
-            m_pConnectionNode->AddAttribute(wxT("db"), m_sDatabase);
+				if (m_pConnectionNode->HasAttribute(wxT("db")))
+					m_pConnectionNode->DeleteAttribute(wxT("db"));
+				m_pConnectionNode->AddAttribute(wxT("db"), m_sDatabase);
 
-            if (m_pConnectionNode->HasAttribute(wxT("user")))
-                m_pConnectionNode->DeleteAttribute(wxT("user"));
-            m_pConnectionNode->AddAttribute(wxT("user"), m_sUser);
+				if (m_pConnectionNode->HasAttribute(wxT("user")))
+					m_pConnectionNode->DeleteAttribute(wxT("user"));
+				m_pConnectionNode->AddAttribute(wxT("user"), m_sUser);
 
-            if (m_pConnectionNode->HasAttribute(wxT("pass")))
-                m_pConnectionNode->DeleteAttribute(wxT("pass"));
-            m_pConnectionNode->AddAttribute(wxT("pass"), sCryptPass);
+				if (m_pConnectionNode->HasAttribute(wxT("pass")))
+					m_pConnectionNode->DeleteAttribute(wxT("pass"));
+				m_pConnectionNode->AddAttribute(wxT("pass"), sCryptPass);
 
-            if (m_pConnectionNode->HasAttribute(wxT("isbincursor")))
-                m_pConnectionNode->DeleteAttribute(wxT("isbincursor"));
-            SetBoolValue(m_pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
-			
-			if (m_pConnectionNode->HasAttribute(wxT("connect_timeout")))
-                m_pConnectionNode->DeleteAttribute(wxT("connect_timeout"));
-            m_pConnectionNode->AddAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
+				if (m_pConnectionNode->HasAttribute(wxT("isbincursor")))
+					m_pConnectionNode->DeleteAttribute(wxT("isbincursor"));
+				SetBoolValue(m_pConnectionNode, wxT("isbincursor"), m_bIsBinaryCursor);
+				
+				if (m_pConnectionNode->HasAttribute(wxT("connect_timeout")))
+					m_pConnectionNode->DeleteAttribute(wxT("connect_timeout"));
+				m_pConnectionNode->AddAttribute(wxT("connect_timeout"), m_sDefaultTimeOut);
 
-            if (m_pConnectionNode->HasAttribute(wxT("type")))
-                m_pConnectionNode->DeleteAttribute(wxT("type"));
-            m_pConnectionNode->AddAttribute(wxT("type"), wxT("POSTGIS"));//store server type for future
+				if (m_pConnectionNode->HasAttribute(wxT("type")))
+					m_pConnectionNode->DeleteAttribute(wxT("type"));
+				m_pConnectionNode->AddAttribute(wxT("type"), wxT("POSTGIS"));//store server type for future
+			}
         }
 		EndModal(wxID_OK);
 	}
@@ -257,16 +293,40 @@ void wxGISRemoteDBConnDlg::OnTest(wxCommandEvent& event)
 	}
 }
 
-CPLString wxGISRemoteDBConnDlg::GetPath(void)
+CPLString wxGISRemoteDBConnDlg::GetPath(void) const
 {
 	return CPLString(wxString(m_sOutputPath + wxFileName::GetPathSeparator() + GetName()).ToUTF8());
 }
 
-wxString wxGISRemoteDBConnDlg::GetName(void)
+wxString wxGISRemoteDBConnDlg::GetName(void) const
 {
- 	if(!m_sConnName.Lower().EndsWith(wxT(".xconn")))
-		m_sConnName.Append(wxT(".xconn"));
-	return m_sConnName;
+	wxString sConnName = m_sConnName;
+	if(m_bIsFile)
+	{
+		if(!sConnName.Lower().EndsWith(wxT(".xconn")))
+			sConnName.Append(wxT(".xconn"));
+	}
+	return sConnName;
+}
+
+wxString wxGISRemoteDBConnDlg::GetUser() const
+{
+	return m_sUser;
+}
+
+wxString wxGISRemoteDBConnDlg::GetPassword() const
+{
+	return m_sPass;
+}
+
+wxString wxGISRemoteDBConnDlg::GetDatabase() const
+{
+	return m_sDatabase;
+}
+
+wxString wxGISRemoteDBConnDlg::GetHost() const
+{
+	return m_sServer;
 }
 
 void wxGISRemoteDBConnDlg::CreateUI(bool bHasConnectionPath)

@@ -24,6 +24,7 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/core/json/jsonval.h"
 #include "wxgis/catalog/contupdater.h"
+#include "wxgis/catalog/gxremoteconn.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -174,6 +175,7 @@ public:
 	//wxGxNGWResourceGroup
 	virtual wxString CheckUniqName(const wxString &sName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
+	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
@@ -233,6 +235,41 @@ protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 	virtual int GetParentResourceId() const;
+};
+
+
+/** @class wxGxNGWPostGISConnection
+
+    A NextGIS Web Service PostGIS Connection GxObject.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWPostGISConnection :
+    public wxGxNGWResource,
+	public wxGxRemoteConnection
+{
+    DECLARE_CLASS(wxGxNGWPostGISConnection)
+public:
+    wxGxNGWPostGISConnection(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
+    virtual ~wxGxNGWPostGISConnection(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const;    
+	//IGxObjectEdit
+	virtual bool Delete(void);
+    virtual bool CanDelete(void);
+	virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
+protected:
+    //create wxGISDataset without openning it
+    virtual wxGISDataset* const GetDatasetFast(void);
+	virtual int GetParentResourceId() const;
+protected:
+	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
 };
 
 #endif // wxGIS_USE_CURL

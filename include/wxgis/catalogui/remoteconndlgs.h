@@ -51,10 +51,15 @@ protected:
 	};
 public:
     wxGISRemoteDBConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	wxGISRemoteDBConnDlg(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
     wxGISRemoteDBConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("Remote Database Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISRemoteDBConnDlg();
-	virtual CPLString GetPath(void);
-	virtual wxString GetName(void);
+	virtual CPLString GetPath(void) const;
+	virtual wxString GetName(void) const;
+	virtual wxString GetUser() const;
+	virtual wxString GetPassword() const;
+	virtual wxString GetDatabase() const;
+	virtual wxString GetHost() const;
 protected:	//events
     virtual void OnTest(wxCommandEvent& event);
 	virtual void OnOK(wxCommandEvent& event);

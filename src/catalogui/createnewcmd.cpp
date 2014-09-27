@@ -52,6 +52,7 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 	{
         case enumGISCatalogCreateNewCmdDBAndConnection:
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
 			if(!m_IconCreateRemoteConn.IsOk())
 				m_IconCreateRemoteConn = wxIcon(rdb_create_xpm);
 			return m_IconCreateRemoteConn;
@@ -89,6 +90,8 @@ wxString wxGISCreateNewCmd::GetCaption(void)
             return wxString(_("Rem&ote Database"));
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:	
 			return wxString(_("NGW Resource Group"));
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
+			return wxString(_("PostGIS Connection"));
         default:
 			return wxEmptyString;
 	}
@@ -104,6 +107,7 @@ wxString wxGISCreateNewCmd::GetCategory(void)
 		case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+        case enumGISCatalogCreateNewCmdNGWPostGISConnection:
             return wxString(_("Create"));
 		default:
 			return NO_CATEGORY;
@@ -160,6 +164,7 @@ bool wxGISCreateNewCmd::GetEnabled(void)
             }
             return false;
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
             if(pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -185,6 +190,7 @@ wxGISEnumCommandKind wxGISCreateNewCmd::GetKind(void)
         case enumGISCatalogCreateNewCmdDBSchema:
         case enumGISCatalogCreateNewCmdDBAndConnection:
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -205,7 +211,9 @@ wxString wxGISCreateNewCmd::GetMessage(void)
 		case enumGISCatalogCreateNewCmdDBAndConnection:
             return wxString(_("Create new database"));
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:
-            return wxString(_("Create new resource group"));		
+            return wxString(_("Create new resource group"));	
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:			
+            return wxString(_("Create new PostGIS Connection"));
 		default:
 			return wxEmptyString;
 	}
@@ -367,6 +375,41 @@ void wxGISCreateNewCmd::OnClick(void)
             }
 #endif // wxGIS_USE_CURL		
 			break;
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
+#ifdef wxGIS_USE_CURL
+            if(pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                wxGxNGWResourceGroupUI* pGxNGWResourceGroupUI = wxDynamicCast(pGxObject, wxGxNGWResourceGroupUI);
+                if (pGxNGWResourceGroupUI)
+				{
+                    CPLString pszConnFolder = pGxObject->GetPath();
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("PostGIS connection")), "").ToUTF8());
+
+					wxGISRemoteDBConnDlg dlg(wxString::FromUTF8(pszConnName), wxT("localhost"), wxT("postgres"), wxT(""), wxT(""), dynamic_cast<wxWindow*>(m_pApp));
+					if(dlg.ShowModal() == wxID_OK)
+                    {
+                        //do the work
+						CPLErrorReset();
+						
+						wxString sName = dlg.GetName();
+						wxString sUser = dlg.GetUser();
+						wxString sPass = dlg.GetPassword();
+						wxString sHost = dlg.GetHost();
+						wxString sDB = dlg.GetDatabase();						
+						
+						if (!pGxNGWResourceGroupUI->CreatePostGISConnection(sName, sHost, sDB, sUser, sPass))
+						{						
+							wxString sErrMsg = wxString::Format(_("Create '%s' failed"), sName.c_str());
+							wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));
+							
+							return;
+						}
+					}
+                }
+            }			
+#endif // wxGIS_USE_CURL		
+			break;	
         default:
 			return;
 	}
@@ -395,6 +438,8 @@ wxString wxGISCreateNewCmd::GetTooltip(void)
 			return wxString(_("Create new database"));
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:
 			return wxString(_("Create new resource group"));
+		case enumGISCatalogCreateNewCmdNGWPostGISConnection	:
+			return wxString(_("Create new PostGIS Connection"));
         default:
 			return wxEmptyString;
 	}

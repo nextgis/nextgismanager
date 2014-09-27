@@ -23,7 +23,7 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxngwconn.h"
 #include "wxgis/catalogui/gxview.h"
-
+#include "wxgis/catalogui/gxremoteconnui.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -95,6 +95,7 @@ protected:
 	wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;
 	wxIcon m_icPGLayerLargeIcon, m_icPGLayerSmallIcon;
 	wxIcon m_icPGConnLargeIcon, m_icPGConnSmallIcon;
+	wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
 	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
 };
 
@@ -146,4 +147,41 @@ public:
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
+
+/** @class wxGxNGWPostGISConnectionUI
+
+    A NextGIS Web Service PostGIS Connection GxObjectUI.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGxNGWPostGISConnectionUI :
+    public wxGxRemoteConnectionUI,
+    public wxGxNGWResource
+{
+    DECLARE_CLASS(wxGxNGWPostGISConnectionUI)
+public:
+    wxGxNGWPostGISConnectionUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIconConn = wxNullIcon, const wxIcon &SmallIconConn = wxNullIcon, const wxIcon &LargeIconDisconn = wxNullIcon, const wxIcon &SmallIconDisconn = wxNullIcon);
+    virtual ~wxGxNGWPostGISConnectionUI(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const;    
+	//IGxObjectEdit
+	virtual bool Delete(void);
+    virtual bool CanDelete(void);
+	virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
+	//IGxObjectEditUI
+	virtual void EditProperties(wxWindow *parent);
+protected:
+    //create wxGISDataset without openning it
+    virtual wxGISDataset* const GetDatasetFast(void);
+	virtual int GetParentResourceId() const;
+protected:
+	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
+};
+
 #endif // wxGIS_USE_CURL

@@ -35,7 +35,7 @@ wxGISSpatialTree* CreateSpatialTree(wxGISFeatureDataset *pDS)
     wxGISSpatialTree* pSpatialTree(NULL);
 #if defined USE_R_STAR_TREE
     pSpatialTree = new wxGISRTree(pDS, 64, 32);
-#else ifdefined USE_QUAD_TREE
+#elif defined USE_QUAD_TREE
     pSpatialTree = new wxGISQuadTree(pDS);
 #endif
 

@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="web_conn_s.svg"
-   inkscape:export-filename="D:\work\projects\art\png\ngw_conn_16.png"
-   inkscape:export-xdpi="30"
-   inkscape:export-ydpi="30"
+   inkscape:export-filename="/home/bishop/tmp/ngw_conn_guest_48.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.1">
   <defs
@@ -1568,7 +1568,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
         <dc:date />
         <dc:creator>
           <cc:Agent>

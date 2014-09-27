@@ -404,36 +404,6 @@ void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 }
 
 /*
-PUT /resource/7/child/8 HTTP/1.1
-Host: bishop.gis.to
-User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
-Accept: application/json
-Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Content-Type: application/json; charset=UTF-8
-X-Requested-With: XMLHttpRequest
-Referer: http://bishop.gis.to/resource/8/update
-Content-Length: 109
-Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
-Connection: keep-alive
-
-{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":7},"permissions":[],"description":"rrr5"}}
-
-//change parent
-PUT /resource/7/child/8 HTTP/1.1
-Host: bishop.gis.to
-User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
-Accept: application/json
-Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Content-Type: application/json; charset=UTF-8
-X-Requested-With: XMLHttpRequest
-Referer: http://bishop.gis.to/resource/8/update
-Content-Length: 109
-Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
-Connection: keep-alive
-
-{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":0},"permissions":[],"description":"rrr5"}}
 
 forbidden err
 PUT /resource/0/child/8 HTTP/1.1
@@ -534,6 +504,10 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
     case enumNGWResourceTypeVectorLayer:
         if(m_bHasGeoJSON)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
+        break;
+	case enumNGWResourceTypePostgisConnection:	
+	if(m_bHasGeoJSON)
+			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnection(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
     }
 	
@@ -748,11 +722,7 @@ bool wxGxNGWResourceGroup::CreateResource(const wxString &sName, wxGISEnumNGWRes
 	switch(eType)
 	{
 		case enumNGWResourceTypeResourceGroup:
-			if( CreateResourceGroup(sName) )
-			{
-				OnGetUpdates();
-				return true;
-			}
+			return CreateResourceGroup(sName);
 		default:
 			break;	
 	}
@@ -773,7 +743,34 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
-		return true;
+	{
+		OnGetUpdates();
+		return true;		
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;	
+}
+
+bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+	
+	// {"resource":{"cls":"postgis_connection","parent":{"id":0},"display_name":"gis lab info","keyname":"gis-lab","description":"gis-lab PostGIS Connection"},"postgis_connection":{"hostname":"gis-lab.info","database":"rosavto","username":"bishop","password":"e-054808"}}
+	
+    wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_connection\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_connection\":{\"hostname\":\"%s\",\"database\":\"%s\",\"username\":\"%s\",\"password\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8(), sServer.ToUTF8(), sDatabase.ToUTF8(), sUser.ToUTF8(), sPassword.ToUTF8());
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		OnGetUpdates();
+		return true;		
+	}
 		
 	ReportError(res.nHTTPCode, res.sBody);	
 		
@@ -833,6 +830,117 @@ int wxGxNGWLayer::GetParentResourceId() const
 	if(NULL == pParentResource)
 		return wxNOT_FOUND;
 	return pParentResource->GetRemoteId();
+}
+
+
+//--------------------------------------------------------------
+// wxGxNGWPostGISConnection
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWPostGISConnection, wxGxRemoteConnection)
+
+wxGxNGWPostGISConnection::wxGxNGWPostGISConnection(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxRemoteConnection(oParent, soName, soPath), wxGxNGWResource(Data)
+{
+    m_eResourceType = enumNGWResourceTypePostgisConnection;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
+	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+	
+	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
+	m_sUser =  JSONConn[wxT("username")].AsString();
+	m_sPass =  JSONConn[wxT("password")].AsString();
+	m_sDatabase =  JSONConn[wxT("database")].AsString();
+	m_sHost =  JSONConn[wxT("hostname")].AsString();
+}
+
+wxGxNGWPostGISConnection::~wxGxNGWPostGISConnection()
+{
+
+}
+
+wxString wxGxNGWPostGISConnection::GetCategory(void) const
+{ 
+	return wxString(_("NGW PostGIS Connection")); 
+}
+
+wxGISDataset* const wxGxNGWPostGISConnection::GetDatasetFast(void)
+{
+ 	if(m_pwxGISDataset == NULL)
+    {
+        wxGISPostgresDataSource* pDSet = new wxGISPostgresDataSource(m_sUser, m_sPass, wxT("5432"), m_sHost, m_sDatabase);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);
+}
+
+int wxGxNGWPostGISConnection::GetParentResourceId() const
+{
+	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
+	if(NULL == pParentResource)
+		return wxNOT_FOUND;
+	return pParentResource->GetRemoteId();
+}
+
+
+bool wxGxNGWPostGISConnection::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWPostGISConnection::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWPostGISConnection::Delete(void)
+{
+    if( DeleteResource() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWPostGISConnection::Rename(const wxString &sNewName)
+{
+    if( RenameResource(sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWPostGISConnection::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnection::CanCopy(const CPLString &szDestPath)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnection::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnection::CanMove(const CPLString &szDestPath)
+{
+    return false;
 }
 
 #endif // wxGIS_USE_CURL

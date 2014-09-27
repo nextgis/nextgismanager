@@ -193,7 +193,7 @@ wxGISDataset* wxGISTable::GetSubset(size_t nIndex)
         if(poLayer)
         {
 			CPLString szPath;
-			szPath.Printf("%s#%ud", m_sPath.c_str(), nIndex);
+			szPath.Printf("%s#%lu", m_sPath.c_str(), nIndex);
 			wxGISTable* pDataSet = new wxGISTable(szPath, m_nSubType, poLayer, m_poDS);
             pDataSet->SetEncoding(m_Encoding);
             return static_cast<wxGISDataset*>(pDataSet);

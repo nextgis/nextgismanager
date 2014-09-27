@@ -36,6 +36,8 @@
 #include "../../art/ngw_layer_48.xpm"
 #include "../../art/rdb_conn_16.xpm"
 #include "../../art/rdb_conn_48.xpm"
+#include "../../art/rdb_disconn_16.xpm"
+#include "../../art/rdb_disconn_48.xpm"
 #include "../../art/properties.xpm"
 
 //propertypages
@@ -229,6 +231,12 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
  		if(!m_icPGConnSmallIcon.IsOk())
 			m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
+		if(!m_icPGDisConnLargeIcon.IsOk())
+			m_icPGDisConnLargeIcon = wxIcon(rdb_disconn_48_xpm);
+ 		if(!m_icPGDisConnSmallIcon.IsOk())
+			m_icPGDisConnSmallIcon = wxIcon(rdb_disconn_16_xpm);
+		if(m_bHasGeoJSON)
+			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnectionUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icPGConnLargeIcon, m_icPGConnSmallIcon, m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon), wxGxObject);
 		break;
 	case enumNGWResourceTypeWMSServerService:
 		break;
@@ -245,7 +253,6 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
         if(m_bHasGeoJSON)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
-
 		break;
     }
 	
@@ -362,6 +369,133 @@ void wxGxNGWLayerUI::EditProperties(wxWindow *parent)
 		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
         wsDELETE(pDset);
 	}
+
+    //PropertySheetDialog.LayoutDialog();
+    PropertySheetDialog.SetSize(480,640);
+    PropertySheetDialog.Center();
+
+    PropertySheetDialog.ShowModal();
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWPostGISConnectionUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWPostGISConnectionUI, wxGxRemoteConnectionUI)
+
+wxGxNGWPostGISConnectionUI::wxGxNGWPostGISConnectionUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnectionUI(oParent, soName, soPath, LargeIconConn, SmallIconConn, LargeIconDisconn, SmallIconDisconn), wxGxNGWResource(Data)
+{
+    m_eResourceType = enumNGWResourceTypePostgisConnection;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
+	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+	
+	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
+	m_sUser =  JSONConn[wxT("username")].AsString();
+	m_sPass =  JSONConn[wxT("password")].AsString();
+	m_sDatabase =  JSONConn[wxT("database")].AsString();
+	m_sHost =  JSONConn[wxT("hostname")].AsString();
+}
+
+wxGxNGWPostGISConnectionUI::~wxGxNGWPostGISConnectionUI(void)
+{
+}
+
+wxString wxGxNGWPostGISConnectionUI::GetCategory(void) const
+{ 
+	return wxString(_("NGW PostGIS Connection")); 
+}
+
+wxGISDataset* const wxGxNGWPostGISConnectionUI::GetDatasetFast(void)
+{
+ 	if(m_pwxGISDataset == NULL)
+    {
+        wxGISPostgresDataSource* pDSet = new wxGISPostgresDataSource(m_sUser, m_sPass, wxT("5432"), m_sHost, m_sDatabase);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);
+}
+
+int wxGxNGWPostGISConnectionUI::GetParentResourceId() const
+{
+	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
+	if(NULL == pParentResource)
+		return wxNOT_FOUND;
+	return pParentResource->GetRemoteId();
+}
+
+
+bool wxGxNGWPostGISConnectionUI::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWPostGISConnectionUI::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWPostGISConnectionUI::Delete(void)
+{
+    if( DeleteResource() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWPostGISConnectionUI::Rename(const wxString &sNewName)
+{
+    if( RenameResource(sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWPostGISConnectionUI::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnectionUI::CanCopy(const CPLString &szDestPath)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnectionUI::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWPostGISConnectionUI::CanMove(const CPLString &szDestPath)
+{
+    return false;
+}
+
+void wxGxNGWPostGISConnectionUI::EditProperties(wxWindow *parent)
+{
+    wxPropertySheetDialog PropertySheetDialog;
+    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
+        return;
+    PropertySheetDialog.SetIcon(properties_xpm);
+    PropertySheetDialog.CreateButtons(wxOK);
+    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	
+	//TODO: add NGW property page
 
     //PropertySheetDialog.LayoutDialog();
     PropertySheetDialog.SetSize(480,640);
