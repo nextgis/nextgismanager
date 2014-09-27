@@ -316,8 +316,10 @@ void wxGISTable::Close(void)
 	    {
 		    if(m_nSubType == enumTableQueryResult && m_poLayer)
 			    m_poDS->ReleaseResultSet(m_poLayer);
-		    if( m_poDS->Dereference() <= 0)
-			    OGRCompatibleClose( m_poDS );
+            if (m_poDS->Dereference() <= 0)
+            {
+                OGRCompatibleClose(m_poDS);
+            }
 	        m_poDS = NULL;
 	    }
 

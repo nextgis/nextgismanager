@@ -64,7 +64,6 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
 
 void wxGISThreadHelper::DestroyThread(void)
 {
-    wxLogMessage(wxT("wxGISThreadHelper::DestroyThread"));
     wxCriticalSectionLocker locker(m_critSection);
     if (m_thread && m_thread->IsRunning())
     {
