@@ -3,7 +3,7 @@
  * Purpose:  wxGISApplicationBase class. Base application functionality (commands, menues, etc.)
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012 Dmitry Baryshnikov
+*   Copyright (C) 2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -118,9 +118,9 @@ protected:
     WINDOWARRAY m_anWindowsIDs;
 };
 
-/** @fn 
+/** @fn wxGISErrorMessageBox(const wxString& sAppErr, const wxString &sLibError, const wxString &sLibErrorPrepend)
  * 
- * Show error dialog to user
+ * Show error dialog to user 
  * 
  * @library{framework}
  */

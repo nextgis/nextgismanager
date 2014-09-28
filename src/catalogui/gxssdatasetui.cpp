@@ -133,13 +133,9 @@ wxGISDataset* const wxGxSpreadsheetDatasetUI::GetDataset(bool bCache, ITrackCanc
     {
         if (!pwxGISTable->Open(0, true, true, bCache, pTrackCancel))
         {
-		    const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            if (pTrackCancel)
-            {
-				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-            }
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			
             wsDELETE(pwxGISTable);
 			return NULL;
         }

@@ -62,3 +62,20 @@ WXDLLIMPEXP_GIS_CORE IApplication* const GetApplication();
  */
 WXDLLIMPEXP_GIS_CORE void SetApplication(IApplication* pApp);
 
+/** @fn wxGISLogError(const wxString& sAppErr, const wxString &sLibError, const wxString &sLibErrorPrepend, ITrackCancel* const pTrackCancel)
+  *
+  * Format error message, log it and add it to TrackCancel
+  * 
+  * @library{framework}
+  */
+
+void WXDLLIMPEXP_GIS_FRW wxGISLogError(const wxString& sAppErr, const wxString &sLibError = wxEmptyString, const wxString &sLibErrorPrepend = wxEmptyString, ITrackCancel* const pTrackCancel = NULL);
+
+/** @fn wxGISLogMessage(const wxString& sAppMsg, ITrackCancel* const pTrackCancel = NULL)
+  *
+  * Log message and add it to TrackCancel
+  * 
+  * @library{framework}
+  */
+
+void WXDLLIMPEXP_GIS_FRW wxGISLogMessage(const wxString& sAppMsg, ITrackCancel* const pTrackCancel = NULL);

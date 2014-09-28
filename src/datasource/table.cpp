@@ -22,6 +22,7 @@
 #include "wxgis/datasource/table.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/config.h"
+#include "wxgis/core/app.h"
 
 #include <wx/uri.h>
 
@@ -133,14 +134,13 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
 
 		if( m_poDS == NULL )
 		{
-			const char* err = CPLGetLastErrorMsg();
-            wxString sEncodedPath = wxString(m_sPath, wxConvUTF8);
-            wxURI oURLtoUnscape(sEncodedPath);
-            sEncodedPath = oURLtoUnscape.BuildUnescapedURI();
-			wxString sErr = wxString::Format(_("Table open failed! Path '%s'. OGR error: %s"), sEncodedPath.c_str(), wxString(err, wxConvUTF8).c_str());
-			wxLogError(sErr);
-			if(pTrackCancel)
-				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+			wxString sEncodedPath = wxString(m_sPath, wxConvUTF8);
+			wxURI oURLtoUnscape(sEncodedPath);
+			sEncodedPath = oURLtoUnscape.BuildUnescapedURI();
+
+			wxString sErr = wxString::Format(_("Table open failed! Path '%s'"), sEncodedPath.c_str());
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+	
 			return false;
 		}
 

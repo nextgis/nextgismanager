@@ -38,3 +38,41 @@ extern WXDLLIMPEXP_GIS_CORE void SetApplication(IApplication* pApp)
 }
 
 
+void wxGISLogError(const wxString& sAppErr, const wxString &sLibError, const wxString &sLibErrorPrepend, ITrackCancel* const pTrackCancel)
+{
+	if(NULL == pTrackCancel)
+	{
+		wxLogError(sAppErr + wxT(" -- ") + sLibError);	
+		return;
+	}
+		
+	wxString sErrMsg = sAppErr;
+	if(!sLibError.IsEmpty())
+	{
+		if(!sLibErrorPrepend.IsEmpty())
+		{
+			sErrMsg.Append(wxT("\n") + sLibErrorPrepend);
+		}
+		else
+		{
+			sErrMsg.Append(wxT("\n"));
+		}
+		sErrMsg.Append(sLibError);
+	}	
+	
+	wxLogError(sErrMsg);
+	pTrackCancel->PutMessage(sErrMsg, wxNOT_FOUND, enumGISMessageErr);
+}
+
+void wxGISLogMessage(const wxString& sAppMsg, ITrackCancel* const pTrackCancel)
+{
+	if(NULL == pTrackCancel)
+	{
+		wxLogMessage(sAppMsg);	
+		return;
+	}
+		
+	wxLogMessage(sAppMsg);	
+	pTrackCancel->PutMessage(sAppMsg, wxNOT_FOUND, enumGISMessageInfo);
+}
+

@@ -3,7 +3,7 @@
  * Purpose:  Remote Connection classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/crypt.h"
+#include "wxgis/core/app.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -72,8 +73,9 @@ bool wxGxRemoteConnection::Delete(void)
 
     if( !bRet )
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
 		return false;
     }
     return true;

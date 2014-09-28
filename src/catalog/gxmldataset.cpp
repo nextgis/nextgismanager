@@ -3,7 +3,7 @@
  * Purpose:  Markup language Dataset classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/gxcatalog.h"
+#include "wxgis/core/app.h"
 
 //--------------------------------------------------------------
 // class wxGxMLDataset
@@ -107,11 +108,8 @@ wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const p
         if (!pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
         {
             wsDELETE(pwxGISFeatureDataset);
-		    const char* err = CPLGetLastErrorMsg();
-			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-            wxLogError(sErr);
-			if(pTrackCancel)
-				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));   
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);	
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);

@@ -3,7 +3,7 @@
  * Purpose:  wxGxArchive classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2009,2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "wxgis/catalog/gxarchfolder.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/core/app.h"
 
 #include "cpl_vsi_virtual.h"
 
@@ -65,8 +66,9 @@ bool wxGxArchive::Delete(void)
 	}
 	else
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         return false;
     }
     return false;
@@ -94,8 +96,9 @@ bool wxGxArchive::Rename(const wxString &sNewName)
 	}
 	else
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Rename"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s' - '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath), wxString::FromUTF8(szNewPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
 		return false;
     }
 	return false;

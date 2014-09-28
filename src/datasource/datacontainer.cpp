@@ -22,6 +22,7 @@
 
 #include "wxgis/datasource/datacontainer.h"
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/core/app.h"
 
 //-----------------------------------------------------------------------------
 // wxGISDataSource
@@ -149,8 +150,7 @@ bool wxGISDataSource::Open(bool bUpdate, bool bShared)
     m_poDS = (OGRDataSource*) wxGISDataset::OpenInternal(m_sPath, bUpdate, bShared);
     if (m_poDS == NULL)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Connect failed! GDAL error: %s"), wxString(err, wxConvUTF8).c_str());
+		wxGISLogError(_("Connect failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         return false;
     }
 

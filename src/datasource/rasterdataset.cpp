@@ -3,7 +3,7 @@
  * Purpose:  RasterDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/datasource/rasterop.h"
 #include "wxgis/core/config.h"
+#include "wxgis/core/app.h"
 
 #include <wx/filename.h>
 #include <wx/tokenzr.h>
@@ -267,10 +268,8 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
 
 	if( m_poDataset == NULL )
     {
-		const char* err = CPLGetLastErrorMsg();
-		wxString sErr = wxString::Format(_("Raster open failed! Path '%s'. GDAL error: %s"), m_sPath.c_str(), wxString(err, wxConvUTF8).c_str());
-		wxLogError(sErr);
-
+		wxString sErr = wxString::Format(_("Raster open failed! Path '%s'"), m_sPath.c_str());
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
 		return false;
     }
 

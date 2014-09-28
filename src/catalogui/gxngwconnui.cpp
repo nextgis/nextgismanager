@@ -303,7 +303,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 			{
 				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
-		//		ProgressDlg.SetTitle(sMessage);
+				//ProgressDlg.SetTitle(sMessage);
 				ProgressDlg.PutMessage(sMessage);
 				if(!ProgressDlg.Continue())
 					break;
@@ -313,10 +313,9 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				if(!bRes)
 				{
 					bHasError = true;
-					const char* err = CPLGetLastErrorMsg();
-					wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), GetCategory().c_str(), wxString::FromUTF8(err), wxString::FromUTF8(m_sPath));
-					wxLogError(sErr);
-					ProgressDlg.PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+					wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));  
+					sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+					wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, &ProgressDlg);
 				}
 				else
 				{
@@ -349,6 +348,20 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		else
 		{
 			// copy from local or remote NGW
+			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			{
+				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+				ProgressDlg.PutMessage(sMessage);
+				if(!ProgressDlg.Continue())
+					break;
+			}
+			
+			//notify this on updates
+			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);
+			if(pNotify)
+			{
+				pNotify->OnGetUpdates();
+			}
 		}
 	}
 	else

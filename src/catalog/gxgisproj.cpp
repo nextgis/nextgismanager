@@ -21,6 +21,7 @@
 #include "wxgis/catalog/gxgisproj.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/core/app.h"
 
 //---------------------------------------------------------------------------
 // wxGxQGISProjFile
@@ -173,8 +174,9 @@ bool wxGxQGISProjFile::Delete(void)
 	}
 	else
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         return false;
     }
 	return false;
@@ -201,8 +203,9 @@ bool wxGxQGISProjFile::Rename(const wxString &sNewName)
 	}
 	else
     {
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Rename"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s' - '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath), wxString::FromUTF8(szNewPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
 		return false;
     }
 	return false;
@@ -236,11 +239,9 @@ bool wxGxQGISProjFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTr
     bool bRet = CopyFile(m_sPath, szFullDestPath, pTrackCancel);
     if(!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
-		wxLogError(sErr);
-        if(pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));		  
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
 		return false;	
     } 
 
@@ -263,11 +264,9 @@ bool wxGxQGISProjFile::Move(const CPLString &szDestPath, ITrackCancel* const pTr
     bool bRet = MoveFile(m_sPath, szFullDestPath, pTrackCancel);
     if(!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
-		wxLogError(sErr);
-        if(pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));   
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
 		return false;	
     } 
 

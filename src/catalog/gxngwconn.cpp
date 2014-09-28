@@ -25,6 +25,7 @@
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
 #include "wxgis/core/crypt.h"
+#include "wxgis/core/app.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -74,8 +75,9 @@ bool wxGxNGWService::Delete(void)
 
     if (!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Delete"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);	
         return false;
     }
     return true;
@@ -91,8 +93,9 @@ bool wxGxNGWService::Rename(const wxString &sNewName)
 
     if (!RenameFile(m_sPath, szNewPath))
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Rename"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Rename"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s' - '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath), wxString::FromUTF8(szNewPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);	
         return false;
     }
     else
@@ -112,11 +115,9 @@ bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrac
 
     if (!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), wxString::FromUTF8(err).c_str(), GetCategory().c_str(), wxString::FromUTF8(m_sPath).c_str());
-        wxLogError(sErr);
-        if (pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);	
         return false;
     }
 
@@ -130,11 +131,9 @@ bool wxGxNGWService::Move(const CPLString &szDestPath, ITrackCancel* const pTrac
 
     if (!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString::FromUTF8(err).c_str(), wxString::FromUTF8(m_sPath).c_str());
-        wxLogError(sErr);
-        if (pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));   
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);	
         return false;
     }
 
@@ -443,7 +442,7 @@ void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 		sErr = JSONRoot[wxT("message")].AsString();
 	}
 	
-	wxString sFullError = sErr + wxT("(") + sErrCode + wxT(")");
+	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
 	CPLError(CE_Failure, CPLE_AppDefined, sFullError.ToUTF8());
 }
 

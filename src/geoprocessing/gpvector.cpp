@@ -3,7 +3,7 @@
  * Purpose:  main dataset functions.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011 Dmitry Baryshnikov
+*   Copyright (C) 2009,2011,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "wxgis/geoprocessing/gpvector.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/catalog/catop.h"
+#include "wxgis/core/app.h"
 
 #include "wxgisdefs.h"
 
@@ -166,14 +167,8 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
         OGRErr eErr = pDstDataSet->StoreFeature(newFeature);
         if (eErr != OGRERR_NONE)
         {
-            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
-            CPLString sFullErr(sErr.ToUTF8());
-            sFullErr += CPLGetLastErrorMsg();
-            CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
-            if (pTrackCancel)
-            {
-                pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-            }
+            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld"), Feature.GetFID());
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
 
         if (pProgressor)
@@ -444,14 +439,8 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
         OGRErr eErr = pDstDataSet->StoreFeature(newFeature);
         if(eErr != OGRERR_NONE)
         {
-            wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld\nOGR error: "), Feature.GetFID());
-            CPLString sFullErr(sErr.ToUTF8());
-            sFullErr += CPLGetLastErrorMsg();
-            CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
-            if (pTrackCancel)
-            {
-                pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-            }
+			wxString sErr = wxString::Format(_("Error create feature!\nSource feature FID:%ld"), Feature.GetFID());
+            wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
 
         if (pProgressor)
@@ -497,14 +486,8 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     wxGISTable* pDstDataSet = wxDynamicCast(CreateDataset(sPath, sName, pFilter, poFields, wxNullSpatialReference, papszDataSourceOptions, papszLayerOptions, pTrackCancel), wxGISTable);
     if (NULL == pDstDataSet)
     {
-        wxString sErr(_("Error creating new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr(_("Error creating new dataset!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -514,14 +497,8 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     //copy data
     if (!CopyRows(pSrsDataSet, pDstDataSet, pTrackCancel))
     {
-        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.mb_str(wxConvUTF8));
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError(CE_Failure, CPLE_FileIO, sFullErr);
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr(_("Error copying data to a new dataset!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
 
         //remove filter
         pSrsDataSet->SetFilter();
@@ -541,14 +518,8 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     {
         pDstDataSet->Close();
 
-        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError(CE_Failure, CPLE_FileIO, sFullErr);
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+		wxString sErr(_("Error copying data to a new dataset!"));
+        wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -604,14 +575,8 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     wxGISFeatureDataset* pDstDataSet = wxDynamicCast(CreateDataset(sPath, sName, pFilter, poFields, oSpatialRef, papszDataSourceOptions, papszLayerOptions, pTrackCancel), wxGISFeatureDataset);
     if (NULL == pDstDataSet)
     {
-        wxString sErr(_("Error creating new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_AppDefined, sFullErr);
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+		wxString sErr(_("Error creating new dataset!"));
+        wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -621,14 +586,9 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     //copy data
     if (!CopyRows(pSrsDataSet, pDstDataSet, eFilterGeomType, bToMulti, pTrackCancel))
     {
-        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_FileIO, sFullErr );
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr(_("Error copying data to a new dataset!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+        
 
         //remove filter
         pSrsDataSet->SetFilter();
@@ -646,14 +606,8 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     {
         pDstDataSet->Close();
 
-        wxString sErr(_("Error copying data to a new dataset!\nOGR error: "));
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_FileIO, sFullErr );
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr(_("Error copying data to a new dataset!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -1684,14 +1638,8 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     OGRCompatibleDriver *poDriver = GetOGRCompatibleDriverByName( pFilter->GetDriver().mb_str() );
     if(poDriver == NULL)
     {
-        wxString sErr = wxString::Format(_("The driver '%s' is not available!\nGDAL error: "), pFilter->GetDriver().c_str());
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_FileIO, sFullErr );
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr = wxString::Format(_("The driver '%s' is not available!"), pFilter->GetDriver().c_str());
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return NULL;
     }
 
@@ -1705,14 +1653,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         wxGISPostgresDataSource* pDataSource = new wxGISPostgresDataSource(sDSPath);
         if (!pDataSource->Open())
         {
-            wxString sErr(_("Datasource open failed! OGR error: "));
-            CPLString sFullErr(sErr.mb_str(wxConvUTF8));
-            sFullErr += CPLGetLastErrorMsg();
-            CPLError(CE_Failure, CPLE_FileIO, sFullErr);
-            if (pTrackCancel)
-            {
-                pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-            }
+            wxString sErr(_("Datasource open failed!"));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+
             return NULL;
         }
         //get dataset from path
@@ -1739,14 +1682,8 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 
     if(poDS == NULL)
     {
-        wxString sErr = wxString::Format(_("Error create the output file '%s'! GDAL error: "), wxString(sPath, wxConvUTF8).c_str());
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr = wxString::Format(_("Error create the output file '%s'!"), wxString::FromUTF8(sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return NULL;
     }
 
@@ -1812,14 +1749,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     OGRLayer *poLayerDest = poDS->CreateLayer(szName, oSpatialRef, poFields->GetGeomType(), papszLayerOptions);
     if(poLayerDest == NULL)
     {
-        wxString sErr = wxString::Format(_("Error create the output layer '%s'! OGR error: "), sNewName.c_str());
-        CPLString sFullErr(sErr.ToUTF8());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
-        }
+        wxString sErr = wxString::Format(_("Error create the output layer '%s'!"), sNewName.c_str());
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+        
         return NULL;
     }
 
@@ -1869,14 +1801,8 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 
                 if (poLayerDest->CreateField(&oFieldDefn) != OGRERR_NONE)
                 {
-                    wxString sErr = wxString::Format(_("Error create the output layer '%s'! OGR error: "), sNewName.c_str());
-                    CPLString sFullErr(sErr.ToUTF8());
-                    sFullErr += CPLGetLastErrorMsg();
-                    CPLError(CE_Failure, CPLE_AppDefined, sFullErr);
-                    if (pTrackCancel)
-                    {
-                        pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
-                    }
+                    wxString sErr = wxString::Format(_("Error create the output layer '%s'!"), sNewName.c_str());
+					wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
                     return NULL;
                 }
             }
@@ -1914,12 +1840,8 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 
 	        if( poLayerDest->CreateField( pField ) != OGRERR_NONE )
 	        {
-                wxString sErr = wxString::Format(_("Error create the output layer '%s'! OGR error: "), sNewName.c_str());
-                CPLString sFullErr(sErr.ToUTF8());
-                sFullErr += CPLGetLastErrorMsg();
-                CPLError( CE_Failure, CPLE_AppDefined, sFullErr );
-                if(pTrackCancel)
-                    pTrackCancel->PutMessage(wxString(sFullErr, wxConvUTF8), wxNOT_FOUND, enumGISMessageErr);
+                wxString sErr = wxString::Format(_("Error create the output layer '%s'!"), sNewName.c_str());
+				wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
                 return NULL;
             }
         }

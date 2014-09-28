@@ -3,7 +3,7 @@
  * Purpose:  system operations.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/config.h"
+#include "wxgis/core/app.h"
 
 #include <wx/filename.h>
 #include <wx/fontmap.h>
@@ -34,18 +35,15 @@ bool DeleteDir(const CPLString &sPath, ITrackCancel* const pTrackCancel)
     {
         if(pTrackCancel)
         {
-            const char* szErr = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Delete folder failed! GDAL error: %s, folder '%s'"), wxString(szErr, wxConvUTF8).c_str(), wxString(sPath, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            wxString sErr = wxString::Format(_("Delete folder failed! Folder '%s'"), wxString::FromUTF8(sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
         return false;
     }
     if(pTrackCancel)
     {
-        wxString sErr = wxString::Format(_("Delete folder succeeded! Folder '%s'"), wxString(sPath, wxConvUTF8).c_str());
-        wxLogVerbose(sErr);
-        pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageInfo);
+        wxString sMsg = wxString::Format(_("Delete folder succeeded! Folder '%s'"), wxString::FromUTF8(sPath));
+        wxGISLogMessage(sMsg, pTrackCancel);
     }
     return true;
 }
@@ -56,18 +54,15 @@ bool CreateDir(const CPLString &sPath, long mode, ITrackCancel* const pTrackCanc
     {
         if(pTrackCancel)
         {
-            const char* szErr = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Create folder failed! GDAL error: %s, folder '%s'"), wxString(szErr, wxConvUTF8).c_str(), wxString(sPath, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            wxString sErr = wxString::Format(_("Create folder failed! Folder '%s'"), wxString::FromUTF8(sPath));			
+            wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
         return false;
     }
     if(pTrackCancel)
     {
-        wxString sErr = wxString::Format(_("Create folder succeeded! Folder '%s'"), wxString(sPath, wxConvUTF8).c_str());
-        wxLogVerbose(sErr);
-        pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageInfo);
+        wxString sMsg = wxString::Format(_("Create folder succeeded! Folder '%s'"), wxString::FromUTF8(sPath));
+		wxGISLogMessage(sMsg, pTrackCancel);
     }
     return true;
 }
@@ -151,18 +146,15 @@ bool DeleteFile(const CPLString &sPath, ITrackCancel* const pTrackCancel)
     {
         if(pTrackCancel)
         {
-            const char* szErr = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Delete file failed! GDAL error: %s, file '%s'"), wxString(szErr, wxConvUTF8).c_str(), wxString(sPath, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            wxString sErr = wxString::Format(_("Delete file failed! File '%s'"), wxString::FromUTF8(sPath));
+            wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
         return false;
     }
     if(pTrackCancel)
     {
-        wxString sErr = wxString::Format(_("Delete file succeeded! File '%s'"), wxString(sPath, wxConvUTF8).c_str());
-        wxLogVerbose(sErr);
-        pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageInfo);
+        wxString sMsg = wxString::Format(_("Delete file succeeded! File '%s'"), wxString::FromUTF8(sPath));
+		wxGISLogMessage(sMsg, pTrackCancel);
     }
     return true;
 }
@@ -174,18 +166,15 @@ bool RenameFile(const CPLString &sOldPath, const CPLString &sNewPath, ITrackCanc
     {
         if(pTrackCancel)
         {
-            const char* szErr = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Rename file failed! GDAL error: %s, old path '%s', new path '%s'"), wxString(szErr, wxConvUTF8).c_str(), wxString(sOldPath, wxConvUTF8).c_str(), wxString(sNewPath, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            wxString sErr = wxString::Format(_("Rename file failed! Old path '%s', new path '%s'"), wxString::FromUTF8(sOldPath), wxString::FromUTF8(sNewPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         }
         return false;
     }
     if(pTrackCancel)
     {
-        wxString sErr = wxString::Format(_("Rename file succeeded! Old path '%s', new path '%s'"), wxString(sOldPath, wxConvUTF8).c_str(), wxString(sNewPath, wxConvUTF8).c_str());
-        wxLogVerbose(sErr);
-        pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageInfo);
+        wxString sMsg = wxString::Format(_("Rename file succeeded! Old path '%s', new path '%s'"), wxString::FromUTF8(sOldPath), wxString::FromUTF8(sNewPath));
+        wxGISLogMessage(sMsg, pTrackCancel);
     }
     return true;
 }
@@ -497,12 +486,8 @@ bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCance
     fpOld = VSIFOpenL( sSrcPath, "rb" );
     if( fpOld == NULL )
     {
-        wxString sErr(_("Error open input file! OGR error: "));
-        CPLString sFullErr(sErr.mb_str());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_FileIO, "%s", (const char *)sFullErr);
-        if(pTrackCancel)
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvLocal), -1, enumGISMessageErr);
+        wxString sErr(_("Error open input file!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -511,12 +496,8 @@ bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCance
     {
         VSIFCloseL( fpOld );
 
-        wxString sErr(_("Error create the output file '%s'! OGR error: "));
-        CPLString sFullErr(sErr.mb_str());
-        sFullErr += CPLGetLastErrorMsg();
-        CPLError( CE_Failure, CPLE_FileIO, "%s", (const char *)sFullErr);
-        if(pTrackCancel)
-            pTrackCancel->PutMessage(wxString(sFullErr, wxConvLocal), -1, enumGISMessageErr);
+        wxString sErr(_("Error create the output file '%s'!"));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 

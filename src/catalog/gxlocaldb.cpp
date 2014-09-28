@@ -23,6 +23,7 @@
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/datasource/datacontainer.h"
+#include "wxgis/core/app.h"
 
 //---------------------------------------------------------------------------
 // wxGxFolder
@@ -163,11 +164,8 @@ wxGISDataset* const wxGxOpenFileGDB::GetDataset(bool bCached, ITrackCancel* cons
         if (!pwxGISDataSource->Open(true))
         {
             wsDELETE(pwxGISDataSource);
-            const char* err = CPLGetLastErrorMsg();
-            wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
-            wxLogError(sErr);
-            if (pTrackCancel)
-                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));            
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
@@ -215,8 +213,9 @@ bool wxGxOpenFileGDB::Delete(void)
     }
     else
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Delete"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));     
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));       
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         return false;
     }
     return false;
@@ -250,9 +249,10 @@ bool wxGxOpenFileGDB::Rename(const wxString &sNewName)
         return true;
     }
     else
-    {
-        const char* err = CPLGetLastErrorMsg();
-        wxLogError(_("Operation '%s' failed! GDAL error: %s, file '%s'"), _("Rename"), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
+	{
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Rename"));    
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s' - '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath), wxString::FromUTF8(szNewPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         return false;
     }
     return false;
@@ -282,11 +282,9 @@ bool wxGxOpenFileGDB::Copy(const CPLString &szDestPath, ITrackCancel* const pTra
     bool bRet = CopyDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if (!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
-        wxLogError(sErr);
-        if (pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));     
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 
@@ -317,11 +315,9 @@ bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTra
     bool bRet = MoveDir(m_sPath, szFullDestPath, m_nDefaultCreateDirMode, pTrackCancel);
     if (!bRet)
     {
-        const char* err = CPLGetLastErrorMsg();
-        wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
-        wxLogError(sErr);
-        if (pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));     
+		sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
         return false;
     }
 

@@ -19,6 +19,7 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "wxgis/datasource/postgisdataset.h"
+#include "wxgis/core/app.h"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -410,8 +411,7 @@ wxGISDataset* wxGISPostgresDataSource::ExecuteSQL2(const wxGISSpatialFilter &Spa
 		}
         else
         {
-            const char* err = CPLGetLastErrorMsg();
-            wxLogError(_("ExecuteSQL failed! GDAL error: %s"), wxString(err, wxConvUTF8).c_str());
+			wxGISLogError(_("ExecuteSQL failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
         }
 	}
 	wsGET( pDataset );
@@ -446,8 +446,8 @@ bool wxGISPostgresDataSource::Open(bool bUpdate, bool bShared)
     m_poDS = (OGRDataSource*) wxGISDataset::OpenInternal( szConnStr, bUpdate, bShared );
 	if( m_poDS == NULL )
 	{
-        const char* err = CPLGetLastErrorMsg();
-		wxLogError(_("Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"), wxString(err, wxConvUTF8).c_str(), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
+        wxString sErr = wxString::Format(_("Connect failed! Host='%s' dbname='%s' port='%s' user='%s'"), m_sAddres.c_str(), m_sDBName.c_str(), m_sPort.c_str(), m_sName.c_str());
+		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, NULL);
 		return false;
 	}
 
@@ -567,8 +567,8 @@ bool wxGISPostgresFeatureDataset::Delete(ITrackCancel* const pTrackCancel)
         {
             if(pTrackCancel)
             {
-                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString(m_poLayer->GetName(), wxConvUTF8).c_str());
-                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString::FromUTF8(m_poLayer->GetName()));
+				wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             }
             return false;
         }
@@ -576,21 +576,15 @@ bool wxGISPostgresFeatureDataset::Delete(ITrackCancel* const pTrackCancel)
         OGRErr eErr = m_poDS->DeleteLayer(iLayer);
         if(eErr !=  OGRERR_NONE)
         {
-            const char* err = CPLGetLastErrorMsg();
-		    wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Delete"), wxString(err, wxConvUTF8).c_str());
-            if(pTrackCancel)
-            {
-                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-            }
+		    wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));
+		    sErr += wxT("\n") + wxString::Format(wxT("'%s'"), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             return false;
         }
         else
         {
 		    wxString sMsg = wxString::Format(_("Operation '%s' succeeded!"), _("Delete"));
-            if(pTrackCancel)
-            {
-                pTrackCancel->PutMessage(sMsg, wxNOT_FOUND, enumGISMessageInfo);
-            }
+            wxGISLogMessage(sMsg, pTrackCancel);
         }
     }
     return true;
@@ -643,8 +637,8 @@ bool wxGISPostgresTable::Delete(ITrackCancel* const pTrackCancel)
         {
             if(pTrackCancel)
             {
-                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString(m_poLayer->GetName(), wxConvUTF8).c_str());
-                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+                wxString sErr = wxString::Format(_("Operation '%s' failed! No Layer %s found to delete"), _("Delete"), wxString::FromUTF8(m_poLayer->GetName()));
+				wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             }
             return false;
         }
@@ -652,21 +646,15 @@ bool wxGISPostgresTable::Delete(ITrackCancel* const pTrackCancel)
         OGRErr eErr = m_poDS->DeleteLayer(iLayer);
         if(eErr !=  OGRERR_NONE)
         {
-            const char* err = CPLGetLastErrorMsg();
-		    wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Delete"), wxString(err, wxConvUTF8).c_str());
-            if(pTrackCancel)
-            {
-                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
-            }
+ 		    wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Delete"));
+		    sErr += wxT("\n") + wxString::Format(wxT("'%s'"), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             return false;
         }
         else
         {
 		    wxString sMsg = wxString::Format(_("Operation '%s' succeeded!"), _("Delete"));
-            if(pTrackCancel)
-            {
-                pTrackCancel->PutMessage(sMsg, wxNOT_FOUND, enumGISMessageInfo);
-            }
+            wxGISLogMessage(sMsg, pTrackCancel);
         }
     }
     return true;
