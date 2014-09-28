@@ -201,7 +201,7 @@ bool wxGxFolder::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCan
 
 bool wxGxFolder::CanMove(const CPLString &szDestPath)
 {
-    return CanCopy(szDestPath) & CanDelete();
+    return CanCopy(szDestPath) && CanDelete();
 }
 
 bool wxGxFolder::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)

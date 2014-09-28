@@ -120,11 +120,15 @@ class WXDLLIMPEXP_GIS_CLT wxGxNGWResource : public wxGxRemoteId
 public:
     wxGxNGWResource(const wxJSONValue &Data);
     virtual ~wxGxNGWResource(void);
-protected:
+	virtual wxGxNGWService *GetNGWService() const;
 	virtual bool DeleteResource();
 	virtual bool RenameResource(const wxString &sNewName);
+	virtual bool MoveResource(int nResourceId);
+protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);
+    virtual bool CanCopyResource(const CPLString &szDestPath);
+    virtual bool CanMoveResource(const CPLString &szDestPath);
 protected:
     wxGISEnumNGWResourcesType m_eResourceType;
     bool m_bHasChildren;

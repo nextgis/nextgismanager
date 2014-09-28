@@ -138,7 +138,7 @@ bool wxGxDataset::CanCopy(const CPLString &szDestPath)
 
 bool wxGxDataset::CanMove(const CPLString &szDestPath)
 {
-    return CanCopy(szDestPath) & CanDelete();
+    return CanCopy(szDestPath) && CanDelete();
 }
 
 bool wxGxDataset::Delete(void)
@@ -350,7 +350,7 @@ bool wxGxDatasetContainer::CanCopy(const CPLString &szDestPath)
 
 bool wxGxDatasetContainer::CanMove(const CPLString &szDestPath)
 {
-    return CanCopy(szDestPath) & CanDelete();
+    return CanCopy(szDestPath) && CanDelete();
 }
 
 bool wxGxDatasetContainer::Delete(void)

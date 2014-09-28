@@ -295,7 +295,7 @@ bool wxGxOpenFileGDB::Copy(const CPLString &szDestPath, ITrackCancel* const pTra
 
 bool wxGxOpenFileGDB::CanMove(const CPLString &szDestPath)
 {
-    return CanCopy(szDestPath) & CanDelete();
+    return CanCopy(szDestPath) && CanDelete();
 }
 
 bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)

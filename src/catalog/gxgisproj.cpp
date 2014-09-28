@@ -249,7 +249,7 @@ bool wxGxQGISProjFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTr
 
 bool wxGxQGISProjFile::CanMove(const CPLString &szDestPath)
 { 
-    return CanCopy(szDestPath) & CanDelete(); 
+    return CanCopy(szDestPath) && CanDelete(); 
 }
 
 bool wxGxQGISProjFile::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)

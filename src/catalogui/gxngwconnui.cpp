@@ -23,6 +23,7 @@
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/catalogui/processing.h"
 #include "wxgis/framework/applicationbase.h"
+#include "wxgis/framework/progressdlg.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -260,43 +261,107 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 }
 
 bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
-{
+{	
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     if (NULL == pCatalog)
     {
         return false;
     }
-
-    wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
-    wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
-
-    wxBusyCursor wait;
-
-    for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
-    {
-        wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
-        if (NULL != pGxObject)
-        {
-			wxGxNGWResource* pNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObject);
-            if (NULL != pNGWResource)
-            {
-				if(bMove) //TODO: check if this same NGW
-				{
-					
-				}
-				else //TODO: check if this is not same NGW
-				{
-					
-				}
-			}
-			else if(pGxObject->IsKindOf(wxCLASSINFO(wxGxFeatureDataset)))
-			{
-				
-			}
-		}
+	
+	if(saGxObjectPaths.IsEmpty())
+	{
+		return false;
 	}
 	
-    return true;
+	bool bIsNGWResource = false;
+	bool bIsSameService = false;
+	//check the first element type
+	wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[0]));
+	if(NULL != pGxNGWResource)
+	{
+		bIsNGWResource = true;
+		//check if the same NGW by service address
+		wxGxNGWService* pNGWServiceOther = pGxNGWResource->GetNGWService();
+		wxGxNGWService* pNGWServiceThis = GetNGWService();
+		bIsSameService = NULL != pNGWServiceThis && NULL != pNGWServiceOther && pNGWServiceThis->GetURL().IsSameAs(pNGWServiceOther->GetURL(), false);
+	}
+	
+	//1. if saGxObjectPaths from the same NGW service - move
+    wxString sOper(bMove == true ? _("Move") : _("Copy"));
+    wxString sTitle = wxString::Format(_("%s %ld objects (files)"), sOper.c_str(), saGxObjectPaths.GetCount());
+    wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
+
+    wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), saGxObjectPaths.GetCount(), pParentWnd);
+    ProgressDlg.ShowProgress(true);
+    //bool bCopyAsk = true;
+	bool bHasError = false;
+
+	if(bIsNGWResource)
+	{
+		if(bIsSameService && bMove)
+		{
+			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			{
+				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+		//		ProgressDlg.SetTitle(sMessage);
+				ProgressDlg.PutMessage(sMessage);
+				if(!ProgressDlg.Continue())
+					break;
+				wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[i]));
+				bool bRes = pGxNGWResource->MoveResource(GetRemoteId());
+				//report error
+				if(!bRes)
+				{
+					bHasError = true;
+					const char* err = CPLGetLastErrorMsg();
+					wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), GetCategory().c_str(), wxString::FromUTF8(err), wxString::FromUTF8(m_sPath));
+					wxLogError(sErr);
+					ProgressDlg.PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+				}
+				else
+				{
+					wxGxObject* pObj = dynamic_cast<wxGxObject*>(pGxNGWResource);
+					if(NULL != pObj)
+					{
+						IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+						if(pNotify)
+						{	
+							pNotify->OnGetUpdates();
+						}						
+					}		
+				}
+				ProgressDlg.SetValue(i);
+			}
+						
+			//report error if any
+			if(bHasError)
+				ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+
+			//notify this on updates
+			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);
+			if(pNotify)
+			{
+				pNotify->OnGetUpdates();
+			}			
+				
+			return true;
+		}
+		else
+		{
+			// copy from local or remote NGW
+		}
+	}
+	else
+	{
+		//export PostGIS DS
+		//pGxObject->IsKindOf(wxCLASSINFO(wxGxPostGISFeatureDataset)
+		//export file DS
+		//pGxObject->IsKindOf(wxCLASSINFO(wxGxFeatureDataset)
+	}
+	return false;
+
+	//2. if saGxObjectPaths from the same NGW service and copy or from the other NGW service - copy
+	//3. if saGxObjectPaths is feature class or folder with feature class - export
 }
 
 void wxGxNGWResourceGroupUI::EditProperties(wxWindow *parent)
@@ -473,7 +538,7 @@ bool wxGxNGWPostGISConnectionUI::Copy(const CPLString &szDestPath, ITrackCancel*
 
 bool wxGxNGWPostGISConnectionUI::CanCopy(const CPLString &szDestPath)
 {
-    return false;
+	return CanCopyResource(szDestPath);
 }
 
 bool wxGxNGWPostGISConnectionUI::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
@@ -483,7 +548,9 @@ bool wxGxNGWPostGISConnectionUI::Move(const CPLString &szDestPath, ITrackCancel*
 
 bool wxGxNGWPostGISConnectionUI::CanMove(const CPLString &szDestPath)
 {
-    return false;
+	if(!CanMoveResource(szDestPath))
+		return CanCopy(szDestPath) && CanDelete();
+	return true;
 }
 
 void wxGxNGWPostGISConnectionUI::EditProperties(wxWindow *parent)
