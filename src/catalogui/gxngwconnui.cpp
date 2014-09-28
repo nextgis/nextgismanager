@@ -294,7 +294,6 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), saGxObjectPaths.GetCount(), pParentWnd);
     ProgressDlg.ShowProgress(true);
     //bool bCopyAsk = true;
-	bool bHasError = false;
 
 	if(bIsNGWResource)
 	{
@@ -312,7 +311,6 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				//report error
 				if(!bRes)
 				{
-					bHasError = true;
 					wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));  
 					sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
 					wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, &ProgressDlg);
@@ -333,8 +331,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			}
 						
 			//report error if any
-			if(bHasError)
-				ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
 
 			//notify this on updates
 			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);
@@ -354,7 +351,20 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				ProgressDlg.PutMessage(sMessage);
 				if(!ProgressDlg.Continue())
 					break;
+					
+				wxGxObject* pGxObj = pCatalog->FindGxObject(saGxObjectPaths[i]);
+				IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);				
+				if(pGxObjectEdit && pGxObjectEdit->CanCopy(GetPath()))
+				{
+					if(!pGxObjectEdit->Copy(GetPath(), &ProgressDlg))
+					{
+						wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()));
+						return false;
+					}
+				}
 			}
+			
+			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
 			
 			//notify this on updates
 			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);

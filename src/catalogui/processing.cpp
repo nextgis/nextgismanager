@@ -814,6 +814,9 @@ void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilte
 
 void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs)
 {
+	if(msgs.empty())
+		return;
+		
     wxMessageDialog dlg(pWnd, _("During export there were several warnings."), _("Warning"), wxOK | wxCENTRE | wxICON_WARNING);
     wxString extMsg;
     for (size_t i = 0; i < msgs.size(); ++i)

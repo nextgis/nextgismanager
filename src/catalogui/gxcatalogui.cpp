@@ -122,14 +122,16 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
 //		ProgressDlg.SetTitle(sMessage);
 		ProgressDlg.PutMessage(sMessage);
         if(!ProgressDlg.Continue())
-            break;
+            break;		
+		
+        ProgressDlg.SetValue(i);
 
         wxString sPath = GxObjectPaths[i];
         wxGxObject* pGxObj = pCatalog->FindGxObject(sPath);
         IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);
         if(pGxObjectEdit)
         {
-            if(bMove)
+            if(bMove && pGxObjectEdit->CanMove(pPath))
             {
                 bool bShouldMove = true;
                 wxGxObject* pParentGxObj = pGxObj->GetParent();
@@ -137,16 +139,18 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
                 {
                     bShouldMove = pParentGxObj->GetPath() != pPath;
                 }
-                if (bShouldMove && pGxObjectEdit->CanMove(pPath))
+                if (bShouldMove)
                 {
                     if(!pGxObjectEdit->Move(pPath, &ProgressDlg))
                     {
                         wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Move"), pGxObj->GetFullName()));
                         return false;
                     }
+					continue;
                 }
             }
-            else if(pGxObjectEdit->CanCopy(pPath))
+            
+			if(pGxObjectEdit->CanCopy(pPath))
             {
                 if (bMove && bCopyAsk)
                 {
@@ -160,13 +164,12 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
                     wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()));
                     return false;
                 }
+				
+				continue;
             }
-            else
-            {
-                return false;
-            }
+			
+            return false;
         }
-        ProgressDlg.SetValue(i);
     }
 
     return true;
