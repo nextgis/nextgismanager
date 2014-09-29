@@ -149,9 +149,9 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 
 #ifdef _WIN64
-    wxString sAboutApp = wxString::Format(_("%s (x64)\n\nVersion: %s\n\nBuild: %s\n\n(c) 2009-%d Dmitry Baryshnikov (Bishop)\n\nhttp://wxgis.googlecode.com/"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+    wxString sAboutApp = wxString::Format(_("%s (x64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
 #else
-    wxString sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\n(c) 2009-%d Dmitry Baryshnikov (Bishop)\n\nhttp://wxgis.googlecode.com/"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+    wxString sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
 #endif
 
 	m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutApp, m_AuiNotebook), _("About application"));
