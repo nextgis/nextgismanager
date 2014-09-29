@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +22,9 @@
 #pragma once
 
 #include "wxgis/catalogui/remoteconndlgs.h"
+
+#include <wx/splitter.h>
+#include <wx/grid.h>
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -53,5 +57,27 @@ protected:
 };
 
 #endif //wxGIS_USE_POSTGRES
+
+/** @class wxGISDatasetImportDlg
+
+    The dialog to configurate importing datasets (raster or vector) - new names, set encodings, set bands, etc. 
+
+    @library{catalogui}
+*/
+class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
+{
+public:
+	wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISDatasetImportDlg();
+	void SplitterOnIdle( wxIdleEvent& )
+	{
+		m_Splitter->SetSashPosition( 0 );
+        m_Splitter->Unbind( wxEVT_IDLE, &wxGISDatasetImportDlg::SplitterOnIdle, this );
+	}
+protected:
+	wxSplitterWindow* m_Splitter;
+};
+
+
 
 

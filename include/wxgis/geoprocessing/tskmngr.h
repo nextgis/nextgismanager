@@ -96,7 +96,7 @@ class WXDLLIMPEXP_GIS_GP wxGISTaskManager :
     {
         TIMER_ID = 1015
     };
-    friend wxGISTaskCategory;
+    friend class wxGISTaskCategory;
 public:
     wxGISTaskManager(void);
     virtual ~wxGISTaskManager(void);

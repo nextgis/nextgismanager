@@ -46,6 +46,7 @@
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/catalogui/tablepropertypage.h"
+#include "wxgis/catalogui/createremotedlgs.h"
 
 #include "wx/busyinfo.h"
 #include "wx/utils.h"
@@ -292,11 +293,11 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
 
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), saGxObjectPaths.GetCount(), pParentWnd);
-    ProgressDlg.ShowProgress(true);
-    //bool bCopyAsk = true;
 
 	if(bIsNGWResource)
-	{
+	{		
+		ProgressDlg.ShowProgress(true);
+		//bool bCopyAsk = true;
 		if(bIsSameService && bMove)
 		{
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
@@ -376,10 +377,74 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 	}
 	else
 	{
-		//export PostGIS DS
-		//pGxObject->IsKindOf(wxCLASSINFO(wxGxPostGISFeatureDataset)
-		//export file DS
-		//pGxObject->IsKindOf(wxCLASSINFO(wxGxFeatureDataset)
+		//check if drop object from postgis connection
+		wxGxNGWResource* pGxNGWPostGISConnection = NULL;
+		wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[0]);
+		if(pGxObject)
+		{
+			wxGxObject* pGxParentObject;
+			while((pGxParentObject = pGxObject->GetParent()) != NULL)
+			{
+				pGxNGWPostGISConnection = dynamic_cast<wxGxNGWResource*>(pGxParentObject);
+				if(NULL != pGxNGWPostGISConnection)
+				{
+					break;
+				}
+				
+				pGxObject = pGxParentObject;
+			}
+		}
+		
+		//create PostGIS Layer
+		if(NULL != pGxNGWPostGISConnection)
+		{
+			//don't forget rename id field in created layer or something else
+		}
+		else
+		{
+			//export other vector and raster DS
+            wxVector<IGxDataset*> paDatasets;
+			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			{
+				wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
+				if (NULL != pGxObject)
+				{
+					if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+					{
+						wxBusyCursor wait;
+						wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+						if (!pCont->HasChildren())
+							continue;
+						const wxGxObjectList lObj = pCont->GetChildren();
+						for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+						{
+							IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
+							if (NULL != pGxDSet)
+							{
+								paDatasets.push_back(pGxDSet);
+							}
+						}
+					}
+					else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+					{
+						paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+					}
+                }
+				
+				//Show error message box if some datasets are dropped as unsupported (i.e. no SRS)
+				
+				
+				//create dialog for vector and raster config
+				wxGISDatasetImportDlg dlg(paDatasets, pParentWnd);
+				if(dlg.ShowModal() == wxID_OK)
+				{
+					ProgressDlg.ShowProgress(true);
+					//NAME	new name	encoding	test
+					//
+					//NAME	new name	bands	test
+				}
+            }
+		}
 	}
 	return false;
 

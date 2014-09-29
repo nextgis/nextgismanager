@@ -130,6 +130,15 @@ bool wxGISSpatialTree::IsLoading(void) const
 void wxGISSpatialTree::CancelLoading()
 {
     DestroyThread();
+	
+	for(size_t i = 0; i < 10; ++i)
+	{
+		wxMilliSleep(150);
+		if(!GetThread() || !GetThread()->IsRunning())
+		{
+			break;
+		}
+	}
 }
 
 wxThread::ExitCode wxGISSpatialTree::Entry()

@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS 
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -286,3 +287,79 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 
 
 #endif //wxGIS_USE_POSTGRES
+
+
+//-------------------------------------------------------------------------------
+//  wxGISDatasetImportDlg
+//-------------------------------------------------------------------------------
+
+wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
+{
+	wxBoxSizer *bMainSizer = new wxBoxSizer( wxVERTICAL );
+	
+	m_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize);//, wxSP_3D  | wxNO_BORDER
+	//m_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( wxGISToolBarPanel::SplitterOnIdle ), NULL, this );
+	m_Splitter->Bind( wxEVT_IDLE, &wxGISDatasetImportDlg::SplitterOnIdle, this );
+	bMainSizer->Add( m_Splitter, 1, wxEXPAND, 5 );
+	
+	wxGrid* pVectorConfigGrid = NULL;
+	wxGrid* pRasterConfigGrid = NULL;
+	//int nVectorDSCount = 0;
+	//int nRasterDSCount = 0;
+	
+	for(size_t i = 0; i < paDatasets.size(); ++i)
+	{
+		IGxDataset *pDset = paDatasets[i];
+		if(NULL != pDset)
+		{
+			if(pDset->GetType() == enumGISFeatureDataset)
+			{
+				if(pVectorConfigGrid == NULL)
+				{
+					pVectorConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+					pVectorConfigGrid->CreateGrid(1, 4);
+				}
+				pVectorConfigGrid->AppendRows();
+			}
+			
+			if(pDset->GetType() == enumGISRasterDataset)
+			{
+				if(pRasterConfigGrid == NULL)
+				{
+					pRasterConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+					pRasterConfigGrid->CreateGrid(1, 4);
+				}
+				pRasterConfigGrid->AppendRows();
+			}
+		}
+	}
+	
+	
+	wxStaticLine *pStaticLineButtons = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bMainSizer->Add( pStaticLineButtons, 0, wxEXPAND | wxALL, 5 );
+
+	wxStdDialogButtonSizer *sdbSizer = new wxStdDialogButtonSizer();
+	wxButton *sdbSizerOK = new wxButton( this, wxID_OK, _("OK") );
+	sdbSizer->AddButton( sdbSizerOK );
+	wxButton *sdbSizerCancel = new wxButton( this, wxID_CANCEL, _("Cancel") );
+	sdbSizer->AddButton( sdbSizerCancel );
+	sdbSizer->Realize();
+	bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
+	
+	if(pVectorConfigGrid && pRasterConfigGrid)
+	{
+		m_Splitter->SetSashGravity(0.5);
+		m_Splitter->SplitVertically(pVectorConfigGrid, pRasterConfigGrid, 100);
+		//m_pTreeCtrl->Bind( wxEVT_LEFT_DOWN, &wxGISToolBarPanel::OnLeftDown, this );
+	}
+	
+    this->SetSizerAndFit(bMainSizer);
+	this->Layout();
+
+	this->Centre( wxBOTH );	
+}
+
+wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
+{
+	
+}

@@ -44,7 +44,7 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
     wxCriticalSectionLocker locker(m_critSection);
     if (!m_thread)
     {
-        if (CreateThread(wxTHREAD_DETACHED) != wxTHREAD_NO_ERROR)//wxTHREAD_JOINABLE
+        if (CreateThread(m_kind) != wxTHREAD_NO_ERROR)//wxTHREAD_JOINABLE
         {
             wxLogError(_("Could not create the thread!"));
             return false;
@@ -77,9 +77,9 @@ void wxGISThreadHelper::DestroyThread(void)
 
 bool wxGISThreadHelper::TestDestroy()
 {
-    wxCriticalSectionLocker locker(m_critSection);
     if (m_bKill)
         return true;
+    wxCriticalSectionLocker locker(m_critSection);
     if (m_thread)
         return m_thread->TestDestroy();
     return false;
