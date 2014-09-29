@@ -31,6 +31,8 @@
 
 #include "../../art/document_16.xpm"
 
+#define WAIT_FOR_LOADCHILDREN 150
+
 //-------------------------------------------------------------------------------
 // wxGxTreeViewBase
 //-------------------------------------------------------------------------------
@@ -373,6 +375,7 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
 			{
 				if(pData->m_bExpandedOnce == false)
 				{
+					wxMilliSleep(WAIT_FOR_LOADCHILDREN);
 					const wxGxObjectList ObjectList = pGxObjectContainer->GetChildren();
                     wxGxObjectList::const_iterator iter;
                     for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
@@ -382,12 +385,18 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
                         m_pCatalog->ObjectAdded(current->GetId());
                     }
 					pData->m_bExpandedOnce = true;
-                    SetItemHasChildren(item, GetChildrenCount(item, false) > 0);
-                    SortChildren(item);
+					bool bHasChildren = GetChildrenCount(item, false) > 0;
+                    SetItemHasChildren(item, bHasChildren);
+					if(bHasChildren)
+					{
+						SortChildren(item);
+					}
 					return;
                 }
 				else
-					return;
+				{
+					return;					
+				}
 			}
 			else
 			{
@@ -439,6 +448,7 @@ void wxGxTreeViewBase::OnObjectRefreshed(wxGxCatalogEvent& event)
                 //deleted via refresh
 				//DeleteChildren(TreeItemId);
 				pData->m_bExpandedOnce = false;
+				SetItemHasChildren(TreeItemId);
 				Expand(TreeItemId);
 			}
             else
@@ -463,11 +473,13 @@ void wxGxTreeViewBase::OnObjectDeleted(wxGxCatalogEvent& event)
         wxTreeItemId ParentTreeItemId = GetItemParent(TreeItemId);
         if(GetChildrenCount(ParentTreeItemId, false) == 1)
         {
-		    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ParentTreeItemId);
+		    /*
+			wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ParentTreeItemId);
 		    if(NULL != pData)
 		    {
 				pData->m_bExpandedOnce = false;
             }
+			*/
             CollapseAndReset(ParentTreeItemId);
         }
         else

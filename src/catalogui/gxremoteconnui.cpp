@@ -253,14 +253,12 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                 if (CreateSchema(pGxObject->GetName()))
                 {
                     //copy input schema children
-                    wxGxObjectContainer* pCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
+                    wxGxRemoteDBSchema* pCont = wxDynamicCast(pGxObject, wxGxRemoteDBSchema);
                     if (!pCont)
                         continue;
-
-                    //lets load some tables
-                    pCont->HasChildren();
-                    wxSleep(5);
-
+						
+					pCont->LoadChildren();
+					
                     if(!pCont->HasChildren())
                     {
                         continue;
@@ -560,9 +558,9 @@ void wxGxRemoteDBSchemaUI::OnThreadFinished(wxThreadEvent& event)
         wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
         if (pCat)
         {
-            pCat->RemovePending(m_PendingId);
+			pCat->RemovePending(m_PendingId);
             m_PendingId = wxNOT_FOUND;
-            pCat->ObjectRefreshed(GetId());
+            pCat->ObjectRefreshed(GetId());            
             pCat->ObjectChanged(GetId());
         }
     }

@@ -69,8 +69,8 @@ public:
 	virtual bool AreChildrenViewable(void) const {return true;};
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxRemoteConnection
-    bool CreateSchema(const wxString& sSchemaName);
-    wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
+    virtual bool CreateSchema(const wxString& sSchemaName);
+    virtual wxString CheckUniqSchemaName(const wxString& sSchemaName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 protected:
 	//wxGxRemoteConnection
 	virtual void LoadChildren(void);
@@ -119,9 +119,10 @@ public:
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
     wxString CheckUniqTableName(const wxString& sTableName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
-protected:
     //wxGxRemoteDBSchema
     virtual void LoadChildren(void);	
+protected:
+    //wxGxRemoteDBSchema
     virtual wxGxObject* GetNewTable(int nRemoteId, const wxString &sTableName, const wxGISEnumDatasetType eType);
 	//wxGxObjectContainerUpdater
 	virtual wxGxObjectMap GetRemoteObjects();
