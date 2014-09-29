@@ -92,6 +92,8 @@ void wxGxCatalogUI::RemovePending(long nPendingId)
     wxGxPendingUI *pPend = wxDynamicCast(GetRegisterObject(nPendingId), wxGxPendingUI);
     wxCHECK_RET(pPend, wxT("The Pending GxObject is not exist"));
     pPend->StopAndDestroy();
+	
+	//RemoveChild
 }
 
 //------------------------------------------------------------------------------------------

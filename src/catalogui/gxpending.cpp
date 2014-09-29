@@ -3,7 +3,7 @@
  * Purpose:  wxGxPendingUI class. Show pending item in tree or content view
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010,2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 // wxGxPendingUI
 //---------------------------------------------------------------------
 #define UPDATE_TIMER 250
-#define DESTROY_COUNTDOW 6
+#define DESTROY_COUNTDOW 3
 
 IMPLEMENT_CLASS(wxGxPendingUI, wxGxObject)
 

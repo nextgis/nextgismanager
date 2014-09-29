@@ -131,6 +131,7 @@ void wxGISSpatialTree::CancelLoading()
 {
     DestroyThread();
 	
+	//little delay to  let thread finish
 	for(size_t i = 0; i < 10; ++i)
 	{
 		wxMilliSleep(150);

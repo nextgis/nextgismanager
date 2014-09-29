@@ -59,8 +59,19 @@ void wxGISApplicationEx::SerializeFramePosEx(bool bSave)
         wxAuiPaneInfoArray arr = m_mgr.GetAllPanes();
         for (size_t i = 0; i < arr.GetCount(); ++i)
         {
-            wxString sLocCaption = wxGetTranslation(arr[i].caption);
-            m_mgr.GetPane(arr[i].name).Caption(sLocCaption);
+			IView *pView = dynamic_cast<IView*>(arr[i].window);
+            if(pView)
+			{
+				m_mgr.GetPane(arr[i].name).Caption(pView->GetViewName());
+			}
+			else
+			{
+				wxGISCommandBar* pCommandBar = dynamic_cast<wxGISCommandBar*>(arr[i].window);
+				if(pCommandBar)
+				{
+					m_mgr.GetPane(arr[i].name).Caption(pCommandBar->GetCaption());
+				}
+			}	
         }
 	}
 }
