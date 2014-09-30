@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(wxGISMapView, wxWindow)
 END_EVENT_TABLE()
 
 
-wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper(wxTHREAD_JOINABLE)
+wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper()//wxTHREAD_JOINABLE
 {
 	m_pGISDisplay = NULL;
 	m_pTrackCancel = NULL;
@@ -72,7 +72,7 @@ wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper(wxTHREA
     m_dtNow = wxDateTime::Now();
 }
 
-wxGISMapView::wxGISMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISExtentStack(), wxGISThreadHelper(wxTHREAD_JOINABLE)
+wxGISMapView::wxGISMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISExtentStack(), wxGISThreadHelper()//wxTHREAD_JOINABLE
 {
 	m_pGISDisplay = NULL;
 	m_pTrackCancel = NULL;
@@ -1122,7 +1122,7 @@ void wxGISMapView::DestroyDrawThread(void)
 
     if(IsDrawing())
     {
-        DestroyThread();
+        DestroyThreadSync();
     }
 }
 

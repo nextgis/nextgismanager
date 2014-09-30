@@ -208,9 +208,8 @@ bool wxGxRemoteConnection::Disconnect(void)
         return true;
     }
 
-    DestroyThread();
-
-
+    DestroyThreadSync();
+		
     wxGISDataset* pDSet = GetDatasetFast();
     if(NULL != pDSet)
     {

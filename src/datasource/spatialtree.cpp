@@ -3,7 +3,7 @@
  * Purpose:  Various Spatial Tree classes
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -103,20 +103,15 @@ wxGISSpatialTree::~wxGISSpatialTree(void)
 
 bool wxGISSpatialTree::Load(const wxGISSpatialReference &SpatRef, ITrackCancel* const pTrackCancel)
 {
-
 	if (m_bIsLoaded)
 		return true;
 
-	wxCriticalSectionLocker locker(m_CritSect);
     m_pTrackCancel = pTrackCancel;
     m_SpatialReference = SpatRef;
 
     //create quad tree
     if(m_pDSet != NULL)
     {
-        if(IsLoading())
-            return true;
-
 	    return CreateAndRunThread();
     }
     return false;
@@ -129,17 +124,7 @@ bool wxGISSpatialTree::IsLoading(void) const
 
 void wxGISSpatialTree::CancelLoading()
 {
-    DestroyThread();
-	
-	//little delay to  let thread finish
-	for(size_t i = 0; i < 10; ++i)
-	{
-		wxMilliSleep(150);
-		if(!GetThread() || !GetThread()->IsRunning())
-		{
-			break;
-		}
-	}
+    DestroyThreadSync();
 }
 
 wxThread::ExitCode wxGISSpatialTree::Entry()

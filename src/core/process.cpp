@@ -49,10 +49,8 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
             wxLogError(_("Could not create the thread!"));
             return false;
         }
-    }
+		m_bKill = false;
 
-    if (!m_thread->IsRunning())
-    {
         if (m_thread->Run() != wxTHREAD_NO_ERROR)
         {
             wxLogError(_("Could not run the thread!"));
@@ -62,27 +60,55 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
     return true;
 }
 
-void wxGISThreadHelper::DestroyThread(void)
+void wxGISThreadHelper::DestroyThreadAsync(void)
 {
     wxCriticalSectionLocker locker(m_critSection);
     if (m_thread && m_thread->IsRunning())
     {
         m_bKill = true;
         if (m_kind == wxTHREAD_DETACHED)
+		{
             m_thread->Delete();//Wait();//Kill();//
+		}
         else if (m_kind == wxTHREAD_JOINABLE)
+		{
             m_thread->Wait();//Kill();//
+		}
     }
+}
+
+void wxGISThreadHelper::DestroyThreadSync(void)
+{
+    m_critSection.Enter();
+    if (m_thread && m_thread->IsRunning())
+    {
+        m_bKill = true;
+        if (m_kind == wxTHREAD_DETACHED)
+		{
+            m_thread->Delete();//Wait();//Kill();//
+		}
+        else if (m_kind == wxTHREAD_JOINABLE)
+		{
+            m_thread->Wait();//Kill();//
+			delete m_thread;
+		}
+    }
+	m_critSection.Leave();
+	
+	wxMilliSleep(500);
+	
+	while(m_thread && m_thread->IsRunning())
+	{
+		wxMilliSleep(500);
+	}	
 }
 
 bool wxGISThreadHelper::TestDestroy()
 {
-    if (m_bKill)
-        return true;
     wxCriticalSectionLocker locker(m_critSection);
     if (m_thread)
-        return m_thread->TestDestroy();
-    return false;
+        return m_thread->TestDestroy() || m_bKill;
+    return m_bKill;
 }
 
 void wxGISThreadHelper::KillThread()
@@ -136,7 +162,7 @@ bool wxGISProcess::Start()
 
 void wxGISProcess::OnTerminate(int pid, int status)
 {
-    DestroyThread();
+    DestroyThreadAsync();
     if(m_nState == enumGISTaskPaused)//process paused
     {
         m_dfDone = 0;
@@ -173,7 +199,7 @@ void wxGISProcess::Stop(void)
             {
                 m_pid = 0;
 
-                DestroyThread();
+                DestroyThreadAsync();
 	           //and detach
 		        Detach();
             }
