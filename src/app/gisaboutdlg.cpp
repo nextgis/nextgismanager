@@ -94,8 +94,26 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
 	wxBoxSizer* bHeadSizer = new wxBoxSizer( wxHORIZONTAL );
-
-	m_bitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap(logo_xpm), wxPoint( -1,-1 ), wxDefaultSize, wxNO_BORDER );
+	
+	wxGISAppConfig oConfig = GetConfig();
+	m_bitmap = NULL;
+	bool bIsBranded = false;
+    if (oConfig.IsOk())
+	{
+		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		if(bIsBranded)
+		{
+			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
+			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrend/icon/prefix"), wxEmptyString);
+			wxString sBitmapPath = sImgPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%s64.png"), sPrefix.c_str());
+			m_bitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap(sBitmapPath, wxBITMAP_TYPE_PNG), wxPoint( -1,-1 ), wxDefaultSize, wxNO_BORDER );	
+		}
+	}
+	
+	if(!m_bitmap)
+		m_bitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap(logo_xpm), wxPoint( -1,-1 ), wxDefaultSize, wxNO_BORDER );
+	
+	
 	m_bitmap->SetForegroundColour( BackColor );
 	m_bitmap->SetBackgroundColour( BackColor );
 
@@ -104,16 +122,17 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	//wxGenericStaticText* pTitle = new wxGenericStaticText(this, wxID_ANY, wxString::Format(_("\nwxGIS [%s] (x64)\nVersion: %s"), pApp->GetAppName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, 0);
 
 #ifdef _WIN64
-    m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, 0 );
+    m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 #else
-     m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, 0 );
+     m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 #endif
 
     wxFont titleFont = this->GetFont();
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
     m_title->SetFont(titleFont);
 	m_title->Wrap( -1 );
-	m_title->SetBackgroundColour( BackColor );
+	if(!bIsBranded)
+		m_title->SetBackgroundColour( BackColor );
 
 	bHeadSizer->Add( m_title, 1, wxEXPAND, 5 );
 
@@ -217,7 +236,6 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
     m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutSys, m_AuiNotebook), _("About system"));
 
     //add translation page
-    wxGISAppConfig oConfig = GetConfig();
     if(oConfig.IsOk())
     {
         wxString sTranslatorsFile = oConfig.GetLocaleDir() + wxFileName::GetPathSeparator() + wxString(wxT("TRANSLATORS.txt"));

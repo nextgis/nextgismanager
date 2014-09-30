@@ -73,9 +73,9 @@ bool wxGISCatalogApp::OnInit()
         wxLogError(_("No valid configuration exist"));
 		return false;
     }
-
-    //create application/main frame
-    m_pMainFrame = new wxGISCatalogFrame(NULL, wxID_ANY, wxString(_("wxGIS Catalog")), wxDefaultPosition, wxSize(800, 480) );
+	
+	//create application/main frame
+    m_pMainFrame = new wxGISCatalogFrame(NULL, wxID_ANY, m_appDisplayName, wxDefaultPosition, wxSize(800, 480) );
 
 	//setup loging
 	wxString sLogDir = oConfig.GetLogDir();
@@ -101,7 +101,19 @@ bool wxGISCatalogApp::OnInit()
     if (bShowSplash)
     {
         long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
-        wxBitmap splash_bmp = PrepareSplashScreen(m_pMainFrame, 0, 10);
+        wxBitmap splash_bmp;
+		bool bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		if(bIsBranded)
+		{
+			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
+			wxString sBitmapPath = sImgPath + wxFileName::GetPathSeparator() + wxString(wxT("splash.png"));
+			splash_bmp = wxBitmap(sBitmapPath);
+		}
+		else
+		{
+			splash_bmp = PrepareSplashScreen(m_pMainFrame, 0, 10);
+		}
+		
         wxSplashScreen* pSplash = new wxSplashScreen(splash_bmp, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT, nTimeout, m_pMainFrame, wxID_ANY);
         //#if !defined(__WXGTK20__)
         // we don't need it at least on wxGTK with GTK+ 2.12.9

@@ -233,6 +233,20 @@ wxIcon wxGxApplication::GetAppIcon(void)
     return m_pAppIcon;
 }
 
+wxString wxGxApplication::GetAppDisplayName(void) const 
+{
+	if(m_sAppDisplayName.IsEmpty())
+		return wxString(_("NextGIS Manager"));
+	return m_sAppDisplayName;
+}
+
+wxString wxGxApplication::GetAppDisplayNameShort(void) const 
+{
+	if(m_sAppDisplayNameShort.IsEmpty())
+		return wxString(_("Manager"));
+	return 	m_sAppDisplayNameShort;
+}
+
 void wxGxApplication::UpdateNewMenu(wxGxSelection* Selection)
 {
     if (NULL != m_pNewMenu)

@@ -515,6 +515,23 @@ void wxGISConfig::ReportPaths(void)
     wxLogMessage(wxT("Global config Dir: %s"), ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath.c_str());
 }
 
+wxString wxGISConfig::GetConfigDir(const wxString& wxDirName) const
+{
+	//1. Check local dir
+	wxString sTestPath = ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath + wxFileName::GetPathSeparator() + wxDirName;
+	if(wxFileName::DirExists(sTestPath))
+		return sTestPath;
+	
+	sTestPath = ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath + wxFileName::GetPathSeparator() + wxDirName;
+	if(wxFileName::DirExists(sTestPath))
+		return sTestPath;
+		
+	sTestPath = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxDirName;
+	if(wxFileName::DirExists(sTestPath))
+		return sTestPath;	
+	
+	return wxEmptyString;
+}
 
 //---------------------------------------------------------------
 // wxGISConfigRefData

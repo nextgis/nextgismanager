@@ -42,37 +42,76 @@ IMPLEMENT_CLASS(wxGISCatalogFrame, wxGxApplication)
 wxGISCatalogFrame::wxGISCatalogFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxGxApplication(parent, id, title, pos, size, style)
 {
 	//set app main icon
-
 	wxIconBundle iconBundle;
-
-    wxDateTime now = wxDateTime::Now();
-    //TODO: need 48x48 main app icon
-    if((now.GetMonth() == wxDateTime::Dec && now.GetDay() > 15) || (now.GetMonth() == wxDateTime::Jan && now.GetDay() < 15))
+	
+	//brending
+	wxGISAppConfig oConfig = GetConfig();
+	bool bIsBranded = false;
+    if (oConfig.IsOk())
 	{
-        m_pAppIcon = wxIcon(wxgiscatalog_x16_xpm);
-#ifdef __WXMSW__
-		iconBundle.AddIcon(wxICON(MAINFRAME_X));
-//#else
-#endif
-        iconBundle.AddIcon(m_pAppIcon);
-        iconBundle.AddIcon(wxIcon(wxgiscatalog_x32_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog_x48_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog_x64_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog_x128_xpm));
-
+		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		if(bIsBranded)
+		{
+			wxString sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrend/text/short"), wxEmptyString);
+		
+			if(!sBrendText.IsEmpty())
+			{
+				m_sAppDisplayNameShort = sBrendText;
+			}
+			
+			sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrend/text/normal"), wxEmptyString);
+		
+			if(!sBrendText.IsEmpty())
+			{
+				m_sAppDisplayName = sBrendText;
+			}
+			
+			//icons
+			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrend/icon/prefix"), wxEmptyString);
+			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
+			if(!sImgPath.IsEmpty())
+			{
+				wxString sIconPath = sImgPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%s16.png"), sPrefix.c_str());
+				m_pAppIcon = wxIcon(sIconPath, wxBITMAP_TYPE_PNG);
+				for(int i = 16; i < 256; i *= 2)
+				{
+					sIconPath = sImgPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%s%d.png"), sPrefix.c_str(), i);
+					iconBundle.AddIcon(wxIcon(sIconPath, wxBITMAP_TYPE_PNG));	 
+				}
+			}
+		}
 	}
-    else
+	
+	if(!bIsBranded)
 	{
-        m_pAppIcon = wxIcon(wxgiscatalog16_xpm);
-#ifdef __WXMSW__
-		iconBundle.AddIcon(wxICON(MAINFRAME));
-//#else
-#endif
-        iconBundle.AddIcon(m_pAppIcon);
-        iconBundle.AddIcon(wxIcon(wxgiscatalog32_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog48_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog64_xpm));
-        iconBundle.AddIcon(wxIcon(wxgiscatalog128_xpm));
+		wxDateTime now = wxDateTime::Now();
+		if((now.GetMonth() == wxDateTime::Dec && now.GetDay() > 15) || (now.GetMonth() == wxDateTime::Jan && now.GetDay() < 15))
+		{
+			m_pAppIcon = wxIcon(wxgiscatalog_x16_xpm);
+	#ifdef __WXMSW__
+			iconBundle.AddIcon(wxICON(MAINFRAME_X));
+	//#else
+	#endif
+			iconBundle.AddIcon(m_pAppIcon);
+			iconBundle.AddIcon(wxIcon(wxgiscatalog_x32_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog_x48_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog_x64_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog_x128_xpm));
+
+		}
+		else
+		{
+			m_pAppIcon = wxIcon(wxgiscatalog16_xpm);
+	#ifdef __WXMSW__
+			iconBundle.AddIcon(wxICON(MAINFRAME));
+	//#else
+	#endif
+			iconBundle.AddIcon(m_pAppIcon);
+			iconBundle.AddIcon(wxIcon(wxgiscatalog32_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog48_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog64_xpm));
+			iconBundle.AddIcon(wxIcon(wxgiscatalog128_xpm));
+		}
 	}
     SetIcons(iconBundle);
 }

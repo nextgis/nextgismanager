@@ -70,7 +70,9 @@ wxGISFeatureLayer::~wxGISFeatureLayer(void)
 
 bool wxGISFeatureLayer::Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel)
 {
-    wxCHECK_MSG(m_pRenderer, false, wxT("The current renderer point is NULL"));
+	if(NULL == m_pRenderer)
+		return false;
+    //wxCHECK_MSG(m_pRenderer, false, wxT("The current renderer point is NULL"));
     return m_pRenderer->Draw(DrawPhase, m_pDisplay, pTrackCancel);
 
 /*	if(m_pFeatureRenderer->CanRender(m_pwxGISFeatureDataset))

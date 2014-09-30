@@ -50,8 +50,8 @@ public:
     virtual void OnClose(wxCloseEvent& event);
     //wxGISApplicationBase
     virtual wxString GetAppName(void) const {return wxString(wxT("wxGISCatalog"));};
-	virtual wxString GetAppDisplayName(void) const {return wxString(_("NextGIS Manager"));};
-	virtual wxString GetAppDisplayNameShort(void) const {return wxString(_("Manager"));};
+	virtual wxString GetAppDisplayName(void) const;
+	virtual wxString GetAppDisplayNameShort(void) const;
     virtual bool CreateApp(void);
 	virtual wxIcon GetAppIcon(void);
     virtual void UpdateNewMenu(wxGxSelection* Selection);
@@ -62,5 +62,6 @@ protected:
 	wxGxCatalogUI* m_pCatalog;
     wxGISNewMenu* m_pNewMenu;
     
+	wxString m_sAppDisplayName, m_sAppDisplayNameShort;
 	wxIcon m_pAppIcon;
 };

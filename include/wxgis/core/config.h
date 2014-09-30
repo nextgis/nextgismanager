@@ -66,6 +66,7 @@ public:
 	wxString GetLocalConfigDirNonPortable(void) const;
 
     void Save(const wxGISEnumConfigKey Key = enumGISHKAny);
+	wxString GetConfigDir(const wxString& wxDirName) const;
 protected:
 	bool SplitPathToXml(const wxString &  fullpath, wxString *psFileName, wxString *psPathInXml);
 	bool SplitPathToAttribute(const wxString &  fullpath, wxString *psPathToAttribute, wxString *psAttributeName);
