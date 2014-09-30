@@ -238,7 +238,7 @@ if(wxGIS_BUILD_GEOPROCESSINGUI)
     mark_as_advanced(wxGIS_HAVE_GEOPROCESSINGUI)
 endif(wxGIS_BUILD_GEOPROCESSINGUI)
 
-option(wxGIS_BUILD_TRANSLATION "Set ON to build translation" OFF)
+option(wxGIS_BUILD_TRANSLATION "Set ON to build translation" ON)
 if(wxGIS_BUILD_TRANSLATION)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/opt/)
 endif(wxGIS_BUILD_TRANSLATION)
