@@ -127,9 +127,10 @@ bool wxGxRemoteConnectionUI::Connect(void)
     bool bRes = true;
     //add pending item
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-    if(NULL != pCat && m_PendingId == wxNOT_FOUND)
+    if(NULL != pCat)
     {
-        m_PendingId = pCat->AddPending(GetId());
+		if(m_PendingId == wxNOT_FOUND)
+			m_PendingId = pCat->AddPending(GetId());
         pCat->ObjectChanged(GetId());
     }
     //start thread to load schemes
@@ -177,10 +178,13 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
     if (event.GetId() == LOADED_EVENT) //call after the LoadChildren exited
     {
         wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-        if (pCat && m_PendingId != wxNOT_FOUND)
+        if (pCat)
         {
-            pCat->RemovePending(m_PendingId);
-            m_PendingId = wxNOT_FOUND;
+			if(m_PendingId != wxNOT_FOUND)
+			{
+				pCat->RemovePending(m_PendingId);
+				m_PendingId = wxNOT_FOUND;				
+			}
             pCat->ObjectRefreshed(GetId());
             pCat->ObjectChanged(GetId());
         }
@@ -188,10 +192,13 @@ void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
     else if(event.GetId() == EXIT_EVENT)
     {
         wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-        if (pCat && m_PendingId != wxNOT_FOUND)
+        if (pCat)
         {
-            pCat->RemovePending(m_PendingId);
-            m_PendingId = wxNOT_FOUND;
+			if(m_PendingId != wxNOT_FOUND)
+			{
+				pCat->RemovePending(m_PendingId);
+				m_PendingId = wxNOT_FOUND;
+			}
             pCat->ObjectRefreshed(GetId());
             pCat->ObjectChanged(GetId());
         }
@@ -524,7 +531,7 @@ bool wxGxRemoteDBSchemaUI::CreateAndRunThread(void)
 
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
     if (pCat)
-    {
+    {		
         m_PendingId = pCat->AddPending(GetId());
     }
 
@@ -558,8 +565,11 @@ void wxGxRemoteDBSchemaUI::OnThreadFinished(wxThreadEvent& event)
         wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
         if (pCat)
         {
-			pCat->RemovePending(m_PendingId);
-            m_PendingId = wxNOT_FOUND;
+			if(m_PendingId != wxNOT_FOUND)
+			{
+				pCat->RemovePending(m_PendingId);
+				m_PendingId = wxNOT_FOUND;
+			}
             pCat->ObjectRefreshed(GetId());            
             pCat->ObjectChanged(GetId());
         }

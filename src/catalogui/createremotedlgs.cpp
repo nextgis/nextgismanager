@@ -300,7 +300,6 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 	m_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize);//, wxSP_3D  | wxNO_BORDER
 	//m_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( wxGISToolBarPanel::SplitterOnIdle ), NULL, this );
 	m_Splitter->Bind( wxEVT_IDLE, &wxGISDatasetImportDlg::SplitterOnIdle, this );
-	bMainSizer->Add( m_Splitter, 1, wxEXPAND, 5 );
 	
 	wxGrid* pVectorConfigGrid = NULL;
 	wxGrid* pRasterConfigGrid = NULL;
@@ -317,7 +316,10 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 				if(pVectorConfigGrid == NULL)
 				{
 					pVectorConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pVectorConfigGrid->CreateGrid(1, 4);
+					pVectorConfigGrid->CreateGrid(1, 3);
+					pVectorConfigGrid->SetColLabelValue(0, _("File"));
+					pVectorConfigGrid->SetColLabelValue(1, _("Output name"));
+					pVectorConfigGrid->SetColLabelValue(2, _("Encoding"));
 				}
 				pVectorConfigGrid->AppendRows();
 			}
@@ -327,13 +329,28 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 				if(pRasterConfigGrid == NULL)
 				{
 					pRasterConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pRasterConfigGrid->CreateGrid(1, 4);
+					pRasterConfigGrid->CreateGrid(1, 3);
+					pVectorConfigGrid->SetColLabelValue(0, _("File"));
+					pVectorConfigGrid->SetColLabelValue(1, _("Output name"));
+					pVectorConfigGrid->SetColLabelValue(2, _("Bands"));
 				}
 				pRasterConfigGrid->AppendRows();
 			}
 		}
 	}
 	
+	if(pVectorConfigGrid && pRasterConfigGrid)
+	{
+		m_Splitter->SetSashGravity(0.5);
+		m_Splitter->SplitVertically(pVectorConfigGrid, pRasterConfigGrid, 100);
+		//m_pTreeCtrl->Bind( wxEVT_LEFT_DOWN, &wxGISToolBarPanel::OnLeftDown, this );
+	}
+	else if(pVectorConfigGrid)
+		m_Splitter->Initialize(pVectorConfigGrid);
+	else if(pRasterConfigGrid)
+		m_Splitter->Initialize(pRasterConfigGrid);
+	
+	bMainSizer->Add( m_Splitter, 1, wxEXPAND | wxALL, 5 );
 	
 	wxStaticLine *pStaticLineButtons = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	bMainSizer->Add( pStaticLineButtons, 0, wxEXPAND | wxALL, 5 );
@@ -345,14 +362,8 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 	sdbSizer->AddButton( sdbSizerCancel );
 	sdbSizer->Realize();
 	bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
-	
-	if(pVectorConfigGrid && pRasterConfigGrid)
-	{
-		m_Splitter->SetSashGravity(0.5);
-		m_Splitter->SplitVertically(pVectorConfigGrid, pRasterConfigGrid, 100);
-		//m_pTreeCtrl->Bind( wxEVT_LEFT_DOWN, &wxGISToolBarPanel::OnLeftDown, this );
-	}
-	
+
+
     this->SetSizerAndFit(bMainSizer);
 	this->Layout();
 
