@@ -5,9 +5,9 @@
       <rootitem name="wxGxSpatialReferencesFolder" is_enabled="t"/>
       <rootitem name="wxGxDiscConnections" is_enabled="t"/>
       <rootitem name="wxGxDBConnections" is_enabled="t"/>
-      <rootitem name="wxGxShellConnections" is_enabled="t"/>
+      <rootitem name="wxGxShellConnections" is_enabled="f"/>
       <rootitem name="wxGxWebConnections" is_enabled="t"/>
-      <rootitem name="wxGxRemoteServers" is_enabled="t">
+      <rootitem name="wxGxRemoteServers" is_enabled="f">
         <factory name="wxClientTCPNetFactory" port="9976" adv_port="9977"/>
       </rootitem>
     </rootitems>
