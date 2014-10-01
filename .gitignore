@@ -13,6 +13,9 @@
 *.la
 *.a
 
+# Compiled executables
+*.exe
+
 # build directories
 build*
 
@@ -23,6 +26,8 @@ src/0*
 # generated directories
 lib
 bin
+sys
+locale
 
 include/wxgisdefs.h
 

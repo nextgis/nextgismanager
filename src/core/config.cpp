@@ -522,11 +522,12 @@ wxString wxGISConfig::GetConfigDir(const wxString& wxDirName) const
 	if(wxFileName::DirExists(sTestPath))
 		return sTestPath;
 	
-	sTestPath = ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath + wxFileName::GetPathSeparator() + wxDirName;
+    sTestPath = ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath + wxFileName::GetPathSeparator() + wxDirName;
 	if(wxFileName::DirExists(sTestPath))
 		return sTestPath;
 		
-	sTestPath = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxDirName;
+    wxFileName oName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
+    sTestPath = oName.GetPath() + wxFileName::GetPathSeparator() + wxDirName;
 	if(wxFileName::DirExists(sTestPath))
 		return sTestPath;	
 	

@@ -131,8 +131,7 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
     m_title->SetFont(titleFont);
 	m_title->Wrap( -1 );
-	if(!bIsBranded)
-		m_title->SetBackgroundColour( BackColor );
+	m_title->SetBackgroundColour( BackColor );
 
 	bHeadSizer->Add( m_title, 1, wxEXPAND, 5 );
 

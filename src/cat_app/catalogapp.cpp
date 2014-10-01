@@ -74,6 +74,7 @@ bool wxGISCatalogApp::OnInit()
 		return false;
     }
 	
+    wxInitAllImageHandlers();
 	//create application/main frame
     m_pMainFrame = new wxGISCatalogFrame(NULL, wxID_ANY, m_appDisplayName, wxDefaultPosition, wxSize(800, 480) );
 
@@ -107,7 +108,7 @@ bool wxGISCatalogApp::OnInit()
 		{
 			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
 			wxString sBitmapPath = sImgPath + wxFileName::GetPathSeparator() + wxString(wxT("splash.png"));
-			splash_bmp = wxBitmap(sBitmapPath);
+            splash_bmp = wxBitmap(sBitmapPath, wxBITMAP_TYPE_PNG);
 		}
 		else
 		{
