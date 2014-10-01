@@ -81,6 +81,16 @@ void wxGISPostGISBaseTable::FillIndixes()
     }	
 }
 
+wxString wxGISPostGISBaseTable::GetTableName() const
+{
+	return m_sTableName;
+}
+
+wxString wxGISPostGISBaseTable::GetTableSchemaName() const
+{
+	return m_sSchemaName;
+}
+
 //-----------------------------------------------------------------------------------
 // wxGxPostGISTable
 //-----------------------------------------------------------------------------------

@@ -451,6 +451,16 @@ wxGxNGWService *wxGxNGWResource::GetNGWService() const
 	return m_pService;
 }
 
+wxString wxGxNGWResource::MakeKey(const wxString& sInputStr)
+{
+	wxString sOut = sInputStr;
+	sOut = sOut.Trim(true).Trim(false);
+	sOut.Replace(' ', '_');
+	if(wxIsdigit(sOut[0]))
+		sOut.Prepend(wxT("tab_"));
+	return sOut;
+}
+
 /*
 
 forbidden err
@@ -803,6 +813,30 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 	return false;	
 }
 
+bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;	
+		
+		//{"resource":{"cls":"postgis_layer","parent":{"id":0},"display_name":"test","keyname":null,"description":null},"postgis_layer":{"connection":{"id":31},"table":"roads","schema":"thematic","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":null,"fields":"update","srs":{"id":3857}}}
+
+	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_layer\",\"parent\":{\"id\":%d},\"display_name\":\"%s\",\"keyname\":\"%s\"}, \"postgis_layer\":{\"connection\":{\"id\":%d},\"table\":\"%s\",\"schema\":\"%s\",\"column_id\":\"%s\", \"column_geom\":\"%s\",\"fields\":\"update\",\"srs\":{\"id\":3857}}}"), m_nRemoteId, sName.ToUTF8(), MakeKey(sTable).ToUTF8(), nPGConnId, sTable.ToUTF8(), sSchema.ToUTF8(), sFid.ToUTF8(), sGeom.ToUTF8());
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		OnGetUpdates();
+		return true;		
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;		
+}
+
 bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword)
 {
 	wxGISCurl curl = m_pService->GetCurl();
@@ -882,6 +916,68 @@ int wxGxNGWLayer::GetParentResourceId() const
 	return pParentResource->GetRemoteId();
 }
 
+
+bool wxGxNGWLayer::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWLayer::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWLayer::Delete(void)
+{
+    if( DeleteResource() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWLayer::Rename(const wxString &sNewName)
+{
+    if( RenameResource(sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWLayer::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{	
+    return false;
+}
+
+bool wxGxNGWLayer::CanCopy(const CPLString &szDestPath)
+{
+	return CanCopyResource(szDestPath);
+}
+
+bool wxGxNGWLayer::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
+{
+	if(!CanMoveResource(szDestPath))
+		return CanCopy(szDestPath) && CanDelete();
+	return true;	
+}
 
 //--------------------------------------------------------------
 // wxGxNGWPostGISConnection

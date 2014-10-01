@@ -124,6 +124,7 @@ public:
 	virtual bool DeleteResource();
 	virtual bool RenameResource(const wxString &sNewName);
 	virtual bool MoveResource(int nResourceId);
+	static wxString MakeKey(const wxString& sInputStr);
 protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);
@@ -180,6 +181,7 @@ public:
 	virtual wxString CheckUniqName(const wxString &sName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);
+	virtual bool CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom);
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
@@ -235,6 +237,15 @@ public:
     virtual ~wxGxNGWLayer(void);
     //wxGxObject
     virtual wxString GetCategory(void) const;
+	//IGxObjectEdit
+	virtual bool Delete(void);
+    virtual bool CanDelete(void);
+	virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);

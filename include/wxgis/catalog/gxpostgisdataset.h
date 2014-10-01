@@ -45,6 +45,8 @@ public:
 	virtual ~wxGISPostGISBaseTable(void);
 	virtual wxULongLong GetTableSize();
 	virtual void FillIndixes();
+	virtual wxString GetTableName() const;
+	virtual wxString GetTableSchemaName() const;
 protected:
 	wxString m_sTableName;
     wxString m_sSchemaName;

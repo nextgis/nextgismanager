@@ -47,6 +47,7 @@
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/catalogui/tablepropertypage.h"
 #include "wxgis/catalogui/createremotedlgs.h"
+#include "wxgis/catalog/gxpostgisdataset.h"
 
 #include "wx/busyinfo.h"
 #include "wx/utils.h"
@@ -307,6 +308,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				ProgressDlg.PutMessage(sMessage);
 				if(!ProgressDlg.Continue())
 					break;
+					
 				wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[i]));
 				bool bRes = pGxNGWResource->MoveResource(GetRemoteId());
 				//report error
@@ -335,11 +337,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
 
 			//notify this on updates
-			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);
-			if(pNotify)
-			{
-				pNotify->OnGetUpdates();
-			}			
+			OnGetUpdates();
 				
 			return true;
 		}
@@ -363,16 +361,13 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						return false;
 					}
 				}
+				ProgressDlg.SetValue(i);
 			}
 			
 			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
 			
 			//notify this on updates
-			IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(this);
-			if(pNotify)
-			{
-				pNotify->OnGetUpdates();
-			}
+			OnGetUpdates();
 		}
 	}
 	else
@@ -398,7 +393,43 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		//create PostGIS Layer
 		if(NULL != pGxNGWPostGISConnection)
 		{
+			ProgressDlg.ShowProgress(true);
 			//don't forget rename id field in created layer or something else
+			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			{
+				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+				//ProgressDlg.SetTitle(sMessage);
+				ProgressDlg.PutMessage(sMessage);
+				if(!ProgressDlg.Continue())
+					break;
+					
+				wxGxPostGISFeatureDataset* pGxPostGISFeatureDataset = wxDynamicCast(pCatalog->FindGxObject(saGxObjectPaths[i]), wxGxPostGISFeatureDataset);
+				if (NULL != pGxPostGISFeatureDataset)
+				{
+					wxString sName = pGxPostGISFeatureDataset->GetName();
+					int nConnId = pGxNGWPostGISConnection->GetRemoteId();
+					wxString sTable = pGxPostGISFeatureDataset->GetTableName();
+					wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
+					wxGISFeatureDataset* pDataset = wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
+					if(NULL == pDataset)
+					{
+						wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
+						continue;
+					}
+					wxString sFid = pDataset->GetFIDColumn();
+					wxString sGeom = pDataset->GetGeometryColumn();
+					
+					if(!CreatePostGISLayer(sName, nConnId, sTable, sSchema, sFid, sGeom))
+					{
+						wxGISErrorMessageBox(_("Failed to create PostGIS Layer"), wxString::FromUTF8(CPLGetLastErrorMsg()));
+					}
+				}
+				ProgressDlg.SetValue(i);				
+			}
+			
+			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+			
+			OnGetUpdates();
 		}
 		else
 		{
