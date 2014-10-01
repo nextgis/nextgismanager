@@ -21,6 +21,13 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/createremotedlgs.h"
+#include "wxgis/catalog/gxdataset.h"
+
+#include <wx/fontmap.h>
+
+#define COL_LABEL_SIZE 25
+#define COL_FILE_NAME_SIZE 250
+#define COL_ENCODING_SIZE 250
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -303,25 +310,58 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 	
 	wxGrid* pVectorConfigGrid = NULL;
 	wxGrid* pRasterConfigGrid = NULL;
-	//int nVectorDSCount = 0;
-	//int nRasterDSCount = 0;
+	int nVectorDSCount = 0;
+	int nRasterDSCount = 0;
+	wxArrayString asEnc;
+	wxString sDefault;
 	
 	for(size_t i = 0; i < paDatasets.size(); ++i)
 	{
-		IGxDataset *pDset = paDatasets[i];
+		wxGxDataset *pDset = dynamic_cast<wxGxDataset*>(paDatasets[i]);
 		if(NULL != pDset)
 		{
 			if(pDset->GetType() == enumGISFeatureDataset)
-			{
+			{				
 				if(pVectorConfigGrid == NULL)
 				{
+					for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
+					{
+						wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+						if(sDesc.StartsWith(_("Unknown")))
+							continue;
+				#ifndef __WXMAC__
+						if(sDesc.StartsWith(_("Mac")))
+							continue;
+				#endif //MAC
+							
+						if (i == wxFONTENCODING_DEFAULT)
+							sDefault = sDesc;
+						asEnc.Add(sDesc);
+						m_mnEnc[sDesc] = (wxFontEncoding)i;
+					}
+					
+					
 					pVectorConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pVectorConfigGrid->CreateGrid(1, 3);
+					pVectorConfigGrid->CreateGrid(0, 3);
 					pVectorConfigGrid->SetColLabelValue(0, _("File"));
+					pVectorConfigGrid->SetColSize(0, COL_FILE_NAME_SIZE);
 					pVectorConfigGrid->SetColLabelValue(1, _("Output name"));
+					pVectorConfigGrid->SetColSize(1, COL_FILE_NAME_SIZE);
 					pVectorConfigGrid->SetColLabelValue(2, _("Encoding"));
+					pVectorConfigGrid->SetColSize(2, COL_ENCODING_SIZE);
+					pVectorConfigGrid->SetRowLabelSize(COL_LABEL_SIZE);		
 				}
+				
 				pVectorConfigGrid->AppendRows();
+				pVectorConfigGrid->SetCellValue( nVectorDSCount, 0, pDset->GetName() );
+				pVectorConfigGrid->SetCellValue( nVectorDSCount, 1, pDset->GetBaseName() ); //TODO: normalize names for dest datasource
+				pVectorConfigGrid->SetCellEditor( nVectorDSCount, 2, new wxGridCellChoiceEditor(asEnc));
+				pVectorConfigGrid->SetCellValue( nVectorDSCount, 2, sDefault );
+				
+				//TODO: check spatial reference, field names and etc.
+				//if problems - show bar on top of the window
+				//TODO: if geometrybag - split to separate geometry types 
+				nVectorDSCount++;
 			}
 			
 			if(pDset->GetType() == enumGISRasterDataset)
@@ -329,11 +369,16 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 				if(pRasterConfigGrid == NULL)
 				{
 					pRasterConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pRasterConfigGrid->CreateGrid(1, 3);
-					pVectorConfigGrid->SetColLabelValue(0, _("File"));
-					pVectorConfigGrid->SetColLabelValue(1, _("Output name"));
-					pVectorConfigGrid->SetColLabelValue(2, _("Bands"));
+					pRasterConfigGrid->CreateGrid(0, 3);
+					pRasterConfigGrid->SetColLabelValue(0, _("File"));
+					pRasterConfigGrid->SetColSize(0, COL_FILE_NAME_SIZE);
+					pRasterConfigGrid->SetColLabelValue(1, _("Output name"));
+					pRasterConfigGrid->SetColSize(1, COL_FILE_NAME_SIZE);
+					pRasterConfigGrid->SetColLabelValue(2, _("Bands"));
+					pRasterConfigGrid->SetColSize(2, COL_ENCODING_SIZE);
+					pRasterConfigGrid->SetRowLabelSize(COL_LABEL_SIZE);
 				}
+				
 				pRasterConfigGrid->AppendRows();
 			}
 		}

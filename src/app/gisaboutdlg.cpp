@@ -100,11 +100,11 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	bool bIsBranded = false;
     if (oConfig.IsOk())
 	{
-		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrand/status/is_branded"), false);
 		if(bIsBranded)
 		{
 			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
-			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrend/icon/prefix"), wxEmptyString);
+			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrand/icon/prefix"), wxEmptyString);
 			wxString sBitmapPath = sImgPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%s64.png"), sPrefix.c_str());
 			m_bitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap(sBitmapPath, wxBITMAP_TYPE_PNG), wxPoint( -1,-1 ), wxDefaultSize, wxNO_BORDER );	
 		}

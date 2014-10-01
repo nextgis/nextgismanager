@@ -102,7 +102,7 @@ bool wxGISCatalogApp::OnInit()
     {
         long nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 7000);
         wxBitmap splash_bmp;
-		bool bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		bool bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrand/status/is_branded"), false);
 		if(bIsBranded)
 		{
 			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));

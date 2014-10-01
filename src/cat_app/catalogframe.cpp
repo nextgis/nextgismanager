@@ -49,17 +49,17 @@ wxGISCatalogFrame::wxGISCatalogFrame(wxWindow* parent, wxWindowID id, const wxSt
 	bool bIsBranded = false;
     if (oConfig.IsOk())
 	{
-		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrend/status/is_branded"), false);
+		bIsBranded = oConfig.ReadBool(enumGISHKCU, wxT("ngmbrand/status/is_branded"), false);
 		if(bIsBranded)
 		{
-			wxString sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrend/text/short"), wxEmptyString);
+			wxString sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrand/text/short"), wxEmptyString);
 		
 			if(!sBrendText.IsEmpty())
 			{
 				m_sAppDisplayNameShort = sBrendText;
 			}
 			
-			sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrend/text/normal"), wxEmptyString);
+			sBrendText = oConfig.Read(enumGISHKCU, wxT("ngmbrand/text/normal"), wxEmptyString);
 		
 			if(!sBrendText.IsEmpty())
 			{
@@ -67,7 +67,7 @@ wxGISCatalogFrame::wxGISCatalogFrame(wxWindow* parent, wxWindowID id, const wxSt
 			}
 			
 			//icons
-			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrend/icon/prefix"), wxEmptyString);
+			wxString sPrefix = oConfig.Read(enumGISHKCU, wxT("ngmbrand/icon/prefix"), wxEmptyString);
 			wxString sImgPath = oConfig.GetConfigDir(wxT("brand"));
 			if(!sImgPath.IsEmpty())
 			{

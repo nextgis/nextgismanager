@@ -76,6 +76,7 @@ public:
 	}
 protected:
 	wxSplitterWindow* m_Splitter;
+    std::map<wxString, wxFontEncoding> m_mnEnc;
 };
 
 
