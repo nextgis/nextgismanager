@@ -492,7 +492,7 @@ BEGIN_EVENT_TABLE(wxGISTableView, wxPanel)
 	EVT_BUTTON(wxGISTableView::ID_PREV, wxGISTableView::OnBtnPrev)
 	EVT_BUTTON(wxGISTableView::ID_LAST, wxGISTableView::OnBtnLast)
 	EVT_TEXT_ENTER(wxGISTableView::ID_POS, wxGISTableView::OnSetPos)
-    EVT_COMBOBOX(wxGISTableView::ID_ENCODING, wxGISTableView::OnEncodingSelect)
+    EVT_CHOICE(wxGISTableView::ID_ENCODING, wxGISTableView::OnEncodingSelect)
 END_EVENT_TABLE();
 
 wxGISTableView::wxGISTableView(void)
@@ -618,7 +618,8 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 		m_mnEnc[sDesc] = (wxFontEncoding)i;
     }
 
-    m_pEncodingsCombo = new wxComboBox(this, ID_ENCODING, sDefault, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_DROPDOWN | wxCB_READONLY | wxCB_SORT);
+    m_pEncodingsCombo = new wxChoice(this, ID_ENCODING, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_SORT);
+	m_pEncodingsCombo->SetSelection(m_pEncodingsCombo->FindString (sDefault));
     bSizerLow->Add(m_pEncodingsCombo, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
 

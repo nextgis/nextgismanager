@@ -831,6 +831,8 @@ void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs)
         extMsg += wxT("\n\n");
     }
     dlg.SetExtendedMessage(extMsg);
+	dlg.SetLayoutAdaptationMode (wxDIALOG_ADAPTATION_MODE_ENABLED);
+	dlg.SetSizeHints(200, 100, 1200, 700);
     dlg.ShowModal();
 
     wxLogError(extMsg);

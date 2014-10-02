@@ -22,6 +22,8 @@
 #pragma once
 
 #include "wxgis/catalogui/remoteconndlgs.h"
+#include "wxgis/catalog/gxdataset.h"
+#include "wxgis/datasource/featuredataset.h"
 
 #include <wx/splitter.h>
 #include <wx/grid.h>
@@ -104,6 +106,34 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+/** @class wxGISVectorImportPanel
+ *  
+ *  The import vector dataset panel.
+ * 
+ * 	@library{catalogui}
+*/
+class WXDLLIMPEXP_GIS_CLU wxGISVectorImportPanel : public wxGISBaseImportPanel
+{
+	enum
+    {
+        ID_ENCODING = wxID_HIGHEST + 4001,
+		ID_TEST   
+    };
+    DECLARE_CLASS(wxGISVectorImportPanel)
+public:
+	wxGISVectorImportPanel( wxGxDataset *pDset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+    virtual ~wxGISVectorImportPanel();
+	//events
+	virtual void OnEncodingSelect(wxCommandEvent& event);
+protected:
+	wxGISFeatureDataset *m_pFeatureClass;
+	std::map<wxString, wxFontEncoding> m_mnEnc;
+	wxString m_sLayerName;
+	wxChoice* m_pEncodingsCombo;
+private:
+    DECLARE_EVENT_TABLE()
+};
+
 /** @class wxGISDatasetImportDlg
 
     The dialog to configurate importing datasets (raster or vector) - new names, set encodings, set bands, etc. 
@@ -115,10 +145,8 @@ class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
 public:
 	wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISDatasetImportDlg();
-	virtual void AddPanel(wxGISBaseImportPanel* pImportPanel);
 protected:
 	wxBoxSizer *m_bMainSizer;
-//    std::map<wxString, wxFontEncoding> m_mnEnc;
 };
 
 

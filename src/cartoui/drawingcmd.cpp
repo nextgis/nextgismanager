@@ -526,7 +526,7 @@ IToolBarControl* wxGISDrawingTool::GetControl(void)
     case enumGISDrawingToolLayerSelector:
     {
         wxArrayString ValuesArray;
-        wxGISDrawingLayersComboBox* pComboBox = new wxGISDrawingLayersComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(180, 22), ValuesArray);
+        wxGISDrawingLayersComboBox* pComboBox = new wxGISDrawingLayersComboBox(dynamic_cast<wxWindow*>(m_pApp), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(180, 23), ValuesArray);
         return static_cast<IToolBarControl*>(pComboBox);
     }
     default:
@@ -824,11 +824,11 @@ void wxGISDrawingToolMenu::OnDropDownCommand(int nID)
 // wxGISDrawingLayersComboBox
 //-----------------------------------------------------------------------------------------
 
-IMPLEMENT_CLASS(wxGISDrawingLayersComboBox, wxComboBox)
+IMPLEMENT_CLASS(wxGISDrawingLayersComboBox, wxChoice)
 
-BEGIN_EVENT_TABLE(wxGISDrawingLayersComboBox, wxComboBox)
-EVT_MXMAP_LAYER_ADDED(wxGISDrawingLayersComboBox::OnLayerAdded)
-EVT_MXMAP_LAYER_REMOVED(wxGISDrawingLayersComboBox::OnLayerRemoved)
+BEGIN_EVENT_TABLE(wxGISDrawingLayersComboBox, wxChoice)
+	EVT_MXMAP_LAYER_ADDED(wxGISDrawingLayersComboBox::OnLayerAdded)
+	EVT_MXMAP_LAYER_REMOVED(wxGISDrawingLayersComboBox::OnLayerRemoved)
 END_EVENT_TABLE()
 
 wxGISDrawingLayersComboBox::wxGISDrawingLayersComboBox(wxWindow* parent, wxWindowID id, const wxString& value, const wxPoint& pos, const wxSize& size, const wxArrayString& choices, long style, const wxValidator& validator, const wxString& name) : wxComboBox(parent, id, value, pos, size, choices, style, validator, name)

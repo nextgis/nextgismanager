@@ -21,7 +21,6 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/createremotedlgs.h"
-#include "wxgis/catalog/gxdataset.h"
 
 #include "../../art/state.xpm"
 
@@ -312,25 +311,23 @@ wxGISBaseImportPanel::wxGISBaseImportPanel( wxWindow* parent, wxWindowID id, con
 	m_ImageList.Create(16, 16);
 	m_ImageList.Add(wxBitmap(state_xpm));
 	
-	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 2, 3, 0, 0 );
-	fgSizer1->AddGrowableCol( 1 );
-	fgSizer1->SetFlexibleDirection( wxBOTH );
-	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxBoxSizer* fgSizer0 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* fgSizer1 = new wxBoxSizer( wxHORIZONTAL );
 
-    m_pStateBitmap = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap , wxDefaultPosition, wxDefaultSize, 0 );
+    m_pStateBitmap = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(1) , wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer1->Add( m_pStateBitmap, 0, wxALL, 5 );
 
-	m_bMainSizer = new wxBoxSizer(wxHORIZONTAL);
-	fgSizer1->Add( m_bMainSizer, 1, wxALL|wxEXPAND, 5 );
-
-	wxStaticBitmap* bitmap = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(8), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer1->Add( bitmap, 0, wxALL, 5 );
+	m_bMainSizer = new wxBoxSizer(wxVERTICAL);
+	fgSizer1->Add( m_bMainSizer, 1, wxALL|wxEXPAND, 0 );
 
 	m_pCloseBitmap = new wxBitmapButton( this, wxID_CLOSE, m_ImageList.GetIcon(8), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	fgSizer1->Add( m_pCloseBitmap, 0, wxALL, 5 );
 
-	this->SetSizer( fgSizer1 );
+	fgSizer0->Add( fgSizer1, 0, wxEXPAND | wxALL, 5 );
+	fgSizer0->Add( new wxStaticLine(this), 0, wxEXPAND | wxALL, 5 );
+	this->SetSizer( fgSizer0 );
 	this->Layout();
 }
 
@@ -377,6 +374,86 @@ void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
 }
 
 //-------------------------------------------------------------------------------
+//  wxGISVectorImportPanel
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISVectorImportPanel, wxGISBaseImportPanel)
+
+BEGIN_EVENT_TABLE(wxGISVectorImportPanel, wxGISBaseImportPanel)
+    EVT_CHOICE(wxGISVectorImportPanel::ID_ENCODING, wxGISVectorImportPanel::OnEncodingSelect)
+END_EVENT_TABLE();
+
+wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel( parent, id, pos, size, style )
+{
+	m_pFeatureClass = wxDynamicCast(pDset->GetDataset(false), wxGISFeatureDataset);
+	
+	wxFlexGridSizer* fgSizer1;
+    fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+    wxStaticText *pInputStaticText = new wxStaticText( this, wxID_ANY, _("Input dataset:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pInputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pDset->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( pInputStaticTextVal, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, pDset->GetBaseName(), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sLayerName) );
+	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxStaticText *pEncStaticText = new wxStaticText( this, wxID_ANY, _("Encoding:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pEncStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxArrayString asEnc;
+	wxString sDefault;
+	for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
+	{
+		wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+		if(sDesc.StartsWith(_("Unknown")))
+			continue;
+#ifndef __WXMAC__
+		if(sDesc.StartsWith(_("Mac")))
+			continue;
+#endif //MAC
+			
+		if (i == wxFONTENCODING_DEFAULT)
+			sDefault = sDesc;
+		asEnc.Add(sDesc);
+		m_mnEnc[sDesc] = (wxFontEncoding)i;
+	}
+	
+	m_pEncodingsCombo = new wxChoice(this, ID_ENCODING, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_SORT);
+	m_pEncodingsCombo->SetSelection(m_pEncodingsCombo->FindString (sDefault));
+	
+	wxBoxSizer* pFunctSizer = new wxBoxSizer(wxHORIZONTAL);
+	pFunctSizer->Add( m_pEncodingsCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	pFunctSizer->Add( new wxButton(this, ID_TEST, _("Test")), 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
+		
+	
+	m_bMainSizer->Add(fgSizer1, 0, wxEXPAND | wxALL, 5 );
+	
+	this->Layout();
+}
+
+wxGISVectorImportPanel::~wxGISVectorImportPanel()
+{
+}
+
+void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
+{
+    wxString sSel = m_pEncodingsCombo->GetStringSelection();
+    wxFontEncoding eEnc = m_mnEnc[sSel];
+	if(m_pFeatureClass)
+		m_pFeatureClass->SetEncoding(eEnc);
+}
+
+//-------------------------------------------------------------------------------
 //  wxGISDatasetImportDlg
 //-------------------------------------------------------------------------------
 
@@ -384,86 +461,22 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 {
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 	
-/*	
-	wxGrid* pVectorConfigGrid = NULL;
-	wxGrid* pRasterConfigGrid = NULL;
-	int nVectorDSCount = 0;
-	int nRasterDSCount = 0;
-	wxArrayString asEnc;
-	wxString sDefault;
-*/	
 	for(size_t i = 0; i < paDatasets.size(); ++i)
 	{
 		wxGxDataset *pDset = dynamic_cast<wxGxDataset*>(paDatasets[i]);
 		if(NULL != pDset)
-		{
-			AddPanel(new wxGISBaseImportPanel(this));
-			/*if(pDset->GetType() == enumGISFeatureDataset)
+		{			
+			if(pDset->GetType() == enumGISFeatureDataset)
 			{				
-				if(pVectorConfigGrid == NULL)
-				{
-					for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
-					{
-						wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
-						if(sDesc.StartsWith(_("Unknown")))
-							continue;
-				#ifndef __WXMAC__
-						if(sDesc.StartsWith(_("Mac")))
-							continue;
-				#endif //MAC
-							
-						if (i == wxFONTENCODING_DEFAULT)
-							sDefault = sDesc;
-						asEnc.Add(sDesc);
-						m_mnEnc[sDesc] = (wxFontEncoding)i;
-					}
-					
-					
-					pVectorConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pVectorConfigGrid->CreateGrid(0, 3);
-					pVectorConfigGrid->SetColLabelValue(0, _("File"));
-					pVectorConfigGrid->SetColSize(0, COL_FILE_NAME_SIZE);
-					pVectorConfigGrid->SetColLabelValue(1, _("Output name"));
-					pVectorConfigGrid->SetColSize(1, COL_FILE_NAME_SIZE);
-					pVectorConfigGrid->SetColLabelValue(2, _("Encoding"));
-					pVectorConfigGrid->SetColSize(2, COL_ENCODING_SIZE);
-					pVectorConfigGrid->SetRowLabelSize(COL_LABEL_SIZE);		
-				}
-				
-				pVectorConfigGrid->AppendRows();
-				pVectorConfigGrid->SetCellValue( nVectorDSCount, 0, pDset->GetName() );
-				pVectorConfigGrid->SetCellValue( nVectorDSCount, 1, pDset->GetBaseName() ); //TODO: normalize names for dest datasource
-				pVectorConfigGrid->SetCellEditor( nVectorDSCount, 2, new wxGridCellChoiceEditor(asEnc));
-				pVectorConfigGrid->SetCellValue( nVectorDSCount, 2, sDefault );
-				
-				//TODO: check spatial reference, field names and etc.
-				//if problems - show bar on top of the window
-				//TODO: if geometrybag - split to separate geometry types 
-				nVectorDSCount++;
+				m_bMainSizer->Add( new wxGISVectorImportPanel(pDset, this), 0, wxEXPAND | wxALL, 0 );
 			}
 			
 			if(pDset->GetType() == enumGISRasterDataset)
 			{
-				if(pRasterConfigGrid == NULL)
-				{
-					pRasterConfigGrid = new wxGrid(m_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-					pRasterConfigGrid->CreateGrid(0, 3);
-					pRasterConfigGrid->SetColLabelValue(0, _("File"));
-					pRasterConfigGrid->SetColSize(0, COL_FILE_NAME_SIZE);
-					pRasterConfigGrid->SetColLabelValue(1, _("Output name"));
-					pRasterConfigGrid->SetColSize(1, COL_FILE_NAME_SIZE);
-					pRasterConfigGrid->SetColLabelValue(2, _("Bands"));
-					pRasterConfigGrid->SetColSize(2, COL_ENCODING_SIZE);
-					pRasterConfigGrid->SetRowLabelSize(COL_LABEL_SIZE);
-				}
-				
-				pRasterConfigGrid->AppendRows();
-			}*/
+
+			}
 		}
 	}
-	
-	wxStaticLine *pStaticLineButtons = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	m_bMainSizer->Add( pStaticLineButtons, 0, wxEXPAND | wxALL, 5 );
 
 	wxStdDialogButtonSizer *sdbSizer = new wxStdDialogButtonSizer();
 	wxButton *sdbSizerOK = new wxButton( this, wxID_OK, _("OK") );
@@ -478,6 +491,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 	this->Layout();
 
 	this->Centre( wxBOTH );	
+	this->SetSizeHints(400, 300, 1200, 700);
 }
 
 wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
@@ -485,9 +499,3 @@ wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
 	
 }
 
-void wxGISDatasetImportDlg::AddPanel(wxGISBaseImportPanel* pImportPanel)
-{
-    m_bMainSizer->Add( pImportPanel, 0, wxEXPAND, 5 );
-    Layout();
-    FitInside();
-}

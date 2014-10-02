@@ -175,8 +175,8 @@ protected:
 	wxBitmapButton* m_bpPrev;
 	wxTextCtrl* m_position;
 	wxBitmapButton* m_bpNext;
-	wxBitmapButton* m_bpLast;
-    wxComboBox *m_pEncodingsCombo;
+	wxBitmapButton* m_bpLast;    
+    wxChoice *m_pEncodingsCombo;
     wxStaticLine *m_staticline1;
     std::map<wxString, wxFontEncoding> m_mnEnc;
 private:

@@ -52,6 +52,8 @@ public:
     //IGxRootObjectProperties
     virtual void Init(wxXmlNode* const pConfigNode);
     virtual void Serialize(wxXmlNode* const pConfigNode);
+	virtual bool CanDelete(void) {return false;};
+    virtual bool CanRename(void) {return false;};
 protected:
     virtual void StartWatcher(void);
     virtual void LoadChildren(void);

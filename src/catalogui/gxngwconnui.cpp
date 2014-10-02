@@ -461,20 +461,14 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
 					}
                 }
-				
-				//Show error message box if some datasets are dropped as unsupported (i.e. no SRS)
-				
-				
-				//create dialog for vector and raster config
-				wxGISDatasetImportDlg dlg(paDatasets, pParentWnd);
-				if(dlg.ShowModal() == wxID_OK)
-				{
-					ProgressDlg.ShowProgress(true);
-					//NAME	new name	encoding	test
-					//
-					//NAME	new name	bands	test
-				}
             }
+			
+			//create dialog for vector and raster config
+			wxGISDatasetImportDlg dlg(paDatasets, pParentWnd);
+			if(dlg.ShowModal() == wxID_OK)
+			{
+				ProgressDlg.ShowProgress(true);
+			}		
 		}
 	}
 	return false;
