@@ -23,6 +23,8 @@
 #include "wxgis/catalogui/createremotedlgs.h"
 #include "wxgis/catalog/gxdataset.h"
 
+#include "../../art/state.xpm"
+
 #include <wx/fontmap.h>
 
 #define COL_LABEL_SIZE 25
@@ -295,6 +297,84 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 
 #endif //wxGIS_USE_POSTGRES
 
+//-------------------------------------------------------------------------------
+// wxGISBaseImportPanel
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_ABSTRACT_CLASS(wxGISBaseImportPanel, wxPanel)
+
+BEGIN_EVENT_TABLE(wxGISBaseImportPanel, wxPanel)
+	EVT_BUTTON(wxID_CLOSE, wxGISBaseImportPanel::OnClose)
+END_EVENT_TABLE()
+
+wxGISBaseImportPanel::wxGISBaseImportPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	m_ImageList.Create(16, 16);
+	m_ImageList.Add(wxBitmap(state_xpm));
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 3, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+    m_pStateBitmap = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap , wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( m_pStateBitmap, 0, wxALL, 5 );
+
+	m_bMainSizer = new wxBoxSizer(wxHORIZONTAL);
+	fgSizer1->Add( m_bMainSizer, 1, wxALL|wxEXPAND, 5 );
+
+	wxStaticBitmap* bitmap = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(8), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( bitmap, 0, wxALL, 5 );
+
+	m_pCloseBitmap = new wxBitmapButton( this, wxID_CLOSE, m_ImageList.GetIcon(8), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	fgSizer1->Add( m_pCloseBitmap, 0, wxALL, 5 );
+
+	this->SetSizer( fgSizer1 );
+	this->Layout();
+}
+
+wxGISBaseImportPanel::~wxGISBaseImportPanel()
+{
+}
+
+void wxGISBaseImportPanel::SetMessage(wxGISEnumMessageType nType, const wxString &sMsg)
+{
+    switch(nType)
+    {
+    case wxGISEnumMessageInformation:
+        m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(0));
+        break;
+    case wxGISEnumMessageError:
+        m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(2));
+        break;
+    case wxGISEnumMessageWarning:
+        m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(3));
+        break;
+    case wxGISEnumMessageRequired:
+        m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(4));
+        break;
+    case wxGISEnumMessageOk:
+        m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(1));
+        break;
+    case wxGISEnumMessageNone:
+        m_pStateBitmap->SetBitmap(wxNullBitmap);
+        break;
+    default:
+    case wxGISEnumMessageUnknown:
+        m_pStateBitmap->SetBitmap(wxNullBitmap);
+        break;
+    }
+    m_pStateBitmap->SetToolTip(sMsg);
+}
+
+void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
+{
+	wxWindow* pWnd = GetParent();
+	Destroy();
+	if(pWnd)
+		pWnd->Layout();
+}
 
 //-------------------------------------------------------------------------------
 //  wxGISDatasetImportDlg
@@ -302,25 +382,23 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 
 wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
-	wxBoxSizer *bMainSizer = new wxBoxSizer( wxVERTICAL );
+	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize);//, wxSP_3D  | wxNO_BORDER
-	//m_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( wxGISToolBarPanel::SplitterOnIdle ), NULL, this );
-	m_Splitter->Bind( wxEVT_IDLE, &wxGISDatasetImportDlg::SplitterOnIdle, this );
-	
+/*	
 	wxGrid* pVectorConfigGrid = NULL;
 	wxGrid* pRasterConfigGrid = NULL;
 	int nVectorDSCount = 0;
 	int nRasterDSCount = 0;
 	wxArrayString asEnc;
 	wxString sDefault;
-	
+*/	
 	for(size_t i = 0; i < paDatasets.size(); ++i)
 	{
 		wxGxDataset *pDset = dynamic_cast<wxGxDataset*>(paDatasets[i]);
 		if(NULL != pDset)
 		{
-			if(pDset->GetType() == enumGISFeatureDataset)
+			AddPanel(new wxGISBaseImportPanel(this));
+			/*if(pDset->GetType() == enumGISFeatureDataset)
 			{				
 				if(pVectorConfigGrid == NULL)
 				{
@@ -380,25 +458,12 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 				}
 				
 				pRasterConfigGrid->AppendRows();
-			}
+			}*/
 		}
 	}
 	
-	if(pVectorConfigGrid && pRasterConfigGrid)
-	{
-		m_Splitter->SetSashGravity(0.5);
-		m_Splitter->SplitVertically(pVectorConfigGrid, pRasterConfigGrid, 100);
-		//m_pTreeCtrl->Bind( wxEVT_LEFT_DOWN, &wxGISToolBarPanel::OnLeftDown, this );
-	}
-	else if(pVectorConfigGrid)
-		m_Splitter->Initialize(pVectorConfigGrid);
-	else if(pRasterConfigGrid)
-		m_Splitter->Initialize(pRasterConfigGrid);
-	
-	bMainSizer->Add( m_Splitter, 1, wxEXPAND | wxALL, 5 );
-	
 	wxStaticLine *pStaticLineButtons = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	bMainSizer->Add( pStaticLineButtons, 0, wxEXPAND | wxALL, 5 );
+	m_bMainSizer->Add( pStaticLineButtons, 0, wxEXPAND | wxALL, 5 );
 
 	wxStdDialogButtonSizer *sdbSizer = new wxStdDialogButtonSizer();
 	wxButton *sdbSizerOK = new wxButton( this, wxID_OK, _("OK") );
@@ -406,10 +471,10 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 	wxButton *sdbSizerCancel = new wxButton( this, wxID_CANCEL, _("Cancel") );
 	sdbSizer->AddButton( sdbSizerCancel );
 	sdbSizer->Realize();
-	bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
+	m_bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
 
-
-    this->SetSizerAndFit(bMainSizer);
+	this->SetLayoutAdaptationMode (wxDIALOG_ADAPTATION_MODE_ENABLED);
+    this->SetSizerAndFit(m_bMainSizer);
 	this->Layout();
 
 	this->Centre( wxBOTH );	
@@ -418,4 +483,11 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
 {
 	
+}
+
+void wxGISDatasetImportDlg::AddPanel(wxGISBaseImportPanel* pImportPanel)
+{
+    m_bMainSizer->Add( pImportPanel, 0, wxEXPAND, 5 );
+    Layout();
+    FitInside();
 }

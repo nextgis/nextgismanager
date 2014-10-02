@@ -25,6 +25,16 @@
 
 #include <wx/splitter.h>
 #include <wx/grid.h>
+#include <wx/intl.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/statbmp.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/sizer.h>
+#include <wx/panel.h>
+#include <wx/imaglist.h>
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -58,6 +68,42 @@ protected:
 
 #endif //wxGIS_USE_POSTGRES
 
+/** @class wxGISBaseImportPanel
+ *  
+ *  The base import dataset panel.
+ * 
+ * 	@library{catalogui}
+*/
+class WXDLLIMPEXP_GIS_CLU wxGISBaseImportPanel : public wxPanel
+{
+    DECLARE_ABSTRACT_CLASS(wxGISBaseImportPanel)
+	enum wxGISEnumMessageType
+	{
+		wxGISEnumMessageUnknown = 0,  /**< The message type is undefined */
+		wxGISEnumMessageInformation,  /**< The information message*/
+		wxGISEnumMessageError,        /**< The error message*/
+		wxGISEnumMessageWarning,      /**< The warning message*/
+		wxGISEnumMessageRequired,     /**< The required message - show required icon near param edit control*/
+		wxGISEnumMessageOk,           /**< The ok message - show ok icon near param edit control*/
+		wxGISEnumMessageNone          /**< The none message - show no icon near param edit control*/
+	};
+public:
+	wxGISBaseImportPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+    virtual ~wxGISBaseImportPanel();
+    virtual void SetMessage(wxGISEnumMessageType nType = wxGISEnumMessageUnknown, const wxString &sMsg = wxEmptyString);
+	//events
+    virtual void OnClose(wxCommandEvent& event);
+protected:
+    wxStaticBitmap* m_pStateBitmap;
+	wxBitmapButton* m_pCloseBitmap;
+	wxBoxSizer *m_bMainSizer;
+	wxImageList m_ImageList;
+	wxGISEnumMessageType m_nCurrentType;
+	wxString m_sCurrentMsg;
+private:
+    DECLARE_EVENT_TABLE()
+};
+
 /** @class wxGISDatasetImportDlg
 
     The dialog to configurate importing datasets (raster or vector) - new names, set encodings, set bands, etc. 
@@ -69,14 +115,10 @@ class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
 public:
 	wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISDatasetImportDlg();
-	void SplitterOnIdle( wxIdleEvent& )
-	{
-		m_Splitter->SetSashPosition( 0 );
-        m_Splitter->Unbind( wxEVT_IDLE, &wxGISDatasetImportDlg::SplitterOnIdle, this );
-	}
+	virtual void AddPanel(wxGISBaseImportPanel* pImportPanel);
 protected:
-	wxSplitterWindow* m_Splitter;
-    std::map<wxString, wxFontEncoding> m_mnEnc;
+	wxBoxSizer *m_bMainSizer;
+//    std::map<wxString, wxFontEncoding> m_mnEnc;
 };
 
 

@@ -39,7 +39,7 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/grid.h>
-#include  <wx/imaglist.h>
+#include <wx/imaglist.h>
 
 /** @class wxGISDTBase
  *  

@@ -821,7 +821,7 @@ bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConn
 		
 		//{"resource":{"cls":"postgis_layer","parent":{"id":0},"display_name":"test","keyname":null,"description":null},"postgis_layer":{"connection":{"id":31},"table":"roads","schema":"thematic","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":null,"fields":"update","srs":{"id":3857}}}
 
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_layer\",\"parent\":{\"id\":%d},\"display_name\":\"%s\",\"keyname\":\"%s\"}, \"postgis_layer\":{\"connection\":{\"id\":%d},\"table\":\"%s\",\"schema\":\"%s\",\"column_id\":\"%s\", \"column_geom\":\"%s\",\"fields\":\"update\",\"srs\":{\"id\":3857}}}"), m_nRemoteId, sName.ToUTF8(), MakeKey(sTable).ToUTF8(), nPGConnId, sTable.ToUTF8(), sSchema.ToUTF8(), sFid.ToUTF8(), sGeom.ToUTF8());
+	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_layer\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_layer\":{\"connection\":{\"id\":%d},\"table\":\"%s\",\"schema\":\"%s\",\"column_id\":\"%s\", \"column_geom\":\"%s\",\"fields\":\"update\",\"srs\":{\"id\":3857}}}"), m_nRemoteId, sName.ToUTF8(), nPGConnId, sTable.ToUTF8(), sSchema.ToUTF8(), sFid.ToUTF8(), sGeom.ToUTF8());
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
@@ -978,6 +978,16 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 		return CanCopy(szDestPath) && CanDelete();
 	return true;	
 }
+
+//change fields
+//PUT /ore/resource/37/child/127
+//
+//{"resource":{"display_name":"water_polygon","keyname":"water_polygon","parent":{"id":37},"permissions":[],"description":null},"feature_layer":{"fields":[{"id":140,"keyname":"OSM_ID2","datatype":"REAL","typemod":null,"display_name":"OSM_ID 3","label_field":false,"grid_visibility":true},{"id":141,"keyname":"NAME2","datatype":"STRING","typemod":null,"display_name":"NAME 3","label_field":false,"grid_visibility":true},{"id":142,"keyname":"NATURAL","datatype":"STRING","typemod":null,"display_name":"NATURAL","label_field":false,"grid_visibility":true},{"id":143,"keyname":"WATERWAY","datatype":"STRING","typemod":null,"display_name":"WATERWAY","label_field":false,"grid_visibility":true},{"id":144,"keyname":"WETLAND","datatype":"STRING","typemod":null,"display_name":"WETLAND","label_field":false,"grid_visibility":true}]},"postgis_layer":{"connection":{"id":14,"parent":{"id":0}},"table":"water_polygon","schema":"topo_osm","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":"POLYGON","fields":"keep","srs":{"id":3857}}}
+//
+//http://176.9.38.120/ore/resource/127/field/
+//
+//[{"display_name": "OSM_ID 3", "idx": 0, "datatype": "REAL", "layer_id": 127, "grid_visibility": true, "keyname": "OSM_ID2", "id": 140, "cls": "postgis_layer"}, {"display_name": "NAME 3", "idx": 1, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NAME2", "id": 141, "cls": "postgis_layer"}, {"display_name": "NATURAL", "idx": 2, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NATURAL", "id": 142, "cls": "postgis_layer"}, {"display_name": "WATERWAY", "idx": 3, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WATERWAY", "id": 143, "cls": "postgis_layer"}, {"display_name": "WETLAND", "idx": 4, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WETLAND", "id": 144, "cls": "postgis_layer"}]
+
 
 //--------------------------------------------------------------
 // wxGxNGWPostGISConnection
