@@ -213,15 +213,16 @@ void wxGxCatalog::LoadChildren(wxXmlNode* const pNode)
         if(bIsEnabled && pGxObject && pGxRootObjectProperties && pGxObject->Create(this) )
 		{
             pGxRootObjectProperties->Init(pChildren);
-    		wxLogMessage(_("wxGxCatalog: Root Object %s initialized"), sCatalogRootItemName.c_str());
-            //prevent duplicates
-            m_CatalogRootItemArray.Add(sCatalogRootItemName);
+    		wxLogMessage(_("Catalog Root Object %s initialized"), sCatalogRootItemName.c_str());
 		}
 		else
         {
             wxDELETE(obj);
-			wxLogError(_("wxGxCatalog: Root Object %s disabled"), sCatalogRootItemName.c_str());
+			wxLogError(_("Catalog Root Object %s disabled"), sCatalogRootItemName.c_str());
         }
+
+        //prevent duplicates
+        m_CatalogRootItemArray.Add(sCatalogRootItemName);
 
 		pChildren = pChildren->GetNext();
 	}

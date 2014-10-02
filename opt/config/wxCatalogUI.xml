@@ -6,9 +6,9 @@
       <rootitem name="wxGxSpatialReferencesFolderUI" is_enabled="t"/>
       <rootitem name="wxGxDiscConnectionsUI" is_enabled="t"/>
       <rootitem name="wxGxDBConnectionsUI" is_enabled="t"/>
-      <rootitem name="wxGxShellConnectionsUI" is_enabled="t"/>
+      <rootitem name="wxGxShellConnectionsUI" is_enabled="f"/>
       <rootitem name="wxGxWebConnectionsUI" is_enabled="t"/>
-      <rootitem name="wxGxRemoteServersUI" is_enabled="t">
+      <rootitem name="wxGxRemoteServersUI" is_enabled="f">
         <factory name="wxClientTCPNetFactoryUI" port="9976" adv_port="9977"/>
       </rootitem>
     </rootitems>

@@ -325,6 +325,9 @@
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="5" name="NGW Resource Group"/>
       </menu>
       <menu name="wxGxNGWLayer.ContextMenu" caption="Слой NGW">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
+        <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="&amp;Экспорт"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
