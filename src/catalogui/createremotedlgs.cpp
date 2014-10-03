@@ -387,6 +387,11 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* par
 {
 	m_pFeatureClass = wxDynamicCast(pDset->GetDataset(false), wxGISFeatureDataset);
 	
+	//TODO: checks
+	//1. topology
+	//2. spatial reference
+	//3. fields
+	
 	wxFlexGridSizer* fgSizer1;
     fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
 	fgSizer1->AddGrowableCol( 1 );
@@ -443,6 +448,8 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* par
 
 wxGISVectorImportPanel::~wxGISVectorImportPanel()
 {
+	if(m_pFeatureClass)
+		m_pFeatureClass->Release();
 }
 
 void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
@@ -468,6 +475,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, 
 		{			
 			if(pDset->GetType() == enumGISFeatureDataset)
 			{				
+				//TODO: split for geometry bag to separate panels
 				m_bMainSizer->Add( new wxGISVectorImportPanel(pDset, this), 0, wxEXPAND | wxALL, 0 );
 			}
 			

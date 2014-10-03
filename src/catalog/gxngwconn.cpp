@@ -368,7 +368,13 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
     if(!curl.IsOk())
         return false;
 		
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
+	wxJSONValue val;
+	val["resource"]["display_name"] = sNewName;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);	
+		
+	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.PutData(sURL, sPayload);
 	
@@ -387,8 +393,14 @@ bool wxGxNGWResource::MoveResource(int nResourceId)
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
         return false;
+		
+	wxJSONValue val;
+	val["resource"]["parent"]["id"] = nResourceId;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);	
 	
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"parent\":{\"id\":\"%d\"}}}"), nResourceId);
+	//wxString sPayload = wxString::Format(wxT("{\"resource\":{\"parent\":{\"id\":\"%d\"}}}"), nResourceId);
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
     PERFORMRESULT res = curl.PutData(sURL, sPayload);
 	
@@ -796,8 +808,15 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
         return false;
 	
 	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
+	wxJSONValue val;
+	val["resource"]["cls"] = wxString(wxT("resource_group"));
+	val["resource"]["parent"]["id"] = m_nRemoteId;
+	val["resource"]["display_name"] = sName;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);
 	
-    wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8());
+    //wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"resource_group\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
@@ -820,8 +839,22 @@ bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConn
         return false;	
 		
 		//{"resource":{"cls":"postgis_layer","parent":{"id":0},"display_name":"test","keyname":null,"description":null},"postgis_layer":{"connection":{"id":31},"table":"roads","schema":"thematic","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":null,"fields":"update","srs":{"id":3857}}}
-
-	wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_layer\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_layer\":{\"connection\":{\"id\":%d},\"table\":\"%s\",\"schema\":\"%s\",\"column_id\":\"%s\", \"column_geom\":\"%s\",\"fields\":\"update\",\"srs\":{\"id\":3857}}}"), m_nRemoteId, sName.ToUTF8(), nPGConnId, sTable.ToUTF8(), sSchema.ToUTF8(), sFid.ToUTF8(), sGeom.ToUTF8());
+	wxJSONValue val;
+	val["resource"]["cls"] = wxString(wxT("postgis_layer"));
+	val["resource"]["parent"]["id"] = m_nRemoteId;
+	val["resource"]["display_name"] = sName;
+	val["postgis_layer"]["connection"]["id"] = nPGConnId;
+	val["postgis_layer"]["table"] = sTable;
+	val["postgis_layer"]["schema"] = sSchema;
+	val["postgis_layer"]["column_id"] = sFid;
+	val["postgis_layer"]["column_geom"] = sGeom;
+	val["postgis_layer"]["fields"] = wxString(wxT("update"));
+	val["postgis_layer"]["srs"]["id"] = 3857;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);
+	
+	//wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_layer\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_layer\":{\"connection\":{\"id\":%d},\"table\":\"%s\",\"schema\":\"%s\",\"column_id\":\"%s\", \"column_geom\":\"%s\",\"fields\":\"update\",\"srs\":{\"id\":3857}}}"), m_nRemoteId, sName.ToUTF8(), nPGConnId, sTable.ToUTF8(), sSchema.ToUTF8(), sFid.ToUTF8(), sGeom.ToUTF8());
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
@@ -843,9 +876,21 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
     if(!curl.IsOk())
         return false;
 	
-	// {"resource":{"cls":"postgis_connection","parent":{"id":0},"display_name":"gis lab info","keyname":"gis-lab","description":"gis-lab PostGIS Connection"},"postgis_connection":{"hostname":"gis-lab.info","database":"rosavto","username":"bishop","password":"e-054808"}}
+	// {"resource":{"cls":"postgis_connection","parent":{"id":0},"display_name":"gis lab info","keyname":"gis-lab","description":"gis-lab PostGIS Connection"},"postgis_connection":{"hostname":"gis-lab.info","database":"rosavto","username":"user","password":"secret"}}
 	
-    wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_connection\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_connection\":{\"hostname\":\"%s\",\"database\":\"%s\",\"username\":\"%s\",\"password\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8(), sServer.ToUTF8(), sDatabase.ToUTF8(), sUser.ToUTF8(), sPassword.ToUTF8());
+	wxJSONValue val;
+	val["resource"]["cls"] = wxString(wxT("postgis_connection"));
+	val["resource"]["parent"]["id"] = m_nRemoteId;
+	val["resource"]["display_name"] = sName;
+	val["postgis_connection"]["hostname"] = sServer;
+	val["postgis_connection"]["database"] = sDatabase;
+	val["postgis_connection"]["username"] = sUser;
+	val["postgis_connection"]["password"] = sPassword;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);
+	
+    //wxString sPayload = wxString::Format(wxT("{\"resource\":{\"cls\":\"postgis_connection\",\"parent\":{\"id\":%d},\"display_name\":\"%s\"}, \"postgis_connection\":{\"hostname\":\"%s\",\"database\":\"%s\",\"username\":\"%s\",\"password\":\"%s\"}}"), m_nRemoteId, sName.ToUTF8(), sServer.ToUTF8(), sDatabase.ToUTF8(), sUser.ToUTF8(), sPassword.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
     PERFORMRESULT res = curl.Post(sURL, sPayload);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;

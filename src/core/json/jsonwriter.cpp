@@ -761,6 +761,17 @@ wxJSONWriter::WriteStringValue( wxOutputStream& os, const wxString& str )
                 return -1;
             }
         }
+//		else if(ch > 127)
+//		{
+//			char b[8];
+//			snprintf( b, 8, "\\u%02X%02X", (unsigned char)ch, (unsigned char)writeBuff[0]);
+//			//snprintf( b, 8, "\\u%04X", (int) ch );
+//			os.Write( b, 6 );
+//			if ( os.GetLastError() != wxSTREAM_NO_ERROR )    
+//			{
+//				return -1;
+//			}
+//		}
 
         // the char is not a control character
         else {
