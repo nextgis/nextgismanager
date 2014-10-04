@@ -85,7 +85,9 @@ public:
 	wxGISBaseImportPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISBaseImportPanel();
     virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType);
-	virtual wxString GetLastMessage(void) const ;
+	virtual wxString GetLastMessage(void) const;
+	virtual wxGISEnumMessageType GetLastMessageType() const;
+	virtual wxGISDataset* GetDataset() const = 0;
 	//events
     virtual void OnClose(wxCommandEvent& event);
 protected:
@@ -117,6 +119,7 @@ class WXDLLIMPEXP_GIS_CLU wxGISVectorImportPanel : public wxGISBaseImportPanel
 public:
 	wxGISVectorImportPanel( wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISVectorImportPanel();
+	virtual wxGISDataset* GetDataset() const;
 	//events
 	virtual void OnEncodingSelect(wxCommandEvent& event);
 protected:
@@ -139,8 +142,11 @@ class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
 public:
 	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISDatasetImportDlg();
+	virtual size_t GetDatasetCount();
+	virtual wxGISDataset* GetDataset(size_t nIndex) const;
 protected:
 	wxBoxSizer *m_bMainSizer;
+	wxVector<wxGISDataset*> m_paDatasets;
 };
 
 

@@ -1072,12 +1072,15 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 		{
 			if (pTrackCancel)
 			{
-				wxString sErr = wxString::Format(_("The geometry %ld is not valid"), Feature.GetFID());
-				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
-			}
-			saIgnoredFields.Clear();
-			pSrcDataSet->SetIgnoredFields(saIgnoredFields);
-			return;
+				wxString sWarnGeom = wxString::Format(_("There is no geometry in feature %ld. The feature wiill be ignored"), Feature.GetFID());
+				wxString sLastMsg = pTrackCancel->GetLastMessage();
+				wxString sWarn;
+				if(sLastMsg.IsEmpty())
+					sWarn = sWarnGeom;
+				else
+					sWarn = sLastMsg + wxString(wxT("\n")) + sWarnGeom;
+				pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+			}			
 		}
 	}
 	saIgnoredFields.Clear();

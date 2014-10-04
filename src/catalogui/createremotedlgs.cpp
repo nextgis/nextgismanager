@@ -373,6 +373,11 @@ wxString wxGISBaseImportPanel::GetLastMessage(void) const
 	return m_sCurrentMsg;
 }
 
+wxGISEnumMessageType wxGISBaseImportPanel::GetLastMessageType() const
+{
+	return m_eCurrentType;
+}
+
 void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
 {
 	wxWindow* pWnd = GetParent();
@@ -473,6 +478,11 @@ void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
     wxFontEncoding eEnc = m_mnEnc[sSel];
 	if(m_pFeatureClass)
 		m_pFeatureClass->SetEncoding(eEnc);
+}
+
+wxGISDataset* wxGISVectorImportPanel::GetDataset() const
+{
+	return wxStaticCast(m_pFeatureClass, wxGISDataset);
 }
 
 //-------------------------------------------------------------------------------
@@ -608,3 +618,33 @@ wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
 	
 }
 
+
+size_t wxGISDatasetImportDlg::GetDatasetCount()
+{
+	if(m_paDatasets.empty())
+	{
+		for ( size_t i = 0; i < m_bMainSizer->GetItemCount(); ++i ) 
+		{    
+			wxSizerItem * pItem = m_bMainSizer->GetItem(i);
+			if(!pItem)
+				continue;
+			wxGISBaseImportPanel* pImportPanel = dynamic_cast<wxGISBaseImportPanel*>(pItem->GetWindow());
+			if(pImportPanel && pImportPanel->GetLastMessageType() != enumGISMessageError)
+			{
+				wxGISDataset* pDSet = pImportPanel->GetDataset();
+				if(pDSet)
+					m_paDatasets.push_back(pDSet);
+			}
+		} 
+	}	
+	return m_paDatasets.size();
+}
+
+wxGISDataset* wxGISDatasetImportDlg::GetDataset(size_t nIndex) const
+{
+	if(m_paDatasets.size() <= nIndex)
+	{
+		return m_paDatasets[nIndex];
+	}
+	return NULL;
+}
