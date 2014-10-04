@@ -92,7 +92,7 @@ void wxGISDTBase::OnParamMsgSet(wxGISGPParamEvent &event)
     }
 }
 
-void wxGISDTBase::SetMessage(wxGISEnumGPMessageType nType, const wxString &sMsg)
+void wxGISDTBase::SetMessage(wxGISEnumMessageType nType, const wxString &sMsg)
 {
 	if(m_nCurrentType == nType && m_sCurrentMsg == sMsg)
 		return;
@@ -100,26 +100,26 @@ void wxGISDTBase::SetMessage(wxGISEnumGPMessageType nType, const wxString &sMsg)
 	m_sCurrentMsg = sMsg;
     switch(nType)
     {
-    case wxGISEnumGPMessageInformation:
+    case enumGISMessageInformation:
         m_StateBitmap->SetBitmap(m_ImageList.GetIcon(0));
         break;
-    case wxGISEnumGPMessageError:
+    case enumGISMessageError:
         m_StateBitmap->SetBitmap(m_ImageList.GetIcon(2));
         break;
-    case wxGISEnumGPMessageWarning:
+    case enumGISMessageWarning:
         m_StateBitmap->SetBitmap(m_ImageList.GetIcon(3));
         break;
-    case wxGISEnumGPMessageRequired:
+    case enumGISMessageRequired:
         m_StateBitmap->SetBitmap(m_ImageList.GetIcon(4));
         break;
-    case wxGISEnumGPMessageOk:
+    case enumGISMessageOk:
         m_StateBitmap->SetBitmap(m_ImageList.GetIcon(1));
         break;
-    case wxGISEnumGPMessageNone:
+    case enumGISMessageNone:
         m_StateBitmap->SetBitmap(wxNullBitmap);
         break;
     default:
-    case wxGISEnumGPMessageUnknown:
+    case enumGISMessageUnknown:
         m_StateBitmap->SetBitmap(wxNullBitmap);
         break;
     }
@@ -289,13 +289,13 @@ bool wxGISDTPath::Validate(void)
         if(m_pParam->GetParameterType() != enumGISGPParameterTypeRequired)
         {
             m_pParam->SetValid(true);
-            m_pParam->SetMessage(wxGISEnumGPMessageNone);
+            m_pParam->SetMessage(enumGISMessageNone);
             return true;
         }
         else
         {
             m_pParam->SetValid(false);
-            m_pParam->SetMessage(wxGISEnumGPMessageRequired, _("The value is required"));
+            m_pParam->SetMessage(enumGISMessageRequired, _("The value is required"));
             return false;
         }
     }
@@ -309,12 +309,12 @@ bool wxGISDTPath::Validate(void)
            if(m_pParam->GetDirection() == enumGISGPParameterDirectionInput)
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageOk);
+               m_pParam->SetMessage(enumGISMessageOk);
            }
            else
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageWarning, _("The output object exists and will be overwritten!"));
+               m_pParam->SetMessage(enumGISMessageWarning, _("The output object exists and will be overwritten!"));
            }
            return true;
         }
@@ -323,13 +323,13 @@ bool wxGISDTPath::Validate(void)
            if(m_pParam->GetDirection() == enumGISGPParameterDirectionInput)
            {
                 m_pParam->SetValid(false);
-                m_pParam->SetMessage(wxGISEnumGPMessageError, _("The input object doesn't exist"));
+                m_pParam->SetMessage(enumGISMessageError, _("The input object doesn't exist"));
                 return false;
            }
            else
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageOk);
+               m_pParam->SetMessage(enumGISMessageOk);
                return true;
            }
         }
@@ -477,13 +477,13 @@ bool wxGISDTFolderPath::Validate(void)
         if(m_pParam->GetParameterType() != enumGISGPParameterTypeRequired)
         {
             m_pParam->SetValid(true);
-            m_pParam->SetMessage(wxGISEnumGPMessageNone);
+            m_pParam->SetMessage(enumGISMessageNone);
             return true;
         }
         else
         {
             m_pParam->SetValid(false);
-            m_pParam->SetMessage(wxGISEnumGPMessageRequired, _("The value is required"));
+            m_pParam->SetMessage(enumGISMessageRequired, _("The value is required"));
             return false;
         }
     }
@@ -497,12 +497,12 @@ bool wxGISDTFolderPath::Validate(void)
            if(m_pParam->GetDirection() == enumGISGPParameterDirectionInput)
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageOk);
+               m_pParam->SetMessage(enumGISMessageOk);
            }
            else
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageWarning, _("The output object exists and will be overwritten!"));
+               m_pParam->SetMessage(enumGISMessageWarning, _("The output object exists and will be overwritten!"));
            }
            return true;
         }
@@ -511,13 +511,13 @@ bool wxGISDTFolderPath::Validate(void)
            if(m_pParam->GetDirection() == enumGISGPParameterDirectionInput)
            {
                 m_pParam->SetValid(false);
-                m_pParam->SetMessage(wxGISEnumGPMessageError, _("The input object doesn't exist"));
+                m_pParam->SetMessage(enumGISMessageError, _("The input object doesn't exist"));
                 return false;
            }
            else
            {
                m_pParam->SetValid(true);
-               m_pParam->SetMessage(wxGISEnumGPMessageOk);
+               m_pParam->SetMessage(enumGISMessageOk);
                return true;
            }
         }
@@ -609,7 +609,7 @@ bool wxGISDTDigit::Validate(void)
     m_pParam->SetValid(bValid);
     if ( bValid )
     {
-        m_pParam->SetMessage(wxGISEnumGPMessageOk);
+        m_pParam->SetMessage(enumGISMessageOk);
         switch(m_pParam->GetDataType())
         {
         case enumGISGPParamDTInteger:
@@ -620,7 +620,7 @@ bool wxGISDTDigit::Validate(void)
     }
     else
     {
-        m_pParam->SetMessage(wxGISEnumGPMessageError, _("The input data are invalid"));
+        m_pParam->SetMessage(enumGISMessageError, _("The input data are invalid"));
         return false;
     }
     return true;
@@ -779,10 +779,10 @@ bool wxGISDTChoice::Validate(void)
     m_pParam->SetValid(bRetVal);
     if ( bRetVal )
     {
-        m_pParam->SetMessage(wxGISEnumGPMessageOk);
+        m_pParam->SetMessage(enumGISMessageOk);
     }
     else
-        m_pParam->SetMessage(wxGISEnumGPMessageError, _("The input data are invalid"));
+        m_pParam->SetMessage(enumGISMessageError, _("The input data are invalid"));
 
     return bRetVal;
 
@@ -1018,10 +1018,10 @@ bool wxGISDTFieldChoice::Validate(void)
     m_pParam->SetValid(bRetVal);
     if ( bRetVal )
     {
-        m_pParam->SetMessage(wxGISEnumGPMessageOk);
+        m_pParam->SetMessage(enumGISMessageOk);
     }
     else
-        m_pParam->SetMessage(wxGISEnumGPMessageError, _("The input data are invalid"));
+        m_pParam->SetMessage(enumGISMessageError, _("The input data are invalid"));
 
     return bRetVal;
 }
@@ -1147,7 +1147,7 @@ bool wxGISDTBool::Validate(void)
 		return m_pParam->IsValid();
 
     m_pParam->SetValid(true);
-    m_pParam->SetMessage(wxGISEnumGPMessageOk);
+    m_pParam->SetMessage(enumGISMessageOk);
 	m_pParam->SetHasBeenValidated(true);
     return true;
 }
@@ -1241,7 +1241,7 @@ bool wxGISDTText::Validate(void)
     }
 
     m_pParam->SetValid(true);
-    m_pParam->SetMessage(wxGISEnumGPMessageOk);
+    m_pParam->SetMessage(enumGISMessageOk);
 	m_pParam->SetHasBeenValidated(true);
     return true;
 }
@@ -1313,13 +1313,13 @@ bool wxGISDTSpatRef::Validate(void)
         if(m_pParam->GetParameterType() != enumGISGPParameterTypeRequired)
         {
             m_pParam->SetValid(true);
-            m_pParam->SetMessage(wxGISEnumGPMessageNone);
+            m_pParam->SetMessage(enumGISMessageNone);
             return true;
         }
         else
         {
             m_pParam->SetValid(false);
-            m_pParam->SetMessage(wxGISEnumGPMessageRequired, _("The value is required"));
+            m_pParam->SetMessage(enumGISMessageRequired, _("The value is required"));
             return false;
         }
     }
@@ -1333,13 +1333,13 @@ bool wxGISDTSpatRef::Validate(void)
         if(pGxPrjFileUI)
         {
             m_pParam->SetValid(true);
-            m_pParam->SetMessage(wxGISEnumGPMessageOk);
+            m_pParam->SetMessage(enumGISMessageOk);
             return true;
         }
         else
         {
             m_pParam->SetValid(false);
-            m_pParam->SetMessage(wxGISEnumGPMessageError, _("Unsupported Spatial reference"));
+            m_pParam->SetMessage(enumGISMessageError, _("Unsupported Spatial reference"));
             return false;
         }
     }

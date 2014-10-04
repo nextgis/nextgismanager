@@ -21,6 +21,7 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/createremotedlgs.h"
+#include "wxgis/framework/application.h"
 
 #include "../../art/state.xpm"
 
@@ -335,34 +336,36 @@ wxGISBaseImportPanel::~wxGISBaseImportPanel()
 {
 }
 
-void wxGISBaseImportPanel::SetMessage(wxGISEnumMessageType nType, const wxString &sMsg)
+void wxGISBaseImportPanel::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
 {
-    switch(nType)
+	m_eCurrentType = eType;
+	m_sCurrentMsg = sMessage;
+    switch(eType)
     {
-    case wxGISEnumMessageInformation:
+    case enumGISMessageInformation:
         m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(0));
         break;
-    case wxGISEnumMessageError:
+    case enumGISMessageError:
         m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(2));
         break;
-    case wxGISEnumMessageWarning:
+    case enumGISMessageWarning:
         m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(3));
         break;
-    case wxGISEnumMessageRequired:
+    case enumGISMessageRequired:
         m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(4));
         break;
-    case wxGISEnumMessageOk:
+    case enumGISMessageOk:
         m_pStateBitmap->SetBitmap(m_ImageList.GetIcon(1));
         break;
-    case wxGISEnumMessageNone:
+    case enumGISMessageNone:
         m_pStateBitmap->SetBitmap(wxNullBitmap);
         break;
     default:
-    case wxGISEnumMessageUnknown:
+    case enumGISMessageUnknown:
         m_pStateBitmap->SetBitmap(wxNullBitmap);
         break;
     }
-    m_pStateBitmap->SetToolTip(sMsg);
+    m_pStateBitmap->SetToolTip(sMessage);
 }
 
 void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
@@ -383,14 +386,9 @@ BEGIN_EVENT_TABLE(wxGISVectorImportPanel, wxGISBaseImportPanel)
     EVT_CHOICE(wxGISVectorImportPanel::ID_ENCODING, wxGISVectorImportPanel::OnEncodingSelect)
 END_EVENT_TABLE();
 
-wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel( parent, id, pos, size, style )
+wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
 {
-	m_pFeatureClass = wxDynamicCast(pDset->GetDataset(false), wxGISFeatureDataset);
-	
-	//TODO: checks
-	//1. topology
-	//2. spatial reference
-	//3. fields
+	wsSET(m_pFeatureClass, pSrcDs);
 	
 	wxFlexGridSizer* fgSizer1;
     fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
@@ -401,13 +399,13 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* par
     wxStaticText *pInputStaticText = new wxStaticText( this, wxID_ANY, _("Input dataset:"), wxDefaultPosition, wxDefaultSize, 0 );
     fgSizer1->Add( pInputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 
-    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pDset->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pSrcDs->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer1->Add( pInputStaticTextVal, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
     fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 
-	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, pDset->GetBaseName(), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sLayerName) );
+	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, sOutName, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sLayerName) );
 	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxStaticText *pEncStaticText = new wxStaticText( this, wxID_ANY, _("Encoding:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -436,7 +434,9 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* par
 	
 	wxBoxSizer* pFunctSizer = new wxBoxSizer(wxHORIZONTAL);
 	pFunctSizer->Add( m_pEncodingsCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
-	pFunctSizer->Add( new wxButton(this, ID_TEST, _("Test")), 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_pTestButton = new wxButton(this, ID_TEST, _("Test"));
+	pFunctSizer->Add( m_pTestButton, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
 		
@@ -444,12 +444,16 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGxDataset *pDset, wxWindow* par
 	m_bMainSizer->Add(fgSizer1, 0, wxEXPAND | wxALL, 5 );
 	
 	this->Layout();
+	
+	pDestDs->ValidateDataset(pSrcDs, eFilterGeomType, bToMulti, this);
+	if(m_eCurrentType == enumGISMessageError && m_pTestButton)
+		m_pTestButton->Enable(false);
+
 }
 
 wxGISVectorImportPanel::~wxGISVectorImportPanel()
 {
-	if(m_pFeatureClass)
-		m_pFeatureClass->Release();
+	wsDELETE(m_pFeatureClass);
 }
 
 void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
@@ -464,24 +468,110 @@ void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
 //  wxGISDatasetImportDlg
 //-------------------------------------------------------------------------------
 
-wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
+wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 	
-	for(size_t i = 0; i < paDatasets.size(); ++i)
+	if(pDestDs)
 	{
-		wxGxDataset *pDset = dynamic_cast<wxGxDataset*>(paDatasets[i]);
-		if(NULL != pDset)
-		{			
-			if(pDset->GetType() == enumGISFeatureDataset)
-			{				
-				//TODO: split for geometry bag to separate panels
-				m_bMainSizer->Add( new wxGISVectorImportPanel(pDset, this), 0, wxEXPAND | wxALL, 0 );
-			}
-			
-			if(pDset->GetType() == enumGISRasterDataset)
-			{
+		for(size_t i = 0; i < paDatasets.size(); ++i)
+		{
+			wxGxDataset *pSrcDs = dynamic_cast<wxGxDataset*>(paDatasets[i]);
+			if(NULL != pSrcDs)
+			{			
+				if(pSrcDs->GetType() == enumGISFeatureDataset)
+				{		
+					wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+					if(!pGISDs)
+						continue;
+					wxGISFeatureDataset* pSrcFeatureDs = dynamic_cast<wxGISFeatureDataset*>(pGISDs);		
+					if(!pSrcFeatureDs)
+					{
+						wsDELETE(pGISDs);
+						continue;
+					}
+					//split for geometry bag to separate panels
+					if(pDestDs->CanStoreMultipleGeometryTypes())
+					{
+						wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
+						m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
+					}
+					else
+					{
+						OGRwkbGeometryType eGeomType = pSrcFeatureDs->GetGeometryType();
+						bool bIsMultigeom = wkbFlatten(eGeomType) == wkbUnknown || wkbFlatten(eGeomType) == wkbGeometryCollection;
+						if(bIsMultigeom)
+						{
+							wxArrayString saIgnoredFields = pSrcFeatureDs->GetFieldNames();
+							saIgnoredFields.Add(wxT("OGR_STYLE"));
+							pSrcFeatureDs->SetIgnoredFields(saIgnoredFields);
+							pSrcFeatureDs->Reset();
 
+							std::map<OGRwkbGeometryType, int> mnCounts;
+							
+							wxGISApplication *pApp = dynamic_cast<wxGISApplication*>(GetApplication());
+							wxGISStatusBar* pStatusBar = NULL;
+							if(pApp)
+								pStatusBar = pApp->GetStatusBar();
+							IProgressor* pProgressor(NULL);
+							if (pStatusBar)
+							{
+								pStatusBar->SetMessage(_("Get feature count"), 0);
+								pProgressor = pStatusBar->GetProgressor();
+							}
+
+							int nCounter(0);
+							if (pProgressor)
+							{
+								pProgressor->SetRange(pSrcFeatureDs->GetFeatureCount(false, NULL));
+							}
+
+							wxGISFeature Feature;
+							while ((Feature = pSrcFeatureDs->Next()).IsOk())
+							{
+								//check if Feature will destroy by Ref Count
+								wxGISGeometry Geom = Feature.GetGeometry();
+								if (Geom.IsOk())
+								{
+									OGRwkbGeometryType eFeatureGeomType = Geom.GetType();
+									if (bIsMultigeom && wkbFlatten(eFeatureGeomType) > 1 && wkbFlatten(eFeatureGeomType) < 4)
+									{
+										mnCounts[(OGRwkbGeometryType)(eFeatureGeomType + 3)] += 1;
+									}
+									else
+									{
+										mnCounts[eFeatureGeomType] += 1;
+									}
+								}
+								if (pProgressor)
+								{
+									pProgressor->SetValue(nCounter++);
+								}
+							}
+
+							for (std::map<OGRwkbGeometryType, int>::const_iterator IT = mnCounts.begin(); IT != mnCounts.end(); ++IT)
+							{
+								if (IT->second > 0)
+								{
+									wxString sType(OGRGeometryTypeToName(IT->first), wxConvUTF8);
+									sType.Replace(" ", "");
+									
+									wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName() + wxT(" ") + sType.MakeLower());
+									m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, IT->first, bIsMultigeom, this), 0, wxEXPAND | wxALL, 0 );
+								}
+							}
+						}
+						else
+						{
+							wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
+							m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
+						}
+					}
+				}
+				else if(pSrcDs->GetType() == enumGISRasterDataset)
+				{
+
+				}
 			}
 		}
 	}

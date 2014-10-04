@@ -32,18 +32,18 @@ bool OverWriteGxObject(wxGxObject* const pGxObject, ITrackCancel* const pTrackCa
     {
         //add messages to pTrackCancel
 		if(pTrackCancel)
-			pTrackCancel->PutMessage(_("Overwrite destination object"), -1, enumGISMessageInfo);
+			pTrackCancel->PutMessage(_("Overwrite destination object"), -1, enumGISMessageInformation);
 		if(!pGxDstObjectEdit->CanDelete() || !pGxDstObjectEdit->Delete())
 		{
 			if(pTrackCancel)
-				pTrackCancel->PutMessage(_("Failed overwrite destination object"), -1, enumGISMessageErr);
+				pTrackCancel->PutMessage(_("Failed overwrite destination object"), -1, enumGISMessageError);
 			return false;
 		}
     }
 	else
 	{
 		if(pTrackCancel)
-			pTrackCancel->PutMessage(_("Cannot delete item!"), -1, enumGISMessageErr);
+			pTrackCancel->PutMessage(_("Cannot delete item!"), -1, enumGISMessageError);
         return false;
 	}
 	return true;
@@ -61,7 +61,7 @@ wxGxObject* GetParentGxObjectFromPath(const wxString &sFullPath, ITrackCancel* c
         if(!pGxDstObject)
         {
             if(pTrackCancel)
-                pTrackCancel->PutMessage(_("Error get destination object"), -1, enumGISMessageErr);
+                pTrackCancel->PutMessage(_("Error get destination object"), -1, enumGISMessageError);
         }
         return pGxDstObject;
     }

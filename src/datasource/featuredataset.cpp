@@ -576,7 +576,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
 	if(pTrackCancel)
 	{
 		pTrackCancel->Reset();
-		pTrackCancel->PutMessage(wxString(_("PreLoad Features of ")) + GetName(), -1, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString(_("PreLoad Features of ")) + GetName(), -1, enumGISMessageInformation);
 		pProgress = pTrackCancel->GetProgressor();
 		if(pProgress)
             pProgress->ShowProgress(true);

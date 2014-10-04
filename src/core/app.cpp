@@ -61,7 +61,7 @@ void wxGISLogError(const wxString& sAppErr, const wxString &sLibError, const wxS
 	}	
 	
 	wxLogError(sErrMsg);
-	pTrackCancel->PutMessage(sErrMsg, wxNOT_FOUND, enumGISMessageErr);
+	pTrackCancel->PutMessage(sErrMsg, wxNOT_FOUND, enumGISMessageError);
 }
 
 void wxGISLogMessage(const wxString& sAppMsg, ITrackCancel* const pTrackCancel)
@@ -73,6 +73,6 @@ void wxGISLogMessage(const wxString& sAppMsg, ITrackCancel* const pTrackCancel)
 	}
 		
 	wxLogMessage(sAppMsg);	
-	pTrackCancel->PutMessage(sAppMsg, wxNOT_FOUND, enumGISMessageInfo);
+	pTrackCancel->PutMessage(sAppMsg, wxNOT_FOUND, enumGISMessageInformation);
 }
 

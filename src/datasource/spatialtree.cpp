@@ -140,7 +140,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 	if(m_pTrackCancel)
 	{
 		m_pTrackCancel->Reset();
-		m_pTrackCancel->PutMessage(wxString(_("PreLoad Geometry of ")) + m_pDSet->GetName(), -1, enumGISMessageInfo);
+		m_pTrackCancel->PutMessage(wxString(_("PreLoad Geometry of ")) + m_pDSet->GetName(), -1, enumGISMessageInformation);
         pProgress = m_pTrackCancel->GetProgressor();
 	}
 
@@ -219,7 +219,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 
 	        if(m_pTrackCancel)
 	        {
-		        m_pTrackCancel->PutMessage(_("Cancel"), -1, enumGISMessageInfo);
+		        m_pTrackCancel->PutMessage(_("Cancel"), -1, enumGISMessageInformation);
             }
 
            	if(pProgress)
@@ -259,7 +259,7 @@ wxThread::ExitCode wxGISSpatialTree::Entry()
 
 	if(m_pTrackCancel)
 	{
-		m_pTrackCancel->PutMessage(_("Done"), -1, enumGISMessageInfo);
+		m_pTrackCancel->PutMessage(_("Done"), -1, enumGISMessageInformation);
         m_pTrackCancel = NULL;
     }
 

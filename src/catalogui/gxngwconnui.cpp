@@ -433,6 +433,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		}
 		else
 		{
+			wxBusyCursor wait;
 			//export other vector and raster DS
             wxVector<IGxDataset*> paDatasets;
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
@@ -441,8 +442,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				if (NULL != pGxObject)
 				{
 					if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
-					{
-						wxBusyCursor wait;
+					{						
 						wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
 						if (!pCont->HasChildren())
 							continue;
@@ -464,7 +464,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
             }
 			
 			//create dialog for vector and raster config
-			wxGISDatasetImportDlg dlg(paDatasets, pParentWnd);
+			wxGISDatasetImportDlg dlg(this, paDatasets, pParentWnd);
 			if(dlg.ShowModal() == wxID_OK)
 			{
 				ProgressDlg.ShowProgress(true);

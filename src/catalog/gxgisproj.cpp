@@ -231,7 +231,7 @@ bool wxGxQGISProjFile::CanCopy(const CPLString &szDestPath)
 bool wxGxQGISProjFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
 
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");
@@ -256,7 +256,7 @@ bool wxGxQGISProjFile::CanMove(const CPLString &szDestPath)
 bool wxGxQGISProjFile::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
     
     //CPLString szFullDestPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
     CPLString szFullDestPath = CheckUniqPath(szDestPath, CPLGetFilename(m_sPath), true, " ");

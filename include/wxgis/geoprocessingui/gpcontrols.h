@@ -53,10 +53,10 @@ class WXDLLIMPEXP_GIS_GPU wxGISDTBase : public wxPanel
 public:
 	wxGISDTBase( const wxGISGPParameterArray &Params, int nParamIndex, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISDTBase();
-    virtual void SetMessage(wxGISEnumGPMessageType nType = wxGISEnumGPMessageUnknown, const wxString &sMsg = wxEmptyString);
+    virtual void SetMessage(wxGISEnumMessageType nType = enumGISMessageUnknown, const wxString &sMsg = wxEmptyString);
     virtual bool Validate(void) = 0;
     virtual wxGISGPParameter* GetParameter(void) const;
-	virtual wxGISEnumGPMessageType GetCurrentMessageType(void) const {return m_nCurrentType;};
+	virtual wxGISEnumMessageType GetCurrentMessageType(void) const {return m_nCurrentType;};
 	virtual wxString GetCurrentMessage(void) const {return m_sCurrentMsg;};
     virtual void OnDelete();
 	//events
@@ -69,7 +69,7 @@ protected:
 	wxStaticBitmap* m_bitmap;
     wxGISGPParameter* m_pParam;
 	wxImageList m_ImageList;
-	wxGISEnumGPMessageType m_nCurrentType;
+	wxGISEnumMessageType m_nCurrentType;
 	wxString m_sCurrentMsg;
     wxGISGPParameterArray m_Params;
     int m_nParamIndex;

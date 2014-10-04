@@ -109,7 +109,7 @@ bool wxGxRemoteConnection::Rename(const wxString &sNewName)
 bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
 
 	wxGISDataset* pDSet = GetDatasetFast();
 
@@ -117,7 +117,7 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
     {
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
@@ -131,7 +131,7 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
         wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Copy"), wxString(err, wxConvUTF8).c_str(), GetCategory().c_str(), wxString(m_sPath, wxConvUTF8).c_str());
 		wxLogError(sErr);
         if(pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
 		return false;
     }
 
@@ -142,7 +142,7 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
 {
     if (pTrackCancel)
     {
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
     }
 
 	wxGISDataset* pDSet = GetDatasetFast();
@@ -151,7 +151,7 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
     {
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
@@ -166,7 +166,7 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
         wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s, %s '%s'"), _("Move"), GetCategory().c_str(), wxString(err, wxConvUTF8).c_str(), wxString(m_sPath, wxConvUTF8).c_str());
 		wxLogError(sErr);
         if(pTrackCancel)
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
 		return false;
     }
 

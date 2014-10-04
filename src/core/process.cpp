@@ -240,12 +240,12 @@ void wxGISProcess::ProcessInput(wxString &sInputData)
 	}
 	if( sInputData.StartsWith(wxT("INFO: "), &sRest) )
 	{
-        AddInfo(enumGISMessageNorm, sRest);
+        AddInfo(enumGISMessageNormal, sRest);
 		return;
 	}
 	if( sInputData.StartsWith(wxT("ERR: "), &sRest) )
 	{
-        AddInfo(enumGISMessageErr, sRest);
+        AddInfo(enumGISMessageError, sRest);
 		return;
 	}
 	if( sInputData.StartsWith(wxT("WARN: "), &sRest) )
@@ -264,7 +264,7 @@ void wxGISProcess::ProcessInput(wxString &sInputData)
 		return;
 	}
 
-    AddInfo(enumGISMessageUnk, sInputData);
+    AddInfo(enumGISMessageUnknown, sInputData);
 }
 
 wxThread::ExitCode wxGISProcess::Entry()

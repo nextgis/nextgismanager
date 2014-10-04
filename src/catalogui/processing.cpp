@@ -823,7 +823,7 @@ void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs)
     {
         if (msgs[i].sMessage.IsEmpty())
             continue;
-        if (msgs[i].eType == enumGISMessageErr)
+        if (msgs[i].eType == enumGISMessageError)
             extMsg += _("Error") + wxT(": ");
         else if (msgs[i].eType == enumGISMessageWarning)
             extMsg += _("Warning") + wxT(": ");

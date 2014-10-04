@@ -584,7 +584,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
 
                 if (pTrackCancel)
                 {
-                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageError);
                 }
                 oOutCursor.Reset();
                 return oOutCursor;
@@ -628,7 +628,7 @@ wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFi
 
                 if (pTrackCancel)
                 {
-                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageError);
                 }
                 oOutCursor.Reset();
                 m_poLayer->SetAttributeFilter(NULL);
@@ -858,7 +858,7 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
 	if(pTrackCancel)
 	{
 		pTrackCancel->Reset();
-		pTrackCancel->PutMessage(wxString(_("PreLoad Features of ")) + GetName(), -1, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString(_("PreLoad Features of ")) + GetName(), -1, enumGISMessageInformation);
 		pProgress = pTrackCancel->GetProgressor();
 		if(pProgress)
 			pProgress->ShowProgress(true);
@@ -1096,7 +1096,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
 
                 if (pTrackCancel)
                 {
-                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageError);
                 }
                 oOutCursor.Reset();
                 return oOutCursor;
@@ -1142,7 +1142,7 @@ wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool b
 
                 if (pTrackCancel)
                 {
-                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageErr);
+                    pTrackCancel->PutMessage(wxString(sFullErr), wxNOT_FOUND, enumGISMessageError);
                 }
                 oOutCursor.Reset();
                 m_poLayer->SetAttributeFilter(NULL);

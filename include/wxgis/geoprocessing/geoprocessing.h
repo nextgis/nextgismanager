@@ -38,23 +38,6 @@
 //GPScriptTool 3
 //GPCustomTool
 
-/** @enum wxGISEnumGPMessageType
-
-    A geoprocessing tool parameter message type.
-*/
-
-enum wxGISEnumGPMessageType
-{
-    wxGISEnumGPMessageUnknown = 0,  /**< The message type is undefined */
-	wxGISEnumGPMessageInformation,  /**< The information message*/
-	wxGISEnumGPMessageError,        /**< The error message*/
-	wxGISEnumGPMessageWarning,      /**< The warning message*/
-	wxGISEnumGPMessageRequired,     /**< The required message - show required icon near param edit control*/
-	wxGISEnumGPMessageOk,           /**< The ok message - show ok icon near param edit control*/
-	wxGISEnumGPMessageNone          /**< The none message - show no icon near param edit control*/
-};
-
-
 /** @enum wxGISEnumGPParameterType
 
     A geoprocessing tool parameter type.

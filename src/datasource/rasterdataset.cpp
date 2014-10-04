@@ -568,7 +568,7 @@ bool wxGISRasterDataset::Copy(const CPLString &szDestPath, ITrackCancel* const p
     if(!papszFileList)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageError);
         return false;
     }
 

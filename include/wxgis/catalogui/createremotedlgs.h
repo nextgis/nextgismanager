@@ -76,23 +76,15 @@ protected:
  * 
  * 	@library{catalogui}
 */
-class WXDLLIMPEXP_GIS_CLU wxGISBaseImportPanel : public wxPanel
+class WXDLLIMPEXP_GIS_CLU wxGISBaseImportPanel : 
+	public wxPanel,
+	public ITrackCancel
 {
     DECLARE_ABSTRACT_CLASS(wxGISBaseImportPanel)
-	enum wxGISEnumMessageType
-	{
-		wxGISEnumMessageUnknown = 0,  /**< The message type is undefined */
-		wxGISEnumMessageInformation,  /**< The information message*/
-		wxGISEnumMessageError,        /**< The error message*/
-		wxGISEnumMessageWarning,      /**< The warning message*/
-		wxGISEnumMessageRequired,     /**< The required message - show required icon near param edit control*/
-		wxGISEnumMessageOk,           /**< The ok message - show ok icon near param edit control*/
-		wxGISEnumMessageNone          /**< The none message - show no icon near param edit control*/
-	};
 public:
-	wxGISBaseImportPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+	wxGISBaseImportPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISBaseImportPanel();
-    virtual void SetMessage(wxGISEnumMessageType nType = wxGISEnumMessageUnknown, const wxString &sMsg = wxEmptyString);
+    virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType);
 	//events
     virtual void OnClose(wxCommandEvent& event);
 protected:
@@ -100,7 +92,8 @@ protected:
 	wxBitmapButton* m_pCloseBitmap;
 	wxBoxSizer *m_bMainSizer;
 	wxImageList m_ImageList;
-	wxGISEnumMessageType m_nCurrentType;
+	wxButton *m_pTestButton;
+	wxGISEnumMessageType m_eCurrentType;
 	wxString m_sCurrentMsg;
 private:
     DECLARE_EVENT_TABLE()
@@ -121,7 +114,7 @@ class WXDLLIMPEXP_GIS_CLU wxGISVectorImportPanel : public wxGISBaseImportPanel
     };
     DECLARE_CLASS(wxGISVectorImportPanel)
 public:
-	wxGISVectorImportPanel( wxGxDataset *pDset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+	wxGISVectorImportPanel( wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISVectorImportPanel();
 	//events
 	virtual void OnEncodingSelect(wxCommandEvent& event);
@@ -143,7 +136,7 @@ private:
 class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
 {
 public:
-	wxGISDatasetImportDlg(wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISDatasetImportDlg();
 protected:
 	wxBoxSizer *m_bMainSizer;

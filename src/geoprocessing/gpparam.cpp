@@ -55,7 +55,7 @@ wxGISGPParameter::wxGISGPParameter()
     m_bIsValid = false;
     m_pDomain = NULL;
 	m_nSelection = 0;
-    m_nMsgType = wxGISEnumGPMessageUnknown;
+    m_nMsgType = enumGISMessageUnknown;
     m_sMessage = wxEmptyString;
 }
 
@@ -71,7 +71,7 @@ wxGISGPParameter::wxGISGPParameter(const wxString &sName, const wxString &sDispl
     m_bIsValid = false;
     m_pDomain = NULL;
 	m_nSelection = 0;
-    m_nMsgType = wxGISEnumGPMessageUnknown;
+    m_nMsgType = enumGISMessageUnknown;
     m_sMessage = wxEmptyString;
 }
 
@@ -207,12 +207,12 @@ wxString wxGISGPParameter::GetMessage(void) const
     return m_sMessage;
 }
 
-wxGISEnumGPMessageType wxGISGPParameter::GetMessageType(void) const
+wxGISEnumMessageType wxGISGPParameter::GetMessageType(void) const
 {
     return m_nMsgType;
 }
 
-void wxGISGPParameter::SetMessage(wxGISEnumGPMessageType nType, const wxString &sMsg)
+void wxGISGPParameter::SetMessage(wxGISEnumMessageType nType, const wxString &sMsg)
 {
     m_sMessage = sMsg;
     m_nMsgType = nType;

@@ -790,7 +790,7 @@ bool wxGISRasterRenderer::Draw(RAWPIXELDATA &stPixelData, wxGISEnumDrawPhase Dra
 	if(stride == -1)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(_("cairo_format_stride_for_width failed"), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(_("cairo_format_stride_for_width failed"), wxNOT_FOUND, enumGISMessageError);
 		return false;
     }
 	unsigned char *pTransformPixelData = (unsigned char *)CPLMalloc (stride * nOutYSize);

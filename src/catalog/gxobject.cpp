@@ -485,3 +485,24 @@ wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const wxString &sPath)
     }
     return NULL;
 }
+
+wxString wxGxObjectContainer::ValidateName(const wxString& sTestName )
+{
+	return sTestName;
+}
+
+void wxGxObjectContainer::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel )
+{	
+}
+
+bool wxGxObjectContainer::IsFieldNameForbidden(const wxString& sTestFieldName) const
+{
+	return false;
+}
+
+bool wxGxObjectContainer::CanStoreMultipleGeometryTypes() const
+{
+	return true;
+}
+	
+	

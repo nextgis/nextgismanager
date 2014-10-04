@@ -59,16 +59,18 @@ enum wxGISEnumConfigKey
 
 enum wxGISEnumMessageType
 {
-	enumGISMessageUnk = 0,
-	enumGISMessageErr,
-	enumGISMessageNorm,
+	enumGISMessageUnknown = 0,		/**< The message type is undefined */
+	enumGISMessageError,        	/**< The error message*/
+	enumGISMessageNormal,
 	enumGISMessageQuestion,
-    enumGISMessageInfo,
-    enumGISMessageWarning,
+    enumGISMessageInformation,  	/**< The information message*/
+    enumGISMessageWarning,      	/**< The warning message*/
     enumGISMessageTitle,
-    enumGISMessageOK,
+    enumGISMessageOk,           	/**< The ok message - show ok icon near param edit control*/
     enumGISMessageSend,
-    enumGISMessageReceive
+    enumGISMessageReceive,
+	enumGISMessageRequired,     	/**< The required message - show required icon near param edit control*/
+	enumGISMessageNone         		/**< The none message - show no icon near param edit control*/
 };
 
 typedef struct _message

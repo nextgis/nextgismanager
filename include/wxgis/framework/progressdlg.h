@@ -72,7 +72,7 @@ public:
 	virtual void Cancel(void);
 	virtual bool Continue(void);
 	virtual void Reset(void);
-	virtual void PutMessage(const wxString &sMessage, size_t nIndex = wxNOT_FOUND, wxGISEnumMessageType eType = enumGISMessageUnk);
+	virtual void PutMessage(const wxString &sMessage, size_t nIndex = wxNOT_FOUND, wxGISEnumMessageType eType = enumGISMessageUnknown);
     virtual wxString GetLastMessage(void) const {return m_sLastMessage;};
     //
     virtual void SetAddPercentToMessage(bool bAdd = false);

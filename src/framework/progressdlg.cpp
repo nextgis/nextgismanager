@@ -263,7 +263,7 @@ void wxGISProgressDlg::Reset(void)
 void wxGISProgressDlg::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
 {
     wxString sMsg;
-    if (eType == enumGISMessageErr || eType == enumGISMessageWarning)
+    if (eType == enumGISMessageError || eType == enumGISMessageWarning)
     {
         sMsg = sMessage.Len() < 600 ? sMessage : sMessage.Left(597) + wxT("...");
         sMsg.Replace(wxT("%"), wxEmptyString);

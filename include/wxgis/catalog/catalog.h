@@ -23,6 +23,7 @@
 
 #include "wxgis/core/config.h"
 #include "wxgis/datasource/dataset.h"
+#include "wxgis/datasource/featuredataset.h"
 
 #undef LT_OBJDIR
 #include "gdal_priv.h"

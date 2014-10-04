@@ -257,7 +257,7 @@ bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCa
     if(!papszFileList)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(_("No files to rename"), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(_("No files to rename"), wxNOT_FOUND, enumGISMessageError);
         return false;
     }
 
@@ -297,7 +297,7 @@ bool wxGISDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackC
     if(!papszFileList)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(_("No files to move"), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(_("No files to move"), wxNOT_FOUND, enumGISMessageError);
         return false;
     }
 
@@ -341,7 +341,7 @@ bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
     if(!papszFileList)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(_("No files to copy"), wxNOT_FOUND, enumGISMessageError);
         return false;
     }
 

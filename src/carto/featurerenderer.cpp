@@ -266,7 +266,7 @@ bool wxGISUniqueValueRenderer::Apply(ITrackCancel* const pTrackCancel)
     if (pTrackCancel)
     {
         pTrackCancel->Reset();
-        pTrackCancel->PutMessage(wxString(_("Apply renderer for")) + wxT(" ") + m_pwxGISFeatureLayer->GetName(), -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Apply renderer for")) + wxT(" ") + m_pwxGISFeatureLayer->GetName(), -1, enumGISMessageInformation);
         pProgress = pTrackCancel->GetProgressor();
     }
 

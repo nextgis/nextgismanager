@@ -37,7 +37,7 @@
 class WXDLLIMPEXP_GIS_GP wxGISTaskMessage
 {
 public:
-    wxGISTaskMessage(long nId = wxNOT_FOUND, const wxString &sMsg = wxEmptyString, wxGISEnumMessageType eType = enumGISMessageUnk, const wxDateTime &dt = wxDateTime::Now())
+    wxGISTaskMessage(long nId = wxNOT_FOUND, const wxString &sMsg = wxEmptyString, wxGISEnumMessageType eType = enumGISMessageUnknown, const wxDateTime &dt = wxDateTime::Now())
     {
         m_nId = nId;
         m_sMessage = sMsg;

@@ -79,7 +79,7 @@ bool wxGxFile::Rename(const wxString &sNewName)
 bool wxGxFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString(_("Copy file ")) + m_sName, -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Copy file ")) + m_sName, -1, enumGISMessageInformation);
 
 	CPLString szFileName = CPLGetBasename(m_sPath);
 	CPLString szNewDestFileName = GetUniqPath(m_sPath, szDestPath, szFileName);
@@ -89,7 +89,7 @@ bool wxGxFile::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCance
 bool wxGxFile::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString(_("Move file ")) + m_sName, -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Move file ")) + m_sName, -1, enumGISMessageInformation);
 
 	CPLString szFileName = CPLGetBasename(m_sPath);
 	CPLString szNewDestFileName = GetUniqPath(m_sPath, szDestPath, szFileName);

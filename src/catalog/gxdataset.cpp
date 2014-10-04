@@ -195,7 +195,7 @@ bool wxGxDataset::Rename(const wxString &sNewName)
 bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
 
 	wxGISDataset* pDSet = GetDatasetFast();
 
@@ -203,7 +203,7 @@ bool wxGxDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCa
     {
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
@@ -227,7 +227,7 @@ bool wxGxDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCa
 {
     if (pTrackCancel)
     {
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
     }
 
 	wxGISDataset* pDSet = GetDatasetFast();
@@ -236,7 +236,7 @@ bool wxGxDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCa
     {
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
@@ -408,7 +408,7 @@ bool wxGxDatasetContainer::Copy(const CPLString &szDestPath, ITrackCancel* const
 {
     if (pTrackCancel)
     {
-        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
     }
 
 	wxGISDataset* pDSet = GetDatasetFast();
@@ -417,7 +417,7 @@ bool wxGxDatasetContainer::Copy(const CPLString &szDestPath, ITrackCancel* const
     {
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
@@ -439,14 +439,14 @@ bool wxGxDatasetContainer::Copy(const CPLString &szDestPath, ITrackCancel* const
 bool wxGxDatasetContainer::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInfo);
+		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
 
 	wxGISDataset* pDSet = GetDatasetFast();
 
     if(NULL == pDSet)
     {
         if(pTrackCancel)
-            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageErr);
+            pTrackCancel->PutMessage(wxString::Format(_("%s %s %s failed!"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageError);
         return false;
     }
 
@@ -680,7 +680,7 @@ wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* con
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
 			if(pTrackCancel)
-				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageErr);
+				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);

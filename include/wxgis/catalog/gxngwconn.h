@@ -167,7 +167,10 @@ public:
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);
-    virtual bool CanCreate(long nDataType, long DataSubtype);
+    virtual bool CanCreate(long nDataType, long DataSubtype);	
+	virtual void ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel );
+	virtual bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
+	virtual bool CanStoreMultipleGeometryTypes() const;
     //IGxObjectEdit
 	virtual bool Delete(void);
     virtual bool CanDelete(void);

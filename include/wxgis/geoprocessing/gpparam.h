@@ -111,8 +111,8 @@ public:
     virtual wxGISGPValueDomain* GetDomain(void) const;
     virtual void SetDomain(wxGISGPValueDomain* pDomain);
     virtual wxString GetMessage(void) const;
-    virtual wxGISEnumGPMessageType GetMessageType(void) const;
-    virtual void SetMessage(wxGISEnumGPMessageType nType = wxGISEnumGPMessageUnknown, const wxString &sMsg = wxEmptyString);
+    virtual wxGISEnumMessageType GetMessageType(void) const;
+    virtual void SetMessage(wxGISEnumMessageType nType = enumGISMessageUnknown, const wxString &sMsg = wxEmptyString);
     virtual void AddDependency(const wxString &sParamName);
     virtual wxArrayString GetDependences(void) const;
     /** \fn wxString GetAsString(void)
@@ -145,7 +145,7 @@ protected:
     wxVariant m_Value;
     wxGISGPValueDomain* m_pDomain;
     wxString m_sMessage;
-    wxGISEnumGPMessageType m_nMsgType;
+    wxGISEnumMessageType m_nMsgType;
 	int m_nSelection;
     wxArrayString m_saDependencies;
     size_t m_nId;

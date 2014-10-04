@@ -906,6 +906,152 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	return false;	
 }
 
+void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel )
+{
+	IProgressor *pProgressor(NULL);
+	if(pTrackCancel)
+	{
+		pProgressor = pTrackCancel->GetProgressor();
+	}
+	
+	
+	//1. check fields
+	
+	OGRFeatureDefn* pDef = pSrcDataSet->GetDefinition();
+	if(NULL == pDef)
+    {
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Error read dataset definition"), wxNOT_FOUND, enumGISMessageError);
+        }
+        return;
+    }
+	
+	wxString sWrongFields;
+	
+	for (size_t i = 0; i < pDef->GetFieldCount(); ++i)
+	{
+		OGRFieldDefn* pFieldDefn = pDef->GetFieldDefn(i);
+		if (NULL != pFieldDefn)
+		{
+			wxString sFieldName(pFieldDefn->GetNameRef(), wxConvUTF8);
+			if (IsFieldNameForbidden(sFieldName))
+			{
+				sWrongFields += sFieldName + wxString(wxT(", "));
+			}
+		}
+	}
+	
+	if(!sWrongFields.IsEmpty())
+	{
+        if (pTrackCancel)
+        {
+			wxString sWarn = wxString(_("The exist field name(s) '%s' are forbidden. They will be renamed or deleted"), sWrongFields.c_str());
+            pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+        }		
+	}
+	
+	//2. check spatial reference
+	wxGISSpatialReference SpaRef = pSrcDataSet->GetSpatialReference();
+	OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, new OGRSpatialReference(SRS_WKT_WGS84) );
+	if(NULL == poCT)
+	{
+		if (pTrackCancel)
+        {
+			wxString sErr = wxString(_("Unsupported spatial reference '%s'"), SpaRef.GetName().c_str());
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+        }
+		OCTDestroyCoordinateTransformation(poCT);
+		return;
+	}
+	else
+	{
+		OCTDestroyCoordinateTransformation(poCT);
+	}
+	
+	//3. check topology
+	wxGISFeature Feature;
+	size_t nCounter = 0;
+    OGRwkbGeometryType eGeoFieldtype = pSrcDataSet->GetGeometryType();
+    while ((Feature = pSrcDataSet->Next()).IsOk())
+    {
+        if(pTrackCancel && !pTrackCancel->Continue())
+        {
+            wxString sErr(_("Interrupted by user"));
+            if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+            }
+
+            return;
+        }
+
+        //set geometry
+        wxGISGeometry Geom = Feature.GetGeometry();
+        if (Geom.IsOk())
+        {
+            OGRwkbGeometryType eGeomType = Geom.GetType();
+            if (eFilterGeomType != wkbUnknown)
+            {
+                OGRwkbGeometryType eTestGeomType = eGeomType;
+                if (bToMulti && wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
+                {
+                    eTestGeomType = (OGRwkbGeometryType)(eGeomType + 3);
+                }
+
+                if (eFilterGeomType != eTestGeomType)
+                {
+                    if (pProgressor)
+                    {
+                        pProgressor->SetValue(nCounter++);
+                    }
+                    continue;
+                }
+            }
+
+            if (eGeoFieldtype != eGeomType)
+            {                
+				wxString sType(OGRGeometryTypeToName(wkbFlatten(eGeoFieldtype)), wxConvUTF8);
+				wxString sWarn = wxString::Format(_("Force geom type to %s"), sType.c_str());
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+				}
+
+            }
+			
+			OGRGeometry* pGeom = Geom;
+			if(!pGeom->IsValid())
+			{
+				wxString sErr = wxString::Format(_("The geometry #%d is not valid"), nCounter);
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+				}
+				return;
+			}
+			nCounter++;        
+		}
+	}
+}
+
+bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) const
+{
+	if(sTestFieldName.IsSameAs(wxT("id"), false))
+		return true;
+	for(size_t i = 0; i < sTestFieldName.size(); ++i)
+	{
+		if(sTestFieldName[i] > 127)
+			return true;
+	}
+	return false;	
+}
+
+bool wxGxNGWResourceGroup::CanStoreMultipleGeometryTypes() const
+{
+	return false;
+}
+	
 //--------------------------------------------------------------
 //class wxGxNGWLayer
 //--------------------------------------------------------------

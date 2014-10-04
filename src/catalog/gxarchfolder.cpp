@@ -119,7 +119,7 @@ wxGxObject *wxGxArchive::FindGxObjectByPath(const wxString &sPath)
 bool wxGxArchive::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString(_("Copy file ")) + m_sName, -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Copy file ")) + m_sName, -1, enumGISMessageInformation);
 
     CPLString szRealPath = GetRealPath();
 	CPLString szFileName = CPLGetBasename(szRealPath);
@@ -130,7 +130,7 @@ bool wxGxArchive::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCa
 bool wxGxArchive::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     if(pTrackCancel)
-        pTrackCancel->PutMessage(wxString(_("Move file ")) + m_sName, -1, enumGISMessageInfo);
+        pTrackCancel->PutMessage(wxString(_("Move file ")) + m_sName, -1, enumGISMessageInformation);
 
     CPLString szRealPath = GetRealPath();
 	CPLString szFileName = CPLGetBasename(szRealPath);
