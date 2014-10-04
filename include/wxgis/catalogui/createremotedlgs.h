@@ -85,6 +85,7 @@ public:
 	wxGISBaseImportPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISBaseImportPanel();
     virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType);
+	virtual wxString GetLastMessage(void) const ;
 	//events
     virtual void OnClose(wxCommandEvent& event);
 protected:

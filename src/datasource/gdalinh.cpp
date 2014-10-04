@@ -746,6 +746,12 @@ bool wxGISGeometry::IsOk() const
     return m_refData != NULL && ((wxGISGeometryRefData *)m_refData)->m_poGeom != NULL;
 }
 
+bool wxGISGeometry::IsValid() const
+{
+	wxCHECK_MSG(m_refData && ((wxGISGeometryRefData *)m_refData)->m_poGeom, false, wxT("OGRGeometry pointer is null"));
+    return ((wxGISGeometryRefData *)m_refData)->m_poGeom->IsValid();
+}
+
 bool wxGISGeometry::operator == ( const wxGISGeometry& obj ) const
 {
     if (m_refData == obj.m_refData)

@@ -358,6 +358,7 @@ public:
     bool Project(OGRCoordinateTransformation* const poCT);
     OGRwkbGeometryType GetType() const;
     wxGISGeometry Clone() const;
+	bool IsValid() const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;

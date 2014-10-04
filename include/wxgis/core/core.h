@@ -163,7 +163,7 @@ public:
 	virtual IProgressor* const GetProgressor(void){return m_pProgressor;};
 	virtual void SetProgressor(IProgressor* pProgressor){m_pProgressor = pProgressor; };
 	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType){};
-    virtual wxString GetLastMessage(void){return wxEmptyString;};
+    virtual wxString GetLastMessage(void) const {return wxEmptyString;};
 protected:
 	bool m_bIsCanceled;
 	IProgressor* m_pProgressor;

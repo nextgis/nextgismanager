@@ -368,6 +368,11 @@ void wxGISBaseImportPanel::PutMessage(const wxString &sMessage, size_t nIndex, w
     m_pStateBitmap->SetToolTip(sMessage);
 }
 
+wxString wxGISBaseImportPanel::GetLastMessage(void) const
+{
+	return m_sCurrentMsg;
+}
+
 void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
 {
 	wxWindow* pWnd = GetParent();
@@ -446,9 +451,15 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 	this->Layout();
 	
 	pDestDs->ValidateDataset(pSrcDs, eFilterGeomType, bToMulti, this);
-	if(m_eCurrentType == enumGISMessageError && m_pTestButton)
-		m_pTestButton->Enable(false);
-
+	if(m_eCurrentType == enumGISMessageError)
+	{
+		if(m_pTestButton)
+			m_pTestButton->Enable(false);
+		if(m_pEncodingsCombo)	
+			m_pEncodingsCombo->Enable(false);
+		if(pLayerName)
+			pLayerName->Enable(false);
+	}
 }
 
 wxGISVectorImportPanel::~wxGISVectorImportPanel()
@@ -585,11 +596,11 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 	m_bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
 
 	this->SetLayoutAdaptationMode (wxDIALOG_ADAPTATION_MODE_ENABLED);
+	this->SetSizeHints(400, 300, 1200, 700);
     this->SetSizerAndFit(m_bMainSizer);
 	this->Layout();
 
-	this->Centre( wxBOTH );	
-	this->SetSizeHints(400, 300, 1200, 700);
+	this->Centre( wxBOTH );		
 }
 
 wxGISDatasetImportDlg::~wxGISDatasetImportDlg()

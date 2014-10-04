@@ -944,9 +944,10 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 	
 	if(!sWrongFields.IsEmpty())
 	{
+		sWrongFields = sWrongFields.Left(sWrongFields.Len() - 2);
         if (pTrackCancel)
         {
-			wxString sWarn = wxString(_("The exist field name(s) '%s' are forbidden. They will be renamed or deleted"), sWrongFields.c_str());
+			wxString sWarn = wxString::Format(_("The exist field name(s) '%s' are forbidden. They will be renamed or deleted"), sWrongFields.c_str());
             pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
         }		
 	}
@@ -958,7 +959,7 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 	{
 		if (pTrackCancel)
         {
-			wxString sErr = wxString(_("Unsupported spatial reference '%s'"), SpaRef.GetName().c_str());
+			wxString sErr = wxString::Format(_("Unsupported spatial reference '%s'"), SpaRef.GetName().c_str());
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
         }
 		OCTDestroyCoordinateTransformation(poCT);
@@ -969,10 +970,31 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 		OCTDestroyCoordinateTransformation(poCT);
 	}
 	
-	//3. check topology
+	//3. check towgs
+	double adfPArams[7];
+	if(SpaRef->GetTOWGS84(adfPArams) != OGRERR_NONE)
+	{
+		if (pTrackCancel)
+        {
+			wxString sLastMsg = pTrackCancel->GetLastMessage();
+			wxString sWarn;
+			if(sLastMsg.IsEmpty())
+				sWarn = wxString(_("The ToWGS is not defined. There may by an error while project"));
+			else
+				sWarn = sLastMsg + wxString(wxT("\n")) + wxString(_("The ToWGS is not defined. There may by an error while project"));
+            pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+        }		
+	}
+	
+	//4. check topology
 	wxGISFeature Feature;
-	size_t nCounter = 0;
     OGRwkbGeometryType eGeoFieldtype = pSrcDataSet->GetGeometryType();
+	
+	wxArrayString saIgnoredFields = pSrcDataSet->GetFieldNames();
+	saIgnoredFields.Add(wxT("OGR_STYLE"));
+	pSrcDataSet->SetIgnoredFields(saIgnoredFields);
+	pSrcDataSet->Reset();
+			
     while ((Feature = pSrcDataSet->Next()).IsOk())
     {
         if(pTrackCancel && !pTrackCancel->Continue())
@@ -982,10 +1004,13 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
             {
                 pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
             }
-
+			saIgnoredFields.Clear();
+            pSrcDataSet->SetIgnoredFields(saIgnoredFields);
+			
             return;
         }
 
+		size_t nCounter(0);
         //set geometry
         wxGISGeometry Geom = Feature.GetGeometry();
         if (Geom.IsOk())
@@ -1009,34 +1034,60 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
                 }
             }
 
-            if (eGeoFieldtype != eGeomType)
+            if (eGeoFieldtype < eGeomType)
             {                
-				wxString sType(OGRGeometryTypeToName(wkbFlatten(eGeoFieldtype)), wxConvUTF8);
-				wxString sWarn = wxString::Format(_("Force geom type to %s"), sType.c_str());
+				wxString sType(OGRGeometryTypeToName(wkbFlatten(eGeomType)), wxConvUTF8);
+				wxString sWarnGeom = wxString::Format(_("Force geom type to %s"), sType.c_str());
 				if (pTrackCancel)
 				{
+					wxString sLastMsg = pTrackCancel->GetLastMessage();
+					wxString sWarn;
+					if(sLastMsg.IsEmpty())
+						sWarn = sWarnGeom;
+					else
+						sWarn = sLastMsg + wxString(wxT("\n")) + sWarnGeom;
 					pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
 				}
 
             }
 			
-			OGRGeometry* pGeom = Geom;
-			if(!pGeom->IsValid())
+			if(!Geom.IsValid())
 			{
-				wxString sErr = wxString::Format(_("The geometry #%d is not valid"), nCounter);
 				if (pTrackCancel)
 				{
+					wxString sErr = wxString::Format(_("The geometry %ld is not valid"), Feature.GetFID());
 					pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
 				}
+				saIgnoredFields.Clear();
+				pSrcDataSet->SetIgnoredFields(saIgnoredFields);
 				return;
 			}
-			nCounter++;        
+			
+			if (pProgressor)
+			{
+				pProgressor->SetValue(nCounter++);
+			}
+		}
+		else
+		{
+			if (pTrackCancel)
+			{
+				wxString sErr = wxString::Format(_("The geometry %ld is not valid"), Feature.GetFID());
+				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+			}
+			saIgnoredFields.Clear();
+			pSrcDataSet->SetIgnoredFields(saIgnoredFields);
+			return;
 		}
 	}
+	saIgnoredFields.Clear();
+	pSrcDataSet->SetIgnoredFields(saIgnoredFields);
 }
 
 bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) const
 {
+	if(sTestFieldName.IsEmpty())
+		return true;
 	if(sTestFieldName.IsSameAs(wxT("id"), false))
 		return true;
 	for(size_t i = 0; i < sTestFieldName.size(); ++i)

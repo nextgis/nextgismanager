@@ -468,6 +468,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			if(dlg.ShowModal() == wxID_OK)
 			{
 				ProgressDlg.ShowProgress(true);
+				return true;
 			}		
 		}
 	}

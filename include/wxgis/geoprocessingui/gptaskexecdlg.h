@@ -148,7 +148,7 @@ public:
     virtual wxDateTime GetStart();
     virtual wxDateTime GetFinish();
     virtual double GetDonePercent(){return m_nDonePercent;};
-    virtual wxString GetLastMessage();
+    virtual wxString GetLastMessage() const;
     virtual bool StartTask();
     virtual bool StopTask();
     virtual bool PauseTask();
