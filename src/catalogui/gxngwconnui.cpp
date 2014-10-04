@@ -433,11 +433,12 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		}
 		else
 		{
-			wxBusyCursor wait;
+			
 			//export other vector and raster DS
             wxVector<IGxDataset*> paDatasets;
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 			{
+                wxBusyCursor wait;
 				wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
 				if (NULL != pGxObject)
 				{

@@ -485,6 +485,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 	
 	if(pDestDs)
 	{
+        wxBusyCursor wait;
 		for(size_t i = 0; i < paDatasets.size(); ++i)
 		{
 			wxGxDataset *pSrcDs = dynamic_cast<wxGxDataset*>(paDatasets[i]);
