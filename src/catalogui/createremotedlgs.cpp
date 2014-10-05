@@ -386,6 +386,11 @@ void wxGISBaseImportPanel::OnClose(wxCommandEvent& event)
 		pWnd->Layout();
 }
 
+wxString wxGISBaseImportPanel::GetDatasetName() const
+{
+	return m_sDatasetName;
+}
+
 //-------------------------------------------------------------------------------
 //  wxGISVectorImportPanel
 //-------------------------------------------------------------------------------
@@ -415,7 +420,7 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
     fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 
-	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, sOutName, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sLayerName) );
+	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, sOutName, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatasetName) );
 	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxStaticText *pEncStaticText = new wxStaticText( this, wxID_ANY, _("Encoding:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -455,7 +460,7 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 	
 	this->Layout();
 	
-	pDestDs->ValidateDataset(pSrcDs, eFilterGeomType, bToMulti, this);
+	m_bToMulti = pDestDs->ValidateDataset(pSrcDs, eFilterGeomType, this);
 	if(m_eCurrentType == enumGISMessageError)
 	{
 		if(m_pTestButton)
@@ -465,6 +470,8 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 		if(pLayerName)
 			pLayerName->Enable(false);
 	}
+	
+	m_eFilterGeometryType = eFilterGeomType;
 }
 
 wxGISVectorImportPanel::~wxGISVectorImportPanel()
@@ -482,9 +489,20 @@ void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
 
 wxGISDataset* wxGISVectorImportPanel::GetDataset() const
 {
-	return wxStaticCast(m_pFeatureClass, wxGISDataset);
+	wxGISDataset* pDSet = wxStaticCast(m_pFeatureClass, wxGISDataset);
+	wsGET(pDSet);
 }
 
+OGRwkbGeometryType wxGISVectorImportPanel::GetFilterGeometryType() const
+{
+	return m_eFilterGeometryType;
+}
+
+bool wxGISVectorImportPanel::GetToMulti() const
+{
+	return m_bToMulti;
+}
+	
 //-------------------------------------------------------------------------------
 //  wxGISDatasetImportDlg
 //-------------------------------------------------------------------------------
@@ -556,7 +574,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 								if (Geom.IsOk())
 								{
 									OGRwkbGeometryType eFeatureGeomType = Geom.GetType();
-									if (bIsMultigeom && wkbFlatten(eFeatureGeomType) > 1 && wkbFlatten(eFeatureGeomType) < 4)
+									if (wkbFlatten(eFeatureGeomType) > 1 && wkbFlatten(eFeatureGeomType) < 4)
 									{
 										mnCounts[(OGRwkbGeometryType)(eFeatureGeomType + 3)] += 1;
 									}
@@ -619,7 +637,6 @@ wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
 	
 }
 
-
 size_t wxGISDatasetImportDlg::GetDatasetCount()
 {
 	if(m_paDatasets.empty())
@@ -632,20 +649,33 @@ size_t wxGISDatasetImportDlg::GetDatasetCount()
 			wxGISBaseImportPanel* pImportPanel = dynamic_cast<wxGISBaseImportPanel*>(pItem->GetWindow());
 			if(pImportPanel && pImportPanel->GetLastMessageType() != enumGISMessageError)
 			{
+				wxGISVectorImportPanel* pVectorPanel = dynamic_cast<wxGISVectorImportPanel*>(pImportPanel);
 				wxGISDataset* pDSet = pImportPanel->GetDataset();
 				if(pDSet)
-					m_paDatasets.push_back(pDSet);
+				{
+					if(pVectorPanel)
+					{
+						DATASETDESCR descr = {pDSet, pVectorPanel->GetDatasetName(), pVectorPanel->GetFilterGeometryType(), pVectorPanel->GetToMulti()};
+						m_paDatasets.push_back(descr);						
+					}
+					else
+					{
+						DATASETDESCR descr = {pDSet, pImportPanel->GetDatasetName(), wkbUnknown, false};
+						m_paDatasets.push_back(descr);
+					}
+				}
 			}
 		} 
 	}	
 	return m_paDatasets.size();
 }
 
-wxGISDataset* wxGISDatasetImportDlg::GetDataset(size_t nIndex) const
+wxGISDatasetImportDlg::DATASETDESCR wxGISDatasetImportDlg::GetDataset(size_t nIndex) const
 {
 	if(m_paDatasets.size() <= nIndex)
 	{
 		return m_paDatasets[nIndex];
 	}
-	return NULL;
+	DATASETDESCR ret = {NULL, wxEmptyString, wkbUnknown, false};
+	return ret;
 }

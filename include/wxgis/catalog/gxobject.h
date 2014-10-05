@@ -92,7 +92,7 @@ public:
     virtual const wxGxObjectList& GetChildren() const;
     virtual bool CanCreate(long nDataType, long DataSubtype);
 	virtual wxString ValidateName(const wxString& sTestName );
-	virtual void ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel );
+	virtual bool ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel );
 	virtual bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
 	virtual bool CanStoreMultipleGeometryTypes() const;
     //wxGxObject

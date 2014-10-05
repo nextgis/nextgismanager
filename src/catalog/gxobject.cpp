@@ -491,8 +491,9 @@ wxString wxGxObjectContainer::ValidateName(const wxString& sTestName )
 	return sTestName;
 }
 
-void wxGxObjectContainer::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel )
+bool wxGxObjectContainer::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel )
 {	
+	return false;
 }
 
 bool wxGxObjectContainer::IsFieldNameForbidden(const wxString& sTestFieldName) const

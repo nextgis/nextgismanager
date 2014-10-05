@@ -88,6 +88,7 @@ public:
 	virtual wxString GetLastMessage(void) const;
 	virtual wxGISEnumMessageType GetLastMessageType() const;
 	virtual wxGISDataset* GetDataset() const = 0;
+	virtual wxString GetDatasetName() const;
 	//events
     virtual void OnClose(wxCommandEvent& event);
 protected:
@@ -98,6 +99,7 @@ protected:
 	wxButton *m_pTestButton;
 	wxGISEnumMessageType m_eCurrentType;
 	wxString m_sCurrentMsg;
+	wxString m_sDatasetName;
 private:
     DECLARE_EVENT_TABLE()
 };
@@ -120,13 +122,16 @@ public:
 	wxGISVectorImportPanel( wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISVectorImportPanel();
 	virtual wxGISDataset* GetDataset() const;
+	virtual OGRwkbGeometryType GetFilterGeometryType() const;
+	virtual bool GetToMulti() const;
 	//events
 	virtual void OnEncodingSelect(wxCommandEvent& event);
 protected:
 	wxGISFeatureDataset *m_pFeatureClass;
 	std::map<wxString, wxFontEncoding> m_mnEnc;
-	wxString m_sLayerName;
 	wxChoice* m_pEncodingsCombo;
+	OGRwkbGeometryType m_eFilterGeometryType;
+	bool m_bToMulti;
 private:
     DECLARE_EVENT_TABLE()
 };
@@ -140,13 +145,19 @@ private:
 class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
 {
 public:
+	typedef struct _datasetdescr{
+		wxGISDataset* pDataset;
+		wxString sName;
+		OGRwkbGeometryType eFilterGeometryType;
+		bool bToMultigeom;
+	} DATASETDESCR;	
 	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISDatasetImportDlg();
 	virtual size_t GetDatasetCount();
-	virtual wxGISDataset* GetDataset(size_t nIndex) const;
+	virtual DATASETDESCR GetDataset(size_t nIndex) const;
 protected:
 	wxBoxSizer *m_bMainSizer;
-	wxVector<wxGISDataset*> m_paDatasets;
+	wxVector<DATASETDESCR> m_paDatasets;
 };
 
 

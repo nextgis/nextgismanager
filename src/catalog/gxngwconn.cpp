@@ -832,6 +832,51 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 	return false;	
 }
 
+bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+	
+	wxString sPayload;
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		OnGetUpdates();
+		return true;		
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;		
+}
+
+bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, ITrackCancel* const pTrackCancel)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+	
+	//TODO
+	wxString sPayload;
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		OnGetUpdates();
+		return true;		
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;		
+}
+
 bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom)
 {
 	wxGISCurl curl = m_pService->GetCurl();
@@ -906,8 +951,9 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	return false;	
 }
 
-void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel )
+bool wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel )
 {
+	bool bToMulti = false;
 	IProgressor *pProgressor(NULL);
 	if(pTrackCancel)
 	{
@@ -924,7 +970,7 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
         {
             pTrackCancel->PutMessage(_("Error read dataset definition"), wxNOT_FOUND, enumGISMessageError);
         }
-        return;
+        return bToMulti;
     }
 	
 	wxString sWrongFields;
@@ -963,7 +1009,7 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
             pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
         }
 		OCTDestroyCoordinateTransformation(poCT);
-		return;
+		return bToMulti;
 	}
 	else
 	{
@@ -1007,7 +1053,7 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 			saIgnoredFields.Clear();
             pSrcDataSet->SetIgnoredFields(saIgnoredFields);
 			
-            return;
+            return bToMulti;
         }
 
 		size_t nCounter(0);
@@ -1015,31 +1061,13 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
         wxGISGeometry Geom = Feature.GetGeometry();
         if (Geom.IsOk())
         {
-            OGRwkbGeometryType eGeomType = Geom.GetType();
-            if (eFilterGeomType != wkbUnknown)
-            {
-                OGRwkbGeometryType eTestGeomType = eGeomType;
-                if (bToMulti && wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
-                {
-                    eTestGeomType = (OGRwkbGeometryType)(eGeomType + 3);
-                }
-
-                if (eFilterGeomType != eTestGeomType)
-                {
-                    if (pProgressor)
-                    {
-                        pProgressor->SetValue(nCounter++);
-                    }
-                    continue;
-                }
-            }
-
-            if (eGeoFieldtype < eGeomType)
-            {                
-				wxString sType(OGRGeometryTypeToName(wkbFlatten(eGeomType)), wxConvUTF8);
-				wxString sWarnGeom = wxString::Format(_("Force geom type to %s"), sType.c_str());
+			if(!bToMulti && eGeoFieldtype < Geom.GetType())
+				bToMulti = true;
+			if(!Geom.IsValid())
+			{
 				if (pTrackCancel)
 				{
+					wxString sWarnGeom = wxString::Format(_("The geometry in feature %ld is not valid. The feature will be ignored"), Feature.GetFID());
 					wxString sLastMsg = pTrackCancel->GetLastMessage();
 					wxString sWarn;
 					if(sLastMsg.IsEmpty())
@@ -1048,19 +1076,6 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 						sWarn = sLastMsg + wxString(wxT("\n")) + sWarnGeom;
 					pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
 				}
-
-            }
-			
-			if(!Geom.IsValid())
-			{
-				if (pTrackCancel)
-				{
-					wxString sErr = wxString::Format(_("The geometry %ld is not valid"), Feature.GetFID());
-					pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
-				}
-				saIgnoredFields.Clear();
-				pSrcDataSet->SetIgnoredFields(saIgnoredFields);
-				return;
 			}
 			
 			if (pProgressor)
@@ -1072,7 +1087,7 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 		{
 			if (pTrackCancel)
 			{
-				wxString sWarnGeom = wxString::Format(_("There is no geometry in feature %ld. The feature wiill be ignored"), Feature.GetFID());
+				wxString sWarnGeom = wxString::Format(_("There is no geometry in feature %ld. The feature will be ignored"), Feature.GetFID());
 				wxString sLastMsg = pTrackCancel->GetLastMessage();
 				wxString sWarn;
 				if(sLastMsg.IsEmpty())
@@ -1085,6 +1100,8 @@ void wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 	}
 	saIgnoredFields.Clear();
 	pSrcDataSet->SetIgnoredFields(saIgnoredFields);
+	
+	return bToMulti;
 }
 
 bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) const

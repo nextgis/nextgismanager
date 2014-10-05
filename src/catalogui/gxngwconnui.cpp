@@ -468,7 +468,34 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			wxGISDatasetImportDlg dlg(this, paDatasets, pParentWnd);
 			if(dlg.ShowModal() == wxID_OK)
 			{
+				size_t nCount = dlg.GetDatasetCount();
 				ProgressDlg.ShowProgress(true);
+				ProgressDlg.SetRange(nCount);
+				for ( size_t i = 0; i < nCount; ++i ) 
+				{    
+					ProgressDlg.SetValue(i);
+					if(!ProgressDlg.Continue())
+					{
+						return false;
+					}
+					
+					wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
+					if(descr.pDataset != NULL)
+					{
+						if(descr.pDataset->GetType() == enumGISFeatureDataset)
+						{
+							CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, &ProgressDlg);
+						}
+						else if(descr.pDataset->GetType() == enumGISRasterDataset)
+						{
+							CreateRasterLayer(descr.sName, descr.pDataset, &ProgressDlg);
+						}
+					}
+				}
+				
+				ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+			
+				OnGetUpdates();
 				return true;
 			}		
 		}

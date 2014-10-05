@@ -168,7 +168,7 @@ public:
     virtual bool AreChildrenViewable(void) const { return true; };
     virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);	
-	virtual void ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel );
+	virtual bool ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel );
 	virtual bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
 	virtual bool CanStoreMultipleGeometryTypes() const;
     //IGxObjectEdit
@@ -185,6 +185,8 @@ public:
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);
 	virtual bool CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom);
+	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
+	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, ITrackCancel* const pTrackCancel);
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
