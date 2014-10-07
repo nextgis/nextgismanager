@@ -24,6 +24,8 @@
 #include "wxgis/catalogui/processing.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/framework/progressdlg.h"
+#include "wxgis/catalog/gxfilters.h"
+#include "wxgis/geoprocessing/gpvector.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -525,6 +527,137 @@ void wxGxNGWResourceGroupUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.Center();
 
     PropertySheetDialog.ShowModal();
+}
+
+
+bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
+{
+	
+	wxGISFeatureDataset* pInputFeatureDataset = dynamic_cast<wxGISFeatureDataset*>(pInputDataset); 
+	if(NULL == pInputFeatureDataset)
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Dataset type is not supported. Feature Class expected."), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+	}
+	
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+	}
+	
+	//1. create temp shp file
+	if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Prepare ESRI Shape file"), wxNOT_FOUND, enumGISMessageTitle);
+    }
+	
+	const wxGISSpatialReference SrcSpaRef = pInputFeatureDataset->GetSpatialReference();
+	if (!SrcSpaRef.IsOk())
+    {
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Input spatial reference is not defined!"), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+    }
+	wxGISSpatialReference DstSpaRef = wxGISSpatialReference(new OGRSpatialReference(SRS_WKT_WGS84));
+	OGRFeatureDefn *pDef = pInputFeatureDataset->GetDefinition();
+    if(NULL == pDef)
+    {
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Error read dataset definition"), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+    }
+
+     //check multi geometry
+    OGRwkbGeometryType eGeomType = pInputFeatureDataset->GetGeometryType();
+
+    bool bIsMultigeom = wkbFlatten(eGeomType) == wkbUnknown || wkbFlatten(eGeomType) == wkbGeometryCollection;
+	if(bIsMultigeom)
+	{
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Geometry collection is not supported!"), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;		
+	}
+	
+	OGRFeatureDefn *pNewDef = pDef->Clone();
+	if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
+	{
+		eGeomType = (OGRwkbGeometryType)(eGeomType + 3);
+		pNewDef->SetGeomType(eGeomType);//set multi
+		if (pTrackCancel)
+		{
+			pTrackCancel->PutMessage(wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(eGeomType)), wxNOT_FOUND, enumGISMessageInformation);
+		}
+	}
+	
+	unsigned char nCounter = 1;
+	for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
+	{
+		OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
+		if (NULL != pFieldDefn)
+		{
+			wxString sFieldName = wxString::FromUTF8(pFieldDefn->GetNameRef());
+			wxString sOldFieldName = sFieldName;
+			if (IsFieldNameForbidden(sFieldName))
+			{
+				wxString sAppend = wxString::Format(wxT("%.2d"));
+				if(sFieldName.Len() > 8)
+					sFieldName = sFieldName.Left(8);
+					
+				sFieldName.Append(sAppend);
+				pFieldDefn->SetName( sFieldName.ToUTF8() );
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(wxString::Format(_("Rename field '%s' to '%s'"), sOldFieldName.c_str(), sFieldName.c_str()), wxNOT_FOUND, enumGISMessageWarning);
+				}
+
+				break;
+			}
+		}
+	}
+	
+	wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
+	char** papszLayerOptions = NULL;
+	papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
+	
+	CPLString osTmpFile = CPLGenerateTempFilename( "ngw" );
+	osTmpFile += ".shp";
+	
+	if (!ExportFormatEx(pInputFeatureDataset, osTmpFile, sName, &SHPFilter, wxGISNullSpatialFilter, pNewDef, DstSpaRef, NULL, papszLayerOptions, false, eGeomType, true, pTrackCancel))
+	{
+		return false;
+	}
+	
+	//2. create temp zip from temp shp, shx, dbf, prj
+	//3. upload with progress
+	
+	wxString sPayload;
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		OnGetUpdates();
+		return true;		
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);	
+		
+	return false;		
 }
 
 //--------------------------------------------------------------

@@ -834,23 +834,7 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 
 bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
 {
-	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
-        return false;
 	
-	wxString sPayload;
-	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-    PERFORMRESULT res = curl.Post(sURL, sPayload);
-	bool bResult = res.IsValid && res.nHTTPCode < 400;
-	
-	if(bResult)
-	{
-		OnGetUpdates();
-		return true;		
-	}
-		
-	ReportError(res.nHTTPCode, res.sBody);	
-		
 	return false;		
 }
 
@@ -1000,7 +984,8 @@ bool wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 	
 	//2. check spatial reference
 	wxGISSpatialReference SpaRef = pSrcDataSet->GetSpatialReference();
-	OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, new OGRSpatialReference(SRS_WKT_WGS84) );
+	wxGISSpatialReference SpaRefWGS(new OGRSpatialReference(SRS_WKT_WGS84));
+	OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, SpaRefWGS);
 	if(NULL == poCT)
 	{
 		if (pTrackCancel)
@@ -1017,19 +1002,22 @@ bool wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 	}
 	
 	//3. check towgs
-	double adfPArams[7];
-	if(SpaRef->GetTOWGS84(adfPArams) != OGRERR_NONE)
+	if(!SpaRef.IsSame(SpaRefWGS))
 	{
-		if (pTrackCancel)
-        {
-			wxString sLastMsg = pTrackCancel->GetLastMessage();
-			wxString sWarn;
-			if(sLastMsg.IsEmpty())
-				sWarn = wxString(_("The ToWGS is not defined. There may by an error while project"));
-			else
-				sWarn = sLastMsg + wxString(wxT("\n")) + wxString(_("The ToWGS is not defined. There may by an error while project"));
-            pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
-        }		
+		double adfPArams[7];
+		if(SpaRef->GetTOWGS84(adfPArams) != OGRERR_NONE)
+		{
+			if (pTrackCancel)
+			{
+				wxString sLastMsg = pTrackCancel->GetLastMessage();
+				wxString sWarn;
+				if(sLastMsg.IsEmpty())
+					sWarn = wxString(_("The ToWGS is not defined. There may by an error while project"));
+				else
+					sWarn = sLastMsg + wxString(wxT("\n")) + wxString(_("The ToWGS is not defined. There may by an error while project"));
+				pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+			}		
+		}
 	}
 	
 	//4. check topology
@@ -1107,6 +1095,8 @@ bool wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataS
 bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) const
 {
 	if(sTestFieldName.IsEmpty())
+		return true;
+	if(sTestFieldName.Len() > 10)
 		return true;
 	if(sTestFieldName.IsSameAs(wxT("id"), false))
 		return true;
