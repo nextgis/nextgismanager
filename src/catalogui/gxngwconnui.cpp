@@ -598,7 +598,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	}
 	
 	OGRFeatureDefn *pNewDef = pDef->Clone();
-	/*if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
+	if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
 	{
 		eGeomType = (OGRwkbGeometryType)(eGeomType + 3);
 		pNewDef->SetGeomType(eGeomType);//set multi
@@ -606,7 +606,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		{
 			pTrackCancel->PutMessage(wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(eGeomType)), wxNOT_FOUND, enumGISMessageInformation);
 		}
-	}*/
+	}
 	
 	//field map
 	wxVector<ST_FIELD_MAP> staFieldMap;
