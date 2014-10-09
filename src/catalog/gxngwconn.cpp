@@ -440,7 +440,7 @@ bool wxGxNGWResource::CanMoveResource(const CPLString &szDestPath)
 
 void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 {
-	wxString sErrCode = wxString::Format(_("Error code %d"), nHTTPCode);
+	wxString sErrCode = wxString::Format(_("Error code %ld"), nHTTPCode);
 	wxString sErr;		
 	wxJSONReader reader;
     wxJSONValue  JSONRoot;

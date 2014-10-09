@@ -48,6 +48,7 @@ WXDLLIMPEXP_GIS_CLU void ExportSingleTable(wxWindow* pWnd, const CPLString &sPat
 WXDLLIMPEXP_GIS_CLU void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 WXDLLIMPEXP_GIS_CLU void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
+#endif // wxGIS_HAVE_GEOPROCESSING
 
 void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs);
-#endif // wxGIS_HAVE_GEOPROCESSING
+bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath = "");

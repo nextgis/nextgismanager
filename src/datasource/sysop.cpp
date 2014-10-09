@@ -592,3 +592,46 @@ wxString GetConvName(const CPLString &szPath, bool bIsPath)
 
 	return name;
 }
+
+void AddFileToZip(const CPLString &szPath, void* hZIP, GByte **pabyBuffer, size_t nBufferSize, const CPLString &szPrependPath, const wxString &sCharset)
+{
+    int nRet = 0;
+    size_t nBytesRead;
+    VSILFILE *fp;
+
+    CPLString szName;
+    if (szPrependPath.empty())
+    {
+        szName = CPLGetFilename(szPath);
+    }
+    else
+    {
+        szName += szPrependPath;
+        szName += "/";
+        szName += CPLGetFilename(szPath);
+    }
+
+    szName = CPLString(wxString(szName, wxConvUTF8).mb_str(wxCSConv(sCharset)));
+
+    fp = VSIFOpenL(szPath, "rb");
+    if (fp == NULL)
+        return;
+
+    if (CPLCreateFileInZip(hZIP, szName, NULL) == CE_None)
+    {
+        do {
+            nBytesRead = VSIFReadL(*pabyBuffer, 1, nBufferSize, fp);
+            if (long(nBytesRead) < 0)
+                nRet = -1;
+
+            if (nRet == 0 && CPLWriteFileInZip(hZIP, *pabyBuffer, nBytesRead) != CE_None)
+                nRet = -1;
+        } while (nRet == 0 && nBytesRead == nBufferSize);
+
+    }
+
+    //    CPLError(CE_Failure, CPLE_FileIO, "ERROR adding %s to zip", szName);
+    CPLCloseFileInZip(hZIP);
+    VSIFCloseL(fp);
+
+}

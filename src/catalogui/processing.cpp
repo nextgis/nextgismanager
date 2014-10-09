@@ -24,6 +24,8 @@
 #include "wxgis/framework/progressdlg.h"
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalogui/gxcontdialog.h"
+#include "wxgis/catalog/gxdataset.h"
+#include "wxgis/catalog/gxfolder.h"
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
 
@@ -812,6 +814,8 @@ void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilte
 
 }
 
+#endif // wxGIS_HAVE_GEOPROCESSING
+
 void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs)
 {
 	if(msgs.empty())
@@ -838,4 +842,114 @@ void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs)
     wxLogError(extMsg);
 }
 
-#endif // wxGIS_HAVE_GEOPROCESSING
+//#ifdef 
+bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath)
+{
+    if (NULL == pGxObject)
+    {
+        return false;
+    }
+
+    if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+    {
+        wxGxDataset* pGxDS = wxDynamicCast(pGxObject, wxGxDataset);
+        if (NULL == pGxDS)
+        {
+            return false;
+        }
+
+
+        if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
+        {
+            return false;
+        }
+
+        wxGISDataset* pDS = pGxDS->GetDataset(false);
+        if (NULL == pDS)
+        {
+            return false;
+        }
+
+        wxString sCharset(wxT("cp-866"));
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+
+        wxString sName = pGxDS->GetName();
+        saPaths.Add(sName);
+
+        size_t nBufferSize = 1024 * 1024;
+        GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+
+        char** papszFileList = pDS->GetFileList();
+        papszFileList = CSLAddString(papszFileList, pDS->GetPath());
+        for (int i = 0; papszFileList[i] != NULL; ++i)
+        {
+            AddFileToZip(papszFileList[i], hZIP, &pabyBuffer, nBufferSize, szPath, sCharset);
+        }
+
+        CPLFree(pabyBuffer);
+        CSLDestroy(papszFileList);
+    }
+    else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+    {
+        wxGxDatasetContainer* pGxDS = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+        if (NULL == pGxDS)
+        {
+            return false;
+        }
+
+        if (!IsFileDataset(pGxDS->GetType(), pGxDS->GetSubType()))
+        {
+            return false;
+        }
+
+        wxString sCharset(wxT("cp-866"));
+        wxGISAppConfig oConfig = GetConfig();
+        if (oConfig.IsOk())
+            sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
+
+        if (pGxDS->GetType() == enumGISFeatureDataset && (pGxDS->GetSubType() == enumVecKML || pGxDS->GetSubType() == enumVecKMZ || pGxDS->GetSubType() == enumVecGML))
+        {
+            size_t nBufferSize = 1024 * 1024;
+            GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+            AddFileToZip(pGxObject->GetPath(), hZIP, &pabyBuffer, nBufferSize, szPath, sCharset);
+            CPLFree(pabyBuffer);
+        }
+        else if (pGxDS->GetType() == enumGISContainer && pGxDS->GetSubType() == enumContGDBFolder)
+        {
+            CPLString szNewPath;
+            szNewPath = CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+
+            size_t nBufferSize = 1024 * 1024;
+            GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+            char** papszFileList = CPLReadDir(pGxObject->GetPath());
+            for (int i = 0; papszFileList[i] != NULL; ++i)
+            {
+                AddFileToZip(papszFileList[i], hZIP, &pabyBuffer, nBufferSize, szNewPath, sCharset);
+            }
+
+            CPLFree(pabyBuffer);
+            CSLDestroy(papszFileList);
+        }
+
+    }
+    else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+    {
+        CPLString szNewPath;
+        if (szPath.empty())
+            szNewPath = CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+        else
+            szNewPath = szPath + "/" + CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
+        wxGxObjectContainer* pCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
+        if (pCont && pCont->HasChildren())
+        {
+            const wxGxObjectList lObj = pCont->GetChildren();
+            for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+            {
+                AddGxObjectToZip(saPaths, hZIP, *it, szNewPath);
+            }
+        }
+    }
+    return true;
+}

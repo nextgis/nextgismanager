@@ -26,6 +26,9 @@
 #include "wxgis/framework/progressdlg.h"
 #include "wxgis/catalog/gxfilters.h"
 #include "wxgis/geoprocessing/gpvector.h"
+#include "wxgis/datasource/sysop.h"
+#include "wxgis/core/json/jsonreader.h"
+#include "wxgis/core/json/jsonwriter.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -579,8 +582,10 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
         return false;
     }
 
-     //check multi geometry
-    OGRwkbGeometryType eGeomType = pInputFeatureDataset->GetGeometryType();
+    //check multi geometry
+	OGRwkbGeometryType eGeomType = eFilterGeomType;
+	if(eFilterGeomType == wkbUnknown)
+		eGeomType = pInputFeatureDataset->GetGeometryType();
 
     bool bIsMultigeom = wkbFlatten(eGeomType) == wkbUnknown || wkbFlatten(eGeomType) == wkbGeometryCollection;
 	if(bIsMultigeom)
@@ -593,7 +598,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	}
 	
 	OGRFeatureDefn *pNewDef = pDef->Clone();
-	if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
+	/*if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
 	{
 		eGeomType = (OGRwkbGeometryType)(eGeomType + 3);
 		pNewDef->SetGeomType(eGeomType);//set multi
@@ -601,9 +606,11 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		{
 			pTrackCancel->PutMessage(wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(eGeomType)), wxNOT_FOUND, enumGISMessageInformation);
 		}
-	}
+	}*/
 	
-	unsigned char nCounter = 1;
+	//field map
+	wxVector<ST_FIELD_MAP> staFieldMap;
+	int nCount = 0;
 	for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
 	{
 		OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
@@ -613,7 +620,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 			wxString sOldFieldName = sFieldName;
 			if (IsFieldNameForbidden(sFieldName))
 			{
-				wxString sAppend = wxString::Format(wxT("%.2d"));
+				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
 				if(sFieldName.Len() > 8)
 					sFieldName = sFieldName.Left(8);
 					
@@ -623,9 +630,13 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 				{
 					pTrackCancel->PutMessage(wxString::Format(_("Rename field '%s' to '%s'"), sOldFieldName.c_str(), sFieldName.c_str()), wxNOT_FOUND, enumGISMessageWarning);
 				}
+				
 
-				break;
 			}
+			OGRFieldType eType = pFieldDefn->GetType();
+			ST_FIELD_MAP record = { nCount, i, eType };
+			staFieldMap.push_back(record);
+			nCount++;		
 		}
 	}
 	
@@ -633,30 +644,135 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	char** papszLayerOptions = NULL;
 	papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
 	
-	CPLString osTmpFile = CPLGenerateTempFilename( "ngw" );
-	osTmpFile += ".shp";
+	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 	
-	if (!ExportFormatEx(pInputFeatureDataset, osTmpFile, sName, &SHPFilter, wxGISNullSpatialFilter, pNewDef, DstSpaRef, NULL, papszLayerOptions, false, eGeomType, true, pTrackCancel))
+	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, false, eGeomType, true, pTrackCancel))
 	{
 		return false;
 	}
 	
 	//2. create temp zip from temp shp, shx, dbf, prj
+	
+	CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "zip");
+	CPLErrorReset();
+	void* hZIP = CPLCreateZip(szZipFileName, NULL);
+	if (!hZIP)
+	{
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' creaate failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;	
+	}
+	
+	wxString sCharset(wxT("cp-866"));
+	size_t nBufferSize = 1024 * 1024;
+	GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);	
+	IProgressor* pProgress = NULL;
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(_("Compress file"), wxNOT_FOUND, enumGISMessageInformation);
+		pProgress = pTrackCancel->GetProgressor();
+	}
+	
+	if(pProgress)
+		pProgress->SetRange(4);
+	AddFileToZip(CPLResetExtension(osTmpPath, "shp"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+	if(pProgress)
+		pProgress->SetValue(1);
+	AddFileToZip(CPLResetExtension(osTmpPath, "shx"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+	if(pProgress)
+		pProgress->SetValue(2);
+	AddFileToZip(CPLResetExtension(osTmpPath, "dbf"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+	if(pProgress)
+		pProgress->SetValue(3);
+	AddFileToZip(CPLResetExtension(osTmpPath, "prj"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+	if(pProgress)
+		pProgress->SetValue(4);
+	
+	CPLCloseZip(hZIP);
+	CPLFree(pabyBuffer);
+	
+	DeleteFile(CPLResetExtension(osTmpPath, "shp"), pTrackCancel);
+	DeleteFile(CPLResetExtension(osTmpPath, "shx"), pTrackCancel);
+	DeleteFile(CPLResetExtension(osTmpPath, "dbf"), pTrackCancel);
+	DeleteFile(CPLResetExtension(osTmpPath, "prj"), pTrackCancel);
+	
 	//3. upload with progress
 	
-	wxString sPayload;
-	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-    PERFORMRESULT res = curl.Post(sURL, sPayload);
+	if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Upload file"), wxNOT_FOUND, enumGISMessageTitle);
+    }
+	
+	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
+    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szZipFileName));
+	DeleteFile(szZipFileName, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
 	{
-		OnGetUpdates();
-		return true;		
+		//  "{"upload_meta": [{"id": "0eddf759-86d3-4fe0-b0f1-869fe783d2ed", "name": "ngw1_1.zip", "mime_type": "application/octet-stream", "size": 2299}]}"
+  
+		wxJSONReader reader;
+		wxJSONValue  JSONRoot;
+		int numErrors = reader.Parse(res.sBody, &JSONRoot);
+		if (numErrors > 0)  {    
+			if (pTrackCancel)
+			{
+				pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+			}
+			return false;
+		}
+		
+		//{"resource":{"cls":"vector_layer","parent":{"id":0},"display_name":"ggg www","keyname":null,"description":null},"vector_layer":{"srs":{"id":3857},"source":{"id":"2f906bf9-0947-45aa-b271-c711fef1d2fd","name":"ngw1_1.zip","mime_type":"application/zip","size":2299,"encoding":"utf-8"}}}
+		
+		wxJSONValue val;
+		val["resource"]["cls"] = wxString(wxT("vector_layer"));
+		val["resource"]["parent"]["id"] = m_nRemoteId;
+		val["resource"]["display_name"] = sName;
+		val["vector_layer"]["srs"]["id"] = 3857;
+		val["vector_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
+		val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
+		val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
+		val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
+		val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
+		
+		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+		wxString sPayload;
+		writer.Write(val, sPayload);
+		
+		sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+		res = curl.Post(sURL, sPayload);
+		bResult = res.IsValid && res.nHTTPCode < 400;
+		
+		if(bResult)
+		{
+			OnGetUpdates();
+			return true;		
+		}		
 	}
 		
-	ReportError(res.nHTTPCode, res.sBody);	
-		
+	wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
+	wxString sErr;		
+	wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if(numErrors > 0 || !JSONRoot.HasMember("message"))
+	{
+		sErr = wxString (_("Unexpected error"));
+	}	
+	else
+	{
+		sErr = JSONRoot[wxT("message")].AsString();
+	}
+	
+	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
+	}
+	
 	return false;		
 }
 

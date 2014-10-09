@@ -65,6 +65,7 @@ public:
 	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
 	virtual PERFORMRESULT Delete(const wxString & sURL);
 	virtual PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
+	virtual PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
@@ -94,6 +95,7 @@ public:
 	PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
 	PERFORMRESULT Delete(const wxString & sURL);
 	PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
+	PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath);
 protected:
 	struct curl_slist *slist;
 	CURL *m_pCurl;

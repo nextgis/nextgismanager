@@ -3,7 +3,7 @@
  * Purpose:  system operations.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2011,2013,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgis/datasource/datasource.h"
 #include "wxgis/datasource/gdalinh.h"
 
 
@@ -255,3 +254,4 @@ WXDLLIMPEXP_GIS_DS CPLString GetUniqPath(const CPLString &szOriginalFullPath, co
 WXDLLIMPEXP_GIS_DS CPLString Transliterate(const char* str);
 WXDLLIMPEXP_GIS_DS CPLString GetExtension(const CPLString &sPath, const CPLString &sName = "");
 WXDLLIMPEXP_GIS_DS wxString GetConvName(const CPLString &szPath, bool bIsPath = true);
+WXDLLIMPEXP_GIS_DS void AddFileToZip(const CPLString &szPath, void* hZIP, GByte **pabyBuffer, size_t nBufferSize, const CPLString &szPrependPath, const wxString &sCharset);

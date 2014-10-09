@@ -35,7 +35,7 @@
 
 #define MAX_FEATURES_FORINSERT 1000
 
-bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITrackCancel* const pTrackCancel)
+bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, const wxVector<ST_FIELD_MAP> &staFieldMap, ITrackCancel* const pTrackCancel)
 {
     //progress & messages
     IProgressor* pProgressor(NULL);
@@ -64,26 +64,6 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
             pTrackCancel->PutMessage(_("Input dataset is corrupt"), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
-    }
-
-    //TODO: move field map to create dataset and export function as input param
-    wxVector<ST_FIELD_MAP> staFieldMap;
-
-    OGRFeatureDefn *pSrcFeatureDefn = pSrcDataSet->GetDefinition();
-    for (size_t i = 0; i < pFeatureDefn->GetFieldCount(); ++i)
-    {
-        OGRFieldDefn *pFieldDefn = pFeatureDefn->GetFieldDefn(i);
-        if (NULL != pFieldDefn)
-        {
-            if (pSrcFeatureDefn->GetFieldCount() > i)
-                //                int nSrcField = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
-                //                if (nSrcField != wxNOT_FOUND)
-            {
-                OGRFieldType eType = pFieldDefn->GetType();
-                ST_FIELD_MAP record = { i, i, eType };
-                staFieldMap.push_back(record);
-            }
-        }
     }
 
 #ifndef CPL_RECODE_ICONV
@@ -180,7 +160,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, ITra
     return true;
 }
 
-bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel)
+bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, const wxVector<ST_FIELD_MAP> &staFieldMap, OGRwkbGeometryType eFilterGeomType, bool bToMulti, bool bSkipEmptyGeometry, ITrackCancel* const pTrackCancel)
 {
     const wxGISSpatialReference oSrcSRS = pSrcDataSet->GetSpatialReference();
     const wxGISSpatialReference oDstSRS = pDstDataSet->GetSpatialReference();
@@ -217,60 +197,6 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             pTrackCancel->PutMessage(_("Input dataset is corrupt"), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
-    }
-
-    //TODO: move field map to create dataset and export function as input param
-    wxVector<ST_FIELD_MAP> staFieldMap;
-
-    OGRFeatureDefn *pSrcFeatureDefn = pSrcDataSet->GetDefinition();
-    if (pDstDataSet->GetSubType() == enumVecDXF)
-    {
-        //add name, desc, descript, descritpion to output string
-        for (size_t i = 0; i < pSrcFeatureDefn->GetFieldCount(); ++i)
-        {
-            OGRFieldDefn *pFieldDefn = pSrcFeatureDefn->GetFieldDefn(i);
-            if (NULL != pFieldDefn)
-            {
-                wxString sName(pFieldDefn->GetNameRef(), wxConvUTF8);
-                sName.MakeLower();
-                if (pFieldDefn->GetType() == OFTString)
-                {
-                    if (sName.StartsWith(wxT("name")) || sName.StartsWith(wxT("desc")) || sName.StartsWith(wxT("label")))
-                    {
-                        ST_FIELD_MAP record = { wxNOT_FOUND, i, OFTString };
-                        staFieldMap.push_back(record);
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for (size_t i = 0; i < pFeatureDefn->GetFieldCount(); ++i)
-        {
-            OGRFieldDefn *pFieldDefn = pFeatureDefn->GetFieldDefn(i);
-            if (NULL != pFieldDefn)
-            {
-                int nSrcFieldIndex = -1;
-                if (pDstDataSet->GetSubType() == enumVecESRIShapefile) // if the shape is dest the field names cut to 8 chars and so the field names are differes
-                {
-                    if (EQUALN(pSrcFeatureDefn->GetFieldDefn(i)->GetNameRef(), pFieldDefn->GetNameRef(), 8))
-                    {
-                        nSrcFieldIndex = i;
-                    }
-                }
-                else
-                {
-                    nSrcFieldIndex = pSrcFeatureDefn->GetFieldIndex(pFieldDefn->GetNameRef());
-                }
-                if (nSrcFieldIndex != -1)
-                {
-                    OGRFieldType eType = pFieldDefn->GetType();
-                    ST_FIELD_MAP record = { i, nSrcFieldIndex, eType };
-                    staFieldMap.push_back(record);
-                }
-            }
-        }
     }
 
 #ifndef CPL_RECODE_ICONV
@@ -370,6 +296,22 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             }
             newFeature.SetGeometryDirectly(wxGISGeometry(pNewGeom, false));
         }
+		else if(bSkipEmptyGeometry)
+		{
+			//skip feature
+			
+			if (pTrackCancel)
+            {
+                pTrackCancel->PutMessage(wxString::Format(_("Skip feature id %ld with empty geometry"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
+            }
+			
+			if (pProgressor)
+			{
+				pProgressor->SetValue(nCounter++);
+			}
+			continue;
+			
+		}
 
         if (pDstDataSet->GetSubType() == enumVecDXF)
         {
@@ -457,7 +399,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
     return true;
 }
 
-bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, ITrackCancel* const pTrackCancel)
+bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
 
@@ -495,7 +437,7 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     OGRErr eErr = pDstDataSet->StartTransaction();
 
     //copy data
-    if (!CopyRows(pSrsDataSet, pDstDataSet, pTrackCancel))
+    if (!CopyRows(pSrsDataSet, pDstDataSet, staFieldMap, pTrackCancel))
     {
         wxString sErr(_("Error copying data to a new dataset!"));
 		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
@@ -529,7 +471,7 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     return eErr == OGRERR_NONE;
 }
 
-bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, OGRwkbGeometryType eFilterGeomType, bool bToMulti, ITrackCancel* const pTrackCancel)
+bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, OGRwkbGeometryType eFilterGeomType, bool bToMulti, bool bSkipEmptyGeometry, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
 
@@ -584,7 +526,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     OGRErr eErr = pDstDataSet->StartTransaction();
 
     //copy data
-    if (!CopyRows(pSrsDataSet, pDstDataSet, eFilterGeomType, bToMulti, pTrackCancel))
+    if (!CopyRows(pSrsDataSet, pDstDataSet, staFieldMap, eFilterGeomType, bToMulti, bSkipEmptyGeometry, pTrackCancel))
     {
         wxString sErr(_("Error copying data to a new dataset!"));
 		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
@@ -637,6 +579,40 @@ bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const w
         }
         return false;
     }
+	
+	// field map to create dataset
+    wxVector<ST_FIELD_MAP> staFieldMap;
+
+	OGRFeatureDefn *pNewDef = pDef->Clone();   
+	int nCount = 0;
+    for (size_t i = 0; i < pDef->GetFieldCount(); ++i)
+    {
+        OGRFieldDefn *pFieldDefn = pDef->GetFieldDefn(i);
+        if (NULL != pFieldDefn)
+        {
+			if (wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
+			{
+				pNewDef->DeleteFieldDefn(nCount);
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
+				}
+			}
+			else
+            {
+				if(pFilter->GetSubType() == enumTableDBF && CPLStrnlen(pFieldDefn->GetNameRef(), 11) > 10) // limit field name to 10 symbols
+				{					
+					char acNewName[10];
+					CPLStrlcpy(acNewName, pFieldDefn->GetNameRef(), 10);
+					pNewDef->GetFieldDefn(nCount)->SetName(acNewName);
+				}
+                OGRFieldType eType = pFieldDefn->GetType();
+                ST_FIELD_MAP record = { nCount, i, eType };
+                staFieldMap.push_back(record);
+				nCount++;
+            }
+        }
+    }
 
     if (pTrackCancel)
     {
@@ -658,10 +634,11 @@ bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const w
 
     wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
 
-    if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pDef, papszDataSourceOptions, papszLayerOptions, true, pTrackCancel))
+    if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, papszDataSourceOptions, papszLayerOptions, true, pTrackCancel))
     {
         return false;
     }
+	
     return true;
 }
 
@@ -712,8 +689,67 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         }
         return false;
     }
+	
+		
+	// field map to create dataset
+    wxVector<ST_FIELD_MAP> staFieldMap;
 
-     //check multi geometry
+	OGRFeatureDefn *pNewDef = pDef->Clone();   
+    if (pFilter->GetSubType() == enumVecDXF)
+	{
+		//add name, desc, descript, descritpion to output string
+		for (size_t i = 0; i < pDef->GetFieldCount(); ++i)
+		{
+			OGRFieldDefn *pFieldDefn = pDef->GetFieldDefn(i);
+			if (NULL != pFieldDefn)
+			{
+				wxString sName(pFieldDefn->GetNameRef(), wxConvUTF8);
+				sName.MakeLower();
+				if (pFieldDefn->GetType() == OFTString)
+				{
+					if (sName.StartsWith(wxT("name")) || sName.StartsWith(wxT("desc")) || sName.StartsWith(wxT("label")))
+					{
+						ST_FIELD_MAP record = { wxNOT_FOUND, i, OFTString };
+						staFieldMap.push_back(record);
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		int nCount = 0;
+		for (size_t i = 0; i < pDef->GetFieldCount(); ++i)
+		{
+			OGRFieldDefn *pFieldDefn = pDef->GetFieldDefn(i);
+			if (NULL != pFieldDefn)
+			{
+				if (pFilter->GetSubType() == enumVecPostGIS && wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
+				{
+					pNewDef->DeleteFieldDefn(nCount);
+					if (pTrackCancel)
+					{
+						pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
+					}
+				}
+				else
+				{
+					if(pFilter->GetSubType() == enumVecESRIShapefile && CPLStrnlen(pFieldDefn->GetNameRef(), 11) > 10) // limit field name to 10 symbols
+					{				
+						char acNewName[10];
+						CPLStrlcpy(acNewName, pFieldDefn->GetNameRef(), 10);
+						pNewDef->GetFieldDefn(nCount)->SetName(acNewName);	
+					}
+					OGRFieldType eType = pFieldDefn->GetType();
+					ST_FIELD_MAP record = { nCount, i, eType };
+					staFieldMap.push_back(record);
+					nCount++;
+				}
+			}
+		}
+	}
+	
+	//check multi geometry
     OGRwkbGeometryType eGeomType = pSrsDataSet->GetGeometryType();
 
     bool bIsMultigeom = nNewSubType == enumVecESRIShapefile && (wkbFlatten(eGeomType) == wkbUnknown || wkbFlatten(eGeomType) == wkbGeometryCollection);
@@ -774,34 +810,10 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
             if (IT->second > 0)
             {
                 wxString sType(OGRGeometryTypeToName(IT->first), wxConvUTF8);
-
-
-                OGRFeatureDefn *pNewDef = pDef->Clone();
                 pNewDef->SetGeomType(IT->first);
                 sType.Replace(" ", "");
-                //remove ogc_fid field for PG
-//                if (nNewSubType == enumVecPostGIS)
-//                {
-//                    for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
-//                    {
-//                        OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
-//                        if (NULL != pFieldDefn)
-//                        {
-//                            if (wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
-//                            {
-//                                pNewDef->DeleteFieldDefn(i);
-//                                if (pTrackCancel)
-//                                {
-//                                    pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
-//                                }
-//
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
 
-                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, pTrackCancel))
+                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, pTrackCancel))
                 {
                     return false;
                 }
@@ -812,9 +824,6 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
     {
         //check if data have multi types
         bool bIsMulti = false;
-        OGRFeatureDefn *pNewDef = pDef->Clone();
-
-
         if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4 && nNewSubType == enumVecPostGIS)
         {
             //check to multi
@@ -864,28 +873,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
         //}
 
-        if (nNewSubType == enumVecPostGIS)
-        {
-            for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
-            {
-                OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
-                if (NULL != pFieldDefn)
-                {
-                    if (wxGISEQUAL(pFieldDefn->GetNameRef(), "ogc_fid"))
-                    {
-                        pNewDef->DeleteFieldDefn(i);
-                        if (pTrackCancel)
-                        {
-                            pTrackCancel->PutMessage(_("Remove field 'ogc_fid' from input data"), wxNOT_FOUND, enumGISMessageWarning);
-                        }
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, pTrackCancel))
         {
             return false;
         }

@@ -647,7 +647,7 @@ size_t wxGISDatasetImportDlg::GetDatasetCount()
 			if(!pItem)
 				continue;
 			wxGISBaseImportPanel* pImportPanel = dynamic_cast<wxGISBaseImportPanel*>(pItem->GetWindow());
-			if(pImportPanel && pImportPanel->GetLastMessageType() != enumGISMessageError)
+			if(pImportPanel && pImportPanel->GetLastMessageType() != enumGISMessageError && pImportPanel->TransferDataFromWindow())
 			{
 				wxGISVectorImportPanel* pVectorPanel = dynamic_cast<wxGISVectorImportPanel*>(pImportPanel);
 				wxGISDataset* pDSet = pImportPanel->GetDataset();
@@ -672,7 +672,7 @@ size_t wxGISDatasetImportDlg::GetDatasetCount()
 
 wxGISDatasetImportDlg::DATASETDESCR wxGISDatasetImportDlg::GetDataset(size_t nIndex) const
 {
-	if(m_paDatasets.size() <= nIndex)
+	if(m_paDatasets.size() > nIndex)
 	{
 		return m_paDatasets[nIndex];
 	}
