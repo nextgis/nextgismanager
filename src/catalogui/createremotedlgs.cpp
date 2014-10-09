@@ -22,6 +22,7 @@
 
 #include "wxgis/catalogui/createremotedlgs.h"
 #include "wxgis/framework/application.h"
+#include "wxgis/cartoui/tableview.h"
 
 #include "../../art/state.xpm"
 
@@ -399,6 +400,7 @@ IMPLEMENT_CLASS(wxGISVectorImportPanel, wxGISBaseImportPanel)
 
 BEGIN_EVENT_TABLE(wxGISVectorImportPanel, wxGISBaseImportPanel)
     EVT_CHOICE(wxGISVectorImportPanel::ID_ENCODING, wxGISVectorImportPanel::OnEncodingSelect)
+	EVT_BUTTON(wxGISVectorImportPanel::ID_TEST, wxGISVectorImportPanel::OnTestEncoding)
 END_EVENT_TABLE();
 
 wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
@@ -485,6 +487,12 @@ void wxGISVectorImportPanel::OnEncodingSelect(wxCommandEvent& event)
     wxFontEncoding eEnc = m_mnEnc[sSel];
 	if(m_pFeatureClass)
 		m_pFeatureClass->SetEncoding(eEnc);
+}
+
+void wxGISVectorImportPanel::OnTestEncoding(wxCommandEvent& event)
+{
+	wxGISDatasetTestEncodingDlg dlg(m_pFeatureClass, this);
+	dlg.ShowModal();
 }
 
 wxGISDataset* wxGISVectorImportPanel::GetDataset() const
@@ -678,4 +686,37 @@ wxGISDatasetImportDlg::DATASETDESCR wxGISDatasetImportDlg::GetDataset(size_t nIn
 	}
 	DATASETDESCR ret = {NULL, wxEmptyString, wkbUnknown, false};
 	return ret;
+}
+
+//-------------------------------------------------------------------------------
+// wxGISDatasetTestEncodingDlg
+//-------------------------------------------------------------------------------
+
+wxGISDatasetTestEncodingDlg::wxGISDatasetTestEncodingDlg(wxGISTable  *const pDSet, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
+{
+	if(pDSet)
+	{
+		SetTitle(pDSet->GetName());
+		wxBoxSizer *bMainSizer = new wxBoxSizer( wxVERTICAL );
+		wxGISTableView* pView = new wxGISTableView(this);
+		bMainSizer->Add( pView , 0, wxEXPAND, 5 );
+		this->SetSizer( bMainSizer );
+		this->Layout();
+		
+		if (!pDSet->IsOpened())
+		{
+			pDSet->Open(0, true, true, false);
+		}
+		if(pDSet->IsCaching())
+		{
+			pDSet->StopCaching();
+		}
+		wxGISGridTable* pTable = new wxGISGridTable(wxStaticCast(pDSet ,wxGISDataset));
+		pView->SetTable(pTable, true);
+	}
+}
+
+wxGISDatasetTestEncodingDlg::~wxGISDatasetTestEncodingDlg()
+{
+	
 }

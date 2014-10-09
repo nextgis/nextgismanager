@@ -126,6 +126,7 @@ public:
 	virtual bool GetToMulti() const;
 	//events
 	virtual void OnEncodingSelect(wxCommandEvent& event);
+	virtual void OnTestEncoding(wxCommandEvent& event);
 protected:
 	wxGISFeatureDataset *m_pFeatureClass;
 	std::map<wxString, wxFontEncoding> m_mnEnc;
@@ -160,6 +161,17 @@ protected:
 	wxVector<DATASETDESCR> m_paDatasets;
 };
 
+/** @class wxGISDatasetTestEncodingDlg
 
+    The dialog to test encoding in Vector dataset 
+
+    @library{catalogui}
+*/
+class  wxGISDatasetTestEncodingDlg : public wxDialog
+{
+public:
+	wxGISDatasetTestEncodingDlg(wxGISTable  *const pDSet, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISDatasetTestEncodingDlg();
+};
 
 
