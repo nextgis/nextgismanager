@@ -101,6 +101,7 @@ public:
     virtual void Refresh(void);
     virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);
     virtual wxGxObject *FindGxObject(const wxString &sPath);
+	virtual wxGxObjectList FindGxObjectsByPath(const wxString &sPath);
 protected:
     wxGxObjectList m_Children;
 };

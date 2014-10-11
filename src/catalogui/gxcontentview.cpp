@@ -537,9 +537,9 @@ void wxGxContentView::OnDeselected(wxListEvent& event)
 
 void wxGxContentView::ShowContextMenu(const wxPoint& pos)
 {
-	long item = wxNOT_FOUND;
-    item = GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if(item == wxNOT_FOUND)
+	unsigned long nFlags(0);
+	long nItemId = HitTest(pos, (int &)nFlags);
+	if(nItemId == wxNOT_FOUND)
 	{
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_nParentGxObjectID);
 
@@ -560,7 +560,7 @@ void wxGxContentView::ShowContextMenu(const wxPoint& pos)
 		return;
 	}
 
-	LPITEMDATA pItemData = (LPITEMDATA)GetItemData(item);
+	LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItemId);
 	if(pItemData != NULL)
 	{
         //bool bAdd = true;

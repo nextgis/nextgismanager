@@ -486,6 +486,48 @@ wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const wxString &sPath)
     return NULL;
 }
 
+wxGxObjectList wxGxObjectContainer::FindGxObjectsByPath(const wxString &sPath)
+{
+	wxGxObjectList retList;
+	wxGxObject *ret = wxGxObject::FindGxObjectByPath(sPath);
+    if(ret)
+		retList.Append(ret);
+		
+		
+	wxString sThisPath(m_sPath, wxConvUTF8);
+    bool bHavePart = sPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
+    if(bHavePart && HasChildren())
+    {
+        wxGxObjectList::const_iterator iter;
+        for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
+        {
+			wxGxObject *current = *iter;
+			if(current)
+			{
+				ret = current->FindGxObjectByPath(sPath);    
+				if(ret && !retList.Member(ret))
+					retList.Append(ret);
+			}
+			
+            wxGxObjectContainer *currentcont = wxDynamicCast(current, wxGxObjectContainer);
+			if(!currentcont)
+				continue;
+            wxGxObjectList subList = currentcont->FindGxObjectsByPath(sPath);
+            if(!subList.IsEmpty())
+			{
+				wxGxObjectList::const_iterator subiter;
+				for(subiter = subList.begin(); subiter != subList.end(); ++subiter)
+				{
+					wxGxObject *subcurrent = *subiter;
+					if( !retList.Member(subcurrent) )
+						retList.Append(subcurrent);
+				}
+			}
+        }
+    }	
+	return retList;
+}
+
 wxString wxGxObjectContainer::ValidateName(const wxString& sTestName )
 {
 	return sTestName;

@@ -84,24 +84,30 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             //get object parent
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetPath();
-            wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
-            if(parent)
-            {
-                //check doubles
-                //if(parent->IsNameExist(event.GetPath().GetFullName()))
-                //    break;
+			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			wxGxObjectList::const_iterator iter;
+			for(iter = list.begin(); iter != list.end(); ++iter)
+			{
+				wxGxObject *current = *iter;
+				wxGxObjectContainer *parent = wxDynamicCast(current, wxGxObjectContainer);
+				if(parent)
+				{
+					//check doubles
+					//if(parent->IsNameExist(event.GetPath().GetFullName()))
+					//    break;
 
-                CPLString szPath(event.GetPath().GetFullPath().ToUTF8());
-                char **papszFileList = NULL;
-                papszFileList = CSLAddString( papszFileList, szPath );
+					CPLString szPath(event.GetPath().GetFullPath().ToUTF8());
+					char **papszFileList = NULL;
+					papszFileList = CSLAddString( papszFileList, szPath );
 
-                wxArrayLong ChildrenIds;
-                CreateChildren(parent, papszFileList, ChildrenIds);
-                for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                    ObjectAdded(ChildrenIds[i]);
+					wxArrayLong ChildrenIds;
+					CreateChildren(parent, papszFileList, ChildrenIds);
+					for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+						ObjectAdded(ChildrenIds[i]);
 
-                CSLDestroy( papszFileList );
-            }
+					CSLDestroy( papszFileList );
+				}
+			}
         }
         break;
     case wxFSW_EVENT_DELETE:
@@ -109,12 +115,16 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             //search gxobject
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetFullPath();
-            wxGxObject *current = FindGxObjectByPath(sPath);
-            if(current)
-            {
-                current->Destroy();
-            }
-
+			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			wxGxObjectList::const_iterator iter;
+			for(iter = list.begin(); iter != list.end(); ++iter)
+			{
+				wxGxObject *current = *iter;
+				if(current)
+				{
+					current->Destroy();
+				}
+			}
 #ifdef __UNIX__
             RemoveFSWatcherPath(oName);
 #endif // __UNIX__
@@ -124,43 +134,56 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
         {
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetFullPath();
-            wxGxObject *current = FindGxObjectByPath(sPath);
-            if(current)
-            {
-                if(event.GetNewPath().Exists())
-                {
-                    current->SetName(event.GetNewPath().GetFullName());
-                    current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8() ) );
-                    ObjectChanged(current->GetId());
-                }
-                else
-                {
-                    current->Destroy();
-#ifdef __UNIX__
-                    RemoveFSWatcherPath(oName);
-#endif // __UNIX__
-                }
+			wxGxObjectList::const_iterator iter;
+			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			if(list.IsEmpty())
+			{
+				oName = event.GetNewPath();
+				sPath = oName.GetPath();
+				
+				list = FindGxObjectsByPath(sPath);
+				for(iter = list.begin(); iter != list.end(); ++iter)
+				{
+					wxGxObject *current = *iter;
+					wxGxObjectContainer *parent = wxDynamicCast(current, wxGxObjectContainer);
+					if(parent)
+					{
+						CPLString szPath(event.GetNewPath().GetFullPath().ToUTF8());
+						char **papszFileList = NULL;
+						papszFileList = CSLAddString( papszFileList, szPath );
 
-            }
-            else
-            {
-                wxFileName oName = event.GetNewPath();
-                wxString sPath = oName.GetPath();
-                wxGxObjectContainer *parent = wxDynamicCast(FindGxObjectByPath(sPath), wxGxObjectContainer);
-                if(parent)
-                {
-                    CPLString szPath(event.GetNewPath().GetFullPath().ToUTF8());
-                    char **papszFileList = NULL;
-                    papszFileList = CSLAddString( papszFileList, szPath );
+						wxArrayLong ChildrenIds;
+						CreateChildren(parent, papszFileList, ChildrenIds);
+						for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
+							ObjectAdded(ChildrenIds[i]);
 
-                    wxArrayLong ChildrenIds;
-                    CreateChildren(parent, papszFileList, ChildrenIds);
-                    for(size_t i = 0; i < ChildrenIds.GetCount(); ++i)
-                        ObjectAdded(ChildrenIds[i]);
-
-                    CSLDestroy( papszFileList );
-                }
-            }
+						CSLDestroy( papszFileList );
+					}
+				}
+			}
+			else
+			{				
+				for(iter = list.begin(); iter != list.end(); ++iter)
+				{
+					wxGxObject *current = *iter;
+					if(current)
+					{
+						if(event.GetNewPath().Exists())
+						{
+							current->SetName(event.GetNewPath().GetFullName());
+							current->SetPath( CPLString( event.GetNewPath().GetFullPath().ToUTF8() ) );
+							ObjectChanged(current->GetId());
+						}
+						else
+						{
+							current->Destroy();
+		#ifdef __UNIX__
+							RemoveFSWatcherPath(oName);
+		#endif // __UNIX__
+						}
+					}
+				}
+			}
         }
         break;
     default:
