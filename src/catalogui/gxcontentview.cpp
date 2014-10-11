@@ -698,11 +698,11 @@ void wxGxContentView::OnBeginLabelEdit(wxListEvent& event)
 void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
 {
     //event.Skip();
-    if ( event.GetLabel().IsEmpty() )
+    if ( event.GetLabel().IsEmpty() || event.GetLabel().IsSameAs(GetItemText(event.GetIndex())))
     {
         event.Veto();
 		return;
-    }
+    }	
 
 	LPITEMDATA pItemData = (LPITEMDATA)event.GetData();
 	if(pItemData == NULL)

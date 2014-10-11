@@ -678,7 +678,7 @@ void wxGxTreeView::OnBeginLabelEdit(wxTreeEvent& event)
 
 void wxGxTreeView::OnEndLabelEdit(wxTreeEvent& event)
 {
-    if ( event.GetLabel().IsEmpty() )
+    if ( event.GetLabel().IsEmpty() || event.GetLabel().IsSameAs(GetItemText(event.GetItem())))
     {
         event.Veto();
 		return;
