@@ -3,7 +3,7 @@
  * Purpose:  wxGISTabView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2012 Dmitry Baryshnikov
+*   Copyright (C) 2009-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -398,7 +398,7 @@ wxGxTabView::wxGxTabView(void) : wxAuiNotebook()
     m_pSelection = NULL;
 }
 
-wxGxTabView::wxGxTabView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxAuiNotebook(parent, id, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE)//wxNO_BORDER |
+wxGxTabView::wxGxTabView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxAuiNotebook(parent, id, pos, size, wxAUI_NB_TOP)//wxNO_BORDER | | wxAUI_NB_TAB_MOVE
 {
     m_pSelection = NULL;
 #ifdef __WXGTK__
@@ -412,7 +412,7 @@ wxGxTabView::~wxGxTabView(void)
 
 bool wxGxTabView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxAUI_NB_TAB_MOVE|wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN);//wxNO_BORDER |
+    bool bRes = wxAuiNotebook::Create(parent, TABCTRLID, pos, size, wxAUI_NB_TOP | wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN);//wxNO_BORDER | wxAUI_NB_TAB_MOVE|
 #ifdef __WXGTK__
 	SetArtProvider(new wxGISTabArt());
 #endif // __WXGTK__
