@@ -90,7 +90,7 @@ bool wxGISCatalogApp::OnInit()
 	//setup locale
 	wxString sLocale = oConfig.GetLocale();
 	wxString sLocaleDir = oConfig.GetLocaleDir();
-    if (!m_pMainFrame->SetupLoc(sLocale, sLocaleDir))
+    if (m_pMainFrame->SetupLoc(sLocale, sLocaleDir) == enumGISReturnFailed)
     {
         wxLogError(_("Setup locale failed. Locale files directory '%s', locale: %s"), sLocaleDir.c_str(), sLocale.c_str());
         return false;

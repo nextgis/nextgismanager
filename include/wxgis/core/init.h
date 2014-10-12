@@ -91,7 +91,7 @@ public:
     virtual bool SetupSys(const wxString &sSysPath);
     virtual void SetDebugMode(bool bDebugMode);
     virtual bool SetupLog(const wxString &sLogPath, const wxString &sNamePrefix);
-	virtual bool SetupLoc(const wxString &sLoc, const wxString &sLocPath);
+	virtual wxGISEnumReturnType SetupLoc(const wxString &sLoc, const wxString &sLocPath);
     virtual wxString GetDecimalPoint(void) const{return m_sDecimalPoint;};
     virtual bool CreateApp(void) {return true;};
 protected:

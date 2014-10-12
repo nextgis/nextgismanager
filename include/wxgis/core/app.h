@@ -47,7 +47,7 @@ public:
     virtual bool CreateApp(void) = 0;
     virtual bool SetupLog(const wxString &sLogPath, const wxString &sNamePrefix = wxEmptyString) = 0;
 	virtual wxString GetDecimalPoint(void) const = 0;
-    virtual bool SetupLoc(const wxString &sLoc, const wxString &sLocPath) = 0;
+    virtual wxGISEnumReturnType SetupLoc(const wxString &sLoc, const wxString &sLocPath) = 0;
     virtual bool SetupSys(const wxString &sSysPath) = 0;
     virtual void SetDebugMode(bool bDebugMode) = 0;
 };

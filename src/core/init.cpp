@@ -139,7 +139,7 @@ bool wxGISInitializer::Initialize(const wxString &sAppName, const wxString &sLog
     oConfig.ReportPaths();
 	wxLogMessage(_("wxGISInitializer: %s %s is initializing..."), sAppName.c_str(), wxString(wxGIS_VERSION_NUM_DOT_STRING_T).c_str());
 
-	if(!SetupLoc(oConfig.GetLocale(), oConfig.GetLocaleDir()))
+	if(SetupLoc(oConfig.GetLocale(), oConfig.GetLocaleDir()) == enumGISReturnFailed)
         return false;
 
 	//setup sys dir
@@ -227,10 +227,10 @@ bool wxGISInitializer::SetupLog(const wxString &sLogPath, const wxString &sNameP
     return true;
 }
 
-bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
+wxGISEnumReturnType wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 {
-    wxLogMessage(_("wxGISInitializer: Initialize locale"));
-
+	wxGISEnumReturnType eRet = enumGISReturnOk;
+    wxLogMessage(_("Initialize locale"));
     wxDELETE(m_pLocale);
 
 	//init locale
@@ -241,9 +241,8 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 		if(loc_info != NULL)
 		{
 			iLocale = loc_info->Language;
-			wxLogMessage(_("wxGISInitializer: Language is set to %s"), loc_info->Description.c_str());
-            wxLogMessage(_("wxGISInitializer: Language locale files path '%s'"), sLocPath.c_str());
-
+			wxLogMessage(_("Language is set to %s"), loc_info->Description.c_str());
+            wxLogMessage(_("Language locale files path '%s'"), sLocPath.c_str());
 		}
 
         // don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
@@ -252,8 +251,21 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
         m_pLocale = new wxLocale();
         if ( !m_pLocale->Init(iLocale) )
         {
-            wxLogError(wxT("wxGISInitializer: This language is not supported by the system."));
-            return false;
+            wxLogError(wxT("This language is not supported by the system. Try to reset language to English"));
+			eRet = enumGISReturnWarning;
+			
+			wxDELETE(m_pLocale);
+			m_pLocale = new wxLocale();
+			//reset to English
+			loc_info = wxLocale::FindLanguageInfo(wxT("en"));
+			if(loc_info != NULL)
+			{
+				iLocale = loc_info->Language;
+			}
+			if ( !m_pLocale->Init(iLocale) )
+			{
+				return enumGISReturnFailed;
+			}
         }
     }
 
@@ -294,7 +306,7 @@ bool wxGISInitializer::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 
     m_sDecimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
 
-    return true;
+    return eRet;
 }
 
 //-----------------------------------------------------------------------------

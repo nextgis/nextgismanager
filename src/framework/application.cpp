@@ -486,7 +486,7 @@ bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNameP
 {
 	if(sLogPath.IsEmpty())
 	{
-		wxLogError(_("wxGISApplication: Failed to get log folder"));
+		wxLogError(_("Failed to get log folder"));
         return false;
 	}
 
@@ -501,7 +501,7 @@ bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNameP
         m_LogFile.Close();
 
 	if(!m_LogFile.Open(logfilename.GetData(), wxT("a+")))
-		wxLogError(_("wxGISApplication: Failed to open log file %s"), logfilename.c_str());
+		wxLogError(_("Failed to open log file %s"), logfilename.c_str());
 
 	wxLog::SetActiveTarget(new wxLogStderr(m_LogFile.fp()));
 
@@ -516,8 +516,8 @@ bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNameP
     wxString sFreeMem = wxFileName::GetHumanReadableSize(wxULongLong(nFreeMem.GetHi(), nFreeMem.GetLo()));
 //	long dFreeMem =  wxMemorySize(wxGetFreeMemory() / 1048576).ToLong();
 	wxLogMessage(_("HOST '%s': OS desc - %s, free memory - %s"), wxGetFullHostName().c_str(), wxGetOsDescription().c_str(), sFreeMem.c_str());
-	wxLogMessage(_("wxGISApplication: %s %s is initializing..."), GetAppName().c_str(), GetAppVersionString().c_str());
-	wxLogMessage(_("wxGISApplication: Log file: %s"), logfilename.c_str());
+	wxLogMessage(_("%s %s is initializing..."), GetAppName().c_str(), GetAppVersionString().c_str());
+	wxLogMessage(_("Log file: %s"), logfilename.c_str());
 
     return true;
 }
@@ -533,9 +533,10 @@ bool wxGISApplication::SetupSys(const wxString &sSysPath)
     return true;
 }
 
-bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
+wxGISEnumReturnType wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 {
-    wxLogMessage(_("wxGISApplication: Initialize locale"));
+	wxGISEnumReturnType eRet = enumGISReturnOk;
+    wxLogMessage(_("Initialize locale"));
     wxDELETE(m_pLocale);
 
 	//init locale
@@ -546,8 +547,8 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 		if(loc_info != NULL)
 		{
 			iLocale = loc_info->Language;
-			wxLogMessage(_("wxGISApplication: Language is set to %s"), loc_info->Description.c_str());
-            wxLogMessage(_("wxGISApplication: Language locale files path '%s'"), sLocPath.c_str());
+			wxLogMessage(_("Language is set to %s"), loc_info->Description.c_str());
+            wxLogMessage(_("Language locale files path '%s'"), sLocPath.c_str());
 		}
 
         // don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
@@ -556,8 +557,21 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
         m_pLocale = new wxLocale();
         if ( !m_pLocale->Init(iLocale) )
         {
-            wxLogError(wxT("wxGISApplication: This language is not supported by the system."));
-            return false;
+            wxLogError(wxT("This language is not supported by the system. Try to reset language to English"));
+			eRet = enumGISReturnWarning;
+			
+			wxDELETE(m_pLocale);
+			m_pLocale = new wxLocale();
+			//reset to English
+			loc_info = wxLocale::FindLanguageInfo(wxT("en"));
+			if(loc_info != NULL)
+			{
+				iLocale = loc_info->Language;
+			}
+			if ( !m_pLocale->Init(iLocale) )
+			{
+				return enumGISReturnFailed;
+			}
         }
     }
 
@@ -567,7 +581,7 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
     // in the default locations, but when the program is not installed the
     // catalogs are in the build directory where we wouldn't find them by
     // default
-	wxString sLocalePath = sLocPath + wxFileName::GetPathSeparator() + sLoc;//;//
+	wxString sLocalePath = sLocPath + wxFileName::GetPathSeparator() + sLoc;
 	if(wxDirExists(sLocalePath))
 	{
         wxFileName oParent(sLocalePath);
@@ -598,7 +612,7 @@ bool wxGISApplication::SetupLoc(const wxString &sLoc, const wxString &sLocPath)
 
     m_sDecimalPoint = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
 
-    return true;
+    return eRet;
 }
 
 void wxGISApplication::LoadToolbars(wxXmlNode* pRootNode)

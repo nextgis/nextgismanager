@@ -60,7 +60,7 @@ public:
     virtual void OnAppOptions(void);
     virtual bool SetupLog(const wxString &sLogPath, const wxString &sNamePrefix = wxEmptyString);
     virtual bool SetupSys(const wxString &sSysPath);
-    virtual bool SetupLoc(const wxString &sLoc, const wxString &sLocPath);
+    virtual wxGISEnumReturnType SetupLoc(const wxString &sLoc, const wxString &sLocPath);
     virtual wxString GetDecimalPoint(void) const{return m_sDecimalPoint;};
 	//events
     virtual void OnEraseBackground(wxEraseEvent& event);

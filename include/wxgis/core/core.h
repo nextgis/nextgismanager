@@ -216,7 +216,8 @@ enum wxGISEnumReturnType
     enumGISReturnkUnk = 0,
     enumGISReturnOk,
     enumGISReturnFailed,
-    enumGISReturnTimeout
+    enumGISReturnTimeout,
+	enumGISReturnWarning
 };
 
 //FLT_EPSILON DBL_EPSILON

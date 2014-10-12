@@ -98,7 +98,7 @@ public:
     virtual void OnAppOptions(void){};
     virtual bool CreateApp(void);
     virtual bool SetupLog(const wxString &sLogPath, const wxString &sNamePrefix = wxEmptyString){return true;};
-    virtual bool SetupLoc(const wxString &sLoc, const wxString &sLocPath){return true;};
+    virtual wxGISEnumReturnType SetupLoc(const wxString &sLoc, const wxString &sLocPath){return enumGISReturnOk;};
     virtual wxString GetDecimalPoint(void) const {return wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);};
     virtual bool SetupSys(const wxString &sSysPath){return true;};
     virtual void SetDebugMode(bool bDebugMode){};

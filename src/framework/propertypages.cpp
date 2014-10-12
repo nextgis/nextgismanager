@@ -215,9 +215,26 @@ void wxGISMiscPropertyPage::Apply(void)
             int nIndex = m_aLangsDesc.Index(sChoice);
             if(nIndex != wxNOT_FOUND)
             {
-                m_pApp->SetupLoc(m_aLangs[nIndex], m_LocalePath->GetValue());
-		        oConfig.SetLocale(m_aLangs[nIndex]);
-		        oConfig.SetLocaleDir(m_LocalePath->GetValue());
+				wxString sLoc = m_aLangs[nIndex];
+				wxGISEnumReturnType eType = m_pApp->SetupLoc(m_aLangs[nIndex], m_LocalePath->GetValue());
+				
+                if(eType == enumGISReturnWarning)
+				{
+					wxMessageBox(wxString::Format(_("Failed to set %s locale, reset to English"), sChoice.c_str()), _("Error"), wxOK | wxICON_ERROR);
+					oConfig.SetLocale(wxT("en"));
+					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
+				}
+				else if(eType == enumGISReturnFailed)
+				{
+					wxMessageBox(wxString::Format(_("Failed to set any locale"), sChoice.c_str()), _("Error"), wxOK | wxICON_ERROR);
+					oConfig.SetLocale(wxT("en"));
+					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
+				}
+		        else
+				{
+					oConfig.SetLocale(m_aLangs[nIndex]);
+				}
+				oConfig.SetLocaleDir(m_LocalePath->GetValue());
             }
         }
         if(m_LogPath->IsModified())
