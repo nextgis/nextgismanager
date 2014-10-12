@@ -77,7 +77,7 @@ void wxGISThreadHelper::DestroyThreadAsync(void)
     }
 }
 
-void wxGISThreadHelper::DestroyThreadSync(void)
+void wxGISThreadHelper::DestroyThreadSync(int nWaitAfter)
 {
     m_critSection.Enter();
     if (m_thread && m_thread->IsRunning())
@@ -95,11 +95,14 @@ void wxGISThreadHelper::DestroyThreadSync(void)
     }
 	m_critSection.Leave();
 	
-	wxMilliSleep(500);
+	if(nWaitAfter == 0)
+		return;
+	
+	wxMilliSleep(nWaitAfter);
 	
 	while(m_thread && m_thread->IsRunning())
 	{
-		wxMilliSleep(500);
+		wxMilliSleep(nWaitAfter);
 	}	
 }
 

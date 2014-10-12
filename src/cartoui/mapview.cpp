@@ -831,11 +831,7 @@ void wxGISMapView::StartFlashing(wxGISEnumFlashStyle eFlashStyle)
     Refresh();
 
     //wait drawings end to flash
-    wxCriticalSectionLocker locker(m_critSection);
-    if (m_thread && m_thread->IsRunning())
-    {
-        m_thread->Wait();
-    }
+    DestroyDrawThread();
 
     int nMilliSec = TM_DEFAULT_FLASH_PERIOD;
     switch(eFlashStyle)
@@ -876,10 +872,7 @@ void wxGISMapView::Flash(wxGISEnumFlashStyle eFlashStyle)
 {
     wxCriticalSectionLocker locker(m_FlashCritSect);
     //wait drawings end to flash
-    if (m_thread && m_thread->IsRunning())
-    {
-        m_thread->Wait();
-    }
+    DestroyDrawThread();
 
     //draw geometries
     m_pGISDisplay->SetDrawCache(m_pGISDisplay->GetFlashCacheID());

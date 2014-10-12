@@ -41,7 +41,7 @@ protected:
     void KillThread();
     bool TestDestroy();
     bool CreateAndRunThread(void);
-    void DestroyThreadSync(void);
+    void DestroyThreadSync(int nWaitAfter = 500);
     void DestroyThreadAsync(void);
 protected:
     bool m_bKill;
