@@ -251,7 +251,7 @@ void wxGxTreeViewBase::Deactivate(void)
 
 void wxGxTreeViewBase::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	if(event.GetInitiator() == GetId())
+	if(event.GetInitiator() == GetId() || NULL == m_pSelection || NULL == m_pCatalog)
 		return;
 
     long nSelId = m_pSelection->GetLastSelectedObjectId();
@@ -305,6 +305,9 @@ void wxGxTreeViewBase::OnSelectionChanged(wxGxSelectionEvent& event)
 
 void wxGxTreeViewBase::UpdateGxSelection(void)
 {
+	if(NULL == m_pSelection)
+		return;
+		
     wxTreeItemId TreeItemId = GetSelection();
     m_pSelection->Clear(GetId());
     if(TreeItemId.IsOk())
@@ -323,6 +326,9 @@ void wxGxTreeViewBase::UpdateGxSelection(void)
 
 int wxGxTreeViewBase::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2)
 {
+	if(NULL == m_pCatalog || NULL == item1 || NULL == item2)
+		return 0;
+		
     wxGxTreeItemData* pData1 = (wxGxTreeItemData*)GetItemData(item1);
     wxGxTreeItemData* pData2 = (wxGxTreeItemData*)GetItemData(item2);
     wxGxObject* pGxObject1 = m_pCatalog->GetRegisterObject(pData1->m_nObjectID);
@@ -334,7 +340,7 @@ void wxGxTreeViewBase::OnItemRightClick(wxTreeEvent& event)
 {
 	wxTreeItemId item = event.GetItem();
 
-	if (!item.IsOk())
+	if (!item.IsOk() || NULL == m_pCatalog)
 	{
 		return;
 	}
@@ -344,7 +350,7 @@ void wxGxTreeViewBase::OnItemRightClick(wxTreeEvent& event)
 	{
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
         IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
-        if(NULL != pGxObjectUI)
+        if(NULL != pGxObjectUI && NULL != m_pApp)
         {
             wxString psContextMenu = pGxObjectUI->ContextMenu();
             wxMenu* pMenu = dynamic_cast<wxMenu*>(m_pApp->GetCommandBar(psContextMenu));
@@ -360,7 +366,7 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
 {
 	wxTreeItemId item = event.GetItem();
 
-	if(!item.IsOk())
+	if(!item.IsOk() || NULL == m_pCatalog)
 		return;
 
 	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
@@ -438,7 +444,7 @@ void wxGxTreeViewBase::OnChar(wxKeyEvent& event)
 void wxGxTreeViewBase::OnObjectRefreshed(wxGxCatalogEvent& event)
 {
 	wxTreeItemId TreeItemId = m_TreeMap[event.GetObjectID()];
-	if(TreeItemId.IsOk())
+	if(TreeItemId.IsOk() && NULL != m_pCatalog)
 	{
 		wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(TreeItemId);
 		if(NULL != pData)
@@ -494,6 +500,9 @@ void wxGxTreeViewBase::OnObjectDeleted(wxGxCatalogEvent& event)
 
 void wxGxTreeViewBase::OnObjectAdded(wxGxCatalogEvent& event)
 {
+	if(NULL == m_pCatalog)
+		return;
+		
     //wxLogDebug(wxT("TreeView Object %d Add"), event.GetObjectID());
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 	if (NULL == pGxObject)
@@ -532,6 +541,8 @@ void wxGxTreeViewBase::OnObjectAdded(wxGxCatalogEvent& event)
 
 void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
 {
+ 	if(NULL == m_pCatalog)
+		return;
     //wxLogDebug(wxT("TreeView Object %d Change"), event.GetObjectID());
 	wxTreeItemId TreeItemId = m_TreeMap[event.GetObjectID()];
 	if(TreeItemId.IsOk())
@@ -649,7 +660,7 @@ wxGxTreeView::~wxGxTreeView(void)
 void wxGxTreeView::OnBeginLabelEdit(wxTreeEvent& event)
 {
 	wxTreeItemId item = event.GetItem();
-	if (!item.IsOk())
+	if (!item.IsOk() || NULL == m_pCatalog)
 	{
 		return;
 	}
@@ -738,6 +749,9 @@ void wxGxTreeView::OnItemRightClick(wxTreeEvent& event)
 
 void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 {
+	if(NULL == m_pCatalog)
+		return;
+		
     //event.Skip();
 	wxTreeItemId item = event.GetItem();
 	if(!item.IsOk())
@@ -847,7 +861,7 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 
 	wxTreeItemId item = event.GetItem();
 
-	if(!item.IsOk())
+	if(!item.IsOk() || NULL == m_pCatalog)
 		return;
 
 	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
@@ -863,7 +877,7 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 		if (pGxObjectWizard->Invoke(this))
 		{
 			wxGxObjectContainer* pGxObjectCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
-			if(pGxObjectCont->HasChildren())
+			if(pGxObjectCont && pGxObjectCont->HasChildren())
 			{
 				SetItemHasChildren(item);
 				Expand(item);
@@ -874,7 +888,7 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 
 void wxGxTreeView::BeginRename(long nObjectID)
 {
-	if (nObjectID == wxNOT_FOUND)
+	if (nObjectID == wxNOT_FOUND || NULL == m_pSelection)
 	{
         return;
 	}
@@ -898,6 +912,8 @@ void wxGxTreeView::BeginRename(long nObjectID)
 
 void wxGxTreeView::OnObjectAdded(wxGxCatalogEvent& event)
 {
+	if(!m_pCatalog)
+		return;
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(event.GetObjectID());
 	if (NULL == pGxObject)
 	{
@@ -977,7 +993,7 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
         }
 
 	    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ItemId);
-		if (NULL == pData)
+		if (NULL == pData || NULL == m_pCatalog)
 		    return wxDragNone;
         //check drop capability
 
@@ -1002,7 +1018,7 @@ bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxOb
         SetItemDropHighlight(ItemId, false);
 
 	    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ItemId);
-		if (NULL == pData)
+		if (NULL == pData || NULL == m_pCatalog)
 		    return wxDragNone;
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
         IGxDropTarget* pTarget = dynamic_cast<IGxDropTarget*>(pGxObject);
