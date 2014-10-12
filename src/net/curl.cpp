@@ -34,9 +34,9 @@
 
 IMPLEMENT_CLASS(wxGISCurl, wxObject)
 
-wxGISCurl::wxGISCurl(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout)
+wxGISCurl::wxGISCurl(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout, bool bSSLVerify)
 {
-	m_refData = new wxGISCurlRefData(proxy, sHeaders, dnscachetimeout, timeout, conntimeout);
+	m_refData = new wxGISCurlRefData(proxy, sHeaders, dnscachetimeout, timeout, conntimeout, bSSLVerify);
 }
 
 wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
@@ -45,6 +45,7 @@ wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
     int nTimeout = 1000;
     int nConnTimeout = 30;
     wxString sProxy, sHeaders;
+	bool bSSLVerify = true;
 
     wxGISAppConfig oConfig = GetConfig();
     if (oConfig.IsOk())
@@ -54,6 +55,7 @@ wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
         nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), nDNSCacheTimeout);
         nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), nTimeout);
         nConnTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), nConnTimeout);
+		bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), bSSLVerify);
     }
 
     if(bReplaceUserAgent)
@@ -81,7 +83,7 @@ wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
         }
     }
 
-	m_refData = new wxGISCurlRefData(sProxy, sHeaders, nDNSCacheTimeout, nTimeout, nConnTimeout);
+	m_refData = new wxGISCurlRefData(sProxy, sHeaders, nDNSCacheTimeout, nTimeout, nConnTimeout, bSSLVerify);
 }
 
 wxGISCurl::~wxGISCurl(void)
@@ -94,6 +96,7 @@ wxObjectRefData *wxGISCurl::CreateRefData() const
     int nTimeout = 1000;
     int nConnTimeout = 30;
     wxString sProxy, sHeaders;
+	bool bSSLVerify = true;
 
     wxGISAppConfig oConfig = GetConfig();
     if (oConfig.IsOk())
@@ -103,9 +106,10 @@ wxObjectRefData *wxGISCurl::CreateRefData() const
         nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), nDNSCacheTimeout);
         nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), nTimeout);
         nConnTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), nConnTimeout);
+		bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), bSSLVerify);
     }
 
-    return new wxGISCurlRefData(sProxy, sHeaders, nDNSCacheTimeout, nTimeout, nConnTimeout);
+    return new wxGISCurlRefData(sProxy, sHeaders, nDNSCacheTimeout, nTimeout, nConnTimeout, bSSLVerify);
 }
 
 wxObjectRefData *wxGISCurl::CloneRefData(const wxObjectRefData *data) const
@@ -181,7 +185,7 @@ PERFORMRESULT wxGISCurl::UploadFile(const wxString & sURL, const wxString& sFile
 //-----------------------------------------------------------------------------
 // wxGISCurlRefData
 //-----------------------------------------------------------------------------
-wxGISCurlRefData::wxGISCurlRefData(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout)
+wxGISCurlRefData::wxGISCurlRefData(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout, bool bSSLVerify)
 {
     m_bUseProxy = false;
     slist = NULL;
@@ -206,8 +210,19 @@ wxGISCurlRefData::wxGISCurlRefData(const wxString & proxy, const wxString & sHea
 		curl_easy_setopt(m_pCurl, CURLOPT_TIMEOUT, timeout);
 		curl_easy_setopt(m_pCurl, CURLOPT_CONNECTTIMEOUT, conntimeout);
         curl_easy_setopt(m_pCurl, CURLOPT_ACCEPT_ENCODING, "");
-        //curl_easy_setopt(m_pCurl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
-        //curl_easy_setopt(m_pCurl, CURLOPT_CAPATH, "D:\\work\\projects\\wxGIS\\build32\\Debug\\sys\\ssl\\certs");
+		if(!bSSLVerify)
+		{
+			//disable SSL verify
+	
+			//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
+			curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYHOST, 0); 
+		}
+		else
+		{
+			//curl_easy_setopt(m_pCurl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
+			//curl_easy_setopt(m_pCurl, CURLOPT_CAPATH, ".....sys\\ssl\\certs");
+		}
 #ifdef _DEBUG
 //        curl_easy_setopt(m_pCurl, CURLOPT_VERBOSE, 1);
 #endif
@@ -294,8 +309,6 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1L);
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
-	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     headstruct.size = 0;
 	bodystruct.size = 0;
@@ -361,8 +374,6 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath)
 		return true/*false*/;
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1);
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
-	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, false);
 
 	headstruct.size = 0;
 	bodystruct.size = 0;
@@ -395,9 +406,7 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	//const char *tmp_str = (const char*) tmp_buf;
 	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDSIZE, -1);
-	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, false);
-
+	
 	headstruct.size = 0;
 	bodystruct.size = 0;
 
@@ -441,8 +450,6 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "DELETE"); 
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
-	//curl_easy_setopt(m_pCurl, CURLOPT_CAINFO, "curl-ca-bundle.crt");
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     headstruct.size = 0;
 	bodystruct.size = 0;
@@ -510,7 +517,6 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 	result.nHTTPCode = 0;
 	curl_easy_setopt(m_pCurl, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
 	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	
     headstruct.size = 0;
@@ -602,7 +608,6 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
 		CURLFORM_END);	
 			   
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
-	curl_easy_setopt(m_pCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_easy_setopt(m_pCurl, CURLOPT_HTTPPOST, formpost);
 	
 	headstruct.size = 0;

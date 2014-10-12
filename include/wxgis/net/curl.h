@@ -47,7 +47,7 @@ class WXDLLIMPEXP_GIS_NET wxGISCurl : public wxObject
 {
     DECLARE_CLASS(wxGISCurl)
 public:
-	wxGISCurl(const wxString &proxy, const wxString &sHeaders, int dnscachetimeout, int timeout, int conntimeout);
+	wxGISCurl(const wxString &proxy, const wxString &sHeaders, int dnscachetimeout, int timeout, int conntimeout, bool bSSLVerify);
 	wxGISCurl(bool bReplaceUserAgent = true);
 	virtual ~wxGISCurl(void);
 	bool IsOk() const;
@@ -82,7 +82,7 @@ class wxGISCurlRefData : public wxObjectRefData
 {
     friend class wxGISCurl;
 public:
-    wxGISCurlRefData(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout);
+    wxGISCurlRefData(const wxString & proxy, const wxString & sHeaders, int dnscachetimeout, int timeout, int conntimeout, bool bSSLVerify);
     virtual ~wxGISCurlRefData(void);
     wxGISCurlRefData(const wxGISCurlRefData& data);
     bool operator == (const wxGISCurlRefData& data) const;
