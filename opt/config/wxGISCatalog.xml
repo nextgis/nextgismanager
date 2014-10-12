@@ -296,7 +296,7 @@
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="1" name="&amp;TMS connection"/>
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="2" name="&amp;NGW connection"/>
       </menu>
-       <menu name="wxGxNGWService.ContextMenu" caption="Подключение NGW">
+       <menu name="wxGxNGWService.ContextMenu" caption="NextGIS Web service">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="15" name="Подключить"/> 
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="16" name="Disconnect"/>
         <Item type="sep"/>
@@ -309,7 +309,7 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxNGWResourceGroup.ContextMenu" caption="Группа ресурсов NGW">
+      <menu name="wxGxNGWResourceGroup.ContextMenu" caption="Resource Group">
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
@@ -321,10 +321,10 @@
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
-      <menu name="wxGxNGWResourceGroup.NewMenu" caption="Группа ресурсов NGW">
+      <menu name="wxGxNGWResourceGroup.NewMenu" caption="Resource Group">
         <Item type="cmd" cmd_name="wxGISCreateNewCmd" subtype="5" name="NGW Resource Group"/>
       </menu>
-      <menu name="wxGxNGWLayer.ContextMenu" caption="Слой NGW">
+      <menu name="wxGxNGWLayer.ContextMenu" caption="NGW vector layer">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="4" name="Удалить"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
