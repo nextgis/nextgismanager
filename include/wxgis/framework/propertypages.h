@@ -82,6 +82,9 @@ public:
      *  \brief Executed when OK is pressed
      */
     virtual void Apply(void) = 0;
+	virtual wxString GetLastErrorMessage() const;
+protected:
+	wxString m_sErrMessage;
 };
 
 /** @class wxGISMiscPropertyPage

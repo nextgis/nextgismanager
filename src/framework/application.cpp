@@ -462,8 +462,9 @@ void wxGISApplication::OnAppOptions(void)
     }
 
     //PropertySheetDialog.LayoutDialog();
+	int nRet = PropertySheetDialog.ShowModal();
 
-    if(PropertySheetDialog.ShowModal() == wxID_OK)
+    if(nRet == wxID_OK)
     {
         wxWindowDisabler disableAll;
         wxBusyInfo wait(_("Applying new configuration..."));
@@ -479,7 +480,34 @@ void wxGISApplication::OnAppOptions(void)
             }
         }
         oConfig.Save();
-     }
+	}
+	
+	if(nRet == wxID_OK)
+	{
+		wxString extMsg;
+		for(size_t i = 0; i < PropertySheetDialog.GetBookCtrl()->GetPageCount(); ++i)
+        {
+            IPropertyPage *pPage = wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);
+            if(pPage)
+            {               
+				wxString sProbableErr = pPage->GetLastErrorMessage();
+				if(!sProbableErr.IsEmpty())
+				{
+					extMsg += sProbableErr;
+					extMsg += wxT("\n\n");
+				}
+            }
+        }
+		
+		if(!extMsg.IsEmpty())
+		{
+			wxMessageDialog dlg(this, _("There were several warnings."), _("Warning"), wxOK | wxCENTRE | wxICON_WARNING);		
+			dlg.SetExtendedMessage(extMsg);
+			dlg.SetLayoutAdaptationMode (wxDIALOG_ADAPTATION_MODE_ENABLED);
+			dlg.SetSizeHints(200, 100, 1200, 700);
+			dlg.ShowModal();
+		}
+	}	
 }
 
 bool wxGISApplication::SetupLog(const wxString &sLogPath, const wxString &sNamePrefix)

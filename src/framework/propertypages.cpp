@@ -40,6 +40,10 @@
 
 IMPLEMENT_ABSTRACT_CLASS(IPropertyPage, wxPanel)
 
+wxString IPropertyPage::GetLastErrorMessage() const
+{
+	return m_sErrMessage;
+}
 
 //-------------------------------------------------------------------------------
 // wxGISMiscPropertyPage
@@ -220,13 +224,13 @@ void wxGISMiscPropertyPage::Apply(void)
 				
                 if(eType == enumGISReturnWarning)
 				{
-					wxMessageBox(wxString::Format(_("Failed to set %s locale, reset to English"), sChoice.c_str()), _("Error"), wxOK | wxICON_ERROR);
+					m_sErrMessage = wxString::Format(_("Failed to set %s locale, reset to English"), sChoice.c_str());
 					oConfig.SetLocale(wxT("en"));
 					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
 				}
 				else if(eType == enumGISReturnFailed)
 				{
-					wxMessageBox(wxString::Format(_("Failed to set any locale"), sChoice.c_str()), _("Error"), wxOK | wxICON_ERROR);
+					m_sErrMessage = wxString::Format(_("Failed to set any locale"), sChoice.c_str());
 					oConfig.SetLocale(wxT("en"));
 					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
 				}
