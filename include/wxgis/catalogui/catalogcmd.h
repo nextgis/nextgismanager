@@ -41,6 +41,7 @@ enum wxGISEnumCatalogMainCmdType{
 	enumGISCatalogMainCmdSendEmail,
 	enumGISCatalogMainCmdConnect,
 	enumGISCatalogMainCmdDisconnect,
+	enumGISCatalogMainCmdLinkToClipboard,
     enumGISCatalogMainCmdMax
 };
 

@@ -319,6 +319,8 @@
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="12" name="Вырезать"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="13" name="Вставить"/>
         <Item type="sep"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="17" name="Link to clipboard"/>
+        <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
       <menu name="wxGxNGWResourceGroup.NewMenu" caption="Resource Group">
@@ -329,6 +331,7 @@
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="8" name="Переименовать"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="1" name="&amp;Экспорт"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="17" name="Link to clipboard"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>

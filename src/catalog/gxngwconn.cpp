@@ -279,7 +279,8 @@ wxGxNGWRootResource::wxGxNGWRootResource(wxGxNGWService *pService, wxGxObject *o
 {
     m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
-	m_sPath = CPLFormFilename(soPath, "resources", "");
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), 0);
+	m_sPath = CPLString(sURL.ToUTF8());
 }
 
 wxGxNGWRootResource::~wxGxNGWRootResource(void)
@@ -525,7 +526,8 @@ wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSO
     m_eResourceType = enumNGWResourceTypeResourceGroup;
     m_pService = pService;
     m_sName = m_sDisplayName;
-	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+	m_sPath = CPLString(sURL.ToUTF8());
 	m_bHasGeoJSON =  NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
 }
 
@@ -1124,7 +1126,8 @@ wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType e
     m_eResourceType = eType;
     m_pService = pService;
     m_sName = m_sDisplayName;
-	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+	m_sPath = CPLString(sURL.ToUTF8());
 }
 
 wxGxNGWLayer::~wxGxNGWLayer()
@@ -1251,8 +1254,9 @@ wxGxNGWPostGISConnection::wxGxNGWPostGISConnection(wxGxNGWService *pService, con
 {
     m_eResourceType = enumNGWResourceTypePostgisConnection;
     m_pService = pService;
-    m_sName = m_sDisplayName;
-	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+    m_sName = m_sDisplayName;	
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+	m_sPath = CPLString(sURL.ToUTF8());
 	
 	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
 	m_sUser =  JSONConn[wxT("username")].AsString();

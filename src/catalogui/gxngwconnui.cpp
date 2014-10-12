@@ -169,7 +169,8 @@ wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObjec
 {
     m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
-	m_sPath = CPLFormFilename(soPath, "resources", "");
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), 0);
+	m_sPath = CPLString(sURL.ToUTF8());
 }
 
 wxGxNGWRootResourceUI::~wxGxNGWRootResourceUI(void)
@@ -843,8 +844,9 @@ wxGxNGWPostGISConnectionUI::wxGxNGWPostGISConnectionUI(wxGxNGWService *pService,
 {
     m_eResourceType = enumNGWResourceTypePostgisConnection;
     m_pService = pService;
-    m_sName = m_sDisplayName;
-	m_sPath = CPLFormFilename(soPath, m_sName.ToUTF8(), "");
+    m_sName = m_sDisplayName;	
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+	m_sPath = CPLString(sURL.ToUTF8());
 	
 	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
 	m_sUser =  JSONConn[wxT("username")].AsString();

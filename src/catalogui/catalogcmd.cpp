@@ -150,6 +150,7 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 			if(!m_ConnectIcon.IsOk())
 				m_ConnectIcon = wxIcon(connect_xpm);
 			return m_ConnectIcon;	
+		case enumGISCatalogMainCmdLinkToClipboard:
 		case enumGISCatalogMainCmdLocation:
 		default:
 			return wxNullIcon;
@@ -197,6 +198,8 @@ wxString wxGISCatalogMainCmd::GetCaption(void)
 			return wxString(_("Connect"));
 		case enumGISCatalogMainCmdDisconnect:	
 			return wxString(_("Disconnect"));			
+		case enumGISCatalogMainCmdLinkToClipboard:	
+			return wxString(_("Link to clipboard"));			
 		default:
 			return wxEmptyString;
 	}
@@ -225,6 +228,7 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 		case enumGISCatalogMainCmdProperties:
 			return wxString(_("Miscellaneous"));
 		case enumGISCatalogMainCmdSendEmail:
+		case enumGISCatalogMainCmdLinkToClipboard:
 			return wxString(_("Send to"));
 		case enumGISCatalogMainCmdConnect:
 		case enumGISCatalogMainCmdDisconnect:
@@ -384,7 +388,8 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
              #else //LINUX
              return true;
              #endif // __WINDOWS__
-        case enumGISCatalogMainCmdSendEmail://e-mail
+		case enumGISCatalogMainCmdLinkToClipboard:
+        case enumGISCatalogMainCmdSendEmail:
             if (pCat && pSel)
             {
                 wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
@@ -435,6 +440,7 @@ wxGISEnumCommandKind wxGISCatalogMainCmd::GetKind(void)
         case enumGISCatalogMainCmdSendEmail:
 		case enumGISCatalogMainCmdConnect:
 		case enumGISCatalogMainCmdDisconnect:
+		case enumGISCatalogMainCmdLinkToClipboard:
         default:
 			return enumGISCommandNormal;
 	}
@@ -477,8 +483,10 @@ wxString wxGISCatalogMainCmd::GetMessage(void)
 		case enumGISCatalogMainCmdConnect:
 			return wxString(_("Connect"));
         case enumGISCatalogMainCmdDisconnect:
-			return wxString(_("Disconnect"));
-        default:
+			return wxString(_("Disconnect"));        
+        case enumGISCatalogMainCmdLinkToClipboard:
+			return wxString(_("Copy link to clipboard"));
+		default:
 			return wxEmptyString;
 	}
 }
@@ -515,7 +523,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 				}
                 */
             }
-			break;
+			return;
 		case enumGISCatalogMainCmdConnectFolder:
 		{
 			wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder to connect")));
@@ -560,7 +568,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                     pGxView->BeginRename(pGxObject->GetId());
 				}
             }
-			break;
+			return;
         case enumGISCatalogMainCmdDelete:
 			if (NULL != pSel && NULL != pCat)
             {
@@ -883,9 +891,40 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                 email.Send(msg);
 
-#endif //wxGIS_USE_EMAIL
-                return;
+#endif //wxGIS_USE_EMAIL                
             }
+			return;
+		case enumGISCatalogMainCmdLinkToClipboard:
+			if (NULL != pSel && NULL != pCat)
+            {
+				wxTextDataObject *pTextData = new wxTextDataObject();
+                wxString sText;
+                for(size_t i = 0; i < pSel->GetCount(); ++i)
+                {
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					if(pGxObject)
+                    {
+                        wxString sSystemPath(pGxObject->GetPath(), wxConvUTF8);
+
+                        sText.Append(sSystemPath);
+                        sText.Append(wxT("\n"));
+                    }
+                }
+
+                pTextData->SetText(sText);
+                
+                //! Lock clipboard
+                wxClipboardLocker locker;
+                if(!locker)
+                    wxGISErrorMessageBox(_("Can't open clipboard"));
+                else
+                {
+                    //! Put data to clipboard
+                    if(!wxTheClipboard->AddData(pTextData))
+                        wxGISErrorMessageBox(_("Can't copy file(s) to the clipboard"));
+                }
+			}
+			return;
 		case enumGISCatalogMainCmdConnect:		    
 			if (pCat && pSel)
             {
@@ -992,7 +1031,9 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 		case enumGISCatalogMainCmdConnect:
 			return wxString(_("Connect to remote service"));	
 		case enumGISCatalogMainCmdDisconnect:
-			return wxString(_("Disconnect from remote service"));	
+			return wxString(_("Disconnect from remote service"));			
+		case enumGISCatalogMainCmdLinkToClipboard:
+			return wxString(_("Copy link to clipboard"));
 		default:
 			return wxEmptyString;
 	}
