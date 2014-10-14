@@ -3,7 +3,7 @@
  * Purpose:  wxGISMapView class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011-2013 Dmitry Baryshnikov
+*   Copyright (C) 2009,2011-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -375,6 +375,8 @@ void wxGISMapView::SetTrackCancel(ITrackCancel* pTrackCancel)
 
 void wxGISMapView::OnDraw(wxGISEnumDrawPhase nPhase)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
+
 	if(m_pTrackCancel)
 		m_pTrackCancel->Reset();
     if(!m_pGISDisplay)
@@ -1086,8 +1088,6 @@ bool wxGISMapView::IsDrawing() const
 
 bool wxGISMapView::CreateAndRunDrawThread(void)
 {
-    wxCriticalSectionLocker locker(m_CritSect);
-
 #ifdef __WXGTK__
     wxWakeUpIdle();
 #endif
@@ -1106,8 +1106,6 @@ bool wxGISMapView::CreateAndRunDrawThread(void)
 
 void wxGISMapView::DestroyDrawThread(void)
 {
-    wxCriticalSectionLocker lock(m_CritSect);
-
 	if(m_pTrackCancel)
 	{
 		m_pTrackCancel->Cancel();

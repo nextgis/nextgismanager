@@ -24,6 +24,7 @@
 #include "wxgis/base.h"
 #include "wxgis/core/config.h"
 #include "wxgis/core/init.h"
+#include "wxgis/core/process.h"
 #include "wxgis/tskmngr_app/tskmngr.h"
 #include "wxgis/version.h"
 
@@ -39,7 +40,7 @@
 */
 class wxGISTaskManagerApp :
 	public wxAppConsole,
-    public wxThreadHelper,
+    public wxGISThreadHelper,
     public wxGISInitializer,
     public wxGISService
 {
@@ -73,14 +74,11 @@ public:
     virtual void OnAppOptions(void);
 protected:
     virtual wxThread::ExitCode Entry();
-    bool CreateAndRunExitThread(void);
-    void DestroyExitThread(void);
 protected:
     wxGISAppConfig m_oConfig;
 #ifdef wxUSE_SNGLINST_CHECKER
     wxSingleInstanceChecker *m_pChecker;
 #endif
-    wxCriticalSection m_ExitLock;
     wxGISTaskManager* m_pTaskManager;
     bool m_bService;
 };

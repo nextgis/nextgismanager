@@ -122,17 +122,17 @@ wxString wxGISLocalClientConnection::GetLastError(void) const
 void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
 {
     event.Skip(false);
-    wxLogDebug(wxT("wxClientTCPNetConnection: event"));
+    //wxLogDebug(wxT("wxClientTCPNetConnection: event"));
     switch(event.GetSocketEvent())
     {
         case wxSOCKET_INPUT:
-            wxLogDebug(wxT("wxClientTCPNetConnection: INPUT"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: INPUT"));
         break;
         case wxSOCKET_OUTPUT:
-            wxLogDebug(wxT("wxClientTCPNetConnection: OUTPUT"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: OUTPUT"));
             break;
         case wxSOCKET_CONNECTION:
-            wxLogDebug(wxT("wxClientTCPNetConnection: CONNECTION"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: CONNECTION"));
             m_bIsConnected = true;
             m_bIsConnecting = false;
             {
@@ -141,7 +141,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
             }
         break;
         case wxSOCKET_LOST:
-            wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
             m_bIsConnecting = false;
             m_bIsConnected = false;
             {
@@ -151,7 +151,7 @@ void wxGISLocalClientConnection::OnSocketEvent(wxSocketEvent& event)
             }
         break;
         default:
-            wxLogDebug(wxT("wxClientTCPNetConnection: default"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: default"));
             break;
     }
 }
@@ -229,7 +229,7 @@ void wxGISTaskManager::OnGISNetEvent(wxGISNetEvent& event)
     wxNetMessage msg = event.GetNetMessage();
     if(!msg.IsOk())
     {
-        wxLogDebug(wxT("Input network message is not valid"));
+        //wxLogDebug(wxT("Input network message is not valid"));
         return;
     }
 

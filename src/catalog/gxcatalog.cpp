@@ -75,7 +75,7 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
     if(!m_bFSWatcherEnable)
         return;
 
-    wxLogDebug(wxT("*** %s ****"), event.ToString().c_str());
+    //wxLogDebug(wxT("*** %s ****"), event.ToString().c_str());
 
     switch(event.GetChangeType())
     {
@@ -469,7 +469,7 @@ bool wxGxCatalog::AddFSWatcherPath(const wxFileName& path, int events)
         return false;
     }
 
-    wxLogDebug(wxT("watch %s"), sPath.c_str());
+    //wxLogDebug(wxT("watch %s"), sPath.c_str());
 
     return m_pWatcher->Add(path, events);
 }
@@ -489,7 +489,7 @@ bool wxGxCatalog::RemoveFSWatcherPath(const wxFileName& path)
     if(!IsPathWatched(sPath))
         return false;
 
-    wxLogDebug(wxT("unwatch %s"), sPath.c_str());
+    //wxLogDebug(wxT("unwatch %s"), sPath.c_str());
 
     return m_pWatcher->Remove(path);
 }

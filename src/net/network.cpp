@@ -369,8 +369,8 @@ bool SendUDP(IPaddress addr, wxNetMessage & msg, bool broadcast)
         return false;
     }
 
-    wxLogDebug(wxT("SendUDP: Created UDP socket at %s:%u"), addrLocal.IPAddress(), addrLocal.Service());
-    wxLogDebug(wxT("SendUDP: Testing UDP with peer at %s:%u"), addr.IPAddress(), addr.Service());
+    //wxLogDebug(wxT("SendUDP: Created UDP socket at %s:%u"), addrLocal.IPAddress(), addrLocal.Service());
+    //wxLogDebug(wxT("SendUDP: Testing UDP with peer at %s:%u"), addr.IPAddress(), addr.Service());
 
     if(!msg.IsOk())
     {

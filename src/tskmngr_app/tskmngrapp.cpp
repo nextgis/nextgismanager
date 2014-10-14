@@ -32,7 +32,7 @@
 //---------------------------------------------
 IMPLEMENT_APP_CONSOLE(wxGISTaskManagerApp)
 
-wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxThreadHelper(), wxGISService()
+wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxGISThreadHelper(), wxGISService()
 {
     m_vendorName = wxString(VENDOR);
     m_vendorDisplayName = wxString(wxT("wxGIS"));
@@ -109,7 +109,7 @@ wxThread::ExitCode wxGISTaskManagerApp::Entry()
     }
     else
     {
-        while (!GetThread()->TestDestroy())
+        while (!TestDestroy())
         {
             wxFprintf(stdout, wxString(_("Press 'q' to quit.\n")));
             int nChar = getchar();
@@ -123,30 +123,6 @@ wxThread::ExitCode wxGISTaskManagerApp::Entry()
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
-}
-
-bool wxGISTaskManagerApp::CreateAndRunExitThread(void)
-{
-    if (CreateThread(wxTHREAD_JOINABLE) != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not create the thread!"));
-        return false;
-    }
-
-    // go!
-    if (GetThread()->Run() != wxTHREAD_NO_ERROR)
-    {
-        wxLogError(_("Could not run the thread!"));
-        return false;
-    }
-    return true;
-}
-
-void wxGISTaskManagerApp::DestroyExitThread(void)
-{
-    wxCriticalSectionLocker lock(m_ExitLock);
-    if (GetThread() && GetThread()->IsRunning())
-        GetThread()->Wait();//Delete();//
 }
 
 void wxGISTaskManagerApp::OnInitCmdLine(wxCmdLineParser& pParser)
@@ -207,7 +183,7 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
         m_bService = false;
 
-        CreateAndRunExitThread();
+        CreateAndRunThread();
         //wxGISServer Server;
 		if(!m_pTaskManager->Init())
 		{
@@ -268,7 +244,7 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         wxLogMessage(wxT("Starting service..."));
 
         m_bService = true;
-        CreateAndRunExitThread();
+        CreateAndRunThread();
 	}
     else
     {
