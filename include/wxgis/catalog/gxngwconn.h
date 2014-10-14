@@ -103,7 +103,8 @@ enum wxGISEnumNGWResourcesType
 	enumNGWResourceTypeBaseLayers,
 	enumNGWResourceTypeWebMap,
 	enumNGWResourceTypeWFSServerService,
-	enumNGWResourceTypeVectorLayer
+	enumNGWResourceTypeVectorLayer,
+	enumNGWResourceTypeRasterLayer
 };
 
 WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResourceDataMap);
@@ -198,6 +199,8 @@ protected:
 	virtual void AddObject(int nRemoteId, const wxString &sName);
 protected:
 	bool m_bHasGeoJSON;
+	bool m_bHasPostGIS;
+	bool m_bHasWMS;
 	wxNGWResourceDataMap m_moJSONData;
 };
 
@@ -257,6 +260,37 @@ protected:
 	virtual int GetParentResourceId() const;
 };
 
+/** @class wxGxNGWRaster
+
+    A NextGIS Web Service Raster GxObject.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWRaster :
+    public wxGxNGWResource,
+	public wxGxRasterDataset
+{
+    DECLARE_CLASS(wxGxNGWRaster)
+public:
+    wxGxNGWRaster(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
+    virtual ~wxGxNGWRaster(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const;
+	//IGxObjectEdit
+	virtual bool Delete(void);
+    virtual bool CanDelete(void);
+	virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
+protected:
+    //create wxGISDataset without openning it
+    virtual wxGISDataset* const GetDatasetFast(void);
+	virtual int GetParentResourceId() const;
+};
 
 /** @class wxGxNGWPostGISConnection
 

@@ -99,6 +99,7 @@ protected:
 	wxIcon m_icPGConnLargeIcon, m_icPGConnSmallIcon;
 	wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
 	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
+	wxIcon m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon;
 };
 
 
@@ -143,7 +144,35 @@ public:
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayer.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWLayer.NewtMenu")); };
+    virtual wxString NewMenu(void) const { return wxEmptyString; };
+	//IGxObjectEditUI
+	virtual void EditProperties(wxWindow *parent);
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
+};
+
+
+/** @class wxGxNGWRasterUI
+
+    A NextGIS Web Service Raster GxObjectUI.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGxNGWRasterUI :
+    public wxGxNGWRaster,
+    public IGxObjectUI,
+    public IGxObjectEditUI
+{
+    DECLARE_CLASS(wxGxNGWRasterUI)
+public:
+    wxGxNGWRasterUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    virtual ~wxGxNGWRasterUI(void);
+	//IGxObjectUI
+	virtual wxIcon GetLargeImage(void);
+	virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWRaster.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxEmptyString; };
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
 protected:

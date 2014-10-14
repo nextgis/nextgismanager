@@ -44,6 +44,8 @@
 #include "../../art/rdb_conn_48.xpm"
 #include "../../art/rdb_disconn_16.xpm"
 #include "../../art/rdb_disconn_48.xpm"
+#include "../../art/raster_bmp16.xpm"
+#include "../../art/raster_bmp48.xpm"
 #include "../../art/properties.xpm"
 
 //propertypages
@@ -263,6 +265,14 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
         if(m_bHasGeoJSON)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
 		break;
+	case enumNGWResourceTypeRasterLayer:
+		if(!m_icNGWRasterLargeIcon.IsOk())
+			m_icNGWRasterLargeIcon = wxIcon(raster_bmp48_xpm);
+ 		if(!m_icNGWRasterSmallIcon.IsOk())
+			m_icNGWRasterSmallIcon = wxIcon(raster_bmp16_xpm);
+		if(m_bHasWMS)
+			pReturnObj = wxDynamicCast(new wxGxNGWRasterUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon), wxGxObject);
+		break;	
     }
 	
 	return pReturnObj;	
@@ -819,6 +829,61 @@ void wxGxNGWLayerUI::EditProperties(wxWindow *parent)
 	
 	//TODO: add fields property page
 
+	wxGISDataset* pDset = GetDataset();
+	if(pDset)
+	{
+		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
+		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
+        wsDELETE(pDset);
+	}
+
+    //PropertySheetDialog.LayoutDialog();
+    PropertySheetDialog.SetSize(480,640);
+    PropertySheetDialog.Center();
+
+    PropertySheetDialog.ShowModal();
+}
+
+//--------------------------------------------------------------
+//class wxGxNGWRasterUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWRasterUI, wxGxNGWRaster)
+
+wxGxNGWRasterUI::wxGxNGWRasterUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWRaster(pService, Data, oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+}
+
+wxGxNGWRasterUI::~wxGxNGWRasterUI(void)
+{
+}
+
+wxIcon wxGxNGWRasterUI::GetLargeImage(void)
+{
+    return m_icLargeIcon;
+}
+
+wxIcon wxGxNGWRasterUI::GetSmallImage(void)
+{
+    return m_icSmallIcon;
+}
+
+void wxGxNGWRasterUI::EditProperties(wxWindow *parent)
+{
+    wxPropertySheetDialog PropertySheetDialog;
+    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
+        return;
+    PropertySheetDialog.SetIcon(properties_xpm);
+    PropertySheetDialog.CreateButtons(wxOK);
+    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	
+	//TODO: add NGW property page
+
+    wxGISRasterPropertyPage* RasterPropertyPage = new wxGISRasterPropertyPage(this, pParentWnd);
+    PropertySheetDialog.GetBookCtrl()->AddPage(RasterPropertyPage, RasterPropertyPage->GetPageName());
+	
 	wxGISDataset* pDset = GetDataset();
 	if(pDset)
 	{

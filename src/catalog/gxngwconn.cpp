@@ -529,6 +529,8 @@ wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSO
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
 	m_sPath = CPLString(sURL.ToUTF8());
 	m_bHasGeoJSON =  NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISFeatureDataset, enumVecGeoJSON).mb_str());
+	m_bHasWMS = NULL != GDALGetDriverByName(GetDriverByType(enumGISRasterDataset, enumRasterWMSTMS).mb_str());
+	m_bHasPostGIS = NULL != GetOGRCompatibleDriverByName(GetDriverByType(enumGISTable, enumTablePostgres).mb_str());
 }
 
 wxGxNGWResourceGroup::~wxGxNGWResourceGroup()
@@ -556,6 +558,8 @@ wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data)
         eType = enumNGWResourceTypeWFSServerService;
 	else if(sType.IsSameAs(wxT("vector_layer")))
 		eType = enumNGWResourceTypeVectorLayer;
+	else if(sType.IsSameAs(wxT("raster_layer")))
+		eType = enumNGWResourceTypeRasterLayer;
 
     return eType;
 }
@@ -578,9 +582,13 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
 	case enumNGWResourceTypePostgisConnection:	
-	if(m_bHasGeoJSON)
+	if(m_bHasPostGIS)
 			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnection(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
+	case enumNGWResourceTypeRasterLayer:	
+	if(m_bHasWMS)
+			pReturnObj = wxDynamicCast(new wxGxNGWRaster(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
+        break;	
     }
 	
 	return pReturnObj;
@@ -1239,10 +1247,120 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 //
 //{"resource":{"display_name":"water_polygon","keyname":"water_polygon","parent":{"id":37},"permissions":[],"description":null},"feature_layer":{"fields":[{"id":140,"keyname":"OSM_ID2","datatype":"REAL","typemod":null,"display_name":"OSM_ID 3","label_field":false,"grid_visibility":true},{"id":141,"keyname":"NAME2","datatype":"STRING","typemod":null,"display_name":"NAME 3","label_field":false,"grid_visibility":true},{"id":142,"keyname":"NATURAL","datatype":"STRING","typemod":null,"display_name":"NATURAL","label_field":false,"grid_visibility":true},{"id":143,"keyname":"WATERWAY","datatype":"STRING","typemod":null,"display_name":"WATERWAY","label_field":false,"grid_visibility":true},{"id":144,"keyname":"WETLAND","datatype":"STRING","typemod":null,"display_name":"WETLAND","label_field":false,"grid_visibility":true}]},"postgis_layer":{"connection":{"id":14,"parent":{"id":0}},"table":"water_polygon","schema":"topo_osm","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":"POLYGON","fields":"keep","srs":{"id":3857}}}
 //
-//http://176.9.38.120/ore/resource/127/field/
+//http://xxx.xxx.xxx.xxx/ore/resource/127/field/
 //
 //[{"display_name": "OSM_ID 3", "idx": 0, "datatype": "REAL", "layer_id": 127, "grid_visibility": true, "keyname": "OSM_ID2", "id": 140, "cls": "postgis_layer"}, {"display_name": "NAME 3", "idx": 1, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NAME2", "id": 141, "cls": "postgis_layer"}, {"display_name": "NATURAL", "idx": 2, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NATURAL", "id": 142, "cls": "postgis_layer"}, {"display_name": "WATERWAY", "idx": 3, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WATERWAY", "id": 143, "cls": "postgis_layer"}, {"display_name": "WETLAND", "idx": 4, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WETLAND", "id": 144, "cls": "postgis_layer"}]
 
+//--------------------------------------------------------------
+//class wxGxNGWRaster
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWRaster, wxGxRasterDataset)
+
+wxGxNGWRaster::wxGxNGWRaster(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxRasterDataset(enumRasterWMSTMS, oParent, soName, soPath), wxGxNGWResource(Data)
+{
+    m_eResourceType = enumNGWResourceTypeRasterLayer;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
+	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+	m_sPath = CPLString(sURL.ToUTF8());
+}
+
+wxGxNGWRaster::~wxGxNGWRaster()
+{
+
+}
+
+wxString wxGxNGWRaster::GetCategory(void) const
+{ 
+	return wxString(_("NGW raster")); 
+}
+
+wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
+{
+ 	if(m_pwxGISDataset == NULL)
+    {
+//		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
+//		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
+//		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
+ //       wxGISFeatureDataset* pDSet = new wxGISFeatureDatasetCached(CPLString(sURL.ToUTF8()), m_eType);
+//        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+//        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);
+}
+
+
+int wxGxNGWRaster::GetParentResourceId() const
+{
+	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
+	if(NULL == pParentResource)
+		return wxNOT_FOUND;
+	return pParentResource->GetRemoteId();
+}
+
+
+bool wxGxNGWRaster::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWRaster::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWRaster::Delete(void)
+{
+    if( DeleteResource() )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWRaster::Rename(const wxString &sNewName)
+{
+    if( RenameResource(sNewName) )
+	{
+		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+		if(pNotify)
+		{
+			pNotify->OnGetUpdates();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool wxGxNGWRaster::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{	
+    return false;
+}
+
+bool wxGxNGWRaster::CanCopy(const CPLString &szDestPath)
+{
+	return CanCopyResource(szDestPath);
+}
+
+bool wxGxNGWRaster::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWRaster::CanMove(const CPLString &szDestPath)
+{
+	if(!CanMoveResource(szDestPath))
+		return CanCopy(szDestPath) && CanDelete();
+	return true;	
+}
 
 //--------------------------------------------------------------
 // wxGxNGWPostGISConnection
