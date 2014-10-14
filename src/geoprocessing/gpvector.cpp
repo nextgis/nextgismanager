@@ -1729,6 +1729,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
 #ifndef CPL_RECODE_ICONV
     wxGISConfigOptionReset reset_shp("SHAPE_ENCODING", "", CPL_ENC_ASCII);
     wxGISConfigOptionReset reset_dxf("DXF_ENCODING", "", CPL_ENC_ASCII);
+#else
+    wxGISConfigOptionReset reset_shp("SHAPE_ENCODING", "", CPLGetConfigOption("SHAPE_ENCODING", ""));
+    wxGISConfigOptionReset reset_dxf("DXF_ENCODING", "", CPLGetConfigOption("DXF_ENCODING", ""));
 #endif
 
     //TODO: test if vertical srs can storing in output format

@@ -1162,6 +1162,29 @@ void wxGxContentView::OnChar(wxKeyEvent& event)
     case WXK_DOWN:
         SelectItem(event.GetKeyCode(), event.GetModifiers() & wxMOD_SHIFT);
         break;
+    case WXK_NUMPAD_ENTER:
+    case WXK_RETURN:
+    {
+        long nItem = wxNOT_FOUND;
+        nItem = GetNextItem(nItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (nItem == wxNOT_FOUND)
+            break;
+        LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItem);
+        if (pItemData == NULL)
+            break;
+
+        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
+        IGxObjectWizard* pGxObjectWizard = dynamic_cast<IGxObjectWizard*>(pGxObject);
+        if (pGxObjectWizard != NULL)
+        if (!pGxObjectWizard->Invoke(this))
+            return;
+
+        if (pGxObject->IsKindOf(wxCLASSINFO(wxGxObjectContainer)))
+        {
+            m_pSelection->Select(pItemData->nObjectID, false, GetId());
+        }
+    }
+        break;
     default:
         break;
     }
