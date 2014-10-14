@@ -588,6 +588,12 @@ wxGISTaskMessage wxGISTask::GetMessage(long nMessageId) const
 
 void wxGISTask::AddMessage(wxGISTaskMessage* pMessage)
 {
+    //
+    if (m_oaMessages.GetCount() > 50)
+    {
+        m_oaMessages.RemoveAt(0, 10);
+    }
+
     for (size_t i = 0; i < m_oaMessages.GetCount(); ++i)
     {
         if(m_oaMessages[i].m_nId == pMessage->m_nId)
