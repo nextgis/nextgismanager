@@ -21,6 +21,7 @@
 
 #include "wxgis/catalog/gxngwconn.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/datasource/rasterdataset.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
@@ -515,6 +516,86 @@ Connection: keep-alive
 
 {"resource":{"display_name":"test3","keyname":null,"parent":{"id":0},"permissions":[{"action":"deny","principal":{"id":"1"},"scope":"resource","permission":"update","identity":"","propagate":true}
 */
+
+//--------------------------------------------------------------
+// wxGxNGWResourceWithStyles
+//--------------------------------------------------------------
+wxGxNGWResourceWithStyles::wxGxNGWResourceWithStyles(const wxJSONValue &Data) : wxGxNGWResource(Data)
+{
+}
+
+wxGxNGWResourceWithStyles::~wxGxNGWResourceWithStyles()
+{
+	ClearStyles();
+}
+
+void wxGxNGWResourceWithStyles::ClearStyles()
+{
+	for ( size_t i = 0; i < m_apStyles.size(); ++i ) 
+	{    
+		wxDELETE(m_apStyles[i]);
+	}	
+}
+
+bool wxGxNGWResourceWithStyles::GetStyles()
+{
+    wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+	{
+		CPLError(CE_Failure, CPLE_AppDefined, "libcurl initialize failed!");
+        return false;
+	}
+
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+    PERFORMRESULT res = curl.Get(sURL);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;  
+	if(!bResult)
+	{  
+		ReportError(res.nHTTPCode, res.sBody);	
+		return false;
+	}
+	
+    wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if (numErrors > 0)  {    
+        return false;
+    }
+
+	ClearStyles();
+    const wxJSONInternalArray* pArr = JSONRoot.AsArray();
+    if(pArr)
+    {
+        for(size_t i = 0; i < pArr->size(); ++i)
+        {
+            wxJSONValue JSONVal = pArr->operator[](i);
+			
+			wxGxNGWStyle* pStyle = new wxGxNGWStyle(JSONVal, m_nRemoteId);
+			m_apStyles.push_back(pStyle);
+        }
+    }
+
+	return true;
+}
+
+//--------------------------------------------------------------
+// wxGxNGWStyle
+//--------------------------------------------------------------
+wxGxNGWStyle::wxGxNGWStyle(const wxJSONValue &Data, int nParentRemoteId) : wxGxNGWResource(Data)
+{
+	m_nParentRemoteId = nParentRemoteId;
+}
+
+wxGxNGWStyle::~wxGxNGWStyle()
+{
+	
+}
+
+int wxGxNGWStyle::GetParentResourceId() const
+{
+	return m_nParentRemoteId;
+}
 
 //--------------------------------------------------------------
 //class wxGxNGWResourceGroup
@@ -1129,7 +1210,7 @@ bool wxGxNGWResourceGroup::CanStoreMultipleGeometryTypes() const
 
 IMPLEMENT_CLASS(wxGxNGWLayer, wxGxFeatureDataset)
 
-wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecGeoJSON, oParent, soName, soPath), wxGxNGWResource(Data)
+wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(enumVecGeoJSON, oParent, soName, soPath), wxGxNGWResourceWithStyles(Data)
 {
     m_eResourceType = eType;
     m_pService = pService;
@@ -1257,13 +1338,16 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 
 IMPLEMENT_CLASS(wxGxNGWRaster, wxGxRasterDataset)
 
-wxGxNGWRaster::wxGxNGWRaster(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxRasterDataset(enumRasterWMSTMS, oParent, soName, soPath), wxGxNGWResource(Data)
+wxGxNGWRaster::wxGxNGWRaster(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxRasterDataset(enumRasterWMSTMS, oParent, soName, soPath), wxGxNGWResourceWithStyles(Data)
 {
     m_eResourceType = enumNGWResourceTypeRasterLayer;
     m_pService = pService;
     m_sName = m_sDisplayName;
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
 	m_sPath = CPLString(sURL.ToUTF8());
+	
+	m_nEPSGCode = Data["raster_layer"]["srs"]["id"].AsInt();
+	m_nBandCount = Data["raster_layer"]["band_count"].AsInt();
 }
 
 wxGxNGWRaster::~wxGxNGWRaster()
@@ -1280,12 +1364,48 @@ wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-//		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
-//		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
-//		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
- //       wxGISFeatureDataset* pDSet = new wxGISFeatureDatasetCached(CPLString(sURL.ToUTF8()), m_eType);
-//        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
-//        m_pwxGISDataset->Reference();
+		if(m_apStyles.empty())
+		{
+			GetStyles();
+		}
+		
+		if(m_apStyles.empty())
+		{
+			return NULL;
+		}
+		
+		wxGxNGWResource* pStyle = m_apStyles[0];
+		if(pStyle == NULL)
+		{
+			return NULL;
+		}
+		
+		//http://xxx.xxx.xxx.xxx/ore/resource/234/tms?z=7&x=84&y=42
+		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
+		
+		wxString sULX(wxT("-20037508.34"));
+		wxString sULY(wxT("20037508.34"));
+		wxString sLRX(wxT("20037508.34"));
+		wxString sLRY(wxT("-20037508.34"));
+		int nMaxLevel = 20;
+		
+		wxString sCachePath;
+		wxString sCacheDepth(wxT("2"));
+		//cache path
+		wxGISAppConfig oConfig = GetConfig();
+		if(oConfig.IsOk())
+		{
+			sCachePath = oConfig.GetLocalConfigDirNonPortable() + wxFileName::GetPathSeparator() + wxString(wxT("cache"));
+			sCachePath = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/cache_path")), sCachePath);
+			sCacheDepth = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/WMS/cache_depth")), sCacheDepth);
+		}
+		
+		//NGW TMS template
+		wxString sPath = wxString::Format(wxT("<GDAL_WMS><Service name=\"TMS\"><ServerUrl>%s</ServerUrl></Service><DataWindow><UpperLeftX>%s</UpperLeftX><UpperLeftY>%s</UpperLeftY><LowerRightX>%s</LowerRightX><LowerRightY>%s</LowerRightY><TileLevel>%d</TileLevel><TileCountX>1</TileCountX><TileCountY>1</TileCountY><YOrigin>top</YOrigin></DataWindow><Projection>EPSG:%d</Projection><BlockSizeX>256</BlockSizeX><BlockSizeY>256</BlockSizeY><BandsCount>%d</BandsCount><Cache><Path>%s</Path><Depth>%s</Depth></Cache><UserPwd>%s:%s</UserPwd><MaxConnections>7</MaxConnections><ZeroBlockOnServerException>false</ZeroBlockOnServerException><ZeroBlockHttpCodes>204,404</ZeroBlockHttpCodes></GDAL_WMS>"), sURL.c_str(), sULX.c_str(), sULY.c_str(), sLRX.c_str(), sLRY.c_str(), nMaxLevel, m_nEPSGCode, m_nBandCount,sCachePath.c_str(), sCacheDepth.c_str(), m_pService->GetLogin().c_str(), m_pService->GetPassword().c_str() );
+		
+        wxGISRasterDataset* pDSet = new wxGISRasterDataset(CPLString(sPath.ToUTF8()), enumRasterWMSTMS);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
     }
     wsGET(m_pwxGISDataset);
 }

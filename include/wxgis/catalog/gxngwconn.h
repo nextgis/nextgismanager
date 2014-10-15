@@ -104,7 +104,9 @@ enum wxGISEnumNGWResourcesType
 	enumNGWResourceTypeWebMap,
 	enumNGWResourceTypeWFSServerService,
 	enumNGWResourceTypeVectorLayer,
-	enumNGWResourceTypeRasterLayer
+	enumNGWResourceTypeRasterLayer,
+	enumNGWResourceTypeVectorLayerStyle,
+	enumNGWResourceTypeRasterLayerStyle
 };
 
 WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResourceDataMap);
@@ -142,6 +144,41 @@ protected:
     wxArrayString m_aPermissions;
     wxArrayString m_aScopes;
     wxGxNGWService *m_pService;
+};
+
+/** @class wxGxNGWResourceWithStyles
+
+    A NextGIS Web Resource with styles (i.e. raster or vector layer).
+
+    @library{catalog}
+*/
+class WXDLLIMPEXP_GIS_CLT wxGxNGWResourceWithStyles : public wxGxNGWResource
+{
+public:
+    wxGxNGWResourceWithStyles(const wxJSONValue &Data);
+    virtual ~wxGxNGWResourceWithStyles(void);
+protected:
+	virtual bool GetStyles();
+	virtual void ClearStyles();
+protected:
+	wxVector<wxGxNGWResource*> m_apStyles;
+};
+
+/** @class wxGxNGWStyle
+
+    A NextGIS Web resource style.
+
+    @library{catalog}
+*/
+class WXDLLIMPEXP_GIS_CLT wxGxNGWStyle : public wxGxNGWResource
+{
+public:
+    wxGxNGWStyle(const wxJSONValue &Data, int nParentRemoteId);
+    virtual ~wxGxNGWStyle(void);
+protected:
+	virtual int GetParentResourceId() const;
+protected:
+    int m_nParentRemoteId;
 };
 
 /** @class wxGxNGWResourceGroup
@@ -236,7 +273,7 @@ public:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWLayer :
-    public wxGxNGWResource,
+    public wxGxNGWResourceWithStyles,
 	public wxGxFeatureDataset
 {
     DECLARE_CLASS(wxGxNGWLayer)
@@ -268,7 +305,7 @@ protected:
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWRaster :
-    public wxGxNGWResource,
+    public wxGxNGWResourceWithStyles,
 	public wxGxRasterDataset
 {
     DECLARE_CLASS(wxGxNGWRaster)
@@ -290,6 +327,9 @@ protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
 	virtual int GetParentResourceId() const;
+protected:
+	int m_nEPSGCode;
+	int m_nBandCount;
 };
 
 /** @class wxGxNGWPostGISConnection
