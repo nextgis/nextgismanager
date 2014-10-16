@@ -93,6 +93,7 @@ public:
     virtual bool CanCreate(long nDataType, long DataSubtype);
 	virtual wxString ValidateName(const wxString& sTestName );
 	virtual bool ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel );
+	virtual bool ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel );
 	virtual bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
 	virtual bool CanStoreMultipleGeometryTypes() const;
     //wxGxObject

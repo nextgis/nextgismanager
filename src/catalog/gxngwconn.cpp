@@ -21,7 +21,6 @@
 
 #include "wxgis/catalog/gxngwconn.h"
 #include "wxgis/datasource/sysop.h"
-#include "wxgis/datasource/rasterdataset.h"
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
@@ -1024,6 +1023,59 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	ReportError(res.nHTTPCode, res.sBody);	
 		
 	return false;	
+}
+
+bool wxGxNGWResourceGroup::ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel )
+{
+	//1. check spatial reference
+	wxGISSpatialReference SpaRef = pSrcDataSet->GetSpatialReference();
+	wxGISSpatialReference SpaRefWGS(new OGRSpatialReference(SRS_WKT_WGS84));
+	OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, SpaRefWGS);
+	if(NULL == poCT)
+	{
+		if (pTrackCancel)
+        {
+			wxString sErr = wxString::Format(_("Unsupported spatial reference '%s'"), SpaRef.GetName().c_str());
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+        }
+		OCTDestroyCoordinateTransformation(poCT);
+		return false;
+	}
+	else
+	{
+		OCTDestroyCoordinateTransformation(poCT);
+	}
+	
+	//2. check towgs
+	if(!SpaRef.IsSame(SpaRefWGS))
+	{
+		double adfPArams[7];
+		if(SpaRef->GetTOWGS84(adfPArams) != OGRERR_NONE)
+		{
+			if (pTrackCancel)
+			{
+				wxString sLastMsg = pTrackCancel->GetLastMessage();
+				wxString sWarn;
+				if(sLastMsg.IsEmpty())
+					sWarn = wxString(_("The ToWGS is not defined. There may by an error while project"));
+				else
+					sWarn = sLastMsg + wxString(wxT("\n")) + wxString(_("The ToWGS is not defined. There may by an error while project"));
+				pTrackCancel->PutMessage(sWarn, wxNOT_FOUND, enumGISMessageWarning);
+			}		
+		}
+	}
+	
+	//3. check channels
+	if(pSrcDataSet->GetBandCount() < 3)
+	{
+		pTrackCancel->PutMessage(_("The band count is less than 3. The additional bands will form from first band"), wxNOT_FOUND, enumGISMessageWarning);
+	}
+	else if(pSrcDataSet->GetBandCount() > 4)
+	{
+		pTrackCancel->PutMessage(_("The band count is more than 4. You have to select RGB band and additional Apha band"), wxNOT_FOUND, enumGISMessageWarning);
+	}
+	
+	return true;
 }
 
 bool wxGxNGWResourceGroup::ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel )

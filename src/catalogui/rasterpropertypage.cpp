@@ -316,6 +316,20 @@ void wxGISRasterPropertyPage::FillGrid(void)
                 AppendMetadataProperty(pProp, sTmp);
             }
         }
+		
+		// -------------------------------------------------------------------- //
+	    //      Report "IMAGERY" metadata.                              //
+	    // -------------------------------------------------------------------- //
+        papszMetadata = poGDALDataset->GetMetadata("IMAGERY");
+        if( CSLCount(papszMetadata) > 0 )
+        {
+            wxPGProperty* pProp = AppendProperty( new wxPropertyCategory(_("Imagery Metadata")) );
+            for(int i = 0; papszMetadata[i] != NULL; ++i )
+            {
+                sTmp = wxString(papszMetadata[i], wxConvLocal);
+                AppendMetadataProperty(pProp, sTmp);
+            }
+        }
 
 	    // -------------------------------------------------------------------- //
 	    //      Report "IMAGE_STRUCTURE" metadata.                              //

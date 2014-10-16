@@ -24,6 +24,7 @@
 #include "wxgis/core/config.h"
 #include "wxgis/datasource/dataset.h"
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/datasource/rasterdataset.h"
 
 #undef LT_OBJDIR
 #include "gdal_priv.h"

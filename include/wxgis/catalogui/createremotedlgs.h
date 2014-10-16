@@ -24,6 +24,7 @@
 #include "wxgis/catalogui/remoteconndlgs.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/datasource/rasterdataset.h"
 
 #include <wx/splitter.h>
 #include <wx/grid.h>
@@ -96,7 +97,6 @@ protected:
 	wxBitmapButton* m_pCloseBitmap;
 	wxBoxSizer *m_bMainSizer;
 	wxImageList m_ImageList;
-	wxButton *m_pTestButton;
 	wxGISEnumMessageType m_eCurrentType;
 	wxString m_sCurrentMsg;
 	wxString m_sDatasetName;
@@ -132,7 +132,39 @@ protected:
 	std::map<wxString, wxFontEncoding> m_mnEnc;
 	wxChoice* m_pEncodingsCombo;
 	OGRwkbGeometryType m_eFilterGeometryType;
-	bool m_bToMulti;
+	bool m_bToMulti;	
+	wxButton *m_pTestButton;
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+/** @class wxGISRasterImportPanel
+ *  
+ *  The import raster dataset panel.
+ * 
+ * 	@library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGISRasterImportPanel : public wxGISBaseImportPanel
+{
+	enum
+    {
+        ID_CROP = wxID_HIGHEST + 4001
+    };
+    DECLARE_CLASS(wxGISRasterImportPanel)
+public:
+	wxGISRasterImportPanel( wxGISRasterDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+    virtual ~wxGISRasterImportPanel();
+	virtual wxGISDataset* GetDataset() const;
+	//events
+	virtual void OnCrop(wxCommandEvent& event);
+protected:
+	wxGISRasterDataset *m_pRasterDataset;	
+	wxChoice* m_pRedBandCombo;
+	wxChoice* m_pGreenBandCombo;
+	wxChoice* m_pBlueBandCombo;
+	wxChoice* m_pAlphaBandCombo;
+	wxButton *m_pCropButton;
 private:
     DECLARE_EVENT_TABLE()
 };

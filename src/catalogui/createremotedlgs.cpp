@@ -510,6 +510,161 @@ bool wxGISVectorImportPanel::GetToMulti() const
 {
 	return m_bToMulti;
 }
+
+
+//-------------------------------------------------------------------------------
+//  wxGISRasterImportPanel
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISRasterImportPanel, wxGISBaseImportPanel)
+
+BEGIN_EVENT_TABLE(wxGISRasterImportPanel, wxGISBaseImportPanel)
+	EVT_BUTTON(wxGISRasterImportPanel::ID_CROP, wxGISRasterImportPanel::OnCrop)
+END_EVENT_TABLE();
+
+wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
+{
+	wsSET(m_pRasterDataset, pSrcDs);
+	
+	wxFlexGridSizer* fgSizer1;
+    fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+    wxStaticText *pInputStaticText = new wxStaticText( this, wxID_ANY, _("Input dataset:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pInputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pSrcDs->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( pInputStaticTextVal, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, sOutName, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatasetName) );
+	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+		
+	wxArrayString asBands;
+	wxString sRed, sGreen, sBlue, sAlpha;
+	
+	GDALDataset* poGDALDataset = pSrcDs->GetMainRaster();
+    if(!poGDALDataset)
+        poGDALDataset = pSrcDs->GetRaster();
+		
+	if(!poGDALDataset)	
+		return;
+	
+	for (int nBand = 1; nBand < poGDALDataset->GetRasterCount() + 1; ++nBand)
+	{		
+		GDALRasterBand* pBand = poGDALDataset->GetRasterBand(nBand);
+		if(pBand)
+		{
+			wxString sBand = wxString::Format(wxT("%d"), nBand);
+			GDALColorInterp nColorInt = pBand->GetColorInterpretation();
+			if(nColorInt == GCI_RedBand)
+				sRed = sBand;
+			else if(nColorInt == GCI_GreenBand)
+				sGreen = sBand; 
+			else if(nColorInt == GCI_BlueBand)
+				sBlue = sBand; 
+			else if(nColorInt == GCI_AlphaBand)
+				sAlpha = sBand; 
+			asBands.Add(sBand);
+		}
+	}
+	
+	wxStaticText *pBandsStaticText = new wxStaticText( this, wxID_ANY, _("Bands:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pBandsStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxBoxSizer* pFunctSizer = new wxBoxSizer(wxHORIZONTAL);
+	
+	// red band
+	
+	wxStaticText *pRStaticText = new wxStaticText( this, wxID_ANY, _("Red"), wxDefaultPosition, wxDefaultSize, 0 );
+    pFunctSizer->Add( pRStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_pRedBandCombo = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, asBands);
+	m_pRedBandCombo->SetSelection(m_pRedBandCombo->FindString (sRed));	
+	
+	pFunctSizer->Add( m_pRedBandCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	// green
+	
+	wxStaticText *pGStaticText = new wxStaticText( this, wxID_ANY, _("Green"), wxDefaultPosition, wxDefaultSize, 0 );
+    pFunctSizer->Add( pGStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_pGreenBandCombo = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, asBands);
+	m_pGreenBandCombo->SetSelection(m_pGreenBandCombo->FindString (sGreen));	
+	
+	pFunctSizer->Add( m_pGreenBandCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	// blue
+	
+	wxStaticText *pBStaticText = new wxStaticText( this, wxID_ANY, _("Blue"), wxDefaultPosition, wxDefaultSize, 0 );
+    pFunctSizer->Add( pBStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_pBlueBandCombo = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, asBands);
+	m_pBlueBandCombo->SetSelection(m_pBlueBandCombo->FindString (sBlue));	
+	
+	pFunctSizer->Add( m_pBlueBandCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	// alpha
+	
+	wxStaticText *pAStaticText = new wxStaticText( this, wxID_ANY, _("Alpha (opt.)"), wxDefaultPosition, wxDefaultSize, 0 );
+    pFunctSizer->Add( pAStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	asBands.Insert(_("none"), 0, 0);
+	m_pAlphaBandCombo = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, asBands);
+	m_pAlphaBandCombo->SetSelection(m_pAlphaBandCombo->FindString (sAlpha));	
+	
+	pFunctSizer->Add( m_pAlphaBandCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );	
+	
+	
+	m_pCropButton = new wxButton(this, ID_CROP, _("Crop"));
+	pFunctSizer->Add( m_pCropButton, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
+		
+	
+	m_bMainSizer->Add(fgSizer1, 0, wxEXPAND | wxALL, 5 );
+	
+	this->Layout();
+	
+	pDestDs->ValidateDataset(pSrcDs, this);
+	if(m_eCurrentType == enumGISMessageError)
+	{
+		if(m_pCropButton)
+			m_pCropButton->Enable(false);
+		if(pLayerName)
+			pLayerName->Enable(false);
+			
+		if(m_pRedBandCombo)
+			m_pRedBandCombo->Enable(false);
+	    if(m_pGreenBandCombo)
+			m_pGreenBandCombo->Enable(false);
+		if(m_pBlueBandCombo)
+			m_pBlueBandCombo->Enable(false);
+		if(m_pAlphaBandCombo)
+			m_pAlphaBandCombo->Enable(false);
+	}
+}
+
+wxGISRasterImportPanel::~wxGISRasterImportPanel()
+{
+	wsDELETE(m_pRasterDataset);
+}
+
+void wxGISRasterImportPanel::OnCrop(wxCommandEvent& event)
+{
+//	wxGISDatasetTestEncodingDlg dlg(m_pFeatureClass, this);
+//	dlg.ShowModal();
+}
+
+wxGISDataset* wxGISRasterImportPanel::GetDataset() const
+{
+	wxGISDataset* pDSet = wxStaticCast(m_pRasterDataset, wxGISDataset);
+	wsGET(pDSet);
+}
 	
 //-------------------------------------------------------------------------------
 //  wxGISDatasetImportDlg
@@ -618,7 +773,18 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 				}
 				else if(pSrcDs->GetType() == enumGISRasterDataset)
 				{
-
+					wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+					if(!pGISDs)
+						continue;
+					wxGISRasterDataset* pSrcRasterDs = dynamic_cast<wxGISRasterDataset*>(pGISDs);		
+					if(!pSrcRasterDs)
+					{
+						wsDELETE(pGISDs);
+						continue;
+					}
+					
+					wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
+					m_bMainSizer->Add( new wxGISRasterImportPanel(pSrcRasterDs, pDestDs, sOutName, this), 0, wxEXPAND | wxALL, 0 );
 				}
 			}
 		}

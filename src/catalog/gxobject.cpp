@@ -538,6 +538,11 @@ bool wxGxObjectContainer::ValidateDataset( wxGISFeatureDataset* const pSrcDataSe
 	return false;
 }
 
+bool wxGxObjectContainer::ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel )
+{
+	return false;
+}
+
 bool wxGxObjectContainer::IsFieldNameForbidden(const wxString& sTestFieldName) const
 {
 	return false;

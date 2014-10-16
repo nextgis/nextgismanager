@@ -25,6 +25,7 @@
 #include "wxgis/core/json/jsonval.h"
 #include "wxgis/catalog/contupdater.h"
 #include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/datasource/rasterdataset.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -207,6 +208,7 @@ public:
     virtual bool HasChildren(void);
     virtual bool CanCreate(long nDataType, long DataSubtype);	
 	virtual bool ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel );
+	virtual bool ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel );
 	virtual bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
 	virtual bool CanStoreMultipleGeometryTypes() const;
     //IGxObjectEdit
