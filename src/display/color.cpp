@@ -64,8 +64,8 @@ void wxGISColor::SetValues(ChannelType red, ChannelType green, ChannelType blue,
     m_dfAlpha = double(alpha) / 255;
 
     m_nRed = red;
-    m_nGreen = blue;
-    m_nBlue = green;
+    m_nGreen = green;
+    m_nBlue = blue;
     m_nAlpha = alpha;
 }
 
