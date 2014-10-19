@@ -23,7 +23,7 @@
 
 #include <wx/txtstrm.h>
 
-#define READ_LINE_DELAY 50
+#define READ_LINE_DELAY 550
 
 //------------------------------------------------------------------------------
 // Class wxGISProcess
@@ -60,14 +60,17 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
     return true;
 }
 
+bool wxGISThreadHelper::IsThreadRun() const
+{
+    wxCriticalSectionLocker locker((wxCriticalSection&)m_critSection); 
+    return (m_thread && m_thread->IsRunning());
+}
+
 void wxGISThreadHelper::DestroyThreadAsync(void)
 {
-    m_critSection.Enter();
-    //wxCriticalSectionLocker locker(m_critSection);
-    if (m_thread && m_thread->IsRunning())
+    if (m_thread)
     {
         m_bKill = true;
-        m_critSection.Leave();
         if (m_kind == wxTHREAD_DETACHED)
 		{
             m_thread->Delete();//Wait();//Kill();//
@@ -75,13 +78,10 @@ void wxGISThreadHelper::DestroyThreadAsync(void)
         else if (m_kind == wxTHREAD_JOINABLE)
 		{
             m_thread->Wait();//Kill();//
+            wxCriticalSectionLocker locker(m_critSection);
             wxDELETE(m_thread);
 		}
     }
-    else
-    {
-        m_critSection.Leave();
-    }    
 }
 
 void wxGISThreadHelper::DestroyThreadSync(int nWaitAfter)
@@ -93,15 +93,14 @@ void wxGISThreadHelper::DestroyThreadSync(int nWaitAfter)
 	
 	wxMilliSleep(nWaitAfter);
 	
-    wxCriticalSectionLocker locker(m_critSection);
-	while(m_thread && m_thread->IsRunning())
+    while (IsThreadRun())
 	{
 		wxMilliSleep(nWaitAfter);
 	}	
 }
 
 bool wxGISThreadHelper::TestDestroy()
-{
+{    
     wxCriticalSectionLocker locker(m_critSection);
     if (m_thread)
         return m_thread->TestDestroy() || m_bKill;
@@ -111,7 +110,7 @@ bool wxGISThreadHelper::TestDestroy()
 void wxGISThreadHelper::KillThread()
 {
     wxCriticalSectionLocker locker(m_critSection);
-    if (m_thread && m_thread->IsRunning())
+    if (m_thread)
     {
         m_thread->Kill();
 
@@ -141,8 +140,11 @@ wxGISProcess::~wxGISProcess(void)
 bool wxGISProcess::Start()
 {
 	m_pid = Execute();
-    if(m_pid == 0)
+    if (m_pid == 0)
+    {
+        m_nState = enumGISTaskError;
         return false;
+    }        
 
 	m_nState = enumGISTaskWork;
 	m_dtBeg = wxDateTime::Now();
@@ -190,14 +192,21 @@ void wxGISProcess::Stop(void)
 	{
         if (m_pid != 0)
         {
-		    wxKillError eErr = Kill(m_pid, wxSIGKILL);// wxSIGINT wxSIGTERM
+            wxKillError eErr = wxKILL_ERROR;
+            char nKillCounter = 0;
+            //try kill 3 times
+            while (eErr != wxKILL_OK && nKillCounter < 3)
+            {
+                eErr  = Kill(m_pid, wxSIGKILL);// wxSIGINT wxSIGTERM
+                nKillCounter++;
+            }
 
             if (eErr == wxKILL_OK)
             {
                 m_pid = 0;
 
                 DestroyThreadAsync();
-	           //and detach
+	            //and detach
 		        Detach();
             }
             else
@@ -282,10 +291,15 @@ wxThread::ExitCode wxGISProcess::Entry()
     {
         if (InStream.Eof())
             break;
-        if(InStream.IsOk() && InStream.CanRead())
+        if(InStream.IsOk())
         {
-		    wxString line = InputStr.ReadLine();
-		    ProcessInput(line);
+            while (InStream.CanRead())
+            {
+                wxString line = InputStr.ReadLine();
+                if (line.IsEmpty())
+                    break;
+                ProcessInput(line);
+            }		    
         }
 		wxThread::Sleep(READ_LINE_DELAY);
     }

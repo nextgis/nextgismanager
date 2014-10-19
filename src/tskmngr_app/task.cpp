@@ -490,11 +490,11 @@ void wxGISTask::OnTaskChanged(int nId)
 bool wxGISTask::Start(void)
 {
     m_dfPrevDone = 0;
-    bool bReturn = wxGISProcess::Start();
-    if (!bReturn)
-    {
-        m_nState = enumGISTaskError;
-    }
+    bool bReturn = wxGISProcess::Start();    
+
+    //wait a little and give a chance to quere message to be send first. overwise working state may be owerwrite by quere state
+    wxMilliSleep(550);
+
     ChangeTask();
     return bReturn;
 }

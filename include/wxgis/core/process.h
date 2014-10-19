@@ -43,6 +43,7 @@ protected:
     bool CreateAndRunThread(void);
     void DestroyThreadSync(int nWaitAfter = 500);
     void DestroyThreadAsync(void);
+    bool IsThreadRun() const;
 protected:
     bool m_bKill;
 };
