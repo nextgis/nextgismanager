@@ -3,7 +3,7 @@
  * Purpose:  Task manager class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Dmitry Baryshnikov
+*   Copyright (C) 2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -82,21 +82,27 @@ void wxGISTaskManager::Exit(void)
 
     }
 
+    DestroyCategories();
+
     wxGISTaskCategoryMap::iterator it;
     for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
+    {
+        //save and delete
+        wxGISTaskCategory* pTaskCategory = it->second;
+        wxDELETE(pTaskCategory);
+    }
+}
+
+void wxGISTaskManager::DestroyCategories()
+{
+    wxGISTaskCategoryMap::iterator it;
+    for (it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
     {
         wxGISTaskCategory* pTaskCategory = it->second;
         if (pTaskCategory != NULL)
         {
             pTaskCategory->OnDestroy();
         }
-    }
-
-    for( it = m_omCategories.begin(); it != m_omCategories.end(); ++it )
-    {
-        //save and delete
-        wxGISTaskCategory* pTaskCategory = it->second;
-        wxDELETE(pTaskCategory);
     }
 }
 
@@ -307,15 +313,9 @@ void wxGISTaskManager::OnExit(void)
         m_bExitState = true;
         return;
     }
+
     //stop all tasks, and then exit
-    for(wxGISTaskCategoryMap::const_iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
-    {
-        wxGISTaskCategory *pCat = it->second;
-        if(pCat)
-        {
-            pCat->OnDestroy();
-        }
-    }
+    DestroyCategories();
 
     wxTheApp->Exit();
 }
@@ -342,14 +342,6 @@ int wxGISTaskManager::GetMaxExecTaskCount(void) const
 void wxGISTaskManager::SetMaxExecTaskCount(int nMaxExecTasks)
 {
     m_nMaxExecTasks = nMaxExecTasks;
-    for(wxGISTaskCategoryMap::const_iterator it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
-    {
-        wxGISTaskCategory *pCat = it->second;
-        if(pCat)
-        {
-            pCat->SetMaxExecTaskCount(m_nMaxExecTasks);
-        }
-    }
 }
 
 void wxGISTaskManager::SendNetMessage(const wxNetMessage & msg, int nId)
@@ -384,6 +376,17 @@ wxString wxGISTaskManager::GetNewStorePath(const wxString &sAddToName, const wxS
 
 void wxGISTaskManager::OnCategoryExecutionFinished(const wxGISTaskCategory* pCat)
 {
+    wxGISTaskCategoryMap::iterator it;
+    for (it = m_omCategories.begin(); it != m_omCategories.end(); ++it)
+    {
+        wxGISTaskCategory* pTaskCategory = it->second;
+        if (pTaskCategory != NULL)
+        {
+            if (pTaskCategory->GetRunningTaskCount() > 0)
+                return;
+        }
+    }
+
     if (m_pNetworkService != NULL && m_pNetworkService->GetConnectionCount() == 0 && m_bExitState) //no new connections and exit state is set to true
     {
         OnExit();

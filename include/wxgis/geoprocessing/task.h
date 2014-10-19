@@ -164,6 +164,7 @@ protected:
     wxGISEnumTaskStateType m_nState;
     wxString m_sLastError;
     wxGISTaskMap m_omSubTasks;
+    int m_nChildrenCount;
 };
 
 
@@ -191,7 +192,6 @@ public:
     virtual void SetPriority(long nPriority);
     virtual double GetDone(void) const;
     virtual void SetState(wxGISEnumTaskStateType eState);
-    virtual int GetChildrenCount() const;
     /**\fn
      * \brief Get the Task parameters. Any additional values, to standard Name, Description, DateBegin, DateEnd, etc. 
      */
@@ -220,7 +220,6 @@ protected:
     double m_dfDone;
     wxJSONValue m_Params;
     wxGISTaskMessagesArray m_oaMessages;
-    int m_nChildrenCount;
 };
 
 /** @class wxGISTaskEdit
@@ -240,6 +239,7 @@ public:
     virtual void SetName(const wxString& sName);
     virtual void SetDescription(const wxString& sDescription);
     virtual void SetExecutable(const wxString& sExecutable);
+    virtual void SetParameters(const wxJSONValue &val);
 };
 
 /** @class wxGISTaskCategory

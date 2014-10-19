@@ -268,7 +268,7 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
         wxString sIn(m_Buffer, nRead);
 #ifdef _DEBUG
-        wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
+        //wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
 #endif // _DEBUG
 
         //m_pSock->SetTimeout(SLEEP);
@@ -313,17 +313,17 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
     {
         case wxSOCKET_INPUT:
             //send event to advisers
-            wxLogDebug(wxT("wxGISNetServerConnection: INPUT"));
+            //wxLogDebug(wxT("wxGISNetServerConnection: INPUT"));
             break;
         case wxSOCKET_OUTPUT:
-            wxLogDebug(wxT("wxGISNetServerConnection: OUTPUT"));
+            //wxLogDebug(wxT("wxGISNetServerConnection: OUTPUT"));
             //ProcessNetMessage();
             break;
         case wxSOCKET_CONNECTION:
-            wxLogDebug(wxT("wxGISNetServerConnection: CONNECTION"));
+            //wxLogDebug(wxT("wxGISNetServerConnection: CONNECTION"));
             break;
         case wxSOCKET_LOST:
-            wxLogDebug(wxT("wxGISNetServerConnection: LOST"));
+            //wxLogDebug(wxT("wxGISNetServerConnection: LOST"));
             {
                 IPaddress addr;
                 if (!m_pSock->GetPeer(addr))

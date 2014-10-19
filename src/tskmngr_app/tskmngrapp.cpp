@@ -50,10 +50,40 @@ wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxGISThreadHelp
 
 wxGISTaskManagerApp::~wxGISTaskManagerApp(void)
 {
+#ifdef _WIN32
+    wxSocketBase::Shutdown();
+#endif
+
+#ifdef wxUSE_SNGLINST_CHECKER
+    wxDELETE(m_pChecker);
+#endif
+}
+
+int wxGISTaskManagerApp::OnRun()
+{
+
+    if (!m_pTaskManager)
+        return EXIT_FAILURE;
+
+    if (!m_pTaskManager->Init())
+    {
+        m_pTaskManager->Exit();
+        return EXIT_FAILURE;
+    }
+
+    CreateAndRunThread();
+
+    wxAppConsole::OnRun();
+
+    return EXIT_SUCCESS;//success == true ? EXIT_SUCCESS : EXIT_FAILURE;//EXIT_FAILURE;//
 }
 
 bool wxGISTaskManagerApp::OnInit()
 {
+#ifdef _WIN32
+	wxLogDebug(wxT("wxSocketBase::Initialize"));
+    wxSocketBase::Initialize();
+#endif
 
 #ifdef wxUSE_SNGLINST_CHECKER
     m_pChecker = new wxSingleInstanceChecker();
@@ -67,12 +97,6 @@ bool wxGISTaskManagerApp::OnInit()
     }
 #endif
 
-
-#ifdef _WIN32
-	wxLogDebug(wxT("wxSocketBase::Initialize"));
-    wxSocketBase::Initialize();
-#endif
-
     //create application
     m_pTaskManager = new wxGISTaskManager();
 
@@ -80,20 +104,13 @@ bool wxGISTaskManagerApp::OnInit()
     return wxAppConsole::OnInit();
 }
 
-int wxGISTaskManagerApp::OnExit()
+void wxGISTaskManagerApp::Exit()
 {
     wxDELETE(m_pTaskManager);
 
     Uninitialize();
-#ifdef _WIN32
-    wxSocketBase::Shutdown();
-#endif
 
-#ifdef wxUSE_SNGLINST_CHECKER
-    wxDELETE( m_pChecker );
-#endif
-
-    return wxAppConsole::OnExit();//success == true ? EXIT_SUCCESS : EXIT_FAILURE;
+    wxAppConsole::Exit();
 }
 
 // Loop until user enters q or Q
@@ -181,15 +198,7 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         if (!m_pTaskManager)
             return false;
 
-        m_bService = false;
-
-        CreateAndRunThread();
-        //wxGISServer Server;
-		if(!m_pTaskManager->Init())
-		{
-            m_pTaskManager->Exit();
-            return false;
-		}
+        m_bService = false;        
 	}
 #ifdef _WIN32
 

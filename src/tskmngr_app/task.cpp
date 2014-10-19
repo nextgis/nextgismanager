@@ -152,6 +152,7 @@ wxGISTask::wxGISTask(wxGISTaskBase* pParentTask, const wxString &sPath) : wxGIST
     m_nId = pParentTask->GetNewId();
     m_nGroupId = wxNOT_FOUND;
     m_sStoragePath = sPath;
+    m_bSubTasksLoaded = false;
 }
 
 wxGISTask::~wxGISTask(void)
@@ -162,6 +163,16 @@ wxGISTask::~wxGISTask(void)
 int wxGISTask::GetGroupId(void) const
 {
     return m_nGroupId;
+}
+
+wxULongLong wxGISTask::GetVolume(void) const
+{
+    return m_nVolume;
+}
+
+double wxGISTask::GetDone(void) const
+{
+    return m_dfDone;
 }
 
 bool wxGISTask::Load(void)
@@ -198,19 +209,9 @@ bool wxGISTask::Load(void)
 
     if(oStorageRoot.HasMember(wxT("subtasks")))
     {
-        wxJSONValue subtasks = oStorageRoot[wxT("subtasks")];
-        for(int i = 0; i < subtasks.Size(); ++i)
-        {
-            wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
-            if(pTask->Load())
-            {
-                m_omSubTasks[pTask->GetId()] = pTask;
-            }
-            else
-            {
-                wxDELETE(pTask);
-            }
-        }
+        m_SubTasksDesc = oStorageRoot[wxT("subtasks")];
+        if (m_nState == enumGISTaskQuered)
+            LoadSubTasks(m_SubTasksDesc);
     }
 
     if(m_nState == enumGISTaskDone)
@@ -220,6 +221,23 @@ bool wxGISTask::Load(void)
     m_dfPrevDone = m_dfDone;
 
     return true;
+}
+
+void wxGISTask::LoadSubTasks(const wxJSONValue& subtasks)
+{
+    for (int i = 0; i < subtasks.Size(); ++i)
+    {
+        wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
+        if (pTask->Load())
+        {
+            m_omSubTasks[pTask->GetId()] = pTask;
+        }
+        else
+        {
+            wxDELETE(pTask);
+        }
+    }
+    m_bSubTasksLoaded = true;
 }
 
 bool wxGISTask::Create(const wxJSONValue& TaskConfig)
@@ -253,10 +271,10 @@ bool wxGISTask::Create(const wxJSONValue& TaskConfig)
                 return false;
             }
         }
+        m_bSubTasksLoaded = true;
     }
     return Save();
 }
-
 
 wxJSONValue wxGISTask::GetStoreConfig(void)
 {
@@ -272,11 +290,19 @@ wxJSONValue wxGISTask::GetStoreConfig(void)
     val[wxT("create")] = SetDateValue(m_dtCreated);
     val[wxT("params")] = m_Params;
 
-    int nCounter(0);
-    for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+    if (m_bSubTasksLoaded)
     {
-        val[wxT("subtasks")][nCounter++] = it->second->GetStorePath();
+        int nCounter(0);
+        for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            val[wxT("subtasks")][nCounter++] = it->second->GetStorePath();
+        }   
     }
+    else
+    {
+        val[wxT("subtasks")] = m_SubTasksDesc;
+    }
+
 
     return val;
 }
@@ -300,17 +326,20 @@ wxJSONValue wxGISTask::GetAsJSON(void)
 
     val[wxT("params")] = m_Params;
 
-    val[wxT("subtask_count")] = m_omSubTasks.size();
-
+    if (m_bSubTasksLoaded)
+    {
+        val[wxT("subtask_count")] = m_omSubTasks.size();
+    }
+    else
+    {
+        val[wxT("subtask_count")] = m_SubTasksDesc.Size();
+    }
 
     return val;
 }
 
 bool wxGISTask::StartTask(long nMessageId, int nUserId)
 {
-    wxLogDebug(wxT("Quered %s"), GetName());
-    m_nState = enumGISTaskQuered;
-
     if(m_pParentTask)
     {
         wxJSONValue idval;
@@ -325,7 +354,6 @@ bool wxGISTask::StartTask(long nMessageId, int nUserId)
 
 bool wxGISTask::StopTask(long nMessageId, int nUserId)
 {
-    m_nState = enumGISTaskPaused;
     if(m_pParentTask)
     {
         wxJSONValue idval;
@@ -339,14 +367,142 @@ bool wxGISTask::StopTask(long nMessageId, int nUserId)
 }
 
 
-bool wxGISTask::Delete(long nMessageId, int nUserId)
+void wxGISTask::OnStart(void)
 {
-    Stop();
+    if (!m_bSubTasksLoaded && m_SubTasksDesc.Size() > 0)
+        LoadSubTasks(m_SubTasksDesc);
 
-    if(m_omSubTasks.empty())
+    //change task and send message
+    m_nState = enumGISTaskQuered;
+    ChangeTask();
+    //Save();
+
+    if (m_omSubTasks.empty())
     {
         StartNextQueredTask();
     }
+    else
+    {
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
+            if (pSubTask)
+            {
+                pSubTask->OnStart();
+            }
+        }        
+    }
+}
+
+void wxGISTask::OnStop(void)
+{   
+    if (m_omSubTasks.empty())
+    {
+        Stop();
+        StartNextQueredTask();
+    }
+    else
+    {
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
+            if (pSubTask && pSubTask->GetState() == enumGISTaskQuered)
+            {
+                pSubTask->SetState(enumGISTaskPaused);
+                pSubTask->ChangeTask();
+            }
+        }
+
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
+            if (pSubTask && pSubTask->GetState() != enumGISTaskPaused)
+            {
+                pSubTask->OnStop();
+            }
+        }
+
+        //change task and send message
+        m_nState = enumGISTaskPaused;
+    }
+
+    ChangeTask();
+    //Save();
+}
+
+
+void wxGISTask::OnTerminate(int pid, int status)
+{
+    wxGISProcess::OnTerminate(pid, status);
+    m_dfPrevDone = 0;
+    StartNextQueredTask();
+    ChangeTask();    
+    Save();
+    //notify parent
+    wxGISTask* pParentTask = dynamic_cast<wxGISTask*>(m_pParentTask);
+    if (NULL != pParentTask)
+        pParentTask->OnTaskChanged(GetId());
+}
+
+void wxGISTask::OnTaskChanged(int nId)
+{
+    m_nVolume = 0;
+    m_dfDone = 0;
+    m_nState = enumGISTaskUnk;
+
+    for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+    {
+        wxGISTask* pTask = dynamic_cast<wxGISTask*>(it->second);
+        if (pTask)
+        {
+            m_nVolume += pTask->GetVolume();
+            m_dfDone += pTask->GetDone();
+            if (m_dtBeg > pTask->GetStart())
+                m_dtBeg = pTask->GetStart();
+            if (m_dtEstEnd > pTask->GetFinish())
+                m_dtEstEnd = pTask->GetFinish();
+
+            if (m_nState != enumGISTaskError)
+            {
+                if (pTask->GetState() == enumGISTaskError)
+                    m_nState = enumGISTaskError;
+                else if (pTask->GetState() == enumGISTaskWork)
+                    m_nState = enumGISTaskWork;
+                else if (m_nState == enumGISTaskUnk)
+                {
+                    if (pTask->GetState() == enumGISTaskQuered)
+                        m_nState = enumGISTaskQuered;
+                    else if (pTask->GetState() == enumGISTaskDone)
+                        m_nState = enumGISTaskDone;
+                    else if (pTask->GetState() == enumGISTaskPaused)
+                        m_nState = enumGISTaskPaused;
+                }
+            }
+        }        
+    }
+
+    m_dfDone /= m_omSubTasks.size();
+
+    ChangeTask();
+    Save();
+}
+
+bool wxGISTask::Start(void)
+{
+    m_dfPrevDone = 0;
+    bool bReturn = wxGISProcess::Start();
+    if (!bReturn)
+    {
+        m_nState = enumGISTaskError;
+    }
+    ChangeTask();
+    return bReturn;
+}
+
+bool wxGISTask::Delete(long nMessageId, int nUserId)
+{
+    Stop();
+    StartNextQueredTask();
 
     for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
@@ -381,8 +537,8 @@ bool wxGISTask::Delete(long nMessageId, int nUserId)
 
 void wxGISTask::GetChildren(long nMessageId, int nUserId)
 {
-    if(m_omSubTasks.empty())
-        return;
+    if (!m_bSubTasksLoaded && m_SubTasksDesc.Size() > 0)
+        LoadSubTasks(m_SubTasksDesc);    
 
     int nTaskSendCount(7);
     wxGISAppConfig oConfig = GetConfig();
@@ -548,87 +704,6 @@ void wxGISTask::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &va
     }
 }
 
-void wxGISTask::OnStart(void)
-{
-    m_nState = enumGISTaskQuered;
-
-    if(m_omSubTasks.empty())
-    {
-        //change task and send message
-        ChangeTask();
-
-        StartNextQueredTask();
-
-        Save();
-    }
-    else
-    {
-        for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
-        {
-            wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
-            if(pSubTask)
-            {
-                pSubTask->OnStart();
-            }
-        }
-    }
-}
-
-void wxGISTask::OnStop(void)
-{
-
-    if(m_omSubTasks.empty())
-    {
-        if (m_nState == enumGISTaskDone || m_nState == enumGISTaskError)
-        {
-            StartNextQueredTask();
-            return;
-        }
-
-        Stop();
-        StartNextQueredTask();
-
-        //change task and send message
-        ChangeTask();
-
-        Save();
-    }
-    else
-    {
-        m_nState = enumGISTaskPaused;
-
-        for(wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
-        {
-            wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
-            if(pSubTask)
-            {
-                pSubTask->OnStop();
-            }
-        }
-    }
-}
-
-void wxGISTask::OnTerminate(int pid, int status)
-{
-    wxGISProcess::OnTerminate(pid, status);
-    m_dfPrevDone = 0;
-    StartNextQueredTask();
-    Save();
-    ChangeTask();
-}
-
-bool wxGISTask::Start(void)
-{
-    m_dfPrevDone = 0;
-    bool bReturn = wxGISProcess::Start();
-    if (!bReturn)
-    {
-        m_nState = enumGISTaskError;
-    }
-    ChangeTask();
-    return bReturn;
-}
-
 void wxGISTask::UpdatePercent(const wxString &sPercentData)
 {
     wxGISProcess::UpdatePercent(sPercentData);
@@ -755,6 +830,7 @@ bool wxGISTask::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUse
         }
         val[wxT("subtasks")] = subtasks;
         nHaveChanges = true;
+        m_bSubTasksLoaded = true;
     }
 
     if (nHaveChanges)
@@ -940,7 +1016,6 @@ wxGISTaskCategory::wxGISTaskCategory(const wxString &sPath, wxGISTaskManager* pT
 {
     m_pTaskManager = pTaskManager;
     m_sStoragePath = sPath;
-    m_nMaxTasks = pTaskManager->GetMaxExecTaskCount();
 
     wxFileName oFName(sPath);
     m_sName = oFName.GetName();
@@ -978,11 +1053,6 @@ bool wxGISTaskCategory::Load(void)
     }
     StartNextQueredTask();
     return true;
-}
-
-void wxGISTaskCategory::SetMaxExecTaskCount(int nMaxExecTasks)
-{
-    m_nMaxTasks = nMaxExecTasks;
 }
 
 int wxGISTaskCategory::GetRunningTaskCount(void) const
@@ -1115,7 +1185,6 @@ bool wxGISTaskCategory::Save(void)
             if(!it->second->Save())
             {
                 bRes = false;
-                break;
             }
         }
     }
@@ -1225,12 +1294,12 @@ void wxGISTaskCategory::StartNextQueredTask()
         m_pTaskManager->OnCategoryExecutionFinished(this);
 
     }
-    if(GetRunningTaskCount() >= m_nMaxTasks) //to many tasks
+    if (GetRunningTaskCount() >= m_pTaskManager->GetMaxExecTaskCount()) //to many tasks
         return;
 
     wxGISTask* pTask = GetQueredTask();
 
-    while (GetRunningTaskCount() < m_nMaxTasks && pTask) //try to start some tasks
+    while (GetRunningTaskCount() < m_pTaskManager->GetMaxExecTaskCount() && pTask) //try to start some tasks
     {
         if(pTask)
         {

@@ -496,19 +496,19 @@ wxString wxClientTCPNetConnection::GetLastError(void) const
 void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
 {
     event.Skip(false);
-    wxLogDebug(wxT("wxClientTCPNetConnection: event"));
+    //wxLogDebug(wxT("wxClientTCPNetConnection: event"));
     switch(event.GetSocketEvent())
     {
         case wxSOCKET_INPUT:
             //send event to advisers
-            wxLogDebug(wxT("wxClientTCPNetConnection: INPUT"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: INPUT"));
         break;
         case wxSOCKET_OUTPUT:
-            wxLogDebug(wxT("wxClientTCPNetConnection: OUTPUT"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: OUTPUT"));
             //ProcessNetMessage();
             break;
         case wxSOCKET_CONNECTION:
-            wxLogDebug(wxT("wxClientTCPNetConnection: CONNECTION"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: CONNECTION"));
             m_bIsConnected = true;
             m_bIsConnecting = false;
             {
@@ -523,7 +523,7 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
             }
         break;
         case wxSOCKET_LOST:
-            wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: LOST"));
             {
                 wxNetMessage msgin(enumGISNetCmdBye, enumGISNetCmdStUnk, enumGISPriorityHigh);
                 if(!m_bIsConnected && m_bIsConnecting)
@@ -541,7 +541,7 @@ void wxClientTCPNetConnection::OnSocketEvent(wxSocketEvent& event)
             }
         break;
         default:
-            wxLogDebug(wxT("wxClientTCPNetConnection: default"));
+            //wxLogDebug(wxT("wxClientTCPNetConnection: default"));
             break;
     }
 }

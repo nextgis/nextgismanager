@@ -3,7 +3,7 @@
  * Purpose:  stream common classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2010-2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -62,10 +62,12 @@ bool wxGISThreadHelper::CreateAndRunThread(void)
 
 void wxGISThreadHelper::DestroyThreadAsync(void)
 {
-    wxCriticalSectionLocker locker(m_critSection);
+    m_critSection.Enter();
+    //wxCriticalSectionLocker locker(m_critSection);
     if (m_thread && m_thread->IsRunning())
     {
         m_bKill = true;
+        m_critSection.Leave();
         if (m_kind == wxTHREAD_DETACHED)
 		{
             m_thread->Delete();//Wait();//Kill();//
@@ -73,33 +75,25 @@ void wxGISThreadHelper::DestroyThreadAsync(void)
         else if (m_kind == wxTHREAD_JOINABLE)
 		{
             m_thread->Wait();//Kill();//
+            wxDELETE(m_thread);
 		}
     }
+    else
+    {
+        m_critSection.Leave();
+    }    
 }
 
 void wxGISThreadHelper::DestroyThreadSync(int nWaitAfter)
 {
-    m_critSection.Enter();
-    if (m_thread && m_thread->IsRunning())
-    {
-        m_bKill = true;
-        if (m_kind == wxTHREAD_DETACHED)
-		{
-            m_thread->Delete();//Wait();//Kill();//
-		}
-        else if (m_kind == wxTHREAD_JOINABLE)
-		{
-            m_thread->Wait();//Kill();//
-			delete m_thread;
-		}
-    }
-	m_critSection.Leave();
+    DestroyThreadAsync();
 	
 	if(nWaitAfter == 0)
 		return;
 	
 	wxMilliSleep(nWaitAfter);
 	
+    wxCriticalSectionLocker locker(m_critSection);
 	while(m_thread && m_thread->IsRunning())
 	{
 		wxMilliSleep(nWaitAfter);
@@ -132,7 +126,7 @@ void wxGISThreadHelper::KillThread()
 // Class wxGISProcess
 //------------------------------------------------------------------------------
 
-wxGISProcess::wxGISProcess(IGISProcessParent* pParent) : wxProcess(wxPROCESS_REDIRECT), wxGISThreadHelper()
+wxGISProcess::wxGISProcess(IGISProcessParent* pParent, wxThreadKind kind) : wxProcess(wxPROCESS_REDIRECT), wxGISThreadHelper(kind)
 {
     m_pParent = pParent;
     m_dtBeg = wxDateTime::Now();
@@ -205,6 +199,10 @@ void wxGISProcess::Stop(void)
                 DestroyThreadAsync();
 	           //and detach
 		        Detach();
+            }
+            else
+            {
+                wxASSERT_MSG(0, wxT("Incorrect case"));
             }
         }
 

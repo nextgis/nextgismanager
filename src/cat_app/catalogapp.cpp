@@ -142,7 +142,6 @@ bool wxGISCatalogApp::OnInit()
 
     CPLSetConfigOption("CPL_TMPDIR", sTempDir.mb_str(wxConvUTF8));
 
-
 	OGRRegisterAll();
 	GDALAllRegister();
 

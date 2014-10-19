@@ -22,7 +22,6 @@
 #include "wxgis/geoprocessing/task.h"
 #include "wxgis/core/format.h"
 
-
 #include <wx/arrimpl.cpp> // This is a magic incantation which must be done!
 WX_DEFINE_USER_EXPORTED_OBJARRAY(wxGISTaskMessagesArray);
 
@@ -46,6 +45,7 @@ IMPLEMENT_CLASS(wxGISTaskBase, wxObject)
 wxGISTaskBase::wxGISTaskBase(wxGISTaskBase *pParentTask)
 {
     m_pParentTask = pParentTask;
+    m_nChildrenCount = 0;
 }
 
 wxGISTaskBase::~wxGISTaskBase(void)
@@ -154,7 +154,7 @@ void wxGISTaskBase::NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue
                     wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                     m_omSubTasks[pTask->GetId()] = pTask;
 
-                    if (pTask->GetChildrenCount() > 0)
+                    if (pTask->GetSubTaskCount() > 0)
                     {
                         //request subtasks asynchronously
                         wxJSONValue outval;
@@ -185,7 +185,7 @@ void wxGISTaskBase::AddTask(const wxJSONValue &val)
             wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
             m_omSubTasks[pTask->GetId()] = pTask;
 
-            if (pTask->GetChildrenCount() > 0)
+            if (pTask->GetSubTaskCount() > 0)
             {
                 //request subtasks asynchronously
                 wxJSONValue outval;
@@ -272,11 +272,20 @@ void wxGISTaskBase::Delete(wxGISTaskBase *pTask)
 
 size_t wxGISTaskBase::GetSubTaskCount(void) const
 {
+    if (m_nChildrenCount > 0 && m_omSubTasks.empty())
+    {
+        wxJSONValue outval;
+        outval[wxT("id")] = m_nId;
+        m_pParentTask->SendNetMessageAsync(enumGISNetCmdCmd, enumGISCmdChildren, outval);
+    }
     return m_omSubTasks.size();
 }
 
 wxGISTaskBase* wxGISTaskBase::GetSubTask(size_t nIndex) const
 {
+    if (m_omSubTasks.empty())
+        return NULL;
+
     wxGISTaskMap::const_iterator it = m_omSubTasks.begin();
     for(size_t i = 0; i < nIndex; ++i)
         it++;
@@ -288,6 +297,9 @@ wxGISTaskBase* wxGISTaskBase::GetSubTask(size_t nIndex) const
 
 wxGISTaskBase* wxGISTaskBase::GetSubTask(int nId) const
 {
+    if (m_omSubTasks.empty())
+        return NULL;
+
     wxGISTaskMap::const_iterator it = m_omSubTasks.find(nId);
     if(it != m_omSubTasks.end())
         return it->second;
@@ -348,7 +360,6 @@ int wxGISTaskBase::GetRunTaskCount(void) const
    }
 }
 
-
 //------------------------------------------------------------------
 // wxGISTask
 //------------------------------------------------------------------
@@ -403,16 +414,12 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
         m_dfDone = 0;
         m_nPriority = wxNOT_FOUND;
         m_nId = wxNewId();
+        m_nChildrenCount = 0;
     }
 }
 
 wxGISTask::~wxGISTask(void)
 {
-}
-
-int wxGISTask::GetChildrenCount() const
-{
-    return m_nChildrenCount;
 }
 
 void wxGISTask::AddSubTask(wxGISTask* pTask)
@@ -468,6 +475,9 @@ wxDateTime wxGISTask::GetDateCreated(void) const
 
 wxULongLong  wxGISTask::GetVolume(void) const
 {
+    if (m_omSubTasks.empty())
+        return m_nVolume;
+
     wxULongLong out(0);
     for(wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
     {
@@ -477,7 +487,7 @@ wxULongLong  wxGISTask::GetVolume(void) const
             out += pTask->GetVolume();
         }
     }
-    return out + m_nVolume;
+    return out;
 }
 
 long wxGISTask::GetPriority(void) const
@@ -743,6 +753,11 @@ void wxGISTaskEdit::SetExecutable(const wxString& sExecutable)
     m_sExecPath = sExecutable;
 }
 
+void wxGISTaskEdit::SetParameters(const wxJSONValue &val)
+{
+    m_Params = val;
+}
+
 //------------------------------------------------------------------
 // wxGISTaskCategory
 //------------------------------------------------------------------
@@ -847,7 +862,7 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                     wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                     m_omSubTasks[pTask->GetId()] = pTask;
 
-                    if (pTask->GetChildrenCount() > 0)
+                    if (pTask->GetSubTaskCount() > 0)
                     {
                         //request subtasks asynchronously
                         wxJSONValue outval;
@@ -874,7 +889,7 @@ void wxGISTaskCategory::NetCommand(const wxNetMessage &msg)
                 wxASSERT(m_omSubTasks[pTask->GetId()] == NULL);
                 m_omSubTasks[pTask->GetId()] = pTask;
 
-                if (pTask->GetChildrenCount() > 0)
+                if (pTask->GetSubTaskCount() > 0)
                 {
                     //request subtasks asynchronously
                     wxJSONValue outval;

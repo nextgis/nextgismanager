@@ -3,7 +3,7 @@
  * Purpose:  Task manager class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2012-2013 Dmitry Baryshnikov
+*   Copyright (C) 2012-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -61,6 +61,7 @@ public:
     virtual void ProcessNetEvent(wxGISNetEvent& event);
 protected:
     virtual void LoadCategories(const wxString &sPathToCategories);
+    virtual void DestroyCategories();
     virtual void ProcessNetCommand(const wxNetMessage &msg, int nUserId);
     virtual void OnExit(void);
     virtual wxJSONValue GetChildrenAsJSON(const wxJSONValue &val);

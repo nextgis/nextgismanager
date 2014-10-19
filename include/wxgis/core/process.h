@@ -73,7 +73,7 @@ class WXDLLIMPEXP_GIS_CORE wxGISProcess :
     public wxGISThreadHelper
 {
 public:
-    wxGISProcess(IGISProcessParent* pParent = NULL);
+    wxGISProcess(IGISProcessParent* pParent = NULL, wxThreadKind kind = wxTHREAD_DETACHED);
     virtual ~wxGISProcess(void);
     // wxProcess
     virtual void OnTerminate(int pid, int status);

@@ -67,7 +67,6 @@ public:
 protected:
     virtual wxJSONValue GetStoreConfig(void) = 0;
     virtual void ClearTasks(void);
-
     //virtual void SendNetMessageAsync(wxGISNetCommand eCmd, wxGISNetCommandState eCmdState, const wxJSONValue &val);
     //virtual wxGISNetCommandState SendNetMessageSync(wxGISNetCommand eCmd, wxGISNetCommandState eCmdState, const wxJSONValue &val);
     //virtual void NetMessage(wxGISNetCommand eCmd, wxGISNetCommandState eCmdState, const wxJSONValue &val);
@@ -101,6 +100,8 @@ public:
     wxGISTask(wxGISTaskBase* pParentTask, const wxString &sPath);
     virtual ~wxGISTask(void);
     virtual int GetGroupId(void) const;
+    virtual double GetDone(void) const;
+    virtual wxULongLong GetVolume(void) const;
     virtual bool Load(void);
     virtual bool Delete(long nMessageId = -2, int nUserId = -2);
     virtual void GetChildren(long nMessageId, int nUserId);
@@ -110,7 +111,6 @@ public:
     virtual bool Create(const wxJSONValue& TaskConfig);
     virtual wxJSONValue GetAsJSON(void);
     virtual long GetCommonPriority(void);
-
 
     //start/process/stop
     virtual void OnDestroy(void);
@@ -145,6 +145,8 @@ public:
     virtual void NetCommand(wxGISNetCommandState eCmdState, const wxJSONValue &val, long nMessageId = wxNOT_FOUND, int nUserId = wxNOT_FOUND);
 protected:
     virtual wxJSONValue GetStoreConfig(void);
+    virtual void LoadSubTasks(const wxJSONValue& subtasks);
+    virtual void OnTaskChanged(int nId);
 protected:
     wxString m_sDescription;
     int m_nGroupId;
@@ -155,6 +157,9 @@ protected:
     double m_dfPrevDone;
     wxDateTime m_dtCreated;
     //wxVector<MESSAGE> m_staMessages;
+
+    bool m_bSubTasksLoaded;
+    wxJSONValue m_SubTasksDesc;
 };
 
 /** @class wxGISTaskCategory
@@ -172,7 +177,6 @@ public:
     wxGISTaskCategory(const wxString &sPath, wxGISTaskManager* pTaskManager);
     virtual ~wxGISTaskCategory(void);
     virtual bool Load(void);
-    virtual void SetMaxExecTaskCount(int nMaxExecTasks);
     virtual wxString GetNewStorePath(const wxString &sAddToName, const wxString &sSubDir = wxEmptyString );
     virtual bool Save(void);
     virtual void GetChildren(long nMessageId, int nUserId);
@@ -197,6 +201,5 @@ protected:
     virtual wxGISTask* const GetQueredTask(void);
 protected:
     wxGISTaskManager* m_pTaskManager;
-    short m_nMaxTasks;
     wxCriticalSection m_CritSect;
 };

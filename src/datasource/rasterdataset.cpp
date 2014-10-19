@@ -226,6 +226,7 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
     if (m_nSubType == enumRasterWMSTMS)
     {
         CPLSetConfigOption("CPL_CURL_GZIP", "ON");
+        CPLSetConfigOption("GDAL_HTTP_TIMEOUT", "5");
         wxGISAppConfig oConfig = GetConfig();
         if (oConfig.IsOk())
         {

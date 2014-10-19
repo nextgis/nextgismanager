@@ -49,7 +49,8 @@ public:
 	virtual ~wxGISTaskManagerApp(void);
     // wxAppConsole
     virtual bool OnInit();
-    virtual int OnExit();
+    virtual int OnRun();
+    virtual void Exit();
     void OnInitCmdLine(wxCmdLineParser& pParser);
     bool OnCmdLineParsed(wxCmdLineParser& pParser);
     // wxGISInitializer
