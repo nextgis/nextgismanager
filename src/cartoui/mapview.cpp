@@ -123,13 +123,13 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
     }
 
 	if(m_nDrawingState == enumGISMapZooming || m_nDrawingState == enumGISMapPanning || m_nDrawingState ==  enumGISMapRotating || m_nDrawingState ==  enumGISMapWheeling) //if operation - exit immediatly
-	{
+	{        
 		return;
 	}
 
 	if(m_pGISDisplay)
 	{
-        if (GetThread() && m_pGISDisplay->IsDerty())//m_nDrawingState = enumGISMapDrawing
+        if (IsThreadRun() && m_pGISDisplay->IsDerty())//m_nDrawingState = enumGISMapDrawing
         {
             return;
         }
@@ -203,17 +203,17 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
     {
     case enumGISMapRedraw:
         m_nDrawingState = enumGISMapDrawing;
-        CreateAndRunDrawThread();
         m_timer.Stop();
+        CreateAndRunDrawThread();
         return;
     case enumGISMapZooming:
         //stop zooming action
 		if(m_pGISDisplay && !wxGetMouseState().LeftIsDown()) //user release mouse button, so draw contents
 		{
+			m_nDrawingState = enumGISMapDrawing;
 		    wxRect rc = GetClientRect();
         	m_pGISDisplay->SetDeviceFrame(rc);
 			m_pGISDisplay->SetAllCachesDerty(true);
-			m_nDrawingState = enumGISMapDrawing;
             CreateAndRunDrawThread();
 			//wxCommandEvent evt(wxEVT_COMMAND_STARTDRAWING);wxEVT_COMMAND_DATA_SENT
 			//GetEventHandler()->ProcessEvent( evt );
@@ -230,8 +230,8 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
 		return;
     case enumGISMapWheelingStop:
 		//stop wheeling action
-		if(m_pGISDisplay)
 		{
+            m_nDrawingState = enumGISMapDrawing;
 			double dZoom = 1;
 			if(m_nFactor < 0)
 				dZoom = fabs(1.0 / (m_nFactor - 1));
@@ -239,13 +239,13 @@ void wxGISMapView::OnTimer( wxTimerEvent& event )
 				dZoom = 1 + m_nFactor;
 
 			OGREnvelope Env = CreateEnvelopeFromZoomFactor(dZoom);
-			if(Env.IsInit())//set new bounds
-				Do(Env);
-			m_nDrawingState = enumGISMapDrawing;
-		}
-		m_nFactor = 0;
-		m_timer.Stop();
-		return;
+            if (Env.IsInit())//set new bounds
+                Do(Env);
+
+            m_nFactor = 0;
+            m_timer.Stop();	
+            return;
+         }		
     break;
     case enumGISMapFlashing:
         if(m_staFlashGeoms.empty())
@@ -403,12 +403,13 @@ void wxGISMapView::OnDraw(wxGISEnumDrawPhase nPhase)
 				m_pGISDisplay->SetDrawCache(pLayer->GetCacheId());
             }
 
-			if(pLayer->Draw(nPhase, m_pTrackCancel))
+            bool bRes = pLayer->Draw(nPhase, m_pTrackCancel);
+            if (bRes)
             {
                 ////SetCacheDerty if next cache is not same
                 //if(i < m_paLayers.size() - 1 && m_paLayers[i + 1]->GetCacheID() != pLayer->GetCacheID())
                 //    m_pGISDisplay->SetCacheDerty(pLayer->GetCacheID(), false);
-                //else if(i == m_paLayers.size() - 1)
+                //else if(i == m_paLayers.size() - 1)                
                 m_pGISDisplay->SetCacheDerty(pLayer->GetCacheId(), false);
             }
 		}
@@ -1081,18 +1082,13 @@ wxThread::ExitCode wxGISMapView::Entry()
 	return (wxThread::ExitCode)wxTHREAD_NO_ERROR;     // success
 }
 
-bool wxGISMapView::IsDrawing() const
-{
-    return GetThread() && GetThread()->IsRunning();
-}
-
 bool wxGISMapView::CreateAndRunDrawThread(void)
 {
 #ifdef __WXGTK__
     wxWakeUpIdle();
 #endif
 
-    if(IsDrawing()|| !m_pGISDisplay->IsDerty())
+    if(IsThreadRun() || !m_pGISDisplay->IsDerty())
         return true;
 
     if (CreateAndRunThread())
@@ -1111,10 +1107,8 @@ void wxGISMapView::DestroyDrawThread(void)
 		m_pTrackCancel->Cancel();
 	}
 
-    if(IsDrawing())
-    {
-        DestroyThreadSync();
-    }
+    if (IsThreadRun())
+        DestroyThreadSync(TM_ZOOMING);
 }
 
 void wxGISMapView::OnLayerChanged(wxMxMapViewEvent& event)

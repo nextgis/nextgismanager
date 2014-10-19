@@ -134,6 +134,9 @@ bool wxGISDrawingLayer::Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const p
 
     wxCriticalSectionLocker lock(m_CritSect);
 
+    if (m_aoShapes.empty())
+        return true;
+
     OGREnvelope stDisplayExtentRotated = m_pDisplay->GetBounds(true);
     OGREnvelope stFeatureDatasetExtentRotated = m_oLayerExtent;
 

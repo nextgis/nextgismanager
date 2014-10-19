@@ -111,7 +111,6 @@ protected:
     void Refresh(void);
     //void OnZooming( wxCommandEvent & event );
 protected:
-    virtual bool IsDrawing() const;
     virtual wxThread::ExitCode Entry();
     virtual bool CreateAndRunDrawThread(void);
     virtual void DestroyDrawThread(void);
