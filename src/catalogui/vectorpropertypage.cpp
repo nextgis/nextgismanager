@@ -56,6 +56,7 @@ bool wxGISVectorPropertyPage::Create(IGxDataset* pGxDataset, wxWindow* parent, w
     m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISFeatureDataset);
     if(!m_pDataset)
         return false;
+		
     if (!m_pDataset->IsOpened())
     {
 		if(!m_pDataset->Open(0, true, true, false))

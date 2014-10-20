@@ -36,6 +36,8 @@
 #define WAIT 1050
 #define STEP 10
 
+static const int HEADER_HEIGHT = 23;
+
 //--------------------------------------------------------------------------------
 // MyCompareFunction
 //--------------------------------------------------------------------------------
@@ -436,6 +438,23 @@ void wxGxContentView::OnContextMenu(wxContextMenuEvent& event)
 	{
         point = ScreenToClient(point);
     }
+	
+#ifdef __WXGTK__
+    if(HasHeader())
+    {
+		wxWindow* pWnd = (wxWindow*)wxListCtrl::m_headerWin;
+        if(pWnd != NULL)
+        {
+            wxSize size = pWnd->GetSize();
+			point.y -= size.GetHeight();
+        }
+		else
+		{
+			point.y -= HEADER_HEIGHT;
+		}
+    }
+#endif // __WXGTK__	
+	
     ShowContextMenu(point);
 }
 
@@ -1366,14 +1385,16 @@ long wxGxContentView::HitTest( const wxPoint& point, int& flags, long *pSubItem)
 #ifdef __WXGTK__
     if(HasHeader())
     {
-        //TODO: find out header height
-        int nHHeight = 20;
-        //wxListHeaderWindow* pWnd = wxListCtrl::m_headerWin;
-        //if(pWnd != NULL)
-        //{
-        //    wxSize size = pWnd->GetSize();
-            TestPt.y -= nHHeight;
-        //}
+		wxWindow* pWnd = (wxWindow*)wxListCtrl::m_headerWin;
+        if(pWnd != NULL)
+        {
+            wxSize size = pWnd->GetSize();
+			TestPt.y -= size.GetHeight();
+        }
+		else
+		{
+			TestPt.y -= HEADER_HEIGHT;
+		}
     }
 #endif // __WXGTK__
 
