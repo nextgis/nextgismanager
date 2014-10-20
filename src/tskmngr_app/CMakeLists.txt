@@ -1,7 +1,7 @@
 # **************************************************************************** 
 # * Project:  wxGIS
 # * Purpose:  cmake script
-# * Author:   Baryshnikov Dmitriy (aka Bishop), polimax@mail.ru
+# * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
 # ****************************************************************************
 # *   Copyright (C) 2013 Dmitry Baryshnikov
 # *

@@ -174,10 +174,10 @@ void wxGISProcess::OnTerminate(int pid, int status)
     {
         m_dfDone = 100.0;
         if(m_pParent)
-            m_pParent->OnFinish(this, status != 0);
+            m_pParent->OnFinish(this, status == EXIT_FAILURE);
     }
 
-	m_nState = status == 0 ? enumGISTaskDone : enumGISTaskError;
+	m_nState = status == EXIT_SUCCESS ? enumGISTaskDone : enumGISTaskError;
     m_dtEstEnd = wxDateTime::Now();
 }
 

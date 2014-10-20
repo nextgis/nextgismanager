@@ -154,12 +154,12 @@ void wxGISTaskManagerApp::OnInitCmdLine(wxCmdLineParser& pParser)
     pParser.AddSwitch(wxT( "s" ), wxT( "start" ),       _( "Start wxGIS task manager service" ));
     pParser.AddSwitch(wxT( "a" ), wxT( "app" ),         _( "Start wxGIS task manager from client application" ));
 
-    pParser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
+    pParser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Dmitry Baryshnikov (aka Bishop), polimax@mail.ru\nCopyright (c) 2012-%d"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
 }
 
 void wxGISTaskManagerApp::OnAppAbout(void)
 {
-	wxString out = wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d\n"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__);
+	wxString out = wxString::Format(_("%s (%s)\nAuthor: Dmitry Baryshnikov (aka Bishop), polimax@mail.ru\nCopyright (c) 2012-%d\n"), m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__);
 	wxFprintf(stdout, out);
 }
 
@@ -175,7 +175,7 @@ void wxGISTaskManagerApp::OnAppOptions(void)
     Parser.AddSwitch(wxT("s"), wxT("start"), _("Start wxGIS task manager service"));
     Parser.AddSwitch(wxT("a"), wxT("app"), _("Start wxGIS task manager from client application"));
 
-    Parser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\nCopyright (c) 2012-%d"),  m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
+    Parser.SetLogo(wxString::Format(_("%s (%s)\nAuthor: Dmitry Baryshnikov (aka Bishop), polimax@mail.ru\nCopyright (c) 2012-%d"),  m_appDisplayName.c_str(), GetAppVersionString().c_str(), __YEAR__));
 
     Parser.Usage();
 }
