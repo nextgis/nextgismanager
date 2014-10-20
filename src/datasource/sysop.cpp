@@ -78,7 +78,7 @@ bool MoveDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
         //if in same disc - copy/rename
         return RenameFile(sPathFrom, sPathTo, pTrackCancel);
     }
-#endif
+#endif //__WXMSW__
     else
     {
         //if in different discs - copy/move
@@ -110,7 +110,7 @@ bool CopyDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
     for(int i = CSLCount(papszItems) - 1; i >= 0; i-- )
     {
         if(pTrackCancel && !pTrackCancel->Continue())
-            return true;
+            return false;
 
         if( wxGISEQUAL(papszItems[i], ".") || wxGISEQUAL(papszItems[i], "..") )
             continue;
@@ -522,6 +522,10 @@ bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCance
             && VSIFWriteL( pabyBuffer, 1, nBytesRead, fpNew ) < nBytesRead )
             nRet = -1;
         nCounter++;
+		
+		if(pTrackCancel && !pTrackCancel->Continue())
+            break;
+			
     } while( nRet == 0 && nBytesRead == nBufferSize );
 
 /* -------------------------------------------------------------------- */
