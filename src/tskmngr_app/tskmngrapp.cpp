@@ -104,13 +104,13 @@ bool wxGISTaskManagerApp::OnInit()
     return wxAppConsole::OnInit();
 }
 
-void wxGISTaskManagerApp::Exit()
+void wxGISTaskManagerApp::CleanUp()
 {
     wxDELETE(m_pTaskManager);
 
     Uninitialize();
 
-    wxAppConsole::Exit();
+    wxAppConsole::CleanUp();
 }
 
 // Loop until user enters q or Q

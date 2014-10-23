@@ -50,7 +50,7 @@ public:
     // wxAppConsole
     virtual bool OnInit();
     virtual int OnRun();
-    virtual void Exit();
+    virtual void CleanUp();
     void OnInitCmdLine(wxCmdLineParser& pParser);
     bool OnCmdLineParsed(wxCmdLineParser& pParser);
     // wxGISInitializer

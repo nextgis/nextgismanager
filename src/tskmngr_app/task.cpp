@@ -386,7 +386,7 @@ void wxGISTask::OnStart(void)
         for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
         {
             wxGISTask* pSubTask = dynamic_cast<wxGISTask*>(it->second);
-            if (pSubTask)
+            if (pSubTask && pSubTask->GetState() != enumGISTaskDone)
             {
                 pSubTask->OnStart();
             }
