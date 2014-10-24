@@ -46,6 +46,7 @@
 #endif // GDAL_VERSION_NUM
 
 #define wxGISEQUAL(a,b) ( (const char*)a == NULL ? 0 : EQUAL(a,b) )
+#define wxGISEQUALN(a,b,n) ( (const char*)a == NULL ? 0 : EQUALN(a,b,n) )
 
 /** @class wxGISSpatialReference
 

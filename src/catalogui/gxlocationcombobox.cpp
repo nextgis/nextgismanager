@@ -532,7 +532,8 @@ wxRect wxGxPathsListViewPopup::GetViewRect() const
 void wxGxPathsListViewPopup::Show(const wxString &sPath)
 {
     Update(sPath);
-    m_pGxPathsListView->SetFocus();
+    if (m_pGxPathsListView)
+        m_pGxPathsListView->SetFocus();
     //m_pGxPathsListView->CaptureMouse();
     wxPopupWindow::Show();
 }
@@ -650,6 +651,7 @@ void wxGxPathsListViewPopupParent::DestroyPathsPopup(void)
 {
     if(m_pProbablePathsPopup)
     {
+        wxYield();
         m_pProbablePathsPopup->Destroy();
         m_pProbablePathsPopup = NULL;
     }
@@ -662,7 +664,8 @@ void wxGxPathsListViewPopupParent::OnKillFocus(wxFocusEvent& event)
 
 void wxGxPathsListViewPopupParent::OnChar(wxKeyEvent& event)
 {
-    if(m_pProbablePathsPopup)
+    wxLogDebug("OnChar m_pProbablePathsPopup %ld", (long)m_pProbablePathsPopup);
+    if (m_pProbablePathsPopup && m_pProbablePathsPopup->GetEventHandler())
     {
         m_pProbablePathsPopup->GetEventHandler()->ProcessEvent(event);
         return;
@@ -672,7 +675,7 @@ void wxGxPathsListViewPopupParent::OnChar(wxKeyEvent& event)
 
 void wxGxPathsListViewPopupParent::OnMouseWheel(wxMouseEvent& event)
 {
-    if(m_pProbablePathsPopup)
+    if (m_pProbablePathsPopup)
     {
         m_pProbablePathsPopup->OnMouseWheel(event);
     }
@@ -706,11 +709,7 @@ wxGxLocationComboBox::wxGxLocationComboBox(wxWindow* parent, wxWindowID id, cons
 
 wxGxLocationComboBox::~wxGxLocationComboBox(void)
 {
-    if(m_pProbablePathsPopup)
-    {
-        m_pProbablePathsPopup->Destroy();
-        m_pProbablePathsPopup = NULL;
-    }
+    DestroyPathsPopup();
 }
 
 void wxGxLocationComboBox::OnTextEnter(wxCommandEvent& event)

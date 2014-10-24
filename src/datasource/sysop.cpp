@@ -95,6 +95,13 @@ bool CopyDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
     if(wxGISEQUAL(sPathFrom, sPathTo))
         return true;
 
+    if (wxGISEQUALN(sPathTo, sPathFrom, CPLStrnlen(sPathFrom, 1024)))
+    {
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(_("Cannot copy folder inside itself"), wxNOT_FOUND, enumGISMessageError);
+        return false;
+    }
+
     if(!CPLCheckForFile((char*)sPathTo.c_str(), NULL))
     {
         if(!CreateDir(sPathTo, mode, pTrackCancel))
