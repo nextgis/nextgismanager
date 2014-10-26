@@ -44,6 +44,7 @@ protected:
     void DestroyThreadSync(int nWaitAfter = 500);
     void DestroyThreadAsync(void);
     bool IsThreadRun() const;
+    bool WaitThreadDelete(int nWait = 2000); // 2 sec
 protected:
     bool m_bKill;
 };

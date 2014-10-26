@@ -121,6 +121,22 @@ void wxGISThreadHelper::KillThread()
     }
 }
 
+bool wxGISThreadHelper::WaitThreadDelete(int nWait)
+{
+    int nCounter = 0;
+    int nMaxCount = nWait / 200;
+    while (m_thread != NULL || nCounter < nMaxCount)
+    {
+        wxMilliSleep(200);
+        nCounter++;
+    }
+
+    if (m_thread)
+        return false;
+
+    return true;
+}
+
 //------------------------------------------------------------------------------
 // Class wxGISProcess
 //------------------------------------------------------------------------------
