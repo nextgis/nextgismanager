@@ -548,23 +548,8 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
             if(!Geom.IsOk())
 				break;
-            OGREnvelope Env = Geom.GetEnvelope();
-			if(IsDoubleEquil(Env.MaxX, Env.MinX) || IsDoubleEquil(Env.MaxY, Env.MinY))
-			{
-				OGREnvelope CurrentEnv = m_pMapView->GetCurrentExtent();
-				double widthdiv4 = (CurrentEnv.MaxX - CurrentEnv.MinX) / 4;
-				double heightdiv4 = (CurrentEnv.MaxY - CurrentEnv.MinY) / 4;
-
-				Env.MinX -= widthdiv4;
-				Env.MinY -= heightdiv4;
-				Env.MaxX += widthdiv4;
-				Env.MaxY += heightdiv4;
-			}
-
-            wxDC* pDC = new wxClientDC(m_pMapView);
-			if(m_pMapView->GetScaleRatio(Env, *pDC) > 1.0)
-                m_pMapView->Do(Env);
-            wxDELETE(pDC);
+            OGREnvelope Env = Geom.GetEnvelope();            
+            m_pMapView->Do(Env);
 		}
 		break;
     case enumGISCartoMainToolZoomOut:	//z_out

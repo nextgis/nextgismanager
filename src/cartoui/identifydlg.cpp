@@ -1169,6 +1169,7 @@ void wxAxIdentifyView::OnMenu(wxCommandEvent& event)
 			OGREnvelope TempEnv = Arr[i].GetEnvelope();
 			Env.Merge(TempEnv);
 		}
+		
 		m_pMapView->Do(Env);
         m_pMapView->StartFlashing();
 	}

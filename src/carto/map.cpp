@@ -224,15 +224,48 @@ bool wxGISExtentStack::CanUndo()
 
 void wxGISExtentStack::Do(const OGREnvelope &NewEnv)
 {
+	OGREnvelope Env = NewEnv;
+	if(IsDoubleEquil(NewEnv.MaxX, NewEnv.MinX) || IsDoubleEquil(NewEnv.MaxY, NewEnv.MinY))
+	{
+		OGREnvelope CurrentEnv = GetCurrentExtent();
+		double widthdiv4 = (CurrentEnv.MaxX - CurrentEnv.MinX) / 4;
+		double heightdiv4 = (CurrentEnv.MaxY - CurrentEnv.MinY) / 4;
+
+		Env.MinX -= widthdiv4;
+		Env.MinY -= heightdiv4;
+		Env.MaxX += widthdiv4;
+		Env.MaxY += heightdiv4;
+	}
+		
+	wxRect rc = m_pGISDisplay->GetDeviceFrame();
+    double screen_w = (double)rc.GetWidth() / 256;
+    double screen_h = (double)rc.GetHeight() / 256;
+	double w_w = fabs(Env.MaxX - Env.MinX);
+	double w_h = fabs(Env.MaxY - Env.MinY);
+
+	if(m_SpatialReference && m_SpatialReference->IsGeographic())
+	{
+		w_w = w_w * PIDEG * m_SpatialReference->GetSemiMajor();
+		w_h = w_h * PIDEG * m_SpatialReference->GetSemiMinor();
+	}
+
+	double screen = wxMin(screen_w, screen_h);
+    double world = wxMin(w_w, w_h);
+
+	bool bCanSetExt =  (world * 100) / screen > 1.0;
+	
+	if(!bCanSetExt)
+		return;
+	
 	m_nPos++;
 	if(m_nPos == m_staEnvelope.size())
-		m_staEnvelope.push_back(NewEnv);
+		m_staEnvelope.push_back(Env);
 	else
 	{
-		m_staEnvelope[m_nPos] = NewEnv;
+		m_staEnvelope[m_nPos] = Env;
 		m_staEnvelope.erase(m_staEnvelope.begin() + m_nPos + 1, m_staEnvelope.end());
 	}
-	SetExtent(NewEnv);
+	SetExtent(Env);
 }
 
 void wxGISExtentStack::Redo()
