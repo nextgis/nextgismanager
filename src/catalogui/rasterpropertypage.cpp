@@ -204,7 +204,8 @@ void wxGISRasterPropertyPage::FillGrid(void)
         //size
         m_pGxDataset->FillMetadata(false);
         AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
-        AppendProperty(pid, new wxDateProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate()) );
+		AppendProperty(pid, new wxStringProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate().Format()) );
+
 
         GDALDriver* pDrv = poGDALDataset->GetDriver();
 		sTmp = sTmp.Format(wxT("%s(%s)"), wxString(pDrv->GetMetadataItem( GDAL_DMD_LONGNAME ), wxConvLocal).c_str(), wxString(pDrv->GetDescription(), wxConvLocal).c_str() );
