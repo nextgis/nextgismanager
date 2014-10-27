@@ -101,8 +101,8 @@ void wxGISCheckList::OnLeftDown(wxMouseEvent& event)
 	event.Skip(true);
 
 	wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEMICON))
 	{
         LPITEM_DATA pdata = (LPITEM_DATA)wxListView::GetItemData(nItemId);

@@ -750,12 +750,21 @@ void wxGxTreeView::OnItemRightClick(wxTreeEvent& event)
 void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 {
 	if(NULL == m_pCatalog)
-		return;
-		
-    //event.Skip();
-	wxTreeItemId item = event.GetItem();
-	if(!item.IsOk())
-		return;
+	{
+		event.Veto();
+		return;		
+	}
+
+	
+	int flags;
+    wxTreeItemId item = wxTreeCtrl::HitTest(event.GetPoint(), flags);
+	//wxTreeItemId item = event.GetItem();
+	if(!item.IsOk() || !(flags & wxTREE_HITTEST_ONITEM))
+	{
+		event.Veto();
+		return;		
+	}
+	
     SelectItem(item);
 
     //TODO: wxDELETE(pDragData) somethere
@@ -782,6 +791,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
     size_t count = GetSelections(treearray);
 	if (count == 0)
 	{
+		event.Veto();
         return;
 	}
     //first is catalog memory address to prevent different app drop
@@ -802,6 +812,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
         //pIDsData->AddDecimal(pGxObject->GetId());
     }
 
+	event.Allow();
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
 	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
@@ -970,9 +981,9 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
         SetItemDropHighlight(m_HighLightItemId, false);
 	}
     wxPoint pt(x, y);
-    int flag = wxTREE_HITTEST_ONITEMINDENT;
-    wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flag);
-    if(ItemId.IsOk())
+    int flags;
+    wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
+    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEMINDENT))
     {
         SetItemDropHighlight(ItemId);
         m_HighLightItemId = ItemId;
@@ -1011,9 +1022,9 @@ bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxOb
     bool bMove = !bIsControlOn;
 
     wxPoint pt(x, y);
-    int flag = wxTREE_HITTEST_ONITEMINDENT;
-    wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flag);
-    if(ItemId.IsOk())
+	int flags;
+    wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
+    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEMINDENT))
     {
         SetItemDropHighlight(ItemId, false);
 

@@ -556,9 +556,9 @@ void wxGxContentView::OnDeselected(wxListEvent& event)
 
 void wxGxContentView::ShowContextMenu(const wxPoint& pos)
 {
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pos, (int &)nFlags);
-	if(nItemId == wxNOT_FOUND)
+	int nFlags;
+	long nItemId = HitTest(pos, nFlags);
+	if(nItemId == wxNOT_FOUND || !(nFlags & wxLIST_HITTEST_ONITEM))
 	{
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_nParentGxObjectID);
 
@@ -1273,8 +1273,8 @@ wxDragResult wxGxContentView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
 {
     SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     wxPoint pt(x, y);
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
@@ -1298,8 +1298,8 @@ bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& G
     SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     //SetItemState(m_HighLightItem, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     wxPoint pt(x, y);
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
     long nObjectID(m_nParentGxObjectID);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
     {

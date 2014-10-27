@@ -467,7 +467,7 @@ void wxGISFeatureDetailsPanel::OnMouseLeftUp(wxMouseEvent& event)
     //pt = m_listCtrl->ScreenToClient(pt);
     int flags;
     long item = m_listCtrl->HitTest(pt, flags);
-    if (item > -1 && (flags & wxLIST_HITTEST_ONITEM))
+    if (item > wxNOT_FOUND && (flags & wxLIST_HITTEST_ONITEM))
     {
         wxListItem row_info;
         row_info.m_itemId = item;
@@ -1057,9 +1057,9 @@ void wxAxIdentifyView::OnLeftDown(wxMouseEvent& event)
 {
 	event.Skip(true);
 	wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	wxTreeItemId TreeItemId = m_pTreeCtrl->HitTest(pt, (int &)nFlags);
-	if(TreeItemId.IsOk() && ((nFlags & wxTREE_HITTEST_ONITEMLABEL) || (nFlags & wxTREE_HITTEST_ONITEMICON)))
+	int nFlags;
+	wxTreeItemId TreeItemId = m_pTreeCtrl->HitTest(pt, nFlags);
+	if(TreeItemId.IsOk() && (nFlags & wxTREE_HITTEST_ONITEM))
 	{
         wxIdentifyTreeItemData* pData = (wxIdentifyTreeItemData*)m_pTreeCtrl->GetItemData(TreeItemId);
         if(NULL != pData && pData->m_Geometry.IsOk())

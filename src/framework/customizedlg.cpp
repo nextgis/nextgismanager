@@ -628,8 +628,8 @@ void wxGISToolBarPanel::OnLeftDown(wxMouseEvent& event)
 {
 	event.Skip(true);
 	wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	wxTreeItemId nItemId = m_pTreeCtrl->HitTest(pt, (int &)nFlags);
+	int nFlags;
+	wxTreeItemId nItemId = m_pTreeCtrl->HitTest(pt, nFlags);
 	if(nItemId.IsOk() && (nFlags & wxTREE_HITTEST_ONITEMICON))
 	{
 		wxBarTreeItemData* pData = (wxBarTreeItemData*)m_pTreeCtrl->GetItemData(nItemId);

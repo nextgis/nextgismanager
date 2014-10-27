@@ -100,9 +100,9 @@ wxString wxTreeViewComboPopup::GetStringValue() const
 void wxTreeViewComboPopup::OnMouseMove(wxMouseEvent& event)
 {
     wxPoint pt = event.GetPosition();
-    int flag = wxTREE_HITTEST_ONITEMINDENT;
+    int flag;
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flag);
-    if(ItemId.IsOk())
+    if(ItemId.IsOk() && (flag & wxTREE_HITTEST_ONITEMINDENT))
     {
         SelectItem(ItemId);
     }

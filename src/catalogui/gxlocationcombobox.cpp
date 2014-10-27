@@ -94,8 +94,8 @@ void wxGxPathsListView::OnMouseMove(wxMouseEvent& event)
 {
     SetItemState(m_HighLightItem, 0, wxGIS_LIST_STATE_DROPHILITED);
     wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
  //       wxSize sz = GetClientSize();
@@ -115,8 +115,8 @@ void wxGxPathsListView::OnMouseClick(wxMouseEvent& event)
 {
     SetItemState(m_HighLightItem, 0, wxGIS_LIST_STATE_DROPHILITED);
     wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
         SetItemState(nItemId, wxGIS_LIST_STATE_DROPHILITED, wxGIS_LIST_STATE_DROPHILITED);
@@ -385,8 +385,8 @@ void wxListViewComboPopup::OnMouseClick(wxMouseEvent& event)
     event.Skip(true);
     //SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
     wxPoint pt = event.GetPosition();
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
         //SetItemState(nItemId, wxLIST_STATE_DROPHILITED, wxLIST_STATE_DROPHILITED);

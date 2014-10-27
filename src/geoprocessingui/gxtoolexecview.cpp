@@ -561,8 +561,8 @@ wxDragResult wxGISToolExecuteView::OnDragOver(wxCoord x, wxCoord y, wxDragResult
 {
     SetItemState(m_HighLightItem, 0, wxLIST_STATE_DROPHILITED);
     wxPoint pt(x, y);
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
 	if(nItemId != wxNOT_FOUND && (nFlags & wxLIST_HITTEST_ONITEM))
 	{
         wxSize sz = GetClientSize();
@@ -594,8 +594,8 @@ bool wxGISToolExecuteView::OnDropObjects(wxCoord x, wxCoord y, long nParentPoint
         return false;
 
     wxPoint pt(x, y);
-	unsigned long nFlags(0);
-	long nItemId = HitTest(pt, (int &)nFlags);
+	int nFlags;
+	long nItemId = HitTest(pt, nFlags);
     long nObjectID(m_nParentGxObjectId);
 
     if(nItemId == wxNOT_FOUND)
