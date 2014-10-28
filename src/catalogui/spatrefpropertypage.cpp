@@ -27,6 +27,10 @@
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage, wxPanel)
 
+BEGIN_EVENT_TABLE(wxGISSpatialReferencePropertyPage, wxPanel)
+	EVT_CHILD_FOCUS( wxGISSpatialReferencePropertyPage::OnChildFocus )
+END_EVENT_TABLE()
+
 wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(void)
 {
 }
@@ -324,4 +328,10 @@ wxPGProperty* wxGISSpatialReferencePropertyPage::AppendProperty(wxPGProperty* pi
     wxPGProperty* pNewProp = m_pg->AppendIn(pid, pProp);
     pNewProp->ChangeFlag(wxPG_PROP_READONLY, 1);
     return pNewProp;
+}
+
+
+void wxGISSpatialReferencePropertyPage::OnChildFocus( wxChildFocusEvent& event )
+{
+	// do nothing to avoid "scrollbar jump" if wx2.9 is used
 }

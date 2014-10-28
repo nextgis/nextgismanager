@@ -46,6 +46,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGISRasterPropertyPage, wxPanel)
 BEGIN_EVENT_TABLE(wxGISRasterPropertyPage, wxPanel)
     EVT_BUTTON( ID_PPCTRL, wxGISRasterPropertyPage::OnPropertyGridButtonClick )
 	EVT_PROCESS_FINISH( wxGISRasterPropertyPage::OnFinish )
+	EVT_CHILD_FOCUS( wxGISRasterPropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
 wxGISRasterPropertyPage::wxGISRasterPropertyPage(void)
@@ -690,6 +691,12 @@ void wxGISRasterPropertyPage::OnFinish(wxGISProcessEvent& event)
 	}
 }
 
+
+void wxGISRasterPropertyPage::OnChildFocus( wxChildFocusEvent& event )
+{
+	// do nothing to avoid "scrollbar jump" if wx2.9 is used
+}
+
 //------------------------------------------------------------------------------
 // wxGISRasterPropertyPage
 //------------------------------------------------------------------------------
@@ -820,3 +827,5 @@ void wxGISRasterHistogramPropertyPage::FillHistogram()
         }
     }
 }
+
+

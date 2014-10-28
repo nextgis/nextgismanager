@@ -61,6 +61,7 @@ public:
     //events
     void OnPropertyGridButtonClick ( wxCommandEvent& );
     void OnFinish(wxGISProcessEvent& event);
+	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     wxGISRasterDataset* m_pDataset;
     wxGxRasterDataset* m_pGxDataset;

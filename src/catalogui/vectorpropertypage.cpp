@@ -30,6 +30,7 @@
 IMPLEMENT_DYNAMIC_CLASS(wxGISVectorPropertyPage, wxPanel)
 
 BEGIN_EVENT_TABLE(wxGISVectorPropertyPage, wxPanel)
+	EVT_CHILD_FOCUS( wxGISVectorPropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
 wxGISVectorPropertyPage::wxGISVectorPropertyPage(void)
@@ -334,4 +335,9 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
     //    AppendProperty(penvid, new wxFloatProperty(_("Right"), wxString::Format(wxT("Right_%d"), iLayer), Extent.MaxX));
     //    AppendProperty(penvid, new wxFloatProperty(_("Bottom"), wxString::Format(wxT("Bottom_%d"), iLayer), Extent.MinY));
     //}
+}
+
+void wxGISVectorPropertyPage::OnChildFocus( wxChildFocusEvent& event )
+{
+	// do nothing to avoid "scrollbar jump" if wx2.9 is used
 }

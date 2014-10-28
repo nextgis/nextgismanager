@@ -47,6 +47,8 @@ public:
 	~wxGISSpatialReferencePropertyPage();
     virtual bool Create(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
     virtual wxString GetPageName(void) const {return wxString(_("Spatial Reference"));};
+	//events
+	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     void FillUndefined(void);
     void FillProjected(const wxGISSpatialReference &oSRS);
@@ -58,4 +60,6 @@ protected:
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
 protected:
     wxPropertyGrid* m_pg;
+private:
+    DECLARE_EVENT_TABLE()
 };

@@ -30,6 +30,7 @@
 IMPLEMENT_DYNAMIC_CLASS(wxGISTablePropertyPage, wxPanel)
 
 BEGIN_EVENT_TABLE(wxGISTablePropertyPage, wxPanel)
+	EVT_CHILD_FOCUS( wxGISTablePropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
 wxGISTablePropertyPage::wxGISTablePropertyPage(void)
@@ -257,4 +258,10 @@ void wxGISTablePropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStri
     AppendProperty(pcapid, new wxStringProperty(_("Strings As UTF8"), wxPG_LABEL, poLayer->TestCapability(OLCStringsAsUTF8) == TRUE ? _("true") : _("false")) );
     AppendProperty(pcapid, new wxStringProperty(_("Transactions"), wxPG_LABEL, poLayer->TestCapability(OLCTransactions) == TRUE ? _("true") : _("false")) );
     AppendProperty(pcapid, new wxStringProperty(_("Ignore Fields"), wxPG_LABEL, poLayer->TestCapability(OLCIgnoreFields) == TRUE ? _("true") : _("false")) );
+}
+
+
+void wxGISTablePropertyPage::OnChildFocus( wxChildFocusEvent& event )
+{
+	// do nothing to avoid "scrollbar jump" if wx2.9 is used
 }

@@ -53,12 +53,14 @@ public:
     wxPGProperty* AppendMetadataProperty(wxString sMeta);
     void FillGrid(void);
     void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
+	//events
+	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     wxGISTable* m_pDataset;
     wxGxTable* m_pGxDataset;
 
     wxPropertyGrid* m_pg;
 	long m_nCounter;
-
+private:
     DECLARE_EVENT_TABLE()
 };

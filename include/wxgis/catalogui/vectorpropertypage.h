@@ -53,6 +53,8 @@ public:
     wxPGProperty* AppendMetadataProperty(wxString sMeta);
     void FillGrid(void);
     void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
+	//events
+	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     wxGISFeatureDataset* m_pDataset;
     IGxDataset* m_pGxDataset;
