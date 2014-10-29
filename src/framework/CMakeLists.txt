@@ -140,10 +140,6 @@ elseif(GTK2_FOUND)
    target_link_libraries(${LIB_NAME} ${GTK2_LIBRARIES})
 endif(GTK3_FOUND)
 
-if(GTK3_FOUND)
-   target_link_libraries(${LIB_NAME} ${GTK3_LIBRARIES})
-endif(GTK3_FOUND)
-
 if(UNITY_FOUND)
    target_link_libraries(${LIB_NAME} ${UNITY_LIBRARIES})
 endif(UNITY_FOUND)
