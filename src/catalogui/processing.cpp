@@ -790,7 +790,6 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
             if (!ExportFormat(apFeatureDatasets[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, true, static_cast<ITrackCancel*>(&ProgressDlg)))
             {
-                wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
                 wsDELETE(apFeatureDatasets[j]);
                 continue;
             }
