@@ -159,13 +159,14 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
     }
     else
     {
-        pCmd->OnClick();
+		if(pCmd->GetEnabled())
+			pCmd->OnClick();
     }
 }
 
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 {
-    //event.Skip(false);
+    //event.Skip();
     int nCmdId = event.GetId();
 	wxGISCommand* pCmd = GetCommand(nCmdId);
 	if(pCmd)

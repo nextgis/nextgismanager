@@ -983,7 +983,7 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     wxPoint pt(x, y);
     int flags;
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
-    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEMINDENT))
+    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEM))
     {
         SetItemDropHighlight(ItemId);
         m_HighLightItemId = ItemId;
@@ -1024,7 +1024,7 @@ bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxOb
     wxPoint pt(x, y);
 	int flags;
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
-    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEMINDENT))
+    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEM))
     {
         SetItemDropHighlight(ItemId, false);
 

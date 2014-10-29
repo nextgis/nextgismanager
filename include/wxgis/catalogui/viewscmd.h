@@ -56,7 +56,7 @@ public:
     //IDropDownCommand
    	virtual wxMenu* GetDropDownMenu(void);
     virtual void OnDropDownCommand(int nID);
-private:
+protected:
 	wxGISApplicationBase* m_pApp;
     WINDOWARRAY m_anContentsWinIDs;
     wxWindow* m_pTreeView;
