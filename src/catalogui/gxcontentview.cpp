@@ -427,6 +427,7 @@ void wxGxContentView::OnContextMenu(wxContextMenuEvent& event)
 {
     //event.Skip();
     wxPoint point = event.GetPosition();
+	
     // If from keyboard
     if (point.x == -1 && point.y == -1)
 	{
@@ -436,25 +437,9 @@ void wxGxContentView::OnContextMenu(wxContextMenuEvent& event)
     }
 	else
 	{
-        point = ScreenToClient(point);
+        point = ScreenToClient(point);		
     }
-	
-#ifdef __WXGTK__
-    if(HasHeader())
-    {
-		wxWindow* pWnd = (wxWindow*)wxListCtrl::m_headerWin;
-        if(pWnd != NULL)
-        {
-            wxSize size = pWnd->GetSize();
-			point.y -= size.GetHeight();
-        }
-		else
-		{
-			point.y -= HEADER_HEIGHT;
-		}
-    }
-#endif // __WXGTK__	
-	
+
     ShowContextMenu(point);
 }
 
@@ -558,46 +543,53 @@ void wxGxContentView::ShowContextMenu(const wxPoint& pos)
 {
 	int nFlags;
 	long nItemId = HitTest(pos, nFlags);
+	IGxObjectUI* pGxObjectUI = NULL;
 	if(nItemId == wxNOT_FOUND || !(nFlags & wxLIST_HITTEST_ONITEM))
 	{
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_nParentGxObjectID);
-
-		IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
-        if(pGxObjectUI)
-        {
-            //wxString psContextMenu = pGxObjectUI->NewMenu();
-            wxString psContextMenu = pGxObjectUI->ContextMenu();
-            if(m_pApp)
-            {
-                wxMenu* pMenu = dynamic_cast<wxMenu*>(m_pApp->GetCommandBar(psContextMenu));
-                if(pMenu)
-                {
-                    PopupMenu(pMenu, pos.x, pos.y);
-                }
-            }
-        }
-		return;
+		pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
 	}
-
-	LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItemId);
-	if(pItemData != NULL)
+	else
 	{
-        //bool bAdd = true;
-        //m_pSelection->Select(pItemData->nObjectID, bAdd, NOTFIRESELID);
-
-        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
-		IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
-		if(pGxObjectUI != NULL)
+		LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItemId);
+		if(pItemData != NULL)
 		{
-            wxString psContextMenu = pGxObjectUI->ContextMenu();
-            if(m_pApp)
-            {
-                wxMenu* pMenu = dynamic_cast<wxMenu*>(m_pApp->GetCommandBar(psContextMenu));
-                if(pMenu)
-                {
-                    PopupMenu(pMenu, pos.x, pos.y);
-                }
-            }
+			//bool bAdd = true;
+			//m_pSelection->Select(pItemData->nObjectID, bAdd, NOTFIRESELID);
+
+			wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
+			pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
+		}
+	}
+	
+	
+	if(pGxObjectUI != NULL)
+	{
+		wxString psContextMenu = pGxObjectUI->ContextMenu();
+		if(m_pApp)
+		{
+			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_pApp->GetCommandBar(psContextMenu));
+			if(pMenu)
+			{
+				wxPoint point = pos;
+			#ifdef __WXGTK__
+				if(HasHeader())
+				{
+					wxWindow* pWnd = (wxWindow*)wxListCtrl::m_headerWin;
+					if(pWnd != NULL)
+					{
+						wxSize size = pWnd->GetSize();
+						point.y -= size.GetHeight();
+					}
+					else
+					{
+						point.y -= HEADER_HEIGHT;
+					}
+				}
+			#endif // __WXGTK__					
+				
+				PopupMenu(pMenu, point.x, point.y);
+			}
 		}
 	}
 }
