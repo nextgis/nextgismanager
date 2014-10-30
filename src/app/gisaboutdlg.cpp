@@ -121,11 +121,10 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	//wxGenericStaticText* pTitle = new wxGenericStaticText(this, wxID_ANY, wxString::Format(_("\nwxGIS [%s] (x64)\nVersion: %s"), pApp->GetAppName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, 0);
 
-#ifdef _WIN64
-    m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-#else
-     m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-#endif
+	if(wxIsPlatform64Bit())
+		m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	else
+		m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 
     wxFont titleFont = this->GetFont();
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
@@ -165,12 +164,11 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 	m_AuiNotebook->SetArtProvider(new wxGISTabArt());
 #endif // __WXGTK__
 
-
-#ifdef _WIN64
-    wxString sAboutApp = wxString::Format(_("%s (x64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
-#else
-    wxString sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
-#endif
+	wxString sAboutApp;
+	if(wxIsPlatform64Bit())
+		sAboutApp = wxString::Format(_("%s (x64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+	else
+		sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
 
 	m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutApp, m_AuiNotebook), _("About application"));
 

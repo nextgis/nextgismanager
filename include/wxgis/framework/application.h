@@ -70,6 +70,7 @@ public:
 	virtual void OnRightDown(wxMouseEvent& event);
 	virtual void OnAuiRightDown(wxAuiToolBarEvent& event);
 	virtual void OnClose(wxCloseEvent & event);
+	virtual void OnIdle(wxIdleEvent & event);
 protected:
 	virtual void SerializeFramePos(bool bSave = false);
     virtual void LoadToolbars(wxXmlNode* pRootNode);

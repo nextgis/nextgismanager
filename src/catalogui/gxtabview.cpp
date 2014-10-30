@@ -459,6 +459,7 @@ void wxGxTabView::Deactivate(void)
     for(size_t i = 0; i < m_Tabs.size(); ++i)
     {
         m_Tabs[i]->Deactivate();
+		m_Tabs[i] = NULL;
 	}
 
 	while(GetPageCount()  > 0)

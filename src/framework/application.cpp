@@ -47,6 +47,7 @@ BEGIN_EVENT_TABLE(wxGISApplication, wxFrame)
 	EVT_UPDATE_UI_RANGE(ID_PLUGINCMD, ID_PLUGINCMDMAX, wxGISApplication::OnCommandUI)
     EVT_AUITOOLBAR_RIGHT_CLICK(wxID_ANY, wxGISApplication::OnAuiRightDown)
     EVT_CLOSE(wxGISApplication::OnClose)
+	EVT_IDLE(wxGISApplication::OnIdle)
 END_EVENT_TABLE()
 
 wxGISApplication::wxGISApplication(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style), wxGISApplicationBase()
@@ -164,9 +165,47 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
     }
 }
 
+void wxGISApplication::OnIdle(wxIdleEvent & event)
+{
+	for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
+    {
+        switch(m_CommandBarArray[i]->GetType())
+        {
+        case enumGISCBMenubar:
+        case enumGISCBContextmenu:
+        case enumGISCBSubMenu:		
+		{
+			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
+			if(pMenu)
+			{
+				wxMenuItemList& pLst = pMenu->GetMenuItems();
+				wxMenuItemList::iterator iter;
+				for (iter = pLst.begin(); iter != pLst.end(); ++iter)
+				{
+					wxMenuItem* pItem = *iter;					
+					wxGISCommand* pCmd = GetCommand(pItem->GetId());
+					if(pCmd)
+					{
+						pItem->Enable(pCmd->GetEnabled());
+						if (pCmd->GetKind() == enumGISCommandCheck)
+						{
+							pItem->Check(pCmd->GetChecked());
+						}
+					}
+				}
+			}
+		}
+			break;
+        case enumGISCBToolbar:
+        case enumGISCBNone:
+        default:
+            break;
+		}
+	}
+}
+
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 {
-    //event.Skip();
     int nCmdId = event.GetId();
 	wxGISCommand* pCmd = GetCommand(nCmdId);
 	if(pCmd)
@@ -198,7 +237,7 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
         default:
             break;
 		}
-	}
+	}	
 }
 
 void wxGISApplication::UpdateAccelerators()
@@ -232,6 +271,7 @@ void wxGISApplication::UpdateAccelerators()
                 wxAuiToolBar* pToolbar = dynamic_cast<wxAuiToolBar*>(m_CommandBarArray[i]);
                 if(pToolbar)
                 {
+					pToolbar->SetAcceleratorTable(*GetAcceleratorTable());
                     for(size_t i = 0; i < pToolbar->GetToolCount(); ++i)
                     {
                         wxAuiToolBarItem* pTool = pToolbar->FindToolByIndex(i);
