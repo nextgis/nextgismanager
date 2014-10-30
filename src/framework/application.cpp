@@ -194,6 +194,12 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 					}
 				}
 			}
+			
+			wxGISToolBarMenu* pTBMenu = dynamic_cast<wxGISToolBarMenu*>(m_CommandBarArray[i]);
+			if(pTBMenu)
+			{
+				pTBMenu->Update();
+			}
 		}
 			break;
         case enumGISCBToolbar:

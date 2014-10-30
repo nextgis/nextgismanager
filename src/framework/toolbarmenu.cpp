@@ -57,8 +57,9 @@ void wxGISToolBarMenu::Update(void)
 		if(pCmdBar->GetType() == enumGISCBToolbar)
 		{
 			wxWindow* pWnd = dynamic_cast<wxWindow*>(pCmdBar);
-			bool bIsShown = pWnd->IsShown();
-			//TODO: sort!!!
+			bool bIsShown = m_pApp->IsApplicationWindowShown(pWnd);
+			
+			//TODO: sort panels in menu
 			wxMenuItem* pItem = Prepend(ID_TOOLBARCMD + i, pCmdBar->GetCaption(), wxT(""), wxITEM_CHECK);
 			pItem->Check(bIsShown);
 			m_delitems.push_back(pItem);
