@@ -736,10 +736,25 @@ bool wxGISDisplay::DrawEllipse(double dX, double dY, double dOffsetX, double dOf
 {
     wxCriticalSectionLocker locker(m_CritSect);
     cairo_save(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
-    cairo_translate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + dfWidth / 2., dY + dOffsetY + dfHeight / 2.);
-    cairo_scale(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dfWidth / 2., dfHeight / 2.);
+    double dfHalfWidth = dfWidth / 2.;
+    double dfHalfHeidth = dfHeight / 2.;    
+    //cairo_rotate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, -m_dAngleRad);
+    //cairo_rotate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, m_dAngleRad);
+
+    //double dWorldDeltaXSt = m_dFrameCenterX - m_dFrameXShift;
+    //double dWorldDeltaYSt = m_dFrameCenterY + m_dFrameYShift;
+
+    //cairo_translate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dWorldDeltaXSt, -dWorldDeltaYSt);
+    //cairo_rotate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, -m_dAngleRad);
+
+    //cairo_save(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+
+    cairo_translate(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dX + dOffsetX + dfHalfWidth, dY + dOffsetY + dfHalfHeidth);
+    cairo_scale(m_saLayerCaches[m_nCurrentLayer].pCairoContext, dfHalfWidth, dfHalfHeidth);
+
     cairo_arc(m_saLayerCaches[m_nCurrentLayer].pCairoContext, 0., 0., 1., 0., 2 * M_PI);
     cairo_restore(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
+    //cairo_restore(m_saLayerCaches[m_nCurrentLayer].pCairoContext);
 
 	return true;
 }

@@ -693,7 +693,8 @@ void wxGISMapView::RotateStart(wxPoint MouseLocation)
 	m_dOriginAngle = atan2(dY, dX);
 
     m_nDrawingState = enumGISMapRotating;
-	CaptureMouse();
+    if (!HasCapture())
+        CaptureMouse();
 }
 
 void wxGISMapView::RotateBy(wxPoint MouseLocation)
@@ -728,7 +729,8 @@ void wxGISMapView::RotateBy(wxPoint MouseLocation)
 
 void wxGISMapView::RotateStop(wxPoint MouseLocation)
 {
-    ReleaseMouse();
+    if (HasCapture())
+        ReleaseMouse();
 	//compute angle
 	double dX = m_FrameCenter.x - MouseLocation.x;
 	double dY = m_FrameCenter.y - MouseLocation.y;

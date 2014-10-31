@@ -87,6 +87,7 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 			if(!m_IconFolderUp.IsOk())
 				m_IconFolderUp = wxIcon(folder_up_xpm);
 			return m_IconFolderUp;
+        case enumGISCatalogMainCmdConnectCurrentFolder:
 		case enumGISCatalogMainCmdConnectFolder:
 			if(!m_IconFolderConn.IsOk())
 				m_IconFolderConn = wxIcon(folder_conn_new_xpm);
@@ -168,6 +169,8 @@ wxString wxGISCatalogMainCmd::GetCaption(void)
 			return wxString(_("&Up One Level"));
 		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("&Connect folder"));
+        case enumGISCatalogMainCmdConnectCurrentFolder:
+			return wxString(_("Co&nnect current folder"));
 		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("&Disconnect folder"));
 		case enumGISCatalogMainCmdLocation:
@@ -211,6 +214,7 @@ wxString wxGISCatalogMainCmd::GetCategory(void)
 	{
 		case enumGISCatalogMainCmdUpOneLevel:
 		case enumGISCatalogMainCmdConnectFolder:
+        case enumGISCatalogMainCmdConnectCurrentFolder:
 		case enumGISCatalogMainCmdDisconnectFolder:
 		case enumGISCatalogMainCmdLocation:
 		case enumGISCatalogMainCmdBack:
@@ -261,6 +265,13 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
             return false;
 		case enumGISCatalogMainCmdConnectFolder:
 			return true;
+        case enumGISCatalogMainCmdConnectCurrentFolder:
+            if (pCat && pSel)
+            {
+                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());
+                return pGxObject != NULL && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder));
+            }
+            return false;
 		case enumGISCatalogMainCmdDisconnectFolder:
 			//check if wxGxDiscConnection
             if(pCat && pSel)
@@ -422,6 +433,7 @@ wxGISEnumCommandKind wxGISCatalogMainCmd::GetKind(void)
 		case enumGISCatalogMainCmdUpOneLevel:
 		case enumGISCatalogMainCmdConnectFolder:
 		case enumGISCatalogMainCmdDisconnectFolder:
+        case enumGISCatalogMainCmdConnectCurrentFolder:
 			return enumGISCommandNormal;
 		case enumGISCatalogMainCmdLocation:
 			return enumGISCommandControl;
@@ -454,6 +466,8 @@ wxString wxGISCatalogMainCmd::GetMessage(void)
 			return wxString(_("Select parent element"));
 		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("Connect folder"));
+        case enumGISCatalogMainCmdConnectCurrentFolder:
+            return wxString(_("Connect current folder"));
 		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("Disconnect folder"));
 		case enumGISCatalogMainCmdLocation:
@@ -541,6 +555,23 @@ void wxGISCatalogMainCmd::OnClick(void)
 			}
 			return;
 		}
+        case enumGISCatalogMainCmdConnectCurrentFolder:
+        {
+            if (NULL != pSel && NULL != pCat)
+            {
+                wxGxFolder* pGxFolder = wxDynamicCast(pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId()), wxGxFolder);
+                wxGxCatalog* pGxCatalog = wxDynamicCast(pCat, wxGxCatalog);
+                if (pGxCatalog && pGxFolder)
+                {
+                    wxGxDiscConnections* pGxDiscConnections = wxDynamicCast(pGxCatalog->GetRootItemByType(wxCLASSINFO(wxGxDiscConnections)), wxGxDiscConnections);
+                    if (pGxDiscConnections && pGxDiscConnections->ConnectFolder(wxString::FromUTF8(pGxFolder->GetPath())))
+                        return;
+                    else
+                        wxGISErrorMessageBox(_("Cannot connect folder"));
+                }
+            }
+            return;
+        }
 		case enumGISCatalogMainCmdDisconnectFolder:
 		{
 			if (NULL != pSel && NULL != pCat)
@@ -983,6 +1014,8 @@ wxString wxGISCatalogMainCmd::GetTooltip(void)
 			return wxString(_("Up One Level"));
 		case enumGISCatalogMainCmdConnectFolder:
 			return wxString(_("Connect folder"));
+        case enumGISCatalogMainCmdConnectCurrentFolder:
+            return wxString(_("Connect current selected folder"));
 		case enumGISCatalogMainCmdDisconnectFolder:
 			return wxString(_("Disconnect folder"));
 		case enumGISCatalogMainCmdLocation:

@@ -105,6 +105,7 @@
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
         <Item type="sep"/>
         <Item type="menu" cmd_name="Application.CreateNewMenu" name="Создать"/>
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="18" name="Co&amp;nnect current folder"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="14" name="отправить по почте..."/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="11" name="Копировать"/>

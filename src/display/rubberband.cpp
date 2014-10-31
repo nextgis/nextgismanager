@@ -68,7 +68,8 @@ wxGISGeometry wxGISRubberBand::TrackNew(wxCoord x, wxCoord y)
 	m_StartXScr = ScrRect.GetLeft() + m_StartX - Rect.GetLeft();
 	m_StartYScr = ScrRect.GetTop() + m_StartY - Rect.GetTop();
 
-	m_pWnd->CaptureMouse();
+    if (!m_pWnd->HasCapture())
+	    m_pWnd->CaptureMouse();
 	m_pWnd->PushEventHandler(this);
 
 	wxEventLoopBase* const loop = wxEventLoop::GetActive();
