@@ -56,7 +56,6 @@ wxGISApplication::wxGISApplication(wxWindow* parent, wxWindowID id, const wxStri
     m_pTrackCancel = NULL;
     m_pLocale = NULL;
     m_sDecimalPoint = wxString(wxT("."));
-	m_bToolBarMenuPopupped = false;
 }
 
 wxGISApplication::~wxGISApplication(void)
@@ -168,7 +167,8 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
 
 void wxGISApplication::OnIdle(wxIdleEvent & event)
 {
-	for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
+#ifdef __WXGTK	
+    for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
     {
         switch(m_CommandBarArray[i]->GetType())
         {
@@ -176,6 +176,7 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
         case enumGISCBContextmenu:
         case enumGISCBSubMenu:		
 		{
+
 			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
 			if(pMenu)
 			{
@@ -195,12 +196,6 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 					}
 				}
 			}
-			
-			wxGISToolBarMenu* pTBMenu = dynamic_cast<wxGISToolBarMenu*>(m_CommandBarArray[i]);
-			if(pTBMenu && !m_bToolBarMenuPopupped)
-			{
-				pTBMenu->Update();
-			}
 		}
 			break;
         case enumGISCBToolbar:
@@ -209,6 +204,7 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
             break;
 		}
 	}
+#endif	
 }
 
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
@@ -381,9 +377,8 @@ void wxGISApplication::ShowToolBarMenu(void)
 	wxGISToolBarMenu* pToolBarMenu = static_cast<wxGISToolBarMenu*>(GetCommandBar(TOOLBARMENUNAME));
 	if(pToolBarMenu)
 	{
-		m_bToolBarMenuPopupped = true;
+        pToolBarMenu->Update();
 		PopupMenu(pToolBarMenu);
-		m_bToolBarMenuPopupped = false;
 	}
 }
 
