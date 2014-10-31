@@ -121,10 +121,11 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	//wxGenericStaticText* pTitle = new wxGenericStaticText(this, wxID_ANY, wxString::Format(_("\nwxGIS [%s] (x64)\nVersion: %s"), pApp->GetAppName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, 0);
 
-	if(wxIsPlatform64Bit())
-		m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-	else
+#if defined(_WIN64) || defined(__x86_64__)
+		m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86_64)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+#else
 		m_title = new wxGenericStaticText( this, wxID_ANY, wxString::Format(_("\n%s (x86)\nVersion: %s"), pApp->GetAppDisplayName(), pApp->GetAppVersionString()), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+#endif
 
     wxFont titleFont = this->GetFont();
     titleFont.SetWeight(wxFONTWEIGHT_BOLD);
@@ -165,10 +166,11 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 #endif // __WXGTK__
 
 	wxString sAboutApp;
-	if(wxIsPlatform64Bit())
-		sAboutApp = wxString::Format(_("%s (x64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
-	else
+#if defined(_WIN64) || defined(__x86_64__)
+		sAboutApp = wxString::Format(_("%s (x86_64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+#else
 		sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+#endif
 
 	m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutApp, m_AuiNotebook), _("About application"));
 
