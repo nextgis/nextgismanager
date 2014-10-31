@@ -237,15 +237,17 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).ToUTF8());
+                    wxString sConnName = CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn")));
+                    wxString sConnPath = pGxObject->GetFullName() + wxFileName::GetPathSeparator() + sConnName + wxString(wxT(".xconn"));
+
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+                    pGxAR->BeginRenameOnAdd(pGxView, sConnPath);
 
-					wxGISRemoteDBConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
+                    wxGISRemoteDBConnDlg dlg(CPLFormFilename(pszConnFolder, sConnName.ToUTF8(), "xconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
-                        pGxAR->BeginRenameOnAdd(NULL, "");
+                        pGxAR->BeginRenameOnAdd(NULL);
                     }
                 }
             }
@@ -260,15 +262,16 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn"))).ToUTF8());
+                    wxString sConnName = CheckUniqName(pszConnFolder, wxString(_("new DB connection")), wxString(wxT("xconn")));
+                    wxString sConnPath = pGxObject->GetFullName() + wxFileName::GetPathSeparator() + sConnName + wxString(wxT(".xconn"));
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+                    pGxAR->BeginRenameOnAdd(pGxView, sConnPath);
 
-					wxGISCreateDBDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "xconn"), dynamic_cast<wxWindow*>(m_pApp));
+                    wxGISCreateDBDlg dlg(CPLFormFilename(pszConnFolder, sConnName.ToUTF8(), "xconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
-                        pGxAR->BeginRenameOnAdd(NULL, "");
+                        pGxAR->BeginRenameOnAdd(NULL);
                     }
                 }
             }
@@ -289,11 +292,13 @@ void wxGISCreateNewCmd::OnClick(void)
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
 
                     wxString sSchemaName = pGxDBConnectionUI->CheckUniqSchemaName(_("new_schema"));
-                    pGxDBConnectionUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxDBConnectionUI->GetPath(), sSchemaName.ToUTF8(), "")));
+                    wxString sSchemaPath = pGxObject->GetFullName() + wxFileName::GetPathSeparator() + sSchemaName;
+
+                    pGxDBConnectionUIAR->BeginRenameOnAdd(pGxView, sSchemaPath);
                     if (!pGxDBConnectionUI->CreateSchema(sSchemaName))
                     {
                         wxGISErrorMessageBox(_("Create schema failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()));
-                        pGxDBConnectionUIAR->BeginRenameOnAdd(NULL, "");
+                        pGxDBConnectionUIAR->BeginRenameOnAdd(NULL);
                         return;
                     }
                 }
@@ -309,15 +314,16 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new TMS connection")), wxString(wxT("wconn"))).ToUTF8());
+                    wxString sConnName = CheckUniqName(pszConnFolder, wxString(_("new TMS connection")), wxString(wxT("wconn")));
+                    wxString sConnPath = pGxObject->GetFullName() + wxFileName::GetPathSeparator() + sConnName + wxString(wxT(".wconn"));
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+                    pGxAR->BeginRenameOnAdd(pGxView, sConnPath);
 
-					wxGISTMSConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "wconn"), dynamic_cast<wxWindow*>(m_pApp));
+                    wxGISTMSConnDlg dlg(CPLFormFilename(pszConnFolder, sConnName.ToUTF8(), "wconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
-                        pGxAR->BeginRenameOnAdd(NULL, "");
+                        pGxAR->BeginRenameOnAdd(NULL);
                     }
                 }
             }
@@ -332,15 +338,16 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (NULL != pGxAR && pGxObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
                 {
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("new NGW connection")), wxString(wxT("wconn"))).ToUTF8());
+                    wxString sConnName = CheckUniqName(pszConnFolder, wxString(_("new NGW connection")), wxString(wxT("wconn")));
+                    wxString sConnPath = pGxObject->GetFullName() + wxFileName::GetPathSeparator() + sConnName + wxString(wxT(".wconn"));
 
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
-                    pGxAR->BeginRenameOnAdd(pGxView, pszConnName);
+                    pGxAR->BeginRenameOnAdd(pGxView, sConnPath);
 
-					wxGISNGWConnDlg dlg(CPLFormFilename(pszConnFolder, pszConnName, "wconn"), dynamic_cast<wxWindow*>(m_pApp));
+                    wxGISNGWConnDlg dlg(CPLFormFilename(pszConnFolder, sConnName.ToUTF8(), "wconn"), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() != wxID_OK)
                     {
-                        pGxAR->BeginRenameOnAdd(NULL, "");
+                        pGxAR->BeginRenameOnAdd(NULL);
                     }
                 }
             }
@@ -361,14 +368,15 @@ void wxGISCreateNewCmd::OnClick(void)
                     wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
 
                     wxString sGroupName = pGxNGWResourceGroupUI->CheckUniqName(_("new group"));
-                    pGxNGWResourceGroupUIAR->BeginRenameOnAdd(pGxView, CPLString(CPLFormFilename(pGxNGWResourceGroupUI->GetPath(), sGroupName.ToUTF8(), "")));
+                    wxString sFullGroupName = pGxNGWResourceGroupUI->GetFullName() + wxFileName::GetPathSeparator() + sGroupName;
+                    pGxNGWResourceGroupUIAR->BeginRenameOnAdd(pGxView, sFullGroupName);
 					CPLErrorReset();
                     if (!pGxNGWResourceGroupUI->CreateResource(sGroupName, enumNGWResourceTypeResourceGroup))
                     {						
 						wxString sErrMsg = wxString::Format(_("Create '%s' failed"), sGroupName.c_str());
 						wxGISErrorMessageBox(sErrMsg, wxString::FromUTF8(CPLGetLastErrorMsg()));
 						
-						pGxNGWResourceGroupUIAR->BeginRenameOnAdd(NULL, "");
+						pGxNGWResourceGroupUIAR->BeginRenameOnAdd(NULL);
                         return;
                     }
                 }

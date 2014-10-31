@@ -813,7 +813,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
                 pNewDef->SetGeomType(IT->first);
                 sType.Replace(" ", "");
 
-                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, pTrackCancel))
+                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, false, pTrackCancel))
                 {
                     return false;
                 }
@@ -873,7 +873,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
         //}
 
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, false, pTrackCancel))
         {
             return false;
         }

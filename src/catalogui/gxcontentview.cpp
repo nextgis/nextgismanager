@@ -767,7 +767,7 @@ void wxGxContentView::OnObjectAdded(wxGxCatalogEvent& event)
 		    if(AddObject(pGxObject))
             {
                 wxGxAutoRenamer* pGxAutoRenamer = dynamic_cast<wxGxAutoRenamer*>(pGxObject->GetParent());
-                if(pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetPath()))
+                if(pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetFullName()))
                 {
                     BeginRename(pGxObject->GetId());
                 }

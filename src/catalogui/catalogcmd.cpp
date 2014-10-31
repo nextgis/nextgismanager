@@ -870,12 +870,12 @@ void wxGISCatalogMainCmd::OnClick(void)
                 wxGxView* pGxView = dynamic_cast<wxGxView*>(wxWindow::FindFocus());
 
                 CPLString sFolderPath = CheckUniqPath(pGxObject->GetPath(), CPLString(wxString(_("New folder")).ToUTF8()), true, " ");
-                pGxFolder->BeginRenameOnAdd(pGxView, sFolderPath);
+                pGxFolder->BeginRenameOnAdd(pGxView, wxString::FromUTF8(sFolderPath));
 				CPLErrorReset();
                 if(!CreateDir(sFolderPath))
                 {
                     wxGISErrorMessageBox(_("Create folder failed!"), wxString::FromUTF8(CPLGetLastErrorMsg()));
-                    pGxFolder->BeginRenameOnAdd(NULL, "");
+                    pGxFolder->BeginRenameOnAdd(NULL);
                     return;
                 }
             }

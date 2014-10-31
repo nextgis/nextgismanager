@@ -67,11 +67,11 @@ class wxGxAutoRenamer
 public:
     wxGxAutoRenamer(void);
     virtual ~wxGxAutoRenamer(void);
-    virtual void BeginRenameOnAdd(wxGxView* const pGxView, const CPLString &szPath);
-    virtual bool IsBeginRename(wxGxView* const pGxView, const CPLString &szPath);
+    virtual void BeginRenameOnAdd(wxGxView* const pGxView = NULL, const wxString &sPath = wxEmptyString);
+    virtual bool IsBeginRename(wxGxView* const pGxView, const wxString &sPath);
 protected:
     wxGxView* m_pGxViewToRename;
-    CPLString m_szPathToRename;
+    wxString m_sPathToRename;
 };
 
 int GxObjectCompareFunction(wxGxObject* const pObject1, wxGxObject* const pObject2, long sortData);

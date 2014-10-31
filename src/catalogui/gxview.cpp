@@ -39,17 +39,15 @@ wxGxAutoRenamer::~wxGxAutoRenamer()
 {
 }
 
-void wxGxAutoRenamer::BeginRenameOnAdd(wxGxView* const pGxView, const CPLString &szPath)
+void wxGxAutoRenamer::BeginRenameOnAdd(wxGxView* const pGxView, const wxString &sPath)
 {
     m_pGxViewToRename = pGxView;
-    m_szPathToRename = szPath;
-    m_szPathToRename = m_szPathToRename.tolower();
+    m_sPathToRename = sPath;
 }
 
-bool wxGxAutoRenamer::IsBeginRename(wxGxView* const pGxView, const CPLString &szPath)
-{
-    CPLString szCmpPath = szPath;
-    if(m_pGxViewToRename == pGxView && m_szPathToRename == szCmpPath.tolower())
+bool wxGxAutoRenamer::IsBeginRename(wxGxView* const pGxView, const wxString &sPath)
+{    
+    if (m_pGxViewToRename == pGxView && m_sPathToRename.IsSameAs(sPath, false))
     {
         m_pGxViewToRename = NULL;
         return true;

@@ -950,14 +950,14 @@ void wxGxTreeView::OnObjectAdded(wxGxCatalogEvent& event)
             {
 				AddTreeItem(pGxObject, ParentTreeItemId);
                 SortChildren(ParentTreeItemId);
-				if (NULL != pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetPath()))
+                if (NULL != pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetFullName()))
                 {
                     BeginRename(pGxObject->GetId());
                 }
             }
 			else
             {
-				if (NULL != pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetPath()))
+                if (NULL != pGxAutoRenamer && pGxAutoRenamer->IsBeginRename(this, pGxObject->GetFullName()))
                 {
 //				    AddTreeItem(pGxObject, ParentTreeItemId);
  //				    SetItemHasChildren(ParentTreeItemId, true);

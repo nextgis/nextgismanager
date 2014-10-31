@@ -657,7 +657,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	
 	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 	
-	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, pTrackCancel))
+	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, true, pTrackCancel))
 	{
 		return false;
 	}

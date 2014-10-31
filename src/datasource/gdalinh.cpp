@@ -463,8 +463,9 @@ wxString wxGISFeature::GetFieldAsString(int nField) const
             if (((wxGISFeatureRefData *)m_refData)->m_bRecodeToSystem)
             {
                 //UTF->System
-                CPLString szStr = CPLRecode(pszStringData, CPL_ENC_UTF8, wxLocale::GetSystemEncodingName().mb_str());
-                sOut = EncodeString(szStr.c_str(), ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+                char* pszEncStr = CPLRecode(pszStringData, CPL_ENC_UTF8, wxLocale::GetSystemEncodingName().mb_str());
+                sOut = EncodeString(pszEncStr, ((wxGISFeatureRefData *)m_refData)->m_oEncoding);
+                CPLFree(pszEncStr);
             }
             else
             {
