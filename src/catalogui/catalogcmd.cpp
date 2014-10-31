@@ -882,7 +882,9 @@ void wxGISCatalogMainCmd::OnClick(void)
                     sContents.Append(wxT("\r\n"));
                 }
                 sContents.Append(wxT("--------------------------------------------\n"));
-                sContents.Append(_("Created by NextGIS Manager"));
+                sContents.Append(_("Created by"));
+                sContents.Append(wxT(" "));
+                sContents.Append(m_pApp->GetAppDisplayName());
                 //send zip via e-mail
                 wxString sArchiveName = wxDateTime::Now().Format(wxT("spatial_data_%Y%m%d.zip"));
                 wxString sZipFileName(szZipFileName, wxConvUTF8);
@@ -890,7 +892,8 @@ void wxGISCatalogMainCmd::OnClick(void)
                 wxEmail email;
 
                 email.Send(msg);
-
+#else
+                wxMessageBox(wxString::Format(_("'%s' support was not build"), GetCaption().c_str()), wxString(_("Warning")), wxCENTRE | wxICON_WARNING | wxOK );
 #endif //wxGIS_USE_EMAIL                
             }
 			return;

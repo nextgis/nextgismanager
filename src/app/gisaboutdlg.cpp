@@ -167,9 +167,9 @@ wxGISAboutDialog::wxGISAboutDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	wxString sAboutApp;
 #if defined(_WIN64) || defined(__x86_64__)
-		sAboutApp = wxString::Format(_("%s (x86_64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+		sAboutApp = wxString::Format(_("%s (x86_64)\n\nVersion: %s\n\nBuild: %s\n\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str());
 #else
-		sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str(),  __YEAR__);
+		sAboutApp = wxString::Format(_("%s (x86)\n\nVersion: %s\n\nBuild: %s\n\nhttp://nextgis.com"), pApp->GetAppDisplayName().c_str(), pApp->GetAppVersionString().c_str(), wxString(__DATE__,wxConvLibc).c_str());
 #endif
 
 	m_AuiNotebook->AddPage(new wxGISSimpleTextPanel(sAboutApp, m_AuiNotebook), _("About application"));
