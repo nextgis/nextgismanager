@@ -83,6 +83,7 @@ protected:
     wxFFile m_LogFile;
     wxLocale* m_pLocale; // locale we'll be using
     wxString m_sDecimalPoint;
+	bool m_bToolBarMenuPopupped;
 private:
     DECLARE_EVENT_TABLE()
 };

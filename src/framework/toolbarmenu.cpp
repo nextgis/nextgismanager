@@ -88,7 +88,8 @@ void wxGISToolBarMenu::OnCommand(wxCommandEvent& event)
 	int pos = event.GetId() - (ID_TOOLBARCMD);
 	wxGISCommandBarPtrArray CommandBars = m_pApp->GetCommandBars();
 	wxWindow* pWnd = dynamic_cast<wxWindow*>(CommandBars[pos]);
-	m_pApp->ShowApplicationWindow(pWnd, !pWnd->IsShown());
+	bool bIsShown = m_pApp->IsApplicationWindowShown(pWnd);
+	m_pApp->ShowApplicationWindow(pWnd, !bIsShown);
 }
 
 wxIcon wxGISToolBarMenu::GetBitmap(void)
