@@ -173,10 +173,9 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
         {
         case enumGISCBMenubar:
         case enumGISCBContextmenu:
-        case enumGISCBSubMenu:		
-#ifdef __WXGTK	
+        case enumGISCBSubMenu:
+#ifdef __WXGTK__
 		{
-
 			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
 			if(pMenu)
 			{
