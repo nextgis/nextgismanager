@@ -869,7 +869,7 @@ bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject,
             return false;
         }
 
-        wxString sCharset(wxT("cp-866"));
+        wxString sCharset(wxT("CP866"));
         wxGISAppConfig oConfig = GetConfig();
         if (oConfig.IsOk())
             sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
@@ -903,7 +903,7 @@ bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject,
             return false;
         }
 
-        wxString sCharset(wxT("cp-866"));
+        wxString sCharset(wxT("CP866"));
         wxGISAppConfig oConfig = GetConfig();
         if (oConfig.IsOk())
             sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);

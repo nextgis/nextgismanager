@@ -167,14 +167,8 @@ void wxGxArchiveFolder::LoadChildren(void)
 
 
 	m_bIsChildrenLoaded = true;
-#ifdef __WINDOWS__
-    wxString sCharset(wxT("cp-866"));
-#endif // __WINDOWS__
 
-#ifdef __UNIX__
     wxString sCharset(wxT("CP866"));
-#endif // __UNIX__
-
     wxGISAppConfig oConfig = GetConfig();
     if(oConfig.IsOk())
         sCharset = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/zip/charset")), sCharset);
