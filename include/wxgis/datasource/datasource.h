@@ -32,12 +32,12 @@
 
 enum wxGISEnumDatasetType
 {
-    enumGISAny = 0,
-	enumGISFeatureDataset = 1,
-	enumGISTable = 2,
-	enumGISRasterDataset = 3,
-	enumGISContainer = 4,
-    enumGISDrawing = 5
+    enumGISAny = 1,
+	enumGISFeatureDataset = 2,
+	enumGISTable = 3,
+	enumGISRasterDataset = 4,
+	enumGISContainer = 5,
+    enumGISDrawing = 6
 };
 
 /** @enum wxGISEnumVectorDatasetType

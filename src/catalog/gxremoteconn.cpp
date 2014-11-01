@@ -240,6 +240,7 @@ void wxGxRemoteConnection::Refresh(void)
 
 wxGxObjectMap wxGxRemoteConnection::GetRemoteObjects()
 {
+    wxCriticalSectionLocker lock(m_CritSect);
 	wxGxObjectMap ret;
 	wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
     if (NULL == pDSet)
@@ -496,6 +497,7 @@ bool wxGxRemoteDBSchema::CanMove(const CPLString &szDestPath)
 
 wxGxObjectMap wxGxRemoteDBSchema::GetRemoteObjects()
 {
+    wxCriticalSectionLocker lock(m_CritSect);
     wxGxObjectMap ret;
 	if(NULL == m_pwxGISRemoteConn)
 		return ret;

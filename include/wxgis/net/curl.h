@@ -61,11 +61,11 @@ public:
 	virtual void FollowLocation(bool bSet, unsigned short iMaxRedirs);
 	virtual void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
 	virtual PERFORMRESULT Get(const wxString & sURL);
-	virtual bool GetFile(const wxString & sURL, const wxString & sPath);
-	virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+    virtual bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
+    virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);
 	virtual PERFORMRESULT Delete(const wxString & sURL);
 	virtual PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
-	virtual PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath);
+    virtual PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
@@ -91,11 +91,11 @@ public:
     void FollowLocation(bool bSet, unsigned short iMaxRedirs);
 	void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
 	PERFORMRESULT Get(const wxString & sURL);
-	bool GetFile(const wxString & sURL, const wxString & sPath);
-	PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData);
+    bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
+    PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);
 	PERFORMRESULT Delete(const wxString & sURL);
 	PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
-	PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath);
+    PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
 protected:
 	struct curl_slist *slist;
 	CURL *m_pCurl;
@@ -111,6 +111,11 @@ protected:
     };
 	struct MemoryStruct bodystruct;
 	struct MemoryStruct headstruct;
+
+    struct ProgressStruct {
+        bool bUpload;
+        ITrackCancel* const pTrackCancel;
+    };
 
 	static void *myrealloc(void *ptr, size_t size)
 	{
@@ -136,6 +141,47 @@ protected:
            }
            return realsize;
 	}
+
+    static int xferinfo(void *p, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
+    {
+        struct ProgressStruct *myp = (struct ProgressStruct *)p;
+        ITrackCancel* const pTrackCancel = myp->pTrackCancel;
+        
+        IProgressor *pProgress = NULL;
+        if (pTrackCancel)
+        {
+            pProgress = pTrackCancel->GetProgressor();
+
+            if (pProgress)
+            {
+                pProgress->SetYield(true);
+                if (pProgress->GetRange() != 100)
+                    pProgress->SetRange(100);   
+
+                int nVal = 0;
+                if (myp->bUpload)
+                {
+                    if (ultotal > 0)
+                    {
+                        nVal = (double)ulnow / ultotal * 100;
+                        pProgress->SetValue(nVal);
+                    }                        
+                }
+                else
+                {
+                    if (dltotal > 0)
+                    {
+                        nVal = (double)dlnow / dltotal * 100;
+                        pProgress->SetValue(nVal);
+                    }                        
+                }
+            }            
+
+            if (!pTrackCancel->Continue())
+                return 1;        
+        }
+        return 0;
+    }
 };
 
 #endif //wxGIS_USE_CURL

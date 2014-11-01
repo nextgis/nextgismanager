@@ -83,6 +83,7 @@ protected:
 protected:
     wxGISDataset* m_pwxGISDataset;
     bool m_bIsConnected;
+    wxCriticalSection m_CritSect;
 };
 
 /** @class wxGxRemoteDBSchema
@@ -129,6 +130,7 @@ protected:
 	virtual void AddObject(int nRemoteId, const wxString &sName);
 protected:
     wxGISPostgresDataSource* m_pwxGISRemoteConn;
+    wxCriticalSection m_CritSect;
 };
 
 #endif //wxGIS_USE_POSTGRES

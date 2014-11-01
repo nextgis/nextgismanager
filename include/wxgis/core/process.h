@@ -38,13 +38,13 @@ public:
     wxGISThreadHelper(wxThreadKind kind = wxTHREAD_DETACHED);
     virtual ~wxGISThreadHelper();
 protected:
-    void KillThread();
-    bool TestDestroy();
-    bool CreateAndRunThread(void);
-    void DestroyThreadSync(int nWaitAfter = 500);
-    void DestroyThreadAsync(void);
-    bool IsThreadRun() const;
-    bool WaitThreadDelete(int nWait = 2000); // 2 sec
+    virtual void KillThread();
+    virtual bool TestDestroy();
+    virtual bool CreateAndRunThread(void);
+    virtual void DestroyThreadSync(int nWaitAfter = 500);
+    virtual void DestroyThreadAsync(void);
+    virtual bool IsThreadRun() const;
+    virtual bool WaitThreadDelete(int nWait = 2000); // 2 sec
 protected:
     bool m_bKill;
 };

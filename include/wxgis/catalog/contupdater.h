@@ -52,9 +52,10 @@ protected:
 	virtual void DeleteObject(int nRemoteId);
 	virtual void RenameObject(int nRemoteId, const wxString &sNewName);
 	virtual void AddObject(int nRemoteId, const wxString &sName) = 0;
+    virtual bool CreateAndRunThread(void);
 protected:	
 	wxGxObjectMap m_smObjects;
-	int m_nLongWait, m_nShortWait;
+	int m_nLongWait, m_nShortWait, m_nStep;
 	int m_nProcessUpdatesRequests;
 	bool m_bChildrenLoaded;
 };

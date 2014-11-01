@@ -65,7 +65,7 @@ protected:
 
     A NextGIS Web Service Resource Group GxObjectUI.
 
-    @library{catalog}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI :
@@ -100,6 +100,7 @@ protected:
 	wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
 	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
 	wxIcon m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon;
+    wxIcon m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon;
 };
 
 
@@ -107,7 +108,7 @@ protected:
 
     A NextGIS Web Service Root resource GxObjectUI.
 
-    @library{catalog}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWRootResourceUI :
@@ -128,7 +129,7 @@ public:
 
     A NextGIS Web Service Layer GxObjectUI.
 
-    @library{catalog}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :
@@ -156,7 +157,7 @@ protected:
 
     A NextGIS Web Service Raster GxObjectUI.
 
-    @library{catalog}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWRasterUI :
@@ -183,7 +184,7 @@ protected:
 
     A NextGIS Web Service PostGIS Connection GxObjectUI.
 
-    @library{catalog}
+    @library{catalogui}
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGxNGWPostGISConnectionUI :
@@ -214,5 +215,34 @@ protected:
 protected:
 	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
 };
+
+
+/** @class wxGxNGWFileSetUI
+
+    A NextGIS Web Service File set GxObjectUI.
+
+    @library{catalogui}
+*/
+
+class WXDLLIMPEXP_GIS_CLU wxGxNGWFileSetUI :
+    public wxGxNGWFileSet,
+    public IGxObjectUI,
+    public IGxObjectEditUI
+{
+    DECLARE_CLASS(wxGxNGWFileSetUI)
+public:
+    wxGxNGWFileSetUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    virtual ~wxGxNGWFileSetUI(void);
+    //IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWFileSet.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxEmptyString; };
+    //IGxObjectEditUI
+    virtual void EditProperties(wxWindow *parent);
+protected:
+    wxIcon m_icLargeIcon, m_icSmallIcon;
+};
+
 
 #endif // wxGIS_USE_CURL

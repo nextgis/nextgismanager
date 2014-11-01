@@ -55,6 +55,7 @@
 #include "../../art/edit_paste.xpm"
 
 #include "../../art/email.xpm"
+#include "../../art/link.xpm"
 #include "../../art/connect.xpm"
 
 #include <wx/dirdlg.h>
@@ -152,6 +153,9 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 				m_ConnectIcon = wxIcon(connect_xpm);
 			return m_ConnectIcon;	
 		case enumGISCatalogMainCmdLinkToClipboard:
+            if (!m_LinkIcon.IsOk())
+                m_LinkIcon = wxIcon(link_xpm);
+            return m_LinkIcon;
 		case enumGISCatalogMainCmdLocation:
 		default:
 			return wxNullIcon;
@@ -924,7 +928,7 @@ void wxGISCatalogMainCmd::OnClick(void)
 
                 email.Send(msg);
 #else
-                wxMessageBox(wxString::Format(_("'%s' support was not build"), GetCaption().c_str()), wxString(_("Warning")), wxCENTRE | wxICON_WARNING | wxOK );
+                wxMessageBox(wxString::Format(_("The command '%s' support was not build!"), GetCaption().c_str()), wxString(_("Warning")), wxCENTRE | wxICON_WARNING | wxOK );
 #endif //wxGIS_USE_EMAIL                
             }
 			return;

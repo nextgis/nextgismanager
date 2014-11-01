@@ -22,9 +22,9 @@
 #include "wxgis/catalog/contupdater.h"
 #include "wxgis/catalog/gxcatalog.h"
 
-#define LONG_WAIT 12000
-#define SHORT_WAIT 6500
-#define SHORT_STEP 10
+#define LONG_WAIT 120000
+#define SHORT_WAIT 65000
+#define SHORT_STEP 650
 
 //------------------------------------------------------------------------------
 // wxGxObjectContainerUpdater
@@ -45,6 +45,8 @@ wxGxObjectContainerUpdater::wxGxObjectContainerUpdater(wxGxObject *oParent, cons
 	
 	m_nProcessUpdatesRequests = 0;
 	m_bChildrenLoaded = false;
+
+    m_nStep = m_nShortWait / SHORT_STEP; //each step is 650 ms wait
 }
 
 wxGxObjectContainerUpdater::~wxGxObjectContainerUpdater(void)
@@ -54,7 +56,7 @@ wxGxObjectContainerUpdater::~wxGxObjectContainerUpdater(void)
 
 wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 {
-	int nShortStep = m_nShortWait / SHORT_STEP;
+    int nShortStep = m_nShortWait / m_nStep;
 	
 	while (!TestDestroy())
     {
@@ -89,7 +91,7 @@ wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 			}
 		}
 			
-		for ( size_t i = 0; i < SHORT_STEP; ++i ) 
+        for (size_t i = 0; i < m_nStep; ++i)
 		{    
             if (TestDestroy())
             {
@@ -144,6 +146,17 @@ wxGxObject *wxGxObjectContainerUpdater::GetChildByRemoteId(int nRemoteId) const
 			return current;
 	}
 	return NULL;
+}
+
+bool wxGxObjectContainerUpdater::CreateAndRunThread(void)
+{
+    bool bRes = wxGISThreadHelper::CreateAndRunThread();
+    if (bRes)
+    {
+        GetThread()->SetPriority(WXTHREAD_MIN_PRIORITY);
+    }
+
+    return bRes;
 }
 
 //------------------------------------------------------------------------------

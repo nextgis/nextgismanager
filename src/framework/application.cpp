@@ -167,7 +167,6 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
 
 void wxGISApplication::OnIdle(wxIdleEvent & event)
 {
-#ifdef __WXGTK	
     for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
     {
         switch(m_CommandBarArray[i]->GetType())
@@ -175,6 +174,7 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
         case enumGISCBMenubar:
         case enumGISCBContextmenu:
         case enumGISCBSubMenu:		
+#ifdef __WXGTK	
 		{
 
 			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
@@ -197,14 +197,23 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 				}
 			}
 		}
-			break;
+#endif			
+            break;
         case enumGISCBToolbar:
+            {
+                wxGISToolBar* pGISToolBar = dynamic_cast<wxGISToolBar*>(m_CommandBarArray[i]);
+                if (pGISToolBar)
+                {
+                    pGISToolBar->UpdateControls();
+                }
+            }        
+            break;
         case enumGISCBNone:
         default:
             break;
 		}
 	}
-#endif	
+	
 }
 
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
@@ -219,28 +228,6 @@ void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
             event.Check(pCmd->GetChecked());
         }
     }
-
-    for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
-    {
-        switch(m_CommandBarArray[i]->GetType())
-        {
-        case enumGISCBToolbar:
-            {
-                wxGISToolBar* pGISToolBar = dynamic_cast<wxGISToolBar*>(m_CommandBarArray[i]);
-                if (pGISToolBar)
-                {
-                    pGISToolBar->UpdateControls();
-                }
-            }
-            break;
-        case enumGISCBMenubar:
-        case enumGISCBContextmenu:
-        case enumGISCBSubMenu:
-        case enumGISCBNone:
-        default:
-            break;
-		}
-	}	
 }
 
 void wxGISApplication::UpdateAccelerators()

@@ -47,6 +47,8 @@
 #include "../../art/raster_bmp16.xpm"
 #include "../../art/raster_bmp48.xpm"
 #include "../../art/properties.xpm"
+#include "../../art/package_16.xpm"
+#include "../../art/package_48.xpm"
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -273,6 +275,13 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 		if(m_bHasWMS)
 			pReturnObj = wxDynamicCast(new wxGxNGWRasterUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon), wxGxObject);
 		break;	
+    case enumNGWResourceTypeFileSet:
+        if (!m_icNGWPackageLargeIcon.IsOk())
+            m_icNGWPackageLargeIcon = wxIcon(package_48_xpm);
+        if (!m_icNGWPackageSmallIcon.IsOk())
+            m_icNGWPackageSmallIcon = wxIcon(package_16_xpm);
+        pReturnObj = wxDynamicCast(new wxGxNGWFileSetUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon), wxGxObject);
+        break;
     }
 	
 	return pReturnObj;	
@@ -717,7 +726,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
     }
 	
 	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
-    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szZipFileName));
+    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szZipFileName), pTrackCancel);
 	DeleteFile(szZipFileName, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
@@ -738,6 +747,11 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		
 		//{"resource":{"cls":"vector_layer","parent":{"id":0},"display_name":"ggg www","keyname":null,"description":null},"vector_layer":{"srs":{"id":3857},"source":{"id":"2f906bf9-0947-45aa-b271-c711fef1d2fd","name":"ngw1_1.zip","mime_type":"application/zip","size":2299,"encoding":"utf-8"}}}
 		
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Create NGW layer"), wxNOT_FOUND, enumGISMessageTitle);
+        }
+
 		wxJSONValue val;
 		val["resource"]["cls"] = wxString(wxT("vector_layer"));
 		val["resource"]["parent"]["id"] = m_nRemoteId;
@@ -754,11 +768,13 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		writer.Write(val, sPayload);
 		
 		sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-		res = curl.Post(sURL, sPayload);
+        res = curl.Post(sURL, sPayload, pTrackCancel);
 		bResult = res.IsValid && res.nHTTPCode < 400;
 		
 		if(bResult)
 		{
+            //TODO: create default style
+
 			OnGetUpdates();
 			return true;		
 		}		
@@ -1028,5 +1044,53 @@ void wxGxNGWPostGISConnectionUI::EditProperties(wxWindow *parent)
 
     PropertySheetDialog.ShowModal();
 }
+
+
+//--------------------------------------------------------------
+//class wxGxNGWFileSetUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWFileSetUI, wxGxNGWFileSet)
+
+wxGxNGWFileSetUI::wxGxNGWFileSetUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWFileSet(pService, Data, oParent, soName, soPath)
+{
+    m_icLargeIcon = icLargeIcon;
+    m_icSmallIcon = icSmallIcon;
+}
+
+wxGxNGWFileSetUI::~wxGxNGWFileSetUI(void)
+{
+}
+
+wxIcon wxGxNGWFileSetUI::GetLargeImage(void)
+{
+    return m_icLargeIcon;
+}
+
+wxIcon wxGxNGWFileSetUI::GetSmallImage(void)
+{
+    return m_icSmallIcon;
+}
+
+void wxGxNGWFileSetUI::EditProperties(wxWindow *parent)
+{
+    wxPropertySheetDialog PropertySheetDialog;
+    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize(480, 640), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER))
+        return;
+    PropertySheetDialog.SetIcon(properties_xpm);
+    PropertySheetDialog.CreateButtons(wxOK);
+    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+
+    //TODO: add NGW property page
+    //wxGISRasterPropertyPage* RasterPropertyPage = new wxGISRasterPropertyPage(this, pParentWnd);
+    //PropertySheetDialog.GetBookCtrl()->AddPage(RasterPropertyPage, RasterPropertyPage->GetPageName());
+
+    //PropertySheetDialog.LayoutDialog();
+    PropertySheetDialog.SetSize(480, 640);
+    PropertySheetDialog.Center();
+
+    PropertySheetDialog.ShowModal();
+}
+
 
 #endif // wxGIS_USE_CURL

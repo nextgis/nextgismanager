@@ -640,7 +640,8 @@ wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data)
 		eType = enumNGWResourceTypeVectorLayer;
 	else if(sType.IsSameAs(wxT("raster_layer")))
 		eType = enumNGWResourceTypeRasterLayer;
-
+    else if (sType.IsSameAs(wxT("file_bucket")))
+        eType = enumNGWResourceTypeFileSet;
     return eType;
 }
 
@@ -662,12 +663,15 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayer(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
 	case enumNGWResourceTypePostgisConnection:	
-	if(m_bHasPostGIS)
+	    if(m_bHasPostGIS)
 			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnection(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
 	case enumNGWResourceTypeRasterLayer:	
-	if(m_bHasWMS)
+	    if(m_bHasWMS)
 			pReturnObj = wxDynamicCast(new wxGxNGWRaster(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
+        break;
+    case enumNGWResourceTypeFileSet:
+        pReturnObj = wxDynamicCast(new wxGxNGWFileSet(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;	
     }
 	
@@ -780,6 +784,7 @@ bool wxGxNGWResourceGroup::CanMove(const CPLString &szDestPath)
 
 wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
 {
+    wxCriticalSectionLocker lock(m_CritSect);
 	wxGxObjectMap ret;
     wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
@@ -937,7 +942,7 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 	//TODO
 	wxString sPayload;
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-    PERFORMRESULT res = curl.Post(sURL, sPayload);
+    PERFORMRESULT res = curl.Post(sURL, sPayload, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
@@ -1376,11 +1381,11 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 }
 
 //change fields
-//PUT /ore/resource/37/child/127
+//PUT /resource/37/child/127
 //
 //{"resource":{"display_name":"water_polygon","keyname":"water_polygon","parent":{"id":37},"permissions":[],"description":null},"feature_layer":{"fields":[{"id":140,"keyname":"OSM_ID2","datatype":"REAL","typemod":null,"display_name":"OSM_ID 3","label_field":false,"grid_visibility":true},{"id":141,"keyname":"NAME2","datatype":"STRING","typemod":null,"display_name":"NAME 3","label_field":false,"grid_visibility":true},{"id":142,"keyname":"NATURAL","datatype":"STRING","typemod":null,"display_name":"NATURAL","label_field":false,"grid_visibility":true},{"id":143,"keyname":"WATERWAY","datatype":"STRING","typemod":null,"display_name":"WATERWAY","label_field":false,"grid_visibility":true},{"id":144,"keyname":"WETLAND","datatype":"STRING","typemod":null,"display_name":"WETLAND","label_field":false,"grid_visibility":true}]},"postgis_layer":{"connection":{"id":14,"parent":{"id":0}},"table":"water_polygon","schema":"topo_osm","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":"POLYGON","fields":"keep","srs":{"id":3857}}}
 //
-//http://xxx.xxx.xxx.xxx/ore/resource/127/field/
+//http://xxx.xxx.xxx.xxx/resource/127/field/
 //
 //[{"display_name": "OSM_ID 3", "idx": 0, "datatype": "REAL", "layer_id": 127, "grid_visibility": true, "keyname": "OSM_ID2", "id": 140, "cls": "postgis_layer"}, {"display_name": "NAME 3", "idx": 1, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NAME2", "id": 141, "cls": "postgis_layer"}, {"display_name": "NATURAL", "idx": 2, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "NATURAL", "id": 142, "cls": "postgis_layer"}, {"display_name": "WATERWAY", "idx": 3, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WATERWAY", "id": 143, "cls": "postgis_layer"}, {"display_name": "WETLAND", "idx": 4, "datatype": "STRING", "layer_id": 127, "grid_visibility": true, "keyname": "WETLAND", "id": 144, "cls": "postgis_layer"}]
 
@@ -1432,7 +1437,7 @@ wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
 			return NULL;
 		}
 		
-		//http://xxx.xxx.xxx.xxx/ore/resource/234/tms?z=7&x=84&y=42
+		//http://xxx.xxx.xxx.xxx/resource/234/tms?z=7&x=84&y=42
 		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
 		
 		wxString sULX(wxT("-20037508.34"));
@@ -1646,6 +1651,151 @@ bool wxGxNGWPostGISConnection::CanMove(const CPLString &szDestPath)
 	if(!CanMoveResource(szDestPath))
 		return CanCopy(szDestPath) && CanDelete();
 	return true;	
+}
+
+
+//--------------------------------------------------------------
+//class wxGxNGWFileSet
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWFileSet, wxGxDataset)
+
+wxGxNGWFileSet::wxGxNGWFileSet(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDataset(oParent, soName, soPath), wxGxNGWResource(Data)
+{
+    m_eResourceType = enumNGWResourceTypeFileSet;
+    m_pService = pService;
+    m_sName = m_sDisplayName;
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+    m_sPath = CPLString(sURL.ToUTF8());
+
+    m_nType = enumGISAny;
+    m_nSubType = 0;
+
+    wxJSONValue JSONFilesBucket = Data[wxT("file_bucket")];
+    wxString sTimeStamp = JSONFilesBucket[wxT("tstamp")].AsString();
+    m_dtMod.ParseISOCombined(sTimeStamp);
+
+    wxJSONValue JSONFiles = JSONFilesBucket[wxT("files")];
+    FillFilesArray(JSONFiles);
+}
+
+wxGxNGWFileSet::~wxGxNGWFileSet()
+{
+
+}
+
+void wxGxNGWFileSet::FillFilesArray(const wxJSONValue &files)
+{
+    for (size_t i = 0; i < files.Size(); ++i)
+    {
+        wxString sMime = files[i][wxT("mime")].AsString();
+        wxString sName = files[i][wxT("name")].AsString();
+        wxULongLong nSize = files[i][wxT("size")].AsULong();
+
+        NGWFILEDESCRIPTION desc = { sName, sMime, nSize };
+        m_asFiles.push_back(desc);
+    }
+
+    FillMetadata(true);
+}
+
+wxGISEnumDatasetType wxGxNGWFileSet::GetType(void) const
+{
+    return m_nType;
+}
+
+int wxGxNGWFileSet::GetSubType(void) const
+{
+    return m_nSubType;
+}
+
+void wxGxNGWFileSet::FillMetadata(bool bForce)
+{
+    if (m_bIsMetadataFilled && !bForce)
+        return;
+
+    m_bIsMetadataFilled = true;
+    m_nSize = 0;
+    for (size_t i = 0; i < m_asFiles.size(); ++i)
+    {
+        m_nSize += m_asFiles[i].nSize;
+    }
+}
+
+wxString wxGxNGWFileSet::GetCategory(void) const
+{
+    return wxString(_("File set"));
+}
+
+int wxGxNGWFileSet::GetParentResourceId() const
+{
+    wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
+    if (NULL == pParentResource)
+        return wxNOT_FOUND;
+    return pParentResource->GetRemoteId();
+}
+
+
+bool wxGxNGWFileSet::CanDelete(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWFileSet::CanRename(void)
+{
+    //TODO: check permissions
+    return m_pService != NULL;
+}
+
+bool wxGxNGWFileSet::Delete(void)
+{
+    if (DeleteResource())
+    {
+        IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+        if (pNotify)
+        {
+            pNotify->OnGetUpdates();
+        }
+        return true;
+    }
+    return false;
+}
+
+bool wxGxNGWFileSet::Rename(const wxString &sNewName)
+{
+    if (RenameResource(sNewName))
+    {
+        IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+        if (pNotify)
+        {
+            pNotify->OnGetUpdates();
+        }
+        return true;
+    }
+    return false;
+}
+
+bool wxGxNGWFileSet::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWFileSet::CanCopy(const CPLString &szDestPath)
+{
+    return CanCopyResource(szDestPath);
+}
+
+bool wxGxNGWFileSet::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+{
+    return false;
+}
+
+bool wxGxNGWFileSet::CanMove(const CPLString &szDestPath)
+{
+    if (!CanMoveResource(szDestPath))
+        return CanCopy(szDestPath) && CanDelete();
+    return true;
 }
 
 #endif // wxGIS_USE_CURL

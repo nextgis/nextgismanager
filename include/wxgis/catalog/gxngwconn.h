@@ -25,6 +25,7 @@
 #include "wxgis/core/json/jsonval.h"
 #include "wxgis/catalog/contupdater.h"
 #include "wxgis/catalog/gxremoteconn.h"
+#include "wxgis/catalog/gxfile.h"
 #include "wxgis/datasource/rasterdataset.h"
 
 #ifdef wxGIS_USE_CURL
@@ -107,7 +108,8 @@ enum wxGISEnumNGWResourcesType
 	enumNGWResourceTypeVectorLayer,
 	enumNGWResourceTypeRasterLayer,
 	enumNGWResourceTypeVectorLayerStyle,
-	enumNGWResourceTypeRasterLayerStyle
+	enumNGWResourceTypeRasterLayerStyle,
+    enumNGWResourceTypeFileSet
 };
 
 WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResourceDataMap);
@@ -241,6 +243,7 @@ protected:
 	bool m_bHasPostGIS;
 	bool m_bHasWMS;
 	wxNGWResourceDataMap m_moJSONData;
+    wxCriticalSection m_CritSect;
 };
 
 
@@ -366,6 +369,56 @@ protected:
 	virtual int GetParentResourceId() const;
 protected:
 	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
+};
+
+
+/** @class wxGxNGWFileSet
+
+    A NextGIS Web Service file set GxObject.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWFileSet :
+    public wxGxNGWResource,
+    public wxGxDataset
+{
+    DECLARE_CLASS(wxGxNGWFileSet)
+public:
+    wxGxNGWFileSet(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath = "");
+    virtual ~wxGxNGWFileSet(void);
+    //wxGxObject
+    virtual wxString GetCategory(void) const;
+    //wxGxDataset
+    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) { return NULL; };
+    virtual wxGISEnumDatasetType GetType(void) const;
+    virtual int GetSubType(void) const;
+    virtual void FillMetadata(bool bForce = false);
+    //IGxObjectEdit
+    virtual bool Delete(void);
+    virtual bool CanDelete(void);
+    virtual bool Rename(const wxString& NewName);
+    virtual bool CanRename(void);
+    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString &szDestPath);
+    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString &szDestPath);
+
+    typedef struct NGWFileDescription
+    {
+        wxString sName;
+        wxString sMime;
+        wxULongLong nSize;
+    } NGWFILEDESCRIPTION;
+
+protected:
+    virtual int GetParentResourceId() const;
+    virtual void FillFilesArray(const wxJSONValue &files);
+    virtual wxGISDataset* const GetDatasetFast(void) { return NULL; };
+protected:
+    wxGISEnumDatasetType m_nType;
+    int m_nSubType;
+    wxVector<NGWFILEDESCRIPTION> m_asFiles;
 };
 
 #endif // wxGIS_USE_CURL

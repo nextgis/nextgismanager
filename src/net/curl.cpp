@@ -157,14 +157,14 @@ PERFORMRESULT wxGISCurl::Get(const wxString & sURL)
     return ((wxGISCurlRefData *)m_refData)->Get(sURL);
 }
 
-bool wxGISCurl::GetFile(const wxString & sURL, const wxString & sPath)
+bool wxGISCurl::GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel)
 {
-    return ((wxGISCurlRefData *)m_refData)->GetFile(sURL, sPath);
+    return ((wxGISCurlRefData *)m_refData)->GetFile(sURL, sPath, pTrackCancel);
 }
 
-PERFORMRESULT wxGISCurl::Post(const wxString & sURL, const wxString & sPostData)
+PERFORMRESULT wxGISCurl::Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel)
 {
-    return ((wxGISCurlRefData *)m_refData)->Post(sURL, sPostData);
+    return ((wxGISCurlRefData *)m_refData)->Post(sURL, sPostData, pTrackCancel);
 }
 
 PERFORMRESULT wxGISCurl::Delete(const wxString & sURL)
@@ -177,9 +177,9 @@ PERFORMRESULT wxGISCurl::PutData(const wxString & sURL, const wxString& sPostDat
     return ((wxGISCurlRefData *)m_refData)->PutData(sURL, sPostData);
 }
 
-PERFORMRESULT wxGISCurl::UploadFile(const wxString & sURL, const wxString& sFilePath)
+PERFORMRESULT wxGISCurl::UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel)
 {
-    return ((wxGISCurlRefData *)m_refData)->UploadFile(sURL, sFilePath);
+    return ((wxGISCurlRefData *)m_refData)->UploadFile(sURL, sFilePath, pTrackCancel);
 }
 
 //-----------------------------------------------------------------------------
@@ -368,7 +368,7 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	return result;
 }
 
-bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath)
+bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel)
 {
 	if(wxFileName::FileExists(sPath))
 		return true/*false*/;
@@ -377,6 +377,20 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath)
 
 	headstruct.size = 0;
 	bodystruct.size = 0;
+
+#if LIBCURL_VERSION_NUM >= 0x072000
+    struct ProgressStruct prog = { false, pTrackCancel };
+    if (pTrackCancel)
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFODATA, &prog);
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 0L);
+    }
+    else
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 1L);
+    }
+#endif
 
 	res = curl_easy_perform(m_pCurl);
 	if(res == CURLE_COULDNT_RESOLVE_HOST)
@@ -394,7 +408,7 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath)
 	return false;
 }
 
-PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPostData)
+PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel)
 {
 	PERFORMRESULT result;
 	result.IsValid = false;
@@ -409,6 +423,20 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	
 	headstruct.size = 0;
 	bodystruct.size = 0;
+
+#if LIBCURL_VERSION_NUM >= 0x072000
+    struct ProgressStruct prog = { true, pTrackCancel };
+    if (pTrackCancel)
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFODATA, &prog);
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 0L);
+    }
+    else
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 1L);
+    }
+#endif
 
     res = curl_easy_perform(m_pCurl);
 	if(res == CURLE_COULDNT_RESOLVE_HOST)
@@ -577,7 +605,7 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 	return result;
 }
 
-PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString& sFilePath)
+PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel)
 {
 	//TODO: add ITrackCancel for progress
 	PERFORMRESULT result;
@@ -609,7 +637,21 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
 			   
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
     curl_easy_setopt(m_pCurl, CURLOPT_HTTPPOST, formpost);
-	
+
+#if LIBCURL_VERSION_NUM >= 0x072000
+    struct ProgressStruct prog = { true, pTrackCancel };
+    if (pTrackCancel)
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFODATA, &prog);
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 0L);
+    }
+    else
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 1L);
+    }
+#endif
+
 	headstruct.size = 0;
 	bodystruct.size = 0;
 

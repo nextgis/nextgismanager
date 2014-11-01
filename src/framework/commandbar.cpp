@@ -671,15 +671,22 @@ void wxGISToolBar::UpdateControls(void)
     {
 	    for(size_t i = 0; i < m_CommandArray.size(); ++i)
 	    {
-		    if(m_CommandArray[i]->GetKind() == enumGISCommandControl)
-		    {
-			    wxWindow* pWnd = dynamic_cast<wxWindow*>(m_RemControlMap[i]);
-			    if(pWnd)
-			    {
-				    bool bEnable = m_CommandArray[i]->GetEnabled();
-				    pWnd->Enable(bEnable);
-			    }
-		    }
+            wxGISCommand* pCmd = m_CommandArray[i];
+            if (pCmd)
+            {
+                if (pCmd->GetKind() == enumGISCommandControl)
+                {
+                    wxWindow* pWnd = dynamic_cast<wxWindow*>(m_RemControlMap[i]);
+                    if (pWnd)
+                    {
+                        bool bEnable = m_CommandArray[i]->GetEnabled();
+                        pWnd->Enable(bEnable);
+                    }
+                }
+                SetToolLabel(pCmd->GetId(), pCmd->GetCaption());
+                SetToolShortHelp(pCmd->GetId(), pCmd->GetMessage());
+                SetToolLongHelp(pCmd->GetId(), pCmd->GetTooltip());
+            }
 	    }
     }
 }
