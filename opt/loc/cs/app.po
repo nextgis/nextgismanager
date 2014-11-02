@@ -101,10 +101,10 @@ msgstr ""
 #: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:155
 msgid ""
 "\n"
-"* - The drivers only compiled in GDAL lib and may not supported by wxGIS."
+"* - The drivers only compiled in GDAL lib and may not be supported by NextGIS Manager."
 msgstr ""
 "\n"
-"* - Ovladače kompilované pouze v knihovně GDAL nemusí být podporovány programem wxGIS."
+"* - Ovladače kompilované pouze v knihovně GDAL nemusí být podporovány programem NextGIS Manager."
 
 #: D:\work\Projects\wxGIS\src\app/gisaboutdlg.cpp:156
 msgid "About system"

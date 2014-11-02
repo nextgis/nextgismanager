@@ -133,7 +133,7 @@ msgstr ""
 #, c-format
 msgid ""
 "\n"
-"* - The drivers only compiled in GDAL lib and may not supported by %s."
+"* - The drivers only compiled in GDAL lib and may not be supported by %s."
 msgstr ""
 "\n"
 "* - Драйверы только скомпилированы в библиотеке GDAL и могут не "
