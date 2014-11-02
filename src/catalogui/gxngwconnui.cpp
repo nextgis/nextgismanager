@@ -30,6 +30,9 @@
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
 #include "wxgis/catalogui/gxobjdialog.h"
+#include "wxgis/catalog/gxfile.h"
+#include "wxgis/catalog/gxarchfolder.h"
+
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -459,36 +462,78 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		}
 		else
 		{
-			//export other vector and raster DS
-			/*wxVector<IGxDataset*> paDatasets;
+			//upload other vector and raster DS
+			wxVector<wxGxObject*> paDatasets;
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 			{
                 wxBusyCursor wait;
 				wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
 				if (NULL != pGxObject)
 				{
-					if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+					//add file based datasets
+					IGxDataset *pDataset = dynamic_cast<IGxDataset*>(pGxObject);
+					//add archives
+					wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(pGxObject);
+					//add wxGxFile
+					wxGxFile *pFile = dynamic_cast<wxGxFile*>(pGxObject);
+					//TODO: wxGxQGISProjFile etc.
+					if (pDataset && IsFileDataset(pDataset->GetType(), pDataset->GetSubType()))
 					{						
-						wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-						if (!pCont->HasChildren())
-							continue;
-						const wxGxObjectList lObj = pCont->GetChildren();
-						for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
-						{
-							IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
-							if (NULL != pGxDSet)
-							{
-								paDatasets.push_back(pGxDSet);
-							}
-						}
+						paDatasets.push_back(pGxObject);
 					}
-					else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+					else if(pArchive)
 					{
-						paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+						paDatasets.push_back(pGxObject);
+					}
+					else if(pFile)
+					{
+						paDatasets.push_back(pGxObject);
 					}
                 }
             }
-				*/
+			
+			size_t nCount = paDatasets.size();
+			ProgressDlg.SetTitle(_("Upload selected items"));
+			ProgressDlg.SetRange(nCount);
+			ProgressDlg.ShowProgress(true);
+			for ( size_t j = 0; j < nCount; ++j ) 
+			{    
+				ProgressDlg.SetValue(j);
+				if(!ProgressDlg.Continue())
+				{
+					return false;
+				}
+				
+				IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
+				if(pGxDset)
+				{
+					wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
+					if(pDSet)
+					{
+						wxArrayString paths;
+						char** papszFileList = pDSet->GetFileList();
+						papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
+						for (int k = 0; papszFileList[k] != NULL; ++k)
+						{
+							wxString sPath = wxString::FromUTF8(papszFileList[k]);
+							if(sPath.StartsWith(wxT("/vsi")))
+							{
+								ProgressDlg.PutMessage(wxString::Format(_("The archive file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
+							}
+							else
+							{
+								paths.Add(sPath);
+							}
+						}
+						CSLDestroy(papszFileList);
+						CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
+					}
+				}					
+			}
+			
+			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());		
+			OnGetUpdates();
+			return true;
 		}
 	}
 	return false;

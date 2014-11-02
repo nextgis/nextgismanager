@@ -1030,6 +1030,11 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	return false;	
 }
 
+bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, ITrackCancel* const pTrackCancel)
+{
+	return false;
+}
+
 bool wxGxNGWResourceGroup::ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel )
 {
 	//1. check spatial reference

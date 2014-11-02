@@ -618,7 +618,7 @@ void wxGISCatalogMainCmd::OnClick(void)
                     wxString sMessage = wxString::Format(_("Do you really want to delete %ld item(s)"), pSel->GetCount());
                     if (pSel->GetCount() > 0)
                     {
-                        sMessage.Append(wxT("\n"));
+                        sMessage.Append(wxT("\r\n"));
                     }
 
                     for (size_t i = 0; i < pSel->GetCount(); ++i)
@@ -635,8 +635,8 @@ void wxGISCatalogMainCmd::OnClick(void)
                     }
 
                     wxRichMessageDialog dlg(pWnd, sMessage, wxString(_("Delete confirm")), wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION | wxSTAY_ON_TOP | wxCENTRE);
-					dlg.SetExtendedMessage(wxString(_("The result of operation cannot be undone!\nThe deleted items will remove from disk and will not put to the recycled bin.")));
-					dlg.ShowCheckBox("Use my choice and do not show this dialog in future");
+					dlg.SetExtendedMessage(_("The result of operation cannot be undone!\nThe deleted items will remove from disk and will not put to the recycled bin."));
+					dlg.ShowCheckBox(_("Use my choice and do not show this dialog in future"));
 
 					int nRes = dlg.ShowModal();
 

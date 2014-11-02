@@ -299,6 +299,8 @@ void wxGISTable::SetInternalValues()
 
 wxString wxGISTable::GetFIDColumn(void) const
 {
+	if(!m_poLayer)
+		return wxEmptyString;
     CPLString szFIDCOLName = m_poLayer->GetFIDColumn();
     return wxString(szFIDCOLName, wxConvUTF8);
 }

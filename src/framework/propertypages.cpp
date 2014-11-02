@@ -188,7 +188,7 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
 	bSizerInfo->Add( m_bitmapwarn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
 	m_staticTextWarn = new wxStaticText( this, wxID_ANY, _("To apply some changes on this page the application restart needed"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextWarn->Wrap( -1 );
+	m_staticTextWarn->Wrap( 450 );
 
     wxFont WarnFont = this->GetFont();
     WarnFont.SetWeight(wxFONTWEIGHT_BOLD);

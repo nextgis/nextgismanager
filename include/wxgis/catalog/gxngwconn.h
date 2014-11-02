@@ -229,6 +229,7 @@ public:
 	virtual bool CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom);
 	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
 	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, ITrackCancel* const pTrackCancel);
+	virtual bool CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, ITrackCancel* const pTrackCancel);	
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
