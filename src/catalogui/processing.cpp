@@ -952,3 +952,4 @@ bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject,
     }
     return true;
 }
+

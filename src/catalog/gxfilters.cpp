@@ -3,7 +3,7 @@
  * Purpose:  wxGxObjectDialog filters of GxObjects to show.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009,2011,2012 Dmitry Baryshnikov
+*   Copyright (C) 2009,2011,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -224,9 +224,11 @@ wxGxDatasetFilter::~wxGxDatasetFilter(void)
 
 bool wxGxDatasetFilter::CanChooseObject( wxGxObject* const pObject )
 {
-	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
+	IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pObject);
 	if(!pGxDataset)
 		return false;
+	if(m_nType == enumGISAny)
+		return true;
     if(pGxDataset->GetType() != m_nType)
 		return false;
 	if(m_nSubType != wxNOT_FOUND)
@@ -239,9 +241,11 @@ bool wxGxDatasetFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
 		return true;
-	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
+	IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pObject);
 	if(!pGxDataset)
 		return false;
+	if(m_nType == enumGISAny)
+		return true;
     if(pGxDataset->GetType() != m_nType)
 		return false;
 	if(m_nSubType != wxNOT_FOUND)
@@ -274,6 +278,8 @@ wxString wxGxDatasetFilter::GetName(void) const
 {
     switch(m_nType)
     {
+	case enumGISAny:
+		return wxString(_("Any raster, vector, table, container"));
     case enumGISRasterDataset:
         return wxString(_("Raster (*.img, *.tif, etc.)"));
     case enumGISFeatureDataset:

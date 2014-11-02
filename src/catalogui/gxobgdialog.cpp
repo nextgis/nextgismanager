@@ -320,6 +320,8 @@ bool wxGxDialogContentView::Create(wxWindow* parent, wxWindowID id, const wxPoin
 
 	SetImageList(&m_ImageListLarge, wxIMAGE_LIST_NORMAL);
 	SetImageList(&m_ImageListSmall, wxIMAGE_LIST_SMALL);
+	
+	CreateAndRunThread();
 
     return true;
 }
@@ -572,12 +574,12 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 wxGxObjectDialog::~wxGxObjectDialog()
 {
+    SerializeFramePos(true);
+	
 	if(m_pwxGxContentView)
 		m_pwxGxContentView->Deactivate();
 	if(m_PopupCtrl)
 		m_PopupCtrl->Deactivate();
-
-    SerializeFramePos(true);
 
 	RemoveAllFilters();
 
@@ -748,7 +750,7 @@ void wxGxObjectDialog::OnInit()
     SetLocation(sLastPath);
 
     m_NameTextCtrl->SetFocus();
-
+	
     SerializeFramePos(false);
 }
 
@@ -953,6 +955,16 @@ void wxGxObjectDialog::SerializeFramePos(bool bSave)
 			oConfig.Write(enumGISHKCU, GetAppName() + wxString(wxT("/frame/xpos")), x);
 			oConfig.Write(enumGISHKCU, GetAppName() + wxString(wxT("/frame/ypos")), y);
 		}
+		
+		if(m_pwxGxContentView)
+		{
+			wxXmlNode *pNode = NULL;
+			pNode = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/content_view")));
+			if(NULL == pNode)
+				pNode = oConfig.CreateConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/content_view")));
+			if(NULL != pNode)
+				m_pwxGxContentView->Serialize(pNode, bSave);
+		}
 	}
 	else
 	{
@@ -962,8 +974,8 @@ void wxGxObjectDialog::SerializeFramePos(bool bSave)
 		{
 			int x = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/xpos")), 50);
 			int y = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/ypos")), 50);
-			int w = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/width")), 450);
-			int h = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/height")), 650);
+			int w = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/width")), 600);
+			int h = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/frame/height")), 400);
 
 			Move(x, y);
 			SetClientSize(w, h);
@@ -972,6 +984,18 @@ void wxGxObjectDialog::SerializeFramePos(bool bSave)
 		{
 			Maximize();
 		}
+		
+		if(m_pwxGxContentView)
+		{
+			wxXmlNode *pNode = NULL;
+			pNode = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/content_view")));
+			if(NULL == pNode)
+				pNode = oConfig.CreateConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/content_view")));
+			if(NULL != pNode)
+				m_pwxGxContentView->Serialize(pNode, bSave);
+		}
+		
+		//FitInside();
 	}
 }
 

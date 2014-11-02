@@ -69,6 +69,16 @@ wxIcon wxGISGeoprocessingCmd::GetBitmap(void)
 			if(!m_IconGPMenu.IsOk())
 				m_IconGPMenu = wxIcon(export_xpm);
 			return m_IconGPMenu;
+		case enumGISGeoprocessingCmdImport:
+			if(!m_IconImport.IsOk())
+			{
+				wxBitmap oExportOrigin(export_xpm);
+				wxImage oImport = oExportOrigin.ConvertToImage();
+				oImport = oImport.Mirror(true);
+
+				m_IconImport.CopyFromBitmap(wxBitmap(oImport));
+			}
+			return m_IconImport;
 		default:
 			return wxNullIcon;
 	}
@@ -86,6 +96,8 @@ wxString wxGISGeoprocessingCmd::GetCaption(void)
 			return wxString(_("E&xport with parameters"));
 		case enumGISGeoprocessingCmdExportAttrbutes:
 			return wxString(_("Export &attributes"));
+		case enumGISGeoprocessingCmdImport:
+			return wxString(_("&Import"));		
 		default:
 		    return wxEmptyString;
 	}
@@ -100,6 +112,7 @@ wxString wxGISGeoprocessingCmd::GetCategory(void)
 		case enumGISGeoprocessingCmdExport:
 		case enumGISGeoprocessingCmdExportWithParameters:
         case enumGISGeoprocessingCmdExportAttrbutes:
+		case enumGISGeoprocessingCmdImport:
 			return wxString(_("Geoprocessing"));
 		default:
 			return NO_CATEGORY;
@@ -115,6 +128,7 @@ bool wxGISGeoprocessingCmd::GetChecked(void)
 		case enumGISGeoprocessingCmdExport:
 		case enumGISGeoprocessingCmdExportWithParameters:
 		case enumGISGeoprocessingCmdExportAttrbutes:
+		case enumGISGeoprocessingCmdImport:
 		default:
 	        return false;
 	}
@@ -178,6 +192,20 @@ bool wxGISGeoprocessingCmd::GetEnabled(void)
 				}
 			}
             return false;
+		case enumGISGeoprocessingCmdImport:
+            if (NULL != pSel && NULL != pCat)
+			{
+				for (size_t i = 0; i < pSel->GetCount(); ++i)
+				{
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					IGxObjectEditUI* pObjEditUI = dynamic_cast<IGxObjectEditUI*>(pGxObject);
+					if (NULL != pObjEditUI && pObjEditUI->CanImport())
+					{
+						return true;
+					}
+				}
+			}
+            return false;		
 		default:
 			return false;
 	}
@@ -192,6 +220,7 @@ wxGISEnumCommandKind wxGISGeoprocessingCmd::GetKind(void)
 		case enumGISGeoprocessingCmdExport:
 		case enumGISGeoprocessingCmdExportWithParameters:
         case enumGISGeoprocessingCmdExportAttrbutes:
+		case enumGISGeoprocessingCmdImport:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -209,6 +238,8 @@ wxString wxGISGeoprocessingCmd::GetMessage(void)
 			return wxString(_("Export selected item to another format"));
 		case enumGISGeoprocessingCmdExportAttrbutes:
 			return wxString(_("Export selected item attributes"));
+		case enumGISGeoprocessingCmdImport:	
+			return wxString(_("Import into selected item"));
 		default:
 			return wxEmptyString;
 	}
@@ -366,6 +397,21 @@ void wxGISGeoprocessingCmd::OnClick(void)
             }
         }
         break;
+		case enumGISGeoprocessingCmdImport:	
+			if (NULL != pSel && NULL != pCat)
+			{
+				for (size_t i = 0; i < pSel->GetCount(); ++i)
+				{
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					IGxObjectEditUI* pObjEditUI = dynamic_cast<IGxObjectEditUI*>(pGxObject);
+					if (NULL != pObjEditUI && pObjEditUI->CanImport())
+					{
+						wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
+						pObjEditUI->Import(pWnd);
+					}
+				}
+			}
+		break;
 	default:
 		return;
 	}
@@ -390,6 +436,8 @@ wxString wxGISGeoprocessingCmd::GetTooltip(void)
 			return wxString(_("Export item with parameters"));
 		case enumGISGeoprocessingCmdExportAttrbutes:
 			return wxString(_("Export item's attributes"));
+		case enumGISGeoprocessingCmdImport:
+			return wxString(_("Import into the item"));
 		default:
 			return wxEmptyString;
 	}

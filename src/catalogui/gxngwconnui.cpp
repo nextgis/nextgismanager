@@ -29,6 +29,7 @@
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
+#include "wxgis/catalogui/gxobjdialog.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -458,9 +459,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		}
 		else
 		{
-			
 			//export other vector and raster DS
-            wxVector<IGxDataset*> paDatasets;
+			/*wxVector<IGxDataset*> paDatasets;
 			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 			{
                 wxBusyCursor wait;
@@ -488,41 +488,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 					}
                 }
             }
-			
-			//create dialog for vector and raster config
-			wxGISDatasetImportDlg dlg(this, paDatasets, pParentWnd);
-			if(dlg.ShowModal() == wxID_OK)
-			{
-				size_t nCount = dlg.GetDatasetCount();
-				ProgressDlg.ShowProgress(true);
-				ProgressDlg.SetRange(nCount);
-				for ( size_t i = 0; i < nCount; ++i ) 
-				{    
-					ProgressDlg.SetValue(i);
-					if(!ProgressDlg.Continue())
-					{
-						return false;
-					}
-					
-					wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
-					if(descr.pDataset != NULL)
-					{
-						if(descr.pDataset->GetType() == enumGISFeatureDataset)
-						{
-							CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, &ProgressDlg);
-						}
-						else if(descr.pDataset->GetType() == enumGISRasterDataset)
-						{
-							CreateRasterLayer(descr.sName, descr.pDataset, &ProgressDlg);
-						}
-					}
-				}
-				
-				ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
-			
-				OnGetUpdates();
-				return true;
-			}		
+				*/
 		}
 	}
 	return false;
@@ -801,6 +767,97 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	}
 	
 	return false;		
+}
+
+bool wxGxNGWResourceGroupUI::CanImport()
+{
+	return true;
+}
+
+bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
+{
+	//open choose dialog
+	wxGxObjectDialog dlg(pWnd, wxID_ANY, _("Select input objects"));
+	wxGISAppConfig oConfig = GetConfig();
+	if(oConfig.IsOk())
+	{
+		wxString sPath = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/ngw_import/path"), wxEmptyString);
+		if(!sPath.IsEmpty())
+			dlg.SetStartingLocation(sPath);
+	}
+	dlg.SetAllowMultiSelect(true);
+	dlg.SetAllFilters(false);
+	dlg.SetOwnsFilter(true);
+	dlg.SetOverwritePrompt(false);
+	dlg.AddFilter(new wxGxDatasetFilter(enumGISAny), true);
+	
+	if(dlg.ShowModalOpen() == wxID_OK)
+	{
+		const wxGxObjectList lObj = dlg.GetChildren();
+		wxVector<IGxDataset*> paDatasets;
+		for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+		{
+			wxGxObject* pGxObject = *it;
+			if (NULL != pGxObject)
+			{
+				if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
+				{						
+					wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+					if (!pCont->HasChildren())
+						continue;
+					const wxGxObjectList lObj = pCont->GetChildren();
+					for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
+					{
+						IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
+						if (NULL != pGxDSet)
+						{
+							paDatasets.push_back(pGxDSet);
+						}
+					}
+				}
+				else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
+				{
+					paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+				}
+			}
+		}		
+		
+		
+		//create dialog for vector and raster config
+		wxGISDatasetImportDlg dlg(this, paDatasets, pWnd);
+		if(dlg.ShowModal() == wxID_OK)
+		{
+			size_t nCount = dlg.GetDatasetCount();
+			wxGISProgressDlg ProgressDlg(_("Import selected items"), _("Begin operation..."), nCount, pWnd);
+			ProgressDlg.ShowProgress(true);
+			for ( size_t i = 0; i < nCount; ++i ) 
+			{    
+				ProgressDlg.SetValue(i);
+				if(!ProgressDlg.Continue())
+				{
+					return false;
+				}
+				
+				wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
+				if(descr.pDataset != NULL)
+				{
+					if(descr.pDataset->GetType() == enumGISFeatureDataset)
+					{
+						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, &ProgressDlg);
+					}
+					else if(descr.pDataset->GetType() == enumGISRasterDataset)
+					{
+						CreateRasterLayer(descr.sName, descr.pDataset, &ProgressDlg);
+					}
+				}
+			}
+			
+			ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());		
+			OnGetUpdates();
+			return true;
+		}		
+	}
+	return false;
 }
 
 //--------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wxGISContDialog>
-  <frame maxi="no" width="400" height="300" xpos="0" ypos="0"/>
+  <frame maxi="no" width="600" height="400" xpos="0" ypos="0"/>
   <lastpath path="D:\">
     <expm_vector_ds path="D:\"/>
   </lastpath>

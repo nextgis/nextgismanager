@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wxGISObjDialog>
   <catalog ask_delete="yes"/>
-  <frame maxi="no" width="400" height="300" xpos="0" ypos="0"/>
+  <frame maxi="no" width="600" height="400" xpos="0" ypos="0"/>
   <lastpath path="D:\">
   </lastpath>
 </wxGISObjDialog>

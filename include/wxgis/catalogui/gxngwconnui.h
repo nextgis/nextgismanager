@@ -88,6 +88,8 @@ public:
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
+	virtual bool CanImport();
+	virtual bool Import(wxWindow* pWnd);
 	//
 	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
 protected:

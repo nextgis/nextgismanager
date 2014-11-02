@@ -92,6 +92,8 @@ class IGxObjectEditUI
 public:
 	virtual ~IGxObjectEditUI(void){};
 	virtual void EditProperties(wxWindow *parent){};
+	virtual bool Import(wxWindow *parent){return false;};
+	virtual bool CanImport(void){return false;};
 };
 
 enum wxGISEnumContentsViewStyle
