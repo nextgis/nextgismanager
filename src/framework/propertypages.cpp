@@ -188,7 +188,10 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
 	bSizerInfo->Add( m_bitmapwarn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
 	m_staticTextWarn = new wxStaticText( this, wxID_ANY, _("To apply some changes on this page the application restart needed"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextWarn->Wrap( 450 );
+	
+	int w = oConfig.ReadInt(enumGISHKCU, GetApplication()->GetAppName() + wxString(wxT("/propertypages/width")), 480);
+	
+	m_staticTextWarn->Wrap( w - 30 );
 
     wxFont WarnFont = this->GetFont();
     WarnFont.SetWeight(wxFONTWEIGHT_BOLD);

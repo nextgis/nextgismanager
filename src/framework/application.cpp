@@ -459,14 +459,14 @@ void wxGISApplication::OnAppOptions(void)
         wxGISErrorMessageBox(_("No Property Pages"));
         return;
     }
+	
+	int w = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/propertypages/width")), 480);
+	int h = oConfig.ReadInt(enumGISHKCU, GetAppName() + wxString(wxT("/propertypages/height")), 600);
+	
     //load pages to the dialog and show
     wxPropertySheetDialog PropertySheetDialog;
-    //(this, wxID_ANY, _("Options"), wxDefaultPosition, wxSize( 480,600 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
-    if (!PropertySheetDialog.Create(this, wxID_ANY, _("Options"), wxDefaultPosition, wxSize( 480,600 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
+    if (!PropertySheetDialog.Create(this, wxID_ANY, _("Options"), wxDefaultPosition, wxSize( w, h ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
         return;
-    //PropertySheetDialog.SetMinSize( wxSize( 480,600 ));
-    //PropertySheetDialog.SetSizeHints( wxSize( 480,600 ), wxDefaultSize );
-    //PropertySheetDialog. SetClientSize( wxSize( 480,600 ));
 
     PropertySheetDialog.SetIcon(options_xpm);
 
@@ -503,7 +503,7 @@ void wxGISApplication::OnAppOptions(void)
         //apply changes and exit
         for(size_t i = 0; i < PropertySheetDialog.GetBookCtrl()->GetPageCount(); ++i)
         {
-            IPropertyPage *pPage = wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);// dynamic_cast<IPropertyPage*>(PropertySheetDialog.GetBookCtrl()->GetPage(i));//
+            IPropertyPage *pPage = wxDynamicCast(PropertySheetDialog.GetBookCtrl()->GetPage(i), IPropertyPage);
             if(pPage)
             {
                  wxTheApp->Yield();

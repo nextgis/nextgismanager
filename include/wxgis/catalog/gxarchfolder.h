@@ -74,7 +74,6 @@ public:
 	virtual bool CanRename(void){return true;};
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-protected:
     virtual CPLString GetRealPath() const;
 };
 

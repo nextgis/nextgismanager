@@ -494,10 +494,10 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 			
 			size_t nCount = paDatasets.size();
 			ProgressDlg.SetTitle(_("Upload selected items"));
-			ProgressDlg.SetRange(nCount);
 			ProgressDlg.ShowProgress(true);
 			for ( size_t j = 0; j < nCount; ++j ) 
-			{    
+			{				
+				ProgressDlg.SetRange(nCount);
 				ProgressDlg.SetValue(j);
 				if(!ProgressDlg.Continue())
 				{
@@ -505,6 +505,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				}
 				
 				IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
+				wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(paDatasets[j]);
+				wxGxFile *pFile = dynamic_cast<wxGxFile*>(paDatasets[j]);
 				if(pGxDset)
 				{
 					wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
@@ -518,7 +520,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 							wxString sPath = wxString::FromUTF8(papszFileList[k]);
 							if(sPath.StartsWith(wxT("/vsi")))
 							{
-								ProgressDlg.PutMessage(wxString::Format(_("The archive file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
+								ProgressDlg.PutMessage(wxString::Format(_("The archived file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
 							}
 							else
 							{
@@ -528,7 +530,19 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						CSLDestroy(papszFileList);
 						CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
 					}
-				}					
+				}
+				else if(pArchive)
+				{
+					wxArrayString paths;
+					paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
+					CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);					
+				}
+				else if(pFile)
+				{
+					wxArrayString paths;
+					paths.Add(wxString::FromUTF8(pFile->GetPath()));
+					CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
+				}				
 			}
 			
 			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());		

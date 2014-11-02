@@ -995,7 +995,7 @@ void wxGxObjectDialog::SerializeFramePos(bool bSave)
 				m_pwxGxContentView->Serialize(pNode, bSave);
 		}
 		
-		FitInside();
+		//FitInside();
 	}
 }
 

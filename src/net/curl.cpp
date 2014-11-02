@@ -182,6 +182,11 @@ PERFORMRESULT wxGISCurl::UploadFile(const wxString & sURL, const wxString& sFile
     return ((wxGISCurlRefData *)m_refData)->UploadFile(sURL, sFilePath, pTrackCancel);
 }
 
+PERFORMRESULT wxGISCurl::UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel)
+{
+    return ((wxGISCurlRefData *)m_refData)->UploadFiles(sURL, asFilePaths, pTrackCancel);
+}
+
 //-----------------------------------------------------------------------------
 // wxGISCurlRefData
 //-----------------------------------------------------------------------------
@@ -606,8 +611,7 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 }
 
 PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel)
-{
-	//TODO: add ITrackCancel for progress
+{	
 	PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
@@ -628,6 +632,112 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
 		CURLFORM_COPYCONTENTS, CPLGetFilename(szFilePath),
 		CURLFORM_END);
  
+ 
+	/* Fill in the submit field too, even if this is rarely needed */ 
+	curl_formadd(&formpost, &lastptr,
+		CURLFORM_COPYNAME, "submit",
+		CURLFORM_COPYCONTENTS, "send",
+		CURLFORM_END);	
+			   
+	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
+    curl_easy_setopt(m_pCurl, CURLOPT_HTTPPOST, formpost);
+
+#if LIBCURL_VERSION_NUM >= 0x072000
+    struct ProgressStruct prog = { true, pTrackCancel };
+    if (pTrackCancel)
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        curl_easy_setopt(m_pCurl, CURLOPT_XFERINFODATA, &prog);
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 0L);
+    }
+    else
+    {
+        curl_easy_setopt(m_pCurl, CURLOPT_NOPROGRESS, 1L);
+    }
+#endif
+
+	headstruct.size = 0;
+	bodystruct.size = 0;
+
+	res = curl_easy_perform(m_pCurl);
+
+	//second try
+	if(res == CURLE_COULDNT_RESOLVE_HOST)
+		res = curl_easy_perform(m_pCurl);
+	//
+	
+	curl_easy_getinfo (m_pCurl, CURLINFO_RESPONSE_CODE, &result.nHTTPCode);
+	
+	if(res == CURLE_OK)
+	{
+		result.sHead = wxString((const char*)headstruct.memory, headstruct.size);//wxConvLocal,
+        //charset
+        int posb = result.sHead.Find(wxT("charset="));
+        wxString soSet;//(wxT("default"));
+        if( posb != wxNOT_FOUND)
+        {
+            soSet = result.sHead.Mid(posb + 8, 50);
+            int pose = soSet.Find(wxT("\r\n"));
+            soSet = soSet.Left(pose);
+        }
+
+        if( soSet.IsSameAs(wxT("utf-8"), false) || soSet.IsSameAs(wxT("utf8"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-16"), false) || soSet.IsSameAs(wxT("utf16"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-32"), false) || soSet.IsSameAs(wxT("utf32"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else if( soSet.IsSameAs(wxT("utf-7"), false) || soSet.IsSameAs(wxT("utf7"), false) )
+        {
+            result.sBody = wxString((const char*)bodystruct.memory, wxConvUTF8, bodystruct.size);
+        }
+        else
+        {
+            //wxCSConv
+            wxCSConv conv(soSet);
+
+            if(conv.IsOk())
+                result.sBody = wxString((const char*)bodystruct.memory, conv, bodystruct.size);
+            else
+                result.sBody = wxString((const char*)bodystruct.memory, *wxConvCurrent, bodystruct.size);//wxConvLocal,
+        }
+
+		result.iSize = headstruct.size + bodystruct.size;
+		result.IsValid = true;
+	}
+	return result;
+}
+
+PERFORMRESULT wxGISCurlRefData::UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel)
+{	
+	PERFORMRESULT result;
+	result.IsValid = false;
+	result.iSize = 0;
+	result.nHTTPCode = 0;
+	struct curl_httppost *formpost=NULL;
+	struct curl_httppost *lastptr=NULL;
+	
+	for ( size_t i = 0; i < asFilePaths.GetCount(); ++i ) 
+	{    
+		CPLString szFilePath(asFilePaths[i].ToUTF8());
+	
+		curl_formadd(&formpost, &lastptr,
+			CURLFORM_COPYNAME, "files[]",
+			CURLFORM_FILE, (const char*)szFilePath,
+			CURLFORM_END);
+			
+		//curl_formadd(&formpost, &lastptr,
+		//CURLFORM_COPYNAME, "name",
+		//CURLFORM_COPYCONTENTS, CPLGetFilename(szFilePath),
+		//CURLFORM_COPYCONTENTS, "files[]",
+		//CURLFORM_END);
+	}	 
  
 	/* Fill in the submit field too, even if this is rarely needed */ 
 	curl_formadd(&formpost, &lastptr,

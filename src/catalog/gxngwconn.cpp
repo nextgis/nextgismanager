@@ -937,7 +937,13 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 {
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
+        }
         return false;
+	}
 	
 	//TODO
 	wxString sPayload;
@@ -960,7 +966,9 @@ bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConn
 {
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
-        return false;	
+	{
+		return false;
+	}
 		
 		//{"resource":{"cls":"postgis_layer","parent":{"id":0},"display_name":"test","keyname":null,"description":null},"postgis_layer":{"connection":{"id":31},"table":"roads","schema":"thematic","column_id":"ogc_fid","column_geom":"wkb_geometry","geometry_type":null,"fields":"update","srs":{"id":3857}}}
 	wxJSONValue val;
@@ -998,7 +1006,9 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 {
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
+	{
         return false;
+	}
 	
 	// {"resource":{"cls":"postgis_connection","parent":{"id":0},"display_name":"gis lab info","keyname":"gis-lab","description":"gis-lab PostGIS Connection"},"postgis_connection":{"hostname":"gis-lab.info","database":"rosavto","username":"user","password":"secret"}}
 	
@@ -1032,7 +1042,96 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 
 bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, ITrackCancel* const pTrackCancel)
 {
-	return false;
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+	}
+	
+	//1. Upload files
+	//POST /rekod/file_upload/upload
+	//{"upload_meta": [{"id": "b5c02d94-e1d7-40cf-b9c7-79bc9cca429d", "name": "grunt_area_2_multipolygon.cpg", "mime_type": "application/octet-stream", "size": 5}, {"id": "d8457f14-39cb-4f9d-bb00-452a381fa62e", "name": "grunt_area_2_multipolygon.dbf", "mime_type": "application/x-dbf", "size": 36607}, {"id": "1b0754f8-079d-4675-9367-36531da247e1", "name": "grunt_area_2_multipolygon.prj", "mime_type": "application/octet-stream", "size": 138}, {"id": "a34b5ab3-f3a5-4a60-835d-318e601d34df", "name": "grunt_area_2_multipolygon.shp", "mime_type": "application/x-esri-shape", "size": 65132}, {"id": "fb439bfa-1a63-4384-957d-ae57bb5eb67b", "name": "grunt_area_2_multipolygon.shx", "mime_type": "application/x-esri-shape", "size": 1324}]}
+	
+	if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Upload files"), wxNOT_FOUND, enumGISMessageTitle);
+    }
+	
+	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
+    PERFORMRESULT res = curl.UploadFiles(sURL, asPaths, pTrackCancel);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		wxJSONReader reader;
+		wxJSONValue  JSONRoot;
+		int numErrors = reader.Parse(res.sBody, &JSONRoot);
+		if (numErrors > 0)  {    
+			if (pTrackCancel)
+			{
+				pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+			}
+			return false;
+		}
+		
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Create files set"), wxNOT_FOUND, enumGISMessageTitle);
+        }
+	
+	
+		//2. Create bucket
+		//POST /rekod/resource/0/child/
+		//{"resource":{"cls":"file_bucket","parent":{"id":0},"display_name":"grunt_area","keyname":null,"description":null},"file_bucket":{"files":[{"id":"b5c02d94-e1d7-40cf-b9c7-79bc9cca429d","name":"grunt_area_2_multipolygon.cpg","mime_type":"application/octet-stream","size":5},{"id":"d8457f14-39cb-4f9d-bb00-452a381fa62e","name":"grunt_area_2_multipolygon.dbf","mime_type":"application/x-dbf","size":36607},{"id":"1b0754f8-079d-4675-9367-36531da247e1","name":"grunt_area_2_multipolygon.prj","mime_type":"application/octet-stream","size":138},{"id":"a34b5ab3-f3a5-4a60-835d-318e601d34df","name":"grunt_area_2_multipolygon.shp","mime_type":"application/x-esri-shape","size":65132},{"id":"fb439bfa-1a63-4384-957d-ae57bb5eb67b","name":"grunt_area_2_multipolygon.shx","mime_type":"application/x-esri-shape","size":1324}]}}
+		
+		wxJSONValue val;
+		val["resource"]["cls"] = wxString(wxT("file_bucket"));
+		val["resource"]["parent"]["id"] = m_nRemoteId;
+		val["resource"]["display_name"] = sName;
+		val["file_bucket"]["files"] = JSONRoot["upload_meta"];
+		
+		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+		wxString sPayload;
+		writer.Write(val, sPayload);
+		
+		sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+        res = curl.Post(sURL, sPayload, pTrackCancel);
+		bResult = res.IsValid && res.nHTTPCode < 400;
+		
+		if(bResult)
+		{
+            //TODO: create default style
+
+			OnGetUpdates();
+			return true;		
+		}		
+	}
+
+	wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
+	wxString sErr;		
+	wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if(numErrors > 0 || !JSONRoot.HasMember("message"))
+	{
+		sErr = wxString (_("Unexpected error"));
+	}	
+	else
+	{
+		sErr = JSONRoot[wxT("message")].AsString();
+	}
+	
+	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
+	}
+	
+	return false;		
 }
 
 bool wxGxNGWResourceGroup::ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel )

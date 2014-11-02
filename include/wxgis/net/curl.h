@@ -66,6 +66,7 @@ public:
 	virtual PERFORMRESULT Delete(const wxString & sURL);
 	virtual PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
     virtual PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
+	virtual PERFORMRESULT UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel = NULL);
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
@@ -96,6 +97,7 @@ public:
 	PERFORMRESULT Delete(const wxString & sURL);
 	PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
     PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
+	PERFORMRESULT UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel = NULL);
 protected:
 	struct curl_slist *slist;
 	CURL *m_pCurl;
@@ -154,7 +156,6 @@ protected:
 
             if (pProgress)
             {
-                pProgress->SetYield(true);
                 if (pProgress->GetRange() != 100)
                     pProgress->SetRange(100);   
 
