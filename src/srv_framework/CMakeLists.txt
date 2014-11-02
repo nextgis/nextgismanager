@@ -27,7 +27,7 @@ set(LIB_HEADERS ${WXGIS_CURRENT_SOURCE_DIR}/include/wxgissrv/srv_framework)
 set(LIB_SOURCES ${WXGIS_CURRENT_SOURCE_DIR}/src/srv_framework)
 
 set(wxWidgets_EXCLUDE_COMMON_LIBRARIES ON)
-find_package(wxWidgets COMPONENTS base xml REQUIRED)
+find_package(wxWidgets 2.9 REQUIRED base xml)
 # wxWidgets include (this will do all the magic to configure everything)
 if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
