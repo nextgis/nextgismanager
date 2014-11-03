@@ -78,28 +78,28 @@ void ExportSingleDatasetSelect(wxWindow* pWnd, IGxDataset* const pGxDataset)
     }
     else if (eType == enumGISRasterDataset)
     {
-        //for (size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
-        //{
-        //    wxGISEnumRasterDatasetType eCurrentSubType = (wxGISEnumRasterDatasetType)i;
-        //    if (eCurrentSubType != eSubType && IsFileDataset(enumGISRasterDataset, eCurrentSubType))
-        //    {
-        //        if (bDefaultSet)
-        //        {
-        //            dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), false);
-        //        }
-        //        else
-        //        {
-        //            dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), true);
-        //            bDefaultSet = true;
-        //            eDefaulSubType = eCurrentSubType;
-        //        }
-        //    }
-        //}
+        for (size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
+        {
+            wxGISEnumRasterDatasetType eCurrentSubType = (wxGISEnumRasterDatasetType)i;
+            if (eCurrentSubType != eSubType && IsFileDataset(enumGISRasterDataset, eCurrentSubType))
+            {
+                if (bDefaultSet)
+                {
+                    dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), false);
+                }
+                else
+                {
+                    dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), true);
+                    bDefaultSet = true;
+                    eDefaulSubType = eCurrentSubType;
+                }
+            }
+        }
 
-        //if (eSubType != enumRasterPostGIS)
-        //{
-        //    dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
-        //}
+        if (eSubType != enumRasterPostGIS)
+        {
+            dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
+        }
     }
     else if (eType == enumGISTable)
     {
@@ -359,28 +359,28 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
     }
     else if (eType == enumGISRasterDataset)
     {
-        //for (size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
-        //{
-        //    wxGISEnumRasterDatasetType eCurrentSubType = (wxGISEnumRasterDatasetType)i;
-        //    if (eCurrentSubType != eSubType && IsFileDataset(enumGISRasterDataset, eCurrentSubType))
-        //    {
-        //        if (bDefaultSet)
-        //        {
-        //            dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), false);
-        //        }
-        //        else
-        //        {
-        //            dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), true);
-        //            bDefaultSet = true;
-        //            eDefaulSubType = eCurrentSubType;
-        //        }
-        //    }
-        //}
+        for (size_t i = enumRasterUnknown + 1; i < enumRasterMAX; ++i)
+        {
+            wxGISEnumRasterDatasetType eCurrentSubType = (wxGISEnumRasterDatasetType)i;
+            if (eCurrentSubType != eSubType && IsFileDataset(enumGISRasterDataset, eCurrentSubType))
+            {
+                if (bDefaultSet)
+                {
+                    dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), false);
+                }
+                else
+                {
+                    dlg.AddFilter(new wxGxRasterDatasetFilter(eCurrentSubType), true);
+                    bDefaultSet = true;
+                    eDefaulSubType = eCurrentSubType;
+                }
+            }
+        }
 
-        //if (eSubType != enumRasterPostGIS)
-        //{
-        //    dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
-        //}
+        if (eSubType != enumRasterPostGIS)
+        {
+            dlg.AddFilter(new wxGxRasterDatasetFilter(enumRasterPostGIS), false);
+        }
     }
     else if (eType == enumGISTable)
     {
@@ -486,9 +486,9 @@ void ExportMultipleDatasetsSelect(wxWindow* pWnd, wxVector<IGxDataset*> &paDatas
 
         //TODO: Now we create the copies (new names) instead of overwrite, but should show table with exist names and new names. If user set the same name - overwrite
         // |----------------|------------------|
-        // |    dataset1    |  dataset1 (1)    |
-        // |    dataset2    |  dataset2 (1)    |
-        // |    dataset3    |  dataset3 (2)    |
+        // |    dataset1    |   dataset1 (1)   |
+        // |    dataset2    |   dataset2 (1)   |
+        // |    dataset3    |   dataset3 (2)   |
         // |----------------|------------------|
 
         wxVector<EXPORTED_DATASET> paExportDatasets;
@@ -613,9 +613,9 @@ void ExportMultipleDatasetsAttributes(wxWindow* pWnd, wxVector<IGxDataset*> &paD
 
         //TODO: Now we create the copies (new names) instead of overwrite, but should show table with exist names and new names. If user set the same name - overwrite
         // |----------------|------------------|
-        // |    dataset1    |  dataset1 (1)    |
-        // |    dataset2    |  dataset2 (1)    |
-        // |    dataset3    |  dataset3 (2)    |
+        // |    dataset1    |   dataset1 (1)   |
+        // |    dataset2    |   dataset2 (1)   |
+        // |    dataset3    |   dataset3 (2)   |
         // |----------------|------------------|
 
         wxVector<EXPORTED_DATASET> paExportDatasets;
@@ -810,7 +810,72 @@ void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
 
 void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets)
 {
+    wxCHECK_RET(pWnd && pFilter && paDatasets.size() > 1, wxT("The input pointer is NULL or datasets array is empty"));
 
+    wxGISProgressDlg ProgressDlg(_("Exporting..."), _("Begin operation..."), 100, pWnd);
+    ProgressDlg.SetAddPercentToMessage(false);
+    ProgressDlg.ShowProgress(true);
+
+    for (size_t i = 0; i < paDatasets.size(); ++i)
+    {
+        ProgressDlg.SetTitle(wxString::Format(_("Proceed %ld of %ld..."), i + 1, paDatasets.size()));
+        wxGISDataset* pDataset = paDatasets[i].pDSet->GetDataset(false, &ProgressDlg);
+        wxVector<wxGISTable*> apTables;
+        if (pDataset->GetSubsetsCount() == 0)
+        {
+            wxGISTable* pTable = wxDynamicCast(pDataset, wxGISTable);
+            if (NULL != pTable)
+            {
+                pTable->Reference();
+                apTables.push_back(pTable);
+            }
+        }
+        else
+        {
+            for (size_t j = 0; j < pDataset->GetSubsetsCount(); ++j)
+            {
+                wxGISTable* pTable = wxDynamicCast(pDataset->GetSubset(j), wxGISTable);
+                if (NULL != pTable)
+                {
+                    pTable->Reference();
+                    apTables.push_back(pTable);
+                }
+            }
+        }
+
+        if (apTables.size() == 0)
+        {
+            wxGISErrorMessageBox(_("The dataset is empty"));
+            return;
+        }
+
+        for (size_t j = 0; j < apTables.size(); ++j)
+        {
+            if(!ProgressDlg.Continue())
+                break;
+            if (!apTables[j]->IsOpened())
+            {
+                if (!apTables[j]->Open(0, true, true, false, &ProgressDlg))
+                {
+                    wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
+                    wsDELETE(apTables[j]);
+                    continue;
+                }
+            }
+
+            if (!ExportFormat(apTables[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg))
+            {
+                wsDELETE(apTables[j]);
+                continue;
+            }
+            wsDELETE(apTables[j]);
+        }
+    }
+
+    if (ProgressDlg.GetWarningCount() > 0 && ProgressDlg.Continue())
+    {
+        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
+    }
 }
 
 #endif // wxGIS_HAVE_GEOPROCESSING
