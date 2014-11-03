@@ -933,8 +933,18 @@ bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset
 	return false;		
 }
 
-bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel)
 {
+	wxGISRasterDataset* pInputRasterDataset = dynamic_cast<wxGISRasterDataset*>(pInputDataset); 
+	if(NULL == pInputRasterDataset)
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Dataset type is not supported. Raster expected."), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+	}	
+	
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
@@ -945,21 +955,102 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
         return false;
 	}
 	
-	//TODO
-	wxString sPayload;
-	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-    PERFORMRESULT res = curl.Post(sURL, sPayload, pTrackCancel);
+	//1. create temp tif file
+	if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Prepare GeoTiff file"), wxNOT_FOUND, enumGISMessageTitle);
+    }
+	
+	CPLString szFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "tif");
+	CPLErrorReset();
+	
+	// gdal_translate.cpp
+	
+	//2. auto crop if needed
+	if(bAutoCrop)
+	{
+		// nearblack.cpp
+	}
+	
+	//3. upload with progress
+	
+	if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Upload file"), wxNOT_FOUND, enumGISMessageTitle);
+    }
+	
+	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
+    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFileName), pTrackCancel);
+	DeleteFile(szFileName, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
 	{
-		OnGetUpdates();
-		return true;		
+		wxJSONReader reader;
+		wxJSONValue  JSONRoot;
+		int numErrors = reader.Parse(res.sBody, &JSONRoot);
+		if (numErrors > 0)  {    
+			if (pTrackCancel)
+			{
+				pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+			}
+			return false;
+		}
+
+		
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("Create NGW layer"), wxNOT_FOUND, enumGISMessageTitle);
+        }
+		wxJSONValue val;
+		val["resource"]["cls"] = wxString(wxT("raster_layer"));
+		val["resource"]["parent"]["id"] = m_nRemoteId;
+		val["resource"]["display_name"] = sName;
+	//	val["vector_layer"]["srs"]["id"] = 3857;
+	//	val["vector_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
+	//	val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
+	//	val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
+	//	val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
+	//	val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
+		
+		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+		wxString sPayload;
+		writer.Write(val, sPayload);
+		
+		sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+        res = curl.Post(sURL, sPayload, pTrackCancel);
+		bResult = res.IsValid && res.nHTTPCode < 400;
+		
+		if(bResult)
+		{
+            //TODO: create default style
+
+			OnGetUpdates();
+			return true;		
+		}		
 	}
 		
-	ReportError(res.nHTTPCode, res.sBody);	
-		
-	return false;		
+	wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
+	wxString sErr;		
+	wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if(numErrors > 0 || !JSONRoot.HasMember("message"))
+	{
+		sErr = wxString (_("Unexpected error"));
+	}	
+	else
+	{
+		sErr = JSONRoot[wxT("message")].AsString();
+	}
+	
+	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
+	}
+	
+	return false;				
 }
 
 bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom)
@@ -1136,6 +1227,17 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 
 bool wxGxNGWResourceGroup::ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel )
 {
+	//0. check if warped
+	if(!pSrcDataSet->IsOpened())
+		pSrcDataSet->Open();
+	if(pSrcDataSet->IsWarped())
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("The warped images is not supported!"), wxNOT_FOUND, enumGISMessageError);
+        }
+		return false;
+	}
 	//1. check spatial reference
 	wxGISSpatialReference SpaRef = pSrcDataSet->GetSpatialReference();
 	wxGISSpatialReference SpaRefWGS(new OGRSpatialReference(SRS_WKT_WGS84));

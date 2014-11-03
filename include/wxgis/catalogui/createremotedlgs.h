@@ -38,6 +38,7 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/imaglist.h>
+#include <wx/tglbtn.h>
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -104,6 +105,37 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+/** @class wxGISDatasetImportDlg
+
+    The dialog to configurate importing datasets (raster or vector) - new names, set encodings, set bands, etc. 
+
+    @library{catalogui}
+*/
+class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
+{
+public:
+	typedef struct _bands{
+		unsigned char R;
+		unsigned char G;
+		unsigned char B;
+		unsigned char A;
+	} BANDS;
+	typedef struct _datasetdescr{
+		wxGISDataset* pDataset;
+		wxString sName;
+		OGRwkbGeometryType eFilterGeometryType;
+		bool bToMultigeomOrAutoCrop;
+		BANDS nRGBABands;
+	} DATASETDESCR;	
+	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+	virtual ~wxGISDatasetImportDlg();
+	virtual size_t GetDatasetCount();
+	virtual DATASETDESCR GetDataset(size_t nIndex) const;
+protected:
+	wxBoxSizer *m_bMainSizer;
+	wxVector<DATASETDESCR> m_paDatasets;
+};
+
 /** @class wxGISVectorImportPanel
  *  
  *  The import vector dataset panel.
@@ -155,7 +187,9 @@ class WXDLLIMPEXP_GIS_CLU wxGISRasterImportPanel : public wxGISBaseImportPanel
 public:
 	wxGISRasterImportPanel( wxGISRasterDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
     virtual ~wxGISRasterImportPanel();
-	virtual wxGISDataset* GetDataset() const;
+	virtual wxGISDataset* GetDataset() const;	
+	virtual bool GetAutoCrop() const;	
+	virtual wxGISDatasetImportDlg::BANDS GetBands() const;
 	//events
 	virtual void OnCrop(wxCommandEvent& event);
 protected:
@@ -164,33 +198,9 @@ protected:
 	wxChoice* m_pGreenBandCombo;
 	wxChoice* m_pBlueBandCombo;
 	wxChoice* m_pAlphaBandCombo;
-	wxButton *m_pCropButton;
+	wxToggleButton *m_pCropButton;
 private:
     DECLARE_EVENT_TABLE()
-};
-
-/** @class wxGISDatasetImportDlg
-
-    The dialog to configurate importing datasets (raster or vector) - new names, set encodings, set bands, etc. 
-
-    @library{catalogui}
-*/
-class  WXDLLIMPEXP_GIS_CLU wxGISDatasetImportDlg : public wxDialog
-{
-public:
-	typedef struct _datasetdescr{
-		wxGISDataset* pDataset;
-		wxString sName;
-		OGRwkbGeometryType eFilterGeometryType;
-		bool bToMultigeom;
-	} DATASETDESCR;	
-	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
-	virtual ~wxGISDatasetImportDlg();
-	virtual size_t GetDatasetCount();
-	virtual DATASETDESCR GetDataset(size_t nIndex) const;
-protected:
-	wxBoxSizer *m_bMainSizer;
-	wxVector<DATASETDESCR> m_paDatasets;
 };
 
 /** @class wxGISDatasetTestEncodingDlg

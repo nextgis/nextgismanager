@@ -705,7 +705,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	{
         if (pTrackCancel)
         {
-            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' creaate failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
+            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' create failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
         }
         return false;	
 	}
@@ -906,7 +906,7 @@ bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 					}
 					else if(descr.pDataset->GetType() == enumGISRasterDataset)
 					{
-						CreateRasterLayer(descr.sName, descr.pDataset, &ProgressDlg);
+						CreateRasterLayer(descr.sName, descr.pDataset, descr.nRGBABands.R, descr.nRGBABands.G, descr.nRGBABands.B, descr.nRGBABands.A, descr.bToMultigeomOrAutoCrop, &ProgressDlg);
 					}
 				}
 			}

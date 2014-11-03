@@ -519,7 +519,7 @@ bool wxGISVectorImportPanel::GetToMulti() const
 IMPLEMENT_CLASS(wxGISRasterImportPanel, wxGISBaseImportPanel)
 
 BEGIN_EVENT_TABLE(wxGISRasterImportPanel, wxGISBaseImportPanel)
-	EVT_BUTTON(wxGISRasterImportPanel::ID_CROP, wxGISRasterImportPanel::OnCrop)
+	EVT_TOGGLEBUTTON(wxGISRasterImportPanel::ID_CROP, wxGISRasterImportPanel::OnCrop)
 END_EVENT_TABLE();
 
 wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
@@ -620,7 +620,7 @@ wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxO
 	pFunctSizer->Add( m_pAlphaBandCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );	
 	
 	
-	m_pCropButton = new wxButton(this, ID_CROP, _("Crop"));
+	m_pCropButton = new wxToggleButton(this, ID_CROP, _("Auto crop"));
 	pFunctSizer->Add( m_pCropButton, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
@@ -656,14 +656,39 @@ wxGISRasterImportPanel::~wxGISRasterImportPanel()
 
 void wxGISRasterImportPanel::OnCrop(wxCommandEvent& event)
 {
-//	wxGISDatasetTestEncodingDlg dlg(m_pFeatureClass, this);
-//	dlg.ShowModal();
+	if(m_pCropButton->GetValue())
+	{
+		m_pAlphaBandCombo->Disable();
+	}
+	else
+	{
+		m_pAlphaBandCombo->Enable();
+	}
 }
 
 wxGISDataset* wxGISRasterImportPanel::GetDataset() const
 {
 	wxGISDataset* pDSet = wxStaticCast(m_pRasterDataset, wxGISDataset);
 	wsGET(pDSet);
+}
+
+bool wxGISRasterImportPanel::GetAutoCrop() const
+{
+	return m_pCropButton->GetValue();
+}	
+
+wxGISDatasetImportDlg::BANDS wxGISRasterImportPanel::GetBands() const
+{
+	wxGISDatasetImportDlg::BANDS out;
+	out.R = wxAtoi(m_pRedBandCombo->GetString(m_pRedBandCombo->GetSelection()));
+	out.G = wxAtoi(m_pGreenBandCombo->GetString(m_pGreenBandCombo->GetSelection()));
+	out.B = wxAtoi(m_pBlueBandCombo->GetString(m_pBlueBandCombo->GetSelection()));
+	wxString sAVal = m_pAlphaBandCombo->GetString(m_pAlphaBandCombo->GetSelection());
+	if(m_pCropButton->GetValue() || sAVal.IsSameAs(_("none")))
+		out.A = 0;
+	else
+		out.A = wxAtoi(sAVal);
+	return out;
 }
 	
 //-------------------------------------------------------------------------------
@@ -824,17 +849,18 @@ size_t wxGISDatasetImportDlg::GetDatasetCount()
 			if(pImportPanel && pImportPanel->GetLastMessageType() != enumGISMessageError && pImportPanel->TransferDataFromWindow())
 			{
 				wxGISVectorImportPanel* pVectorPanel = dynamic_cast<wxGISVectorImportPanel*>(pImportPanel);
+				wxGISRasterImportPanel* pRasterPanel = dynamic_cast<wxGISRasterImportPanel*>(pImportPanel);
 				wxGISDataset* pDSet = pImportPanel->GetDataset();
 				if(pDSet)
 				{
 					if(pVectorPanel)
 					{
-						DATASETDESCR descr = {pDSet, pVectorPanel->GetDatasetName(), pVectorPanel->GetFilterGeometryType(), pVectorPanel->GetToMulti()};
+						DATASETDESCR descr = {pDSet, pVectorPanel->GetDatasetName(), pVectorPanel->GetFilterGeometryType(), pVectorPanel->GetToMulti(), 0, 0, 0, 0};
 						m_paDatasets.push_back(descr);						
 					}
-					else
+					else if(pRasterPanel)
 					{
-						DATASETDESCR descr = {pDSet, pImportPanel->GetDatasetName(), wkbUnknown, false};
+						DATASETDESCR descr = {pDSet, pRasterPanel->GetDatasetName(), wkbUnknown, pRasterPanel->GetAutoCrop(), pRasterPanel->GetBands()};
 						m_paDatasets.push_back(descr);
 					}
 				}
@@ -850,7 +876,7 @@ wxGISDatasetImportDlg::DATASETDESCR wxGISDatasetImportDlg::GetDataset(size_t nIn
 	{
 		return m_paDatasets[nIndex];
 	}
-	DATASETDESCR ret = {NULL, wxEmptyString, wkbUnknown, false};
+	DATASETDESCR ret = {NULL, wxEmptyString, wkbUnknown, false, 0, 0, 0, 0};
 	return ret;
 }
 

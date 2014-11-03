@@ -47,6 +47,7 @@ wxGISRasterDataset::wxGISRasterDataset(const CPLString &sPath, wxGISEnumRasterDa
     m_poMainDataset = NULL;
     m_poDataset = NULL;
     m_nBandCount = 0;
+	m_bWarped = false;
 }
 
 wxGISRasterDataset::~wxGISRasterDataset(void)
@@ -64,6 +65,7 @@ void wxGISRasterDataset::Close(void)
 		m_nDataType = GDT_Unknown;
         m_bHasOverviews = false;
         m_bHasStats = false;
+		m_bWarped = false;
         m_nBandCount = 0;
         if(m_poDataset)
 		{
@@ -402,6 +404,8 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
                 m_poDataset = m_poMainDataset;
                 m_poMainDataset = NULL;
             }
+			
+			m_bWarped = true;
         }
     }
 
@@ -517,6 +521,11 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
 
 	m_bIsOpened = true;
 	return true;
+}
+
+bool wxGISRasterDataset::IsWarped() const
+{
+	return m_bWarped;
 }
 
 const wxGISSpatialReference wxGISRasterDataset::GetSpatialReference(void)

@@ -62,6 +62,7 @@ public:
 	virtual bool HasNoData(int nBand){return !IsDoubleEquil(m_paNoData[nBand - 1], NOTNODATA);};
 	virtual double GetNoData(int nBand){return m_paNoData[nBand - 1];};
 	virtual bool WriteWorldFile(wxGISEnumWldExtType eType);
+	virtual bool IsWarped() const;
 protected:
     bool FixSAGARaster(const CPLString &szDestPath, const CPLString &szDestName);
 protected:
@@ -75,5 +76,6 @@ protected:
 	int m_nBandCount;
 	GDALDataType m_nDataType;
     double *m_paNoData;
+	bool m_bWarped;
 };
 
