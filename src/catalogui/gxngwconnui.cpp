@@ -580,7 +580,7 @@ void wxGxNGWResourceGroupUI::EditProperties(wxWindow *parent)
 
 bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
 {
-	
+#ifdef wxGIS_HAVE_GEOPROCESSING	
 	wxGISFeatureDataset* pInputFeatureDataset = dynamic_cast<wxGISFeatureDataset*>(pInputDataset); 
 	if(NULL == pInputFeatureDataset)
 	{
@@ -826,6 +826,14 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	}
 	
 	return false;		
+#else
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(_("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
+	}
+
+	return false;
+#endif //# wxGIS_HAVE_GEOPROCESSING	
 }
 
 bool wxGxNGWResourceGroupUI::CanImport()

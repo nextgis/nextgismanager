@@ -795,6 +795,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 							m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
 						}
 					}
+					wsDELETE(pGISDs);
 				}
 				else if(pSrcDs->GetType() == enumGISRasterDataset)
 				{
@@ -810,6 +811,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 					
 					wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
 					m_bMainSizer->Add( new wxGISRasterImportPanel(pSrcRasterDs, pDestDs, sOutName, this), 0, wxEXPAND | wxALL, 0 );
+					wsDELETE(pGISDs);
 				}
 			}
 		}

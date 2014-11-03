@@ -935,6 +935,7 @@ bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset
 
 bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel)
 {
+#ifdef wxGIS_HAVE_GEOPROCESSING	
 	wxGISRasterDataset* pInputRasterDataset = dynamic_cast<wxGISRasterDataset*>(pInputDataset); 
 	if(NULL == pInputRasterDataset)
 	{
@@ -1050,7 +1051,15 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
 	}
 	
-	return false;				
+	return false;		
+#else
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(_("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
+	}
+
+	return false;
+#endif //# wxGIS_HAVE_GEOPROCESSING			
 }
 
 bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom)
