@@ -34,24 +34,6 @@ typedef struct _st_field_map
     OGRFieldType eFieldType;
 }ST_FIELD_MAP;
 
-class wxGISConfigOptionReset
-{
-public:
-    wxGISConfigOptionReset(CPLString sName, CPLString sSetValue, CPLString sResetValue)
-    {
-        m_sName = sName;
-        m_sSetValue = sSetValue;
-        m_sResetValue = sResetValue;
-        CPLSetConfigOption(m_sName, m_sSetValue);
-    }
-    ~wxGISConfigOptionReset()
-    {
-        CPLSetConfigOption(m_sName, m_sResetValue);
-    }
-protected:
-    CPLString m_sName, m_sSetValue, m_sResetValue;
-};
-
 /**
     Copy rows from one format (file) to another.
 

@@ -163,3 +163,28 @@ public:
     virtual void Copy(IGPTool* const pTool) = 0;
 };
 */
+
+/** @class wxGISConfigOptionReset
+ * 
+ *  Helper class to set and unset on desctruction the gdal config option
+ * 
+ *  @library{gp}
+ */
+
+class wxGISConfigOptionReset
+{
+public:
+    wxGISConfigOptionReset(CPLString sName, CPLString sSetValue, CPLString sResetValue)
+    {
+        m_sName = sName;
+        m_sSetValue = sSetValue;
+        m_sResetValue = sResetValue;
+        CPLSetConfigOption(m_sName, m_sSetValue);
+    }
+    ~wxGISConfigOptionReset()
+    {
+        CPLSetConfigOption(m_sName, m_sResetValue);
+    }
+protected:
+    CPLString m_sName, m_sSetValue, m_sResetValue;
+};
