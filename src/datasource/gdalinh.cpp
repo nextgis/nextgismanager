@@ -21,6 +21,31 @@
 #include "wxgis/datasource/gdalinh.h"
 #include <wx/encconv.h>
 
+int CPL_STDCALL GDALExecuteProgress( double dfComplete, const char *pszMessage, void *pData)
+{
+    bool bCancel = false;
+    ITrackCancel* pTrackCancel = (ITrackCancel*)pData;
+
+    if(pTrackCancel)
+    {
+        if( pszMessage )
+        {
+            wxString soMsg = wxString::FromUTF8(pszMessage);
+            if(!soMsg.IsEmpty())
+                pTrackCancel->PutMessage( soMsg, wxNOT_FOUND, enumGISMessageNormal );
+        }
+		
+        IProgressor* pRogress = pTrackCancel->GetProgressor();
+        if( pRogress )
+		{
+			pRogress->SetRange(100);
+            pRogress->SetValue((int) (dfComplete * 100));
+		}
+        bCancel = !pTrackCancel->Continue();
+    }
+    return !bCancel;
+}
+
 //-----------------------------------------------------------------------------
 // wxGISSpatialReference
 //-----------------------------------------------------------------------------

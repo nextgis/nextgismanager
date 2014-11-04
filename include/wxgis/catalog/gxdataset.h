@@ -23,8 +23,6 @@
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxobject.h"
 #include "wxgis/datasource/dataset.h"
-#include "wxgis/datasource/table.h"
-#include "wxgis/datasource/featuredataset.h"
 
 /** @class wxGxDataset
 

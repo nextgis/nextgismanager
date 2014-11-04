@@ -55,18 +55,9 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/geoprocessing.h
     ${LIB_HEADERS}/tskmngr.h
     ${LIB_HEADERS}/task.h
-   # ${LIB_HEADERS}/gpcompstattool.h
-   # ${LIB_HEADERS}/gpcreateovrtool.h
     ${LIB_HEADERS}/gpdomain.h
-   # ${LIB_HEADERS}/gpexporttool.h
-   # ${LIB_HEADERS}/gpgeomverttoptstool.h
-   # ${LIB_HEADERS}/gporthocorrecttool.h
     ${LIB_HEADERS}/gpparam.h
-   # ${LIB_HEADERS}/gpprojecttool.h
-   # ${LIB_HEADERS}/gpraster.h
-   # ${LIB_HEADERS}/gpshapetotexttool.h
-   # ${LIB_HEADERS}/gpsubrasterbyvectortool.h
-   # ${LIB_HEADERS}/gpsumtabletool.h
+    ${LIB_HEADERS}/gpraster.h
    # ${LIB_HEADERS}/gptable.h
    # ${LIB_HEADERS}/gptool.h
    # ${LIB_HEADERS}/gptoolmngr.h
@@ -76,22 +67,39 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}  
     ${LIB_SOURCES}/tskmngr.cpp  
     ${LIB_SOURCES}/task.cpp  
-    # ${LIB_SOURCES}/gpcompstattool.cpp
-    # ${LIB_SOURCES}/gpcreateovrtool.cpp
      ${LIB_SOURCES}/gpdomain.cpp
-    # ${LIB_SOURCES}/gpexporttool.cpp
-    # ${LIB_SOURCES}/gpgeomverttoptstool.cpp
-    # ${LIB_SOURCES}/gporthocorrecttool.cpp
      ${LIB_SOURCES}/gpparam.cpp
-    # ${LIB_SOURCES}/gpprojecttool.cpp
-    # ${LIB_SOURCES}/gpraster.cpp
-    # ${LIB_SOURCES}/gpshapetotexttool.cpp
-    # ${LIB_SOURCES}/gpsubrasterbyvectortool.cpp
-    # ${LIB_SOURCES}/gpsumtabletool.cpp
+    ${LIB_SOURCES}/gpraster.cpp
     # ${LIB_SOURCES}/gptable.cpp
     # ${LIB_SOURCES}/gptool.cpp
     # ${LIB_SOURCES}/gptoolmngr.cpp
     ${LIB_SOURCES}/gpvector.cpp    
+)
+
+## tools
+
+set(PROJECT_HHEADERS ${PROJECT_HHEADERS} 
+   # ${LIB_HEADERS}/gpcompstattool.h
+   # ${LIB_HEADERS}/gpcreateovrtool.h
+   # ${LIB_HEADERS}/gpexporttool.h
+   # ${LIB_HEADERS}/gpgeomverttoptstool.h
+   # ${LIB_HEADERS}/gporthocorrecttool.h
+   # ${LIB_HEADERS}/gpprojecttool.h
+   # ${LIB_HEADERS}/gpshapetotexttool.h
+   # ${LIB_HEADERS}/gpsubrasterbyvectortool.h
+   # ${LIB_HEADERS}/gpsumtabletool.h
+)
+
+set(PROJECT_CSOURCES ${PROJECT_CSOURCES}  
+    # ${LIB_SOURCES}/gpcompstattool.cpp
+    # ${LIB_SOURCES}/gpcreateovrtool.cpp
+    # ${LIB_SOURCES}/gpexporttool.cpp
+    # ${LIB_SOURCES}/gpgeomverttoptstool.cpp
+    # ${LIB_SOURCES}/gporthocorrecttool.cpp
+    # ${LIB_SOURCES}/gpprojecttool.cpp
+    # ${LIB_SOURCES}/gpshapetotexttool.cpp
+    # ${LIB_SOURCES}/gpsubrasterbyvectortool.cpp
+    # ${LIB_SOURCES}/gpsumtabletool.cpp
 )
 
 add_definitions(-DwxUSE_GUI=0 -DWXMAKINGDLL_GIS_GP)

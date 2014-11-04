@@ -48,6 +48,8 @@
 #define wxGISEQUAL(a,b) ( (const char*)a == NULL ? 0 : EQUAL(a,b) )
 #define wxGISEQUALN(a,b,n) ( (const char*)a == NULL ? 0 : EQUALN(a,b,n) )
 
+int WXDLLIMPEXP_GIS_DS CPL_STDCALL GDALExecuteProgress( double dfComplete, const char *pszMessage, void *pData);
+
 /** @class wxGISSpatialReference
 
     AnOGRSpatialReference wrapper class.

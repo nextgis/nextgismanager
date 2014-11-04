@@ -24,6 +24,7 @@
 
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/rasterdataset.h"
+#include "wxgis/datasource/table.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/app.h"
 

@@ -21,10 +21,9 @@
 #pragma once
 
 #include "wxgis/catalog/catalog.h"
+#include "wxgis/catalog/gxfilters.h"
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
-
-#include "wxgis/geoprocessing/gpvector.h"
 
 typedef struct _exported_dataset
 {

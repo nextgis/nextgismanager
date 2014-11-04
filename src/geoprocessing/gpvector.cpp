@@ -27,7 +27,7 @@
 #include "wxgisdefs.h"
 
 #ifdef wxGIS_USE_POSTGRES
-#include "wxgis/datasource/postgisdataset.h"
+	#include "wxgis/datasource/postgisdataset.h"
 #endif // wxGIS_USE_POSTGRES
 
 #include <wx/fontmap.h>
@@ -402,7 +402,7 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
-
+	
     if (pTrackCancel)
     {
         if (SpaFilter.GetWhereClause().IsEmpty())
@@ -474,19 +474,6 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
 bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, OGRwkbGeometryType eFilterGeomType, bool bToMulti, bool bSkipEmptyGeometry, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
-
-    CPLString szBaseName = (char*)CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
-    wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-    if (!OverWriteGxObject(pObj, pTrackCancel))
-    {
-        wxString sErr(_("Overwrite failed"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
-        }
-        return false;
-    }
 
     if (pTrackCancel)
     {
@@ -617,19 +604,6 @@ bool ExportFormat(wxGISTable* const pSrsDataSet, const CPLString &sPath, const w
     if (pTrackCancel)
     {
         pTrackCancel->PutMessage(_("Get features..."), wxNOT_FOUND, enumGISMessageNormal);
-    }
-
-    CPLString szBaseName = (char*)CPLFormFilename(sPath, sName.mb_str(wxConvUTF8), sExt.mb_str(wxConvUTF8));
-    wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString(szBaseName, wxConvUTF8)), wxGxObject);
-    if (!OverWriteGxObject(pObj, pTrackCancel))
-    {
-        wxString sErr(_("Overwrite failed"));
-        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
-        }
-        return false;
     }
 
     wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
@@ -1606,6 +1580,23 @@ bool GeometryVerticesToPointsDataset(long nGeomFID, OGRGeometry* pGeom, wxGISFea
 //TODO: Think about move to wxGISDataset static method
 wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, OGRFeatureDefn* const poFields, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, ITrackCancel* const pTrackCancel)
 {
+	CPLString szFullPath = sPath;
+    if (!sName.IsEmpty())
+    {
+        szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
+    }
+	
+	wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString::FromUTF8(szFullPath)), wxGxObject);
+    if (!OverWriteGxObject(pObj, pTrackCancel))
+    {
+        wxString sErr(_("Overwrite failed"));
+        CPLError(CE_Failure, CPLE_AppDefined, sErr.ToUTF8());
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+        }
+        return NULL;
+    }
 
     bool bIsFilerValid = pFilter && (pFilter->GetType() == enumGISFeatureDataset || pFilter->GetType() == enumGISTable);
     if(!bIsFilerValid)
@@ -1614,12 +1605,6 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         if(pTrackCancel)
             pTrackCancel->PutMessage(_("Input data is invalid: unsuported filter"), wxNOT_FOUND, enumGISMessageError);
         return NULL;
-    }
-
-    CPLString szFullPath = sPath;
-    if (!sName.IsEmpty())
-    {
-        szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
     }
 
     CPLErrorReset();
