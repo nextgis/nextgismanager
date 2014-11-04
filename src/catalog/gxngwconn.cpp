@@ -1067,7 +1067,7 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 
             //create default style
 			int nRasterLayerId = JSONRoot["id"].AsInt();
-			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName + wxT(" ") + _("style"), enumNGWResourceTypeRasterLayerStyle, pTrackCancel);
+			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeRasterLayerStyle, 0, pTrackCancel);
 			OnGetUpdates();
 			
 			if(bResult)
@@ -1639,7 +1639,7 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 	return true;	
 }
 
-bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, ITrackCancel* const pTrackCancel)
+bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, int nSubType, ITrackCancel* const pTrackCancel)
 {
 	wxGISCurl curl = pService->GetCurl();
     if(!curl.IsOk())
@@ -1667,6 +1667,25 @@ bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nPare
 			val["resource"]["display_name"] = sStyleName;
 			break;
 		case enumNGWResourceTypeVectorLayerStyle:
+			val["resource"]["cls"] = wxString(wxT("mapserver_style"));
+			val["resource"]["parent"]["id"] = nParentId;
+			val["resource"]["display_name"] = sStyleName;
+			switch(nSubType)
+			{
+				case wkbPoint:
+				case wkbMultiPoint:
+					val["mapserver_style"]["xml"] = wxString(wxT("<map><symbol><type>ellipse</type><name>circle</name><points>1 1</points><filled>true</filled></symbol><layer><class><style><color blue=\"189\" green=\"128\" red=\"188\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/><symbol>circle</symbol><size>6</size></style></class></layer></map>"));
+					break;
+				case wkbLineString:
+				case wkbMultiLineString:
+				case wkbPolygon:
+				case wkbMultiPolygon:
+					val["mapserver_style"]["xml"] = wxString(wxT("<map><layer><class><style><color blue=\"218\" green=\"186\" red=\"190\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/></style></class></layer></map>"));
+					break;
+				default:
+					return true;
+			}
+			break;
 		default:
 			return true;
 	};

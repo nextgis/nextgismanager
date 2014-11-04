@@ -812,7 +812,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		
             //create default style
 			int nRasterLayerId = JSONRoot["id"].AsInt();
-			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName + wxT(" ") + _("style"), enumNGWResourceTypeVectorLayerStyle, pTrackCancel);
+			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeVectorLayerStyle, wkbFlatten(pInputFeatureDataset->GetGeometryType()), pTrackCancel);
 			OnGetUpdates();
 			
 			if(bResult)
