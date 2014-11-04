@@ -357,6 +357,11 @@ bool WXDLLIMPEXP_GIS_DS ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, co
 		{
             eBandType = poSrcBand->GetRasterDataType();			
 		}
+		else if(bSkipSourceMetadata) 
+		{
+			eBandType = eOutputType;
+			bFilterOutStatsMetadata = TRUE;
+		}
         else
         {
             eBandType = eOutputType;
@@ -451,8 +456,8 @@ bool WXDLLIMPEXP_GIS_DS ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, co
             poVRTBand->SetColorInterpretation( (GDALColorInterp) (GCI_RedBand + i) );
         }
         else //      copy over some other information of interest.
-        {
-            CopyBandInfo( poSrcBand, poVRTBand, !bFilterOutStatsMetadata, eBandType == poSrcBand->GetRasterDataType(), true );
+        {			
+            CopyBandInfo( poSrcBand, poVRTBand, !bFilterOutStatsMetadata, eBandType == poSrcBand->GetRasterDataType(), bCopyNodata );
         }
 
 
@@ -502,7 +507,7 @@ bool WXDLLIMPEXP_GIS_DS ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, co
     GDALClose( (GDALDatasetH) poVDS );
     CSLDestroy( papszOptions );
     
-    return pOutDS == NULL;
+    return pOutDS != NULL;
 }
 
 /*

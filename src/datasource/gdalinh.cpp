@@ -38,7 +38,10 @@ int CPL_STDCALL GDALExecuteProgress( double dfComplete, const char *pszMessage, 
         IProgressor* pRogress = pTrackCancel->GetProgressor();
         if( pRogress )
 		{
-			pRogress->SetRange(100);
+			if(pRogress->GetRange() != 100)
+			{
+				pRogress->SetRange(100);
+			}
             pRogress->SetValue((int) (dfComplete * 100));
 		}
         bCancel = !pTrackCancel->Continue();

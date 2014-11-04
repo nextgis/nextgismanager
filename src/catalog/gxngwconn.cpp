@@ -26,6 +26,11 @@
 #include "wxgis/core/json/jsonwriter.h"
 #include "wxgis/core/crypt.h"
 #include "wxgis/core/app.h"
+#include "wxgis/catalog/gxfilters.h"
+
+#ifdef wxGIS_HAVE_GEOPROCESSING
+	#include "wxgis/geoprocessing/gpraster.h"
+#endif 	//wxGIS_HAVE_GEOPROCESSING
 
 #ifdef wxGIS_USE_CURL
 
@@ -312,15 +317,15 @@ bool wxGxNGWRootResource::CanMove(const CPLString &szDestPath)
 //--------------------------------------------------------------
 wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
 {
-    wxJSONValue JSONResource = Data[wxT("resource")];
-    m_bHasChildren = JSONResource[wxT("children")].AsBool();
-    m_sDescription = JSONResource[wxT("description")].AsString();
-    m_sDisplayName = JSONResource[wxT("display_name")].AsString();
-    SetRemoteId( JSONResource[wxT("id")].AsInt() );
+    wxJSONValue JSONResource = Data["resource"];
+    m_bHasChildren = JSONResource["children"].AsBool();
+    m_sDescription = JSONResource["description"].AsString();
+    m_sDisplayName = JSONResource["display_name"].AsString();
+    SetRemoteId( JSONResource["id"].AsInt() );
     //wxArrayString m_aInterfaces;
-    m_sKeyName = JSONResource[wxT("keyname")].AsString();
-    m_nOwnerId = JSONResource[wxT("owner_user")].AsInt();
-    const wxJSONInternalArray* pArr = JSONResource[wxT("permissions")].AsArray();
+    m_sKeyName = JSONResource["keyname"].AsString();
+    m_nOwnerId = JSONResource["owner_user"].AsInt();
+    const wxJSONInternalArray* pArr = JSONResource["permissions"].AsArray();
     if(pArr)
     {
         for(size_t i = 0; i < pArr->size(); ++i)
@@ -328,7 +333,7 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
             m_aPermissions.Add(pArr->operator[](i).AsString());
         }
     }
-    pArr = JSONResource[wxT("scopes")].AsArray();
+    pArr = JSONResource["scopes"].AsArray();
     if(pArr)
     {
         for(size_t i = 0; i < pArr->size(); ++i)
@@ -452,7 +457,7 @@ void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 	}	
 	else
 	{
-		sErr = JSONRoot[wxT("message")].AsString();
+		sErr = JSONRoot["message"].AsString();
 	}
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
@@ -620,7 +625,7 @@ wxGxNGWResourceGroup::~wxGxNGWResourceGroup()
 
 wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data) const
 {
-    wxString sType = Data[wxT("resource")][wxT("cls")].AsString();
+    wxString sType = Data["resource"]["cls"].AsString();
     wxGISEnumNGWResourcesType eType = enumNGWResourceTypeNone;
     if(sType.IsSameAs(wxT("resource_group")))
         eType = enumNGWResourceTypeResourceGroup;
@@ -816,9 +821,9 @@ wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
         for(size_t i = 0; i < pArr->size(); ++i)
         {
             wxJSONValue JSONVal = pArr->operator[](i);
-			wxJSONValue JSONResource = JSONVal[wxT("resource")];
-			wxString sName = JSONResource[wxT("display_name")].AsString();
-			int nId = JSONResource[wxT("id")].AsInt();
+			wxJSONValue JSONResource = JSONVal["resource"];
+			wxString sName = JSONResource["display_name"].AsString();
+			int nId = JSONResource["id"].AsInt();
 			
 			ret[nId] = sName;
 			m_moJSONData[nId] = JSONVal;
@@ -962,10 +967,32 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
         pTrackCancel->PutMessage(_("Prepare GeoTiff file"), wxNOT_FOUND, enumGISMessageTitle);
     }
 	
-	CPLString szFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "tif");
-	CPLErrorReset();
+	wxGxRasterDatasetFilter TIFFilter(enumRasterTiff);
+	char** papszOptions = NULL;
+	papszOptions = CSLAddNameValue(papszOptions, "COMPRESS", "DEFLATE");
+	papszOptions = CSLAddNameValue(papszOptions, "PREDICTOR", "2");
+	papszOptions = CSLAddNameValue(papszOptions, "ZLEVEL", "9");
 	
-	// gdal_translate.cpp
+	wxArrayInt anBands;
+	anBands.Add(R);
+	anBands.Add(G);
+	anBands.Add(B);
+	wxGISEnumForceBandColorInterpretation eForceBandColorTo;
+	if(bAutoCrop || A < 1)
+	{
+		eForceBandColorTo = enumGISForceBandsToRGB;
+	}
+	else
+	{
+		eForceBandColorTo = enumGISForceBandsToRGBA;
+		anBands.Add(A);
+	}
+	
+	CPLString szFileName = CPLGenerateTempFilename("ngw");
+	if (!ExportFormatEx(pInputRasterDataset, CPLGetPath(szFileName), wxString::FromUTF8(CPLGetBasename(szFileName)), &TIFFilter, papszOptions, OGREnvelope(), GDT_Byte, anBands, eForceBandColorTo, true, true, pTrackCancel))
+	{
+		return false;
+	}
 	
 	//2. auto crop if needed
 	if(bAutoCrop)
@@ -981,8 +1008,9 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
     }
 	
 	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
-    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFileName), pTrackCancel);
-	DeleteFile(szFileName, pTrackCancel);
+	CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
+    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFilePath), pTrackCancel);
+	DeleteFile(szFilePath, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
@@ -1007,12 +1035,11 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 		val["resource"]["cls"] = wxString(wxT("raster_layer"));
 		val["resource"]["parent"]["id"] = m_nRemoteId;
 		val["resource"]["display_name"] = sName;
-	//	val["vector_layer"]["srs"]["id"] = 3857;
-	//	val["vector_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
-	//	val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
-	//	val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
-	//	val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
-	//	val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
+		val["raster_layer"]["srs"]["id"] = 3857;
+		val["raster_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
+		val["raster_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
+		val["raster_layer"]["source"]["mime_type"] = JSONRoot["upload_meta"][0]["mime_type"];
+		val["raster_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
 		
 		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
 		wxString sPayload;
@@ -1024,10 +1051,27 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 		
 		if(bResult)
 		{
-            //TODO: create default style
+			numErrors = reader.Parse(res.sBody, &JSONRoot);
+			if (numErrors > 0)  {    
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+				}
+				return false;
+			}
+		
+			if (pTrackCancel)
+			{
+				pTrackCancel->PutMessage(_("Create default layer style"), wxNOT_FOUND, enumGISMessageTitle);
+			}
 
+            //create default style
+			int nRasterLayerId = JSONRoot["id"].AsInt();
+			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName + wxT(" ") + _("style"), enumNGWResourceTypeRasterLayerStyle, pTrackCancel);
 			OnGetUpdates();
-			return true;		
+			
+			if(bResult)
+				return true;		
 		}		
 	}
 		
@@ -1042,7 +1086,7 @@ bool wxGxNGWResourceGroup::CreateRasterLayer(const wxString &sName, wxGISDataset
 	}	
 	else
 	{
-		sErr = JSONRoot[wxT("message")].AsString();
+		sErr = JSONRoot["message"].AsString();
 	}
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
@@ -1222,7 +1266,7 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 	}	
 	else
 	{
-		sErr = JSONRoot[wxT("message")].AsString();
+		sErr = JSONRoot["message"].AsString();
 	}
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
@@ -1595,6 +1639,71 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 	return true;	
 }
 
+bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, ITrackCancel* const pTrackCancel)
+{
+	wxGISCurl curl = pService->GetCurl();
+    if(!curl.IsOk())
+	{
+		if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
+        }
+        return false;
+	}
+	
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(wxString::Format(_("Create layer style '%s'"), sStyleName.c_str()), wxNOT_FOUND, enumGISMessageTitle);
+	}
+
+	wxJSONValue val;
+	
+	switch(eType)
+	{
+		case enumNGWResourceTypeRasterLayerStyle:
+	//{"resource":{"cls":"raster_style","parent":{"id":392},"display_name":"test raster style","keyname":null,"description":null}}
+			val["resource"]["cls"] = wxString(wxT("raster_style"));
+			val["resource"]["parent"]["id"] = nParentId;
+			val["resource"]["display_name"] = sStyleName;
+			break;
+		case enumNGWResourceTypeVectorLayerStyle:
+		default:
+			return true;
+	};
+	
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);
+		
+	wxString sURL = pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), nParentId);
+	PERFORMRESULT res = curl.Post(sURL, sPayload, pTrackCancel);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	if(bResult)
+		return true;
+	
+	wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
+	wxString sErr;		
+	wxJSONReader reader;
+    wxJSONValue  JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if(numErrors > 0 || !JSONRoot.HasMember("message"))
+	{
+		sErr = wxString (_("Unexpected error"));
+	}	
+	else
+	{
+		sErr = JSONRoot[wxT("message")].AsString();
+	}
+	
+	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
+	if (pTrackCancel)
+	{
+		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
+	}
+	
+	return false;		
+}
+
 //change fields
 //PUT /resource/37/child/127
 //
@@ -1768,11 +1877,11 @@ wxGxNGWPostGISConnection::wxGxNGWPostGISConnection(wxGxNGWService *pService, con
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
 	m_sPath = CPLString(sURL.ToUTF8());
 	
-	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
-	m_sUser =  JSONConn[wxT("username")].AsString();
-	m_sPass =  JSONConn[wxT("password")].AsString();
-	m_sDatabase =  JSONConn[wxT("database")].AsString();
-	m_sHost =  JSONConn[wxT("hostname")].AsString();
+	wxJSONValue JSONConn = Data["postgis_connection"];
+	m_sUser =  JSONConn["username"].AsString();
+	m_sPass =  JSONConn["password"].AsString();
+	m_sDatabase =  JSONConn["database"].AsString();
+	m_sHost =  JSONConn["hostname"].AsString();
 }
 
 wxGxNGWPostGISConnection::~wxGxNGWPostGISConnection()
@@ -1886,11 +1995,11 @@ wxGxNGWFileSet::wxGxNGWFileSet(wxGxNGWService *pService, const wxJSONValue &Data
     m_nType = enumGISAny;
     m_nSubType = 0;
 
-    wxJSONValue JSONFilesBucket = Data[wxT("file_bucket")];
-    wxString sTimeStamp = JSONFilesBucket[wxT("tstamp")].AsString();
+    wxJSONValue JSONFilesBucket = Data["file_bucket"];
+    wxString sTimeStamp = JSONFilesBucket["tstamp"].AsString();
     m_dtMod.ParseISOCombined(sTimeStamp);
 
-    wxJSONValue JSONFiles = JSONFilesBucket[wxT("files")];
+    wxJSONValue JSONFiles = JSONFilesBucket["files"];
     FillFilesArray(JSONFiles);
 }
 
@@ -1903,9 +2012,9 @@ void wxGxNGWFileSet::FillFilesArray(const wxJSONValue &files)
 {
     for (size_t i = 0; i < files.Size(); ++i)
     {
-        wxString sMime = files[i][wxT("mime")].AsString();
-        wxString sName = files[i][wxT("name")].AsString();
-        wxULongLong nSize = files[i][wxT("size")].AsULong();
+        wxString sMime = files[i]["mime"].AsString();
+        wxString sName = files[i]["name"].AsString();
+        wxULongLong nSize = files[i]["size"].AsULong();
 
         NGWFILEDESCRIPTION desc = { sName, sMime, nSize };
         m_asFiles.push_back(desc);

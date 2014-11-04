@@ -25,7 +25,6 @@
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/framework/progressdlg.h"
 #include "wxgis/catalog/gxfilters.h"
-#include "wxgis/geoprocessing/gpvector.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/json/jsonreader.h"
 #include "wxgis/core/json/jsonwriter.h"
@@ -66,6 +65,10 @@
 #include "wx/utils.h"
 #include "wx/propdlg.h"
 #include "wx/bookctrl.h"
+
+#ifdef wxGIS_HAVE_GEOPROCESSING
+	#include "wxgis/geoprocessing/gpvector.h"
+#endif 	//wxGIS_HAVE_GEOPROCESSING
 
 #ifdef wxGIS_USE_CURL
 
@@ -798,10 +801,22 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		
 		if(bResult)
 		{
-            //TODO: create default style
-
+            numErrors = reader.Parse(res.sBody, &JSONRoot);
+			if (numErrors > 0)  {    
+				if (pTrackCancel)
+				{
+					pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+				}
+				return false;
+			}
+		
+            //create default style
+			int nRasterLayerId = JSONRoot["id"].AsInt();
+			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName + wxT(" ") + _("style"), enumNGWResourceTypeVectorLayerStyle, pTrackCancel);
 			OnGetUpdates();
-			return true;		
+			
+			if(bResult)
+				return true;	
 		}		
 	}
 		

@@ -297,6 +297,7 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
+	static bool CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, ITrackCancel* const pTrackCancel = NULL);
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
