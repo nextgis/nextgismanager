@@ -50,8 +50,8 @@ enum wxGISEnumForceBandColorInterpretation
 
 //bool CreateSubRaster( wxGISRasterDatasetSPtr pSrcRasterDataSet, OGREnvelope &Env, const OGRGeometry *pGeom, GDALDriver* pDriver, CPLString &szDstPath, GDALDataType eOutputType = GDT_Unknown, int nBandCount = 0, int *panBandList = NULL, double dfOutResX = -1, double dfOutResY = -1, bool bCopyNodata = false, bool bSkipSourceMetadata = false, char** papszOptions = NULL, ITrackCancel* pTrackCancel = NULL );
 //
-WXDLLIMPEXP_GIS_DS bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszOptions, ITrackCancel* const pTrackCancel = NULL);
-WXDLLIMPEXP_GIS_DS bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType = GDT_Unknown, const wxArrayInt & anBands = wxArrayInt(), wxGISEnumForceBandColorInterpretation eForceBandColorTo = enumGISForceBandsToNone, bool bCopyNodata = false, bool bSkipSourceMetadata = false, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszOptions, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType = GDT_Unknown, const wxArrayInt & anBands = wxArrayInt(), wxGISEnumForceBandColorInterpretation eForceBandColorTo = enumGISForceBandsToNone, bool bCopyNodata = false, bool bSkipSourceMetadata = false, ITrackCancel* const pTrackCancel = NULL);
 
 /** @fn CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDstBand, bool bCanCopyStatsMetadata, bool bCopyScale, bool bCopyNoData )
   * 

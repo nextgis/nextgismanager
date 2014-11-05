@@ -140,7 +140,7 @@ bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath,
 	return ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, papszOptions, env, GDT_Unknown, anBands, enumGISForceBandsToNone, true, false, pTrackCancel);
 }
 
-bool WXDLLIMPEXP_GIS_DS ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType, const wxArrayInt & anBands, wxGISEnumForceBandColorInterpretation eForceBandColorTo, bool bCopyNodata, bool bSkipSourceMetadata, ITrackCancel* const pTrackCancel)
+bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType, const wxArrayInt & anBands, wxGISEnumForceBandColorInterpretation eForceBandColorTo, bool bCopyNodata, bool bSkipSourceMetadata, ITrackCancel* const pTrackCancel)
 {
 	GDALDataset* pDset = pSrsDataSet->GetRaster();
 	if(!pDset)

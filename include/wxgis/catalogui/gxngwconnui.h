@@ -92,6 +92,7 @@ public:
 	virtual bool Import(wxWindow* pWnd);
 	//
 	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
+    virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel);
 protected:
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
 protected:
