@@ -60,35 +60,43 @@ wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 	
 	while (!TestDestroy())
     {
-        wxGxObjectMap smCurrentObjects = GetRemoteObjects();
-        for (wxGxObjectMap::iterator it = m_smObjects.begin(); it != m_smObjects.end(); ++it)
+		try
 		{
-			wxGxObjectMap::iterator cit = smCurrentObjects.find(it->first);
-			if (cit == smCurrentObjects.end())//delete
+			wxGxObjectMap smCurrentObjects = GetRemoteObjects();
+			for (wxGxObjectMap::iterator it = m_smObjects.begin(); it != m_smObjects.end(); ++it)
 			{
-				DeleteObject(it->first);
-				m_smObjects.erase(it);
-				if(m_smObjects.empty())
-					break;
-				it = m_smObjects.begin();
+				wxGxObjectMap::iterator cit = smCurrentObjects.find(it->first);
+				if (cit == smCurrentObjects.end())//delete
+				{
+					DeleteObject(it->first);
+					m_smObjects.erase(it);
+					if(m_smObjects.empty())
+						break;
+					it = m_smObjects.begin();
+				}
+				else if (cit->second != it->second)//rename
+				{
+					RenameObject(it->first, cit->second);
+					it->second = cit->second;
+				}
 			}
-			else if (cit->second != it->second)//rename
+
+			//add new
+			for (wxGxObjectMap::iterator it = smCurrentObjects.begin(); it != smCurrentObjects.end(); ++it)
 			{
-				RenameObject(it->first, cit->second);
-				it->second = cit->second;
+				wxGxObjectMap::iterator cit = m_smObjects.find(it->first);
+				if (cit == smCurrentObjects.end())
+				{
+					//refresh
+					AddObject(it->first, it->second);				
+					m_smObjects[it->first] = it->second;
+				}
 			}
 		}
-
-		//add new
-		for (wxGxObjectMap::iterator it = smCurrentObjects.begin(); it != smCurrentObjects.end(); ++it)
+		catch(...)
 		{
-			wxGxObjectMap::iterator cit = m_smObjects.find(it->first);
-			if (cit == smCurrentObjects.end())
-			{
-				//refresh
-				AddObject(it->first, it->second);				
-				m_smObjects[it->first] = it->second;
-			}
+			//just goto sleep
+			wxLogDebug("catch in wxGxObjectContainerUpdater::Entry");
 		}
 			
         for (size_t i = 0; i < m_nStep; ++i)
@@ -104,6 +112,8 @@ wxThread::ExitCode wxGxObjectContainerUpdater::Entry()
 				break;
 			}			
 		}
+		
+
 	}
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
@@ -130,8 +140,9 @@ void wxGxObjectContainerUpdater::RenameObject(int nRemoteId, const wxString &sNe
 	}
 }
 
-void wxGxObjectContainerUpdater::OnGetUpdates()
+void wxGxObjectContainerUpdater::OnGetUpdates(int nDelay)
 {
+	wxMilliSleep(nDelay);
 	m_nProcessUpdatesRequests++;
 }
 

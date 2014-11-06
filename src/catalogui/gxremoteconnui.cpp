@@ -163,7 +163,7 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
         wxQueueEvent( this, event.Clone() );
     }
 
-    wxThread::Sleep(m_nLongWait);
+    wxThread::Sleep(m_nShortWait / m_nStep);
 
     wxThread::ExitCode eCode = wxGxRemoteConnection::Entry();
 	
@@ -256,7 +256,6 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
             if (pGxObject->IsKindOf(wxCLASSINFO(wxGxRemoteDBSchema)))
             {
                 //create schema
-                wxBusyCursor wait;
                 if (CreateSchema(pGxObject->GetName()))
                 {
                     //copy input schema children
@@ -321,6 +320,8 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
                         ExportMultipleTable(pWnd, sDestPath, pFilter, paTables);
                     }
                     wxDELETE(pFilter);
+					
+					OnGetUpdates(m_nShortWait / m_nStep);
                 }
                 else
                 {
@@ -333,7 +334,9 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
             }
         }
     }
-
+#else
+	wxString sErr(_("Function is not available! The geoprocessing was not build"));
+	wxGISErrorMessageBox(sErr));
 #endif // wxGIS_HAVE_GEOPROCESSING
 
     return true;
@@ -507,9 +510,11 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     }
     wxDELETE(pFilter);
 	
-	wxMilliSleep(500);
-	OnGetUpdates();
+	OnGetUpdates(m_nShortWait / m_nStep);
 
+#else
+	wxString sErr(_("Function is not available! The geoprocessing was not build"));
+	wxGISErrorMessageBox(sErr));
 #endif // wxGIS_HAVE_GEOPROCESSING
 
     return true;
@@ -553,7 +558,7 @@ wxThread::ExitCode wxGxRemoteDBSchemaUI::Entry()
         wxQueueEvent(this, event.Clone());
     }
 
-    wxThread::Sleep(m_nLongWait);
+    wxThread::Sleep(m_nShortWait / m_nStep);
 
     return wxGxRemoteDBSchema::Entry();
 }

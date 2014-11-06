@@ -22,6 +22,10 @@
 #include "wxgis/catalog/gxpostgisdataset.h"
 
 #ifdef wxGIS_USE_POSTGRES
+
+
+#define UPDATE_DELAY 950
+
 //-----------------------------------------------------------------------------------
 // wxGISPostGISBaseTable
 //-----------------------------------------------------------------------------------
@@ -152,7 +156,7 @@ bool wxGxPostGISTable::Delete()
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
-			pNotify->OnGetUpdates();
+			pNotify->OnGetUpdates(UPDATE_DELAY);
 		}
 		return true;
 	}
@@ -173,7 +177,7 @@ bool wxGxPostGISTable::Rename(const wxString &sNewName)
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
-			pNotify->OnGetUpdates();
+			pNotify->OnGetUpdates(UPDATE_DELAY);
 		}
 		return true;
 	}
@@ -252,7 +256,7 @@ bool wxGxPostGISFeatureDataset::Delete()
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
-			pNotify->OnGetUpdates();
+			pNotify->OnGetUpdates(UPDATE_DELAY);
 		}
 		return true;
 	}
@@ -275,7 +279,7 @@ bool wxGxPostGISFeatureDataset::Rename(const wxString &sNewName)
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
-			pNotify->OnGetUpdates();
+			pNotify->OnGetUpdates(UPDATE_DELAY);
 		}
 		return true;
 	}

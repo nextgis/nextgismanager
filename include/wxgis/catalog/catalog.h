@@ -139,7 +139,7 @@ class IGxObjectNotifier
 {
 public:
     virtual ~IGxObjectNotifier(void){};
-	virtual void OnGetUpdates() = 0;
+	virtual void OnGetUpdates(int nDelay = 50) = 0;
 };
 
 /*

@@ -44,7 +44,7 @@ public:
 	wxGxObjectContainerUpdater(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxObjectContainerUpdater();
 	//IGxObjectNotifier
-	virtual void OnGetUpdates();
+	virtual void OnGetUpdates(int nDelay = 50);
 protected:
     virtual wxThread::ExitCode Entry();
 	virtual wxGxObject *GetChildByRemoteId(int nRemoteId) const;
