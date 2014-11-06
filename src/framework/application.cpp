@@ -167,66 +167,79 @@ void wxGISApplication::Command(wxGISCommand* pCmd)
 
 void wxGISApplication::OnIdle(wxIdleEvent & event)
 {
-    for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
-    {
-        switch(m_CommandBarArray[i]->GetType())
-        {
-        case enumGISCBMenubar:
-        case enumGISCBContextmenu:
-        case enumGISCBSubMenu:
-#ifdef __WXGTK__
+	try
+	{
+		for(size_t i = 0; i < m_CommandBarArray.size(); ++i)
 		{
-			wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
-			if(pMenu)
+			switch(m_CommandBarArray[i]->GetType())
 			{
-				wxMenuItemList& pLst = pMenu->GetMenuItems();
-				wxMenuItemList::iterator iter;
-				for (iter = pLst.begin(); iter != pLst.end(); ++iter)
+			case enumGISCBMenubar:
+			case enumGISCBContextmenu:
+			case enumGISCBSubMenu:
+	#ifdef __WXGTK__
+			{
+				wxMenu* pMenu = dynamic_cast<wxMenu*>(m_CommandBarArray[i]);
+				if(pMenu)
 				{
-					wxMenuItem* pItem = *iter;					
-					wxGISCommand* pCmd = GetCommand(pItem->GetId());
-					if(pCmd)
+					wxMenuItemList& pLst = pMenu->GetMenuItems();
+					wxMenuItemList::iterator iter;
+					for (iter = pLst.begin(); iter != pLst.end(); ++iter)
 					{
-						pItem->Enable(pCmd->GetEnabled());
-						if (pCmd->GetKind() == enumGISCommandCheck)
+						wxMenuItem* pItem = *iter;					
+						wxGISCommand* pCmd = GetCommand(pItem->GetId());
+						if(pCmd)
 						{
-							pItem->Check(pCmd->GetChecked());
+							pItem->Enable(pCmd->GetEnabled());
+							if (pCmd->GetKind() == enumGISCommandCheck)
+							{
+								pItem->Check(pCmd->GetChecked());
+							}
 						}
 					}
 				}
 			}
-		}
-#endif			
-            break;
-        case enumGISCBToolbar:
-            {
-                wxGISToolBar* pGISToolBar = dynamic_cast<wxGISToolBar*>(m_CommandBarArray[i]);
-                if (pGISToolBar)
-                {
-                    pGISToolBar->UpdateControls();
-                }
-            }        
-            break;
-        case enumGISCBNone:
-        default:
-            break;
+	#endif			
+				break;
+			case enumGISCBToolbar:
+				{
+					wxGISToolBar* pGISToolBar = dynamic_cast<wxGISToolBar*>(m_CommandBarArray[i]);
+					if (pGISToolBar)
+					{
+						pGISToolBar->UpdateControls();
+					}
+				}        
+				break;
+			case enumGISCBNone:
+			default:
+				break;
+			}
 		}
 	}
-	
+	catch(...)
+	{
+		//do nothing
+	}
 }
 
 void wxGISApplication::OnCommandUI(wxUpdateUIEvent& event)
 {
-    int nCmdId = event.GetId();
-	wxGISCommand* pCmd = GetCommand(nCmdId);
-	if(pCmd)
+	try
 	{
-        event.Enable(pCmd->GetEnabled());
-        if (pCmd->GetKind() == enumGISCommandCheck)
-        {
-            event.Check(pCmd->GetChecked());
-        }
-    }
+		int nCmdId = event.GetId();
+		wxGISCommand* pCmd = GetCommand(nCmdId);
+		if(pCmd)
+		{
+			event.Enable(pCmd->GetEnabled());
+			if (pCmd->GetKind() == enumGISCommandCheck)
+			{
+				event.Check(pCmd->GetChecked());
+			}
+		}
+	}
+	catch(...)
+	{
+		//do nothing
+	}
 }
 
 void wxGISApplication::UpdateAccelerators()

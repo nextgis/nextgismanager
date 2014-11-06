@@ -691,7 +691,14 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	
 	wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
 	char** papszLayerOptions = NULL;
-	papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
+	if(pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
+	{
+		papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "CP1251");
+	}
+	else
+	{
+		papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
+	}
 	
 	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 	
@@ -790,7 +797,10 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
 		val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
 		val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
-		val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
+		if(pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
+			val["vector_layer"]["source"]["encoding"] = wxString(wxT("windows-1251"));
+		else
+			val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
 		
 		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
 		wxString sPayload;
