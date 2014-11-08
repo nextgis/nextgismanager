@@ -429,14 +429,22 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
 //      Create a simple or complex data source depending on the        
 //      translation type required.                                     
 // --------------------------------------------------------------------
-        double dfScale=1.0, dfOffset=0.0;
+        
         if( eBandType != poSrcBand->GetRasterDataType() )
         {
+			double dfScale=1.0, dfOffset=0.0;
+			int nComponent = 0;
+			if ((eForceBandColorTo == enumGISForceBandsToRGB || eForceBandColorTo == enumGISForceBandsToRGBA ) && i < 3)
+				nComponent = i + 1;
+#if GDAL_VERSION_NUM >= 1110000
             VRTComplexSource* poSource = new VRTComplexSource();
             poVRTBand->ConfigureSource( poSource, poSrcBand, FALSE, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3] );
 			poSource->SetLinearScaling(dfOffset, dfScale);
-            //poSource->SetColorTableComponent(nComponent);
+            poSource->SetColorTableComponent(nComponent);
             poVRTBand->AddSource( poSource );
+#else			
+			poVRTBand->AddComplexSource( poSrcBand, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3], dfOffset, dfScale, VRT_NODATA_UNSET, nComponent );
+#endif			
         }
         else
             poVRTBand->AddSimpleSource( poSrcBand, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3] );
