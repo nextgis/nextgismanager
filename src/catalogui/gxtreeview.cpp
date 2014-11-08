@@ -983,7 +983,7 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     wxPoint pt(x, y);
     int flags;
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
-    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEM))
+    if (ItemId.IsOk() && (flags & (wxTREE_HITTEST_ONITEM | wxTREE_HITTEST_ONITEMINDENT | wxTREE_HITTEST_ONITEMRIGHT)))
     {
         SetItemDropHighlight(ItemId);
         m_HighLightItemId = ItemId;
@@ -991,16 +991,16 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
         wxSize sz = GetClientSize();
         if(DNDSCROLL > y)//scroll up
         {
-            //LineUp();
-            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
-            wxPostEvent(GetEventHandler(), evt );
+            LineUp();
+            //wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
+            //wxPostEvent(GetEventHandler(), evt );
         }
 
         else if((sz.GetHeight() - DNDSCROLL) < y)//scroll down
         {
-//            LineDown();
-            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
-            wxPostEvent(GetEventHandler(), evt );
+            LineDown();
+            //wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
+            //wxPostEvent(GetEventHandler(), evt );
         }
 
 	    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ItemId);
@@ -1024,7 +1024,7 @@ bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxOb
     wxPoint pt(x, y);
 	int flags;
     wxTreeItemId ItemId = wxTreeCtrl::HitTest(pt, flags);
-    if(ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEM))
+    if (ItemId.IsOk() && (flags & wxTREE_HITTEST_ONITEM | wxTREE_HITTEST_ONITEMINDENT | wxTREE_HITTEST_ONITEMRIGHT))
     {
         SetItemDropHighlight(ItemId, false);
 

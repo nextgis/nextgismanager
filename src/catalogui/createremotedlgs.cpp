@@ -697,6 +697,9 @@ wxGISDatasetImportDlg::BANDS wxGISRasterImportPanel::GetBands() const
 
 wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
+    this->SetLayoutAdaptationMode(wxDIALOG_ADAPTATION_MODE_ENABLED);
+    this->SetSizeHints(400, 300, wxNOT_FOUND, wxNOT_FOUND);
+
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 	
 	if(pDestDs)
@@ -825,8 +828,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 	sdbSizer->Realize();
 	m_bMainSizer->Add( sdbSizer, 0, wxEXPAND|wxALL, 5 );
 
-	this->SetLayoutAdaptationMode (wxDIALOG_ADAPTATION_MODE_ENABLED);
-	this->SetSizeHints(400, 300, 1200, 700);
+
     this->SetSizerAndFit(m_bMainSizer);
 	this->Layout();
 
