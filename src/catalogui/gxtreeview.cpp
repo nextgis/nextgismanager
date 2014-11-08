@@ -991,16 +991,22 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
         wxSize sz = GetClientSize();
         if(DNDSCROLL > y)//scroll up
         {
+#ifdef __WXMSW__			
             LineUp();
-            //wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
-            //wxPostEvent(GetEventHandler(), evt );
+#else			
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEUP);
+            wxPostEvent(GetEventHandler(), evt );
+#endif // __WXMSW__		
         }
 
         else if((sz.GetHeight() - DNDSCROLL) < y)//scroll down
         {
+#ifdef __WXMSW__			
             LineDown();
-            //wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
-            //wxPostEvent(GetEventHandler(), evt );
+#else			
+            wxScrollWinEvent evt(wxEVT_SCROLLWIN_LINEDOWN);
+            wxPostEvent(GetEventHandler(), evt );
+#endif // __WXMSW__		
         }
 
 	    wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(ItemId);
