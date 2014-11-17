@@ -242,7 +242,7 @@ wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* 
     wxGISDataset* const pOut = wxGxRasterDataset::GetDataset(bCached, pTrackCancel);
     if(NULL == pOut)
     {
-		wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"));
+		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
         wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);

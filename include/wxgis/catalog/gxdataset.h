@@ -40,7 +40,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxDataset :
 public:
     wxGxDataset(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxDataset(void);
-	virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) = 0;
+	virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) {return NULL;};
 	virtual wxGISEnumDatasetType GetType(void) const = 0;
 	virtual int GetSubType(void) const = 0;
     virtual wxULongLong GetSize(void) const {return m_nSize;};
@@ -60,7 +60,7 @@ public:
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
     //create wxGISDataset without openning it
-    virtual wxGISDataset* const GetDatasetFast(void) = 0;
+    virtual wxGISDataset* const GetDatasetFast(void){ return NULL;};
 protected:
 	wxGISDataset* m_pwxGISDataset;
     wxULongLong m_nSize;
@@ -84,7 +84,7 @@ class WXDLLIMPEXP_GIS_CLT wxGxDatasetContainer :
 public:
     wxGxDatasetContainer(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxDatasetContainer(void);
-	virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) = 0;
+	virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) {return NULL;};
 	virtual wxGISEnumDatasetType GetType(void) const = 0;
 	virtual int GetSubType(void) const = 0;
     virtual wxULongLong GetSize(void) const {return m_nSize;};
@@ -104,7 +104,7 @@ public:
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 protected:
     //create wxGISDataset without openning it
-    virtual wxGISDataset* const GetDatasetFast(void) = 0;
+    virtual wxGISDataset* const GetDatasetFast(void) {return NULL;};
 protected:
 	wxGISDataset* m_pwxGISDataset;
     wxULongLong m_nSize;

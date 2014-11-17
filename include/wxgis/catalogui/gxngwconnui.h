@@ -25,6 +25,8 @@
 #include "wxgis/catalogui/gxview.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
 
+#include <wx/hashmap.h>
+
 #ifdef wxGIS_USE_CURL
 
 /** @class wxGxNGWServiceUI
@@ -61,6 +63,13 @@ protected:
     wxIcon m_icLargeIconGuest, m_icSmallIconGuest;
 };
 
+typedef struct _iconset{
+	wxIcon icSmallIcon;
+	wxIcon icLargeIcon;
+} ICONSET;
+
+WX_DECLARE_STRING_HASH_MAP( ICONSET, wxIconSetMap );
+
 /** @class wxGxNGWResourceGroupUI
 
     A NextGIS Web Service Resource Group GxObjectUI.
@@ -93,6 +102,7 @@ public:
 	//
 	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
     virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel);
+	
 protected:
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
 protected:
@@ -103,7 +113,9 @@ protected:
 	wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
 	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
 	wxIcon m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon;
-    wxIcon m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon;
+	wxIconSetMap m_stmIconSet;
+	
+    //wxIcon m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon;
 };
 
 

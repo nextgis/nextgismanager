@@ -1845,8 +1845,8 @@ wxGxNGWFileSet::wxGxNGWFileSet(wxGxNGWService *pService, const wxJSONValue &Data
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
     m_sPath = CPLString(sURL.ToUTF8());
 
-    m_nType = enumGISAny;
-    m_nSubType = 0;
+    m_nType = enumGISRasterDataset;
+    m_nSubType = enumRasterPng;
 
     wxJSONValue JSONFilesBucket = Data["file_bucket"];
     wxString sTimeStamp = JSONFilesBucket["tstamp"].AsString();
@@ -1973,6 +1973,46 @@ bool wxGxNGWFileSet::CanMove(const CPLString &szDestPath)
     if (!CanMoveResource(szDestPath))
         return CanCopy(szDestPath) && CanDelete();
     return true;
+}
+
+wxGISDataset* const wxGxNGWFileSet::GetDatasetFast(void)
+{
+	if(m_pwxGISDataset == NULL)
+    {
+		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/file/%s.%s"), m_nRemoteId, PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
+		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
+		
+		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
+		CPLString szURL = CPLString("/vsicurl/") + CPLString(sURL.ToUTF8());
+        wxGISRasterDataset* pDSet = new wxGISRasterDataset(szURL, enumRasterPng);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);	
+}
+
+wxGISDataset* const wxGxNGWFileSet::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
+{
+	wxGISRasterDataset* pwxGISRasterDataset(NULL);
+	pwxGISRasterDataset = wxDynamicCast(GetDatasetFast(), wxGISRasterDataset);
+
+    if(pwxGISRasterDataset && !pwxGISRasterDataset->IsOpened())
+    {
+        if(!pwxGISRasterDataset->Open())
+        {
+            wsDELETE(pwxGISRasterDataset);
+		    const char* err = CPLGetLastErrorMsg();
+			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
+            wxLogError(sErr);
+			if(pTrackCancel)
+				pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+			return NULL;
+        }
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISRasterDataset);
+	}
+
+	wsGET(m_pwxGISDataset);
 }
 
 #endif // wxGIS_USE_CURL

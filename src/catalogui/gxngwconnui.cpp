@@ -31,7 +31,9 @@
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalog/gxfile.h"
 #include "wxgis/catalog/gxarchfolder.h"
-
+#include "wxgis/cartoui/mapbitmap.h"
+#include "wxgis/carto/featurelayer.h"
+#include "wxgis/carto/rasterlayer.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -50,8 +52,50 @@
 #include "../../art/raster_bmp16.xpm"
 #include "../../art/raster_bmp48.xpm"
 #include "../../art/properties.xpm"
+
 #include "../../art/package_16.xpm"
 #include "../../art/package_48.xpm"
+#include "../../art/raster_tif16.xpm"
+#include "../../art/raster_tif48.xpm"
+#include "../../art/raster_16.xpm"
+#include "../../art/raster_48.xpm"
+#include "../../art/raster_img16.xpm"
+#include "../../art/raster_img48.xpm"
+#include "../../art/raster_png16.xpm"
+#include "../../art/raster_png48.xpm"
+#include "../../art/raster_saga16.xpm"
+#include "../../art/raster_saga48.xpm"
+#include "../../art/raster_gif16.xpm"
+#include "../../art/raster_gif48.xpm"
+#include "../../art/raster_til16.xpm"
+#include "../../art/raster_til48.xpm"
+#include "../../art/raster_vrt16.xpm"
+#include "../../art/raster_vrt48.xpm"
+#include "../../art/shp_dset_16.xpm"
+#include "../../art/shp_dset_48.xpm"
+#include "../../art/mi_dset_16.xpm"
+#include "../../art/mi_dset_48.xpm"
+#include "../../art/md_dset_16.xpm"
+#include "../../art/md_dset_48.xpm"
+#include "../../art/sxf_dset_16.xpm"
+#include "../../art/sxf_dset_48.xpm"
+#include "../../art/dxf_dset_16.xpm"
+#include "../../art/dxf_dset_48.xpm"
+#include "../../art/kml_dset_16.xpm"
+#include "../../art/kml_dset_48.xpm"
+#include "../../art/kmz_dset_16.xpm"
+#include "../../art/kmz_dset_48.xpm"
+#include "../../art/gml_dset_16.xpm"
+#include "../../art/gml_dset_48.xpm"
+#include "../../art/json_dset_16.xpm"
+#include "../../art/json_dset_48.xpm"
+#include "../../art/csv_16.xpm"
+#include "../../art/csv_48.xpm"
+#include "../../art/localc_16.xpm"
+#include "../../art/localc_48.xpm"
+#include "../../art/table_dbf_16.xpm"
+#include "../../art/table_dbf_48.xpm"
+
 
 //propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
@@ -229,6 +273,7 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 {
     wxGISEnumNGWResourcesType eType = GetType(Data);
 	wxGxObject* pReturnObj(NULL);
+	wxString sName = Data["resource"]["display_name"].AsString();
 	
     switch(eType)
     {
@@ -284,11 +329,69 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			pReturnObj = wxDynamicCast(new wxGxNGWRasterUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon), wxGxObject);
 		break;	
     case enumNGWResourceTypeFileSet:
-        if (!m_icNGWPackageLargeIcon.IsOk())
-            m_icNGWPackageLargeIcon = wxIcon(package_48_xpm);
-        if (!m_icNGWPackageSmallIcon.IsOk())
-            m_icNGWPackageSmallIcon = wxIcon(package_16_xpm);
-        pReturnObj = wxDynamicCast(new wxGxNGWFileSetUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon), wxGxObject);
+	{
+		wxIcon icLargeIcon, icSmallIcon;
+#define SET_ICONS(n, l, s) { \
+			if(!m_stmIconSet[n].icLargeIcon.IsOk()) \
+				m_stmIconSet[n].icLargeIcon = wxIcon(l); \
+			if(!m_stmIconSet[n].icSmallIcon.IsOk())	\
+				m_stmIconSet[n].icSmallIcon = wxIcon(s); \
+			icLargeIcon = m_stmIconSet[n].icLargeIcon; \
+			icSmallIcon = m_stmIconSet[n].icSmallIcon; }
+		
+		if(sName.EndsWith(wxT("shp")))
+			SET_ICONS("shp", shp_dset_48_xpm, shp_dset_16_xpm)
+		else if(sName.EndsWith(wxT("tab")))
+			SET_ICONS("tab", mi_dset_48_xpm, mi_dset_16_xpm)
+		else if(sName.EndsWith(wxT("mif")))
+			SET_ICONS("mif", md_dset_48_xpm, md_dset_16_xpm)
+		else if(sName.EndsWith(wxT("kml")))
+			SET_ICONS("kml", kml_dset_48_xpm, kml_dset_16_xpm)
+		else if(sName.EndsWith(wxT("kmz")))
+			SET_ICONS("kmz", kmz_dset_48_xpm, kmz_dset_16_xpm)
+		else if(sName.EndsWith(wxT("dxf")))
+			SET_ICONS("dxf", dxf_dset_48_xpm, dxf_dset_16_xpm)
+		else if(sName.EndsWith(wxT("gml")))
+			SET_ICONS("gml", gml_dset_48_xpm, gml_dset_16_xpm)
+		else if(sName.EndsWith(wxT("geojson")))
+			SET_ICONS("geojson", json_dset_48_xpm, json_dset_16_xpm)
+		else if(sName.EndsWith(wxT("sxf")))
+			SET_ICONS("sxf", sxf_dset_48_xpm, sxf_dset_16_xpm)
+		else if(sName.EndsWith(wxT("000")))
+			SET_ICONS("package", package_48_xpm, package_16_xpm)
+		else if(sName.EndsWith(wxT("csv")))
+			SET_ICONS("csv", csv_48_xpm, csv_16_xpm)
+		else if(sName.EndsWith(wxT("ods")))
+			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+		else if(sName.EndsWith(wxT("dbf")))
+			SET_ICONS("dbf", table_dbf_48_xpm, table_dbf_16_xpm)
+		else if(sName.EndsWith(wxT("xls")))
+			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+		else if(sName.EndsWith(wxT("xlsx")))
+			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+		else if(sName.EndsWith(wxT("bmp")))
+			SET_ICONS("bmp", raster_bmp48_xpm, raster_bmp16_xpm)
+		else if(sName.EndsWith(wxT("tif")))
+			SET_ICONS("tif", raster_tif48_xpm, raster_tif16_xpm)
+		else if(sName.EndsWith(wxT("jpg")))
+			SET_ICONS("jpg", raster_48_xpm, raster_16_xpm)
+		else if(sName.EndsWith(wxT("img")))
+			SET_ICONS("img", raster_img48_xpm, raster_img16_xpm)
+		else if(sName.EndsWith(wxT("png")))
+			SET_ICONS("png", raster_png48_xpm, raster_png16_xpm)
+		else if(sName.EndsWith(wxT("gif")))
+			SET_ICONS("gif", raster_gif48_xpm, raster_gif16_xpm)
+		else if(sName.EndsWith(wxT("sdat")))
+			SET_ICONS("sdat", raster_saga48_xpm, raster_saga16_xpm)
+		else if(sName.EndsWith(wxT("til")))
+			SET_ICONS("til", raster_til48_xpm, raster_til16_xpm)
+		else if(sName.EndsWith(wxT("vrt")))
+			SET_ICONS("vrt", raster_vrt48_xpm, raster_vrt16_xpm)
+		else 
+			SET_ICONS("package", package_48_xpm, package_16_xpm)
+			
+		pReturnObj = wxDynamicCast(new wxGxNGWFileSetUI(m_pService, Data, this, wxEmptyString, m_sPath, icLargeIcon, icSmallIcon), wxGxObject);
+	}
         break;
     }
 	
@@ -516,9 +619,66 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 					wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
 					if(pDSet)
 					{
+						int nPreviewXSize = 640;
+						int nPreviewYSize = 640;
+						wxGISAppConfig oConfig = GetConfig();
+						if(oConfig.IsOk())
+						{
+							wxString sAppName = GetApplication()->GetAppName();
+							nPreviewXSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_x_size"), nPreviewXSize);
+							nPreviewYSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_y_size"), nPreviewYSize);
+						}
+						
+						//create raster preview
+						CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
+						CPLString osPreviewPath = CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
+					    wxGISMapBitmap bmp(640, 640); //TODO: get from config
+						bmp.SetTrackCancel(&ProgressDlg);
+						wxVector<wxGISLayer*> paLayers;
+						
+						switch(pDSet->GetType())
+						{
+							case enumGISFeatureDataset:
+								if(!pDSet->IsOpened())
+									pDSet->Open(false, true);
+								if(!pDSet->IsCached())
+									pDSet->Cache(&ProgressDlg);
+								paLayers.push_back(wxStaticCast(new wxGISFeatureLayer(wxT("preview"), pDSet), wxGISLayer));
+								break;
+							case enumGISRasterDataset:
+								paLayers.push_back(wxStaticCast(new wxGISRasterLayer(wxT("preview"), pDSet), wxGISLayer));
+								break;
+							case enumGISContainer:
+								//TODO: iterate on datasets of the container
+								break;
+						};
+						
+						for (size_t k = 0; k < paLayers.size(); ++k)
+						{
+							if (paLayers[k])
+							{
+								if (paLayers[k]->IsValid())
+								{
+									bmp.AddLayer(paLayers[k]);
+								}
+								else
+								{
+									wxDELETE(paLayers[k]);
+								}
+							}
+						}
+						
+						
+                
 						wxArrayString paths;
 						char** papszFileList = pDSet->GetFileList();
 						papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
+						
+						//add it to paths list
+						bmp.SetFullExtent();
+						if (bmp.SaveAsBitmap(osPreviewPath, enumRasterPng, NULL, false))
+							papszFileList = CSLAddString(papszFileList, osPreviewPath);
+						
 						for (int k = 0; papszFileList[k] != NULL; ++k)
 						{
 							wxString sPath = wxString::FromUTF8(papszFileList[k]);

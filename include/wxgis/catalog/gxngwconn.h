@@ -28,6 +28,9 @@
 #include "wxgis/catalog/gxfile.h"
 #include "wxgis/datasource/rasterdataset.h"
 
+#define PREVIEW_FILE_NAME "ngw_preview"
+#define PREVIEW_FILE_NAME_EXT "png"
+
 #ifdef wxGIS_USE_CURL
 
 #include "wxgis/net/curl.h"
@@ -392,7 +395,7 @@ public:
     //wxGxObject
     virtual wxString GetCategory(void) const;
     //wxGxDataset
-    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL) { return NULL; };
+    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISEnumDatasetType GetType(void) const;
     virtual int GetSubType(void) const;
     virtual void FillMetadata(bool bForce = false);
@@ -416,7 +419,7 @@ public:
 protected:
     virtual int GetParentResourceId() const;
     virtual void FillFilesArray(const wxJSONValue &files);
-    virtual wxGISDataset* const GetDatasetFast(void) { return NULL; };
+    virtual wxGISDataset* const GetDatasetFast(void);
 protected:
     wxGISEnumDatasetType m_nType;
     int m_nSubType;
