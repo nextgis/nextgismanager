@@ -29,6 +29,7 @@
 
 #include "gdal_rat.h"
 #include "gdalwarper.h"
+#include "cplkeywordparser.h"
 
 //---------------------------------------
 // wxGISFeatureDataset
@@ -187,6 +188,12 @@ char **wxGISRasterDataset::GetFileList()
 					papszFileList = CSLAddString( papszFileList, szPath );
 			}
 		}
+		
+		if(m_nSubType == enumRasterTil)
+		{
+			papszFileList = GetTiles(papszFileList, m_sPath);
+		}
+		
         break;
 	case enumRasterImg:
         szPath = (char*)CPLResetExtension(m_sPath, "ige");
@@ -838,4 +845,57 @@ bool wxGISRasterDataset::WriteWorldFile(wxGISEnumWldExtType eType)
 		return false;
     }
 	return GDALWriteWorldFile(m_sPath, sNewExt, adfGeoTransform) == 0 ? false : true;
+}
+
+char ** wxGISRasterDataset::GetTiles(char **papszStrList, const CPLString &szPath)
+{
+	VSILFILE *fp = VSIFOpenL( szPath, "r" );
+    
+    if( fp == NULL )
+    {		
+        return papszStrList;
+    }
+
+    CPLKeywordParser oParser;
+
+    if( !oParser.Ingest( fp ) )
+    {
+        VSIFCloseL( fp );
+        return papszStrList;
+    }
+
+    VSIFCloseL( fp );
+
+    char **papszTIL = oParser.GetAllKeywords();
+		
+	int nTileCount = atoi(CSLFetchNameValueDef(papszTIL,"numTiles","0"));
+    int iTile = 0;
+	const char *pszFilename;
+	
+	const char* szDir = CPLGetPath(szPath);
+	
+    for( iTile = 1; iTile <= nTileCount; iTile++ )
+    {
+        CPLString osKey;
+
+        osKey.Printf( "TILE_%d.filename", iTile );
+        pszFilename = CSLFetchNameValue( papszTIL, osKey );
+        if( pszFilename == NULL )
+        {
+            CPLError( CE_Failure, CPLE_AppDefined,
+                      "Missing TILE_%d.filename in .TIL file.", iTile );
+            return papszStrList;
+        }
+        
+        // trim double quotes. 
+        if( pszFilename[0] == '"' )
+            pszFilename++;
+        if( pszFilename[strlen(pszFilename)-1] == '"' )
+            ((char *) pszFilename)[strlen(pszFilename)-1] = '\0';
+        CPLString osFilename = CPLFormFilename(szDir, pszFilename, NULL);
+		
+        papszStrList = CSLAddString(papszStrList, osFilename);
+	}
+	
+	return papszStrList;
 }

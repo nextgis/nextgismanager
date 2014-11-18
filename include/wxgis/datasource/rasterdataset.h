@@ -45,6 +45,7 @@ public:
 	virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel = NULL);
     virtual char **GetFileList();
+	static char **GetTiles(char **papszStrList, const CPLString &szPath);
     // wxGISRasterDataset
 	virtual bool Open(bool bUpdate = false, bool bShared = true);
 	virtual OGREnvelope GetEnvelope(void);
