@@ -129,8 +129,8 @@ wxGxObject* wxGxMLFactory::GetGxObject(wxGxObject* pParent, const wxString &soNa
 
     default:
     {
-               wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(type, pParent, soName, szPath);
-               return wxStaticCast(pDataset, wxGxObject);
+		wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(type, pParent, soName, szPath);
+		return wxStaticCast(pDataset, wxGxObject);
     }
     };
     return NULL;

@@ -93,7 +93,6 @@ protected:
     virtual void LoadData(long nGxObjectId);
     virtual void LoadLayer(wxGxDataset* const pGxDataset);
     virtual void LoadLayers(wxGxDatasetContainer* const pGxDataset);
-    virtual wxGISLayer* GetLayerFromDataset(wxGxDataset* const pGxDataset);
 protected:
     long m_ConnectionPointCatalogCookie, m_ConnectionPointSelectionCookie;
 	wxGxSelection* m_pSelection;

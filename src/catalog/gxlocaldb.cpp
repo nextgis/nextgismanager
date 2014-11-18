@@ -324,10 +324,10 @@ bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTra
     return true;
 }
 
-bool wxGxOpenFileGDB::HasChildren(void)
+bool wxGxOpenFileGDB::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
-    return wxGxDatasetContainer::HasChildren();
+    return wxGxDatasetContainer::HasChildren(bWaitLoading);
 }
 
 //--------------------------------------------------------------

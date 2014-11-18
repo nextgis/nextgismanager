@@ -48,6 +48,7 @@ public:
 	virtual void SetSpatialReference(const wxGISSpatialReference &SpatialReference);
 	virtual wxGISSpatialReference GetSpatialReference(void) const;
     virtual bool HasLayerType(wxGISEnumDatasetType eType) const;
+	virtual wxGISLayer* GetLayerFromDataset(wxGISDataset* const pDataset, ITrackCancel* const pTrackCancel = NULL);
 protected:
 	wxString m_sMapName, m_sDescription;
 	wxVector<wxGISLayer*> m_paLayers;

@@ -207,54 +207,12 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
     LoadData(nLastSelID);
 }
 
-wxGISLayer* wxGxMapView::GetLayerFromDataset(wxGxDataset* const pGxDataset)
-{
-	wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, m_pTrackCancel);
-	if(pwxGISDataset == NULL)
-		return NULL;
-
-	wxGISEnumDatasetType type = pwxGISDataset->GetType();
-    wxGISLayer* pLayer(NULL);
-
-	switch(type)
-	{
-	case enumGISFeatureDataset:
-		{
-			wxGISFeatureDataset* pGISFeatureDataset = wxDynamicCast(pwxGISDataset, wxGISFeatureDataset);
-			if(!pGISFeatureDataset->IsOpened())
-                pGISFeatureDataset->Open(0, true, true, true, m_pTrackCancel);
-			if(!pGISFeatureDataset->IsCached())
-				pGISFeatureDataset->Cache(m_pTrackCancel);
-			wxGISFeatureLayer* pGISFeatureLayer = new wxGISFeatureLayer(pwxGISDataset->GetName(), pwxGISDataset);
-			pLayer = wxStaticCast(pGISFeatureLayer, wxGISLayer);
-		}
-		break;
-	case enumGISRasterDataset:
-		{
-        //CheckOverviews(pwxGISDataset, pGxObject->GetName());
-		//pwxGISLayers.push_back(new wxGISRasterLayer(pwxGISDataset));
-        //pwxGISLayers[pwxGISLayers.size() - 1]->SetName(pwxGISDataset->GetName());
-			wxGISRasterDataset* pGISRasterDataset = wxDynamicCast(pwxGISDataset, wxGISRasterDataset);
-			if(!pGISRasterDataset->IsOpened())
-				pGISRasterDataset->Open(true);
-			//if(!pGISRasterDataset->IsCached())
-			//	pGISRasterDataset->Cache(m_pTrackCancel);
-            wxGISRasterLayer* pGISRasterLayer = new wxGISRasterLayer(pwxGISDataset->GetName(), pwxGISDataset);
-			pLayer = wxStaticCast(pGISRasterLayer, wxGISLayer);
-		}
-		break;
-	default:
-		break;
-	}
-    wsDELETE(pwxGISDataset);
-    return pLayer;
-}
-
 void wxGxMapView::LoadLayer(wxGxDataset* const pGxDataset)
 {
     wxCHECK_RET(pGxDataset, wxT("Input wxGxDataset pointer is NULL"));
-
-    wxGISLayer* pLayer = GetLayerFromDataset(pGxDataset);
+	wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true);
+    wxGISLayer* pLayer = GetLayerFromDataset(pwxGISDataset);
+	wsDELETE(pwxGISDataset);
 
     Clear();
 
@@ -274,7 +232,7 @@ void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
 
     wxVector<wxGISLayer*> paLayers;
     wxBusyCursor wait;
-    if(pGxDataset->HasChildren())
+    if(pGxDataset->HasChildren(true))
     {
 	    wxGxObjectList ObjectList = pGxDataset->GetChildren();
         wxGxObjectList::iterator iter;
@@ -283,18 +241,24 @@ void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
             wxGxObject *current = *iter;
             if(current && current->IsKindOf(wxCLASSINFO(wxGxDataset)))
             {
-                wxGISLayer* pLayer = GetLayerFromDataset(wxDynamicCast(current, wxGxDataset));
-                if(pLayer)
-                {
-                    if(pLayer->IsValid())
-                    {
-                        paLayers.push_back(pLayer);
-                    }
-                    else
-                    {
-                        wxDELETE(pLayer);
-                    }
-                }
+				wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
+				if(pGxDataset)
+				{
+					wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true);
+					wxGISLayer* pLayer = GetLayerFromDataset(pwxGISDataset);
+					if(pLayer)
+					{
+						if(pLayer->IsValid())
+						{
+							paLayers.push_back(pLayer);
+						}
+						else
+						{
+							wxDELETE(pLayer);
+						}
+					}
+					wsDELETE(pwxGISDataset);
+				}
             }
         }
     }

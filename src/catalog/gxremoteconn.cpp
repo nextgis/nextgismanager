@@ -401,13 +401,13 @@ wxGxRemoteDBSchema::~wxGxRemoteDBSchema(void)
     wsDELETE(m_pwxGISRemoteConn);
 }
 
-bool wxGxRemoteDBSchema::HasChildren(void)
+bool wxGxRemoteDBSchema::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 void wxGxRemoteDBSchema::Refresh(void)

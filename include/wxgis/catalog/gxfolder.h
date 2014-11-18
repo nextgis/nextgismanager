@@ -55,7 +55,7 @@ public:
     virtual bool CanMove(const CPLString &szDestPath);
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const;
-	virtual bool HasChildren(void);
+	virtual bool HasChildren(bool bWaitLoading = false);
     virtual bool CanCreate(long nDataType, long DataSubtype);
 protected:
 	//wxGxFolder

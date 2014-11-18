@@ -50,6 +50,7 @@ public:
 	virtual void EditProperties(wxWindow *parent);
 	//wxGxKMLDataset
     virtual wxGISDataset* const GetDataset(bool bCache, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool HasChildren(bool bWaitLoading = false);
 	virtual void LoadChildren(void);
 protected:
     virtual wxThread::ExitCode Entry();

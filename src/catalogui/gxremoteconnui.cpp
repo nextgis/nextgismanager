@@ -265,7 +265,7 @@ bool wxGxRemoteConnectionUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						
 					pCont->LoadChildren();
 					
-                    if(!pCont->HasChildren())
+                    if(!pCont->HasChildren(true))
                     {
                         continue;
                     }
@@ -384,16 +384,6 @@ wxIcon wxGxRemoteDBSchemaUI::GetSmallImage(void)
     return m_oSmallIcon;
 }
 
-bool wxGxRemoteDBSchemaUI::HasChildren(void)
-{
-    if(m_bChildrenLoaded)
-        return wxGxObjectContainer::HasChildren();
-
-    CreateAndRunThread();
-
-    return wxGxObjectContainer::HasChildren();
-}
-
 wxGxObject* wxGxRemoteDBSchemaUI::GetNewTable(int nRemoteId, const wxString &sTableName, const wxGISEnumDatasetType eType)
 {
     if (sTableName.IsEmpty())
@@ -437,7 +427,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
             {
                 wxBusyCursor wait;
                 wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-                if (!pCont->HasChildren())
+                if (!pCont->HasChildren(true))
                     continue;
                 const wxGxObjectList lObj = pCont->GetChildren();
                 for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)

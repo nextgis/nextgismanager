@@ -58,12 +58,12 @@ bool wxGxRemoteConnection::Destroy(void)
 }
 
 
-//bool wxGxRemoteConnection::HasChildren()
+//bool wxGxRemoteConnection::HasChildren(bool bWaitLoading = false)
 //{
 //    //if(!Connect())
 //    //    return false;
 //    //else
-//        return wxGxObjectContainer::HasChildren();
+//        return wxGxObjectContainer::HasChildren(bWaitLoading);
 //}
 
 wxGISDataset* const wxGxRemoteConnection::GetDatasetFast(void)
@@ -552,13 +552,13 @@ bool wxGxRemoteDBSchema::Destroy()
     return wxGxObjectContainer::Destroy();
 }
 
-bool wxGxRemoteDBSchema::HasChildren(void)
+bool wxGxRemoteDBSchema::HasChildren(bool bWaitLoading = false)
 {
     LoadChildren();
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren(); 
+    return wxGxObjectContainer::HasChildren(bWaitLoading); 
 }
 
 void wxGxRemoteDBSchema::Refresh(void)

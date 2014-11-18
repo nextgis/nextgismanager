@@ -224,14 +224,17 @@ wxIcon wxGxRemoteDBSchemaUI::GetSmallImage(void)
     return m_oSmallIcon;
 }
 
-bool wxGxRemoteDBSchemaUI::HasChildren(void)
+bool wxGxRemoteDBSchemaUI::HasChildren(bool bWaitLoading)
 {
     if(m_bChildrenLoaded)
-        return wxGxObjectContainer::HasChildren();
+        return wxGxObjectContainer::HasChildren(bWaitLoading);
 
-    CreateAndRunThread();
+	if(bWaitLoading)
+		LoadChildren();
+	else
+		CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 wxGxObject* wxGxRemoteDBSchemaUI::AddTable(const wxString &sTableName, const wxGISEnumDatasetType eType)
@@ -280,7 +283,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
             {
                 wxBusyCursor wait;
                 wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-                if (!pCont->HasChildren())
+                if (!pCont->HasChildren(true))
                     continue;
                 const wxGxObjectList lObj = pCont->GetChildren();
                 for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)

@@ -72,7 +72,7 @@ public:
     virtual bool CanMove(const CPLString &szDestPath) { return CanCopy(szDestPath) & CanDelete(); };
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
-    virtual bool HasChildren(void);
+    virtual bool HasChildren(bool bWaitLoading = false);
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //wxGxNGWService
     virtual wxGISCurl GetCurl();
@@ -210,7 +210,7 @@ public:
     virtual void Refresh(void);
     //wxGxObjectContainer
     virtual bool AreChildrenViewable(void) const { return true; };
-    virtual bool HasChildren(void);
+    virtual bool HasChildren(bool bWaitLoading = false);
     virtual bool CanCreate(long nDataType, long DataSubtype);	
 	virtual bool ValidateDataset( wxGISFeatureDataset* const pSrcDataSet, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel );
 	virtual bool ValidateDataset( wxGISRasterDataset* const pSrcDataSet, ITrackCancel* const pTrackCancel );

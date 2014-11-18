@@ -87,24 +87,26 @@ void wxGxMLDatasetUI::EditProperties(wxWindow *parent)
     PropertySheetDialog.ShowModal();
 }
 
+
+bool wxGxMLDatasetUI::HasChildren(bool bWaitLoading)
+{
+	if(bWaitLoading)
+	{
+		LoadChildren();
+	}
+	else
+	{
+		CreateAndRunThread();
+	}
+	
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
+}
+
 void wxGxMLDatasetUI::LoadChildren(void)
 {
 	if(m_bIsChildrenLoaded)
 		return;
 
-    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-    if(pCat)
-    {
-        m_nPendUId = pCat->AddPending(GetId());
-    }
-
-    CreateAndRunThread();
-
-	m_bIsChildrenLoaded = true;
-}
-
-wxThread::ExitCode wxGxMLDatasetUI::Entry()
-{
     //ITrackCancel trackcancel;
 	wxGISDataset* pDSet = GetDataset(false);
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
@@ -120,6 +122,20 @@ wxThread::ExitCode wxGxMLDatasetUI::Entry()
 
         wsDELETE(pDSet);
     }
+
+	m_bIsChildrenLoaded = true;
+}
+
+wxThread::ExitCode wxGxMLDatasetUI::Entry()
+{
+	wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+	if(pCat)
+	{
+		m_nPendUId = pCat->AddPending(GetId());
+	}	
+	
+	LoadChildren();
+
     if(m_nPendUId != wxNOT_FOUND && pCat)
     {
         pCat->RemovePending(m_nPendUId);

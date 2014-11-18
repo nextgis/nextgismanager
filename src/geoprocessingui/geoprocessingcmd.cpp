@@ -271,7 +271,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
 					{
 						wxBusyCursor wait;
 						wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-						if (!pCont->HasChildren())
+						if (!pCont->HasChildren(true))
 							continue;
 						const wxGxObjectList lObj = pCont->GetChildren();
 						for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
@@ -316,7 +316,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
                     {
                         wxBusyCursor wait;
                         wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-                        if (!pCont->HasChildren())
+                        if (!pCont->HasChildren(true))
                             continue;
                         const wxGxObjectList lObj = pCont->GetChildren();
                         for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
@@ -362,7 +362,7 @@ void wxGISGeoprocessingCmd::OnClick(void)
                     {
                         wxBusyCursor wait;
                         wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-                        if (!pCont->HasChildren())
+                        if (!pCont->HasChildren(true))
                             continue;
                         const wxGxObjectList lObj = pCont->GetChildren();
                         for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)

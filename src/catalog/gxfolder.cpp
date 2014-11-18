@@ -169,10 +169,10 @@ bool wxGxFolder::CanCreate(long nDataType, long DataSubtype)
 	return wxIsWritable(wxString(m_sPath, wxConvUTF8));
 }
 
-bool wxGxFolder::HasChildren(void)
+bool wxGxFolder::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 bool wxGxFolder::CanCopy(const CPLString &szDestPath)

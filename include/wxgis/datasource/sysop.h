@@ -37,8 +37,6 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumVecESRIShapefile:
         case enumVecMapinfoTab:
         case enumVecMapinfoMif:
-        case enumVecKML:
-        case enumVecKMZ:
         case enumVecDXF:
             return true;
         case enumVecPostGIS:
@@ -46,6 +44,9 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumVecGML:
         case enumVecGeoJSON:
         case enumVecS57:
+        case enumVecKML:
+        case enumVecKMZ:
+		case enumVecSXF:
         case enumVecCSV:
             return true;
         case enumVecWFS:
@@ -119,6 +120,9 @@ WXDLLIMPEXP_GIS_DS inline bool IsFileDataset(wxGISEnumDatasetType eDSType, long 
         case enumContGDBFolder:
         case enumContDataset:
         case enumContGDB:
+		case enumContKML:
+		case enumContKMZ:
+		case enumContSXF:
             return true;
         case enumContRemoteDBConnection:
         case enumContWebServiceConnection:

@@ -91,6 +91,8 @@ char **wxGISRasterDataset::GetFileList()
     char **papszFileList = NULL;
     CPLString szPath;
     //papszFileList = CSLAddString( papszFileList, osIMDFile );
+	
+	bool bCaseSensitive = wxFileName::IsCaseSensitive();
     switch(m_nSubType)
     {
 	case enumRasterSAGA:
@@ -100,6 +102,15 @@ char **wxGISRasterDataset::GetFileList()
 		szPath = (char*)CPLResetExtension(m_sPath, "mgrd");
 		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
 			papszFileList = CSLAddString( papszFileList, szPath );
+		if(bCaseSensitive)	
+		{
+			szPath = (char*)CPLResetExtension(m_sPath, "SGRD");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szPath = (char*)CPLResetExtension(m_sPath, "MGRD");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );			
+		}
 		break;
     case enumRasterWMSTMS:
     case enumRasterWMS:
@@ -126,16 +137,67 @@ char **wxGISRasterDataset::GetFileList()
         if(CPLCheckForFile((char*)szPath.c_str(), NULL))
             papszFileList = CSLAddString( papszFileList, szPath );
         {
-        CPLString szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("_rpc.txt");
-        szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
-        if(CPLCheckForFile((char*)szPath.c_str(), NULL))
-            papszFileList = CSLAddString( papszFileList, szPath );
-        }
+			CPLString szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("_rpc.txt");
+			szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("-browse.jpg");
+			szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("_readme.txt");
+			szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+		}
+		
+		if(bCaseSensitive)
+		{
+			szPath = (char*)CPLResetExtension(m_sPath, "IMD");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szPath = (char*)CPLResetExtension(m_sPath, "PVL");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szPath = (char*)CPLResetExtension(m_sPath, "ATT");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szPath = (char*)CPLResetExtension(m_sPath, "EPH");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			//RPC specific
+			szPath = (char*)CPLResetExtension(m_sPath, "RPB");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			szPath = (char*)CPLResetExtension(m_sPath, "RPC");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+			{
+				CPLString szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("_RPC.TXT");
+				szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+				if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+					papszFileList = CSLAddString( papszFileList, szPath );
+				szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("-BROWSE.JPG");
+				szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+				if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+					papszFileList = CSLAddString( papszFileList, szPath );
+				szRpcName = CPLString(CPLGetBasename(m_sPath)) + CPLString("_README.TXT");
+				szPath = (char*)CPLFormFilename(CPLGetPath(m_sPath), (const char*)szRpcName.c_str(), NULL);
+				if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+					papszFileList = CSLAddString( papszFileList, szPath );
+			}
+		}
         break;
 	case enumRasterImg:
         szPath = (char*)CPLResetExtension(m_sPath, "ige");
 		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
 			papszFileList = CSLAddString( papszFileList, szPath );
+		if(bCaseSensitive)
+		{
+			szPath = (char*)CPLResetExtension(m_sPath, "IGE");
+			if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+				papszFileList = CSLAddString( papszFileList, szPath );
+		}
         break;
     case enumRasterBmp:
 	case enumRasterPng:
@@ -187,7 +249,52 @@ char **wxGISRasterDataset::GetFileList()
     szPath = (char*)CPLResetExtension(m_sPath, "prj");
     if(CPLCheckForFile((char*)szPath.c_str(), NULL))
         papszFileList = CSLAddString( papszFileList, szPath );
-
+		
+	if(bCaseSensitive)
+	{
+		if(!soWldFilePath.empty())
+			papszFileList = CSLAddString( papszFileList, soWldFilePath );
+		szPath = m_sPath + CPLString(".XML");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = m_sPath + CPLString(".AUX");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = m_sPath + CPLString(".AUX.XML");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = m_sPath + CPLString(".OVR");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = m_sPath + CPLString(".OVR.AUX.XML");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = m_sPath + CPLString(".RRD");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "XML");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "LGO");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "AUX");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "AUX.XML");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "OVR");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "RRD");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );
+		szPath = (char*)CPLResetExtension(m_sPath, "PRJ");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			papszFileList = CSLAddString( papszFileList, szPath );		
+	}
+	
     return papszFileList;
 }
 

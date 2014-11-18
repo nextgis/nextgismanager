@@ -1045,7 +1045,7 @@ bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject,
         else
             szNewPath = szPath + "/" + CPLString(pGxObject->GetName().mb_str(wxConvUTF8));
         wxGxObjectContainer* pCont = wxDynamicCast(pGxObject, wxGxObjectContainer);
-        if (pCont && pCont->HasChildren())
+        if (pCont && pCont->HasChildren(true))
         {
             const wxGxObjectList lObj = pCont->GetChildren();
             for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)

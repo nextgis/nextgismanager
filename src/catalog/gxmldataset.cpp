@@ -119,10 +119,10 @@ wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const p
     wsGET(m_pwxGISDataset);
 }
 
-bool wxGxMLDataset::HasChildren()
+bool wxGxMLDataset::HasChildren(bool bWaitLoading)
 {
     LoadChildren(); 
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 bool wxGxMLDataset::DestroyChildren()

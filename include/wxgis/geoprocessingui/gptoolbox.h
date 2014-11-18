@@ -52,7 +52,7 @@ public:
 	//IGxObjectContainer
 	virtual bool DeleteChild(IGxObject* pChild);
 	virtual bool AreChildrenViewable(void){return true;};
-	virtual bool HasChildren(void){LoadChildren(); return m_Children.size() > 0 ? true : false;};
+	virtual bool HasChildren(bool bWaitLoading = false){LoadChildren(); return m_Children.size() > 0 ? true : false;};
 	//wxGxToolbox
 	virtual void LoadChildren(void);
 	virtual void LoadChildrenFromXml(wxXmlNode* pNode);
@@ -127,7 +127,7 @@ public:
 	//IGxObjectContainer
 	virtual bool DeleteChild(IGxObject* pChild);
 	virtual bool AreChildrenViewable(void){return true;};
-	virtual bool HasChildren(void){LoadChildren(); return m_Children.size() > 0 ? true : false;};
+	virtual bool HasChildren(bool bWaitLoading = false){LoadChildren(); return m_Children.size() > 0 ? true : false;};
 	//IGxObjectSort
     virtual bool IsAlwaysTop(void){return true;};
 	virtual bool IsSortEnabled(void){return false;};
@@ -171,7 +171,7 @@ public:
 	//IGxObjectContainer
 	virtual bool DeleteChild(IGxObject* pChild);
 	virtual bool AreChildrenViewable(void){return false;};
-	virtual bool HasChildren(void){return m_Children.size() > 0 ? true : false;};
+	virtual bool HasChildren(bool bWaitLoading = false){return m_Children.size() > 0 ? true : false;};
     // wxGISGPToolManager
     virtual int Execute(IGPToolSPtr pTool, ITrackCancel* pTrackCancel = NULL);
     virtual void StartProcess(size_t nIndex);

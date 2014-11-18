@@ -403,7 +403,7 @@ bool wxGxObjectContainer::DestroyChildren()
     return true;
 }
 
-bool wxGxObjectContainer::HasChildren(void)
+bool wxGxObjectContainer::HasChildren(bool bWaitLoading)
 {
     return !m_Children.IsEmpty();
 }
@@ -416,7 +416,7 @@ wxGxObject *wxGxObjectContainer::FindGxObject(const wxString &sPath)
 
     wxString sObjName = GetFullName().MakeLower();
     bool bHavePart = sPath.Lower().Find(sObjName) != wxNOT_FOUND;
-    if(bHavePart && HasChildren())
+    if(bHavePart && HasChildren(true))
     {
         wxGxObjectList::const_iterator iter;
         for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
@@ -471,7 +471,7 @@ wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const wxString &sPath)
 
     wxString sThisPath(m_sPath, wxConvUTF8);
     bool bHavePart = sPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
-    if(bHavePart && HasChildren())
+    if(bHavePart && HasChildren(true))
     {
         wxGxObjectList::const_iterator iter;
         for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
@@ -496,7 +496,7 @@ wxGxObjectList wxGxObjectContainer::FindGxObjectsByPath(const wxString &sPath)
 		
 	wxString sThisPath(m_sPath, wxConvUTF8);
     bool bHavePart = sPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
-    if(bHavePart && HasChildren())
+    if(bHavePart && HasChildren(true))
     {
         wxGxObjectList::const_iterator iter;
         for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)

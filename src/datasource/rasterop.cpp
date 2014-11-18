@@ -21,6 +21,8 @@
 
 #include "wxgis/datasource/rasterop.h"
 
+#include "wx/filename.h"
+
 CPLString GetWorldFilePath(const CPLString &soPath)
 {
     //1. thirst and last char from ext and third char set w (e.g. jpw)
@@ -45,6 +47,30 @@ CPLString GetWorldFilePath(const CPLString &soPath)
     szPath = soPath + CPLString("w");
     if(CPLCheckForFile((char*)szPath.c_str(), NULL))
 		return szPath;
+		
+	if(wxFileName::IsCaseSensitive())	
+	{
+		CPLString sNewExt;
+		sNewExt += sExt[0];
+		sNewExt += sExt[sExt.size() - 1];
+		sNewExt += 'W';
+		CPLString szPath = (char*)CPLResetExtension(soPath, sNewExt);
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			return szPath;
+		//4. add wx to ext
+		sNewExt += 'X';
+		szPath = (char*)CPLResetExtension(soPath, sNewExt);
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			return szPath;
+		//2. wld
+		szPath = (char*)CPLResetExtension(soPath, "WLD");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			return szPath;
+		//3. add w to ext
+		szPath = soPath + CPLString("W");
+		if(CPLCheckForFile((char*)szPath.c_str(), NULL))
+			return szPath;
+	}
     return CPLString();
 }
 

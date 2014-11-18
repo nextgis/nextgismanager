@@ -339,53 +339,53 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			icLargeIcon = m_stmIconSet[n].icLargeIcon; \
 			icSmallIcon = m_stmIconSet[n].icSmallIcon; }
 		
-		if(sName.EndsWith(wxT("shp")))
+		if(sName.MakeLower().EndsWith(wxT("shp")))
 			SET_ICONS("shp", shp_dset_48_xpm, shp_dset_16_xpm)
-		else if(sName.EndsWith(wxT("tab")))
+		else if(sName.MakeLower().EndsWith(wxT("tab")))
 			SET_ICONS("tab", mi_dset_48_xpm, mi_dset_16_xpm)
-		else if(sName.EndsWith(wxT("mif")))
+		else if(sName.MakeLower().EndsWith(wxT("mif")))
 			SET_ICONS("mif", md_dset_48_xpm, md_dset_16_xpm)
-		else if(sName.EndsWith(wxT("kml")))
+		else if(sName.MakeLower().EndsWith(wxT("kml")))
 			SET_ICONS("kml", kml_dset_48_xpm, kml_dset_16_xpm)
-		else if(sName.EndsWith(wxT("kmz")))
+		else if(sName.MakeLower().EndsWith(wxT("kmz")))
 			SET_ICONS("kmz", kmz_dset_48_xpm, kmz_dset_16_xpm)
-		else if(sName.EndsWith(wxT("dxf")))
+		else if(sName.MakeLower().EndsWith(wxT("dxf")))
 			SET_ICONS("dxf", dxf_dset_48_xpm, dxf_dset_16_xpm)
-		else if(sName.EndsWith(wxT("gml")))
+		else if(sName.MakeLower().EndsWith(wxT("gml")))
 			SET_ICONS("gml", gml_dset_48_xpm, gml_dset_16_xpm)
-		else if(sName.EndsWith(wxT("geojson")))
+		else if(sName.MakeLower().EndsWith(wxT("geojson")))
 			SET_ICONS("geojson", json_dset_48_xpm, json_dset_16_xpm)
-		else if(sName.EndsWith(wxT("sxf")))
+		else if(sName.MakeLower().EndsWith(wxT("sxf")))
 			SET_ICONS("sxf", sxf_dset_48_xpm, sxf_dset_16_xpm)
-		else if(sName.EndsWith(wxT("000")))
+		else if(sName.MakeLower().EndsWith(wxT("000")))
 			SET_ICONS("package", package_48_xpm, package_16_xpm)
-		else if(sName.EndsWith(wxT("csv")))
+		else if(sName.MakeLower().EndsWith(wxT("csv")))
 			SET_ICONS("csv", csv_48_xpm, csv_16_xpm)
-		else if(sName.EndsWith(wxT("ods")))
+		else if(sName.MakeLower().EndsWith(wxT("ods")))
 			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.EndsWith(wxT("dbf")))
+		else if(sName.MakeLower().EndsWith(wxT("dbf")))
 			SET_ICONS("dbf", table_dbf_48_xpm, table_dbf_16_xpm)
-		else if(sName.EndsWith(wxT("xls")))
+		else if(sName.MakeLower().EndsWith(wxT("xls")))
 			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.EndsWith(wxT("xlsx")))
+		else if(sName.MakeLower().EndsWith(wxT("xlsx")))
 			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.EndsWith(wxT("bmp")))
+		else if(sName.MakeLower().EndsWith(wxT("bmp")))
 			SET_ICONS("bmp", raster_bmp48_xpm, raster_bmp16_xpm)
-		else if(sName.EndsWith(wxT("tif")))
+		else if(sName.MakeLower().EndsWith(wxT("tif")) || sName.MakeLower().EndsWith(wxT("tiff")))
 			SET_ICONS("tif", raster_tif48_xpm, raster_tif16_xpm)
-		else if(sName.EndsWith(wxT("jpg")))
+		else if(sName.MakeLower().EndsWith(wxT("jpg")))
 			SET_ICONS("jpg", raster_48_xpm, raster_16_xpm)
-		else if(sName.EndsWith(wxT("img")))
+		else if(sName.MakeLower().EndsWith(wxT("img")))
 			SET_ICONS("img", raster_img48_xpm, raster_img16_xpm)
-		else if(sName.EndsWith(wxT("png")))
+		else if(sName.MakeLower().EndsWith(wxT("png")))
 			SET_ICONS("png", raster_png48_xpm, raster_png16_xpm)
-		else if(sName.EndsWith(wxT("gif")))
+		else if(sName.MakeLower().EndsWith(wxT("gif")))
 			SET_ICONS("gif", raster_gif48_xpm, raster_gif16_xpm)
-		else if(sName.EndsWith(wxT("sdat")))
+		else if(sName.MakeLower().EndsWith(wxT("sdat")))
 			SET_ICONS("sdat", raster_saga48_xpm, raster_saga16_xpm)
-		else if(sName.EndsWith(wxT("til")))
+		else if(sName.MakeLower().EndsWith(wxT("til")))
 			SET_ICONS("til", raster_til48_xpm, raster_til16_xpm)
-		else if(sName.EndsWith(wxT("vrt")))
+		else if(sName.MakeLower().EndsWith(wxT("vrt")))
 			SET_ICONS("vrt", raster_vrt48_xpm, raster_vrt16_xpm)
 		else 
 			SET_ICONS("package", package_48_xpm, package_16_xpm)
@@ -639,18 +639,48 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						switch(pDSet->GetType())
 						{
 							case enumGISFeatureDataset:
-								if(!pDSet->IsOpened())
-									pDSet->Open(false, true);
-								if(!pDSet->IsCached())
-									pDSet->Cache(&ProgressDlg);
-								paLayers.push_back(wxStaticCast(new wxGISFeatureLayer(wxT("preview"), pDSet), wxGISLayer));
+								paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
+								while(pDSet->IsCaching())
+								{
+									wxSleep(1);
+								}	
 								break;
 							case enumGISRasterDataset:
-								paLayers.push_back(wxStaticCast(new wxGISRasterLayer(wxT("preview"), pDSet), wxGISLayer));
+								paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
 								break;
 							case enumGISContainer:
-								//TODO: iterate on datasets of the container
-								break;
+								//iterate on datasets of the container
+								{
+									wxGxDatasetContainer* pGxDatasetCont = dynamic_cast<wxGxDatasetContainer*>(pGxDset);
+									if(pGxDatasetCont && pGxDatasetCont->HasChildren(true))
+									{
+										wxGxObjectList ObjectList = pGxDatasetCont->GetChildren();
+										wxGxObjectList::iterator iter;
+										for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
+										{
+											wxGxObject *current = *iter;
+											wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
+											if(pGxDataset)
+											{
+												wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, &ProgressDlg);	
+												if(pwxGISDataset)
+												{
+													wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
+													if(pLayer)
+													{
+														paLayers.push_back(pLayer);
+													}
+													while(pwxGISDataset->IsCaching())
+													{
+														wxSleep(1);
+													}
+													wsDELETE(pwxGISDataset);
+												}
+											}
+										}
+									}
+								}
+							break;
 						};
 						
 						for (size_t k = 0; k < paLayers.size(); ++k)
@@ -693,6 +723,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						}
 						CSLDestroy(papszFileList);
 						CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
+						
+						wsDELETE(pDSet);
 					}
 				}
 				else if(pArchive)
@@ -1224,7 +1256,7 @@ bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 				if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
 				{						
 					wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-					if (!pCont->HasChildren())
+					if (!pCont->HasChildren(true))
 						continue;
 					const wxGxObjectList lObj = pCont->GetChildren();
 					for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)

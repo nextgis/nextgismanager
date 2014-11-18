@@ -105,10 +105,10 @@ wxGISDataset* const wxGxGNMConnectivity::GetDataset(bool bCache, ITrackCancel* c
     wsGET(m_pwxGISDataset);
 }
 
-bool wxGxGNMConnectivity::HasChildren()
+bool wxGxGNMConnectivity::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 bool wxGxGNMConnectivity::DestroyChildren()

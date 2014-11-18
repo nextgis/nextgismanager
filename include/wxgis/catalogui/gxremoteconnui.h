@@ -102,8 +102,6 @@ class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
 public:
 	wxGxRemoteDBSchemaUI(int nRemoteId, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon, const wxIcon &LargeIconFeatureClass = wxNullIcon, const wxIcon &SmallIconFeatureClass = wxNullIcon, const wxIcon &LargeIconTable = wxNullIcon, const wxIcon &SmallIconTable = wxNullIcon);
 	virtual ~wxGxRemoteDBSchemaUI(void);
-    //wxGxObjectContainer
-    virtual bool HasChildren(void);
     //IGxObjectEdit
     virtual bool Delete(void);
 	//IGxObjectUI

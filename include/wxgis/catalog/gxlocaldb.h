@@ -42,7 +42,7 @@ public:
 	//wxGxObjectContainer
     virtual bool CanCreate(long nDataType, long DataSubtype);
     virtual bool AreChildrenViewable(void) const;
-    virtual bool HasChildren(void);
+    virtual bool HasChildren(bool bWaitLoading = false);
     //IGxDataset
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
     virtual wxGISEnumDatasetType GetType(void) const;

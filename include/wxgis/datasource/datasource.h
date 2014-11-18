@@ -46,23 +46,23 @@ enum wxGISEnumDatasetType
 */
 enum wxGISEnumVectorDatasetType
 {
-	enumVecUnknown = 0,
-	enumVecESRIShapefile,
-	enumVecMapinfoTab,
-    enumVecMapinfoMif,
-    enumVecKML,
-    enumVecKMZ,
-    enumVecDXF,
-	enumVecPostGIS,
-	enumVecGML,
-    enumVecGeoJSON,
-    enumVecWFS,
-    enumVecMem,
-    enumVecSXF,
-    enumVecS57,
-    enumVecFileDBLayer,
-    enumVecCSV,
-    enumVecMAX
+	enumVecUnknown = 0,		// 0
+	enumVecESRIShapefile,	// 1
+	enumVecMapinfoTab,		// 2
+    enumVecMapinfoMif,		// 3
+    enumVecDXF,				// 4
+	enumVecPostGIS,			// 5
+	enumVecGML,				// 6
+    enumVecGeoJSON,			// 7
+    enumVecWFS,				// 8
+    enumVecMem,				// 9	
+    enumVecKML,				// 10
+    enumVecKMZ,    			// 11
+	enumVecSXF,				// 12
+    enumVecS57,				// 13	
+    enumVecFileDBLayer,		// 14
+    enumVecCSV,				// 15
+    enumVecMAX				
 };
 
 /** @enum wxGISEnumRasterDatasetType
@@ -132,7 +132,10 @@ enum wxGISEnumContainerType
 	enumContGDB,
 	enumContRemoteDBConnection,
     enumContWebServiceConnection,
-	enumContNGWResourceGroup
+	enumContNGWResourceGroup,
+	enumContKML = enumVecKML,		// 10
+	enumContKMZ = enumVecKMZ,		// 11
+	enumContSXF = enumVecSXF		// 12
 };
 
 /** @enum wxGISEnumWldExtType

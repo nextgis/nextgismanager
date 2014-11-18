@@ -217,10 +217,10 @@ bool wxGxQGISProjFile::CanCreate(long nDataType, long DataSubtype)
 	return false;
 }
 
-bool wxGxQGISProjFile::HasChildren(void)
+bool wxGxQGISProjFile::HasChildren(bool bWaitLoading)
 {
     LoadChildren();     
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 bool wxGxQGISProjFile::CanCopy(const CPLString &szDestPath)

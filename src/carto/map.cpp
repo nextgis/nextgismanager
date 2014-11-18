@@ -21,6 +21,8 @@
 #include "wxgis/carto/map.h"
 
 #include "wxgis/datasource/vectorop.h"
+#include "wxgis/carto/featurelayer.h"
+#include "wxgis/carto/rasterlayer.h"
 
 //--------------------------------------------------------------------------------
 // wxGISMap
@@ -181,6 +183,50 @@ bool wxGISMap::HasLayerType(wxGISEnumDatasetType eType) const
     }
     return false;
 }
+
+
+wxGISLayer* wxGISMap::GetLayerFromDataset(wxGISDataset* const pDataset, ITrackCancel* const pTrackCancel)
+{
+	//wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, pTrackCancel);
+	if(pDataset == NULL)
+		return NULL;
+
+	wxGISEnumDatasetType type = pDataset->GetType();
+    wxGISLayer* pLayer(NULL);
+
+	switch(type)
+	{
+	case enumGISFeatureDataset:
+		{
+			wxGISFeatureDataset* pGISFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
+			if(!pGISFeatureDataset->IsOpened())
+                pGISFeatureDataset->Open(0, true, true, true, pTrackCancel);
+			if(!pGISFeatureDataset->IsCached())
+				pGISFeatureDataset->Cache(pTrackCancel);
+			wxGISFeatureLayer* pGISFeatureLayer = new wxGISFeatureLayer(pDataset->GetName(), pDataset);
+			pLayer = wxStaticCast(pGISFeatureLayer, wxGISLayer);
+		}
+		break;
+	case enumGISRasterDataset:
+		{
+        //CheckOverviews(pwxGISDataset, pGxObject->GetName());
+		//pwxGISLayers.push_back(new wxGISRasterLayer(pwxGISDataset));
+        //pwxGISLayers[pwxGISLayers.size() - 1]->SetName(pwxGISDataset->GetName());
+			wxGISRasterDataset* pGISRasterDataset = wxDynamicCast(pDataset, wxGISRasterDataset);
+			if(!pGISRasterDataset->IsOpened())
+				pGISRasterDataset->Open(true);
+			//if(!pGISRasterDataset->IsCached())
+			//	pGISRasterDataset->Cache(m_pTrackCancel);
+            wxGISRasterLayer* pGISRasterLayer = new wxGISRasterLayer(pDataset->GetName(), pDataset);
+			pLayer = wxStaticCast(pGISRasterLayer, wxGISLayer);
+		}
+		break;
+	default:
+		break;
+	}
+    return pLayer;
+}
+
 //The AddLayer method adds a layer to the Map. Use GetLayerCount to get the total number of layers in the map.
 //AddLayer automatically attempts to set the Map's SpatialReference if a coordinate system has not yet been defined for the map.
 

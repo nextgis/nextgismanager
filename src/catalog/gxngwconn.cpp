@@ -217,10 +217,10 @@ void wxGxNGWService::Refresh(void)
     wxGxObject::Refresh();
 }
 
-bool wxGxNGWService::HasChildren(void)
+bool wxGxNGWService::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 void wxGxNGWService::LoadChildren(void)
@@ -686,13 +686,13 @@ void wxGxNGWResourceGroup::Refresh(void)
     wxGxObject::Refresh();
 }
 
-bool wxGxNGWResourceGroup::HasChildren(void)
+bool wxGxNGWResourceGroup::HasChildren(bool bWaitLoading)
 {
     LoadChildren();
 
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren();
+    return wxGxObjectContainer::HasChildren(bWaitLoading);
 }
 
 bool wxGxNGWResourceGroup::CanCreate(long nDataType, long DataSubtype)

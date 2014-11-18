@@ -50,7 +50,7 @@ public:
     //wxGxObjectContainer
     virtual bool DestroyChildren();
 	virtual bool AreChildrenViewable(void) const {return true;};
-	virtual bool HasChildren(void);
+	virtual bool HasChildren(bool bWaitLoading = false);
 protected:
 	//wxGxSpreadsheetDataset
 	virtual void LoadChildren(void);

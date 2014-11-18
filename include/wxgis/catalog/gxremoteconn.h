@@ -108,7 +108,7 @@ public:
     virtual void Refresh(void);
 	//wxGxObjectContainer
 	virtual bool AreChildrenViewable(void) const {return true;};
-	virtual bool HasChildren(void);
+	virtual bool HasChildren(bool bWaitLoading = false);
     virtual bool CanCreate(long nDataType, long DataSubtype);
     //IGxObjectEdit
 	virtual bool Delete(void);
