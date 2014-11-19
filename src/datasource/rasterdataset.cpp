@@ -880,7 +880,9 @@ char ** wxGISRasterDataset::GetTiles(char **papszStrList, const CPLString &szPat
             {
                 size = CPLStrlcpy(pszTrimFileName, pszFileName, size);
             }
-            papszStrList = CSLAddString(papszStrList, pszTrimFileName);
+
+            const char* pszRezulFileName = CPLFormFilename(CPLGetPath(szPath), pszTrimFileName, NULL);
+            papszStrList = CSLAddString(papszStrList, pszRezulFileName);
             delete pszTrimFileName;
         }
     }

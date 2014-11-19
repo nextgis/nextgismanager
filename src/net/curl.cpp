@@ -623,7 +623,7 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
 	
 	curl_formadd(&formpost, &lastptr,
 		CURLFORM_COPYNAME, "file",
-		CURLFORM_FILE, (const char*)szFilePath,
+        CURLFORM_FILE, (const char*)sFilePath.mb_str(),
 		CURLFORM_END);
  
 	/* Fill in the filename field */ 
@@ -729,15 +729,10 @@ PERFORMRESULT wxGISCurlRefData::UploadFiles(const wxString & sURL, const wxArray
 	
 		curl_formadd(&formpost, &lastptr,
 			CURLFORM_COPYNAME, "files[]",
-			CURLFORM_FILE, (const char*)szFilePath,
+            CURLFORM_FILE, (const char*)asFilePaths[i].mb_str(), //sys encoding
+            CURLFORM_FILENAME, CPLGetFilename(szFilePath),       //utf encoding
 			CURLFORM_END);
-			
-		//curl_formadd(&formpost, &lastptr,
-		//CURLFORM_COPYNAME, "name",
-		//CURLFORM_COPYCONTENTS, CPLGetFilename(szFilePath),
-		//CURLFORM_COPYCONTENTS, "files[]",
-		//CURLFORM_END);
-	}	 
+		}	 
  
 	/* Fill in the submit field too, even if this is rarely needed */ 
 	curl_formadd(&formpost, &lastptr,
