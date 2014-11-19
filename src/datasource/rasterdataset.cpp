@@ -29,7 +29,6 @@
 
 #include "gdal_rat.h"
 #include "gdalwarper.h"
-#include "cplkeywordparser.h"
 
 //---------------------------------------
 // wxGISFeatureDataset
@@ -849,53 +848,43 @@ bool wxGISRasterDataset::WriteWorldFile(wxGISEnumWldExtType eType)
 
 char ** wxGISRasterDataset::GetTiles(char **papszStrList, const CPLString &szPath)
 {
-	VSILFILE *fp = VSIFOpenL( szPath, "r" );
-    
-    if( fp == NULL )
-    {		
-        return papszStrList;
-    }
+    char **papszLines = CSLLoad(szPath);
 
-    CPLKeywordParser oParser;
-
-    if( !oParser.Ingest( fp ) )
+    for (int i = 0; i < CSLCount(papszLines); ++i)
     {
-        VSIFCloseL( fp );
-        return papszStrList;
-    }
+        const char *pszValue = papszLines[i];
+        while (pszValue[0] == ' ' || pszValue[0] == '\t')
+            pszValue++;
 
-    VSIFCloseL( fp );
-
-    char **papszTIL = oParser.GetAllKeywords();
-		
-	int nTileCount = atoi(CSLFetchNameValueDef(papszTIL,"numTiles","0"));
-    int iTile = 0;
-	const char *pszFilename;
-	
-	const char* szDir = CPLGetPath(szPath);
-	
-    for( iTile = 1; iTile <= nTileCount; iTile++ )
-    {
-        CPLString osKey;
-
-        osKey.Printf( "TILE_%d.filename", iTile );
-        pszFilename = CSLFetchNameValue( papszTIL, osKey );
-        if( pszFilename == NULL )
+        if (EQUALN(pszValue, "filename", 8))
         {
-            CPLError( CE_Failure, CPLE_AppDefined,
-                      "Missing TILE_%d.filename in .TIL file.", iTile );
-            return papszStrList;
+            const char* pszFileName = CPLParseNameValue(pszValue, NULL);
+            size_t size = CPLStrnlen(pszFileName, 1024);
+            //remove quotes
+            char * pszTrimFileName = new char[size];
+            if (pszFileName[0] == '"')
+            {
+                pszFileName++;
+                size = CPLStrlcpy(pszTrimFileName, pszFileName, size - 1);
+                while (size > 1)
+                {
+                    if (pszTrimFileName[size - 1] == '"')
+                    {
+                        pszTrimFileName[size - 1] = 0;
+                        break;
+                    }
+                    size--;
+                }
+            }
+            else
+            {
+                size = CPLStrlcpy(pszTrimFileName, pszFileName, size);
+            }
+            papszStrList = CSLAddString(papszStrList, pszTrimFileName);
+            delete pszTrimFileName;
         }
-        
-        // trim double quotes. 
-        if( pszFilename[0] == '"' )
-            pszFilename++;
-        if( pszFilename[strlen(pszFilename)-1] == '"' )
-            ((char *) pszFilename)[strlen(pszFilename)-1] = '\0';
-        CPLString osFilename = CPLFormFilename(szDir, pszFilename, NULL);
-		
-        papszStrList = CSLAddString(papszStrList, osFilename);
-	}
-	
+    }
+    CSLDestroy(papszLines);
+
 	return papszStrList;
 }
