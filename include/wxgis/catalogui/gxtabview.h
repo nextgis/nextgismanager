@@ -71,7 +71,7 @@ public:
 	virtual void Deactivate(void);
 //IGxDropTarget
     virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def);
-    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn);
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn);
     virtual void OnLeave();
     virtual bool CanPaste(void);
 //events

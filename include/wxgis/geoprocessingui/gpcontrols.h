@@ -106,7 +106,7 @@ public:
     virtual void OnParamChanged(wxGISGPParamEvent& event);
     //IGxDropTarget
     virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def);
-    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn);
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn);
     virtual void OnLeave();
     virtual bool CanPaste(void);
 protected:
@@ -314,7 +314,7 @@ public:
     virtual void OnOpen(wxCommandEvent& event);
     virtual void OnParamChanged(wxGISGPParamEvent& event);
 	//IGxDropTarget
-    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn);
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn);
 };
 
 /** @class wxGISDTMultiParam

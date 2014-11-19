@@ -219,9 +219,12 @@ void wxGxRasterDatasetUI::EditProperties(wxWindow *parent)
 
         wsDELETE(pDset);
 	}
+	
+	/* TODO: Property page with bands ant calc progress
     wxGISRasterHistogramPropertyPage* RasterHistogramPropertyPage = new wxGISRasterHistogramPropertyPage(this, pParentWnd);
     PropertySheetDialog.GetBookCtrl()->AddPage(RasterHistogramPropertyPage, RasterHistogramPropertyPage->GetPageName());
-
+	*/
+	
     //TODO: Additional page for virtual raster VRTSourcedDataset with sources files
 
     //PropertySheetDialog.LayoutDialog();

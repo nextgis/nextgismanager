@@ -417,6 +417,7 @@ public:
     } NGWFILEDESCRIPTION;
 
 protected:
+	virtual bool CopyToFolder(const CPLString &szPath, ITrackCancel * const pTrackCancel = NULL);
     virtual int GetParentResourceId() const;
     virtual void FillFilesArray(const wxJSONValue &files);
     virtual wxGISDataset* const GetDatasetFast(void);

@@ -26,6 +26,7 @@
 #include "wxgis/core/json/jsonwriter.h"
 #include "wxgis/core/crypt.h"
 #include "wxgis/core/app.h"
+#include "wxgis/catalog/gxfolder.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -422,8 +423,16 @@ bool wxGxNGWResource::CanCopyResource(const CPLString &szDestPath)
     {
         return false;
     }	
-    wxGxNGWResource* pGxDestNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObjectByPath(szDestPath));
-	return NULL != pGxDestNGWResource;
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	
+	//1. CanCopy to File System
+	//return  pGxObj && pGxObj->IsKindOf(wxCLASSINFO(wxGxFolder));
+	
+	//2. CanCopy to other NGW resource group
+	//return pGxObj && pGxObj->IsKindOf(wxCLASSINFO(wxGxNGWResource));
+	
+	return false;
 }
 
 bool wxGxNGWResource::CanMoveResource(const CPLString &szDestPath)
@@ -433,6 +442,7 @@ bool wxGxNGWResource::CanMoveResource(const CPLString &szDestPath)
     {
         return false;
     }
+	
     wxGxNGWResource* pGxDestNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObjectByPath(szDestPath));
     bool bIsSameService = NULL != pGxDestNGWResource && NULL != pGxDestNGWResource->GetNGWService() && NULL != GetNGWService() && pGxDestNGWResource->GetNGWService()->GetURL().IsSameAs(GetNGWService()->GetURL(), false);
 	
@@ -767,12 +777,56 @@ bool wxGxNGWResourceGroup::Copy(const CPLString &szDestPath, ITrackCancel* const
 
 bool wxGxNGWResourceGroup::CanCopy(const CPLString &szDestPath)
 {
-	return CanCopyResource(szDestPath);
+	return true;
+	//return CanCopyResource(szDestPath);
 }
 
 bool wxGxNGWResourceGroup::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    return false;
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if (CanMoveResource(szDestPath))
+	{
+		//move to resource
+		wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObj);
+		bool bRes = MoveResource(pGxNGWResource->GetRemoteId());
+		//report error
+		if(!bRes)
+		{
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));  
+			sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			return false;
+		}
+		else
+		{
+			wxGxObject* pObj = GetParent();
+			if(NULL != pObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			
+			if(NULL != pGxObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pGxObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			return true;	
+		}
+	}	
+    return false;	
 }
 
 bool wxGxNGWResourceGroup::CanMove(const CPLString &szDestPath)
@@ -1458,12 +1512,55 @@ bool wxGxNGWLayer::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackC
 
 bool wxGxNGWLayer::CanCopy(const CPLString &szDestPath)
 {
-	return CanCopyResource(szDestPath);
+	return true;//CanCopyResource(szDestPath);
 }
 
 bool wxGxNGWLayer::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    return false;
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if (CanMoveResource(szDestPath))
+	{
+		//move to resource
+		wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObj);
+		bool bRes = MoveResource(pGxNGWResource->GetRemoteId());
+		//report error
+		if(!bRes)
+		{
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));  
+			sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			return false;
+		}
+		else
+		{
+			wxGxObject* pObj = GetParent();
+			if(NULL != pObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			
+			if(NULL != pGxObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pGxObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			return true;	
+		}
+	}	
+    return false;	
 }
 
 bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
@@ -1701,12 +1798,55 @@ bool wxGxNGWRaster::Copy(const CPLString &szDestPath, ITrackCancel* const pTrack
 
 bool wxGxNGWRaster::CanCopy(const CPLString &szDestPath)
 {
-	return CanCopyResource(szDestPath);
+	return true;//CanCopyResource(szDestPath);
 }
 
 bool wxGxNGWRaster::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    return false;
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if (CanMoveResource(szDestPath))
+	{
+		//move to resource
+		wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObj);
+		bool bRes = MoveResource(pGxNGWResource->GetRemoteId());
+		//report error
+		if(!bRes)
+		{
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));  
+			sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			return false;
+		}
+		else
+		{
+			wxGxObject* pObj = GetParent();
+			if(NULL != pObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			
+			if(NULL != pGxObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pGxObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			return true;	
+		}
+	}	
+    return false;	
 }
 
 bool wxGxNGWRaster::CanMove(const CPLString &szDestPath)
@@ -1808,19 +1948,61 @@ bool wxGxNGWPostGISConnection::Rename(const wxString &sNewName)
 }
 
 bool wxGxNGWPostGISConnection::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
-{
-	
+{	
     return false;
 }
 
 bool wxGxNGWPostGISConnection::CanCopy(const CPLString &szDestPath)
 {
-	return CanCopyResource(szDestPath);
+	return true;//CanCopyResource(szDestPath);
 }
 
 bool wxGxNGWPostGISConnection::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    return false;
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if (CanMoveResource(szDestPath))
+	{
+		//move to resource
+		wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObj);
+		bool bRes = MoveResource(pGxNGWResource->GetRemoteId());
+		//report error
+		if(!bRes)
+		{
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));  
+			sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			return false;
+		}
+		else
+		{
+			wxGxObject* pObj = GetParent();
+			if(NULL != pObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			
+			if(NULL != pGxObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pGxObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			return true;	
+		}
+	}	
+    return false;	
 }
 
 bool wxGxNGWPostGISConnection::CanMove(const CPLString &szDestPath)
@@ -1955,24 +2137,90 @@ bool wxGxNGWFileSet::Rename(const wxString &sNewName)
 
 bool wxGxNGWFileSet::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
+	//copy to folder the contents of bucket
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if(pGxObj && pGxObj->IsKindOf(wxCLASSINFO(wxGxFolder)))
+	{
+		//copy to folder
+		return CopyToFolder(pGxObj->GetPath(), pTrackCancel);	
+	}
     return false;
 }
 
 bool wxGxNGWFileSet::CanCopy(const CPLString &szDestPath)
 {
-    return CanCopyResource(szDestPath);
+	return true;
 }
 
 bool wxGxNGWFileSet::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
+	//copy to folder the contents of bucket
+	//and delete the bucket
+	wxGxCatalogBase* pCatalog = GetGxCatalog();
+    if (NULL == pCatalog)
+    {
+        return false;
+    }    
+	
+	wxGxObject* pGxObj = pCatalog->FindGxObjectByPath(szDestPath);
+	if(pGxObj && pGxObj->IsKindOf(wxCLASSINFO(wxGxFolder)))
+	{
+		//copy to folder
+		if(CopyToFolder(pGxObj->GetPath(), pTrackCancel))
+			return Delete();
+		return false;	
+	}
+	
+    if (CanMoveResource(szDestPath))
+	{
+		//move to resource
+		wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pGxObj);
+		bool bRes = MoveResource(pGxNGWResource->GetRemoteId());
+		//report error
+		if(!bRes)
+		{
+			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Move"));  
+			sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			return false;
+		}
+		else
+		{
+			wxGxObject* pObj = GetParent();
+			if(NULL != pObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			
+			if(NULL != pGxObj)
+			{
+				IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pGxObj->GetParent());
+				if(pNotify)
+				{	
+					pNotify->OnGetUpdates();
+				}						
+			}
+			return true;	
+		}
+	}	
     return false;
 }
 
 bool wxGxNGWFileSet::CanMove(const CPLString &szDestPath)
 {
-    if (!CanMoveResource(szDestPath))
-        return CanCopy(szDestPath) && CanDelete();
-    return true;
+	if(!CanMoveResource(szDestPath))
+		return CanCopy(szDestPath) && CanDelete();
+	return true;
 }
 
 wxGISDataset* const wxGxNGWFileSet::GetDatasetFast(void)
@@ -2013,6 +2261,44 @@ wxGISDataset* const wxGxNGWFileSet::GetDataset(bool bCached, ITrackCancel* const
 	}
 
 	wsGET(m_pwxGISDataset);
+}
+
+bool wxGxNGWFileSet::CopyToFolder(const CPLString &szPath, ITrackCancel * const pTrackCancel)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;	
+		
+	IProgressor *pProgress = NULL;
+	if(pTrackCancel)
+	{
+		pTrackCancel->PutMessage(wxString::Format(_("Start copy %s"), GetCategory().c_str()), wxNOT_FOUND, enumGISMessageInformation);
+		pProgress = pTrackCancel->GetProgressor();
+		if(pProgress)
+			pProgress->SetRange(m_asFiles.size());
+	}
+	
+	wxString sPreviewName = wxString::Format(wxT("%s.%s"), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
+	
+	for ( size_t i = 0; i < m_asFiles.size(); ++i ) 
+	{    
+		if(pProgress)
+			pProgress->SetValue(i);
+		
+		if(m_asFiles[i].sName.IsSameAs(sPreviewName, false))
+			continue;
+		
+		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/file/%s"), m_nRemoteId, m_asFiles[i].sName.c_str());
+			
+		if(!curl.GetFile(sURL, wxString::FromUTF8(szPath) + wxFileName::GetPathSeparator() + m_asFiles[i].sName, pTrackCancel))
+		{
+			if(pTrackCancel)
+				pTrackCancel->PutMessage(wxString::Format(_("File %s download failed"), m_asFiles[i].sName.c_str()), wxNOT_FOUND, enumGISMessageError);
+			return false;	
+		}
+	}	
+	
+	return true;
 }
 
 #endif // wxGIS_USE_CURL

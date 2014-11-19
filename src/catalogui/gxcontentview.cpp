@@ -1047,7 +1047,7 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
 
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_AllowMove );
 }
 
 
@@ -1283,9 +1283,9 @@ wxDragResult wxGxContentView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     return def;
 }
 
-bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
+bool wxGxContentView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn)
 {
-    bool bMove = !bIsControlOn;
+    bool bMove = bIsShiftOn;
 
     SetItemState(m_HighLightItem, 0, wxGISLIST_STATE_DROPHILITED);
     //SetItemState(m_HighLightItem, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);

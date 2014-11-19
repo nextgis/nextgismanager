@@ -815,7 +815,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 	event.Allow();
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_AllowMove );
 
 //    IGxObject* pParentGxObject(NULL);
 //    for(size_t i = 0; i < count; ++i)
@@ -1023,9 +1023,9 @@ wxDragResult wxGxTreeView::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     return def;
 }
 
-bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
+bool wxGxTreeView::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn)
 {
-    bool bMove = !bIsControlOn;
+    bool bMove = bIsShiftOn;
 
     wxPoint pt(x, y);
 	int flags;

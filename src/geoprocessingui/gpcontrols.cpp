@@ -393,7 +393,7 @@ wxDragResult wxGISDTPath::OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
     return def;
 }
 
-bool wxGISDTPath::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
+bool wxGISDTPath::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn)
 {
     if (GxObjects.GetCount() > 0)
     {
@@ -1365,7 +1365,7 @@ void wxGISDTSpatRef::OnParamChanged(wxGISGPParamEvent& event)
     }
 }
 
-bool wxGISDTSpatRef::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn)
+bool wxGISDTSpatRef::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn)
 {
     if (GxObjects.GetCount() > 0)
     {

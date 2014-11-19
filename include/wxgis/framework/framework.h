@@ -61,7 +61,7 @@ class IViewDropTarget
 public:
 	virtual ~IViewDropTarget(void){};
     virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def) = 0;
-    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn) = 0;
+    virtual bool OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& GxObjects, bool bIsControlOn, bool bIsShiftOn) = 0;
     virtual void OnLeave() = 0;
     virtual bool CanPaste(void) {return false;};
 };

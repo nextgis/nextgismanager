@@ -553,7 +553,7 @@ void wxGISToolExecuteView::OnBeginDrag(wxListEvent& event)
 
     wxDropSource dragSource( this );
 	dragSource.SetData( DragData );
-	wxDragResult result = dragSource.DoDragDrop( wxDrag_DefaultMove );
+	wxDragResult result = dragSource.DoDragDrop( wxDrag_AllowMove );
 }
 
 
