@@ -133,7 +133,8 @@ public:
 	virtual bool DeleteResource();
 	virtual bool RenameResource(const wxString &sNewName);
 	virtual bool MoveResource(int nResourceId);
-	static wxString MakeKey(const wxString& sInputStr);
+	static wxString MakeKey(const wxString& sInputStr);	
+	static wxJSONValue GetMetadata(wxGISDataset* const pDSet);
 protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);
@@ -230,9 +231,9 @@ public:
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);
 	virtual bool CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom);
-	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
-	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel);
-	virtual bool CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, ITrackCancel* const pTrackCancel);	
+	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxJSONValue& oMetadata = wxJSONValue(wxJSONTYPE_INVALID), ITrackCancel* const pTrackCancel = NULL);	
 protected:
     virtual void LoadChildren(void);
     virtual wxGxObject* AddResource(const wxJSONValue &Data);

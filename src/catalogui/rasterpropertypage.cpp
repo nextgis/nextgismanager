@@ -117,22 +117,25 @@ wxPGProperty* wxGISRasterPropertyPage::AppendProperty(wxPGProperty* pid, wxPGPro
 
 wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid, wxString sMeta)
 {
+	char* Key = NULL;
+	const char* Value = CPLParseNameValue(sMeta.ToUTF8(), &Key);
+	
     //TODO: split item name by points eg. BAND_R.ULLat
-    int nPos = sMeta.Find('=');
-    if(nPos == wxNOT_FOUND)
-		return AppendProperty( new wxStringProperty(_("Item"), wxString::Format(wxT("Item_%ld"), ++m_nCounter), sMeta) );
+	
+    if(CPLStrnlen(Key, 255) == 0)
+		return AppendProperty( new wxStringProperty(_("Item"), wxString::Format(wxT("Item_%ld"), ++m_nCounter), wxString::FromUTF8(Value)) );
     else
     {
-        wxString sName = sMeta.Left(nPos);
-        wxString sVal = sMeta.Right(sMeta.Len() - nPos - 1);
+        wxString sName = wxString::FromUTF8(Key);
+        wxString sVal = wxString::FromUTF8(Value);
         //clean
-        wxString sCleanVal;
-        for(size_t i = 0; i < sVal.Len(); ++i)
+        wxString sCleanVal = sVal;
+        /*for(size_t i = 0; i < sVal.Len(); ++i)
         {
             char c = sVal.GetChar(i);
             if(c > 31 && c != 127)
                 sCleanVal += c;
-        }
+        }*/
 
         wxString sSubName1;
         wxPGProperty* pCatProp = GetSubProperty(pid, sName, sSubName1);

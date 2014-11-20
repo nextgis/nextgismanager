@@ -134,7 +134,7 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
 
 		if( m_poDS == NULL )
 		{
-			wxString sEncodedPath = wxString(m_sPath, wxConvUTF8);
+			wxString sEncodedPath = wxString::FromUTF8(m_sPath);
 			wxURI oURLtoUnscape(sEncodedPath);
 			sEncodedPath = oURLtoUnscape.BuildUnescapedURI();
 

@@ -632,7 +632,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						//create raster preview
 						CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 						CPLString osPreviewPath = CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
-					    wxGISMapBitmap bmp(640, 640); //TODO: get from config
+					    wxGISMapBitmap bmp(nPreviewXSize, nPreviewYSize); 
 						bmp.SetTrackCancel(&ProgressDlg);
 						wxVector<wxGISLayer*> paLayers;
 						
@@ -722,7 +722,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 							}
 						}
 						CSLDestroy(papszFileList);
-						CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
+						CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::GetMetadata(pDSet), &ProgressDlg);
 						
 						wsDELETE(pDSet);
 					}
@@ -731,13 +731,13 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 				{
 					wxArrayString paths;
 					paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
-					CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);					
+					CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);					
 				}
 				else if(pFile)
 				{
 					wxArrayString paths;
 					paths.Add(wxString::FromUTF8(pFile->GetPath()));
-					CreateFileBucket(paDatasets[j]->GetName(), paths, &ProgressDlg);
+					CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
 				}				
 			}
 			

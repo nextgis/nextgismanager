@@ -484,6 +484,294 @@ wxString wxGxNGWResource::MakeKey(const wxString& sInputStr)
 	return sOut;
 }
 
+wxJSONValue wxGxNGWResource::GetMetadata(wxGISDataset* const pDSet)
+{
+	wxJSONValue out;
+	if(NULL == pDSet)
+		return out;
+		
+	switch(pDSet->GetType())
+	{
+		case enumGISFeatureDataset:
+		{
+			wxGISFeatureDataset *pFeatureDataset = wxDynamicCast(pDSet, wxGISFeatureDataset);
+			if(pFeatureDataset)
+			{
+				OGRCompatibleDataSource *pDataSource = pFeatureDataset->GetDataSourceRef();
+				if(pDataSource)
+				{
+					OGRCompatibleDriver* pDrv = dynamic_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+					if(pDrv)
+					{
+						out["Driver"] = wxString::FromUTF8(pDrv->GetOGRCompatibleDriverName());
+					}
+					
+					OGRLayer *poLayer = pDataSource->GetLayer(0);
+					
+					wxString sOut = GetConvName(poLayer->GetName(), false);
+					if(!sOut.IsEmpty())
+					{						
+						out["Name"]	= sOut;
+					}
+					out["Geometry type"] = wxString(OGRGeometryTypeToName( poLayer->GetGeomType() ), wxConvLocal);
+					out["Feature count"] = poLayer->GetFeatureCount();
+					
+					//fields
+					wxString sFields;
+					OGRFeatureDefn* const poDefn = poLayer->GetLayerDefn();
+					if(poDefn)
+					{						
+						for( int iAttr = 0; iAttr < poDefn->GetFieldCount(); iAttr++ )
+						{
+							OGRFieldDefn    *poField = poDefn->GetFieldDefn( iAttr );
+							wxString sFieldTypeName = wxString( poField->GetFieldTypeName( poField->GetType() ), wxConvLocal );
+							wxString sFieldName = wxString(poField->GetNameRef(), wxConvLocal);
+							if(sFields.IsEmpty())
+								sFields += sFieldName + wxT(" (") +  sFieldTypeName + wxT(")");
+							else	
+								sFields += wxT(", ") + sFieldName + wxT(" (") +  sFieldTypeName + wxT(")");
+						}
+					}
+					out["Fields"] = sFields;
+					
+					//SRS
+					wxGISSpatialReference SpaRef = poLayer->GetSpatialRef();
+					bool bProjected(false);
+					if(SpaRef.IsOk())
+					{
+						out["CRS"] = SpaRef.GetName();
+						if(SpaRef->IsProjected())
+							bProjected = true;
+					}
+					
+					//Extent
+					OGREnvelope Extent;
+					OGRErr eErr = poLayer->GetExtent(&Extent);
+					if(eErr == OGRERR_NONE && Extent.IsInit())
+					{
+						out["Extent"] = wxString::Format(wxT("%f, %f, %f, %f"), Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
+						out["Center"] = wxString::Format(wxT("%f, %f"), (Extent.MaxX + Extent.MinX) / 2.0, (Extent.MaxY + Extent.MinY) / 2.0);
+						if(bProjected)
+						{
+							wxGISSpatialReference GSSpaRef(SpaRef->CloneGeogCS());
+							if(GSSpaRef.IsOk())
+							{
+								OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, GSSpaRef );
+								if(poCT)
+								{
+									poCT->Transform(1, &Extent.MaxX, &Extent.MaxY);
+									poCT->Transform(1, &Extent.MinX, &Extent.MinY);
+									
+									out["Extent (geo)"] = wxString::Format(wxT("%f, %f, %f, %f"), Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
+									out["Center (geo)"] = wxString::Format(wxT("%f, %f"), (Extent.MaxX + Extent.MinX) / 2.0, (Extent.MaxY + Extent.MinY) / 2.0);
+									OCTDestroyCoordinateTransformation(poCT);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+			break;
+		case enumGISRasterDataset:
+		{
+			wxGISRasterDataset *pRasterDataset = wxDynamicCast(pDSet, wxGISRasterDataset);
+			if(pRasterDataset)
+			{
+				GDALDataset* poGDALDataset = pRasterDataset->GetMainRaster();
+				if(!poGDALDataset)
+					poGDALDataset = pRasterDataset->GetRaster();
+				if(poGDALDataset)
+				{
+					GDALDriver* pDrv = poGDALDataset->GetDriver();
+					out["Driver"] = wxString::Format(wxT("%s(%s)"), wxString::FromUTF8(pDrv->GetMetadataItem( GDAL_DMD_LONGNAME )).c_str(), wxString::FromUTF8(pDrv->GetDescription()).c_str() );					
+					
+					int nW = pRasterDataset->GetWidth();
+					int nH = pRasterDataset->GetHeight();
+					
+					out["Columns"] = nW;
+					out["Rows"] = nH;
+					out["Number of bands"] = pRasterDataset->GetBandCount();
+					double adfGeoTransform[6] = {0};
+					if( poGDALDataset->GetGeoTransform( adfGeoTransform ) == CE_None )
+					{
+						out["Cell size (X, Y)"] = wxString::Format(wxT("%.6g, %.6g"), fabs(adfGeoTransform[1]), fabs(adfGeoTransform[5]) );
+						out["GeoTransform"] = wxString::Format(wxT("%.16g, %.16g, %.16g | %.16g, %.16g, %.16g"), adfGeoTransform[0], adfGeoTransform[1], adfGeoTransform[2], adfGeoTransform[3], adfGeoTransform[4], adfGeoTransform[5]);
+					}
+					
+					//SRS
+					wxGISSpatialReference SpaRef = pRasterDataset->GetSpatialReference();
+					bool bProjected(false);
+					if(SpaRef.IsOk())
+					{
+						out["CRS"] = SpaRef.GetName();
+						if(SpaRef->IsProjected())
+							bProjected = true;
+					}
+					
+					//Extent
+					
+					OGREnvelope Extent = pRasterDataset->GetEnvelope();
+					if(Extent.IsInit())
+					{
+						out["Extent"] = wxString::Format(wxT("%f, %f, %f, %f"), Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
+						out["Center"] = wxString::Format(wxT("%f, %f"), (Extent.MaxX + Extent.MinX) / 2.0, (Extent.MaxY + Extent.MinY) / 2.0);
+						if(bProjected)
+						{
+							wxGISSpatialReference GSSpaRef(SpaRef->CloneGeogCS());
+							if(GSSpaRef.IsOk())
+							{
+								OGRCoordinateTransformation *poCT = OGRCreateCoordinateTransformation( SpaRef, GSSpaRef );
+								if(poCT)
+								{
+									poCT->Transform(1, &Extent.MaxX, &Extent.MaxY);
+									poCT->Transform(1, &Extent.MinX, &Extent.MinY);
+									
+									out["Extent (geo)"] = wxString::Format(wxT("%f, %f, %f, %f"), Extent.MinX, Extent.MinY, Extent.MaxX, Extent.MaxY);
+									out["Center (geo)"] = wxString::Format(wxT("%f, %f"), (Extent.MaxX + Extent.MinX) / 2.0, (Extent.MaxY + Extent.MinY) / 2.0);
+									OCTDestroyCoordinateTransformation(poCT);
+								}
+							}
+						}
+					}
+
+					char** papszMetadata = poGDALDataset->GetMetadata();
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out[sKey] = wxString::FromUTF8(Value);
+						}
+					}
+					
+					papszMetadata = poGDALDataset->GetMetadata("IMAGERY");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["IMAGERY." + sKey] = wxString::FromUTF8(Value);
+						}
+					}		
+					
+					
+					papszMetadata = poGDALDataset->GetMetadata("IMAGE_STRUCTURE");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["IMAGE_STRUCTURE." + sKey] = wxString::FromUTF8(Value);
+						}
+					}
+
+					papszMetadata = poGDALDataset->GetMetadata("SUBDATASETS");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["SUBDATASETS." + sKey] = wxString::FromUTF8(Value);
+						}
+					}
+
+					papszMetadata = poGDALDataset->GetMetadata("IMD");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["IMD." + sKey] = wxString::FromUTF8(Value);
+						}
+					}
+
+					papszMetadata = poGDALDataset->GetMetadata("GEOLOCATION");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["GEOLOCATION." + sKey] = wxString::FromUTF8(Value);
+						}
+					}
+
+					papszMetadata = poGDALDataset->GetMetadata("RPC");
+					if( CSLCount(papszMetadata) > 0 )
+					{
+						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						{
+							char* Key = NULL;
+							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
+							wxString sKey = wxString::FromUTF8(Key);
+							if(!sKey.IsEmpty())
+								out["RPC." + sKey] = wxString::FromUTF8(Value);
+						}
+					}
+					
+					if(poGDALDataset->GetGCPCount() > 0)
+					{
+						out["GCP Count"] = poGDALDataset->GetGCPCount();
+					}
+				}
+			}
+		}
+			break;
+		case enumGISContainer:
+		wxGISFeatureDataset *pFeatureDataset = wxDynamicCast(pDSet, wxGISFeatureDataset);
+			if(pFeatureDataset)
+			{
+				OGRCompatibleDataSource *pDataSource = pFeatureDataset->GetDataSourceRef();
+				if(pDataSource)
+				{
+					OGRCompatibleDriver* pDrv = dynamic_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+					if(pDrv)
+					{
+						out["Driver"] = wxString::FromUTF8(pDrv->GetOGRCompatibleDriverName());
+					}
+					out["Layer Count"]	= pDataSource->GetLayerCount();	
+					
+					wxString sLayers;
+					for( int iLayer = 0; iLayer < pDataSource->GetLayerCount(); ++iLayer )
+					{
+						OGRLayer *poLayer = pDataSource->GetLayer(iLayer);
+						if(poLayer)
+						{
+							if(sLayers.IsEmpty())
+								sLayers += wxString::FromUTF8(poLayer->GetName());
+							else	
+								sLayers += wxT(", ") + wxString::FromUTF8(poLayer->GetName());
+						}
+					}
+					
+					if(!sLayers.IsEmpty())
+						out["Layers"] = sLayers;	
+				}
+			}
+			break;
+	};
+	
+	return out;
+}
+
 /*
 
 forbidden err
@@ -1072,7 +1360,7 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	return false;	
 }
 
-bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxJSONValue& oMetadata, ITrackCancel* const pTrackCancel)
 {
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
@@ -1125,6 +1413,8 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 		val["resource"]["parent"]["id"] = m_nRemoteId;
 		val["resource"]["display_name"] = sName;
 		val["file_bucket"]["files"] = JSONRoot["upload_meta"];
+		if(oMetadata.IsValid())
+			val["resmeta"]["items"] = oMetadata;
 		
 		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
 		wxString sPayload;
@@ -1136,8 +1426,6 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 		
 		if(bResult)
 		{
-            //TODO: create default style
-
 			OnGetUpdates();
 			return true;		
 		}		

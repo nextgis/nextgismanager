@@ -161,10 +161,12 @@ void wxGISVectorPropertyPage::FillGrid(void)
     if(pDataSource)
     {
         OGRCompatibleDriver* pDrv = dynamic_cast<OGRCompatibleDriver*>(pDataSource->GetDriver());
+		wxPGProperty* pdriversid = NULL;
+		if(pDrv)
+			pdriversid = AppendProperty(pid, new wxStringProperty(_("Driver"), wxPG_LABEL, wxString(pDrv->GetOGRCompatibleDriverName(), wxConvUTF8) ));
         OGRSFDriver* pOGRSFDrv = dynamic_cast<OGRSFDriver*>(pDrv);
-        if(pOGRSFDrv)
-        {
-            wxPGProperty* pdriversid = AppendProperty(pid, new wxStringProperty(_("Driver"), wxPG_LABEL, wxString(pDrv->GetOGRCompatibleDriverName(), wxConvUTF8) ));
+        if(pOGRSFDrv && pdriversid)
+        {            
             //TestCapability
             AppendProperty(pdriversid, new wxStringProperty(_("Create DataSource"), wxPG_LABEL, pOGRSFDrv->TestCapability(ODrCCreateDataSource) == TRUE ? _("true") : _("false")) );
             AppendProperty(pdriversid, new wxStringProperty(_("Delete DataSource"), wxPG_LABEL, pOGRSFDrv->TestCapability(ODrCDeleteDataSource) == TRUE ? _("true") : _("false")) );
