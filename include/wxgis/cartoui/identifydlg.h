@@ -207,7 +207,7 @@ private:
 
 /** @class wxAxIdentifyView
 
-    The wxAxIdentifyView dock window with identify results incide wxGISCatalog, wxGISMap...
+    The wxAxIdentifyView dock window with identify results include wxGISCatalog, wxGISMap...
 
     @library{cartoui}
 */

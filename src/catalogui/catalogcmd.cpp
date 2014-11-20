@@ -74,6 +74,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGISCatalogMainCmd, wxGISCommand)
 
 wxGISCatalogMainCmd::wxGISCatalogMainCmd(void) : wxGISCommand()
 {
+	m_pPropertyView = NULL;
 }
 
 wxGISCatalogMainCmd::~wxGISCatalogMainCmd(void)
@@ -257,6 +258,12 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
 
     wxGxSelection* pSel = m_pGxApp->GetGxSelection();
     wxGxCatalogBase* pCat = GetGxCatalog();
+	
+	if(NULL == m_pPropertyView)
+	{
+        wxWindow* pWnd = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxAxPropertyView));
+        m_pPropertyView = dynamic_cast<wxAxPropertyView*>(pWnd);
+	}
 
     switch(m_subtype)
 	{
@@ -335,12 +342,13 @@ bool wxGISCatalogMainCmd::GetEnabled(void)
 			return false;
 		case enumGISCatalogMainCmdProperties:
 			//check if IGxObjectEditUI
-            if(pCat && pSel)
-            {
-                wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
-                return  NULL != dynamic_cast<IGxObjectEditUI*>(pGxObject);
-            }
-			return false;
+            //if(pCat && pSel)
+            //{
+            //    wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
+            //    return  NULL != dynamic_cast<IGxObjectEditUI*>(pGxObject);
+            //}
+			return m_pPropertyView != NULL;
+			
         case enumGISCatalogMainCmdCopy:
              if(pCat && pSel)
              {
@@ -714,13 +722,24 @@ void wxGISCatalogMainCmd::OnClick(void)
             }
             return;
         case enumGISCatalogMainCmdProperties:
-			if (NULL != pSel && NULL != pCat)
+		{
+			wxWindow* pWnd = wxStaticCast(m_pPropertyView, wxWindow);
+            if(pWnd)
             {
-				wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
-                IGxObjectEditUI* pGxObjectEdit = dynamic_cast<IGxObjectEditUI*>(pGxObject);
-                if(pGxObjectEdit)
-                    pGxObjectEdit->EditProperties(dynamic_cast<wxWindow*>(m_pApp));
+                if(!m_pApp->IsApplicationWindowShown(pWnd))
+                {
+                    m_pApp->ShowApplicationWindow(pWnd);
+                }
             }
+		}
+			//TODO: send selection to the dialog
+			//if (NULL != pSel && NULL != pCat)
+            //{
+			//	wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetLastSelectedObjectId());
+            //    IGxObjectEditUI* pGxObjectEdit = dynamic_cast<IGxObjectEditUI*>(pGxObject);
+            //    if(pGxObjectEdit)
+            //        pGxObjectEdit->EditProperties(dynamic_cast<wxWindow*>(m_pApp));
+            //}
             return;
         case enumGISCatalogMainCmdCopy:
 			if (NULL != pSel && NULL != pCat)

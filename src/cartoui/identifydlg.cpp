@@ -691,7 +691,7 @@ void wxGISIdentifyDlg::OnDoubleClickSash(wxSplitterEvent& event)
 }
 
 //-------------------------------------------------------------------
-// wxAxToolboxView
+// wxAxIdentifyView
 //-------------------------------------------------------------------
 IMPLEMENT_DYNAMIC_CLASS(wxAxIdentifyView, wxGISIdentifyDlg)
 

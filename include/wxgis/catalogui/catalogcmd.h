@@ -22,6 +22,7 @@
 
 #include "wxgis/framework/command.h"
 #include "wxgis/catalogui/gxapplication.h"
+#include "wxgis/catalogui/propertydlg.h"
 
 enum wxGISEnumCatalogMainCmdType{
     enumGISCatalogMainCmdUpOneLevel = 0,
@@ -85,6 +86,7 @@ public:
 protected:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
+	wxAxPropertyView* m_pPropertyView;
 	wxIcon m_IconFolderUp, m_IconFolderConn, m_IconFolderConnDel, m_IconDel, m_IconGoPrev, m_IconGoNext;
     wxIcon m_IconFolderNew, m_IconEdit, m_IconViewRefresh, m_IconProps;
     wxIcon m_LargeFolderIcon, m_SmallFolderIcon;
