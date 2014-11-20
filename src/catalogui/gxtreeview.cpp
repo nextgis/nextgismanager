@@ -551,8 +551,6 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
 		if(NULL != pData)
 		{
             wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
-			IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
-            wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
             IGxObjectTreeAttr* pGxObjectAttr = dynamic_cast<IGxObjectTreeAttr*>(pGxObject);
 
             if (NULL != pGxObject)
@@ -574,6 +572,7 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
                 SetItemText(TreeItemId, sName);
             }
 
+			IGxObjectUI* pGxObjectUI = dynamic_cast<IGxObjectUI*>(pGxObject);
             if (NULL != pGxObjectUI)
             {
                 wxIcon icon = pGxObjectUI->GetSmallImage();
@@ -599,11 +598,12 @@ void wxGxTreeViewBase::OnObjectChanged(wxGxCatalogEvent& event)
                     //m_TreeImageList.Replace(pData->m_smallimage_index, icon);
                 }
             }
-
+			
+            wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(pGxObject, wxGxObjectContainer);
 			if(NULL != pGxObjectContainer)
 			{
 				wxBusyCursor wait;
-				bool bItemHasChildren = pGxObjectContainer->HasChildren();
+				bool bItemHasChildren = pGxObjectContainer->HasChildren(false);
 				if(ItemHasChildren(TreeItemId) && !bItemHasChildren)
 				{
 					CollapseAndReset(TreeItemId);

@@ -59,6 +59,7 @@ protected:
     wxIcon m_oIcon;
     bool m_bOpenLastPath;
     wxVector<wxIcon> m_oaPendingIconsLarge, m_oaPendingIconsSmall;
+	wxCriticalSection m_PendCriticalSect;
 };
 
 bool WXDLLIMPEXP_GIS_CLU FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool bMove);

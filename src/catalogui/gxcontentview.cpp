@@ -396,6 +396,8 @@ bool wxGxContentView::AddObject(wxGxObject* const pObject)
 	wxString sType = pObject->GetCategory();
 
 	long ListItemID = InsertItem(0, sName, pos);
+	SetItemPtrData(ListItemID, (wxUIntPtr) pData);
+	
 	if(m_current_style == enumGISCVReport)
 	{
 		SetItem(ListItemID, 1, sType);
@@ -406,8 +408,6 @@ bool wxGxContentView::AddObject(wxGxObject* const pObject)
             m_anFillMetaIDs.Add(pObject->GetId());
         }
 	}
-	SetItemPtrData(ListItemID, (wxUIntPtr) pData);
-
     return true;
 }
 
@@ -1365,7 +1365,6 @@ wxThread::ExitCode wxGxContentView::Entry()
                 m_pCatalog->ObjectChanged(nID);
             }
         }
-
     }
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;     // success

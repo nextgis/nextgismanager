@@ -3,7 +3,7 @@
  * Purpose:  wxGxCatalogUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2012 Dmitry Baryshnikov
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@ wxIcon wxGxCatalogUI::GetSmallImage(void)
 
 long wxGxCatalogUI::AddPending(long nParentId)
 {
+	wxCriticalSectionLocker lock(m_PendCriticalSect);
     wxGxObjectContainer *pGxObjectContainer = wxDynamicCast(GetRegisterObject(nParentId), wxGxObjectContainer);
     wxCHECK_MSG(pGxObjectContainer, wxNOT_FOUND, wxT("The parent GxObject is not exist or not a container"));
     //if not loaded load images to list
@@ -87,6 +88,7 @@ long wxGxCatalogUI::AddPending(long nParentId)
 
 void wxGxCatalogUI::RemovePending(long nPendingId)
 {
+ 	wxCriticalSectionLocker lock(m_PendCriticalSect);
     if(nPendingId == wxNOT_FOUND)
         return;
     wxGxPendingUI *pPend = wxDynamicCast(GetRegisterObject(nPendingId), wxGxPendingUI);

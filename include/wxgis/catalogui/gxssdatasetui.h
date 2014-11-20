@@ -42,6 +42,7 @@ class WXDLLIMPEXP_GIS_CLU wxGxSpreadsheetDatasetUI :
 public:
 	wxGxSpreadsheetDatasetUI(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIcon = wxNullIcon, const wxIcon &SmallIcon = wxNullIcon, const wxIcon &SubLargeIcon = wxNullIcon, const wxIcon &SubSmallIcon = wxNullIcon);
 	virtual ~wxGxSpreadsheetDatasetUI(void);
+	virtual bool HasChildren(bool bWaitLoading = false);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
