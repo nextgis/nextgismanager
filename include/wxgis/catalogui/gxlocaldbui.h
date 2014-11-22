@@ -34,8 +34,7 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxOpenFileGDBUI :
     public wxGxOpenFileGDB,
-	public IGxObjectUI,
-	public IGxObjectEditUI
+	public IGxObjectUI
 {
     DECLARE_CLASS(wxGxOpenFileGDBUI)
 public:
@@ -46,8 +45,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxOpenFileGDB.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxOpenFileGDB.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 protected:
     //wxGxOpenFileGDB
     virtual void LoadChildren(void);

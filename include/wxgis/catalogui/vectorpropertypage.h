@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2010-2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalogui/gxdatasetui.h"
 #include "wxgis/datasource/featuredataset.h"
+#include "wxgis/catalogui/propertydlg.h"
 
 #include "wx/propgrid/propgrid.h"
 
@@ -33,8 +35,8 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISVectorPropertyPage : 
-    public wxPanel
+class WXDLLIMPEXP_GIS_CLU wxGISVectorPropertyPage :
+    public wxGxPropertyPage
 {
     DECLARE_DYNAMIC_CLASS(wxGISVectorPropertyPage)
 	enum
@@ -44,22 +46,26 @@ class WXDLLIMPEXP_GIS_CLU wxGISVectorPropertyPage :
 
 public:
     wxGISVectorPropertyPage(void);
-    wxGISVectorPropertyPage(IGxDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
+    wxGISVectorPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
 	~wxGISVectorPropertyPage();
-    virtual bool Create(IGxDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
-    virtual wxString GetPageName(void) const {return wxString(_("Vector"));};
+    virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
     wxPGProperty* AppendMetadataProperty(wxString sMeta);
     void FillGrid(void);
     void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
+	// wxGxPropertyPage
+	virtual void Apply(void);
+	virtual bool CanApply() const;
+	virtual bool FillProperties(wxGxSelection* const pSel);
 	//events
 	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     wxGISFeatureDataset* m_pDataset;
-    IGxDataset* m_pGxDataset;
+    wxGxDataset* m_pGxDataset;
     wxPropertyGrid* m_pg;
 	long m_nCounter;
 
+private:
     DECLARE_EVENT_TABLE()
 };

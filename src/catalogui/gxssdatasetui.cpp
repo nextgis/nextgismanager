@@ -61,23 +61,16 @@ wxIcon wxGxSpreadsheetDatasetUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxSpreadsheetDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxSpreadsheetDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	wxArrayString out;
+	out.Add("wxGISVectorPropertyPage");	
+	return out;
+}
 
-    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+bool wxGxSpreadsheetDatasetUI::HasPropertyPages(void) const
+{
+	return true;
 }
 
 bool wxGxSpreadsheetDatasetUI::HasChildren(bool bWaitLoading)
@@ -184,21 +177,14 @@ wxIcon wxGxSpreadsheetSubDatasetUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxSpreadsheetSubDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxSpreadsheetSubDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	wxArrayString out;
+	out.Add("wxGISVectorPropertyPage");	
+	return out;
+}
 
-    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+bool wxGxSpreadsheetSubDatasetUI::HasPropertyPages(void) const
+{
+	return true;
 }

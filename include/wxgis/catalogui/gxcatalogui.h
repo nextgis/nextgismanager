@@ -33,8 +33,7 @@
 */
 class  WXDLLIMPEXP_GIS_CLU wxGxCatalogUI :
     public wxGxCatalog,
-    public IGxObjectUI,
-	public IGxObjectEditUI
+    public IGxObjectUI
 {
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxGxCatalogUI);
 public:
@@ -49,8 +48,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxCatalog.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxCatalog.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
     //Initialization
     virtual bool Init(void);
 protected:

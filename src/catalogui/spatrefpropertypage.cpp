@@ -3,7 +3,8 @@
  * Purpose:  wxGISSpatialReferencePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2014 Dmitry Baryshnikov
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,37 +21,189 @@
  ****************************************************************************/
 
 #include "wxgis/catalogui/spatrefpropertypage.h"
+#include "wxgis/catalog/gxcatalog.h"
+#include "wxgis/catalogui/gxfileui.h"
+#include "wxgis/catalogui/gxdatasetui.h"
+
+#include "../../art/sr_16.xpm"
 
 //--------------------------------------------------------------------------
 // wxGISSpatialReferencePropertyPage
 //--------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISSpatialReferencePropertyPage, wxPanel)
+BEGIN_EVENT_TABLE(wxGISSpatialReferencePropertyPage, wxGxPropertyPage)
 	EVT_CHILD_FOCUS( wxGISSpatialReferencePropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
-wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(void)
+wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(void) : wxGxPropertyPage()
 {
+	m_sPageName = wxString(_("Spatial Reference"));
+	m_PageIcon = wxBitmap(sr_16_xpm);
+	m_pg = NULL;
 }
 
-wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
 {
-    Create(oSRS, parent, id, pos, size, style, name);
+	m_sPageName = wxString(_("Spatial Reference"));
+	m_PageIcon = wxBitmap(sr_16_xpm);
+	m_pg = NULL;
+	
+    Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
 wxGISSpatialReferencePropertyPage::~wxGISSpatialReferencePropertyPage()
 {
 }
 
-bool wxGISSpatialReferencePropertyPage::Create(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+void wxGISSpatialReferencePropertyPage::Apply(void)
+{
+	
+}
+
+bool wxGISSpatialReferencePropertyPage::CanApply() const
+{
+	//TODO: Allow to edit spatial reference
+	return false;
+}
+
+bool wxGISSpatialReferencePropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	if(m_pg)
+	{
+		m_pg->Clear();
+		if(NULL == pSel)
+			return false;
+			
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
+		if(NULL == pGxObject)
+			return false;
+			
+		wxGISSpatialReference oSRS;	
+		//if project file
+		wxGxPrjFile* pPrjFile = wxDynamicCast(pGxObject, wxGxPrjFile);
+		if(pPrjFile)
+		{
+			oSRS = pPrjFile->GetSpatialReference();
+		}
+		
+		//if dataset
+		if(!oSRS.IsOk())
+		{
+			wxGxDataset* pGxDataset = wxDynamicCast(pGxObject, wxGxDataset);
+			if(pGxDataset)
+			{
+				wxGISDataset* pDataset = pGxDataset->GetDataset(false, m_pTrackCancel);
+				if(pDataset)
+					oSRS = pDataset->GetSpatialReference();
+				wsDELETE(pDataset);	
+			}
+		}
+			
+		//fill propertygrid
+		if(oSRS.IsOk())
+		{
+			oSRS->AutoIdentifyEPSG();
+			if (oSRS->IsCompound())
+			{
+				//search projection srs
+				bool bProjAdd = false;
+				OGRSpatialReference *poNewSRS;
+				const OGR_SRSNode *poProjCS = oSRS->GetAttrNode("PROJCS");
+				if (poProjCS != NULL)
+				{
+					AppendProperty( new wxPropertyCategory(_("Projected Coordinate System")) );
+					poNewSRS = new OGRSpatialReference();
+					poNewSRS->SetRoot(poProjCS->Clone());
+					FillProjected(wxGISSpatialReference(poNewSRS));
+					bProjAdd = true;
+				}
+
+				bool bGeogAdd = false;
+				if (oSRS->GetAttrNode("GEOGCS") != NULL || oSRS->GetAttrNode("GEOCCS") != NULL)
+				{
+					if (bProjAdd)
+					{
+						AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
+					}
+					wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
+					FillGeographic(oGeogCS);
+					bGeogAdd = true;
+				}
+
+				bool bLoclaAdd = false;
+				const OGR_SRSNode *poLocalCS = oSRS->GetAttrNode("LOCAL_CS");
+				if (poLocalCS != NULL)
+				{
+					if (bProjAdd || bGeogAdd)
+					{
+						AppendProperty( new wxPropertyCategory(_("Local Coordinate System")) );
+					}
+
+					poNewSRS = new OGRSpatialReference();
+					poNewSRS->SetRoot(poLocalCS->Clone());
+					FillLoclal(wxGISSpatialReference(poNewSRS));
+					bLoclaAdd = true;
+				}
+
+				const OGR_SRSNode *poVertCS = oSRS->GetAttrNode("VERT_CS");
+				if (poVertCS != NULL)
+				{
+					if (bProjAdd || bGeogAdd || bLoclaAdd)
+					{
+						AppendProperty( new wxPropertyCategory(_("Vertical Coordinate System")) );
+					}
+
+					poNewSRS = new OGRSpatialReference();
+					poNewSRS->SetRoot(poVertCS->Clone());
+					FillVertical(wxGISSpatialReference(poNewSRS));
+				}
+			}
+			else if(oSRS->IsProjected())
+			{
+				AppendProperty(new wxPropertyCategory(_("Projected Coordinate System")));
+				FillProjected(oSRS);
+				AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
+				wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
+				FillGeographic(oGeogCS);
+			}
+			else if (oSRS->IsGeographic() || oSRS->IsGeocentric())
+			{
+				AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
+				FillGeographic(oSRS);
+			}
+			//else if(IsGeocentric)
+			else if(oSRS->IsLocal())
+			{
+				AppendProperty(new wxPropertyCategory(_("Local Coordinate System")));
+				FillLoclal(oSRS);
+			}
+			else if (oSRS->IsVertical())
+			{
+				AppendProperty(new wxPropertyCategory(_("Vertical Coordinate System")));
+				FillVertical(oSRS);
+			}
+			else
+				FillUndefined();
+			//OSRDestroySpatialReference(oSRS);
+		}
+		else
+		{
+			FillUndefined();
+		}			
+	}
+	
+	return true;
+}
+
+bool wxGISSpatialReferencePropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;
-
-    //if(!oSRS)
-    //    return false;
+		
+	m_pTrackCancel = pTrackCancel;
 
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -58,98 +211,6 @@ bool wxGISSpatialReferencePropertyPage::Create(const wxGISSpatialReference &oSRS
     m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER);
     m_pg->SetColumnProportion(0, 30);
     m_pg->SetColumnProportion(1, 70);
-
-    //fill propertygrid
-    if(oSRS.IsOk())
-    {
-        oSRS->AutoIdentifyEPSG();
-        if (oSRS->IsCompound())
-        {
-            //search projection srs
-            bool bProjAdd = false;
-            OGRSpatialReference *poNewSRS;
-            const OGR_SRSNode *poProjCS = oSRS->GetAttrNode("PROJCS");
-            if (poProjCS != NULL)
-            {
-                AppendProperty( new wxPropertyCategory(_("Projected Coordinate System")) );
-                poNewSRS = new OGRSpatialReference();
-                poNewSRS->SetRoot(poProjCS->Clone());
-                FillProjected(wxGISSpatialReference(poNewSRS));
-                bProjAdd = true;
-            }
-
-            bool bGeogAdd = false;
-            if (oSRS->GetAttrNode("GEOGCS") != NULL || oSRS->GetAttrNode("GEOCCS") != NULL)
-            {
-                if (bProjAdd)
-                {
-                    AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-                }
-                wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
-                FillGeographic(oGeogCS);
-                bGeogAdd = true;
-            }
-
-            bool bLoclaAdd = false;
-            const OGR_SRSNode *poLocalCS = oSRS->GetAttrNode("LOCAL_CS");
-            if (poLocalCS != NULL)
-            {
-                if (bProjAdd || bGeogAdd)
-                {
-                    AppendProperty( new wxPropertyCategory(_("Local Coordinate System")) );
-                }
-
-                poNewSRS = new OGRSpatialReference();
-                poNewSRS->SetRoot(poLocalCS->Clone());
-                FillLoclal(wxGISSpatialReference(poNewSRS));
-                bLoclaAdd = true;
-            }
-
-            const OGR_SRSNode *poVertCS = oSRS->GetAttrNode("VERT_CS");
-            if (poVertCS != NULL)
-            {
-                if (bProjAdd || bGeogAdd || bLoclaAdd)
-                {
-                    AppendProperty( new wxPropertyCategory(_("Vertical Coordinate System")) );
-                }
-
-                poNewSRS = new OGRSpatialReference();
-                poNewSRS->SetRoot(poVertCS->Clone());
-                FillVertical(wxGISSpatialReference(poNewSRS));
-            }
-        }
-        else if(oSRS->IsProjected())
-        {
-            AppendProperty(new wxPropertyCategory(_("Projected Coordinate System")));
-            FillProjected(oSRS);
-            AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-            wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
-            FillGeographic(oGeogCS);
-        }
-        else if (oSRS->IsGeographic() || oSRS->IsGeocentric())
-        {
-            AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-            FillGeographic(oSRS);
-        }
-        //else if(IsGeocentric)
-        else if(oSRS->IsLocal())
-        {
-            AppendProperty(new wxPropertyCategory(_("Local Coordinate System")));
-            FillLoclal(oSRS);
-        }
-        else if (oSRS->IsVertical())
-        {
-            AppendProperty(new wxPropertyCategory(_("Vertical Coordinate System")));
-            FillVertical(oSRS);
-        }
-        else
-            FillUndefined();
-        //OSRDestroySpatialReference(oSRS);
-    }
-    else
-    {
-        FillUndefined();
-    }
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 

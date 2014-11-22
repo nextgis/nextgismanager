@@ -70,30 +70,18 @@ wxIcon wxGxPrjFileUI::GetSmallImage(void)
     return m_oSmallIcon;
 }
 
-void wxGxPrjFileUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxPrjFileUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
-
-    wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(GetSpatialReference(), pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+	wxArrayString out;
+	out.Add("wxGISSpatialReferencePropertyPage");	
+	return out;
 }
 
-bool wxGxPrjFileUI::Invoke(wxWindow* pParentWnd)
+bool wxGxPrjFileUI::HasPropertyPages(void) const
 {
-    EditProperties(pParentWnd);
-    return true;
+	return true;
 }
+
 //--------------------------------------------------------------
 //class wxGxTextFileUI
 //--------------------------------------------------------------
@@ -119,6 +107,3 @@ wxIcon wxGxTextFileUI::GetSmallImage(void)
 	return m_oSmallIcon;
 }
 
-void wxGxTextFileUI::EditProperties(wxWindow *parent)
-{
-}

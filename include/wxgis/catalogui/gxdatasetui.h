@@ -3,7 +3,8 @@
  * Purpose:  wxGxDatasetUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013.2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -33,8 +34,7 @@
 class WXDLLIMPEXP_GIS_CLU wxGxTableUI :
 	public wxGxTable,
 	public IGxObjectUI,
-	public IGxObjectEditUI,
-    public IGxObjectWizard
+	public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxTableUI)
 public:
@@ -46,11 +46,10 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxTable.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};//{return wxString(wxT("wxGxDataset.NewMenu"));};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
     //wxGxTable
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
-    //IGxObjectWizard
-    virtual bool Invoke(wxWindow* pParentWnd);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
@@ -65,8 +64,7 @@ protected:
 class WXDLLIMPEXP_GIS_CLU wxGxFeatureDatasetUI :
 	public wxGxFeatureDataset,
 	public IGxObjectUI,
-	public IGxObjectEditUI,
-    public IGxObjectWizard
+	public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxFeatureDatasetUI)
 public:
@@ -77,10 +75,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxFeatureDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};//wxString(wxT("wxGxShapefileDataset.NewMenu"))
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
-    //IGxObjectWizard
-    virtual bool Invoke(wxWindow* pParentWnd);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
     //wxGxTable
     virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
 protected:
@@ -97,8 +94,7 @@ protected:
 class WXDLLIMPEXP_GIS_CLU wxGxRasterDatasetUI :
 	public wxGxRasterDataset,
 	public IGxObjectUI,
-	public IGxObjectEditUI,
-    public IGxObjectWizard
+	public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxRasterDatasetUI)
 public:
@@ -112,9 +108,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxRasterDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};//wxString(wxT("wxGxRasterDataset.NewMenu"));};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
-    //IGxObjectWizard
-    virtual bool Invoke(wxWindow* pParentWnd);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

@@ -59,7 +59,7 @@ public:
      *  \brief A destructor.
      */
     virtual ~IPropertyPage(void) {};
-    /** \fn virtual bool Create(IFrameApplication* application, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+    /** \fn virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
      *  \brief A Create function.
      *  \param application The main app pointer
      *  \param parent The parent window pointer
@@ -73,7 +73,7 @@ public:
      *  The PropertyPage is two step creating.
      */
     virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel")) = 0;
-    /** \fn virtual wxString GetName(void)
+    /** \fn virtual wxString GetPageName(void)
      *  \brief Get the property page name.
      *  \return The property page name
      */

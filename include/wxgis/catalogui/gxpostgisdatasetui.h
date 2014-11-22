@@ -47,8 +47,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxPostGISTable.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
@@ -75,7 +76,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxPostGISFeatureDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

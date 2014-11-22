@@ -23,8 +23,50 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/framework/applicationbase.h"
+#include "wxgis/catalogui/gxselection.h"
+#include "wxgis/catalogui/gxeventui.h"
 
 #include <wx/panel.h>
+#include <wx/sizer.h>
+#include <wx/button.h>
+#include <wx/aui/auibook.h>
+
+/** @class wxGxPropertyPage
+ * 
+ *  The abstract class of all GxObject Property Pages
+ * 
+ * @library{catalogui}
+ */
+ 
+class wxGxPropertyPage : public wxPanel
+{
+    DECLARE_ABSTRACT_CLASS(wxGxPropertyPage)
+public:
+	wxGxPropertyPage();
+    /** \fn virtual ~wxGxPropertyPage(void)
+     *  \brief A destructor.
+     */
+    virtual ~wxGxPropertyPage(void);	
+	virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel")) = 0;
+    /** \fn virtual wxString GetPageName(void)
+     *  \brief Get the property page name.
+     *  \return The property page name
+     */
+    virtual wxString GetPageName(void) const;
+    /** \fn  virtual void Apply(void)
+     *  \brief Executed when Apply is pressed
+     */
+	virtual wxBitmap GetIcon() const; 
+    virtual void Apply(void) = 0;
+	virtual bool CanApply() const = 0;
+	virtual bool CanMerge() const;
+	virtual bool FillProperties(wxGxSelection* const pSel) = 0;
+protected:
+	ITrackCancel* m_pTrackCancel;
+	bool m_bCanMerge;
+	wxString m_sPageName;
+	wxBitmap m_PageIcon;
+};
 
 /** @class wxGISPropertyDlg
 
@@ -33,7 +75,9 @@
     @library{catalogui}
  */
 
-class WXDLLIMPEXP_GIS_CTU wxGISPropertyDlg : public wxPanel
+class wxGISPropertyDlg : 
+	public wxPanel,
+	public ITrackCancel
 {
 protected:
 	enum
@@ -46,8 +90,14 @@ public:
 	wxGISPropertyDlg( wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
 	virtual ~wxGISPropertyDlg();
     virtual bool Create(wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("PropertyView"));
+	virtual void Update(wxGxSelection* const pSel);
+	//events
+	virtual void OnApply(wxCommandEvent& event);
+	virtual void OnApplyUI(wxUpdateUIEvent& event);
 protected:
 	wxBoxSizer* m_bMainSizer;
+	wxAuiNotebook* m_pTabs;
+	wxButton* m_sdbSizerApply;
 	wxXmlNode* m_pConf;
 protected:
     wxString m_sAppName;
@@ -80,9 +130,16 @@ public:
 	virtual wxString GetViewName(void) const {return m_sViewName;};
 	virtual wxIcon GetViewIcon(void){return wxNullIcon;};
 	virtual void SetViewIcon(wxIcon Icon){};
+	//ITrackCancel	
+	virtual IProgressor* const GetProgressor(void);
+	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType);
+	//events
+	void OnSelectionChanged(wxGxSelectionEvent& event);
 protected:
 	wxString m_sViewName;
     wxGISApplicationBase* m_pApp;
+	wxGxSelection* m_pSelection;
+	long m_ConnectionPointSelectionCookie;
 private:
     DECLARE_EVENT_TABLE()
 };

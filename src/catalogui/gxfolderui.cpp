@@ -65,6 +65,8 @@ void wxGxFolderUI::EditProperties(wxWindow *parent)
     SEInf.lpFile = pszPathStr;
     SEInf.nShow = SW_SHOW;
     ShellExecuteEx(&SEInf);
+#else
+		wxMessageBox(_("Unimplemented yet"), _("Warning"), wxOK | wxCENTRE | wxICON_WARNING);
 #endif
 }
 

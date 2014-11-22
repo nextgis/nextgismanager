@@ -48,8 +48,4 @@ wxIcon wxGxQGISProjFileUI::GetSmallImage(void)
     return m_oSmallIcon;
 }
 
-void wxGxQGISProjFileUI::EditProperties(wxWindow *parent)
-{
-    //TODO:
-}
 

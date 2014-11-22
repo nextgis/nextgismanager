@@ -32,8 +32,7 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxFileUI :
 	public wxGxFile,
-	public IGxObjectUI,
-    public IGxObjectEditUI
+	public IGxObjectUI
 {
     DECLARE_CLASS(wxGxFileUI)
 public:
@@ -51,8 +50,7 @@ public:
 class WXDLLIMPEXP_GIS_CLU wxGxPrjFileUI :
     public wxGxPrjFile,
 	public IGxObjectUI,
-    public IGxObjectEditUI,
-    public IGxObjectWizard
+	public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxPrjFileUI)
 public:
@@ -63,10 +61,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxPrjFile.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxPrjFile.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
-    //IGxObjectWizard
-    virtual bool Invoke(wxWindow* pParentWnd);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_oLargeIcon;
     wxIcon m_oSmallIcon;
@@ -91,8 +88,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxTextFile.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxTextFile.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 protected:
     wxIcon m_oLargeIcon;
     wxIcon m_oSmallIcon;

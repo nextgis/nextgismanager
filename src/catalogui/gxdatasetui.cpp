@@ -3,7 +3,8 @@
  * Purpose:  wxGxDatasetUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013.2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -63,23 +64,16 @@ wxIcon wxGxTableUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxTableUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxTableUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	wxArrayString out;
+	out.Add("wxGISTablePropertyPage");	
+	return out;
+}
 
-    wxGISTablePropertyPage* TablePropertyPage = new wxGISTablePropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(TablePropertyPage, TablePropertyPage->GetPageName());
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+bool wxGxTableUI::HasPropertyPages(void) const
+{
+	return true;
 }
 
 wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
@@ -91,12 +85,6 @@ wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pT
         wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);
-}
-
-bool wxGxTableUI::Invoke(wxWindow* pParentWnd)
-{
-    EditProperties(pParentWnd);
-    return true;
 }
 
 //--------------------------------------------------------------
@@ -125,34 +113,17 @@ wxIcon wxGxFeatureDatasetUI::GetSmallImage(void)
     return m_SmallIcon;
 }
 
-void wxGxFeatureDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxFeatureDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
+	wxArrayString out;
+	out.Add("wxGISVectorPropertyPage");
+	out.Add("wxGISSpatialReferencePropertyPage");	
+	return out;
+}
 
-    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
-
-	wxGISFeatureDataset* pDset = wxDynamicCast(GetDataset(), wxGISFeatureDataset);
-	if(pDset)
-	{
-        if(pDset->IsOpened())
-            pDset->Open();
-		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
-		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
-
-        wsDELETE(pDset);
-	}
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+bool wxGxFeatureDatasetUI::HasPropertyPages(void) const
+{
+	return true;
 }
 
 wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
@@ -164,12 +135,6 @@ wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel*
         wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);
-}
-
-bool wxGxFeatureDatasetUI::Invoke(wxWindow* pParentWnd)
-{
-    EditProperties(pParentWnd);
-    return true;
 }
 
 //--------------------------------------------------------------
@@ -198,46 +163,18 @@ wxIcon wxGxRasterDatasetUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxRasterDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxRasterDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
-
-    wxGISRasterPropertyPage* RasterPropertyPage = new wxGISRasterPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(RasterPropertyPage, RasterPropertyPage->GetPageName());
-	wxGISRasterDataset* pDset = wxDynamicCast(GetDataset(), wxGISRasterDataset);
-	if(NULL != pDset)
-	{
-        if(!pDset->IsOpened())
-            pDset->Open(true);
-		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
-		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
-
-        wsDELETE(pDset);
-	}
-	
-	/* TODO: Property page with bands ant calc progress
-    wxGISRasterHistogramPropertyPage* RasterHistogramPropertyPage = new wxGISRasterHistogramPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(RasterHistogramPropertyPage, RasterHistogramPropertyPage->GetPageName());
-	*/
-	
-    //TODO: Additional page for virtual raster VRTSourcedDataset with sources files
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+	wxArrayString out;
+	out.Add("wxGISRasterPropertyPage");
+	out.Add("wxGISSpatialReferencePropertyPage");	
+	out.Add("wxGISRasterHistogramPropertyPage");
+	return out;
 }
 
-bool wxGxRasterDatasetUI::Invoke(wxWindow* pParentWnd)
+bool wxGxRasterDatasetUI::HasPropertyPages(void) const
 {
-    EditProperties(pParentWnd);
-    return true;
+	return true;
 }
 
 wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)

@@ -48,8 +48,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxGNMConnectivityUI.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxGNMConnectivityUI.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 	//wxGxGNMConnectivity
     //virtual wxGISDataset* const GetDataset(bool bCache, ITrackCancel* const pTrackCancel = NULL);
 	virtual void LoadChildren(void);
@@ -82,8 +80,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxKMLSubDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };*/

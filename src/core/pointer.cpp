@@ -61,8 +61,14 @@ void wxGISConnectionPointContainer::AddEvent(const wxEvent &event)
     wxLogNull logNo;
     for (size_t i = 0; i < m_pPointsArray.size(); ++i)
     {
+		try{
         if (m_pPointsArray[i] != NULL)
-            m_pPointsArray[i]->AddPendingEvent(event);
+            m_pPointsArray[i]->AddPendingEvent(event);			
+		}
+		catch(...)
+		{
+			//
+		}
     }
 }
 
@@ -74,8 +80,14 @@ void wxGISConnectionPointContainer::PostEvent(wxEvent *event)
     wxCHECK_RET(event, wxT("Input event pointer is NULL"));
     for (size_t i = 0; i < m_pPointsArray.size(); ++i)
     {
+		try{
         if (m_pPointsArray[i] != NULL)
             m_pPointsArray[i]->QueueEvent(event->Clone());
+		}
+		catch(...)
+		{
+			//
+		}
     }
     wxDELETE(event);
 }

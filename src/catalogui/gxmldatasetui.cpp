@@ -3,7 +3,8 @@
  * Purpose:  wxGxKMLDatasetUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -60,33 +61,18 @@ wxIcon wxGxMLDatasetUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxMLDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxMLDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
-
-    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
-
-	wxGISDataset* pDset = GetDatasetFast();
-    if(NULL != pDset && pDset->GetType() == enumGISFeatureDataset)
-	{
-		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDset->GetSpatialReference(), pParentWnd);
-		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
-        wsDELETE(pDset);
-	}
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+	wxArrayString out;
+	out.Add("wxGISVectorPropertyPage");	
+	out.Add("wxGISSpatialReferencePropertyPage");	
+	return out;
 }
 
+bool wxGxMLDatasetUI::HasPropertyPages(void) const
+{
+	return true;
+}
 
 bool wxGxMLDatasetUI::HasChildren(bool bWaitLoading)
 {
@@ -192,30 +178,16 @@ wxIcon wxGxMLSubDatasetUI::GetSmallImage(void)
 	return m_SmallIcon;
 }
 
-void wxGxMLSubDatasetUI::EditProperties(wxWindow *parent)
+wxArrayString wxGxMLSubDatasetUI::GetPropertyPages() const
 {
-    wxPropertySheetDialog PropertySheetDialog;
-    if (!PropertySheetDialog.Create(parent, wxID_ANY, _("Properties"), wxDefaultPosition, wxSize( 480,640 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER))
-        return;
-    PropertySheetDialog.SetIcon(properties_xpm);
-    PropertySheetDialog.CreateButtons(wxOK);
-    wxWindow* pParentWnd = static_cast<wxWindow*>(PropertySheetDialog.GetBookCtrl());
-
-    wxGISVectorPropertyPage* VectorPropertyPage = new wxGISVectorPropertyPage(this, pParentWnd);
-    PropertySheetDialog.GetBookCtrl()->AddPage(VectorPropertyPage, VectorPropertyPage->GetPageName());
-
-	wxGISDataset* pDSet = GetDatasetFast();
-	if(NULL != pDSet)
-	{
-		wxGISSpatialReferencePropertyPage* SpatialReferencePropertyPage = new wxGISSpatialReferencePropertyPage(pDSet->GetSpatialReference(), pParentWnd);
-		PropertySheetDialog.GetBookCtrl()->AddPage(SpatialReferencePropertyPage, SpatialReferencePropertyPage->GetPageName());
-
-        wsDELETE(pDSet);
-	}
-
-    //PropertySheetDialog.LayoutDialog();
-    PropertySheetDialog.SetSize(480,640);
-    PropertySheetDialog.Center();
-
-    PropertySheetDialog.ShowModal();
+	wxArrayString out;
+	out.Add("wxGISVectorPropertyPage");	
+	out.Add("wxGISSpatialReferencePropertyPage");	
+	return out;
 }
+
+bool wxGxMLSubDatasetUI::HasPropertyPages(void) const
+{
+	return true;
+}
+

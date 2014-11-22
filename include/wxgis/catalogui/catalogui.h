@@ -91,9 +91,11 @@ class IGxObjectEditUI
 {
 public:
 	virtual ~IGxObjectEditUI(void){};
-	virtual void EditProperties(wxWindow *parent){};
-	virtual bool Import(wxWindow *parent){return false;};
-	virtual bool CanImport(void){return false;};
+	virtual wxArrayString GetPropertyPages() const {return wxArrayString();}
+	virtual void EditProperties(wxWindow *parent){}
+	virtual bool Import(wxWindow *parent){return false;}
+	virtual bool CanImport(void){return false;}
+	virtual bool HasPropertyPages(void) const {return false;}
 };
 
 enum wxGISEnumContentsViewStyle

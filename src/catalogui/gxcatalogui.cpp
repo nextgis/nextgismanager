@@ -43,14 +43,6 @@ wxGxCatalogUI::~wxGxCatalogUI(void)
 {
 }
 
-void wxGxCatalogUI::EditProperties(wxWindow *parent)
-{
-    //show options
-    IApplication* pApp = GetApplication();
-    if(pApp)
-        pApp->OnAppOptions();
-}
-
 wxIcon wxGxCatalogUI::GetLargeImage(void)
 {
     return wxNullIcon;

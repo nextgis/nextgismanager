@@ -90,7 +90,6 @@ private:
 class WXDLLIMPEXP_GIS_CLU wxGxRemoteDBSchemaUI :
     public wxGxRemoteDBSchema,
 	public IGxObjectUI,
-    public IGxObjectEditUI,
     public IGxDropTarget
 {
     DECLARE_CLASS(wxGxRemoteDBSchemaUI)
@@ -109,8 +108,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxRemoteDBSchema.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxRemoteDBSchema.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
     //IGxDropTarget
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
     //events

@@ -369,11 +369,6 @@ wxGxRemoteDBSchemaUI::~wxGxRemoteDBSchemaUI(void)
 {
 }
 
-void wxGxRemoteDBSchemaUI::EditProperties(wxWindow *parent)
-{
-    //TODO: change permissions and properties
-}
-
 wxIcon wxGxRemoteDBSchemaUI::GetLargeImage(void)
 {
     return m_oLargeIcon;

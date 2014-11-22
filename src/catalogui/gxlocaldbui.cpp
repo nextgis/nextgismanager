@@ -54,11 +54,6 @@ wxIcon wxGxOpenFileGDBUI::GetSmallImage(void)
     return m_oSmallIcon;
 }
 
-void wxGxOpenFileGDBUI::EditProperties(wxWindow *parent)
-{
-    //TODO: file gdb properties from GDAL
-}
-
 void wxGxOpenFileGDBUI::LoadChildren(void)
 {
     if (m_bIsChildrenLoaded)

@@ -55,9 +55,6 @@ wxGxObject* wxGxArchiveUI::GetArchiveFolder(wxGxObject *oParent, const wxString 
 	return static_cast<wxGxObject*>(pFolder);
 }
 
-void wxGxArchiveUI::EditProperties(wxWindow *parent)
-{
-}
 
 //------------------------------------------------------------------------
 // wxGxArchiveFolderUI

@@ -34,7 +34,6 @@
 class WXDLLIMPEXP_GIS_CLU wxGxDiscConnectionUI :
 	public wxGxDiscConnection,
     public IGxObjectUI,
-    public IGxObjectEditUI,
     public IGxDropTarget,
     public wxGISThreadHelper,
     public wxGxAutoRenamer
@@ -49,8 +48,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxDiscConnection.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxDiscConnection.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
     //IGxDropTarget
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
 protected:

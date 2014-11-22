@@ -95,8 +95,9 @@ public:
     virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
     //IGxDropTarget
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 	virtual bool CanImport();
 	virtual bool Import(wxWindow* pWnd);
 	//
@@ -161,8 +162,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayer.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxEmptyString; };
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
@@ -189,8 +191,9 @@ public:
 	virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWRaster.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxEmptyString; };
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
@@ -221,8 +224,9 @@ public:
     virtual bool CanCopy(const CPLString &szDestPath);
     virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
     virtual bool CanMove(const CPLString &szDestPath);
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	//IGxObjectEditUI	
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     //create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
@@ -253,8 +257,9 @@ public:
     virtual wxIcon GetSmallImage(void);
     virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWFileSet.ContextMenu")); };
     virtual wxString NewMenu(void) const { return wxEmptyString; };
-    //IGxObjectEditUI
-    virtual void EditProperties(wxWindow *parent);
+    //IGxObjectEditUI    
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };

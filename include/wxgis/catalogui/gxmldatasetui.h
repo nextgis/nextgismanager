@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2010,2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -47,7 +48,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxFeatureDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxKMLDataset.NewMenu"));};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 	//wxGxKMLDataset
     virtual wxGISDataset* const GetDataset(bool bCache, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool HasChildren(bool bWaitLoading = false);
@@ -82,7 +84,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxKMLSubDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

@@ -3,7 +3,8 @@
  * Purpose:  wxGISRasterPropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +22,8 @@
 
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/datasource/sysop.h"
+
+#include "../../art/raster_16.xpm"
 
 #include "wx/chart.h"
 #include "wx/xy/xyplot.h"
@@ -41,27 +44,35 @@
 // wxGISRasterPropertyPage
 //------------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISRasterPropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISRasterPropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISRasterPropertyPage, wxPanel)
+BEGIN_EVENT_TABLE(wxGISRasterPropertyPage, wxGxPropertyPage)
     EVT_BUTTON( ID_PPCTRL, wxGISRasterPropertyPage::OnPropertyGridButtonClick )
 	EVT_PROCESS_FINISH( wxGISRasterPropertyPage::OnFinish )
 	EVT_CHILD_FOCUS( wxGISRasterPropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
-wxGISRasterPropertyPage::wxGISRasterPropertyPage(void)
+wxGISRasterPropertyPage::wxGISRasterPropertyPage(void) : wxGxPropertyPage()
 {
-	//m_nCounter = 0;
-	//m_nCookie = wxNOT_FOUND;
-//	m_pToolManagerUI = NULL;
+	m_sPageName = wxString(_("Raster"));
+	m_PageIcon = wxBitmap(raster_16_xpm);
+	m_pDataset = NULL;
+	m_pGxDataset = NULL;
+	m_pg = NULL;
 }
 
-wxGISRasterPropertyPage::wxGISRasterPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISRasterPropertyPage::wxGISRasterPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
 {
+	m_sPageName = wxString(_("Raster"));
+	m_PageIcon = wxBitmap(raster_16_xpm);
+	m_pDataset = NULL;
+	m_pGxDataset = NULL;
+	m_pg = NULL;
+	
 	m_nCounter = 0;
 	//m_nCookie = wxNOT_FOUND;
 	//m_pToolManagerUI = NULL;
-    Create(pGxDataset, parent, id, pos, size, style, name);
+    Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
 wxGISRasterPropertyPage::~wxGISRasterPropertyPage()
@@ -71,27 +82,69 @@ wxGISRasterPropertyPage::~wxGISRasterPropertyPage()
 	//	m_pToolManagerUI->Unadvise(m_nCookie);
 }
 
-bool wxGISRasterPropertyPage::Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+void wxGISRasterPropertyPage::Apply(void)
+{
+	
+}
+
+bool wxGISRasterPropertyPage::CanApply() const
+{
+	//TODO: Allow to edit spatial reference
+	return false;
+}
+
+bool wxGISRasterPropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	if(m_pg)
+	{
+		m_pg->Clear();
+		wsDELETE(m_pDataset);
+		if(NULL == pSel)
+			return false;
+			
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
+		if(NULL == pGxObject)
+			return false;
+	
+		m_pGxDataset = 	wxDynamicCast(pGxObject, wxGxRasterDataset);
+		if(NULL == m_pGxDataset)
+			return false;
+		
+		m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISRasterDataset);
+		if(!m_pDataset)
+			return false;
+		if(!m_pDataset->IsOpened())
+		{
+			if(!m_pDataset->Open(true))
+				return false;
+		}
+		else if(m_pDataset->IsReadOnly())
+		{
+			m_pDataset->Close();
+			if(!m_pDataset->Open(true))
+				return false;
+		}		
+			
+		FillGrid();
+	}
+	
+	return true;
+}
+
+bool wxGISRasterPropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;
-
-    m_pGxDataset = pGxDataset;
-    m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISRasterDataset);
-    if(!m_pDataset)
-        return false;
-	if(!m_pDataset->IsOpened())
-		if(!m_pDataset->Open(true))
-			return false;
-
+		
+	m_pTrackCancel = pTrackCancel;
+	
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
 
     m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER);
     m_pg->SetColumnProportion(0, 30);
     m_pg->SetColumnProportion(1, 70);
-
-    FillGrid();
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
@@ -704,18 +757,29 @@ void wxGISRasterPropertyPage::OnChildFocus( wxChildFocusEvent& event )
 // wxGISRasterPropertyPage
 //------------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISRasterHistogramPropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISRasterHistogramPropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISRasterHistogramPropertyPage, wxPanel)
+BEGIN_EVENT_TABLE(wxGISRasterHistogramPropertyPage, wxGxPropertyPage)
 END_EVENT_TABLE()
 
-wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(void)
+wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(void) : wxGxPropertyPage()
 {
+	m_sPageName = wxString(_("Histogram"));
+	//m_PageIcon = wxBitmap(sr_16_xpm);
+	m_pDataset = NULL;
+    m_pGxDataset = NULL;
+    m_pChartPanel = NULL;
+	
 }
 
-wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISRasterHistogramPropertyPage::wxGISRasterHistogramPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
 {
-    Create(pGxDataset, parent, id, pos, size, style, name);
+	m_sPageName = wxString(_("Histogram"));
+	m_pDataset = NULL;
+    m_pGxDataset = NULL;
+    m_pChartPanel = NULL;
+
+	Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
 wxGISRasterHistogramPropertyPage::~wxGISRasterHistogramPropertyPage()
@@ -723,26 +787,66 @@ wxGISRasterHistogramPropertyPage::~wxGISRasterHistogramPropertyPage()
     wsDELETE(m_pDataset);
 }
 
-bool wxGISRasterHistogramPropertyPage::Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+void wxGISRasterHistogramPropertyPage::Apply(void)
+{
+	
+}
+
+bool wxGISRasterHistogramPropertyPage::CanApply() const
+{
+	//TODO: Allow to edit spatial reference
+	return false;
+}
+
+bool wxGISRasterHistogramPropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	if(m_pChartPanel)
+	{
+		
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
+		if(NULL == pGxObject)
+			return false;
+	
+		m_pGxDataset = 	wxDynamicCast(pGxObject, wxGxRasterDataset);
+		if(NULL == m_pGxDataset)
+			return false;		
+			
+		wsDELETE(m_pDataset);
+		m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISRasterDataset);
+		if(!m_pDataset)
+			return false;			
+	
+		if(!m_pDataset->IsOpened())
+		{
+			if(!m_pDataset->Open(true))
+				return false;
+		}
+		else if(m_pDataset->IsReadOnly())
+		{
+			m_pDataset->Close();
+			if(!m_pDataset->Open(true))
+				return false;
+		}		
+		
+		FillHistogram();	
+	}	
+	return true;
+}
+
+bool wxGISRasterHistogramPropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if (!wxPanel::Create(parent, id, pos, size, style, name))
         return false;
-
-    m_pGxDataset = pGxDataset;
-    m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISRasterDataset);
-    if (!m_pDataset)
-        return false;
-    if (!m_pDataset->IsOpened())
-    if (!m_pDataset->Open(true))
-        return false;
+		
+			
+	m_pTrackCancel = pTrackCancel;
 
     wxBoxSizer* bMainSizer;
     bMainSizer = new wxBoxSizer(wxVERTICAL);
 
     m_pChartPanel = new wxChartPanel(this);
     //m_pChartPanel->SetAntialias(true);
-
-    FillHistogram();
 
     bMainSizer->Add(m_pChartPanel, 1, wxEXPAND | wxALL, 5);
 

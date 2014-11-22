@@ -3,7 +3,8 @@
  * Purpose:  wxGISRasterPropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 #include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/geoprocessingui/geoprocessingui.h"
 #include "wxgis/core/event.h"
+#include "wxgis/catalogui/propertydlg.h"
 
 #include "wx/wxfreechartdefs.h"
 #include "wx/chartpanel.h"
@@ -38,8 +40,8 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISRasterPropertyPage : 
-    public wxPanel
+class WXDLLIMPEXP_GIS_CLU wxGISRasterPropertyPage :
+    public wxGxPropertyPage
 {
     DECLARE_DYNAMIC_CLASS(wxGISRasterPropertyPage)
 	enum
@@ -49,15 +51,18 @@ class WXDLLIMPEXP_GIS_CLU wxGISRasterPropertyPage :
 
 public:
     wxGISRasterPropertyPage(void);
-    wxGISRasterPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    wxGISRasterPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
 	~wxGISRasterPropertyPage();
-    virtual bool Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
-    virtual wxString GetPageName(void) const {return wxString(_("Raster"));};
+    virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
     wxPGProperty* AppendMetadataProperty(wxPGProperty* pid, wxString sMeta);
     wxPGProperty* GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName);
     void FillGrid(void);
+	// wxGxPropertyPage
+	virtual void Apply(void);
+	virtual bool CanApply() const;
+	virtual bool FillProperties(wxGxSelection* const pSel);
     //events
     void OnPropertyGridButtonClick ( wxCommandEvent& );
     void OnFinish(wxGISProcessEvent& event);
@@ -80,16 +85,19 @@ private:
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISRasterHistogramPropertyPage :
-    public wxPanel
+    public wxGxPropertyPage
 {
     DECLARE_DYNAMIC_CLASS(wxGISRasterHistogramPropertyPage)
 public:
     wxGISRasterHistogramPropertyPage(void);
-    wxGISRasterHistogramPropertyPage(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
+    wxGISRasterHistogramPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
     ~wxGISRasterHistogramPropertyPage();
-    virtual bool Create(wxGxRasterDataset* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
-    virtual wxString GetPageName(void) const { return wxString(_("Histogram")); };
+    virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
     virtual void FillHistogram();
+	// wxGxPropertyPage
+	virtual void Apply(void);
+	virtual bool CanApply() const;
+	virtual bool FillProperties(wxGxSelection* const pSel);
 protected:
     wxGISRasterDataset* m_pDataset;
     wxGxRasterDataset* m_pGxDataset;

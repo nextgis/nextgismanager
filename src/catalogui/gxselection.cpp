@@ -60,12 +60,12 @@ void wxGxSelection::Select( long nObjectId,  bool appendToExistingSelection, lon
 	m_SelectionMap[nInitiator].Add( nObjectId );
 
 	//not fire event id NOTFIRESELId
-	if(nInitiator == NOTFIRESELID)
-		return;
-
-    //store history
-    Do( nObjectId );
-
+	if(nInitiator != NOTFIRESELID)
+	{
+		//store history
+		Do( nObjectId );
+	}
+	
 	//fire event
 //END:
 	wxGxSelectionEvent event(wxGXSELECTION_CHANGED, this, nInitiator);

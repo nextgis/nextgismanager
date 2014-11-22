@@ -32,8 +32,7 @@
 
 class WXDLLIMPEXP_GIS_CLU wxGxQGISProjFileUI :
     public wxGxQGISProjFile,
-	public IGxObjectUI,
-	public IGxObjectEditUI
+	public IGxObjectUI
 {
     DECLARE_CLASS(wxGxFolderUI)
 public:
@@ -44,8 +43,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxProjFile.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxProjFile.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 protected:
     wxIcon m_oLargeIcon, m_oSmallIcon;
 };

@@ -49,7 +49,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxFeatureDataset.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxSpreadsheetDataset.NewMenu"));};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 	//wxGxKMLDataset
     virtual wxGISDataset* const GetDataset(bool bCache, ITrackCancel* const pTrackCancel = NULL);
 	virtual void LoadChildren(void);
@@ -83,7 +84,8 @@ public:
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxSpreadsheetSubDatasetUI.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
 	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
+	virtual wxArrayString GetPropertyPages() const;
+	virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

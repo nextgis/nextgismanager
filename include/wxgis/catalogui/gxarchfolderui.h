@@ -44,8 +44,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxArchive.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxArchive.NewMenu"));};
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
 protected:
     //wxGxArchive
     virtual wxGxObject* GetArchiveFolder(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");

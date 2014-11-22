@@ -251,7 +251,7 @@ void wxGxTreeViewBase::Deactivate(void)
 
 void wxGxTreeViewBase::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	if(event.GetInitiator() == GetId() || NULL == m_pSelection || NULL == m_pCatalog)
+	if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID || NULL == m_pSelection || NULL == m_pCatalog)
 		return;
 
     long nSelId = m_pSelection->GetLastSelectedObjectId();

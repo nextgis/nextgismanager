@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2010-2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,25 +22,39 @@
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/datasource/sysop.h"
 
+#include "../../art/shp_dset_16.xpm"
+
 #include "wx/propgrid/advprops.h"
 
 //--------------------------------------------------------------------------
 // wxGISVectorPropertyPage
 //--------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISVectorPropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISVectorPropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISVectorPropertyPage, wxPanel)
+BEGIN_EVENT_TABLE(wxGISVectorPropertyPage, wxGxPropertyPage)
 	EVT_CHILD_FOCUS( wxGISVectorPropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
-wxGISVectorPropertyPage::wxGISVectorPropertyPage(void)
+wxGISVectorPropertyPage::wxGISVectorPropertyPage(void) : wxGxPropertyPage()
 {
+    m_pDataset = NULL;
+    m_pGxDataset = NULL;
+    m_pg = NULL;
+	m_nCounter = 0;	
+	m_sPageName = wxString(_("Vector"));	
+	m_PageIcon = wxBitmap(shp_dset_16_xpm);
 }
 
-wxGISVectorPropertyPage::wxGISVectorPropertyPage(IGxDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISVectorPropertyPage::wxGISVectorPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
 {
-    Create(pGxDataset, parent, id, pos, size, style, name);
+    m_pDataset = NULL;
+    m_pGxDataset = NULL;
+    m_pg = NULL;
+	m_nCounter = 0;	
+	m_sPageName = wxString(_("Vector"));	
+	m_PageIcon = wxBitmap(shp_dset_16_xpm);
+    Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
 wxGISVectorPropertyPage::~wxGISVectorPropertyPage()
@@ -47,22 +62,61 @@ wxGISVectorPropertyPage::~wxGISVectorPropertyPage()
     wsDELETE(m_pDataset);
 }
 
-bool wxGISVectorPropertyPage::Create(IGxDataset* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+void wxGISVectorPropertyPage::Apply(void)
+{
+	
+}
+
+bool wxGISVectorPropertyPage::CanApply() const
+{
+	//TODO: Allow to edit spatial reference
+	return false;
+}
+
+bool wxGISVectorPropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	if(m_pg)
+	{
+		m_pg->Clear();
+		
+		wsDELETE(m_pDataset);
+		if(NULL == pSel)
+			return false;
+			
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
+		if(NULL == pGxObject)
+			return false;
+			
+		m_pGxDataset = wxDynamicCast(pGxObject, wxGxDataset);
+		if(NULL == m_pGxDataset)
+			return false;
+
+		m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISFeatureDataset);
+		if(!m_pDataset)
+			return false;
+		
+		if(m_pDataset->IsOpened() && m_pDataset->IsReadOnly())
+		{
+			m_pDataset->Close();
+			if(!m_pDataset->Open(0, true, true, false))
+				return false;
+			
+		}
+		else if (!m_pDataset->IsOpened())
+		{
+			if(!m_pDataset->Open(0, true, true, false))
+				return false;
+		}	
+		FillGrid();		
+	}
+	return true;
+}			
+
+bool wxGISVectorPropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;
-
-    m_pGxDataset = pGxDataset;
-
-    m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISFeatureDataset);
-    if(!m_pDataset)
-        return false;
-		
-    if (!m_pDataset->IsOpened())
-    {
-		if(!m_pDataset->Open(0, true, true, false))
-			return false;
-    }
 
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -70,8 +124,6 @@ bool wxGISVectorPropertyPage::Create(IGxDataset* pGxDataset, wxWindow* parent, w
     m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER);
     m_pg->SetColumnProportion(0, 30);
     m_pg->SetColumnProportion(1, 70);
-
-    FillGrid();
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
@@ -121,9 +173,6 @@ wxPGProperty* wxGISVectorPropertyPage::AppendMetadataProperty(wxString sMeta)
 
 void wxGISVectorPropertyPage::FillGrid(void)
 {
-    //reset grid
-    m_pg->Clear();
-
     wxString sTmp;
     //fill propertygrid
     wxPGProperty* pid = AppendProperty( new wxPropertyCategory(_("Data Source")) );

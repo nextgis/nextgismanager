@@ -3,7 +3,8 @@
  * Purpose:  wxGISSpatialReferencePropertyPage class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2012,2013 Dmitry Baryshnikov
+*   Copyright (C) 2010-2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@
 
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/datasource/gdalinh.h"
+#include "wxgis/catalogui/propertydlg.h"
 
 #include "wx/propgrid/propgrid.h"
 
@@ -33,7 +35,7 @@
 */
 
 class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage :
-    public wxPanel
+    public wxGxPropertyPage
 {
     DECLARE_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage)
 	enum
@@ -43,10 +45,13 @@ class WXDLLIMPEXP_GIS_CLU wxGISSpatialReferencePropertyPage :
 
 public:
     wxGISSpatialReferencePropertyPage(void);
-    wxGISSpatialReferencePropertyPage(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
-	~wxGISSpatialReferencePropertyPage();
-    virtual bool Create(const wxGISSpatialReference &oSRS, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
-    virtual wxString GetPageName(void) const {return wxString(_("Spatial Reference"));};
+    wxGISSpatialReferencePropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
+	virtual ~wxGISSpatialReferencePropertyPage();
+    virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Spatial Reference"));
+	// wxGxPropertyPage
+	virtual void Apply(void);
+	virtual bool CanApply() const;
+	virtual bool FillProperties(wxGxSelection* const pSel);
 	//events
 	void OnChildFocus(wxChildFocusEvent& event);
 protected:
