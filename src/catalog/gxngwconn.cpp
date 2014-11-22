@@ -236,7 +236,8 @@ void wxGxNGWService::LoadChildren(void)
     }
 
 
-    new wxGxNGWRootResource(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()));
+    wxGxNGWRootResource* pGxNGWRootResource = new wxGxNGWRootResource(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()));
+	pGxNGWRootResource->FillPermissions();
 
 /*    if(m_bIsAuthorized)
         new wxGxNGWRoot(this, _("Administration"), CPLString(m_sURL.ToUTF8()));*/
@@ -321,6 +322,7 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
     //wxArrayString m_aInterfaces;
     m_sKeyName = JSONResource["keyname"].AsString();
     m_nOwnerId = JSONResource["owner_user"].AsInt();
+	/*
     const wxJSONInternalArray* pArr = JSONResource["permissions"].AsArray();
     if(pArr)
     {
@@ -336,7 +338,9 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
         {
             m_aScopes.Add(pArr->operator[](i).AsString());
         }
-    }
+    }*/
+	
+	m_oPermissions = wxJSONValue(wxJSONTYPE_INVALID);
 }
 
 wxGxNGWResource::~wxGxNGWResource()
@@ -388,6 +392,30 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 	ReportError(res.nHTTPCode, res.sBody);
 		
 	return false;
+}
+
+bool wxGxNGWResource::FillPermissions()
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+		
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/api/resource/%d/permission"), m_nRemoteId);
+    PERFORMRESULT res = curl.Get(sURL);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		wxJSONReader reader;
+		int numErrors = reader.Parse(res.sBody, &m_oPermissions);
+	
+		return numErrors == 0;
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);
+		
+	return false;	
 }
 
 bool wxGxNGWResource::MoveResource(int nResourceId)
@@ -451,7 +479,7 @@ bool wxGxNGWResource::CanMoveResource(const CPLString &szDestPath)
 
 void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 {
-	wxString sErrCode = wxString::Format(_("Error code %ld"), nHTTPCode);
+	wxString sErrCode = wxString::Format(_("Error code %d"), nHTTPCode);
 	wxString sErr;		
 	wxJSONReader reader;
     wxJSONValue  JSONRoot;
@@ -973,6 +1001,10 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
         break;	
     }
 	
+	wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pReturnObj);
+	if(pGxNGWResource)
+		pGxNGWResource->FillPermissions();
+	
 	return pReturnObj;
 }
 
@@ -995,6 +1027,14 @@ bool wxGxNGWResourceGroup::HasChildren(bool bWaitLoading)
 
 bool wxGxNGWResourceGroup::CanCreate(long nDataType, long DataSubtype)
 {
+	
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanCreate = m_oPermissions["resource"]["create"].AsBool();
+		if(!bCanCreate)
+			return false;
+	}
+	
     if (nDataType == enumGISContainer && DataSubtype == enumContNGWResourceGroup)
     {
         return true;
@@ -1020,13 +1060,23 @@ bool wxGxNGWResourceGroup::CanCreate(long nDataType, long DataSubtype)
 
 bool wxGxNGWResourceGroup::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWResourceGroup::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
@@ -1755,13 +1805,23 @@ int wxGxNGWLayer::GetParentResourceId() const
 
 bool wxGxNGWLayer::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWLayer::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
@@ -2041,13 +2101,23 @@ int wxGxNGWRaster::GetParentResourceId() const
 
 bool wxGxNGWRaster::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWRaster::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
@@ -2197,13 +2267,23 @@ int wxGxNGWPostGISConnection::GetParentResourceId() const
 
 bool wxGxNGWPostGISConnection::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWPostGISConnection::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
@@ -2385,13 +2465,23 @@ int wxGxNGWFileSet::GetParentResourceId() const
 
 bool wxGxNGWFileSet::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWFileSet::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 

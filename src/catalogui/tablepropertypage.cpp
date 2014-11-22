@@ -159,7 +159,8 @@ void wxGISTablePropertyPage::FillGrid(void)
     m_pGxDataset->FillMetadata(false);
     //size
     AppendProperty(pid, new wxStringProperty(_("Total size"), wxPG_LABEL, wxFileName::GetHumanReadableSize(m_pGxDataset->GetSize())) );
-	AppendProperty(pid, new wxStringProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate().Format()) );
+	if(m_pGxDataset->GetModificationDate().IsValid())
+		AppendProperty(pid, new wxStringProperty(_("Modification date"), wxPG_LABEL, m_pGxDataset->GetModificationDate().Format()) );
 
 
     OGRCompatibleDataSource *pDataSource = m_pDataset->GetDataSourceRef();

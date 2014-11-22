@@ -135,6 +135,7 @@ public:
 	virtual bool MoveResource(int nResourceId);
 	static wxString MakeKey(const wxString& sInputStr);	
 	static wxJSONValue GetMetadata(wxGISDataset* const pDSet);
+	virtual bool FillPermissions();
 protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);
@@ -148,9 +149,10 @@ protected:
     //wxArrayString m_aInterfaces;
     wxString m_sKeyName;
     int m_nOwnerId;
-    wxArrayString m_aPermissions;
-    wxArrayString m_aScopes;
+    //wxArrayString m_aPermissions; //not yet using
+    //wxArrayString m_aScopes;		//not yet using
     wxGxNGWService *m_pService;
+	wxJSONValue m_oPermissions;
 };
 
 /** @class wxGxNGWResourceWithStyles

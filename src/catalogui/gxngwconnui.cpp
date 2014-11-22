@@ -208,7 +208,8 @@ void wxGxNGWServiceUI::LoadChildren(void)
     if (m_bChildrenLoaded || !m_bIsConnected)
         return;
 
-    new wxGxNGWRootResourceUI(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
+    wxGxNGWRootResourceUI * pGxNGWRootResourceUI = new wxGxNGWRootResourceUI(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
+	pGxNGWRootResourceUI->FillPermissions();
 /*    if(m_bIsAuthorized)
         new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
         */
@@ -394,6 +395,10 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 	}
         break;
     }
+	
+	wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pReturnObj);
+	if(pGxNGWResource)
+		pGxNGWResource->FillPermissions();
 	
 	return pReturnObj;	
 }
@@ -1435,13 +1440,23 @@ int wxGxNGWPostGISConnectionUI::GetParentResourceId() const
 
 bool wxGxNGWPostGISConnectionUI::CanDelete(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+		return bCanDelete && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
 bool wxGxNGWPostGISConnectionUI::CanRename(void)
 {
-    //TODO: check permissions
+    //check permissions
+	if(m_oPermissions.IsValid())
+	{
+		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+		return bCanRename && m_pService != NULL;
+	}
     return m_pService != NULL;
 }
 
