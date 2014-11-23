@@ -360,6 +360,8 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
         }
     }*/
 	
+	m_oMetadata = Data["resmeta"]["items"];
+	
 	m_oPermissions = wxJSONValue(wxJSONTYPE_INVALID);
 }
 
@@ -407,7 +409,10 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
+	{
+		m_sDisplayName = sNewName;
 		return true;
+	}
 		
 	ReportError(res.nHTTPCode, res.sBody);
 		
@@ -476,6 +481,44 @@ bool wxGxNGWResource::UpdateResourceDescritpion(const wxString &sNewDescription)
 	ReportError(res.nHTTPCode, res.sBody);
 		
 	return false;
+}
+
+
+bool wxGxNGWResource::UpdateResourceMetadata(const wxJSONValue &oNewMetadata)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+		
+	//m_oMetadata
+	wxArrayString saKeys = oNewMetadata.GetMemberNames();
+	for ( size_t i = 0; i < saKeys.GetCount(); ++i ) 
+	{    
+		m_oMetadata.Remove(saKeys[i]);
+		m_oMetadata[saKeys[i]] = oNewMetadata[saKeys[i]];
+	}
+
+		
+	wxJSONValue val;
+	val["resmeta"]["items"] = m_oMetadata;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);	
+		
+	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		return true;
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);
+		
+	return false;	
 }
 
 bool wxGxNGWResource::FillPermissions()
@@ -596,7 +639,7 @@ wxString wxGxNGWResource::MakeKey(const wxString& sInputStr)
 	return sOut;
 }
 
-wxJSONValue wxGxNGWResource::GetMetadata(wxGISDataset* const pDSet)
+wxJSONValue wxGxNGWResource::MakeMetadata(wxGISDataset* const pDSet)
 {
 	wxJSONValue out;
 	if(NULL == pDSet)
@@ -708,7 +751,7 @@ wxJSONValue wxGxNGWResource::GetMetadata(wxGISDataset* const pDSet)
 					if( poGDALDataset->GetGeoTransform( adfGeoTransform ) == CE_None )
 					{
 						out["Cell size (X, Y)"] = wxString::Format(wxT("%.6g, %.6g"), fabs(adfGeoTransform[1]), fabs(adfGeoTransform[5]) );
-						out["GeoTransform"] = wxString::Format(wxT("%.16g, %.16g, %.16g | %.16g, %.16g, %.16g"), adfGeoTransform[0], adfGeoTransform[1], adfGeoTransform[2], adfGeoTransform[3], adfGeoTransform[4], adfGeoTransform[5]);
+						//out["GeoTransform"] = wxString::Format(wxT("%.16g, %.16g, %.16g | %.16g, %.16g, %.16g"), adfGeoTransform[0], adfGeoTransform[1], adfGeoTransform[2], adfGeoTransform[3], adfGeoTransform[4], adfGeoTransform[5]);
 					}
 					
 					//SRS
@@ -756,7 +799,7 @@ wxJSONValue wxGxNGWResource::GetMetadata(wxGISDataset* const pDSet)
 							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
 							wxString sKey = wxString::FromUTF8(Key);
 							if(!sKey.IsEmpty())
-								out[sKey] = wxString::FromUTF8(Value);
+								out["IMAGE_METADATA." + sKey] = wxString::FromUTF8(Value);
 						}
 					}
 					
@@ -829,14 +872,15 @@ wxJSONValue wxGxNGWResource::GetMetadata(wxGISDataset* const pDSet)
 					papszMetadata = poGDALDataset->GetMetadata("RPC");
 					if( CSLCount(papszMetadata) > 0 )
 					{
-						for(int i = 0; papszMetadata[i] != NULL; ++i )
+						out["RPC"] = wxString(_("present"));
+						/*for(int i = 0; papszMetadata[i] != NULL; ++i )
 						{
 							char* Key = NULL;
 							const char* Value = CPLParseNameValue(papszMetadata[i], &Key);
 							wxString sKey = wxString::FromUTF8(Key);
 							if(!sKey.IsEmpty())
 								out["RPC." + sKey] = wxString::FromUTF8(Value);
-						}
+						}*/
 					}
 					
 					if(poGDALDataset->GetGCPCount() > 0)
@@ -897,6 +941,11 @@ const wxString& wxGxNGWResource::GetResourceKey() const
 const wxString& wxGxNGWResource::GetResourceDescription() const
 {
 	return m_sDescription;
+}
+
+const wxJSONValue& wxGxNGWResource::GetMetadata() const
+{
+	return m_oMetadata;
 }
 
 /*

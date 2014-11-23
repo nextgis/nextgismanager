@@ -192,8 +192,6 @@ wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid,
 
         wxString sSubName1;
         wxPGProperty* pCatProp = GetSubProperty(pid, sName, sSubName1);
-        if(!pCatProp)
-            pCatProp = pid;
         if(sCleanVal.Len() > 250)
             return m_pg->AppendIn(pCatProp, new wxLongStringProperty(sSubName1, wxString::Format(wxT("%s_%ld"), sName.c_str(), ++m_nCounter), sCleanVal) );
         else
@@ -203,7 +201,7 @@ wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid,
 
 wxPGProperty* wxGISRasterPropertyPage::GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName)
 {
-    wxPGProperty* pRetProperty(NULL);
+    wxPGProperty* pRetProperty = pid;
     int nPos = sName.Find('.');
     if(nPos != wxNOT_FOUND)
     {

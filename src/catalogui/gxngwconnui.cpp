@@ -727,7 +727,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 							}
 						}
 						CSLDestroy(papszFileList);
-						CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::GetMetadata(pDSet), &ProgressDlg);
+						CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
 						
 						wsDELETE(pDSet);
 					}

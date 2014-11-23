@@ -49,17 +49,18 @@ public:
     wxGISVectorPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
 	~wxGISVectorPropertyPage();
     virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Vector"));
-    wxPGProperty* AppendProperty(wxPGProperty* pProp);
-    wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
-    wxPGProperty* AppendMetadataProperty(wxString sMeta);
-    void FillGrid(void);
-    void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
 	// wxGxPropertyPage
 	virtual void Apply(void);
 	virtual bool CanApply() const;
 	virtual bool FillProperties(wxGxSelection* const pSel);
 	//events
 	void OnChildFocus(wxChildFocusEvent& event);
+protected:
+    wxPGProperty* AppendProperty(wxPGProperty* pProp);
+    wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
+    wxPGProperty* AppendMetadataProperty(wxString sMeta);
+    void FillGrid(void);
+    void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
 protected:
     wxGISFeatureDataset* m_pDataset;
     wxGxDataset* m_pGxDataset;

@@ -66,7 +66,7 @@ private:
 
     @library{catalogui}
 */
-/*
+
 class WXDLLIMPEXP_GIS_CLU wxGISNGWMetaPropertyPage :
     public wxGxPropertyPage
 {
@@ -84,21 +84,20 @@ public:
 	// wxGxPropertyPage
 	virtual void Apply(void);
 	virtual bool CanApply() const;
+	virtual bool CanMerge() const;
 	virtual bool FillProperties(wxGxSelection* const pSel);
 	//events
 	void OnChildFocus(wxChildFocusEvent& event);
+	void OnChanged(wxPropertyGridEvent& event);
 protected:
-    void FillUndefined(void);
-    void FillProjected(const wxGISSpatialReference &oSRS);
-    void FillGeographic(const wxGISSpatialReference &oSRS);
-    void FillLoclal(const wxGISSpatialReference &oSRS);
-    void FillVertical(const wxGISSpatialReference &oSRS);
-    void AppendProjParam(wxPGProperty* pid, const char *pszName, const wxGISSpatialReference &oSRS);
-    wxPGProperty* AppendProperty(wxPGProperty* pProp);
+    void FillGrid(const wxJSONValue& metadata);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
+    wxPGProperty* GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName);
 protected:
-    wxPropertyGrid* m_pg;
+    wxPropertyGrid* m_pg;	
+	bool m_bHasEdits;
+	wxVector<wxGxNGWResource*> m_paNGWResources;
 private:
     DECLARE_EVENT_TABLE()
 };
-*/
+

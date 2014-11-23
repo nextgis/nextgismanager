@@ -24,8 +24,11 @@
 #include "wxgis/catalogui/gxfileui.h"
 #include "wxgis/catalogui/gxdatasetui.h"
 
+#include "../../art/metadata_16.xpm"
+
 #include <wx/valgen.h>
 #include <wx/valtext.h>
+
 
 //--------------------------------------------------------------------------
 // wxGISNGWResourcePropertyPage
@@ -59,17 +62,39 @@ wxGISNGWResourcePropertyPage::~wxGISNGWResourcePropertyPage()
 
 void wxGISNGWResourcePropertyPage::Apply(void)
 {
+	if(!m_bHasEdits)
+		return;
+		
 	if ( Validate() && TransferDataFromWindow() )
 	{
 		for ( size_t i = 0; i < m_paNGWResources.size(); ++i ) 
 		{    
-			if(m_paNGWResources.size() == 1)
+			try
 			{
-				m_paNGWResources[i]->UpdateResource(m_sName, m_sKey, m_sDesc);
+				if(m_paNGWResources.size() == 1)
+				{
+					m_paNGWResources[i]->UpdateResource(m_sName, m_sKey, m_sDesc);
+				}
+				else
+				{
+					m_paNGWResources[i]->UpdateResourceDescritpion(m_sDesc);
+				}			
 			}
-			else
+			catch(...)
 			{
-				m_paNGWResources[i]->UpdateResourceDescritpion(m_sDesc);
+				
+			}
+		}
+		
+		//request updates
+		if(!m_paNGWResources.empty())
+		{
+			wxGxObject* pObj = dynamic_cast<wxGxObject*>(m_paNGWResources[0]);
+			if(pObj)
+			{
+				IGxObjectNotifier* pNotify = dynamic_cast<IGxObjectNotifier*>(pObj);
+				if(pNotify)
+					pNotify->OnGetUpdates();
 			}
 		}
 	}
@@ -181,180 +206,210 @@ bool wxGISNGWResourcePropertyPage::Create(ITrackCancel * const pTrackCancel, wxW
 
     return true;
 }
-/*
+
 
 //--------------------------------------------------------------------------
-// wxGISSpatialReferencePropertyPage
+// wxGISNGWMetaPropertyPage
 //--------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISSpatialReferencePropertyPage, wxGxPropertyPage)
+IMPLEMENT_DYNAMIC_CLASS(wxGISNGWMetaPropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISSpatialReferencePropertyPage, wxGxPropertyPage)
-	EVT_CHILD_FOCUS( wxGISSpatialReferencePropertyPage::OnChildFocus )
+BEGIN_EVENT_TABLE(wxGISNGWMetaPropertyPage, wxGxPropertyPage)
+	EVT_CHILD_FOCUS( wxGISNGWMetaPropertyPage::OnChildFocus )
+	EVT_PG_CHANGED(wxID_ANY, wxGISNGWMetaPropertyPage::OnChanged)
 END_EVENT_TABLE()
 
-wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(void) : wxGxPropertyPage()
+wxGISNGWMetaPropertyPage::wxGISNGWMetaPropertyPage(void) : wxGxPropertyPage()
 {
-	m_sPageName = wxString(_("Spatial Reference"));
-	m_PageIcon = wxBitmap(sr_16_xpm);
+	m_sPageName = wxString(_("NGW Metadata"));
+	m_PageIcon = wxBitmap(metadata_16_xpm);
+	m_bHasEdits = false;
 	m_pg = NULL;
 }
 
-wxGISSpatialReferencePropertyPage::wxGISSpatialReferencePropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
+wxGISNGWMetaPropertyPage::wxGISNGWMetaPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGxPropertyPage()
 {
-	m_sPageName = wxString(_("Spatial Reference"));
-	m_PageIcon = wxBitmap(sr_16_xpm);
+	m_sPageName = wxString(_("NGW Metadata"));
+	m_PageIcon = wxBitmap(metadata_16_xpm);
+	m_bHasEdits = false;
 	m_pg = NULL;
 	
     Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
-wxGISSpatialReferencePropertyPage::~wxGISSpatialReferencePropertyPage()
+wxGISNGWMetaPropertyPage::~wxGISNGWMetaPropertyPage()
 {
 }
 
-void wxGISSpatialReferencePropertyPage::Apply(void)
-{
-	
-}
-
-bool wxGISSpatialReferencePropertyPage::CanApply() const
-{
-	//TODO: Allow to edit spatial reference
-	return false;
-}
-
-bool wxGISSpatialReferencePropertyPage::FillProperties(wxGxSelection* const pSel)
-{
-	if(m_pg)
-	{
-		m_pg->Clear();
-		if(NULL == pSel)
-			return false;
-			
-		wxGxCatalogBase* pCat = GetGxCatalog();	
-		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
-		if(NULL == pGxObject)
-			return false;
-			
-		wxGISSpatialReference oSRS;	
-		//if project file
-		wxGxPrjFile* pPrjFile = wxDynamicCast(pGxObject, wxGxPrjFile);
-		if(pPrjFile)
-		{
-			oSRS = pPrjFile->GetSpatialReference();
-		}
+void wxGISNGWMetaPropertyPage::Apply(void)
+{	
+	if(!m_bHasEdits)
+		return;
 		
-		//if dataset
-		if(!oSRS.IsOk())
+	wxJSONValue newMetadata;
+	//create update of metadata in json format
+	wxPropertyGridConstIterator it;
+	for ( it = m_pg->GetIterator(); !it.AtEnd(); it++ ) 
+	{
+		const wxPGProperty* p = *it;
+		if(p->HasFlag(wxPG_PROP_MODIFIED))
 		{
-			wxGxDataset* pGxDataset = wxDynamicCast(pGxObject, wxGxDataset);
-			if(pGxDataset)
+			wxVariant val = p->GetValue();
+			wxString sName;
+			if(p->IsRoot())
 			{
-				wxGISDataset* pDataset = pGxDataset->GetDataset(false, m_pTrackCancel);
-				if(pDataset)
-					oSRS = pDataset->GetSpatialReference();
-				wsDELETE(pDataset);	
-			}
-		}
-			
-		//fill propertygrid
-		if(oSRS.IsOk())
-		{
-			oSRS->AutoIdentifyEPSG();
-			if (oSRS->IsCompound())
-			{
-				//search projection srs
-				bool bProjAdd = false;
-				OGRSpatialReference *poNewSRS;
-				const OGR_SRSNode *poProjCS = oSRS->GetAttrNode("PROJCS");
-				if (poProjCS != NULL)
-				{
-					AppendProperty( new wxPropertyCategory(_("Projected Coordinate System")) );
-					poNewSRS = new OGRSpatialReference();
-					poNewSRS->SetRoot(poProjCS->Clone());
-					FillProjected(wxGISSpatialReference(poNewSRS));
-					bProjAdd = true;
-				}
-
-				bool bGeogAdd = false;
-				if (oSRS->GetAttrNode("GEOGCS") != NULL || oSRS->GetAttrNode("GEOCCS") != NULL)
-				{
-					if (bProjAdd)
-					{
-						AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-					}
-					wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
-					FillGeographic(oGeogCS);
-					bGeogAdd = true;
-				}
-
-				bool bLoclaAdd = false;
-				const OGR_SRSNode *poLocalCS = oSRS->GetAttrNode("LOCAL_CS");
-				if (poLocalCS != NULL)
-				{
-					if (bProjAdd || bGeogAdd)
-					{
-						AppendProperty( new wxPropertyCategory(_("Local Coordinate System")) );
-					}
-
-					poNewSRS = new OGRSpatialReference();
-					poNewSRS->SetRoot(poLocalCS->Clone());
-					FillLoclal(wxGISSpatialReference(poNewSRS));
-					bLoclaAdd = true;
-				}
-
-				const OGR_SRSNode *poVertCS = oSRS->GetAttrNode("VERT_CS");
-				if (poVertCS != NULL)
-				{
-					if (bProjAdd || bGeogAdd || bLoclaAdd)
-					{
-						AppendProperty( new wxPropertyCategory(_("Vertical Coordinate System")) );
-					}
-
-					poNewSRS = new OGRSpatialReference();
-					poNewSRS->SetRoot(poVertCS->Clone());
-					FillVertical(wxGISSpatialReference(poNewSRS));
-				}
-			}
-			else if(oSRS->IsProjected())
-			{
-				AppendProperty(new wxPropertyCategory(_("Projected Coordinate System")));
-				FillProjected(oSRS);
-				AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-				wxGISSpatialReference oGeogCS(oSRS->CloneGeogCS());
-				FillGeographic(oGeogCS);
-			}
-			else if (oSRS->IsGeographic() || oSRS->IsGeocentric())
-			{
-				AppendProperty( new wxPropertyCategory(_("Geographic Coordinate System")) );
-				FillGeographic(oSRS);
-			}
-			//else if(IsGeocentric)
-			else if(oSRS->IsLocal())
-			{
-				AppendProperty(new wxPropertyCategory(_("Local Coordinate System")));
-				FillLoclal(oSRS);
-			}
-			else if (oSRS->IsVertical())
-			{
-				AppendProperty(new wxPropertyCategory(_("Vertical Coordinate System")));
-				FillVertical(oSRS);
+				sName = p->GetName();
 			}
 			else
-				FillUndefined();
-			//OSRDestroySpatialReference(oSRS);
+			{
+				const wxPGProperty* pr = p;
+				while(pr && !pr->IsRoot())
+				{
+					sName.Prepend(pr->GetLabel());
+					sName.Prepend(wxT("."));
+					pr = pr->GetParent();
+				}
+				
+				sName = sName.Right(sName.Len() - 1 );//remove leading dot				
+			}
+			
+			if(p->IsKindOf(wxCLASSINFO(wxStringProperty)) || p->IsKindOf(wxCLASSINFO(wxEnumProperty)) || p->IsKindOf(wxCLASSINFO(wxEditEnumProperty))  || p->IsKindOf(wxCLASSINFO(wxArrayStringProperty)) )
+				newMetadata[sName] = val.GetString();
+			else if	(p->IsKindOf(wxCLASSINFO(wxFloatProperty)))
+				newMetadata[sName] = val.GetDouble();
+			else if	(p->IsKindOf(wxCLASSINFO(wxIntProperty)) || p->IsKindOf(wxCLASSINFO(wxUIntProperty)))
+				newMetadata[sName] = val.GetLong();
 		}
-		else
-		{
-			FillUndefined();
-		}			
 	}
 	
+	//update metadata
+
+	for ( size_t i = 0; i < m_paNGWResources.size(); ++i ) 
+	{    
+		try
+		{
+			m_paNGWResources[i]->UpdateResourceMetadata(newMetadata);
+		}
+		catch(...)
+		{
+			//do nothing, try next resource
+		}
+	}
+}
+
+
+bool wxGISNGWMetaPropertyPage::CanApply() const
+{
+	return m_bHasEdits;
+}
+
+void wxGISNGWMetaPropertyPage::OnChanged(wxPropertyGridEvent& event)
+{
+	m_bHasEdits = true;
+}
+
+bool wxGISNGWMetaPropertyPage::CanMerge() const
+{
 	return true;
 }
 
-bool wxGISSpatialReferencePropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+bool wxGISNGWMetaPropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	m_paNGWResources.clear();	
+	m_bHasEdits = false;
+	if(m_pg)
+	{
+		m_pg->Clear();
+			
+		if(NULL == pSel || pSel->GetCount() == 0)
+			return false;
+			
+		wxJSONValue oFullMetatdata;		
+		wxGxNGWService* pService = NULL;
+			
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		for ( size_t i = 0; i < pSel->GetCount(); ++i ) 
+		{    
+			wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));	
+			if(NULL == pGxObject)
+				continue;
+			
+			wxGxNGWResource* pResource = dynamic_cast<wxGxNGWResource*>(pGxObject);
+			if(pResource)
+			{
+				if(i == 0)
+				{
+					oFullMetatdata = pResource->GetMetadata();
+					pService = pResource->GetNGWService();
+				}
+				else
+				{
+					//compare items and leave only exist in both json arrays
+					wxJSONValue metadata = pResource->GetMetadata();
+					wxArrayString saKeys = metadata.GetMemberNames();
+					
+					//remove from metadata items not in full metadata
+					for ( size_t j = 0; j < saKeys.GetCount(); ++j ) 
+					{    
+						wxString sKey = saKeys[j];
+						if(oFullMetatdata.HasMember(sKey))
+						{
+							if(!oFullMetatdata[sKey].IsSameAs(metadata[sKey]))
+							{
+								switch(oFullMetatdata[sKey].GetType())
+								{
+									case wxJSONTYPE_STRING:									
+										oFullMetatdata[sKey] = wxEmptyString;
+										break;
+									case wxJSONTYPE_DOUBLE:
+										oFullMetatdata[sKey] = 0.0;
+										break;
+									case wxJSONTYPE_INT:
+									case wxJSONTYPE_UINT:
+									case wxJSONTYPE_LONG:
+									case wxJSONTYPE_INT64:
+									case wxJSONTYPE_ULONG:
+									case wxJSONTYPE_UINT64:
+									case wxJSONTYPE_SHORT:
+									case wxJSONTYPE_USHORT:
+										oFullMetatdata[sKey] = 0;
+										break;
+								};								
+							}
+						}
+						else
+						{
+							saKeys.RemoveAt(j--);
+						}
+					}
+					
+					//remove from full metadata items not in metadata
+					saKeys = oFullMetatdata.GetMemberNames();
+					for ( size_t j = 0; j < saKeys.GetCount(); ++j ) 
+					{    
+						if(!metadata.HasMember(saKeys[j]))
+							oFullMetatdata.Remove(saKeys[j]);
+					}
+				}
+					
+				m_paNGWResources.push_back(pResource);
+			}
+		}
+		
+		//check if custom meta is present
+		if(pService)
+		{
+			
+		}
+		
+		FillGrid(oFullMetatdata);
+	}
+	
+	m_bHasEdits = false;
+	return true;
+}
+
+bool wxGISNGWMetaPropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;
@@ -364,7 +419,7 @@ bool wxGISSpatialReferencePropertyPage::Create(ITrackCancel * const pTrackCancel
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
 
-    m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER);
+    m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER | wxPG_BOLD_MODIFIED | wxPG_AUTO_SORT);
     m_pg->SetColumnProportion(0, 30);
     m_pg->SetColumnProportion(1, 70);
 
@@ -376,180 +431,67 @@ bool wxGISSpatialReferencePropertyPage::Create(ITrackCancel * const pTrackCancel
     return true;
 }
 
-void wxGISSpatialReferencePropertyPage::FillUndefined(void)
+void wxGISNGWMetaPropertyPage::FillGrid(const wxJSONValue& metadata)
 {
-    m_pg->Append( new wxStringProperty(_("Name"), wxT("Name_Undefined"), _("Undefined")) );
+	wxArrayString saKeys = metadata.GetMemberNames();
+	for ( size_t i = 0; i < saKeys.GetCount(); ++i ) //wxEnumProperty wxEditEnumProperty  wxArrayStringProperty 
+	{    
+		wxString sResultName;
+		wxPGProperty* pProp = GetSubProperty(m_pg->GetRoot(), saKeys[i], sResultName);
+		switch(metadata[saKeys[i]].GetType())
+		{
+			case wxJSONTYPE_STRING:									
+				AppendProperty(pProp, new wxStringProperty(sResultName, wxPG_LABEL, metadata[saKeys[i]].AsString()));
+				break;
+			case wxJSONTYPE_DOUBLE:
+				AppendProperty(pProp, new wxFloatProperty(sResultName, wxPG_LABEL, metadata[saKeys[i]].AsDouble()));
+				break;
+			case wxJSONTYPE_LONG:
+			case wxJSONTYPE_INT64:			
+			case wxJSONTYPE_INT:
+			case wxJSONTYPE_SHORT:
+				AppendProperty(pProp, new wxIntProperty(sResultName, wxPG_LABEL, metadata[saKeys[i]].AsInt()));
+				break;
+			case wxJSONTYPE_UINT:
+			case wxJSONTYPE_ULONG:
+			case wxJSONTYPE_UINT64:				
+			case wxJSONTYPE_USHORT:
+				AppendProperty(pProp, new wxUIntProperty(sResultName, wxPG_LABEL, metadata[saKeys[i]].AsUInt()));
+				break;			
+		};		
+	}
 }
 
-void wxGISSpatialReferencePropertyPage::FillProjected(const wxGISSpatialReference &oSRS)
+wxPGProperty* wxGISNGWMetaPropertyPage::GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName)
 {
-    const char *pszName = oSRS->GetAttrValue("PROJCS");
-    //make bold!  wxPG_BOLD_MODIFIED
-    AppendProperty( new wxStringProperty(_("Name"), wxT("Name_Projected"), wxString(pszName, wxConvLocal)) );
-
-    //EPSG
-    const char *pszAfCode = oSRS->GetAuthorityCode("PROJCS");
-    const char *pszAfName = oSRS->GetAuthorityName("PROJCS");
-	if(pszAfName || pszAfCode)
-        AppendProperty(new wxStringProperty(wxString(pszAfName, wxConvLocal), wxT("EPSGP"), wxString(pszAfCode, wxConvLocal)));
-	//
-
-    wxPGProperty* pid = AppendProperty( new wxPropertyCategory(_("Projection")) );
-    const char *pszNameProj = oSRS->GetAttrValue("PROJECTION");
-    AppendProperty( new wxStringProperty(_("Name"), wxT("NameProj"), wxString(pszNameProj, wxConvLocal)) );
-    wxPGProperty* pidparm = AppendProperty(pid, new wxPropertyCategory(_("Parameters")) );
-
-    //ogr_srs_api.h
-    AppendProjParam(pidparm, SRS_PP_CENTRAL_MERIDIAN, oSRS);
-    AppendProjParam(pidparm, SRS_PP_SCALE_FACTOR, oSRS);
-    AppendProjParam(pidparm, SRS_PP_STANDARD_PARALLEL_1, oSRS);
-    AppendProjParam(pidparm, SRS_PP_STANDARD_PARALLEL_2, oSRS);
-    AppendProjParam(pidparm, SRS_PP_PSEUDO_STD_PARALLEL_1, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_CENTER, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_CENTER, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_ORIGIN, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_ORIGIN, oSRS);
-    AppendProjParam(pidparm, SRS_PP_FALSE_EASTING, oSRS);
-    AppendProjParam(pidparm, SRS_PP_FALSE_NORTHING, oSRS);
-    AppendProjParam(pidparm, SRS_PP_AZIMUTH, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_POINT_1, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_POINT_1, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_POINT_2, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_POINT_2, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_POINT_3, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_POINT_3, oSRS);
-    AppendProjParam(pidparm, SRS_PP_RECTIFIED_GRID_ANGLE, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LANDSAT_NUMBER, oSRS);
-    AppendProjParam(pidparm, SRS_PP_PATH_NUMBER, oSRS);
-    AppendProjParam(pidparm, SRS_PP_PERSPECTIVE_POINT_HEIGHT, oSRS);
-    AppendProjParam(pidparm, SRS_PP_SATELLITE_HEIGHT, oSRS);
-    AppendProjParam(pidparm, SRS_PP_FIPSZONE, oSRS);
-    AppendProjParam(pidparm, SRS_PP_ZONE, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_1ST_POINT, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_1ST_POINT, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LATITUDE_OF_2ND_POINT, oSRS);
-    AppendProjParam(pidparm, SRS_PP_LONGITUDE_OF_2ND_POINT, oSRS);
-
-    AppendProperty( new wxPropertyCategory(_("Linear unit")) );
-    char *pszUnitName = NULL;
-    double fUnit = oSRS->GetLinearUnits(&pszUnitName);
-    AppendProperty( new wxStringProperty(_("Name"), wxT("UnitPrjName"), wxString(pszUnitName, wxConvLocal)) );
-    AppendProperty(new wxFloatProperty(_("Meters per unit"), wxT("MPUP"), fUnit));
-
-}
-
-void wxGISSpatialReferencePropertyPage::FillVertical(const wxGISSpatialReference &oSRS)
-{
-    const char *pszName = oSRS->GetAttrValue("VERT_CS");
-    AppendProperty( new wxStringProperty(_("Name"), wxT("NameVertical"), wxString(pszName, wxConvLocal)) );
-    //EPSG
-    const char *pszAfCode = oSRS->GetAuthorityCode("VERT_CS");
-    const char *pszAfName = oSRS->GetAuthorityName("VERT_CS");
-    if (pszAfName || pszAfCode)
-        AppendProperty(new wxStringProperty(wxString(pszAfName, wxConvLocal), wxT("EPSGV"), wxString(pszAfCode, wxConvLocal)));
-
-
-    wxPGProperty* pid = AppendProperty( new wxPropertyCategory(_("Vertical datum")) );
-    const char *pszNameDatum = oSRS->GetAttrValue("VERT_DATUM");
-    AppendProperty( new wxStringProperty(_("Name"), wxT("NameVDatum"), wxString(pszNameDatum, wxConvLocal)) );
-
-    pid = AppendProperty(new wxPropertyCategory(_("Vertical unit")));
-    char *pszUnitName = NULL;
-    double fUnit = oSRS->GetLinearUnits(&pszUnitName);
-    AppendProperty(new wxStringProperty(_("Name"), wxT("UnitVertName"), wxString(pszUnitName, wxConvLocal)));
-    AppendProperty(new wxFloatProperty(_("Meters per unit"), wxT("MPUV"), fUnit));
-
-    OGRAxisOrientation eOrientation;
-    const char *pszAxisName = oSRS->GetAxis("VERT_CS", 0, &eOrientation);
-    if (pszAxisName != NULL)
+    wxPGProperty* pRetProperty = pid;
+    int nPos = sName.Find('.');
+    if(nPos != wxNOT_FOUND)
     {
-        pid = AppendProperty(new wxPropertyCategory(_("Axis")));
-        AppendProperty(new wxStringProperty(_("Name"), wxT("AxisVName"), wxString(pszAxisName, wxConvLocal)));
-        AppendProperty(new wxStringProperty(_("Orientation"), wxT("AxisOrient"), wxString(OSRAxisEnumToName(eOrientation), wxConvLocal)));
-    }
-
-}
-
-void wxGISSpatialReferencePropertyPage::FillGeographic(const wxGISSpatialReference &oSRS)
-{
-    const char *pszName = oSRS->GetAttrValue("GEOGCS");
-    AppendProperty( new wxStringProperty(_("Name"), wxT("NameGeographic"), wxString(pszName, wxConvLocal)) );
-    //EPSG
-    const char *pszAfCode = oSRS->GetAuthorityCode("GEOGCS");
-    const char *pszAfName = oSRS->GetAuthorityName("GEOGCS");
-	if(pszAfName || pszAfCode)
-	    AppendProperty( new wxStringProperty(wxString(pszAfName, wxConvLocal), wxT("EPSGG"), wxString(pszAfCode, wxConvLocal))  );
-
-    wxPGProperty* pid = AppendProperty( new wxPropertyCategory(_("Datum")) );
-    const char *pszNameDatum = oSRS->GetAttrValue("DATUM");
-    AppendProperty( new wxStringProperty(_("Name"), wxT("NameDatum"), wxString(pszNameDatum, wxConvLocal)) );
-    wxPGProperty* pidsph = AppendProperty(pid, new wxPropertyCategory(_("Spheroid")) );
-    const char *pszNameSph = oSRS->GetAttrValue("SPHEROID");
-    AppendProperty(pidsph, new wxStringProperty(_("Name"), wxT("NameSph"), wxString(pszNameSph, wxConvLocal)) );
-    AppendProperty(pidsph, new wxFloatProperty(_("Semimajor Axis"), wxPG_LABEL, oSRS->GetSemiMajor(NULL)) );
-    AppendProperty(pidsph, new wxFloatProperty(_("Semiminor Axis"), wxPG_LABEL, oSRS->GetSemiMinor(NULL)) );
-    AppendProperty(pidsph, new wxFloatProperty(_("Inverse Flattering"), wxPG_LABEL, oSRS->GetInvFlattening(NULL)) );
-    pid = AppendProperty( new wxPropertyCategory(_("Angular unit")) );
-
-    char *pszUnitName = NULL;
-    double fUnit = oSRS->GetAngularUnits(&pszUnitName);
-    AppendProperty( new wxStringProperty(_("Name"), wxT("UnitName"), wxString(pszUnitName, wxConvLocal)) );
-    AppendProperty( new wxFloatProperty(_("Radians per unit"), wxPG_LABEL, fUnit) );
-
-    pid = AppendProperty( new wxPropertyCategory(_("Prime Meridian")));
-
-    char *pszMerName = NULL;
-    double fMerLon = oSRS->GetPrimeMeridian(&pszMerName);
-    AppendProperty(pid, new wxStringProperty(_("Name"), wxT("MerName"), wxString(pszMerName, wxConvLocal)));
-    AppendProperty(pid, new wxFloatProperty(_("Longitude"), wxPG_LABEL, fMerLon));
-
-    double adfCoeff[7];
-    OGRErr eErr = oSRS->GetTOWGS84(adfCoeff);
-    if (eErr == OGRERR_NONE)
-    {
-        wxString sParams;
-        for (size_t i = 0; i < 7; ++i)
+        wxString sName1 = sName.Left(nPos);
+        wxString sName2 = sName.Right(sName.Len() - nPos - 1);
+        pRetProperty = m_pg->GetPropertyByName(sName1);
+        if(!pRetProperty)
         {
-            sParams.Append(wxString::FromDouble(adfCoeff[i]));
-            if (i < 6)
-                sParams.Append(wxT(", "));
+            pRetProperty = AppendProperty(pid, new wxPropertyCategory(sName1) );
         }
-        pid = AppendProperty( new wxPropertyCategory(_("To WGS parameters")));
-        AppendProperty(pid, new wxStringProperty(_("Parameters"), wxT("ToWGSParametersName"), sParams));
+        if(sName2.Find('.') != wxNOT_FOUND)
+            return GetSubProperty(pRetProperty, sName2, sResultName);
+        else
+            sResultName = sName2;
     }
+    else
+        sResultName = sName;
+    return pRetProperty;
 }
 
-void wxGISSpatialReferencePropertyPage::FillLoclal(const wxGISSpatialReference &oSRS)
-{
-    AppendProperty(new wxStringProperty(_("Name"), wxT("NameLoclal"), _("Undefined")));
-}
-
-void wxGISSpatialReferencePropertyPage::AppendProjParam(wxPGProperty* pid, const char *pszName, const wxGISSpatialReference &oSRS)
-{
-    if(oSRS->FindProjParm(pszName) != wxNOT_FOUND)
-    {
-        double fParam = oSRS->GetNormProjParm(pszName);
-        AppendProperty(pid, new wxFloatProperty(wxString(pszName, wxConvLocal), wxPG_LABEL, fParam));
-    }
-}
-
-wxPGProperty* wxGISSpatialReferencePropertyPage::AppendProperty(wxPGProperty* pProp)
-{
-    wxPGProperty* pNewProp = m_pg->Append(pProp);
-    pNewProp->ChangeFlag(wxPG_PROP_READONLY, 1);
-    return pNewProp;
-}
-
-wxPGProperty* wxGISSpatialReferencePropertyPage::AppendProperty(wxPGProperty* pid, wxPGProperty* pProp)
+wxPGProperty* wxGISNGWMetaPropertyPage::AppendProperty(wxPGProperty* pid, wxPGProperty* pProp)
 {
     wxPGProperty* pNewProp = m_pg->AppendIn(pid, pProp);
-    pNewProp->ChangeFlag(wxPG_PROP_READONLY, 1);
     return pNewProp;
 }
 
-
-void wxGISSpatialReferencePropertyPage::OnChildFocus( wxChildFocusEvent& event )
+void wxGISNGWMetaPropertyPage::OnChildFocus( wxChildFocusEvent& event )
 {
 	// do nothing to avoid "scrollbar jump" if wx2.9 is used
 }
-*/

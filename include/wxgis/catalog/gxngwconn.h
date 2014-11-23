@@ -145,13 +145,15 @@ public:
 	virtual bool RenameResource(const wxString &sNewName);
 	virtual bool UpdateResource(const wxString &sNewName, const wxString &sNewKey, const wxString &sNewDescription);
 	virtual bool UpdateResourceDescritpion(const wxString &sNewDescription);
+	virtual bool UpdateResourceMetadata(const wxJSONValue &oNewMetadata);
 	virtual bool MoveResource(int nResourceId);
 	static wxString MakeKey(const wxString& sInputStr);
-	static wxJSONValue GetMetadata(wxGISDataset* const pDSet);
+	static wxJSONValue MakeMetadata(wxGISDataset* const pDSet);
 	virtual bool FillPermissions();
 	virtual const wxString& GetResourceName() const;
 	virtual const wxString& GetResourceKey() const;
 	virtual const wxString& GetResourceDescription() const;
+	virtual const wxJSONValue& GetMetadata() const;
 protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);
@@ -162,13 +164,14 @@ protected:
 	bool m_bHasChildren;
 	wxString m_sDescription;
 	wxString m_sDisplayName;
-	//wxArrayString m_aInterfaces;
 	wxString m_sKeyName;
 	int m_nOwnerId;
+	//wxArrayString m_aInterfaces;	//not yet using
 	//wxArrayString m_aPermissions; //not yet using
 	//wxArrayString m_aScopes;		//not yet using
 	wxGxNGWService *m_pService;
 	wxJSONValue m_oPermissions;
+	wxJSONValue m_oMetadata;
 };
 
 /** @class wxGxNGWResourceWithStyles

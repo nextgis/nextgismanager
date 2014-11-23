@@ -54,11 +54,6 @@ public:
     wxGISRasterPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
 	~wxGISRasterPropertyPage();
     virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
-    wxPGProperty* AppendProperty(wxPGProperty* pProp);
-    wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
-    wxPGProperty* AppendMetadataProperty(wxPGProperty* pid, wxString sMeta);
-    wxPGProperty* GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName);
-    void FillGrid(void);
 	// wxGxPropertyPage
 	virtual void Apply(void);
 	virtual bool CanApply() const;
@@ -67,6 +62,12 @@ public:
     void OnPropertyGridButtonClick ( wxCommandEvent& );
     void OnFinish(wxGISProcessEvent& event);
 	void OnChildFocus(wxChildFocusEvent& event);
+protected:
+    wxPGProperty* AppendProperty(wxPGProperty* pProp);
+    wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
+    wxPGProperty* AppendMetadataProperty(wxPGProperty* pid, wxString sMeta);
+    wxPGProperty* GetSubProperty(wxPGProperty* pid, const wxString &sName, wxString &sResultName);
+    void FillGrid(void);	
 protected:
     wxGISRasterDataset* m_pDataset;
     wxGxRasterDataset* m_pGxDataset;
@@ -93,11 +94,12 @@ public:
     wxGISRasterHistogramPropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
     ~wxGISRasterHistogramPropertyPage();
     virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Raster"));
-    virtual void FillHistogram();
 	// wxGxPropertyPage
 	virtual void Apply(void);
 	virtual bool CanApply() const;
 	virtual bool FillProperties(wxGxSelection* const pSel);
+protected:
+    virtual void FillHistogram();
 protected:
     wxGISRasterDataset* m_pDataset;
     wxGxRasterDataset* m_pGxDataset;

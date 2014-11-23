@@ -48,6 +48,7 @@
         <wxGxToolboxTreeView/>
       </ToolboxView>
       <IdentifyView class="wxAxIdentifyView" name="IdentifyView" width="246" height="305" split_mode="1" split_pos="133"/>
+      <PropertyView class="wxAxPropertyView" name="PropertyView"/>
     </Views>
     <Menues>
       <menu name="MenuBar.File" caption="&amp;File">
