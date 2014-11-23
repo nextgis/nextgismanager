@@ -23,7 +23,6 @@
 #include "wxgis/catalog/gxcatalog.h"
 #include "wxgis/catalogui/gxfileui.h"
 #include "wxgis/catalogui/gxdatasetui.h"
-#include "wxgis/catalog/gxngwconn.h"
 
 #include <wx/valgen.h>
 #include <wx/valtext.h>
@@ -35,6 +34,7 @@
 IMPLEMENT_DYNAMIC_CLASS(wxGISNGWResourcePropertyPage, wxGxPropertyPage)
 
 BEGIN_EVENT_TABLE(wxGISNGWResourcePropertyPage, wxGxPropertyPage)
+	EVT_TEXT(wxID_ANY, wxGISNGWResourcePropertyPage::OnTextChange)
 END_EVENT_TABLE()
 
 wxGISNGWResourcePropertyPage::wxGISNGWResourcePropertyPage(void) : wxGxPropertyPage()
@@ -61,13 +61,28 @@ void wxGISNGWResourcePropertyPage::Apply(void)
 {
 	if ( Validate() && TransferDataFromWindow() )
 	{
-		
+		for ( size_t i = 0; i < m_paNGWResources.size(); ++i ) 
+		{    
+			if(m_paNGWResources.size() == 1)
+			{
+				m_paNGWResources[i]->UpdateResource(m_sName, m_sKey, m_sDesc);
+			}
+			else
+			{
+				m_paNGWResources[i]->UpdateResourceDescritpion(m_sDesc);
+			}
+		}
 	}
 }
 
 bool wxGISNGWResourcePropertyPage::CanApply() const
 {
 	return m_bHasEdits;
+}
+
+void wxGISNGWResourcePropertyPage::OnTextChange(wxCommandEvent& event)
+{
+	m_bHasEdits = true;
 }
 
 bool wxGISNGWResourcePropertyPage::CanMerge() const
@@ -77,9 +92,11 @@ bool wxGISNGWResourcePropertyPage::CanMerge() const
 
 bool wxGISNGWResourcePropertyPage::FillProperties(wxGxSelection* const pSel)
 {
+	m_bHasEdits = false;	
 	if(NULL == pSel)
 		return false;
 			
+	m_paNGWResources.clear();	
 	m_sName = m_sKey = m_sDesc = wxEmptyString;
 	
 	if(pSel->GetCount() > 1)
@@ -107,16 +124,22 @@ bool wxGISNGWResourcePropertyPage::FillProperties(wxGxSelection* const pSel)
 			{
 				m_sName = pResource->GetResourceName();
 				m_sKey = pResource->GetResourceKey();
+				m_sDesc = pResource->GetResourceDescription();
+			}
+			else if(i == 0)
+			{
+				m_sDesc = pResource->GetResourceDescription();
 			}
 			
-			if(!m_sDesc.IsEmpty() && m_sDesc.IsSameAs(pResource->GetResourceDescription()))
-				m_sDesc = pResource->GetResourceDescription();
-			else
+			if(!m_sDesc.IsSameAs(pResource->GetResourceDescription()))
 				m_sDesc = wxEmptyString;
+				
+			m_paNGWResources.push_back(pResource);
 		}
 	}
 
 	TransferDataToWindow();
+	m_bHasEdits = false;	
 	return true;
 }
 
@@ -141,7 +164,9 @@ bool wxGISNGWResourcePropertyPage::Create(ITrackCancel * const pTrackCancel, wxW
 	staticText2->Wrap( -1 );
 	bMainSizer->Add( staticText2, 0, wxALL|wxLEFT, 5 );
 
-	m_Key = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sKey) );
+	wxTextValidator validator(wxFILTER_EMPTY | wxFILTER_INCLUDE_CHAR_LIST, &m_sKey);
+	validator.SetCharIncludes(wxT("_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+	m_Key = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, validator );
 	bMainSizer->Add( m_Key, 0, wxALL|wxEXPAND, 5 );
 
     wxStaticText *staticText3 = new wxStaticText( this, wxID_ANY, _("Description"), wxDefaultPosition, wxDefaultSize, 0 );

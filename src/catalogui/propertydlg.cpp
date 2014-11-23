@@ -305,7 +305,8 @@ void wxAxPropertyView::Deactivate(void)
 
 void wxAxPropertyView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	Update(event.GetSelection());
+	if(m_pApp->IsApplicationWindowShown(this))
+		Update(event.GetSelection());
 }
 
 IProgressor* const wxAxPropertyView::GetProgressor(void)

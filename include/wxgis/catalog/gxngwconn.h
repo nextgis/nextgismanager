@@ -143,16 +143,15 @@ public:
 	virtual wxGxNGWService *GetNGWService() const;
 	virtual bool DeleteResource();
 	virtual bool RenameResource(const wxString &sNewName);
+	virtual bool UpdateResource(const wxString &sNewName, const wxString &sNewKey, const wxString &sNewDescription);
+	virtual bool UpdateResourceDescritpion(const wxString &sNewDescription);
 	virtual bool MoveResource(int nResourceId);
 	static wxString MakeKey(const wxString& sInputStr);
 	static wxJSONValue GetMetadata(wxGISDataset* const pDSet);
 	virtual bool FillPermissions();
 	virtual const wxString& GetResourceName() const;
-	virtual void SetResourceName(const wxString& sName);
 	virtual const wxString& GetResourceKey() const;
-	virtual void SetResourceKey(const wxString& sKey);
 	virtual const wxString& GetResourceDescription() const;
-	virtual void SetResourceDescription(const wxString& sDescription);
 protected:
 	virtual int GetParentResourceId() const = 0;
 	virtual void ReportError(int nHTTPCode, const wxString& sBody);

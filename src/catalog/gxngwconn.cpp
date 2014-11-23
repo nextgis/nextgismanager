@@ -414,6 +414,70 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 	return false;
 }
 
+bool wxGxNGWResource::UpdateResource(const wxString &sNewName, const wxString &sNewKey, const wxString &sNewDescription)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+		
+	wxJSONValue val;
+	if(!sNewName.IsEmpty())
+		val["resource"]["display_name"] = sNewName;
+	val["resource"]["keyname"] = sNewKey;
+	val["resource"]["description"] = sNewDescription;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);	
+		
+	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		if(!sNewName.IsEmpty())
+			m_sDisplayName = sNewName;
+		m_sKeyName = sNewKey;
+		m_sDescription = sNewDescription;
+		return true;
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);
+		
+	return false;
+}
+
+bool wxGxNGWResource::UpdateResourceDescritpion(const wxString &sNewDescription)
+{
+	wxGISCurl curl = m_pService->GetCurl();
+    if(!curl.IsOk())
+        return false;
+		
+	wxJSONValue val;
+	val["resource"]["description"] = sNewDescription;
+	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+	wxString sPayload;
+	writer.Write(val, sPayload);	
+		
+	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
+    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		m_sDescription = sNewDescription;
+		return true;
+	}
+		
+	ReportError(res.nHTTPCode, res.sBody);
+		
+	return false;
+}
+
 bool wxGxNGWResource::FillPermissions()
 {
 	wxGISCurl curl = m_pService->GetCurl();
@@ -825,19 +889,9 @@ const wxString& wxGxNGWResource::GetResourceName() const
 	return m_sDisplayName;
 }
 
-void wxGxNGWResource::SetResourceName(const wxString& sName)
-{
-	m_sDisplayName = sName;	
-}
-
 const wxString& wxGxNGWResource::GetResourceKey() const
 {
 	return m_sKeyName;
-}
-
-void wxGxNGWResource::SetResourceKey(const wxString& sKey)
-{
-	m_sKeyName = sKey;
 }
 
 const wxString& wxGxNGWResource::GetResourceDescription() const
@@ -845,36 +899,7 @@ const wxString& wxGxNGWResource::GetResourceDescription() const
 	return m_sDescription;
 }
 
-void wxGxNGWResource::SetResourceDescription(const wxString& sDescription)
-{
-	m_sDescription = sDescription;
-}
-
 /*
-
-forbidden err
-PUT /resource/0/child/8 HTTP/1.1
-Host: bishop.gis.to
-User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:32.0) Gecko/20100101 Firefox/32.0
-Accept: application/json
-Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Content-Type: application/json; charset=UTF-8
-X-Requested-With: XMLHttpRequest
-Referer: http://bishop.gis.to/resource/8/update
-Content-Length: 221
-Cookie: tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"; tkt="e26584afc516303874e1aae3770d9ce0b49e041eefb8006900d0871626d5b73a63a25482e0b0f81ba502b3a558bcf542b2b85af33ee3d147e7a1374806e5ef4a541e13104!userid_type:int"
-Connection: keep-alive
-
-{"resource":{"display_name":"test3","keyname":"qw4","parent":{"id":0},"permissions":[{"action":"deny","principal":{"id":"2"},"scope":"resource","permission":"update","identity":"","propagate":true}],"description":"rrr5"}}HTTP/1.1 403 Forbidden
-Server: nginx/1.4.6 (Ubuntu)
-Date: Sun, 21 Sep 2014 00:05:31 GMT
-Content-Type: application/json; charset=UTF-8
-Content-Length: 44
-Connection: keep-alive
-
-{"message": "Attribute 'keyname' forbidden"}
-
 //change permissions
 PUT /resource/0/child/8 HTTP/1.1
 Host: bishop.gis.to

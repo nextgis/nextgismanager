@@ -23,6 +23,7 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/datasource/gdalinh.h"
 #include "wxgis/catalogui/propertydlg.h"
+#include "wxgis/catalog/gxngwconn.h"
 
 #include "wx/propgrid/propgrid.h"
 
@@ -48,10 +49,13 @@ public:
 	virtual bool CanApply() const;
 	virtual bool CanMerge() const;
 	virtual bool FillProperties(wxGxSelection* const pSel);
+	//events
+	virtual void OnTextChange(wxCommandEvent& event);
 protected:
 	bool m_bHasEdits;
 	wxTextCtrl *m_Name, *m_Key, *m_Desc;
 	wxString m_sName, m_sKey, m_sDesc;
+	wxVector<wxGxNGWResource*> m_paNGWResources;
 private:
     DECLARE_EVENT_TABLE()
 };
