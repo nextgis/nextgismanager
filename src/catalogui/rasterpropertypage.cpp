@@ -119,12 +119,12 @@ bool wxGISRasterPropertyPage::FillProperties(wxGxSelection* const pSel)
 			if(!m_pDataset->Open(true))
 				return false;
 		}
-		else if(m_pDataset->IsReadOnly())
+		/*else if(m_pDataset->IsReadOnly())
 		{
 			m_pDataset->Close();
 			if(!m_pDataset->Open(true))
 				return false;
-		}		
+		}*/		
 			
 		FillGrid();
 	}
@@ -823,12 +823,12 @@ bool wxGISRasterHistogramPropertyPage::FillProperties(wxGxSelection* const pSel)
 			if(!m_pDataset->Open(true))
 				return false;
 		}
-		else if(m_pDataset->IsReadOnly())
+		/*else if(m_pDataset->IsReadOnly())
 		{
 			m_pDataset->Close();
 			if(!m_pDataset->Open(true))
 				return false;
-		}		
+		}	*/	
 		
 		FillHistogram();	
 	}	
@@ -869,7 +869,7 @@ void wxGISRasterHistogramPropertyPage::FillHistogram()
     if (poGDALDataset)
     {
         GDALRasterBand *pBand = poGDALDataset->GetRasterBand(1);
-        if (pBand->GetDefaultHistogram(&dfMin, &dfMax, &nBucketCount, &panHistogram, false, GDALTermProgress, NULL) == CE_None)
+        if (pBand->GetDefaultHistogram(&dfMin, &dfMax, &nBucketCount, &panHistogram, false, GDALExecuteProgress, m_pTrackCancel) == CE_None)
         {
             double *data = new double[nBucketCount * 2];
             int iBucket;
@@ -880,7 +880,7 @@ void wxGISRasterHistogramPropertyPage::FillHistogram()
             {
                 data[nDataPos] = dfVal;
                 data[nDataPos + 1] = panHistogram[iBucket];
-                wxLogDebug(wxT("%f - %f"), data[nDataPos], data[nDataPos + 1]);
+                //wxLogDebug(wxT("%f - %f"), data[nDataPos], data[nDataPos + 1]);
                 nDataPos += 2;
                 dfVal += dfStep;
             }

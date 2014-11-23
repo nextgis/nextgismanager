@@ -760,7 +760,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 wxArrayString wxGxNGWResourceGroupUI::GetPropertyPages() const
 {
 	wxArrayString out;
-	out.Add("wxGISNGWPropertyPage");	
+	out.Add("wxGISNGWResourcePropertyPage");
+	out.Add("wxGISNGWMetaPropertyPage");
 	return out;
 }
 
@@ -1339,7 +1340,8 @@ wxArrayString wxGxNGWLayerUI::GetPropertyPages() const
 	wxArrayString out;
 	out.Add("wxGISVectorPropertyPage");	
 	out.Add("wxGISSpatialReferencePropertyPage");	
-	out.Add("wxGISNGWPropertyPage");	
+	out.Add("wxGISNGWResourcePropertyPage");	
+	out.Add("wxGISNGWMetaPropertyPage");	
 	return out;
 }
 
@@ -1378,8 +1380,9 @@ wxArrayString wxGxNGWRasterUI::GetPropertyPages() const
 {
 	wxArrayString out;
 	out.Add("wxGISRasterPropertyPage");	
-	out.Add("wxGISSpatialReferencePropertyPage");	
-	out.Add("wxGISNGWPropertyPage");	
+	out.Add("wxGISSpatialReferencePropertyPage");
+	out.Add("wxGISNGWResourcePropertyPage");	
+	out.Add("wxGISNGWMetaPropertyPage");	
 	return out;
 }
 
@@ -1512,8 +1515,9 @@ bool wxGxNGWPostGISConnectionUI::CanMove(const CPLString &szDestPath)
 
 wxArrayString wxGxNGWPostGISConnectionUI::GetPropertyPages() const
 {
-	wxArrayString out;
-	out.Add("wxGISNGWPropertyPage");	
+	wxArrayString out;	
+	out.Add("wxGISNGWResourcePropertyPage");	
+	out.Add("wxGISNGWMetaPropertyPage");		
 	return out;
 }
 
@@ -1550,8 +1554,9 @@ wxIcon wxGxNGWFileSetUI::GetSmallImage(void)
 
 wxArrayString wxGxNGWFileSetUI::GetPropertyPages() const
 {
-	wxArrayString out;
-	out.Add("wxGISNGWPropertyPage");	
+	wxArrayString out;	
+	out.Add("wxGISNGWResourcePropertyPage");	
+	out.Add("wxGISNGWMetaPropertyPage");		
 	return out;
 }
 

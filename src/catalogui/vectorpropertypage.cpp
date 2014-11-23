@@ -96,14 +96,14 @@ bool wxGISVectorPropertyPage::FillProperties(wxGxSelection* const pSel)
 		if(!m_pDataset)
 			return false;
 		
-		if(m_pDataset->IsOpened() && m_pDataset->IsReadOnly())
+		/*if(m_pDataset->IsOpened() && m_pDataset->IsReadOnly())
 		{
 			m_pDataset->Close();
 			if(!m_pDataset->Open(0, true, true, false))
 				return false;
 			
 		}
-		else if (!m_pDataset->IsOpened())
+		else */if (!m_pDataset->IsOpened())
 		{
 			if(!m_pDataset->Open(0, true, true, false))
 				return false;

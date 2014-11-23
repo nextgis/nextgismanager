@@ -144,6 +144,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/spatrefpropertypage.h
     ${LIB_HEADERS}/tablepropertypage.h
     ${LIB_HEADERS}/vectorpropertypage.h
+    ${LIB_HEADERS}/ngwpropertypage.h
     ${LIB_HEADERS}/viewscmd.h
     ${LIB_HEADERS}/remoteconndlgs.h
     ${LIB_HEADERS}/gxremoteconnui.h
@@ -213,6 +214,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/spatrefpropertypage.cpp
     ${LIB_SOURCES}/tablepropertypage.cpp
     ${LIB_SOURCES}/vectorpropertypage.cpp
+    ${LIB_SOURCES}/ngwpropertypage.cpp
     ${LIB_SOURCES}/viewscmd.cpp
     ${LIB_SOURCES}/gxdbconnectionsui.cpp
     ${LIB_SOURCES}/gxdbconnfactoryui.cpp

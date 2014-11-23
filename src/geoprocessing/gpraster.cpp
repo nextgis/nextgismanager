@@ -774,7 +774,7 @@ bool CreateSubRaster( wxGISRasterDatasetSPtr pSrcRasterDataSet, OGREnvelope &Env
 // -------------------------------------------------------------------- //
 //      Write to the output file using CopyCreate().                    //
 // -------------------------------------------------------------------- //
-    GDALDataset* pOutDS = pDriver->CreateCopy(szDstPath, poVDS, false, papszOptions, GDALDummyProgress, NULL);
+    GDALDataset* pOutDS = pDriver->CreateCopy(szDstPath, poVDS, false, papszOptions, GDALExecuteProgress, m_pTrackCancel);
 
     //hOutDS = GDALCreateCopy( hDriver, pszDest, (GDALDatasetH) poVDS, bStrict, papszCreateOptions, pfnProgress, NULL );
     if( pOutDS )
