@@ -112,7 +112,7 @@ private:
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CTU wxAxPropertyView :
+class WXDLLIMPEXP_GIS_CLU wxAxPropertyView :
 	public wxGISPropertyDlg,
 	public IView
 {
