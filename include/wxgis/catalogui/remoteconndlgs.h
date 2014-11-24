@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +22,30 @@
 #pragma once
 
 #include "wxgis/catalogui/catalogui.h"
+
+#include <wx/propgrid/propgrid.h>
+
+
+/** @class wxGISCreateMetadataItemDlg
+
+    The dialog to create new metadata item
+    
+    @library{framework}
+ */
+
+
+class WXDLLIMPEXP_GIS_FRW wxGISCreateMetadataItemDlg : public wxDialog 
+{
+public:
+	wxGISCreateMetadataItemDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Create new metadata item"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+	virtual ~wxGISCreateMetadataItemDlg();
+	virtual const wxString& GetItemName() const;
+	virtual const wxString& GetItemType() const; 
+protected:
+	wxString m_sMetadataItemName;
+	wxString m_sMetadataItemType;
+};
+
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -216,8 +241,10 @@ protected:
 	{
 		ID_REMOTECONNDLG = 1000,
 		ID_TESTBUTTON,
-		ID_CONNNAME
+		ID_CONNNAME,
+		ID_PPCTRL
 	};
+	
 public:
     wxGISNGWConnDlg(CPLString pszConnPath, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("NGW Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
     wxGISNGWConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id = ID_REMOTECONNDLG, const wxString& title = _("NGW Connection"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
@@ -227,6 +254,10 @@ public:
 protected:	//events
     virtual void OnTest(wxCommandEvent& event);
 	virtual void OnOK(wxCommandEvent& event);
+	virtual void OnAddMetadataItem(wxCommandEvent& event);
+	virtual void OnRemoveMetadataItem(wxCommandEvent& event);
+	virtual void OnRemoveMetadataItemUI(wxUpdateUIEvent& event);
+	virtual bool SerializeMetadata(wxXmlNode* pRootNode, bool bSave);
 protected:
     void CreateUI(bool bHasConnectionPath = true);
     void FillDefaults();
@@ -239,6 +270,9 @@ protected:
 	wxStdDialogButtonSizer* m_sdbSizer;
 	wxButton* m_sdbSizerOK;
 	wxButton* m_sdbSizerCancel;
+	wxBitmapButton* m_bpSizerAdd;
+	wxBitmapButton* m_bpSizerDel;
+	wxPropertyGrid* m_pg;
 protected:
 	wxString m_sConnName;
 	wxString m_sURL;

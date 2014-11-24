@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -39,11 +40,80 @@
 #include <wx/txtstrm.h>
 
 #include "../../art/open.xpm"
+#include "../../art/list_add.xpm"
+#include "../../art/list_remove.xpm"
 
 #ifdef wxGIS_USE_POSTGRES
 
 #include "wxgis/datasource/postgisdataset.h"
 
+//-------------------------------------------------------------------------------
+// wxGISCreateMetadataItemDlg
+//-------------------------------------------------------------------------------
+
+wxGISCreateMetadataItemDlg::wxGISCreateMetadataItemDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	
+	wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer->AddGrowableCol( 1 );
+	fgSizer->SetFlexibleDirection( wxHORIZONTAL );
+	fgSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxStaticText *staticText = new wxStaticText( this, wxID_ANY, _("Name"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	staticText->Wrap( -1 );
+	fgSizer->Add( staticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxTextCtrl *textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 , wxGenericValidator(&m_sMetadataItemName));
+	fgSizer->Add( textCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	staticText = new wxStaticText( this, wxID_ANY, _("Type"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	staticText->Wrap( -1 );
+	fgSizer->Add( staticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );	
+	
+	wxArrayString choices;
+	choices.Add(_("String"));
+	choices.Add(_("String list"));
+	choices.Add(_("Float"));
+	choices.Add(_("Integer"));
+	wxChoice *choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices, 0 , wxGenericValidator(&m_sMetadataItemType));
+	choice->SetSelection( 0 );
+	fgSizer->Add( choice, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+
+	bMainSizer->Add( fgSizer, 1, wxEXPAND, 5 );
+	
+	wxStaticLine *staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
+    bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
+	
+	wxStdDialogButtonSizer *sdbSizer1 = new wxStdDialogButtonSizer();
+	wxButton *sdbSizer1OK = new wxButton( this, wxID_OK, _("OK") );
+	sdbSizer1->AddButton( sdbSizer1OK );
+	wxButton *sdbSizer1Cancel = new wxButton( this, wxID_CANCEL, _("Cancel") );
+	sdbSizer1->AddButton( sdbSizer1Cancel );
+	sdbSizer1->Realize();
+	bMainSizer->Add( sdbSizer1, 0, wxEXPAND|wxALL, 5 );
+	
+	this->SetSizerAndFit( bMainSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+}
+
+wxGISCreateMetadataItemDlg::~wxGISCreateMetadataItemDlg()
+{
+}
+
+const wxString& wxGISCreateMetadataItemDlg::GetItemName() const
+{
+	return m_sMetadataItemName;
+}
+
+const wxString& wxGISCreateMetadataItemDlg::GetItemType() const
+{
+	return m_sMetadataItemType;
+}
+	
 //-------------------------------------------------------------------------------
 //  wxGISRemoteDBConnDlg
 //-------------------------------------------------------------------------------
@@ -1291,11 +1361,16 @@ void wxGISTMSConnDlg::OnSelectPreset(wxCommandEvent& event)
 BEGIN_EVENT_TABLE(wxGISNGWConnDlg, wxDialog)
     EVT_BUTTON(wxID_OK, wxGISNGWConnDlg::OnOK)
     EVT_BUTTON(ID_TESTBUTTON, wxGISNGWConnDlg::OnTest)
+	EVT_BUTTON(wxID_ADD, wxGISNGWConnDlg::OnAddMetadataItem)
+	EVT_BUTTON(wxID_REMOVE, wxGISNGWConnDlg::OnRemoveMetadataItem)
+	EVT_UPDATE_UI(wxID_REMOVE, wxGISNGWConnDlg::OnRemoveMetadataItemUI)
 END_EVENT_TABLE()
 
 wxGISNGWConnDlg::wxGISNGWConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
     m_bIsFile = false;
+	
+	m_pg = NULL;
 
     //set default values
     FillDefaults();
@@ -1307,9 +1382,11 @@ wxGISNGWConnDlg::wxGISNGWConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, w
         m_sURL = pConnectionNode->GetAttribute(wxT("url"), m_sURL);
         m_sUser = pConnectionNode->GetAttribute(wxT("user"), m_sUser);
         Decrypt(pConnectionNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
+		
     }
 
     CreateUI(false);
+	SerializeMetadata(m_pConnectionNode, false);
 }
 
 
@@ -1320,6 +1397,8 @@ wxGISNGWConnDlg::wxGISNGWConnDlg( CPLString pszConnPath, wxWindow* parent, wxWin
 
     m_sConnName = wxString(CPLGetFilename(pszConnPath), wxConvUTF8);
 	m_sOutputPath = wxString(CPLGetPath(pszConnPath), wxConvUTF8);
+	
+	m_pg = NULL;
 
 	//set default values
 	FillDefaults();
@@ -1336,12 +1415,17 @@ wxGISNGWConnDlg::wxGISNGWConnDlg( CPLString pszConnPath, wxWindow* parent, wxWin
 			{
 			    m_sURL = pRootNode->GetAttribute(wxT("url"), m_sURL);
                 m_sUser = pRootNode->GetAttribute(wxT("user"), m_sUser);
-                Decrypt(pRootNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);
+                Decrypt(pRootNode->GetAttribute(wxT("pass"), wxEmptyString), m_sPass);	
+
+				CreateUI();
+				SerializeMetadata(pRootNode, false);			
+				
+				return;
 			}
 		}
 	}
 
-    CreateUI();
+	CreateUI();
 }
 
 wxGISNGWConnDlg::~wxGISNGWConnDlg()
@@ -1359,6 +1443,62 @@ void wxGISNGWConnDlg::FillDefaults()
     {
         m_sUserAgent = pApp->GetAppName() + wxT(" (") + pApp->GetAppDisplayName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
     }
+}
+
+bool wxGISNGWConnDlg::SerializeMetadata(wxXmlNode* pRootNode, bool bSave)
+{
+	if(!pRootNode || !m_pg)
+		return false;
+	
+	if(bSave)
+	{		
+		wxGISConfig::DeleteNodeChildren(pRootNode);
+		wxXmlNode* pMetadataNode = new wxXmlNode(pRootNode, wxXML_ELEMENT_NODE, wxT("metadata"));
+		for (wxPropertyGridConstIterator it = m_pg->GetIterator(); !it.AtEnd(); ++it ) 
+		{
+			const wxPGProperty* p = *it;	
+			wxXmlNode* pMetadataItemNode = new wxXmlNode(pMetadataNode, wxXML_ELEMENT_NODE, wxT("item"));
+			pMetadataItemNode->AddAttribute(wxT("name"), p->GetName());
+			pMetadataItemNode->AddAttribute(wxT("label"), p->GetLabel());
+			pMetadataItemNode->AddAttribute(wxT("type"), p->GetClassInfo()->GetClassName());
+			pMetadataItemNode->AddAttribute(wxT("value"), p->GetValueAsString(wxPG_FULL_VALUE));
+		}
+	}
+	else
+	{
+		//search metadata item
+		wxXmlNode* pMetadataNode = pRootNode->GetChildren();
+		while(pMetadataNode)
+		{
+			wxString sName = pMetadataNode->GetName();
+			if(sName.IsSameAs(wxT("metadata")))
+				break;
+			pMetadataNode = pMetadataNode->GetNext();
+		}
+		
+		if(pMetadataNode)
+		{
+			wxXmlNode* pMetadataItemNode = pMetadataNode->GetChildren();
+			while(pMetadataItemNode)
+			{
+				wxString sType = pMetadataItemNode->GetAttribute(wxT("type"));
+				wxClassInfo* pClassInfo = wxClassInfo::FindClass(sType);
+				if(pClassInfo)
+				{
+					wxPGProperty* pProp = wxDynamicCast(pClassInfo->CreateObject(), wxPGProperty);
+					if(pProp)
+					{
+						pProp->SetName(pMetadataItemNode->GetAttribute(wxT("name")));
+						pProp->SetLabel(pMetadataItemNode->GetAttribute(wxT("label")));
+						pProp->SetValueFromString(pMetadataItemNode->GetAttribute(wxT("value")), wxPG_FULL_VALUE);
+						m_pg->Append(pProp);
+					}
+				}
+				pMetadataItemNode = pMetadataItemNode->GetNext();
+			}
+		}
+	}
+	return true;
 }
 
 void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
@@ -1379,6 +1519,10 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 		    pRootNode->AddAttribute(wxT("url"), m_sURL);
 		    pRootNode->AddAttribute(wxT("user"), m_sUser);
 		    pRootNode->AddAttribute(wxT("pass"), sCryptPass);
+			
+			//add metadata
+			SerializeMetadata(pRootNode, true);
+			
 
 		    doc.SetRoot(pRootNode);
 
@@ -1409,6 +1553,9 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
             if (m_pConnectionNode->HasAttribute(wxT("pass")))
                 m_pConnectionNode->DeleteAttribute(wxT("pass"));
             m_pConnectionNode->AddAttribute(wxT("pass"), sCryptPass);
+			
+			//add metadata
+			SerializeMetadata(m_pConnectionNode, true);
         }
 		EndModal(wxID_OK);
 	}
@@ -1528,6 +1675,29 @@ void wxGISNGWConnDlg::CreateUI(bool bHasConnectionPath)
 	sbSizer1->Add( fgSizer2, 1, wxEXPAND, 5 );
 
 	m_bMainSizer->Add( sbSizer1, 0, wxEXPAND|wxALL, 5 );
+	
+	wxCollapsiblePane *collpane = new wxCollapsiblePane(this, wxID_ANY, _("Metadata"));
+	m_bMainSizer->Add(collpane, 0, wxGROW|wxALL, 5);
+	
+	wxWindow *win = collpane->GetPane();
+	wxBoxSizer* pBoxSizerMeta = new wxBoxSizer( wxHORIZONTAL );
+	m_pg = new wxPropertyGrid(win, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER | wxPG_BOLD_MODIFIED | wxPG_AUTO_SORT);
+    m_pg->SetColumnProportion(0, 30);
+    m_pg->SetColumnProportion(1, 70);
+
+    pBoxSizerMeta->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* pBoxSizerMetaButtons = new wxBoxSizer( wxVERTICAL );
+	
+	m_bpSizerAdd = new wxBitmapButton( win, wxID_ADD, wxBitmap(list_add_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( m_bpSizerAdd, 0, wxALL, 5 );
+	m_bpSizerDel = new wxBitmapButton( win, wxID_REMOVE, wxBitmap(list_remove_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( m_bpSizerDel, 0, wxALL, 5 );
+	
+	pBoxSizerMeta->Add( pBoxSizerMetaButtons, 0, wxALL, 0 );
+	
+	win->SetSizer(pBoxSizerMeta);
+	pBoxSizerMeta->SetSizeHints(win);
 
 	m_TestButton = new wxButton( this, ID_TESTBUTTON, _("Test Connection"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_bMainSizer->Add( m_TestButton, 0, wxALL|wxEXPAND, 5 );
@@ -1547,6 +1717,56 @@ void wxGISNGWConnDlg::CreateUI(bool bHasConnectionPath)
 	this->Layout();
 
 	this->Centre( wxBOTH );
+}
+
+void wxGISNGWConnDlg::OnAddMetadataItem(wxCommandEvent& event)
+{
+	if(!m_pg)
+		return;
+	
+	//show add new metadata item dialog
+	wxGISCreateMetadataItemDlg dlg(this);
+	if(dlg.ShowModal() == wxID_OK)
+	{		
+		//check uniq name
+		wxPropertyGridConstIterator it;
+		for ( it = m_pg->GetIterator(); !it.AtEnd(); it++ ) 
+		{
+			const wxPGProperty* p = *it;	
+			if(p->GetName().IsSameAs(dlg.GetItemName()))
+			{
+				wxMessageBox(_("The name already exist"), _("Error"), wxICON_ERROR | wxOK);
+				return;
+			}
+		}
+		
+		if(dlg.GetItemType().IsSameAs(_("String")))
+			m_pg->Append(new wxStringProperty( dlg.GetItemName() + wxT(" (") + _("String") + wxT(")"), dlg.GetItemName(),wxEmptyString));
+		else if(dlg.GetItemType().IsSameAs(_("String list")))	
+			m_pg->Append(new wxArrayStringProperty(dlg.GetItemName() + wxT(" (") + _("String list") + wxT(")"), dlg.GetItemName()));
+		else if(dlg.GetItemType().IsSameAs(_("Float")))	
+			m_pg->Append(new wxFloatProperty(dlg.GetItemName() + wxT(" (") + _("Float") + wxT(")"), dlg.GetItemName(), 0.0));
+		else if(dlg.GetItemType().IsSameAs(_("Integer")))
+			m_pg->Append(new wxIntProperty(dlg.GetItemName() + wxT(" (") + _("Integer") + wxT(")"), dlg.GetItemName(), 0));
+		else
+			wxMessageBox(_("Unsuported property type"), _("Error"), wxICON_ERROR | wxOK);
+	}
+}
+
+void wxGISNGWConnDlg::OnRemoveMetadataItem(wxCommandEvent& event)
+{
+	if(m_pg)
+	{
+		m_pg->DeleteProperty(m_pg->GetSelection());
+	}
+}
+
+void wxGISNGWConnDlg::OnRemoveMetadataItemUI(wxUpdateUIEvent& event)
+{
+	if(m_pg && m_pg->GetSelection())
+		event.Enable(true);
+	else	
+		event.Enable(false);	
 }
 
 #endif // wxGIS_USE_CURL

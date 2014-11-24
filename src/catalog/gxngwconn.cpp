@@ -1,25 +1,5 @@
 /******************************************************************************
  * Project:  wxGIS (GIS Catalog)
- * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
- ******************************************************************************
-*   Copyright (C) 2014 Dmitry Baryshnikov
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
- 
-/******************************************************************************
- * Project:  wxGIS (GIS Catalog)
  * Purpose:  Remote Connection classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
@@ -80,12 +60,41 @@ void wxGxNGWService::ReadConnectionFile()
 			
             m_sLogin = pRootNode->GetAttribute(wxT("user"));
             Decrypt(pRootNode->GetAttribute(wxT("pass")), m_sPassword);
+			
+			
+			wxXmlNode* pMetadataNode = pRootNode->GetChildren();
+			while(pMetadataNode)
+			{
+				wxString sName = pMetadataNode->GetName();
+				if(sName.IsSameAs(wxT("metadata")))
+					break;
+				pMetadataNode = pMetadataNode->GetNext();
+			}
+			
+			if(pMetadataNode)
+			{
+				wxXmlNode* pMetadataItemNode = pMetadataNode->GetChildren();
+				while(pMetadataItemNode)
+				{
+					wxString sType = pMetadataItemNode->GetAttribute(wxT("type"));
+					wxString sName = pMetadataItemNode->GetAttribute(wxT("name"));
+					wxString sValue = pMetadataItemNode->GetAttribute(wxT("value"));
+					CUSTOM_METADATA_ITEM item = {sName, sType, sValue};
+					m_staCustomMetadata.push_back(item);
+					pMetadataItemNode = pMetadataItemNode->GetNext();
+				}
+			}
         }
     }
 }
 
 wxGxNGWService::~wxGxNGWService(void)
 {
+}
+
+const wxVector<wxGxNGWService::CUSTOM_METADATA_ITEM>& wxGxNGWService::GetCustomMetadata() const
+{
+	return m_staCustomMetadata;
 }
 
 bool wxGxNGWService::Delete(void)

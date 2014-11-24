@@ -91,6 +91,12 @@ public:
 	virtual wxString GetLogin() const;
 	virtual wxString GetPassword() const;
 	virtual wxString GetURL() const;
+	typedef struct _castom_metadata_item{
+		wxString sName;
+		wxString sType;
+		wxString sDefaultValue;
+	} CUSTOM_METADATA_ITEM;
+	virtual const wxVector<wxGxNGWService::CUSTOM_METADATA_ITEM>& GetCustomMetadata() const;
 protected:
 	virtual void LoadChildren(void);
 	virtual bool ConnectToNGW();
@@ -101,6 +107,7 @@ protected:
 	wxString m_sURL;
 	bool m_bChildrenLoaded, m_bIsConnected, m_bIsAuthorized;
 	wxString m_sAuthCookie;
+	wxVector<CUSTOM_METADATA_ITEM> m_staCustomMetadata;
 };
 
 /** @enum wxGISEnumNGWResourcesType

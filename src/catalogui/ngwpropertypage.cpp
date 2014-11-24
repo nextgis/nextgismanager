@@ -98,6 +98,8 @@ void wxGISNGWResourcePropertyPage::Apply(void)
 			}
 		}
 	}
+	
+	m_bHasEdits = false;
 }
 
 bool wxGISNGWResourcePropertyPage::CanApply() const
@@ -295,6 +297,8 @@ void wxGISNGWMetaPropertyPage::Apply(void)
 			//do nothing, try next resource
 		}
 	}
+	
+	m_bHasEdits = false;
 }
 
 
@@ -399,7 +403,45 @@ bool wxGISNGWMetaPropertyPage::FillProperties(wxGxSelection* const pSel)
 		//check if custom meta is present
 		if(pService)
 		{
-			
+			const wxVector<wxGxNGWService::CUSTOM_METADATA_ITEM> & staCustomMeta = pService->GetCustomMetadata();
+			for ( size_t i = 0; i < staCustomMeta.size(); ++i ) 
+			{    
+				if(oFullMetatdata.HasMember(wxT("Custom.") + staCustomMeta[i].sName))
+				{
+					if(staCustomMeta[i].sType == wxT("wxArrayStringProperty"))
+					{
+						wxArrayString sValues = wxStringTokenize(staCustomMeta[i].sDefaultValue, wxT(","), wxTOKEN_RET_EMPTY);
+						wxString sOrigValue = oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName].AsString();
+						oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName][0] = sOrigValue;
+						int nCounter = 1;
+						for ( size_t j = 0; j < sValues.GetCount(); ++j ) 
+						{    
+							wxString sVal = sValues[j].Trim(true).Trim(false);
+							if(sOrigValue == sVal)
+								continue;
+							oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName][nCounter++] = sVal;
+						}
+					}
+				}
+				else
+				{
+					if(staCustomMeta[i].sType == wxT("wxArrayStringProperty"))
+					{
+						wxArrayString sValues = wxStringTokenize(staCustomMeta[i].sDefaultValue, wxT(","), wxTOKEN_RET_EMPTY);
+						for ( size_t j = 0; j < sValues.GetCount(); ++j ) 
+						{    
+							wxString sVal = sValues[j].Trim(true).Trim(false);
+							oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName][j] = sVal;
+						}
+					}	
+					else if(staCustomMeta[i].sType == wxT("wxIntProperty"))
+						oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName] = wxAtoi(staCustomMeta[i].sDefaultValue);
+					else if(staCustomMeta[i].sType == wxT("wxFloatProperty"))
+						oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName] = wxAtof(staCustomMeta[i].sDefaultValue);
+					else	
+						oFullMetatdata[wxT("Custom.") + staCustomMeta[i].sName] = staCustomMeta[i].sDefaultValue;
+				}
+			}			
 		}
 		
 		FillGrid(oFullMetatdata);
@@ -457,7 +499,17 @@ void wxGISNGWMetaPropertyPage::FillGrid(const wxJSONValue& metadata)
 			case wxJSONTYPE_UINT64:				
 			case wxJSONTYPE_USHORT:
 				AppendProperty(pProp, new wxUIntProperty(sResultName, wxPG_LABEL, metadata[saKeys[i]].AsUInt()));
-				break;			
+				break;		
+			case wxJSONTYPE_ARRAY:
+			{
+				wxArrayString saValues;
+				for ( size_t j = 0; j < metadata[saKeys[i]].Size(); ++j ) 
+				{    
+					saValues.Add(metadata[saKeys[i]][j].AsString());
+				}
+				AppendProperty(pProp, new wxEnumProperty(sResultName, wxPG_LABEL, saValues));
+			}
+				break;
 		};		
 	}
 }
