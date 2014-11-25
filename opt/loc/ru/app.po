@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 00:17+0300\n"
-"PO-Revision-Date: 2014-09-25 00:17+0300\n"
-"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-11-25 23:14+0300\n"
+"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: nextgis <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,24 +13,24 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/app\n"
 "X-Poedit-SearchPath-1: ../../../src/app\n"
 
-#: ../../../src/app/gisaboutdlg.cpp:107
+#: ../../../src/app/gisaboutdlg.cpp:125
 #, c-format
 msgid ""
 "\n"
-"%s (x64)\n"
+"%s (x86_64)\n"
 "Version: %s"
 msgstr ""
 "\n"
-"%s (x64)\n"
+"%s (x86_64)\n"
 "Версия: %s"
 
-#: ../../../src/app/gisaboutdlg.cpp:109
+#: ../../../src/app/gisaboutdlg.cpp:127
 #, c-format
 msgid ""
 "\n"
@@ -41,33 +41,33 @@ msgstr ""
 "%s (x86)\n"
 "Версия: %s"
 
-#: ../../../src/app/gisaboutdlg.cpp:134
+#: ../../../src/app/gisaboutdlg.cpp:152
 #, c-format
 msgid "Version of the libpq library in use %d"
 msgstr "Версия используемой библиотеки libpq %d"
 
-#: ../../../src/app/gisaboutdlg.cpp:152
+#: ../../../src/app/gisaboutdlg.cpp:170
 #, c-format
 msgid ""
-"%s (x64)\n"
+"%s (x86_64)\n"
 "\n"
 "Version: %s\n"
 "\n"
 "Build: %s\n"
 "\n"
-"http://nextgis.com/"
+"\n"
+"http://nextgis.com"
 msgstr ""
-"%s (x64)\n"
+"%s (x86_64)\n"
 "\n"
 "Версия: %s\n"
 "\n"
 "Сборка: %s\n"
 "\n"
-"(c) 2009-%d Дмитрий Барышников (Bishop)\n"
 "\n"
-"http://github.com/nextgis/nextgismanager/"
+"http://nextgis.com"
 
-#: ../../../src/app/gisaboutdlg.cpp:154
+#: ../../../src/app/gisaboutdlg.cpp:172
 #, c-format
 msgid ""
 "%s (x86)\n"
@@ -76,7 +76,7 @@ msgid ""
 "\n"
 "Build: %s\n"
 "\n"
-"http://nextgis.com/"
+"http://nextgis.com"
 msgstr ""
 "%s (x86)\n"
 "\n"
@@ -84,15 +84,13 @@ msgstr ""
 "\n"
 "Сборка: %s\n"
 "\n"
-"(c) 2009-%d Дмитрий Барышников (Bishop)\n"
-"\n"
-"http://github.com/nextgis/nextgismanager/"
+"http://nextgis.com"
 
-#: ../../../src/app/gisaboutdlg.cpp:157
+#: ../../../src/app/gisaboutdlg.cpp:175
 msgid "About application"
 msgstr "О программе"
 
-#: ../../../src/app/gisaboutdlg.cpp:189
+#: ../../../src/app/gisaboutdlg.cpp:207
 #, c-format
 msgid ""
 "HOST '%s'\n"
@@ -113,7 +111,7 @@ msgstr ""
 "Библиотеки::\n"
 "%s"
 
-#: ../../../src/app/gisaboutdlg.cpp:212
+#: ../../../src/app/gisaboutdlg.cpp:230
 msgid ""
 "\n"
 "Raster drivers:\n"
@@ -121,7 +119,7 @@ msgstr ""
 "\n"
 "Растровые форматы:\n"
 
-#: ../../../src/app/gisaboutdlg.cpp:214
+#: ../../../src/app/gisaboutdlg.cpp:232
 msgid ""
 "\n"
 "Vector Drivers:\n"
@@ -129,29 +127,29 @@ msgstr ""
 "\n"
 "Векторные форматы:\n"
 
-#: ../../../src/app/gisaboutdlg.cpp:216
+#: ../../../src/app/gisaboutdlg.cpp:234
 #, c-format
 msgid ""
 "\n"
-"* - The drivers only compiled in GDAL lib and may not be supported by %s."
+"* - The drivers only compiled in GDAL lib and may not supported by %s."
 msgstr ""
 "\n"
 "* - Драйверы только скомпилированы в библиотеке GDAL и могут не "
 "поддерживаться %s."
 
-#: ../../../src/app/gisaboutdlg.cpp:217
+#: ../../../src/app/gisaboutdlg.cpp:235
 msgid "About system"
 msgstr "О системе"
 
-#: ../../../src/app/gisaboutdlg.cpp:230
+#: ../../../src/app/gisaboutdlg.cpp:247
 msgid "Translators"
 msgstr "Переводчики"
 
-#: ../../../src/app/gisaboutdlg.cpp:240
+#: ../../../src/app/gisaboutdlg.cpp:257
 msgid "Thanks"
 msgstr "Благодарности"
 
-#: ../../../src/app/gisaboutdlg.cpp:245
+#: ../../../src/app/gisaboutdlg.cpp:262
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License as published by the Free "
@@ -176,11 +174,11 @@ msgstr ""
 "License вместе с этой программой. Если нет, см. <http://www.gnu.org/licenses/"
 ">"
 
-#: ../../../src/app/gisaboutdlg.cpp:245
+#: ../../../src/app/gisaboutdlg.cpp:262
 msgid "License"
 msgstr "Лицензия"
 
-#: ../../../src/app/gisaboutdlg.cpp:251
+#: ../../../src/app/gisaboutdlg.cpp:268
 msgid "Close"
 msgstr "Закрыть"
 

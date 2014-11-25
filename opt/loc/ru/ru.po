@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxWidgets-3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-24 09:31+0200\n"
-"PO-Revision-Date: 2014-09-25 00:17+0300\n"
+"PO-Revision-Date: 2014-11-25 23:15+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: wx-translators <wx-translators@wxwidgets.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Language: ru\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../src/common/debugrpt.cpp:578
 msgid ""
@@ -663,21 +663,21 @@ msgstr ""
 #: ../src/richtext/richtextliststylepage.cpp:497
 #: ../src/richtext/richtextbulletspage.cpp:295
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: ../src/richtext/richtextliststylepage.cpp:495
 #: ../src/richtext/richtextbulletspage.cpp:293
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: ../src/richtext/richtextindentspage.cpp:246
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../src/richtext/richtextliststylepage.cpp:460
 #: ../src/richtext/richtextindentspage.cpp:315
 msgid "1.5"
-msgstr ""
+msgstr "1.5"
 
 #: ../src/common/paper.cpp:142
 msgid "10 x 11 in"
@@ -703,23 +703,23 @@ msgstr "15 x 11 ƒ¿ Õ¡"
 #: ../src/richtext/richtextindentspage.cpp:247
 #: ../src/richtext/richtextindentspage.cpp:316
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: ../src/richtext/richtextindentspage.cpp:248
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: ../src/richtext/richtextindentspage.cpp:249
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: ../src/richtext/richtextindentspage.cpp:250
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../src/richtext/richtextindentspage.cpp:251
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../src/common/paper.cpp:134
 msgid "6 3/4 Envelope, 3 5/8 x 6 1/2 in"
@@ -727,15 +727,15 @@ msgstr "ÎœŒ◊≈“‘ 6 3/4, 3 5/8 x 6 1/2 ƒ¿ Õ¡"
 
 #: ../src/richtext/richtextindentspage.cpp:252
 msgid "7"
-msgstr ""
+msgstr "7"
 
 #: ../src/richtext/richtextindentspage.cpp:253
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: ../src/richtext/richtextindentspage.cpp:254
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #: ../src/common/paper.cpp:141
 msgid "9 x 11 in"
@@ -3761,99 +3761,99 @@ msgstr "KOI8-U"
 
 #: ../src/common/accelcmn.cpp:247 ../src/common/accelcmn.cpp:305
 msgid "KP_"
-msgstr ""
+msgstr "KP_"
 
 #: ../src/common/accelcmn.cpp:102
 msgid "KP_ADD"
-msgstr ""
+msgstr "KP_ADD"
 
 #: ../src/common/accelcmn.cpp:97
 msgid "KP_BEGIN"
-msgstr ""
+msgstr "KP_BEGIN"
 
 #: ../src/common/accelcmn.cpp:105
 msgid "KP_DECIMAL"
-msgstr ""
+msgstr "KP_DECIMAL"
 
 #: ../src/common/accelcmn.cpp:99
 msgid "KP_DELETE"
-msgstr ""
+msgstr "KP_DELETE"
 
 #: ../src/common/accelcmn.cpp:106
 msgid "KP_DIVIDE"
-msgstr ""
+msgstr "KP_DIVIDE"
 
 #: ../src/common/accelcmn.cpp:91
 msgid "KP_DOWN"
-msgstr ""
+msgstr "KP_DOWN"
 
 #: ../src/common/accelcmn.cpp:96
 msgid "KP_END"
-msgstr ""
+msgstr "KP_END"
 
 #: ../src/common/accelcmn.cpp:86
 msgid "KP_ENTER"
-msgstr ""
+msgstr "KP_ENTER"
 
 #: ../src/common/accelcmn.cpp:100
 msgid "KP_EQUAL"
-msgstr ""
+msgstr "KP_EQUAL"
 
 #: ../src/common/accelcmn.cpp:87
 msgid "KP_HOME"
-msgstr ""
+msgstr "KP_HOME"
 
 #: ../src/common/accelcmn.cpp:98
 msgid "KP_INSERT"
-msgstr ""
+msgstr "KP_INSERT"
 
 #: ../src/common/accelcmn.cpp:88
 msgid "KP_LEFT"
-msgstr ""
+msgstr "KP_LEFT"
 
 #: ../src/common/accelcmn.cpp:101
 msgid "KP_MULTIPLY"
-msgstr ""
+msgstr "KP_MULTIPLY"
 
 #: ../src/common/accelcmn.cpp:94
 msgid "KP_NEXT"
-msgstr ""
+msgstr "KP_NEXT"
 
 #: ../src/common/accelcmn.cpp:95
 msgid "KP_PAGEDOWN"
-msgstr ""
+msgstr "KP_PAGEDOWN"
 
 #: ../src/common/accelcmn.cpp:93
 msgid "KP_PAGEUP"
-msgstr ""
+msgstr "KP_PAGEUP"
 
 #: ../src/common/accelcmn.cpp:92
 msgid "KP_PRIOR"
-msgstr ""
+msgstr "KP_PRIOR"
 
 #: ../src/common/accelcmn.cpp:90
 msgid "KP_RIGHT"
-msgstr ""
+msgstr "KP_RIGHT"
 
 #: ../src/common/accelcmn.cpp:103
 msgid "KP_SEPARATOR"
-msgstr ""
+msgstr "KP_SEPARATOR"
 
 #: ../src/common/accelcmn.cpp:84
 msgid "KP_SPACE"
-msgstr ""
+msgstr "KP_SPACE"
 
 #: ../src/common/accelcmn.cpp:104
 msgid "KP_SUBTRACT"
-msgstr ""
+msgstr "KP_SUBTRACT"
 
 #: ../src/common/accelcmn.cpp:85
 msgid "KP_TAB"
-msgstr ""
+msgstr "KP_TAB"
 
 #: ../src/common/accelcmn.cpp:89
 msgid "KP_UP"
-msgstr ""
+msgstr "KP_UP"
 
 #: ../src/richtext/richtextindentspage.cpp:307
 msgid "L&ine spacing:"

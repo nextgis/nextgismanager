@@ -392,7 +392,7 @@ void wxGISCreateNewCmd::OnClick(void)
                 if (pGxNGWResourceGroupUI)
 				{
                     CPLString pszConnFolder = pGxObject->GetPath();
-                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("PostGIS connection")), "").ToUTF8());
+                    CPLString pszConnName(CheckUniqName(pszConnFolder, wxString(_("PostGIS Connection")), "").ToUTF8());
 
 					wxGISRemoteDBConnDlg dlg(wxString::FromUTF8(pszConnName), wxT("localhost"), wxT("postgres"), wxT(""), wxT(""), dynamic_cast<wxWindow*>(m_pApp));
 					if(dlg.ShowModal() == wxID_OK)

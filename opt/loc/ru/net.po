@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 00:17+0300\n"
-"PO-Revision-Date: 2014-09-25 00:17+0300\n"
+"POT-Creation-Date: 2014-11-25 23:14+0300\n"
+"PO-Revision-Date: 2014-11-25 23:14+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/net\n"
@@ -22,11 +22,6 @@ msgstr ""
 #: ../../../src/net/netconn.cpp:59 ../../../src/net/tcp.cpp:103
 msgid "Cannot bind listening socket"
 msgstr "Не удалось подключиться к сокету"
-
-#: ../../../src/net/netconn.cpp:121 ../../../src/net/netconn.cpp:128
-#: ../../../src/net/network.cpp:320 ../../../src/net/network.cpp:334
-msgid "Invalid input message"
-msgstr "Входное сообщение не верно"
 
 #: ../../../src/net/netconn.cpp:148
 #, c-format
@@ -74,6 +69,10 @@ msgstr "Пользователь №%d с %s:%d отключен по тайме
 msgid "Failed to send network message"
 msgstr "Ошибка отправки сообщения по сети"
 
+#: ../../../src/net/network.cpp:320 ../../../src/net/network.cpp:334
+msgid "Invalid input message"
+msgstr "Входное сообщение не верно"
+
 #: ../../../src/net/network.cpp:368
 msgid "SendUDP: failed to create UDP socket"
 msgstr "SendUDP: не удалось создать сокет UDP"
@@ -88,70 +87,43 @@ msgstr "SendUDP: не удалось отправить данные"
 
 #: ../../../src/net/network.cpp:405
 msgid "wxSOCKET_NOERROR"
-msgstr ""
+msgstr "wxSOCKET_NOERROR"
 
 #: ../../../src/net/network.cpp:408
 msgid "wxSOCKET_INVOP"
-msgstr ""
+msgstr "wxSOCKET_INVOP"
 
 #: ../../../src/net/network.cpp:411
 msgid "wxSOCKET_IOERR"
-msgstr ""
+msgstr "wxSOCKET_IOERR"
 
 #: ../../../src/net/network.cpp:414
 msgid "wxSOCKET_INVADDR"
-msgstr ""
+msgstr "wxSOCKET_INVADDR"
 
 #: ../../../src/net/network.cpp:417
 msgid "wxSOCKET_NOHOST"
-msgstr ""
+msgstr "wxSOCKET_NOHOST"
 
 #: ../../../src/net/network.cpp:420
 msgid "wxSOCKET_INVPORT"
-msgstr ""
+msgstr "wxSOCKET_INVPORT"
 
 #: ../../../src/net/network.cpp:423
 msgid "wxSOCKET_WOULDBLOCK"
-msgstr ""
+msgstr "wxSOCKET_WOULDBLOCK"
 
 #: ../../../src/net/network.cpp:426
 msgid "wxSOCKET_TIMEDOUT"
-msgstr ""
+msgstr "wxSOCKET_TIMEDOUT"
 
 #: ../../../src/net/network.cpp:429
 msgid "wxSOCKET_MEMERR"
-msgstr ""
+msgstr "wxSOCKET_MEMERR"
 
 #: ../../../src/net/network.cpp:432
 msgid "Unknown"
 msgstr "Неизвестно"
-
-#: ../../../src/net/servernet.cpp:89
-msgid "wxGISNetworkService: Error get config"
-msgstr "wxGISNetworkService: Не удалось получить конфигурацию"
-
-#: ../../../src/net/servernet.cpp:111
-msgid "wxGISNetworkService: Service started"
-msgstr "wxGISNetworkService: Сервис запущен"
-
-#: ../../../src/net/servernet.cpp:125
-#, c-format
-msgid "wxGISNetworkService: Plugin already loaded %s"
-msgstr "wxGISNetworkService: Модуль уже загружен %s"
-
-#: ../../../src/net/servernet.cpp:135
-#, c-format
-msgid "wxGISNetworkService: Plugin %s initialize"
-msgstr "wxGISNetworkService: Модуль %s инициализируется"
-
-#: ../../../src/net/servernet.cpp:138
-#, c-format
-msgid "wxGISNetworkService: Error initializing plugin %s"
-msgstr "wxGISNetworkService: Не удалось инициализировать модуль %s"
-
-#: ../../../src/net/servernet.cpp:148
-msgid "wxGISNetworkService: Service stopped"
-msgstr "wxGISNetworkService: Сервис остановлен"
 
 #: ../../../src/net/tcp.cpp:55
 #, c-format
@@ -233,6 +205,33 @@ msgstr "Ошибка (%d): %s"
 #: ../../../src/net/tcp.cpp:531
 msgid "Could not connect to remote server"
 msgstr "Не удалось выполнить подключение к серверу"
+
+#: ../../../src/net/servernet.cpp:89
+msgid "wxGISNetworkService: Error get config"
+msgstr "wxGISNetworkService: Не удалось получить конфигурацию"
+
+#: ../../../src/net/servernet.cpp:111
+msgid "wxGISNetworkService: Service started"
+msgstr "wxGISNetworkService: Сервис запущен"
+
+#: ../../../src/net/servernet.cpp:125
+#, c-format
+msgid "wxGISNetworkService: Plugin already loaded %s"
+msgstr "wxGISNetworkService: Модуль уже загружен %s"
+
+#: ../../../src/net/servernet.cpp:135
+#, c-format
+msgid "wxGISNetworkService: Plugin %s initialize"
+msgstr "wxGISNetworkService: Модуль %s инициализируется"
+
+#: ../../../src/net/servernet.cpp:138
+#, c-format
+msgid "wxGISNetworkService: Error initializing plugin %s"
+msgstr "wxGISNetworkService: Не удалось инициализировать модуль %s"
+
+#: ../../../src/net/servernet.cpp:148
+msgid "wxGISNetworkService: Service stopped"
+msgstr "wxGISNetworkService: Сервис остановлен"
 
 #: ../../../include/wxgis/net/tcp.h:130
 msgid "TCP/IP Network"

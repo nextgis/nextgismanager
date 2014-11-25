@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 00:17+0300\n"
-"PO-Revision-Date: 2014-09-25 00:21+0300\n"
-"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-11-25 23:14+0300\n"
+"PO-Revision-Date: 2014-11-25 23:15+0300\n"
+"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/tskmngr_app\n"
@@ -100,71 +100,71 @@ msgstr "Пользователь №%d отключился"
 msgid "User #%d from %s:%d is disconnected"
 msgstr "Пользователь №%d с %s:%d отключился"
 
-#: ../../../src/tskmngr_app/task.cpp:318
+#: ../../../src/tskmngr_app/task.cpp:347
 msgid "Start succeeded"
 msgstr "Запуск выполнен"
 
-#: ../../../src/tskmngr_app/task.cpp:333
+#: ../../../src/tskmngr_app/task.cpp:361
 msgid "Stop succeeded"
 msgstr "Остановка выполнена"
 
-#: ../../../src/tskmngr_app/task.cpp:369
+#: ../../../src/tskmngr_app/task.cpp:525
 msgid "Delete succeeded"
 msgstr "Удаление выполнено"
 
-#: ../../../src/tskmngr_app/task.cpp:414 ../../../src/tskmngr_app/task.cpp:426
+#: ../../../src/tskmngr_app/task.cpp:570 ../../../src/tskmngr_app/task.cpp:582
 msgid "Children get succeeded"
 msgstr "Получен список задач"
 
-#: ../../../src/tskmngr_app/task.cpp:484
+#: ../../../src/tskmngr_app/task.cpp:640
 msgid "Delete failed"
 msgstr "Не удалось удалить"
 
-#: ../../../src/tskmngr_app/task.cpp:492
+#: ../../../src/tskmngr_app/task.cpp:648
 msgid "Change task failed"
 msgstr "Не удалось изменить задачу."
 
-#: ../../../src/tskmngr_app/task.cpp:500
+#: ../../../src/tskmngr_app/task.cpp:656
 msgid "Start failed"
 msgstr "Не удалось запустить"
 
-#: ../../../src/tskmngr_app/task.cpp:508
+#: ../../../src/tskmngr_app/task.cpp:664
 msgid "Stop failed"
 msgstr "Не удалось остановить"
 
-#: ../../../src/tskmngr_app/task.cpp:653 ../../../src/tskmngr_app/task.cpp:761
+#: ../../../src/tskmngr_app/task.cpp:728 ../../../src/tskmngr_app/task.cpp:837
 msgid "Task changed"
 msgstr "Задача изменена"
 
-#: ../../../src/tskmngr_app/task.cpp:668
+#: ../../../src/tskmngr_app/task.cpp:743
 msgid "Task new message"
 msgstr "Новое сообщение от задачи"
 
-#: ../../../src/tskmngr_app/task.cpp:968
+#: ../../../src/tskmngr_app/task.cpp:1043
 #, c-format
 msgid "The task '%s' loaded"
 msgstr "Задача '%s' загружена"
 
-#: ../../../src/tskmngr_app/task.cpp:973
+#: ../../../src/tskmngr_app/task.cpp:1048
 #, c-format
 msgid "The task from '%s' load failed "
 msgstr "Не удалось загрузить задачу из '%s'"
 
-#: ../../../src/tskmngr_app/task.cpp:1138
+#: ../../../src/tskmngr_app/task.cpp:1207
 #, c-format
 msgid "Create new task in category '%s'"
 msgstr "Создать новую задачу в категории '%s'"
 
-#: ../../../src/tskmngr_app/task.cpp:1145
+#: ../../../src/tskmngr_app/task.cpp:1214
 msgid "Add succeeded"
 msgstr "Добавление прошло удачно"
 
-#: ../../../src/tskmngr_app/task.cpp:1153
+#: ../../../src/tskmngr_app/task.cpp:1222
 #, c-format
 msgid "Save changes to file '%s' failed"
 msgstr "Не удалось сохранить изменения в файл '%s'."
 
-#: ../../../src/tskmngr_app/task.cpp:1155
+#: ../../../src/tskmngr_app/task.cpp:1224
 #, c-format
 msgid "Create new task in category '%s' failed. %s"
 msgstr "Не удалось создать новую задачу в категории  '%s'. %s"
@@ -173,26 +173,26 @@ msgstr "Не удалось создать новую задачу в катег
 msgid "Exiting\n"
 msgstr "Выход\n"
 
-#: ../../../src/tskmngr_app/tskmngr.cpp:128
+#: ../../../src/tskmngr_app/tskmngr.cpp:134
 #, c-format
 msgid "Read task categories from '%s'"
 msgstr "Чтение категорий задач из '%s'"
 
-#: ../../../src/tskmngr_app/tskmngr.cpp:140
+#: ../../../src/tskmngr_app/tskmngr.cpp:146
 #, c-format
 msgid "The category '%s' loaded"
 msgstr "Категория '%s' загружена"
 
-#: ../../../src/tskmngr_app/tskmngr.cpp:145
+#: ../../../src/tskmngr_app/tskmngr.cpp:151
 #, c-format
 msgid "The category '%s' load failed "
 msgstr "Не удалось загрузить категорию  '%s'."
 
-#: ../../../src/tskmngr_app/tskmngr.cpp:258
+#: ../../../src/tskmngr_app/tskmngr.cpp:264
 msgid "The category name is empty or category is already exist"
 msgstr "Имя категории отсутствует или категория уже создана"
 
-#: ../../../src/tskmngr_app/tskmngr.cpp:279
+#: ../../../src/tskmngr_app/tskmngr.cpp:285
 msgid "Create category directory failed"
 msgstr "Не удалось создать папку для категории"
 
@@ -200,131 +200,129 @@ msgstr "Не удалось создать папку для категории"
 msgid " service"
 msgstr "служба"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:62
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:92
 msgid "Another program instance is already running, aborting."
 msgstr "Программа уже запущена, выход."
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:114
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:131
 msgid "Press 'q' to quit.\n"
 msgstr "Нажмите 'q' для выхода.\n"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:132
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
-
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:139
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
-
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:155
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:176
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:148
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:169
 msgid "The version of this program"
 msgstr "Версия программы"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:156
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:177
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:149
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:170
 msgid "Run the wxGIS task manager in standalone mode. Press 'q' to quit."
 msgstr "Выполнение менеджера задач как приложения. Нажмите 'q' для выхода. "
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:158
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:179
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:151
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:172
 msgid "Install wxGIS task manager as service"
 msgstr "Установка сервиса менеджера задач"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:159
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:180
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:152
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:173
 msgid "Uninstall wxGIS task manager service"
 msgstr "Удаление сервиса менеджера задач"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:161
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:182
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:154
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:175
 msgid "Start wxGIS task manager service"
 msgstr "Запуск менеджера задач как сервиса"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:162
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:183
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:155
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:176
 msgid "Start wxGIS task manager from client application"
 msgstr "Запуск менеджера задач из приложения"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:164
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:185
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:157
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:178
 #, c-format
 msgid ""
 "%s (%s)\n"
-"Author: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\n"
+"Author: Dmitry Baryshnikov (aka Bishop), polimax@mail.ru\n"
 "Copyright (c) 2012-%d"
 msgstr ""
 "%s (%s)\n"
 "Автор: Барышников Дмитрий (Bishop), polimax@mail.ru\n"
 "Copyright (c) 2012-%d"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:169
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:162
 #, c-format
 msgid ""
 "%s (%s)\n"
-"Author: Bishop (aka Baryshnikov Dmitriy), polimax@mail.ru\n"
+"Author: Dmitry Baryshnikov (aka Bishop), polimax@mail.ru\n"
 "Copyright (c) 2012-%d\n"
 msgstr ""
 "%s (%s)\n"
 "Автор: Барышников Дмитрий (Bishop), polimax@mail.ru\n"
 "Copyright (c) 2012-%d\n"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:225
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:210
 msgid "install service failed"
 msgstr "не удалось установить сервис "
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:238
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:223
 msgid "uninstall service failed"
 msgstr "не удалось удалить сервис "
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:295
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:280
 #, c-format
 msgid "%s %s is initializing..."
 msgstr "%s %s инициализация..."
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:323
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:308
 #, c-format
 msgid "%s %s run"
 msgstr "%s %s старт"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:332
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:317
 #, c-format
 msgid "%s %s exit run state"
 msgstr "%s %s зывершение"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:337
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:322
 #, c-format
 msgid "%s %s initialize"
 msgstr "%s %s инициализация"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:343
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:328
 #, c-format
 msgid "%s %s stop"
 msgstr "%s %s остановка"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:351
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:336
 #, c-format
 msgid "%s %s pause"
 msgstr "%s %s пауза"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:358
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:343
 #, c-format
 msgid "%s %s continue"
 msgstr "%s %s возобновление"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:374
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:359
 #, c-format
 msgid "%s %s interrogate"
 msgstr "%s %s interrogate"
 
-#: ../../../src/tskmngr_app/tskmngrapp.cpp:381
+#: ../../../src/tskmngr_app/tskmngrapp.cpp:366
 #, c-format
 msgid "%s %s shutdown"
 msgstr "%s %s выключение"
 
-#: ../../../include/wxgis/tskmngr_app/tskmngrapp.h:70
+#: ../../../include/wxgis/tskmngr_app/tskmngrapp.h:72
 msgid "Task Manager"
 msgstr "Менеджер задач"
+
+#~ msgid "Could not create the thread!"
+#~ msgstr "Не удалось создать поток!"
+
+#~ msgid "Could not run the thread!"
+#~ msgstr "Не удалось запустить поток!"
 
 #, fuzzy
 #~ msgid "Invalid input net message"

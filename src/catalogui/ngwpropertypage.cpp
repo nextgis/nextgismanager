@@ -30,6 +30,8 @@
 #include <wx/valtext.h>
 
 
+#include "wxgis/core/json/jsonwriter.h"
+
 //--------------------------------------------------------------------------
 // wxGISNGWResourcePropertyPage
 //--------------------------------------------------------------------------
@@ -351,6 +353,10 @@ bool wxGISNGWMetaPropertyPage::FillProperties(wxGxSelection* const pSel)
 				{
 					oFullMetatdata = pResource->GetMetadata();
 					pService = pResource->GetNGWService();
+					
+						/*wxJSONWriter wr;
+						wxString sTest;
+						wr.Write(oFullMetatdata, sTest);*/
 				}
 				else
 				{

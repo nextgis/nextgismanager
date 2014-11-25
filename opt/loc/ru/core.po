@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 00:17+0300\n"
-"PO-Revision-Date: 2014-09-25 00:17+0300\n"
+"POT-Creation-Date: 2014-11-25 23:14+0300\n"
+"PO-Revision-Date: 2014-11-25 23:14+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,32 +13,11 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/core\n"
 "X-Poedit-SearchPath-1: ../../../src/core\n"
-
-#: ../../../src/core/config.cpp:563
-#, c-format
-msgid "Failed to save config '%s'"
-msgstr "Ошибка сохранения файла конфигурации '%s'"
-
-#: ../../../src/core/crypt.cpp:189
-msgid "Crypt: Failed EVP_EncryptInit!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
-
-#: ../../../src/core/crypt.cpp:203
-msgid "Crypt: Failed EVP_EncryptUpdate!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
-
-#: ../../../src/core/crypt.cpp:233
-msgid "Decrypt: Failed EVP_DecryptInit!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
-
-#: ../../../src/core/crypt.cpp:248
-msgid "Decrypt: Failed EVP_DecryptUpdate!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
 
 #: ../../../src/core/format.cpp:33 ../../../src/core/format.cpp:480
 msgid "W"
@@ -57,6 +36,14 @@ msgstr "ВД"
 #: ../../../src/core/format.cpp:473
 msgid "N"
 msgstr "СШ"
+
+#: ../../../src/core/process.cpp:49
+msgid "Could not create the thread!"
+msgstr "Не удалось создать поток!"
+
+#: ../../../src/core/process.cpp:56
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
 
 #: ../../../src/core/init.cpp:72
 #, c-format
@@ -99,86 +86,99 @@ msgstr "Хост  '%s': ОС - %s, свободная память - %s"
 msgid "wxGISInitializer: Log file: %s"
 msgstr "wxGISInitializer: Файл журнала: %s"
 
-#: ../../../src/core/init.cpp:232
-msgid "wxGISInitializer: Initialize locale"
-msgstr "wxGISInitializer: Инициализация локализации"
+#: ../../../src/core/init.cpp:233
+msgid "Initialize locale"
+msgstr "Инициализация локализации"
 
 #: ../../../src/core/init.cpp:244
 #, c-format
-msgid "wxGISInitializer: Language is set to %s"
-msgstr "wxGISInitializer: Выбран язык %s"
+msgid "Language is set to %s"
+msgstr "Выбран язык %s"
 
 #: ../../../src/core/init.cpp:245
 #, c-format
-msgid "wxGISInitializer: Language locale files path '%s'"
-msgstr "wxGISInitializer: Папка файлов локализации '%s'"
+msgid "Language locale files path '%s'"
+msgstr "Папка файлов локализации '%s'"
 
-#: ../../../src/core/init.cpp:403
+#: ../../../src/core/init.cpp:415
 msgid "Register service handler failed"
 msgstr "Не удалось зарегистрировать обработчик"
 
-#: ../../../src/core/init.cpp:415
+#: ../../../src/core/init.cpp:427
 msgid "Service started successfuly"
 msgstr "Сервис запущен"
 
-#: ../../../src/core/init.cpp:437
+#: ../../../src/core/init.cpp:449
 msgid "Service stopped"
 msgstr "Сервис установлен"
 
-#: ../../../src/core/init.cpp:444
+#: ../../../src/core/init.cpp:456
 msgid "Service paused"
 msgstr "Сервис поставлен на паузу"
 
-#: ../../../src/core/init.cpp:451
+#: ../../../src/core/init.cpp:463
 msgid "Service continue"
 msgstr "Сервис возобнавлен"
 
-#: ../../../src/core/init.cpp:463
+#: ../../../src/core/init.cpp:475
 msgid "Bad request"
 msgstr "Запрос с ошибкой"
 
-#: ../../../src/core/init.cpp:557
+#: ../../../src/core/init.cpp:569
 msgid "Could not open the message source registry key."
 msgstr "Не удалось найти источник сообщений"
 
-#: ../../../src/core/init.cpp:561
+#: ../../../src/core/init.cpp:573
 msgid "Could not set the event message file registry value."
 msgstr "Не удалось установить файл сообщений "
 
-#: ../../../src/core/init.cpp:566
+#: ../../../src/core/init.cpp:578
 msgid "Could not set the supported types."
 msgstr "Не удалось установить поддерживаемые типы"
 
-#: ../../../src/core/init.cpp:568
+#: ../../../src/core/init.cpp:580
 msgid "Service installed"
 msgstr "Сервис утановлен"
 
-#: ../../../src/core/init.cpp:608
+#: ../../../src/core/init.cpp:620
 msgid "Service uninstalled"
 msgstr "Сервис удален"
 
-#: ../../../src/core/init.cpp:670 ../../../src/core/init.cpp:679
+#: ../../../src/core/init.cpp:682 ../../../src/core/init.cpp:691
 msgid "Cannot disassociate from controlling TTY"
 msgstr "Не удалось отключится от консоли"
 
-#: ../../../src/core/process.cpp:203
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
+#: ../../../src/core/crypt.cpp:189
+msgid "Crypt: Failed EVP_EncryptInit!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
 
-#: ../../../src/core/process.cpp:214
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
+#: ../../../src/core/crypt.cpp:203
+msgid "Crypt: Failed EVP_EncryptUpdate!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
 
-#: ../../../include/wxgis/core/core.h:175
+#: ../../../src/core/crypt.cpp:233
+msgid "Decrypt: Failed EVP_DecryptInit!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
+
+#: ../../../src/core/crypt.cpp:248
+msgid "Decrypt: Failed EVP_DecryptUpdate!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
+
+#: ../../../src/core/config.cpp:581
+#, c-format
+msgid "Failed to save config '%s'"
+msgstr "Ошибка сохранения файла конфигурации '%s'"
+
+#: ../../../include/wxgis/core/core.h:177
 msgid "wxGISCore"
 msgstr "wxGISCore"
 
-#: ../../../include/wxgis/core/core.h:178
+#: ../../../include/wxgis/core/core.h:180
 #, c-format
 msgid "%s: Can't create %s Thread!"
 msgstr "%s: Не удалось создать поток %s!"
 
-#: ../../../include/wxgis/core/core.h:184
+#: ../../../include/wxgis/core/core.h:186
 #, c-format
 msgid "%s: Can't run %s Thread!"
 msgstr "%s: Не удалось запустить поток %s!"

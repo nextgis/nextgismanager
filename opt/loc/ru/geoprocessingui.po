@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 00:17+0300\n"
-"PO-Revision-Date: 2014-09-25 00:23+0300\n"
-"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-11-25 23:14+0300\n"
+"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,65 +13,20 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/geoprocessingui\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/geoprocessingui\n"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:82
-msgid "Show/Hide &Toolbox panel"
-msgstr "Показать/Скрыть панель &наборов инструментов"
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:48
+msgid "Toolbox"
+msgstr "Набор инструментов"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:84
-msgid "&Export"
-msgstr "&Экспорт"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:86
-msgid "E&xport with parameters"
-msgstr "Э&кспорт с параметрами"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:88
-msgid "Export &attributes"
-msgstr "Экспорт &атрибутов"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:99
-msgid "View"
-msgstr "Вид"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:103
-#: ../../../src/geoprocessingui/taskcmd.cpp:109
-msgid "Geoprocessing"
-msgstr "Геопроцессинг"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:205
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:386
-msgid "Show/Hide Toolbox panel"
-msgstr "Показать/Скрыть панель наборов инструментов"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:207
-msgid "Export selected item(s) to another format"
-msgstr "Экспорт в другой формат"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:209
-msgid "Export selected item to another format"
-msgstr "Экспорт в другой формат"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:211
-msgid "Export selected item attributes"
-msgstr "Экспорт атрибутов выбранного объекта"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:388
-msgid "Export item(s)"
-msgstr "Экспорт элемента(ов)"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:390
-msgid "Export item with parameters"
-msgstr "Экспорт в другой формат с параметрами"
-
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:392
-msgid "Export item's attributes"
-msgstr "Экспорт атрибутов"
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:156
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:187
+msgid "Toolboxes"
+msgstr "Наборы инструментов"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:152
 #: ../../../src/geoprocessingui/gpcontrols.cpp:550
@@ -129,14 +84,40 @@ msgstr "Системы координат"
 msgid "Unsupported Spatial reference"
 msgstr "Система координат не поддерживается"
 
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:48
-msgid "Toolbox"
-msgstr "Набор инструментов"
+#: ../../../src/geoprocessingui/taskcmd.cpp:89
+msgid "Show tool dialog"
+msgstr "Показать диалог инструмента"
 
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:156
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:187
-msgid "Toolboxes"
-msgstr "Наборы инструментов"
+#: ../../../src/geoprocessingui/taskcmd.cpp:91
+msgid "Show execution dialog"
+msgstr "Показать диалог исполнения"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:93
+#: ../../../src/geoprocessingui/taskcmd.cpp:221
+#: ../../../src/geoprocessingui/taskcmd.cpp:310
+msgid "Start task"
+msgstr "Запустить задачу"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:95
+#: ../../../src/geoprocessingui/taskcmd.cpp:223
+#: ../../../src/geoprocessingui/taskcmd.cpp:312
+msgid "Stop task"
+msgstr "Остановить задачу"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:109
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:116
+msgid "Geoprocessing"
+msgstr "Геопроцессинг"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:217
+#: ../../../src/geoprocessingui/taskcmd.cpp:306
+msgid "Show tool config dialog"
+msgstr "Показать диалог настройки инструмента"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:219
+#: ../../../src/geoprocessingui/taskcmd.cpp:308
+msgid "Show task execution dialog"
+msgstr "Показать диалог исполнения инструмента"
 
 #: ../../../src/geoprocessingui/gxtoolexecview.cpp:92
 #: ../../../src/geoprocessingui/gxtoolexecview.cpp:102
@@ -177,35 +158,66 @@ msgstr "выделено %ld объектов (файлов)"
 msgid "%d objects selected"
 msgstr "выделено %d объектов (файлов)"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:89
-msgid "Show tool dialog"
-msgstr "Показать диалог инструмента"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:92
+msgid "Show/Hide &Toolbox panel"
+msgstr "Показать/Скрыть панель &наборов инструментов"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:91
-msgid "Show execution dialog"
-msgstr "Показать диалог исполнения"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:94
+msgid "&Export"
+msgstr "&Экспорт"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:93
-#: ../../../src/geoprocessingui/taskcmd.cpp:221
-#: ../../../src/geoprocessingui/taskcmd.cpp:310
-msgid "Start task"
-msgstr "Запустить задачу"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:96
+msgid "E&xport with parameters"
+msgstr "Э&кспорт с параметрами"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:95
-#: ../../../src/geoprocessingui/taskcmd.cpp:223
-#: ../../../src/geoprocessingui/taskcmd.cpp:312
-msgid "Stop task"
-msgstr "Остановить задачу"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:98
+msgid "Export &attributes"
+msgstr "Экспорт &атрибутов"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:217
-#: ../../../src/geoprocessingui/taskcmd.cpp:306
-msgid "Show tool config dialog"
-msgstr "Показать диалог настройки инструмента"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:100
+msgid "&Import"
+msgstr "&Импорт"
 
-#: ../../../src/geoprocessingui/taskcmd.cpp:219
-#: ../../../src/geoprocessingui/taskcmd.cpp:308
-msgid "Show task execution dialog"
-msgstr "Показать диалог исполнения инструмента"
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:111
+msgid "View"
+msgstr "Вид"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:234
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:432
+msgid "Show/Hide Toolbox panel"
+msgstr "Показать/Скрыть панель наборов инструментов"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:236
+msgid "Export selected item(s) to another format"
+msgstr "Экспорт в другой формат"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:238
+msgid "Export selected item to another format"
+msgstr "Экспорт в другой формат"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:240
+msgid "Export selected item attributes"
+msgstr "Экспорт атрибутов выбранного объекта"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:242
+msgid "Import into selected item"
+msgstr "Импорт в выбранный элемент"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:434
+msgid "Export item(s)"
+msgstr "Экспорт элемента(ов)"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:436
+msgid "Export item with parameters"
+msgstr "Экспорт в другой формат с параметрами"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:438
+msgid "Export item's attributes"
+msgstr "Экспорт атрибутов"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:440
+msgid "Import into the item"
+msgstr "Импорт в элемент"
 
 #~ msgid "Stop"
 #~ msgstr "Остановить"
