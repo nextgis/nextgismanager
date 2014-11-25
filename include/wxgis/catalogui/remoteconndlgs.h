@@ -242,7 +242,9 @@ protected:
 		ID_REMOTECONNDLG = 1000,
 		ID_TESTBUTTON,
 		ID_CONNNAME,
-		ID_PPCTRL
+		ID_PPCTRL,
+		ID_EXPORT,
+		ID_IMPORT
 	};
 	
 public:
@@ -257,8 +259,10 @@ protected:	//events
 	virtual void OnAddMetadataItem(wxCommandEvent& event);
 	virtual void OnRemoveMetadataItem(wxCommandEvent& event);
 	virtual void OnRemoveMetadataItemUI(wxUpdateUIEvent& event);
-	virtual bool SerializeMetadata(wxXmlNode* pRootNode, bool bSave);
+	virtual void OnExportMetadata(wxCommandEvent& event);
+	virtual void OnImportMetadata(wxCommandEvent& event);
 protected:
+	virtual bool SerializeMetadata(wxXmlNode* pRootNode, bool bSave);
     void CreateUI(bool bHasConnectionPath = true);
     void FillDefaults();
 protected:
@@ -270,8 +274,6 @@ protected:
 	wxStdDialogButtonSizer* m_sdbSizer;
 	wxButton* m_sdbSizerOK;
 	wxButton* m_sdbSizerCancel;
-	wxBitmapButton* m_bpSizerAdd;
-	wxBitmapButton* m_bpSizerDel;
 	wxPropertyGrid* m_pg;
 protected:
 	wxString m_sConnName;

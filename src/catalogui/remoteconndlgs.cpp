@@ -42,6 +42,7 @@
 #include "../../art/open.xpm"
 #include "../../art/list_add.xpm"
 #include "../../art/list_remove.xpm"
+#include "../../art/export.xpm"
 
 #ifdef wxGIS_USE_POSTGRES
 
@@ -1364,6 +1365,8 @@ BEGIN_EVENT_TABLE(wxGISNGWConnDlg, wxDialog)
 	EVT_BUTTON(wxID_ADD, wxGISNGWConnDlg::OnAddMetadataItem)
 	EVT_BUTTON(wxID_REMOVE, wxGISNGWConnDlg::OnRemoveMetadataItem)
 	EVT_UPDATE_UI(wxID_REMOVE, wxGISNGWConnDlg::OnRemoveMetadataItemUI)
+	EVT_BUTTON(ID_IMPORT, wxGISNGWConnDlg::OnImportMetadata)
+	EVT_BUTTON(ID_EXPORT, wxGISNGWConnDlg::OnExportMetadata)
 END_EVENT_TABLE()
 
 wxGISNGWConnDlg::wxGISNGWConnDlg(wxXmlNode* pConnectionNode, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
@@ -1689,10 +1692,20 @@ void wxGISNGWConnDlg::CreateUI(bool bHasConnectionPath)
 	
 	wxBoxSizer* pBoxSizerMetaButtons = new wxBoxSizer( wxVERTICAL );
 	
-	m_bpSizerAdd = new wxBitmapButton( win, wxID_ADD, wxBitmap(list_add_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	pBoxSizerMetaButtons->Add( m_bpSizerAdd, 0, wxALL, 5 );
-	m_bpSizerDel = new wxBitmapButton( win, wxID_REMOVE, wxBitmap(list_remove_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	pBoxSizerMetaButtons->Add( m_bpSizerDel, 0, wxALL, 5 );
+	wxBitmapButton* bpSizerAdd = new wxBitmapButton( win, wxID_ADD, wxBitmap(list_add_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( bpSizerAdd, 0, wxALL, 5 );
+	wxBitmapButton*bpSizerDel = new wxBitmapButton( win, wxID_REMOVE, wxBitmap(list_remove_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( bpSizerDel, 0, wxALL, 5 );
+	
+	wxBitmap oExportOrigin(export_xpm);
+	wxBitmapButton* bpSizerExport = new wxBitmapButton( win, ID_EXPORT, oExportOrigin, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( bpSizerExport, 0, wxALL, 5 );
+	
+	wxImage oImport = oExportOrigin.ConvertToImage();
+	oImport = oImport.Mirror(true);
+				
+	wxBitmapButton* bpSizerImport = new wxBitmapButton( win, ID_IMPORT, wxBitmap(oImport), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	pBoxSizerMetaButtons->Add( bpSizerImport, 0, wxALL, 5 );
 	
 	pBoxSizerMeta->Add( pBoxSizerMetaButtons, 0, wxALL, 0 );
 	
@@ -1767,6 +1780,40 @@ void wxGISNGWConnDlg::OnRemoveMetadataItemUI(wxUpdateUIEvent& event)
 		event.Enable(true);
 	else	
 		event.Enable(false);	
+}
+
+void wxGISNGWConnDlg::OnExportMetadata(wxCommandEvent& event)
+{
+	wxFileDialog saveFileDialog(this, _("Save metadata file"), "", "ngw.meta", "Metadata files (*.meta)|*.meta", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+	if(saveFileDialog.ShowModal() == wxID_OK)
+	{
+		wxString sPath = saveFileDialog.GetPath(); 
+		
+		wxXmlDocument doc;
+		wxXmlNode* pRootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("NGW"));
+		SerializeMetadata(pRootNode, true);
+		doc.SetRoot(pRootNode);
+
+		if(!doc.Save(sPath))
+		{
+			wxGISErrorMessageBox(_("Metadata file create failed!"));
+		}
+	}	
+}
+
+void wxGISNGWConnDlg::OnImportMetadata(wxCommandEvent& event)
+{
+	wxFileDialog openFileDialog(this, _("Open metadata file"), "", "", "Metadata files (*.meta)|*.meta", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+	if(openFileDialog.ShowModal() == wxID_OK)
+	{
+		wxString sPath = openFileDialog.GetPath(); 
+		wxXmlDocument doc(sPath);
+		if(doc.IsOk())
+		{
+			wxXmlNode* pRootNode = doc.GetRoot();
+			SerializeMetadata(pRootNode, false);
+		}
+	}
 }
 
 #endif // wxGIS_USE_CURL
