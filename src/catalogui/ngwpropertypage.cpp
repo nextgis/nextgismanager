@@ -250,12 +250,13 @@ void wxGISNGWMetaPropertyPage::Apply(void)
 		
 	wxJSONValue newMetadata;
 	//create update of metadata in json format
-	wxPropertyGridConstIterator it;
-	for ( it = m_pg->GetIterator(); !it.AtEnd(); it++ ) 
+	for ( wxPropertyGridIterator it = m_pg->GetIterator(); !it.AtEnd(); it++ ) 
 	{
-		const wxPGProperty* p = *it;
+		wxPGProperty* p = *it;
 		if(p->HasFlag(wxPG_PROP_MODIFIED))
 		{
+			p->SetModifiedStatus(false);
+			m_pg->RefreshProperty(p);
 			wxVariant val = p->GetValue();
 			wxString sName;
 			if(p->IsRoot())
@@ -272,11 +273,16 @@ void wxGISNGWMetaPropertyPage::Apply(void)
 					pr = pr->GetParent();
 				}
 				
-				sName = sName.Right(sName.Len() - 1 );//remove leading dot				
+				if(sName.StartsWith(wxT(".Main.")))
+					sName = sName.Right(sName.Len() - 6 );
+				else
+					sName = sName.Right(sName.Len() - 1 );//remove leading dot				
 			}
 			
-			if(p->IsKindOf(wxCLASSINFO(wxStringProperty)) || p->IsKindOf(wxCLASSINFO(wxEnumProperty)) || p->IsKindOf(wxCLASSINFO(wxEditEnumProperty))  || p->IsKindOf(wxCLASSINFO(wxArrayStringProperty)) )
+			if(p->IsKindOf(wxCLASSINFO(wxStringProperty)) || p->IsKindOf(wxCLASSINFO(wxArrayStringProperty)) )
 				newMetadata[sName] = val.GetString();
+			else if( p->IsKindOf(wxCLASSINFO(wxEnumProperty)) || p->IsKindOf(wxCLASSINFO(wxEditEnumProperty)) )	
+				newMetadata[sName] = p->GetChoices().GetLabel(p->GetChoiceSelection());
 			else if	(p->IsKindOf(wxCLASSINFO(wxFloatProperty)))
 				newMetadata[sName] = val.GetDouble();
 			else if	(p->IsKindOf(wxCLASSINFO(wxIntProperty)) || p->IsKindOf(wxCLASSINFO(wxUIntProperty)))
@@ -479,7 +485,10 @@ void wxGISNGWMetaPropertyPage::FillGrid(const wxJSONValue& metadata)
 	for ( size_t i = 0; i < saKeys.GetCount(); ++i ) //wxEnumProperty wxEditEnumProperty  wxArrayStringProperty 
 	{    
 		wxString sResultName;
-		wxPGProperty* pProp = GetSubProperty(m_pg->GetRoot(), saKeys[i], sResultName);
+		wxString sName = saKeys[i];
+		if(!sName.StartsWith(wxT("Custom.")))
+			sName.Prepend(wxT("Main."));
+		wxPGProperty* pProp = GetSubProperty(m_pg->GetRoot(), sName, sResultName);
 		switch(metadata[saKeys[i]].GetType())
 		{
 			case wxJSONTYPE_STRING:									
