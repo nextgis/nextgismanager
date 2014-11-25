@@ -34,10 +34,10 @@
  */
 
 
-class WXDLLIMPEXP_GIS_FRW wxGISCreateMetadataItemDlg : public wxDialog 
+class WXDLLIMPEXP_GIS_CLU wxGISCreateMetadataItemDlg : public wxDialog
 {
 public:
-	wxGISCreateMetadataItemDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Create new metadata item"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+    wxGISCreateMetadataItemDlg(const wxArrayString &choices, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Create new metadata item"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
 	virtual ~wxGISCreateMetadataItemDlg();
 	virtual const wxString& GetItemName() const;
 	virtual const wxString& GetItemType() const; 

@@ -52,7 +52,7 @@
 // wxGISCreateMetadataItemDlg
 //-------------------------------------------------------------------------------
 
-wxGISCreateMetadataItemDlg::wxGISCreateMetadataItemDlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+wxGISCreateMetadataItemDlg::wxGISCreateMetadataItemDlg(const wxArrayString &choices, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
 {
 	
 	wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -73,11 +73,6 @@ wxGISCreateMetadataItemDlg::wxGISCreateMetadataItemDlg( wxWindow* parent, wxWind
 	staticText->Wrap( -1 );
 	fgSizer->Add( staticText, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );	
 	
-	wxArrayString choices;
-	choices.Add(_("String"));
-	choices.Add(_("String list"));
-	choices.Add(_("Float"));
-	choices.Add(_("Integer"));
 	wxChoice *choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices, 0 , wxGenericValidator(&m_sMetadataItemType));
 	choice->SetSelection( 0 );
 	fgSizer->Add( choice, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
@@ -1736,9 +1731,15 @@ void wxGISNGWConnDlg::OnAddMetadataItem(wxCommandEvent& event)
 {
 	if(!m_pg)
 		return;
-	
+
+    wxArrayString choices;
+    choices.Add(_("String"));
+    choices.Add(_("String list"));
+    choices.Add(_("Float"));
+    choices.Add(_("Integer"));
+
 	//show add new metadata item dialog
-	wxGISCreateMetadataItemDlg dlg(this);
+    wxGISCreateMetadataItemDlg dlg(choices, this);
 	if(dlg.ShowModal() == wxID_OK)
 	{		
 		//check uniq name
