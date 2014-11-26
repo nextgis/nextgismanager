@@ -945,7 +945,7 @@ void wxGxContentView::RefreshAll(void)
 
 void wxGxContentView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	if(event.GetInitiator() == GetId())
+	if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID)
 		return;
 
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_pSelection->GetLastSelectedObjectId());

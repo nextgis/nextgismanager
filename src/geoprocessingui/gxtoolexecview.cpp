@@ -434,7 +434,7 @@ void wxGISToolExecuteView::RefreshAll(void)
 
 void wxGISToolExecuteView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	if(event.GetInitiator() == GetId())
+	if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID)
 		return;
     long nSelId = m_pSelection->GetLastSelectedObjectId();
     wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(nSelId);

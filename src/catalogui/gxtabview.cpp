@@ -145,7 +145,7 @@ wxWindow* wxGxTab::GetWindow(int iIndex)
 void wxGxTab::OnSelectionChanged(wxGxSelectionEvent& event)
 {
     //wxLogDebug(wxT("wxGxTab::OnSelectionChanged"));
-	if(event.GetInitiator() == GetId())
+	if(event.GetInitiator() == GetId()  || event.GetInitiator() == NOTFIRESELID)
 		return;
 
     //if(!IsShown())
@@ -471,7 +471,7 @@ void wxGxTabView::Deactivate(void)
 void wxGxTabView::OnSelectionChanged(wxGxSelectionEvent& event)
 {
     //wxLogDebug(wxT("wxGxTabView::OnSelectionChanged"));
-    if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID)
+    if(event.GetInitiator() == GetId())
 		return;
 
     int nSelTab = GetSelection();

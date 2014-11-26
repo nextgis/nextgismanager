@@ -781,7 +781,7 @@ bool wxGISRasterDataset::GetPixelData(void *data, int nXOff, int nYOff, int nXSi
 {
     CPLErrorReset();
 
-    CPLErr err = CE_None;
+    CPLErr err = CE_Failure;
 
   //  CPLErr err = m_poDataset->AdviseRead(nXOff, nYOff, nXSize, nYSize, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, NULL);
   //  if(err != CE_None)
@@ -801,7 +801,14 @@ bool wxGISRasterDataset::GetPixelData(void *data, int nXOff, int nYOff, int nXSi
 		nLineSpace = nBufXSize * nPixelSpace;
 		nBandSpace = nDataSize;
 	}
-    err = m_poDataset->RasterIO(GF_Read, nXOff, nYOff, nXSize, nYSize, data, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, nPixelSpace, nLineSpace, nBandSpace);
+	
+	try{
+		err = m_poDataset->RasterIO(GF_Read, nXOff, nYOff, nXSize, nYSize, data, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, nPixelSpace, nLineSpace, nBandSpace);
+	}
+	catch(...){
+		
+	}
+	
     if(err != CE_None)
     {
         const char* pszerr = CPLGetLastErrorMsg();

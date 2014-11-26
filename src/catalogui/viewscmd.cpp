@@ -25,11 +25,7 @@
 #include "../../art/views.xpm"
 #include "../../art/treeview.xpm"
 #include "../../art/select_all.xpm"
-
-//	0	ContentsView states
-//	1	Select All
-//  2   Show/hide tree view
-//  3   ?
+#include "../../art/system_search.xpm"
 
 //------------------------------------------------------------------------
 // wxGISCatalogViewsCmd
@@ -50,18 +46,22 @@ wxIcon wxGISCatalogViewsCmd::GetBitmap(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
 			if(!m_IconViews.IsOk())
 				m_IconViews = wxIcon(views_xpm);
 			return m_IconViews;
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
 			if(!m_IconSelAll.IsOk())
 				m_IconSelAll = wxIcon(select_all_xpm);
 			return m_IconSelAll;
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
 			if(!m_IconTreeView.IsOk())
 				m_IconTreeView = wxIcon(treeview_xpm);
 			return m_IconTreeView;
+		case enumGISCatalogViewsCmdFind:
+			if(!m_IconFind.IsOk())
+				m_IconFind = wxIcon(system_search_xpm);
+			return m_IconFind;
 		default:
 			return wxNullIcon;
 	}
@@ -71,12 +71,14 @@ wxString wxGISCatalogViewsCmd::GetCaption(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
 			return wxString(_("View"));
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
 			return wxString(_("Select All"));
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
 			return wxString(_("Show/Hide Tree panel"));
+		case enumGISCatalogViewsCmdFind:
+			return wxString(_("Find"));		
 		default:
 			return wxEmptyString;
 	}
@@ -86,10 +88,11 @@ wxString wxGISCatalogViewsCmd::GetCategory(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
-		case 2:
+		case enumGISCatalogViewsCmdView:
+		case enumGISCatalogViewsCmdTreePanel:
+		case enumGISCatalogViewsCmdFind:
 			return wxString(_("View"));
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
 			return wxString(_("Edit"));
 		default:
 			return NO_CATEGORY;

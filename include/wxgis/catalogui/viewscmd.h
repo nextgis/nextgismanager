@@ -24,6 +24,15 @@
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/catalogui/gxtabview.h"
 
+
+enum wxGISEnumCatalogViewsCmdType{
+    enumGISCatalogViewsCmdView = 0,
+	enumGISCatalogViewsCmdSelectAll,
+	enumGISCatalogViewsCmdTreePanel,
+	enumGISCatalogViewsCmdFind,
+    enumGISCatalogViewsCmdMax
+};
+
 /** @class wxGISCatalogViewsCmd
 
     The main catalog views commands includes: "ContentsView states", "Select All", "Show/hide tree view".
@@ -60,5 +69,5 @@ protected:
 	wxGISApplicationBase* m_pApp;
     WINDOWARRAY m_anContentsWinIDs;
     wxWindow* m_pTreeView;
-	wxIcon m_IconViews, m_IconSelAll, m_IconTreeView;
+	wxIcon m_IconViews, m_IconSelAll, m_IconTreeView, m_IconFind;
 };

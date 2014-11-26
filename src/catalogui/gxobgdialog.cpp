@@ -144,7 +144,8 @@ void wxTreeViewComboPopup::OnMouseClick(wxMouseEvent& event)
 
 void wxTreeViewComboPopup::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-	if(event.GetInitiator() == GetId())
+	
+	if(event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID || NULL == m_pSelection || NULL == m_pCatalog)
 		return;
 
     long nSelID = m_pSelection->GetLastSelectedObjectId();
