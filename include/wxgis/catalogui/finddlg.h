@@ -22,110 +22,71 @@
 #pragma once
 
 #include "wxgis/catalogui/catalogui.h"
+#include "wxgis/catalogui/gxobjdialog.h"
 
-/*
 #include "wxgis/framework/applicationbase.h"
-#include "wxgis/catalogui/gxselection.h"
-#include "wxgis/catalogui/gxeventui.h"
 
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
-#include <wx/aui/auibook.h>
 
-/** @class wxGxPropertyPage
- * 
- *  The abstract class of all GxObject Property Pages
- * 
- * @library{catalogui}
- */
- /*
-class wxGxPropertyPage : public wxPanel
-{
-    DECLARE_ABSTRACT_CLASS(wxGxPropertyPage)
-public:
-	wxGxPropertyPage();
-    /** \fn virtual ~wxGxPropertyPage(void)
-     *  \brief A destructor.
-     *//*
-    virtual ~wxGxPropertyPage(void);	
-	virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel")) = 0;
-    /** \fn virtual wxString GetPageName(void)
-     *  \brief Get the property page name.
-     *  \return The property page name
-     *//*
-    virtual wxString GetPageName(void) const;
-    /** \fn  virtual void Apply(void)
-     *  \brief Executed when Apply is pressed
-     *//*
-	virtual wxBitmap GetIcon() const; 
-    virtual void Apply(void) = 0;
-	virtual bool CanApply() const = 0;
-	virtual bool CanMerge() const;
-	virtual bool FillProperties(wxGxSelection* const pSel) = 0;
-protected:
-	ITrackCancel* m_pTrackCancel;
-	bool m_bCanMerge;
-	wxString m_sPageName;
-	wxBitmap m_PageIcon;
-};
+/** @class wxGISFindDlg
 
-/** @class wxGISPropertyDlg
-
-    The wxGISPropertyDlg class is dialog/panel window with the GxObject properties
+    The wxGISFindDlg class is dialog/panel window find GxObjects
 
     @library{catalogui}
- *//*
+ */
 
-class wxGISPropertyDlg : 
+class wxGISFindDlg : 
 	public wxPanel,
 	public ITrackCancel
 {
 protected:
 	enum
 	{
-		ID_WXGPROPERTYDLG = 1001
+		ID_WXGXFINDDLG = 1001
 	};
-	DECLARE_DYNAMIC_CLASS(wxGISPropertyDlg)
+	DECLARE_DYNAMIC_CLASS(wxGISFindDlg)
 public:
-	wxGISPropertyDlg(void);
-	wxGISPropertyDlg( wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
-	virtual ~wxGISPropertyDlg();
-    virtual bool Create(wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("PropertyView"));
-	virtual void Update(wxGxSelection* const pSel);
+	wxGISFindDlg(void);
+	wxGISFindDlg( wxWindow* parent, wxWindowID id = ID_WXGXFINDDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL );
+	virtual ~wxGISFindDlg();
+    virtual bool Create(wxWindow* parent, wxWindowID id = ID_WXGXFINDDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("FindView"));
 	//events
-	virtual void OnApply(wxCommandEvent& event);
-	virtual void OnApplyUI(wxUpdateUIEvent& event);
+	virtual void OnFind(wxCommandEvent& event);
+	virtual void OnFindUI(wxUpdateUIEvent& event);
 protected:
 	wxBoxSizer* m_bMainSizer;
-	wxAuiNotebook* m_pTabs;
-	wxButton* m_sdbSizerApply;
+	wxButton* m_sdbSizerFind;
 	wxXmlNode* m_pConf;
+    wxTreeViewComboPopup* m_PopupCtrl;
+	wxTextCtrl *m_pFindCtrl;
 protected:
     wxString m_sAppName;
+	wxString m_sFind;
 private:
     DECLARE_EVENT_TABLE()
 };
 
-/** @class wxAxPropertyView
+/** @class wxAxFindView
 
-    The wxAxPropertyView dock window with GxObject properties
+    The wxAxFindView dock window with find GxObjects
 
     @library{catalogui}
-*//*
+*/
 
-class WXDLLIMPEXP_GIS_CLU wxAxPropertyView :
-	public wxGISPropertyDlg,
+class WXDLLIMPEXP_GIS_CLU wxAxFindView :
+	public wxGISFindDlg,
 	public IView
 {
 protected:
-    DECLARE_DYNAMIC_CLASS(wxAxPropertyView)
+    DECLARE_DYNAMIC_CLASS(wxAxFindView)
 public:
-    wxAxPropertyView(void);
-	wxAxPropertyView(wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
-	virtual ~wxAxPropertyView(void);
+    wxAxFindView(void);
+	wxAxFindView(wxWindow* parent, wxWindowID id = ID_WXGXFINDDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
+	virtual ~wxAxFindView(void);
 //IView
-    virtual bool Create(wxWindow* parent, wxWindowID id = ID_WXGPROPERTYDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxBORDER_NONE | wxTAB_TRAVERSAL, const wxString& name = wxT("PropertyView"));
+    virtual bool Create(wxWindow* parent, wxWindowID id = ID_WXGXFINDDLG, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxBORDER_NONE | wxTAB_TRAVERSAL, const wxString& name = wxT("PropertyView"));
 	virtual bool Activate(IApplication* const pApplication, wxXmlNode* const pConf);
 	virtual void Deactivate(void);
 	virtual void Refresh(void){};
@@ -135,14 +96,9 @@ public:
 	//ITrackCancel	
 	virtual IProgressor* const GetProgressor(void);
 	virtual void PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType);
-	//events
-	void OnSelectionChanged(wxGxSelectionEvent& event);
 protected:
 	wxString m_sViewName;
     wxGISApplicationBase* m_pApp;
-	wxGxSelection* m_pSelection;
-	long m_ConnectionPointSelectionCookie;
 private:
     DECLARE_EVENT_TABLE()
 };
-*/

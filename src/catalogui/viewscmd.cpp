@@ -21,6 +21,7 @@
 #include "wxgis/catalogui/viewscmd.h"
 
 #include "wxgis/catalogui/gxtreeview.h"
+#include "wxgis/catalogui/finddlg.h"
 
 #include "../../art/views.xpm"
 #include "../../art/treeview.xpm"
@@ -36,6 +37,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGISCatalogViewsCmd, wxGISCommand)
 wxGISCatalogViewsCmd::wxGISCatalogViewsCmd(void) : wxGISCommand()
 {
      m_pTreeView = NULL;
+	 m_pFindView = NULL;
 }
 
 wxGISCatalogViewsCmd::~wxGISCatalogViewsCmd(void)
@@ -103,11 +105,14 @@ bool wxGISCatalogViewsCmd::GetChecked(void)
 {
 	switch(m_subtype)
 	{
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
             if(m_pTreeView)
                 return m_pApp->IsApplicationWindowShown(m_pTreeView);
-		case 0:
-		case 1:
+		case enumGISCatalogViewsCmdFind:
+            if(m_pFindView)
+                return m_pApp->IsApplicationWindowShown(m_pFindView);
+		case enumGISCatalogViewsCmdView:
+		case enumGISCatalogViewsCmdSelectAll:
 		default:
 	        return false;
 	}
@@ -120,7 +125,11 @@ bool wxGISCatalogViewsCmd::GetEnabled(void)
 	{
         m_pTreeView = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxGxTreeView));
 	}
-
+    if(NULL == m_pFindView)
+	{
+        m_pFindView = m_pApp->GetRegisteredWindowByType(wxCLASSINFO(wxAxFindView));
+	}
+	
 	if(m_anContentsWinIDs.empty())
 	{
 		WINDOWARRAY WinIDsArr = m_pApp->GetChildWindows();
@@ -135,10 +144,12 @@ bool wxGISCatalogViewsCmd::GetEnabled(void)
 
     switch(m_subtype)
 	{
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
             return NULL != m_pTreeView;
-		case 0:
-		case 1:
+		case enumGISCatalogViewsCmdFind:
+            return NULL != m_pFindView;
+		case enumGISCatalogViewsCmdView:
+		case enumGISCatalogViewsCmdSelectAll:
             for(size_t i = 0; i < m_anContentsWinIDs.GetCount(); ++i)
             {
                 wxWindow* pWnd = wxWindow::FindWindowById(m_anContentsWinIDs[i]);
@@ -154,11 +165,12 @@ wxGISEnumCommandKind wxGISCatalogViewsCmd::GetKind(void)
 {
 	switch(m_subtype)
 	{
-		case 0://View
+		case enumGISCatalogViewsCmdView:
 			return enumGISCommandDropDown;
-		case 2://Show/Hide Tree Pane
+		case enumGISCatalogViewsCmdFind:	
+		case enumGISCatalogViewsCmdTreePanel:
             return enumGISCommandCheck;
-        case 1://Select All
+        case enumGISCatalogViewsCmdSelectAll:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -168,12 +180,14 @@ wxString wxGISCatalogViewsCmd::GetMessage(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
 			return wxString(_("Select view"));
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
 			return wxString(_("Select All objects"));
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
 			return wxString(_("Show/Hide Tree panel"));
+		case enumGISCatalogViewsCmdFind:
+			return wxString(_("Show/Hide Find panel"));
 		default:
 			return wxEmptyString;
 	}
@@ -183,7 +197,7 @@ void wxGISCatalogViewsCmd::OnClick(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
             for(size_t i = 0; i < m_anContentsWinIDs.GetCount(); ++i)
             {
                 wxWindow* pWnd = wxWindow::FindWindowById(m_anContentsWinIDs[i]);
@@ -203,7 +217,7 @@ void wxGISCatalogViewsCmd::OnClick(void)
                 }
             }
 			break;
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
             for(size_t i = 0; i < m_anContentsWinIDs.GetCount(); ++i)
             {
                 wxWindow* pWnd = wxWindow::FindWindowById(m_anContentsWinIDs[i]);
@@ -218,8 +232,12 @@ void wxGISCatalogViewsCmd::OnClick(void)
                 }
             }
 			break;
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
             m_pApp->ShowApplicationWindow(m_pTreeView, !m_pApp->IsApplicationWindowShown(m_pTreeView));
+			return;
+		case enumGISCatalogViewsCmdFind:
+            m_pApp->ShowApplicationWindow(m_pFindView, !m_pApp->IsApplicationWindowShown(m_pFindView));
+			return;
 		default:
 			return;
 	}
@@ -235,12 +253,14 @@ wxString wxGISCatalogViewsCmd::GetTooltip(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
 			return wxString(_("Select view"));
-		case 1:
+		case enumGISCatalogViewsCmdSelectAll:
 			return wxString(_("Select All"));
-		case 2:
+		case enumGISCatalogViewsCmdTreePanel:
 			return wxString(_("Show/Hide Tree panel"));
+		case enumGISCatalogViewsCmdFind:
+			return wxString(_("Show/Hide Find panel"));
 		default:
 			return wxEmptyString;
 	}
@@ -248,14 +268,14 @@ wxString wxGISCatalogViewsCmd::GetTooltip(void)
 
 unsigned char wxGISCatalogViewsCmd::GetCount(void)
 {
-	return 3;
+	return enumGISCatalogViewsCmdMax;
 }
 
 wxMenu* wxGISCatalogViewsCmd::GetDropDownMenu(void)
 {
 	switch(m_subtype)
 	{
-		case 0:
+		case enumGISCatalogViewsCmdView:
         {
 			if(GetEnabled())
 			{

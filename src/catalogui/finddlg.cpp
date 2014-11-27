@@ -21,66 +21,37 @@
  ****************************************************************************/
 #include "wxgis/catalogui/finddlg.h"
 
-/*
+
 #include "wxgis/catalogui/gxapplication.h"
-#include "wxgis/framework/tabstyle.h"
 #include "wxgis/catalog/gxcatalog.h"
 
 #include <wx/statline.h>
+#include <wx/valgen.h>
+#include <wx/valtext.h>
 
 //-------------------------------------------------------------------
-// IGxPropertyPage
+// wxGISFindDlg
 //-------------------------------------------------------------------
-IMPLEMENT_ABSTRACT_CLASS(wxGxPropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISFindDlg, wxPanel)
 
-wxGxPropertyPage::wxGxPropertyPage()
-{
-	m_bCanMerge = false;
-	m_PageIcon = wxNullBitmap;	
-	m_pTrackCancel = NULL;
-}
- 
-wxGxPropertyPage::~wxGxPropertyPage(void)
-{
-	
-}
-
-bool wxGxPropertyPage::CanMerge() const
-{
-	return m_bCanMerge;
-}
-
-wxString wxGxPropertyPage::GetPageName(void) const
-{
-	return m_sPageName;
-}
-
-wxBitmap wxGxPropertyPage::GetIcon() const
-{
-	return m_PageIcon;
-}
-
-//-------------------------------------------------------------------
-// wxGISPropertyDlg
-//-------------------------------------------------------------------
-IMPLEMENT_DYNAMIC_CLASS(wxGISPropertyDlg, wxPanel)
-
-BEGIN_EVENT_TABLE(wxGISPropertyDlg, wxPanel)
-    EVT_BUTTON(wxID_APPLY, wxGISPropertyDlg::OnApply)
-	EVT_UPDATE_UI(wxID_APPLY, wxGISPropertyDlg::OnApplyUI)
+BEGIN_EVENT_TABLE(wxGISFindDlg, wxPanel)
+    EVT_BUTTON(wxID_OK, wxGISFindDlg::OnFind)
+	EVT_UPDATE_UI(wxID_OK, wxGISFindDlg::OnFindUI)
 END_EVENT_TABLE()
 
 
-wxGISPropertyDlg::wxGISPropertyDlg( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : ITrackCancel()
+wxGISFindDlg::wxGISFindDlg( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : ITrackCancel()
 {
+	m_PopupCtrl = NULL;
 	Create(parent, id, pos, size, style);
 }
 
-wxGISPropertyDlg::wxGISPropertyDlg(void) : ITrackCancel()
+wxGISFindDlg::wxGISFindDlg(void) : ITrackCancel()
 {
+	m_PopupCtrl = NULL;
 }
 
-bool wxGISPropertyDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
 	if(!wxPanel::Create( parent, id, pos, size, style, name ))
 		return false;
@@ -95,19 +66,46 @@ bool wxGISPropertyDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& po
 
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
 
-	m_pTabs	= new wxAuiNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TOP | wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_TAB_MOVE);
-#ifdef __WXGTK__
-	m_pTabs->SetArtProvider(new wxGISTabArt());
-#endif // __WXGTK__		
-	m_bMainSizer->Add(m_pTabs, 1, wxALL | wxEXPAND, 5);
+	wxStaticText* staticText1 = new wxStaticText(this, wxID_ANY, _("Find:"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText1->Wrap( -1 );
+	m_bMainSizer->Add( staticText1, 0, wxALL|wxLEFT, 5 );
+	//add search text ctrl
+	m_pFindCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sFind) );
+	m_bMainSizer->Add( m_pFindCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	wxStaticText *staticText2 = new wxStaticText( this, wxID_ANY, _("Scope:"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText2->Wrap( -1 );
+	m_bMainSizer->Add( staticText2, 0, wxALL|wxLEFT, 5 );
+	//add scope control
+	wxComboCtrl* pTreeCombo = new wxComboCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCB_READONLY);
+#ifdef __WXMSW__
+    pTreeCombo->UseAltPopupWindow(true);
+#else
+    pTreeCombo->UseAltPopupWindow(false);
+#endif
+    m_PopupCtrl = new wxTreeViewComboPopup();
+    pTreeCombo->SetPopupControl(m_PopupCtrl);
+    pTreeCombo->EnablePopupAnimation(true);
+    //m_PopupCtrl->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( wxTreeViewComboPopup::OnMouseClick ), NULL, m_PopupCtrl );
+    m_PopupCtrl->Activate(GetApplication(), NULL);//TODO:
+
+	m_bMainSizer->Add( pTreeCombo, 0, wxALL | wxEXPAND, 5 );	
+	
 	wxStaticLine *staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
     m_bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
 	
 	wxStdDialogButtonSizer* sdbSizer = new wxStdDialogButtonSizer();
-	m_sdbSizerApply = new wxButton(this, wxID_APPLY, _("Apply"));
-	sdbSizer->AddButton(m_sdbSizerApply);
+	m_sdbSizerFind = new wxButton(this, wxID_OK, _("Find"));
+	sdbSizer->AddButton(m_sdbSizerFind);
     sdbSizer->Realize();
-    m_bMainSizer->Add(sdbSizer, 0, wxEXPAND | wxALL, 5);
+    m_bMainSizer->Add(sdbSizer, 0, wxEXPAND | wxALL, 5);	
+	
+	staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
+    m_bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
+	
+	wxPanel* pPanel = new wxPanel(this);
+	m_bMainSizer->Add( pPanel, 1, wxALL | wxEXPAND, 5 );
+
 
 	this->SetSizer( m_bMainSizer );
 	this->Layout();
@@ -115,203 +113,71 @@ bool wxGISPropertyDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& po
     return true;
 }
 
-wxGISPropertyDlg::~wxGISPropertyDlg()
+wxGISFindDlg::~wxGISFindDlg()
 {
+	if(m_PopupCtrl)
+		m_PopupCtrl->Deactivate();
+		
 	wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
     {
     }
 }
-
-void wxGISPropertyDlg::Update(wxGxSelection* const pSel)
-{
-	wxGxCatalogBase* pCat = GetGxCatalog();	
-	if(NULL == pSel || NULL == pCat)
-		return;		
-		
-	wxArrayString saAllPages;
-	
-//1. Fill all property pages array	
-	for ( size_t i = 0; i < pSel->GetCount(); ++i ) 
-	{    
-		long nID = pSel->GetSelectedObjectId(i);
-		wxGxObject* pObj = pCat->GetRegisterObject(nID);
-		IGxObjectEditUI* pGxObjectEdit = dynamic_cast<IGxObjectEditUI*>(pObj);
-		if(pGxObjectEdit)
-		{
-			wxArrayString saPages = pGxObjectEdit->GetPropertyPages();
-			for ( size_t j = 0; j < saPages.GetCount(); ++j ) 
-			{    
-				if(saAllPages.Index(saPages[j]) == wxNOT_FOUND)	
-				{
-					saAllPages.Add(saPages[j]);
-				}
-			}			
-		}
-	}
-	
-	if(saAllPages.IsEmpty())
-	{
-		m_pTabs->DeleteAllPages();
-	}
-	
-//2. Check each property page is exist in dialog and can merge
-	for ( size_t j = 0; j < m_pTabs->GetPageCount(); ++j ) 
-	{    
-		wxWindow* pPage = m_pTabs->GetPage(j);
-		if(pPage)
-		{
-			int nPos = wxNOT_FOUND;
-			if((nPos = saAllPages.Index(pPage->GetClassInfo()->GetClassName())) != wxNOT_FOUND)
-			{
-				saAllPages.RemoveAt(nPos);
-				wxGxPropertyPage *pPPage = dynamic_cast<wxGxPropertyPage*>(pPage);
-				if(pPPage)
-				{
-					if(pSel->GetCount() > 1 && !pPPage->CanMerge())
-					{
-						m_pTabs->DeletePage(j--);
-					}
-				}
-			}
-			else
-			{
-				//remove page
-				m_pTabs->DeletePage(j--);
-			}
-		}
-	}
-	
-//3. Instantinate new PropertyPages and check thea can merge if can - add to dialog
-	for ( size_t i = 0; i < saAllPages.GetCount(); ++i ) 
-	{    
-		wxClassInfo* pClassInfo = wxClassInfo::FindClass(saAllPages[i]);
-		if(pClassInfo)
-		{
-			wxObject* pObj = pClassInfo->CreateObject();
-			if(pObj)
-			{
-				wxGxPropertyPage *pPPage = dynamic_cast<wxGxPropertyPage*>(pObj);
-				if(pPPage)
-				{
-					if((pSel->GetCount() == 1 || pPPage->CanMerge()) && pPPage->Create(this, m_pTabs))
-					{
-						m_pTabs->AddPage(static_cast<wxWindow*>(pPPage), pPPage->GetPageName(), false, pPPage->GetIcon());
-					}
-				}
-			}
-		}
-	}
-
-//4. Init all pages with input GxObjects
-	for ( size_t i = 0; i < m_pTabs->GetPageCount(); ++i ) 
-	{    
-		wxGxPropertyPage *pPPage = dynamic_cast<wxGxPropertyPage*>(m_pTabs->GetPage(i));
-		if(pPPage)
-		{
-			pPPage->FillProperties(pSel);
-		}
-	}
- }
  
-void wxGISPropertyDlg::OnApply(wxCommandEvent& event)
+void wxGISFindDlg::OnFind(wxCommandEvent& event)
 {
-	if(NULL != m_pTabs)
-	{
-		for ( size_t i = 0; i < m_pTabs->GetPageCount(); ++i ) 
-		{    
-			wxGxPropertyPage* pPage = wxDynamicCast(m_pTabs->GetPage(i), wxGxPropertyPage);
-			if(pPage)
-			{ 
-				pPage->Apply();
-			}
-		}	
-	}	
 }
 
-void wxGISPropertyDlg::OnApplyUI(wxUpdateUIEvent& event)
+void wxGISFindDlg::OnFindUI(wxUpdateUIEvent& event)
 {
-	event.Enable(false);
-	if(NULL != m_pTabs)
-	{
-		for ( size_t i = 0; i < m_pTabs->GetPageCount(); ++i ) 
-		{    
-			wxGxPropertyPage* pPage = wxDynamicCast(m_pTabs->GetPage(i), wxGxPropertyPage);
-			if(pPage && pPage->CanApply())
-			{
-				event.Enable(true);
-				return;
-			}
-		}	
-	}
+	if(!m_pFindCtrl || m_pFindCtrl->GetValue().IsEmpty())
+		event.Enable(false);
+	else	
+		event.Enable(true);
 }
 
 //-------------------------------------------------------------------
-// wxAxPropertyView
+// wxAxFindView
 //-------------------------------------------------------------------
-IMPLEMENT_DYNAMIC_CLASS(wxAxPropertyView, wxGISPropertyDlg)
+IMPLEMENT_DYNAMIC_CLASS(wxAxFindView, wxGISFindDlg)
 
-BEGIN_EVENT_TABLE(wxAxPropertyView, wxGISPropertyDlg)
-	EVT_GXSELECTION_CHANGED(wxAxPropertyView::OnSelectionChanged)
+BEGIN_EVENT_TABLE(wxAxFindView, wxGISFindDlg)
 END_EVENT_TABLE()
 
-wxAxPropertyView::wxAxPropertyView(void)
+wxAxFindView::wxAxFindView(void)
 {
-	m_ConnectionPointSelectionCookie = wxNOT_FOUND;
-	m_pSelection = NULL;
 }
 
-wxAxPropertyView::wxAxPropertyView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxGISPropertyDlg(parent, id, pos, size, wxNO_BORDER | wxTAB_TRAVERSAL)
+wxAxFindView::wxAxFindView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) : wxGISFindDlg(parent, id, pos, size, wxNO_BORDER | wxTAB_TRAVERSAL)
 {
-	m_ConnectionPointSelectionCookie = wxNOT_FOUND;
-	m_pSelection = NULL;
     Create(parent, id, pos, size);
 }
 
-wxAxPropertyView::~wxAxPropertyView(void)
+wxAxFindView::~wxAxFindView(void)
 {
 }
 
-bool wxAxPropertyView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+bool wxAxFindView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    m_sViewName = wxString(_("Properties"));
-    return wxGISPropertyDlg::Create(parent, id, pos, size, style, name);
+    m_sViewName = wxString(_("Search"));
+    return wxGISFindDlg::Create(parent, id, pos, size, style, name);
 }
 
-bool wxAxPropertyView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
+bool wxAxFindView::Activate(IApplication* const pApplication, wxXmlNode* const pConf)
 {	
     m_pApp = dynamic_cast<wxGISApplicationBase*>(pApplication);
     if(NULL == m_pApp)
         return false;
 		
-	wxGxApplicationBase* pGxApp = dynamic_cast<wxGxApplicationBase*>(pApplication);
-    if(NULL == pGxApp)
-        return false;
-    m_pSelection = pGxApp->GetGxSelection();
-
-	if (NULL != m_pSelection)
-	{
-        m_ConnectionPointSelectionCookie = m_pSelection->Advise(this);
-	}		
-
 	return true;
 }
 
-void wxAxPropertyView::Deactivate(void)
+void wxAxFindView::Deactivate(void)
 {
-	if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
-	{
-        m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
-	}	
+	
 }
 
-void wxAxPropertyView::OnSelectionChanged(wxGxSelectionEvent& event)
-{
-	if(m_pApp->IsApplicationWindowShown(this))
-		Update(event.GetSelection());
-}
-
-IProgressor* const wxAxPropertyView::GetProgressor(void)
+IProgressor* const wxAxFindView::GetProgressor(void)
 {
 	if(m_pApp)
 	{
@@ -322,7 +188,7 @@ IProgressor* const wxAxPropertyView::GetProgressor(void)
 	return NULL;
 }
 
-void wxAxPropertyView::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
+void wxAxFindView::PutMessage(const wxString &sMessage, size_t nIndex, wxGISEnumMessageType eType)
 {
 	if(m_pApp)
 	{
@@ -331,4 +197,3 @@ void wxAxPropertyView::PutMessage(const wxString &sMessage, size_t nIndex, wxGIS
 			pStatusBar->SetMessage(sMessage);
 	}	
 }
-*/

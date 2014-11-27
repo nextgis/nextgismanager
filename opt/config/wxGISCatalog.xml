@@ -49,6 +49,7 @@
       </ToolboxView>
       <IdentifyView class="wxAxIdentifyView" name="IdentifyView" width="246" height="305" split_mode="1" split_pos="133"/>
       <PropertyView class="wxAxPropertyView" name="PropertyView"/>
+      <FindView class="wxAxFindView" name="FindView"/>
     </Views>
     <Menues>
       <menu name="MenuBar.File" caption="&amp;File">

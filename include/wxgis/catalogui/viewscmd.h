@@ -68,6 +68,6 @@ public:
 protected:
 	wxGISApplicationBase* m_pApp;
     WINDOWARRAY m_anContentsWinIDs;
-    wxWindow* m_pTreeView;
+    wxWindow* m_pTreeView, *m_pFindView;
 	wxIcon m_IconViews, m_IconSelAll, m_IconTreeView, m_IconFind;
 };
