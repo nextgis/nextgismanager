@@ -60,7 +60,46 @@ void wxGISSelectSearchScopeComboPopup::OnMouseMove(wxMouseEvent& event)
 
 void wxGISSelectSearchScopeComboPopup::OnPopup()
 {
-   m_bClicked = false;
+	m_bClicked = false;
+	wxGISAppConfig oConfig = GetConfig();	
+	wxString sLastScope(_("Catalog"));
+	if(oConfig.IsOk())
+    {
+		wxString sAppName = GetApplication()->GetAppName();
+		sLastScope = oConfig.Read(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), sLastScope);
+    }   
+	
+	wxGxObject* pGxObject = m_pCatalog->FindGxObject(sLastScope);
+	if(pGxObject)
+	{
+		wxTreeItemId ItemId = m_TreeMap[pGxObject->GetId()];
+		if(ItemId.IsOk())
+		{
+			SelectItem(ItemId);
+		}
+		else
+		{
+			wxGxObject* pParentGxObj = pGxObject->GetParent();
+			unsigned char nCounter = 0;
+			while(pParentGxObj && nCounter < 255)
+			{
+				ItemId = m_TreeMap[pParentGxObj->GetId()];
+				if(ItemId.IsOk())
+				{
+					Expand(ItemId);
+					ItemId = m_TreeMap[pGxObject->GetId()];
+					if(ItemId.IsOk())
+						break;
+					else
+						pParentGxObj = pGxObject->GetParent();
+				}
+				else
+					pParentGxObj = pParentGxObj->GetParent();
+				nCounter++;
+			}
+			SelectItem(ItemId);
+		}
+	}
 }
 
 void wxGISSelectSearchScopeComboPopup::OnMouseClick(wxMouseEvent& event)
@@ -81,7 +120,17 @@ void wxGISSelectSearchScopeComboPopup::OnMouseClick(wxMouseEvent& event)
 	{
 		SelectItem(item);
 		m_PrewItemId = item;
+		wxGISAppConfig oConfig = GetConfig();	
+		if(oConfig.IsOk())
+		{
+			wxString sAppName = GetApplication()->GetAppName();
+			wxGxObject* pObj = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
+			if(pObj)
+				oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), pObj->GetFullName());
+		} 
 	}
+	
+
 	
     Dismiss();
 
@@ -99,6 +148,21 @@ void wxGISSelectSearchScopeComboPopup::OnDblClick(wxTreeEvent& event)
 		event.Veto();
 		return;		
 	}
+	
+	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
+	if(pData != NULL)
+	{
+		SelectItem(item);
+		m_PrewItemId = item;
+		wxGISAppConfig oConfig = GetConfig();	
+		if(oConfig.IsOk())
+		{
+			wxString sAppName = GetApplication()->GetAppName();
+			wxGxObject* pObj = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
+			if(pObj)
+				oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), pObj->GetFullName());
+		} 
+	} 
 
     wxComboPopup::Dismiss();
 }
@@ -149,9 +213,11 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 
 
 	wxGISAppConfig oConfig = GetConfig();
-    m_sAppName = GetApplication()->GetAppName();
+	wxString sLastScope(_("Catalog"));
 	if(oConfig.IsOk())
     {
+		wxString sAppName = GetApplication()->GetAppName();
+		sLastScope = oConfig.Read(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), sLastScope);
     }
 
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -175,9 +241,16 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 #endif
     m_PopupCtrl = new wxGISSelectSearchScopeComboPopup();
     pTreeCombo->SetPopupControl(m_PopupCtrl);
-    pTreeCombo->EnablePopupAnimation(true);
+    pTreeCombo->EnablePopupAnimation(true);	
     //m_PopupCtrl->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( wxTreeViewComboPopup::OnMouseClick ), NULL, m_PopupCtrl );
     m_PopupCtrl->Activate(GetApplication(), NULL);//TODO:
+	wxGxCatalogBase* pCat = GetGxCatalog();
+	if(pCat)
+	{
+		wxGxObject* pObj = pCat->FindGxObject(sLastScope);
+		if(pObj)
+			pTreeCombo->SetText(pObj->GetName());		
+	}
 
 	m_bMainSizer->Add( pTreeCombo, 0, wxALL | wxEXPAND, 5 );	
 	
@@ -207,11 +280,6 @@ wxGISFindDlg::~wxGISFindDlg()
 {
 	if(m_PopupCtrl)
 		m_PopupCtrl->Deactivate();
-		
-	wxGISAppConfig oConfig = GetConfig();
-	if(oConfig.IsOk())
-    {
-    }
 }
  
 void wxGISFindDlg::OnFind(wxCommandEvent& event)

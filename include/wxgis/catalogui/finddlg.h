@@ -83,7 +83,6 @@ protected:
     wxGISSelectSearchScopeComboPopup* m_PopupCtrl;
 	wxTextCtrl *m_pFindCtrl;
 protected:
-    wxString m_sAppName;
 	wxString m_sFind;
 private:
     DECLARE_EVENT_TABLE()
