@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 23:14+0300\n"
-"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"POT-Creation-Date: 2014-11-28 21:15+0300\n"
+"PO-Revision-Date: 2014-11-28 21:17+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -108,7 +108,7 @@ msgstr "Операция '%s' не удалась!"
 #: ../../../src/catalogui/gxdatasetui.cpp:185
 #: ../../../src/catalogui/remoteconndlgs.cpp:352
 #: ../../../src/catalogui/gxssdatasetui.cpp:143
-#: ../../../src/catalogui/gxobgdialog.cpp:685
+#: ../../../src/catalogui/gxobgdialog.cpp:686
 #: ../../../src/catalogui/gxmldatasetui.cpp:145
 #: ../../../src/catalogui/createremotedlgs.cpp:288
 #: ../../../include/wxgis/catalogui/gxcontdialog.h:97
@@ -323,7 +323,7 @@ msgstr "OK"
 #: ../../../src/catalogui/remoteconndlgs.cpp:489
 #: ../../../src/catalogui/remoteconndlgs.cpp:1175
 #: ../../../src/catalogui/remoteconndlgs.cpp:1719
-#: ../../../src/catalogui/gxobgdialog.cpp:566
+#: ../../../src/catalogui/gxobgdialog.cpp:567
 #: ../../../src/catalogui/gxcontdialog.cpp:158
 #: ../../../src/catalogui/createremotedlgs.cpp:247
 #: ../../../src/catalogui/createremotedlgs.cpp:826
@@ -1332,57 +1332,74 @@ msgstr "Ожидание..."
 msgid " (%ld sec)"
 msgstr "(%ld сек.)"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:441
+#: ../../../src/catalogui/gxobgdialog.cpp:442
 msgid "Look in:   "
 msgstr "Смотреть в: "
 
-#: ../../../src/catalogui/gxobgdialog.cpp:548
+#: ../../../src/catalogui/gxobgdialog.cpp:549
 msgid "Name:"
 msgstr "Имя:"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:555
+#: ../../../src/catalogui/gxobgdialog.cpp:556
 msgid "Activate"
 msgstr "Активировать"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:559
+#: ../../../src/catalogui/gxobgdialog.cpp:560
 msgid "Show of type:"
 msgstr "Показывать тип:"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:563
+#: ../../../src/catalogui/gxobgdialog.cpp:564
 #: ../../../src/catalogui/gxcontdialog.cpp:134
 msgid "Combo!"
 msgstr "Combo!"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:700
+#: ../../../src/catalogui/gxobgdialog.cpp:701
 msgid "Save"
 msgstr "Сохранить"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:733
+#: ../../../src/catalogui/gxobgdialog.cpp:734
 #: ../../../src/catalogui/gxcontdialog.cpp:330
 msgid "All listed filters"
 msgstr "Все фильтры"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:735
+#: ../../../src/catalogui/gxobgdialog.cpp:736
 #: ../../../src/catalogui/gxcontdialog.cpp:332
 msgid "All items"
 msgstr "Все элементы"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:904
+#: ../../../src/catalogui/gxobgdialog.cpp:905
 msgid "Cannot choose item(s)"
 msgstr "Элемент(ы) не может быть выбран!"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:1091
+#: ../../../src/catalogui/gxobgdialog.cpp:1092
 msgid "Cannot save item!"
 msgstr "Элемент не может быть сохранен!"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:1096
+#: ../../../src/catalogui/gxobgdialog.cpp:1097
 msgid "Item exists! Overwrite?"
 msgstr "Элемент существует! Перезаписать?"
 
-#: ../../../src/catalogui/gxobgdialog.cpp:1096
+#: ../../../src/catalogui/gxobgdialog.cpp:1097
 #: ../../../src/catalogui/gxcatalogui.cpp:154
 msgid "Question"
 msgstr "Вопрос"
+
+#: ../../../src/catalogui/finddlg.cpp:159
+msgid "Find:"
+msgstr "Найти:"
+
+#: ../../../src/catalogui/finddlg.cpp:166
+msgid "Scope:"
+msgstr "Область:"
+
+#: ../../../src/catalogui/finddlg.cpp:188
+#: ../../../src/catalogui/viewscmd.cpp:83
+msgid "Find"
+msgstr "Найти"
+
+#: ../../../src/catalogui/finddlg.cpp:252
+msgid "Search"
+msgstr "Поиск"
 
 #: ../../../src/catalogui/vectorpropertypage.cpp:45
 #: ../../../src/catalogui/vectorpropertypage.cpp:55
@@ -1447,49 +1464,54 @@ msgstr "Ключ"
 msgid "NGW Metadata"
 msgstr "Метаданные NGW"
 
-#: ../../../src/catalogui/viewscmd.cpp:75
-#: ../../../src/catalogui/viewscmd.cpp:91
+#: ../../../src/catalogui/viewscmd.cpp:77
+#: ../../../src/catalogui/viewscmd.cpp:96
 msgid "View"
 msgstr "Вид"
 
-#: ../../../src/catalogui/viewscmd.cpp:77
-#: ../../../src/catalogui/viewscmd.cpp:238
+#: ../../../src/catalogui/viewscmd.cpp:79
+#: ../../../src/catalogui/viewscmd.cpp:259
 msgid "Select All"
 msgstr "Выбрать все"
 
-#: ../../../src/catalogui/viewscmd.cpp:79
-#: ../../../src/catalogui/viewscmd.cpp:173
-#: ../../../src/catalogui/viewscmd.cpp:240
+#: ../../../src/catalogui/viewscmd.cpp:81
+#: ../../../src/catalogui/viewscmd.cpp:188
+#: ../../../src/catalogui/viewscmd.cpp:261
 msgid "Show/Hide Tree panel"
 msgstr "Показать/скрыть дерево"
 
-#: ../../../src/catalogui/viewscmd.cpp:93
+#: ../../../src/catalogui/viewscmd.cpp:98
 #: ../../../src/catalogui/catalogcmd.cpp:236
 msgid "Edit"
 msgstr "Редактировать"
 
-#: ../../../src/catalogui/viewscmd.cpp:169
-#: ../../../src/catalogui/viewscmd.cpp:236
+#: ../../../src/catalogui/viewscmd.cpp:184
+#: ../../../src/catalogui/viewscmd.cpp:257
 msgid "Select view"
 msgstr "Выбрать вид"
 
-#: ../../../src/catalogui/viewscmd.cpp:171
+#: ../../../src/catalogui/viewscmd.cpp:186
 msgid "Select All objects"
 msgstr "Выбрать все объекты"
 
-#: ../../../src/catalogui/viewscmd.cpp:260
+#: ../../../src/catalogui/viewscmd.cpp:190
+#: ../../../src/catalogui/viewscmd.cpp:263
+msgid "Show/Hide Find panel"
+msgstr "Показать/скрыть панель поиска"
+
+#: ../../../src/catalogui/viewscmd.cpp:283
 msgid "List"
 msgstr "Список"
 
-#: ../../../src/catalogui/viewscmd.cpp:261
+#: ../../../src/catalogui/viewscmd.cpp:284
 msgid "Icons"
 msgstr "Иконки"
 
-#: ../../../src/catalogui/viewscmd.cpp:262
+#: ../../../src/catalogui/viewscmd.cpp:285
 msgid "Smal Icons"
 msgstr "Маленькие иконки"
 
-#: ../../../src/catalogui/viewscmd.cpp:263
+#: ../../../src/catalogui/viewscmd.cpp:286
 msgid "Details"
 msgstr "Подробности"
 

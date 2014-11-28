@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 23:14+0300\n"
-"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"POT-Creation-Date: 2014-11-28 21:15+0300\n"
+"PO-Revision-Date: 2014-11-28 21:15+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -164,7 +164,7 @@ msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
 msgid "Decrypt: Failed EVP_DecryptUpdate!"
 msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
 
-#: ../../../src/core/config.cpp:581
+#: ../../../src/core/config.cpp:582
 #, c-format
 msgid "Failed to save config '%s'"
 msgstr "Ошибка сохранения файла конфигурации '%s'"

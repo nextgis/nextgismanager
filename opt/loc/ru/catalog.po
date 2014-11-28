@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 23:14+0300\n"
-"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"POT-Creation-Date: 2014-11-28 21:15+0300\n"
+"PO-Revision-Date: 2014-11-28 21:16+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -455,6 +455,10 @@ msgstr "Класс пространственных объектов GML"
 msgid "KML Feature class"
 msgstr "Класс пространственных объектов KML"
 
+#: ../../../src/catalog/gxobject.cpp:35
+msgid "Destroy catalog"
+msgstr "Уничтожение объекта каталог"
+
 #: ../../../src/catalog/gxngwconn.cpp:268
 #: ../../../src/catalog/gxngwconn.cpp:312
 #: ../../../include/wxgis/catalog/gxngwconn.h:299
@@ -662,32 +666,32 @@ msgstr "wxGxWebConnections: Не удалось создать. GxObject %s"
 msgid "wxGxWebConnections: The path is set to '%s'"
 msgstr "wxGxWebConnections: Путь установлен в '%s'"
 
-#: ../../../src/catalog/gxcatalog.cpp:239
+#: ../../../src/catalog/gxcatalog.cpp:251
 #, c-format
 msgid "Catalog Root Object %s initialized"
 msgstr "Корневой элемент %s инициализирован"
 
-#: ../../../src/catalog/gxcatalog.cpp:244
+#: ../../../src/catalog/gxcatalog.cpp:256
 #, c-format
 msgid "Catalog Root Object %s disabled"
 msgstr "Корневого элемент %s отключен"
 
-#: ../../../src/catalog/gxcatalog.cpp:293
+#: ../../../src/catalog/gxcatalog.cpp:305
 #, c-format
 msgid "wxGxCatalog: ObjectFactory %s initialize"
 msgstr "wxGxCatalog: Инициализация объекта %s фабрики объектов"
 
-#: ../../../src/catalog/gxcatalog.cpp:296
+#: ../../../src/catalog/gxcatalog.cpp:308
 #, c-format
 msgid "wxGxCatalog: Error initializing ObjectFactory %s"
 msgstr "wxGxCatalog: Ошибка инициализации фабрики объектов %s"
 
-#: ../../../src/catalog/gxcatalog.cpp:360
+#: ../../../src/catalog/gxcatalog.cpp:372
 #, c-format
 msgid "wxGxCatalog: Root Object %s initialized"
 msgstr "wxGxCatalog: Корневой элемент %s инициализирован"
 
-#: ../../../src/catalog/gxcatalog.cpp:366
+#: ../../../src/catalog/gxcatalog.cpp:378
 #, c-format
 msgid "wxGxCatalog: Root Object %s disabled"
 msgstr "wxGxCatalog: Корневого элемент %s отключен"

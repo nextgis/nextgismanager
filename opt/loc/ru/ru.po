@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxWidgets-3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-24 09:31+0200\n"
-"PO-Revision-Date: 2014-11-25 23:15+0300\n"
+"PO-Revision-Date: 2014-11-28 21:22+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: wx-translators <wx-translators@wxwidgets.org>\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr[2] "%ld байт"
 #: ../src/gtk/print.cpp:677
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/common/cmdline.cpp:922
 #, c-format
@@ -347,7 +347,7 @@ msgstr "В&ыровненный"
 #: ../src/richtext/richtextliststylepage.cpp:327
 #: ../src/richtext/richtextindentspage.cpp:149
 msgid "&Left"
-msgstr ""
+msgstr "&Лево"
 
 #: ../src/richtext/richtextliststylepage.cpp:380
 #: ../src/richtext/richtextindentspage.cpp:205
@@ -1245,11 +1245,11 @@ msgstr "Конверт C65, 114 x 229 мм"
 
 #: ../src/common/accelcmn.cpp:65
 msgid "CANCEL"
-msgstr ""
+msgstr "CANCEL"
 
 #: ../src/common/accelcmn.cpp:69
 msgid "CAPITAL"
-msgstr ""
+msgstr "CAPITAL"
 
 #: ../src/html/chm.cpp:797 ../src/html/chm.cpp:854
 msgid "CHM handler currently supports only local files!"
@@ -1257,11 +1257,11 @@ msgstr "В настоящее время обработчик CHM поддерживает только локальные файлы!"
 
 #: ../src/common/accelcmn.cpp:66
 msgid "CLEAR"
-msgstr ""
+msgstr "CLEAR"
 
 #: ../src/common/accelcmn.cpp:110
 msgid "COMMAND"
-msgstr ""
+msgstr "COMMAND"
 
 #: ../src/richtext/richtextfontpage.cpp:232
 msgid "Ca&pitals"
@@ -2254,15 +2254,15 @@ msgstr "Ошибка запроса DDE poke"
 
 #: ../src/common/accelcmn.cpp:78
 msgid "DECIMAL"
-msgstr ""
+msgstr "DECIMAL"
 
 #: ../src/common/accelcmn.cpp:46
 msgid "DEL"
-msgstr ""
+msgstr "DEL"
 
 #: ../src/common/accelcmn.cpp:47
 msgid "DELETE"
-msgstr ""
+msgstr "DELETE"
 
 #: ../src/common/imagbmp.cpp:944
 msgid "DIB Header: Encoding doesn't match bitdepth."
@@ -2295,7 +2295,7 @@ msgstr "Конверт DL, 110 x 220 мм"
 
 #: ../src/common/accelcmn.cpp:58
 msgid "DOWN"
-msgstr ""
+msgstr "DOWN"
 
 #: ../src/mac/carbon/dataview.cpp:345
 msgid "Data view control is not correctly initialized"
@@ -2380,11 +2380,11 @@ msgstr "Рабочий стол"
 
 #: ../src/generic/aboutdlgg.cpp:71
 msgid "Developed by "
-msgstr ""
+msgstr "Разработано"
 
 #: ../src/generic/aboutdlgg.cpp:142
 msgid "Developers"
-msgstr ""
+msgstr "Разработчики"
 
 #: ../src/msw/dialup.cpp:396
 msgid ""
@@ -2501,23 +2501,23 @@ msgstr "Лист E, 34 x 44 дюйма"
 
 #: ../src/common/accelcmn.cpp:60
 msgid "END"
-msgstr ""
+msgstr "END"
 
 #: ../src/common/accelcmn.cpp:51
 msgid "ENTER"
-msgstr ""
+msgstr "ENTER"
 
 #: ../src/common/accelcmn.cpp:63
 msgid "ESC"
-msgstr ""
+msgstr "ESC"
 
 #: ../src/common/accelcmn.cpp:64
 msgid "ESCAPE"
-msgstr ""
+msgstr "ESCAPE"
 
 #: ../src/common/accelcmn.cpp:72
 msgid "EXECUTE"
-msgstr ""
+msgstr "EXECUTE"
 
 #: ../src/generic/editlbox.cpp:272
 msgid "Edit item"
@@ -2658,7 +2658,7 @@ msgstr "Извлечение '%s' в '%s' завершилось с неудачей."
 
 #: ../src/common/accelcmn.cpp:231 ../src/common/accelcmn.cpp:303
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: ../src/unix/snglinst.cpp:270
 msgid "Failed to access lock file."
@@ -3360,11 +3360,11 @@ msgstr "Gzip не поддерживается этой версией zlib"
 
 #: ../src/common/accelcmn.cpp:74
 msgid "HELP"
-msgstr ""
+msgstr "HELP"
 
 #: ../src/common/accelcmn.cpp:59
 msgid "HOME"
-msgstr ""
+msgstr "HOME"
 
 #: ../src/html/helpwnd.cpp:1552
 msgid "HTML Help Project (*.hhp)|*.hhp|"
@@ -3486,11 +3486,11 @@ msgstr "IIF: неизвестная ошибка!!!"
 
 #: ../src/common/accelcmn.cpp:49
 msgid "INS"
-msgstr ""
+msgstr "INS"
 
 #: ../src/common/accelcmn.cpp:50
 msgid "INSERT"
-msgstr ""
+msgstr "INSERT"
 
 #: ../src/common/fmapbase.cpp:157
 msgid "ISO-2022-JP"
@@ -3861,7 +3861,7 @@ msgstr ""
 
 #: ../src/common/accelcmn.cpp:55
 msgid "LEFT"
-msgstr ""
+msgstr "LEFT"
 
 #: ../src/generic/prntdlgg.cpp:618 ../src/generic/prntdlgg.cpp:873
 msgid "Landscape"
@@ -3878,7 +3878,7 @@ msgstr "Ledger, 17 x 11 дюйма"
 #: ../src/richtext/richtextbulletspage.cpp:200
 #: ../src/richtext/richtextbulletspage.cpp:201
 msgid "Left"
-msgstr ""
+msgstr "Лево"
 
 #: ../src/richtext/richtextliststylepage.cpp:391
 #: ../src/richtext/richtextindentspage.cpp:217
@@ -4017,7 +4017,7 @@ msgstr "Потомок MDI"
 
 #: ../src/common/accelcmn.cpp:67
 msgid "MENU"
-msgstr ""
+msgstr "MENU"
 
 #: ../src/msw/helpchm.cpp:57
 msgid ""
@@ -4089,7 +4089,7 @@ msgstr "Перейти вверх"
 
 #: ../src/common/accelcmn.cpp:80
 msgid "NUM_LOCK"
-msgstr ""
+msgstr "NUM_LOCK"
 
 #: ../src/generic/filectrlg.cpp:458
 msgid "Name"
@@ -4281,9 +4281,8 @@ msgid "Normal font:"
 msgstr "Нормальный шрифт:"
 
 #: ../src/richtext/richtextfontpage.cpp:271
-#, fuzzy
 msgid "Not underlined"
-msgstr "подчеркнутый"
+msgstr "Не подчеркнутый"
 
 #: ../src/common/paper.cpp:117
 msgid "Note, 8 1/2 x 11 in"
@@ -4360,15 +4359,15 @@ msgstr "Невозможно проинициализировать дисплей."
 
 #: ../src/common/accelcmn.cpp:83
 msgid "PAGEDOWN"
-msgstr ""
+msgstr "PAGEDOWN"
 
 #: ../src/common/accelcmn.cpp:82
 msgid "PAGEUP"
-msgstr ""
+msgstr "PAGEUP"
 
 #: ../src/common/accelcmn.cpp:68
 msgid "PAUSE"
-msgstr ""
+msgstr "PAUSE"
 
 #: ../src/common/imagpcx.cpp:456 ../src/common/imagpcx.cpp:479
 msgid "PCX: couldn't allocate memory"
@@ -4396,11 +4395,11 @@ msgstr "PCX: номер версии слишком маленький"
 
 #: ../src/common/accelcmn.cpp:54
 msgid "PGDN"
-msgstr ""
+msgstr "PGDN"
 
 #: ../src/common/accelcmn.cpp:53
 msgid "PGUP"
-msgstr ""
+msgstr "PGUP"
 
 #: ../src/common/imagpnm.cpp:88
 msgid "PNM: Couldn't allocate memory."
@@ -4541,7 +4540,7 @@ msgstr "Конверт C5, 162 x 229 мм"
 
 #: ../src/common/accelcmn.cpp:71
 msgid "PRINT"
-msgstr ""
+msgstr "PRINT"
 
 #: ../src/common/prntbase.cpp:1569
 #, c-format
@@ -4580,9 +4579,8 @@ msgid "Paragraph styles"
 msgstr ""
 
 #: ../src/mac/carbon/dataview.cpp:375
-#, fuzzy
 msgid "Passed item is invalid."
-msgstr "'%s' недопустимо"
+msgstr "Введенный объект невалидный"
 
 #: ../src/common/xtistrm.cpp:421
 msgid "Passing a already registered object to SetObject"
@@ -4801,11 +4799,11 @@ msgstr "Выйти из программы"
 
 #: ../src/common/accelcmn.cpp:52
 msgid "RETURN"
-msgstr ""
+msgstr "RETURN"
 
 #: ../src/common/accelcmn.cpp:56
 msgid "RIGHT"
-msgstr ""
+msgstr "RIGHT"
 
 #: ../src/common/ffile.cpp:126 ../src/common/ffile.cpp:145
 #, c-format
@@ -4817,9 +4815,8 @@ msgid "Ready"
 msgstr "Готов"
 
 #: ../src/stc/scintilla/src/ScintillaBase.cxx:423
-#, fuzzy
 msgid "Redo"
-msgstr "&Вернуть"
+msgstr "Вернуть"
 
 #: ../src/common/stockitem.cpp:209
 msgid "Redo last action"
@@ -4887,9 +4884,8 @@ msgid "Renderer \"%s\" has incompatible version %d.%d and couldn't be loaded."
 msgstr "Renderer \"%s\" несовместимой версии %d.%d не может быть загружен."
 
 #: ../src/mac/carbon/databrow.cpp:775
-#, fuzzy
 msgid "Rendering failed."
-msgstr "Ошибка создания таймера."
+msgstr "Ошибка отрисовки."
 
 #: ../src/richtext/richtextbuffer.cpp:2847
 msgid "Renumber List"
@@ -4925,9 +4921,8 @@ msgstr "Откатить к сохраненному"
 
 #: ../src/richtext/richtextliststylepage.cpp:250
 #: ../src/richtext/richtextbulletspage.cpp:199
-#, fuzzy
 msgid "Right"
-msgstr "Светлый"
+msgstr "Право"
 
 #: ../src/generic/prntdlgg.cpp:897
 msgid "Right margin (mm):"
@@ -4951,35 +4946,35 @@ msgstr ""
 
 #: ../src/common/accelcmn.cpp:81
 msgid "SCROLL_LOCK"
-msgstr ""
+msgstr "SCROLL_LOCK"
 
 #: ../src/common/accelcmn.cpp:70
 msgid "SELECT"
-msgstr ""
+msgstr "SELECT"
 
 #: ../src/common/accelcmn.cpp:76
 msgid "SEPARATOR"
-msgstr ""
+msgstr "SEPARATOR"
 
 #: ../src/common/fmapbase.cpp:155
 msgid "SHIFT-JIS"
-msgstr ""
+msgstr "SHIFT-JIS"
 
 #: ../src/common/accelcmn.cpp:73
 msgid "SNAPSHOT"
-msgstr ""
+msgstr "SNAPSHOT"
 
 #: ../src/common/accelcmn.cpp:61
 msgid "SPACE"
-msgstr ""
+msgstr "SPACE"
 
 #: ../src/common/accelcmn.cpp:250 ../src/common/accelcmn.cpp:307
 msgid "SPECIAL"
-msgstr ""
+msgstr "SPECIAL"
 
 #: ../src/common/accelcmn.cpp:77
 msgid "SUBTRACT"
-msgstr ""
+msgstr "SUBTRACT"
 
 #: ../src/common/sizer.cpp:2426
 msgid "Save"
@@ -5191,7 +5186,7 @@ msgstr ""
 #: ../src/richtext/richtextindentspage.cpp:317
 #: ../src/richtext/richtextindentspage.cpp:318
 msgid "Single"
-msgstr ""
+msgstr "Короткое целое число"
 
 #: ../src/generic/filectrlg.cpp:459
 msgid "Size"
@@ -5323,7 +5318,7 @@ msgstr "Швейцарский"
 #: ../src/richtext/richtextliststylepage.cpp:490
 #: ../src/richtext/richtextbulletspage.cpp:288
 msgid "Symbol"
-msgstr ""
+msgstr "Символ"
 
 #: ../src/richtext/richtextliststylepage.cpp:287
 #: ../src/richtext/richtextbulletspage.cpp:238
@@ -5333,7 +5328,7 @@ msgstr "Нормальный шрифт:"
 
 #: ../include/wx/richtext/richtextsymboldlg.h:46
 msgid "Symbols"
-msgstr ""
+msgstr "Символы"
 
 #: ../src/common/accelcmn.cpp:62
 msgid "TAB"
@@ -5379,7 +5374,7 @@ msgstr "Tabloid, 11 x 17 дюйма"
 
 #: ../src/richtext/richtextformatdlg.cpp:287
 msgid "Tabs"
-msgstr ""
+msgstr "Вкладки"
 
 #: ../src/generic/fontdlgg.cpp:329
 msgid "Teletype"
@@ -5749,11 +5744,11 @@ msgstr "Верхняя граница (мм):"
 
 #: ../src/generic/aboutdlgg.cpp:80
 msgid "Translations by "
-msgstr ""
+msgstr "Переведно"
 
 #: ../src/generic/aboutdlgg.cpp:154
 msgid "Translators"
-msgstr ""
+msgstr "Переводчики"
 
 #: ../src/common/fs_mem.cpp:220
 #, c-format
@@ -5998,15 +5993,15 @@ msgstr "Виды"
 
 #: ../src/common/accelcmn.cpp:107
 msgid "WINDOWS_LEFT"
-msgstr ""
+msgstr "WINDOWS_LEFT"
 
 #: ../src/common/accelcmn.cpp:109
 msgid "WINDOWS_MENU"
-msgstr ""
+msgstr "WINDOWS_MENU"
 
 #: ../src/common/accelcmn.cpp:108
 msgid "WINDOWS_RIGHT"
-msgstr ""
+msgstr "WINDOWS_RIGHT"
 
 #: ../src/unix/epolldispatcher.cpp:177
 #, fuzzy, c-format
@@ -6542,7 +6537,7 @@ msgstr "делегат не имеет информации о типе"
 
 #: ../src/common/cmdline.cpp:1178
 msgid "double"
-msgstr ""
+msgstr "число с плавающей точкой двойной точности"
 
 #: ../src/common/debugrpt.cpp:530
 msgid "dump of the process state (binary)"
@@ -6663,7 +6658,7 @@ msgstr "генерировать подробные сообщения отладки"
 #: ../src/richtext/richtextbuffer.cpp:7234
 #: ../src/richtext/richtextbuffer.cpp:7305
 msgid "image"
-msgstr ""
+msgstr "изображение"
 
 #: ../src/common/tarstrm.cpp:796
 msgid "incomplete header block in tar"
@@ -6746,7 +6741,7 @@ msgstr "полдень"
 
 #: ../src/gtk/print.cpp:1165 ../src/gtk/print.cpp:1269
 msgid "not implemented"
-msgstr ""
+msgstr "не реализовано"
 
 #: ../src/common/cmdline.cpp:1174
 msgid "num"

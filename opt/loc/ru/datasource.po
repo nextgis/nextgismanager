@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 23:14+0300\n"
-"PO-Revision-Date: 2014-11-25 23:14+0300\n"
+"POT-Creation-Date: 2014-11-28 21:15+0300\n"
+"PO-Revision-Date: 2014-11-28 21:15+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -179,12 +179,12 @@ msgstr "Не удалось открыть растровый файл! Путь
 msgid "Raster open failed! Path '%s'. Raster has no bands"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
 
-#: ../../../src/datasource/rasterdataset.cpp:808
+#: ../../../src/datasource/rasterdataset.cpp:815
 #, c-format
 msgid "RasterIO failed! GDAL error: %s"
 msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/rasterdataset.cpp:843
+#: ../../../src/datasource/rasterdataset.cpp:850
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"

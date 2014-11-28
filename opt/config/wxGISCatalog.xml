@@ -388,6 +388,7 @@
         <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="0" name="Вид"/>
         <Item type="sep"/>
         <Item type="cmd" cmd_name="wxGISGeoprocessingCmd" subtype="0" name="Показать/Скрыть панель &amp;наборов инструментов"/>
+        <Item type="cmd" cmd_name="wxGISCatalogViewsCmd" subtype="3" name="Найти"/>
       </toolbar>
       <toolbar size="16" LeftDockable="f" RightDockable="f" name="Application.Location" caption="Location">
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="3" name="Путь"/>
