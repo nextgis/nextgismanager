@@ -30,6 +30,96 @@
 #include <wx/valtext.h>
 
 //-------------------------------------------------------------------
+// wxGISSelectSearchScopeComboPopup
+//-------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISSelectSearchScopeComboPopup, wxTreeViewComboPopup)
+
+void wxGISSelectSearchScopeComboPopup::OnSelectionChanged(wxGxSelectionEvent& event)
+{
+
+}
+
+bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
+{
+    return wxGISSelectSearchScopeComboPopup::Create(parent, TREECTRLID);
+}
+
+bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+{
+    m_bClicked = false;
+	int nOSMajorVer(0);
+    wxGetOsVersion(&nOSMajorVer);
+    return wxGxTreeViewBase::Create(parent, TREECTRLID, pos, size, wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_SIMPLE | wxTR_SINGLE | wxTR_EDIT_LABELS | (nOSMajorVer > 5 ? wxTR_NO_LINES : 0), name);
+}
+
+void wxGISSelectSearchScopeComboPopup::OnMouseMove(wxMouseEvent& event)
+{
+    event.Skip(true);
+}
+
+void wxGISSelectSearchScopeComboPopup::OnPopup()
+{
+   m_bClicked = false;
+}
+
+void wxGISSelectSearchScopeComboPopup::OnMouseClick(wxMouseEvent& event)
+{
+    m_bClicked = true;
+	
+	int flags;
+    wxTreeItemId item = wxTreeCtrl::HitTest(event.GetPosition(), flags);
+	//wxTreeItemId item = event.GetItem();
+	if(!item.IsOk() || !(flags & wxTREE_HITTEST_ONITEM))
+	{
+		event.Skip(true);
+		return;		
+	}
+		
+	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
+	if(pData != NULL)
+	{
+		SelectItem(item);
+		m_PrewItemId = item;
+	}
+	
+    Dismiss();
+
+    event.Skip(true);
+}
+
+void wxGISSelectSearchScopeComboPopup::OnDblClick(wxTreeEvent& event)
+{
+	
+	int flags;
+    wxTreeItemId item = wxTreeCtrl::HitTest(event.GetPoint(), flags);
+	//wxTreeItemId item = event.GetItem();
+	if(!item.IsOk() || !(flags & wxTREE_HITTEST_ONITEM))
+	{
+		event.Veto();
+		return;		
+	}
+
+    wxComboPopup::Dismiss();
+}
+
+wxString wxGISSelectSearchScopeComboPopup::GetStringValue() const
+{
+/*    if( m_bClicked == false )
+    {
+        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_pSelection->GetLastSelectedObjectId());
+        if(pGxObject)
+            return pGxObject->GetName();
+        return wxEmptyString;
+    }
+*/
+    wxTreeItemId ItemId = wxTreeCtrl::GetSelection();
+    if(ItemId.IsOk())
+        return GetItemText(ItemId);
+    return wxEmptyString;
+}
+
+//-------------------------------------------------------------------
 // wxGISFindDlg
 //-------------------------------------------------------------------
 IMPLEMENT_DYNAMIC_CLASS(wxGISFindDlg, wxPanel)
@@ -83,7 +173,7 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 #else
     pTreeCombo->UseAltPopupWindow(false);
 #endif
-    m_PopupCtrl = new wxTreeViewComboPopup();
+    m_PopupCtrl = new wxGISSelectSearchScopeComboPopup();
     pTreeCombo->SetPopupControl(m_PopupCtrl);
     pTreeCombo->EnablePopupAnimation(true);
     //m_PopupCtrl->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( wxTreeViewComboPopup::OnMouseClick ), NULL, m_PopupCtrl );

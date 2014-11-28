@@ -30,6 +30,27 @@
 #include <wx/sizer.h>
 #include <wx/button.h>
 
+/** @class wxGISSelectSearchScopeComboPopup
+ * 
+ * The custom combo popup for select search scope
+ * 
+ * @library{catalogui}
+ */
+
+class wxGISSelectSearchScopeComboPopup : public wxTreeViewComboPopup
+{
+    DECLARE_CLASS(wxGISSelectSearchScopeComboPopup)
+public:	
+	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
+	virtual bool Create(wxWindow* parent);
+	virtual bool Create(wxWindow* parent, wxWindowID id = TREECTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_SIMPLE | wxTR_SINGLE | wxTR_EDIT_LABELS | wxTR_NO_LINES, const wxString& name = wxT("ViewComboPopup"));
+	virtual wxString GetStringValue() const;
+	virtual void OnPopup();
+	virtual void OnMouseMove(wxMouseEvent& event);
+	virtual void OnMouseClick(wxMouseEvent& event);
+	virtual void OnDblClick(wxTreeEvent& event);
+};
+
 /** @class wxGISFindDlg
 
     The wxGISFindDlg class is dialog/panel window find GxObjects
@@ -59,7 +80,7 @@ protected:
 	wxBoxSizer* m_bMainSizer;
 	wxButton* m_sdbSizerFind;
 	wxXmlNode* m_pConf;
-    wxTreeViewComboPopup* m_PopupCtrl;
+    wxGISSelectSearchScopeComboPopup* m_PopupCtrl;
 	wxTextCtrl *m_pFindCtrl;
 protected:
     wxString m_sAppName;
