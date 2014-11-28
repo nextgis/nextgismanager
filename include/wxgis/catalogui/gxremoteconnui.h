@@ -75,7 +75,6 @@ protected:
     wxIcon m_oLargeIconFeatureClass, m_oSmallIconFeatureClass;
     wxIcon m_oLargeIconTable, m_oSmallIconTable;
     wxIcon m_oLargeIconSchema, m_oSmallIconSchema;
-    long m_PendingId;
 private:
 	DECLARE_EVENT_TABLE()
 };
@@ -116,12 +115,10 @@ protected:
     //wxGxRemoteDBSchema
     virtual wxGxObject* GetNewTable(int nRemoteId, const wxString &sTableName, const wxGISEnumDatasetType eType);
     virtual wxThread::ExitCode Entry();
-    virtual bool CreateAndRunThread(void);
 protected:
     wxIcon m_oLargeIcon, m_oSmallIcon;
     wxIcon m_oLargeIconFeatureClass, m_oSmallIconFeatureClass;
     wxIcon m_oLargeIconTable, m_oSmallIconTable;
-    long m_PendingId;
 private:
 	DECLARE_EVENT_TABLE()
 };
