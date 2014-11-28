@@ -48,26 +48,38 @@ wxGxCatalog::~wxGxCatalog(void)
 
 void wxGxCatalog::ObjectDeleted(long nObjectID)
 {
-	wxGxCatalogEvent event(wxGXOBJECT_DELETED, nObjectID);
-	AddEvent(event);
+	if(m_bFSWatcherEnable)
+	{
+		wxGxCatalogEvent event(wxGXOBJECT_DELETED, nObjectID);
+		AddEvent(event);
+	}
 }
 
 void  wxGxCatalog::ObjectAdded(long nObjectID)
 {
-    wxGxCatalogEvent event(wxGXOBJECT_ADDED, nObjectID);
-	AddEvent(event);
+	if(m_bFSWatcherEnable)
+	{
+		wxGxCatalogEvent event(wxGXOBJECT_ADDED, nObjectID);
+		AddEvent(event);
+	}
 }
 
 void  wxGxCatalog::ObjectChanged(long nObjectID)
 {
-	wxGxCatalogEvent event(wxGXOBJECT_CHANGED, nObjectID);
-    AddEvent(event);
+	if(m_bFSWatcherEnable)
+	{
+		wxGxCatalogEvent event(wxGXOBJECT_CHANGED, nObjectID);
+		AddEvent(event);
+	}
 }
 
 void  wxGxCatalog::ObjectRefreshed(long nObjectID)
 {
-	wxGxCatalogEvent event(wxGXOBJECT_REFRESHED, nObjectID);
-    AddEvent(event);
+	if(m_bFSWatcherEnable)
+	{
+		wxGxCatalogEvent event(wxGXOBJECT_REFRESHED, nObjectID);
+		AddEvent(event);
+	}
 }
 
 void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)

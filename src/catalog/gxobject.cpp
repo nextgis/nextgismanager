@@ -30,7 +30,11 @@ extern WXDLLIMPEXP_GIS_CLT wxGxCatalogBase* const GetGxCatalog(void)
 extern WXDLLIMPEXP_GIS_CLT void SetGxCatalog(wxGxCatalogBase* pCat)
 {
     if(g_pGxCatalog != NULL)
+	{
+		if(!pCat)
+			wxLogMessage(_("Destroy catalog"));
         g_pGxCatalog->Destroy();
+	}
 	g_pGxCatalog = pCat;
 }
 

@@ -565,6 +565,7 @@ wxGISConfigRefData::~wxGISConfigRefData()
 void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXmlFileName)
 {
     wxCriticalSectionLocker locker(m_oCritSect);
+		
     if(sXmlFileName.IsEmpty())
     {
 	    for(size_t i = 0; i < m_paConfigFiles.size(); ++i)
