@@ -181,8 +181,12 @@ wxGISTaskManager::~wxGISTaskManager()
 {
     m_timer.Stop();
 
-    if(m_nConnectionPointConnCookie != wxNOT_FOUND)
+    if (m_nConnectionPointConnCookie != wxNOT_FOUND && NULL != m_pConn)
+    {
         m_pConn->Unadvise(m_nConnectionPointConnCookie);
+        m_nConnectionPointConnCookie = wxNOT_FOUND;
+    }
+        
     wxDELETE(m_pConn);
 
     ClearCategories();

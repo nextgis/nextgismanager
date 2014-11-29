@@ -86,8 +86,11 @@ bool wxGxTableView::Activate(IApplication* const pApplication, wxXmlNode* const 
 
 void wxGxTableView::Deactivate(void)
 {
-	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND)
+    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND & NULL != m_pSelection)
+    {
         m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
+        m_ConnectionPointSelectionCookie = wxNOT_FOUND;
+    }
 	//Serialize(m_pXmlConf, true);
 	wxGxView::Deactivate();
 }

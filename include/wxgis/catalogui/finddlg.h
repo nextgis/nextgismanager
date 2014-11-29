@@ -65,7 +65,7 @@ class wxGISFindDlg :
 protected:
 	enum
 	{
-		ID_WXGXFINDDLG = 1001
+        ID_WXGXFINDDLG = WXGISHIGHEST + 1
 	};
 	DECLARE_DYNAMIC_CLASS(wxGISFindDlg)
 public:

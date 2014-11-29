@@ -343,8 +343,11 @@ bool wxGxDialogContentView::Activate(wxGISApplicationBase* application, wxXmlNod
 
 void wxGxDialogContentView::Deactivate(void)
 {
-	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND)
+    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
+    {
 		m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
+        m_ConnectionPointSelectionCookie = wxNOT_FOUND;
+    }
 	wxGxContentView::Deactivate();
 }
 

@@ -206,7 +206,7 @@ void wxGxPathsListView::Append(const wxString& sFullName)
 
 void wxGxPathsListView::Deactivate(void)
 {
-    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND && NULL != m_pCatalog)
     {
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
         m_ConnectionPointCatalogCookie = wxNOT_FOUND;
@@ -839,8 +839,11 @@ void wxGxLocationComboBox::Deactivate(void)
 {
     m_pListViewComboPopup->Deactivate();
 
-	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND && m_pSelection)
+    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
+    {
 		m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
+        m_ConnectionPointSelectionCookie = wxNOT_FOUND;
+    }
 
 	wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk() && m_pApp)

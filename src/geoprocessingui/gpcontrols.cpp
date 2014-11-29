@@ -76,7 +76,11 @@ wxGISDTBase::~wxGISDTBase()
 
 void wxGISDTBase::OnDelete()
 {
-    m_pParam->Unadvise(m_nAdvCookie);
+    if (m_nAdvCookie != wxNOT_FOUND && NULL != m_pParam)
+    {
+        m_pParam->Unadvise(m_nAdvCookie);
+        m_nAdvCookie = wxNOT_FOUND;
+    }    
 }
 
 wxGISGPParameter* wxGISDTBase::GetParameter(void) const

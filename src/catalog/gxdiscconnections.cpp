@@ -84,8 +84,11 @@ wxGxDiscConnections::~wxGxDiscConnections(void)
 
 bool wxGxDiscConnections::Destroy(void)
 {
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND && NULL != m_pCatalog)
+    {
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
+        m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+    }
 
     return wxGxJSONConnectionStorage::Destroy();
 }

@@ -278,8 +278,8 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 
 wxGISFindDlg::~wxGISFindDlg()
 {
-	if(m_PopupCtrl)
-		m_PopupCtrl->Deactivate();
+    if (m_PopupCtrl)
+        m_PopupCtrl->Deactivate();
 }
  
 void wxGISFindDlg::OnFind(wxCommandEvent& event)
@@ -332,7 +332,8 @@ bool wxAxFindView::Activate(IApplication* const pApplication, wxXmlNode* const p
 
 void wxAxFindView::Deactivate(void)
 {
-	
+    if (m_PopupCtrl)
+        m_PopupCtrl->Deactivate();
 }
 
 IProgressor* const wxAxFindView::GetProgressor(void)

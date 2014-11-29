@@ -300,6 +300,7 @@ void wxAxPropertyView::Deactivate(void)
 	if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
 	{
         m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
+        m_ConnectionPointSelectionCookie = wxNOT_FOUND;
 	}	
 }
 

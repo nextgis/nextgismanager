@@ -259,8 +259,11 @@ void wxGxContentView::InitColumns(void)
 
 void wxGxContentView::Deactivate(void)
 {
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND && NULL != m_pCatalog)
+    {
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
+        m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+    }
 
 	Serialize(m_pXmlConf, true);
 	wxGxView::Deactivate();

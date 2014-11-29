@@ -330,9 +330,10 @@ void wxGISApplicationEx::OnClose(wxCloseEvent& event)
 		}
 	}
 
-    for(size_t i = 0; i < m_anWindowsIDs.GetCount(); ++i)
-    {
-        wxWindow* pWnd = wxWindow::FindWindowById(m_anWindowsIDs[i]);
+    while (!m_anWindowsIDs.IsEmpty())
+    {       
+        wxWindow* pWnd = wxWindow::FindWindowById(m_anWindowsIDs[0]);
+        m_anWindowsIDs.RemoveAt(0);
         IView* pView = dynamic_cast<IView*>(pWnd);
         if(pView)
             pView->Deactivate();

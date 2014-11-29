@@ -1038,9 +1038,10 @@ void wxGISRotationComboBox::Deactivate(void)
     {
         wxWindow* pWnd = wxWindow::FindWindowById(m_anMapWinIDs[i].first);
         wxGISMapView* pMapView = wxDynamicCast(pWnd, wxGISMapView);
-        if(pMapView)
+        if (m_anMapWinIDs[i].second != wxNOT_FOUND && NULL != pMapView)
         {
 		    pMapView->Unadvise(m_anMapWinIDs[i].second);
+            m_anMapWinIDs[i].second = wxNOT_FOUND;
         }
     }
 }

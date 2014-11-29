@@ -450,7 +450,7 @@ bool wxGxTabView::Activate(IApplication* const application, wxXmlNode* const pCo
 
 void wxGxTabView::Deactivate(void)
 {
-	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND && m_pSelection)
+	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
     {
 		m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
         m_ConnectionPointSelectionCookie = wxNOT_FOUND;

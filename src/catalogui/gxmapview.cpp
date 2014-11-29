@@ -117,11 +117,17 @@ bool wxGxMapView::Activate(IApplication* const pApplication, wxXmlNode* const pC
 
 void wxGxMapView::Deactivate(void)
 {
-	if(m_ConnectionPointCatalogCookie != wxNOT_FOUND)
+    if (m_ConnectionPointCatalogCookie != wxNOT_FOUND && NULL != m_pCatalog)
+    {
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
-	if(m_ConnectionPointSelectionCookie != wxNOT_FOUND)
+        m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+   }
+    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
+    {
         m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
-
+        m_ConnectionPointSelectionCookie = wxNOT_FOUND;
+    }
+ 
     //Serialize(m_pXmlConf, true);
     DestroyDrawThread();
 	wxDELETE(m_pTrackCancel);

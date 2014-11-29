@@ -845,7 +845,9 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
     {
         //add/remove layer map events connection point       
         if (NULL != m_pMapView && m_nConnectionPointMapCookie != wxNOT_FOUND)
-            m_pMapView->Unadvise(m_nConnectionPointMapCookie);
+        {
+             m_pMapView->Unadvise(m_nConnectionPointMapCookie);
+        }
 
         m_pMapView = pMapView;    
 

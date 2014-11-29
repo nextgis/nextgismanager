@@ -62,8 +62,11 @@ wxGISFeatureLayer::wxGISFeatureLayer(const wxString &sName, wxGISDataset* pwxGIS
 
 wxGISFeatureLayer::~wxGISFeatureLayer(void)
 {
-    if(m_nConnectionPointDSCookie != wxNOT_FOUND)
+    if (m_nConnectionPointDSCookie != wxNOT_FOUND && NULL != m_pwxGISFeatureDataset)
+    {
         m_pwxGISFeatureDataset->Unadvise(m_nConnectionPointDSCookie);
+        m_nConnectionPointDSCookie = wxNOT_FOUND;
+    }
     wxDELETE(m_pSpatialTree);    
     wsDELETE(m_pwxGISFeatureDataset);
 }
