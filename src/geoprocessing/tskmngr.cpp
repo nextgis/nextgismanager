@@ -425,6 +425,11 @@ bool wxGISTaskManager::CreateCategory(const wxString& sName)
         NetCommand(msg_res);
         return true;
     }
+    else if (msg_res.GetState() == enumGISNetCmdStTimeout)
+    {
+        m_sLastError = wxString::Format(_("Create task category '%s' timeout"), sName.c_str());
+        return false;
+    }
     else
     {
         m_sLastError = msg_res.GetMessage();

@@ -38,7 +38,7 @@ IMPLEMENT_APP_CONSOLE(wxGISServerApp)
 
 wxGISServerApp::wxGISServerApp(void)
 {
-    m_vendorName = wxString(wxT("wxGIS"));
+    m_vendorName = wxString(VENDOR);
     m_vendorDisplayName = wxString(wxT("wxGIS"));
     m_appName = wxString(wxT("wxgisserver"));
     m_appDisplayName = wxString(wxT("wxGIS Server"));
