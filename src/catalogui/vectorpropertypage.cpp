@@ -24,7 +24,8 @@
 
 #include "../../art/shp_dset_16.xpm"
 
-#include "wx/propgrid/advprops.h"
+#include <wx/propgrid/advprops.h>
+#include <wx/fontmap.h>
 
 //--------------------------------------------------------------------------
 // wxGISVectorPropertyPage
@@ -275,6 +276,8 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
 
     if( CPLStrnlen(poLayer->GetGeometryColumn(), 100) > 0 )
         AppendProperty(playid, new wxStringProperty(_("Geometry Column"), wxString::Format(wxT("Geometry Column_%d"), iLayer), wxString( poLayer->GetGeometryColumn(), wxConvLocal )));
+	wxString sEncodingDesc = wxFontMapper::GetEncodingDescription(m_pDataset->GetEncoding());
+	AppendProperty(playid, new wxStringProperty(_("Encoding"), wxString::Format(wxT("Encoding_%d"), iLayer), sEncodingDesc));
 
     OGRFeatureDefn* const poDefn = poLayer->GetLayerDefn();
     if(poDefn)
@@ -284,7 +287,7 @@ void wxGISVectorPropertyPage::FillLayerDef(OGRLayer *poLayer, int iLayer, CPLStr
         {
             OGRFieldDefn    *poField = poDefn->GetFieldDefn( iAttr );
             wxString sFieldTypeName = wxString( poField->GetFieldTypeName( poField->GetType() ), wxConvLocal );
-			wxPGProperty* pfielid = AppendProperty(pfieldsid, new wxStringProperty(_("Name"), wxString::Format(wxT("Name_%d_%d"), iLayer, iAttr), wxString::Format(wxT("%s (%s)"), wxString(poField->GetNameRef(), wxConvLocal).c_str(), sFieldTypeName.c_str()) ));
+			wxPGProperty* pfielid = AppendProperty(pfieldsid, new wxStringProperty(_("Name"), wxString::Format(wxT("Name_%d_%d"), iLayer, iAttr), wxString::Format(wxT("%s (%s)"), wxString(poField->GetNameRef(), wxCSConv(m_pDataset->GetEncoding())).c_str(), sFieldTypeName.c_str()) ));
             AppendProperty(pfielid, new wxStringProperty(_("Type"), wxString::Format(wxT("Type_%d_%d"), iLayer, iAttr), sFieldTypeName ) );
             AppendProperty(pfielid, new wxIntProperty(_("Width"), wxString::Format(wxT("Width_%d_%d"), iLayer, iAttr), poField->GetWidth()) );
             AppendProperty(pfielid, new wxIntProperty(_("Precision"), wxString::Format(wxT("Precision_%d_%d"), iLayer, iAttr), poField->GetPrecision()) );

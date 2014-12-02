@@ -46,6 +46,6 @@ protected:
     bool m_bMainFrameCreated;
 };
 
-wxDECLARE_APP(wxGISCatalogApp);
+DECLARE_APP(wxGISCatalogApp)
 
 

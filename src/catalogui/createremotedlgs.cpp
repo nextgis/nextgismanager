@@ -545,7 +545,7 @@ wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxO
 	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 		
 	wxArrayString asBands;
-	wxString sRed, sGreen, sBlue, sAlpha;
+	wxString sRed("1"), sGreen("1"), sBlue("1"), sAlpha(_("none"));
 	
 	GDALDataset* poGDALDataset = pSrcDs->GetMainRaster();
     if(!poGDALDataset)
@@ -553,6 +553,12 @@ wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxO
 		
 	if(!poGDALDataset)	
 		return;
+		
+	if(poGDALDataset->GetRasterCount() > 2)
+	{
+		sGreen = wxString("2");
+		sBlue = wxString("3");
+	}
 	
 	for (int nBand = 1; nBand < poGDALDataset->GetRasterCount() + 1; ++nBand)
 	{		
@@ -613,7 +619,7 @@ wxGISRasterImportPanel::wxGISRasterImportPanel(wxGISRasterDataset *pSrcDs, wxGxO
 	wxStaticText *pAStaticText = new wxStaticText( this, wxID_ANY, _("Alpha (opt.)"), wxDefaultPosition, wxDefaultSize, 0 );
     pFunctSizer->Add( pAStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	asBands.Insert(_("none"), 0, 0);
+	asBands.Insert(_("none"), 0);
 	m_pAlphaBandCombo = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, asBands);
 	m_pAlphaBandCombo->SetSelection(m_pAlphaBandCombo->FindString (sAlpha));	
 	

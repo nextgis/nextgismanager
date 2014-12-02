@@ -418,6 +418,34 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
                 }
             }
         }
+		
+		double dfScaleDstMin = 0.0, dfScaleDstMax = 0.0;
+		switch( eBandType )
+		{
+			case GDT_Byte:
+				dfScaleDstMin = 0;
+				dfScaleDstMax = 255;
+				break;
+			case GDT_UInt16:
+				dfScaleDstMin = 0;
+				dfScaleDstMax = 65535;
+				break;
+			case GDT_Int16:
+				dfScaleDstMin = -32768;
+				dfScaleDstMax = 32767;
+				break;
+			case GDT_UInt32:
+				dfScaleDstMin = 0;
+				dfScaleDstMax = 0xFFFFFFFFU;
+				break;
+			case GDT_Int32:
+				dfScaleDstMin = 0x80000000;
+				dfScaleDstMax = 0x7FFFFFFF;
+				break;
+			default:
+				CPLAssert(FALSE);
+				break;
+		}
 
 // --------------------------------------------------------------------
 //     Create this band.                                               
@@ -432,15 +460,24 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
         
         if( eBandType != poSrcBand->GetRasterDataType() )
         {
-			double dfScale=1.0, dfOffset=0.0;
+			double dfScale=1.0, dfOffset=0.0;			
+			double	adfCMinMax[2];
+			poSrcBand->ComputeRasterMinMax(TRUE, adfCMinMax );
+			
+			if( adfCMinMax[1] == adfCMinMax[0] )
+                adfCMinMax[1] += 0.1;
+
+            dfScale = (dfScaleDstMax - dfScaleDstMin) / (adfCMinMax[1] - adfCMinMax[0]);
+            dfOffset = -1 * adfCMinMax[0] * dfScale + dfScaleDstMin;			
+			
 			int nComponent = 0;
-			if ((eForceBandColorTo == enumGISForceBandsToRGB || eForceBandColorTo == enumGISForceBandsToRGBA ) && i < 3)
-				nComponent = i + 1;
+			//if ((eForceBandColorTo == enumGISForceBandsToRGB || eForceBandColorTo == enumGISForceBandsToRGBA ) && i < 3)
+			//	nComponent = i + 1;
 #if GDAL_VERSION_NUM >= 1110000
             VRTComplexSource* poSource = new VRTComplexSource();
             poVRTBand->ConfigureSource( poSource, poSrcBand, FALSE, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3] );
 			poSource->SetLinearScaling(dfOffset, dfScale);
-            poSource->SetColorTableComponent(nComponent);
+            //poSource->SetColorTableComponent(nComponent);
             poVRTBand->AddSource( poSource );
 #else			
 			poVRTBand->AddComplexSource( poSrcBand, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3], dfOffset, dfScale, VRT_NODATA_UNSET, nComponent );
@@ -510,12 +547,78 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
         GDALClose( pOutDS );
         if (bHasGotErr)
             pOutDS = NULL;
+			
+		
     }
     
     GDALClose( (GDALDatasetH) poVDS );
     CSLDestroy( papszOptions );
-    
+	
+	if(pTrackCancel && pOutDS == NULL)
+	{
+		pTrackCancel->PutMessage(wxString::FromUTF8(CPLGetLastErrorMsg()), wxNOT_FOUND, enumGISMessageError);
+	}
+	
     return pOutDS != NULL;
+}
+
+bool ComputeStatistics(wxGISRasterDataset* const pSrsDataSet, bool bApprox, ITrackCancel* const pTrackCancel)
+{
+	if(!pSrsDataSet)
+		return false;
+		
+	if(pSrsDataSet->IsReadOnly())	
+	{
+		pSrsDataSet->Close();
+		pSrsDataSet->Open(true);
+	}
+		
+	GDALDataset* pDset = pSrsDataSet->GetRaster();
+	if(!pDset)
+	{
+		if(pTrackCancel)
+			pTrackCancel->PutMessage(_("Get raster failed"), wxNOT_FOUND, enumGISMessageError);
+		return false;
+	}
+	
+	return ComputeStatistics(pDset, bApprox, pTrackCancel);
+}
+
+
+bool ComputeStatistics(GDALDataset* poGDALDataset, bool bApprox, ITrackCancel* const pTrackCancel)
+{
+	if(NULL == poGDALDataset)
+		return false;
+		
+	bool bHasErrors = false;
+	for(int nBand = 0; nBand < poGDALDataset->GetRasterCount(); ++nBand )
+    {
+        double dfMin(0), dfMax(255), dfMean(127), dfStdDev(2);
+        CPLErr eErr;
+
+        if(pTrackCancel)
+            pTrackCancel->PutMessage(wxString::Format(_("Proceed band %d"), nBand + 1), wxNOT_FOUND, enumGISMessageInformation);
+			
+        GDALRasterBand* pBand = poGDALDataset->GetRasterBand(nBand + 1);
+        eErr = pBand->ComputeStatistics(bApprox == true ? TRUE : FALSE, &dfMin, &dfMax, &dfMean, &dfStdDev, GDALExecuteProgress, pTrackCancel);   
+	    if(eErr == CE_None)
+	    {
+			if(pTrackCancel)
+			{
+				pTrackCancel->PutMessage(wxString::Format(_("Band %d: min - %.2f, max - %.2f, mean - %.2f, StdDev - %.2f"), nBand + 1, dfMin, dfMax, dfMean, dfStdDev), wxNOT_FOUND, enumGISMessageNormal);
+			}
+        }
+		else
+		{
+			bHasErrors = true;
+            if(pTrackCancel)
+            {
+				pTrackCancel->PutMessage(wxString::FromUTF8(CPLGetLastErrorMsg()), wxNOT_FOUND, enumGISMessageError);
+            }
+		}
+	}
+	
+	return !bHasErrors;
 }
 
 /*
