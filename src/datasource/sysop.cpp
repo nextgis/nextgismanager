@@ -425,7 +425,7 @@ CPLString GetUniqPath(const CPLString &szOriginalFullPath, const CPLString &szNe
     return CheckUniqPath(szNewPath, szNewDestFileName);
 }
 
-CPLString Transliterate(const char* str)
+wxString Transliterate(const wxString & str)
 {
     wxArrayString saFrom, saTo;
     wxGISAppConfig oConfig = GetConfig();
@@ -436,14 +436,13 @@ CPLString Transliterate(const char* str)
     }
 
     //load translit from config
-    CPLString sOut;
-    for (; *str != 0; str++)
-    {
-        int nInd = saFrom.Index(str[0]);
+    wxString sOut;
+    for (size_t i = 0; i < str.Length(); ++i)
+    {		
+        int nInd = saFrom.Index(str.GetChar(i));
         if (nInd == wxNOT_FOUND)
         {
-            char Temp[2] = { str[0], 0 };
-            sOut += &Temp[0];
+            sOut += str.GetChar(i);
         }
         else
         {

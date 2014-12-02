@@ -853,10 +853,11 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 		OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
 		if (NULL != pFieldDefn)
 		{
-			wxString sFieldName = wxString::FromUTF8(pFieldDefn->GetNameRef());
+			wxString sFieldName = wxString(pFieldDefn->GetNameRef(), wxCSConv(pInputFeatureDataset->GetEncoding()));
 			wxString sOldFieldName = sFieldName;
 			if (IsFieldNameForbidden(sFieldName))
 			{
+				sFieldName = Transliterate(sFieldName); 
 				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
 				if(sFieldName.Len() > 8)
 					sFieldName = sFieldName.Left(8);
@@ -1105,12 +1106,14 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     {
         return false;
     }
-
+	
     //2. auto crop if needed
     if (bAutoCrop)
     {
         // nearblack.cpp
     }
+   
+    CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
 
     //3. upload with progress
 
@@ -1120,7 +1123,6 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     }
 
     wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
-    CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
     PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFilePath), pTrackCancel);
     DeleteFile(szFilePath, pTrackCancel);
     bool bResult = res.IsValid && res.nHTTPCode < 400;

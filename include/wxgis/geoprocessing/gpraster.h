@@ -52,6 +52,7 @@ enum wxGISEnumForceBandColorInterpretation
 //
 WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszOptions, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType = GDT_Unknown, const wxArrayInt & anBands = wxArrayInt(), wxGISEnumForceBandColorInterpretation eForceBandColorTo = enumGISForceBandsToNone, bool bCopyNodata = false, bool bSkipSourceMetadata = false, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool ComputeStatistics(wxGISRasterDataset* const pSrsDataSet, bool bApprox, ITrackCancel* const pTrackCancel = NULL);
 
 /** @fn CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDstBand, bool bCanCopyStatsMetadata, bool bCopyScale, bool bCopyNoData )
   * 
@@ -61,4 +62,5 @@ WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, co
   */
 void CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDstBand, bool bCanCopyStatsMetadata, bool bCopyScale, bool bCopyNoData );
 void AttachMetadata( GDALDataset * pDS, char **papszMetadataOptions );
+bool ComputeStatistics(GDALDataset* poGDALDataset, bool bApprox, ITrackCancel* const pTrackCancel = NULL);
 

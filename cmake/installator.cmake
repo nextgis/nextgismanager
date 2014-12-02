@@ -45,7 +45,7 @@ else(WIN32)#UNIX
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/ DESTINATION /etc/wxgis FILES_MATCHING PATTERN "*.xml")
     install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/opt/config/wxGISCommon.xml.nix DESTINATION /etc/wxgis/ RENAME wxGISCommon.xml )    
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/wxgis DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-    install(DIRECTORY ${WXGIS_CURRENT_BINARY_DIR} DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "src" EXCLUDE)
+    install(FILES ${WXGIS_CURRENT_BINARY_DIR}/wxgisdefs.h DESTINATION include)
 
 #    install(FILES ${CMAKE_SOURCE_DIR}/inst/debian/wxgis.conf DESTINATION /etc/ld.so.conf.d)
 #no need - use sudo lddconfig in install script

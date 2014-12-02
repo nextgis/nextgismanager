@@ -277,8 +277,15 @@ void wxGISRemoteDBConnDlg::OnOK(wxCommandEvent& event)
 
 		    doc.SetRoot(pRootNode);
 
-		    wxString sFullPath = m_sOutputPath + wxFileName::GetPathSeparator() + GetName();
-		    if(!m_bCreateNew)// && wxGISEQUAL(CPLString(sFullPath.mb_str(wxConvUTF8)), m_sOriginOutput))
+		    wxString sFullPath = m_sOutputPath + wxFileName::GetPathSeparator() + GetName();			
+						
+			if(m_bCreateNew && wxFileName::Exists(sFullPath))
+			{
+				wxGISErrorMessageBox(wxString(_("The connection file already exist!")));
+				return;
+			}
+			
+		    if(!m_bCreateNew)
 		    {
                 RenameFile(m_sOriginOutput, CPLString(sFullPath.mb_str(wxConvUTF8)));
 		    }
@@ -846,7 +853,14 @@ void wxGISTMSConnDlg::OnOK(wxCommandEvent& event)
 			
 
 		    wxString sFullPath = m_sOutputPath + wxFileName::GetPathSeparator() + GetName();
-		    if(!m_bCreateNew)// && wxGISEQUAL(CPLString(sFullPath.mb_str(wxConvUTF8)), m_sOriginOutput))
+			
+			if(m_bCreateNew && wxFileName::Exists(sFullPath))
+			{
+				wxGISErrorMessageBox(wxString(_("The connection file already exist!")));
+				return;
+			}
+			
+		    if(!m_bCreateNew)
 		    {
                 RenameFile(m_sOriginOutput, CPLString(sFullPath.mb_str(wxConvUTF8)));
 		    }
@@ -1525,7 +1539,14 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 		    doc.SetRoot(pRootNode);
 
 		    wxString sFullPath = m_sOutputPath + wxFileName::GetPathSeparator() + GetName();
-		    if(!m_bCreateNew)// && wxGISEQUAL(CPLString(sFullPath.mb_str(wxConvUTF8)), m_sOriginOutput))
+			
+			if(m_bCreateNew && wxFileName::Exists(sFullPath))
+			{
+				wxGISErrorMessageBox(wxString(_("The connection file already exist!")));
+				return;
+			}
+	
+		    if(!m_bCreateNew)
 		    {
                 RenameFile(m_sOriginOutput, CPLString(sFullPath.mb_str(wxConvUTF8)));
 		    }
@@ -1536,7 +1557,6 @@ void wxGISNGWConnDlg::OnOK(wxCommandEvent& event)
 			    return;
 		    }
 
-            //m_sOriginOutput = CPLString(sFullPath.mb_str(wxConvUTF8));
         }
         else
         {

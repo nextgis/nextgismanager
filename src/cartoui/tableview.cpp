@@ -27,7 +27,7 @@
 #include "../../art/small_arrow.xpm"
 #include "../../art/delete.xpm"
 
-#include "wx/renderer.h"
+#include <wx/renderer.h>
 #include <wx/fontmap.h>
 
 #define FILL_STEP 1000
@@ -110,7 +110,7 @@ wxString wxGISGridTable::GetColLabelValue(int col)
 	OGRFieldDefn* pOGRFieldDefn = pOGRFeatureDefn->GetFieldDefn(col);
     if (pOGRFieldDefn)
     {
-		label = wxString(pOGRFieldDefn->GetNameRef(), wxConvUTF8);
+		label = wxString(pOGRFieldDefn->GetNameRef(), wxCSConv(m_pGISDataset->GetEncoding()));
         switch (pOGRFieldDefn->GetType())
         {
         case OFTInteger:
@@ -432,7 +432,7 @@ void wxGridCtrl::SetEncoding(const wxFontEncoding &eEnc)
         wxBusyCursor wait;
 
         pTable->SetEncoding(eEnc);
-        ClearGrid();
+		ForceRefresh();
     }
 }
 

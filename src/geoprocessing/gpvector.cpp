@@ -1680,7 +1680,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
     if(pFilter->GetType() == enumGISFeatureDataset)
     {
         if(pFilter->GetSubType() == enumVecKMZ)
-		    szName = Transliterate(CPLString(sNewName.mb_str()).c_str());
+		    szName = CPLString(Transliterate(sNewName).ToUTF8());
         else if (pFilter->GetSubType() == enumVecKML)
             szName = CPLString(sNewName.ToUTF8());//wxCSConv(wxT("cp-866"))));
         else if (pFilter->GetSubType() == enumVecPostGIS)
