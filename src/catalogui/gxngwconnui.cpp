@@ -857,9 +857,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 			wxString sOldFieldName = sFieldName;
 			if (IsFieldNameForbidden(sFieldName))
 			{
-				CPLString szQQQ = Transliterate(wxString("ЮЭя00").ToUTF8());
-				CPLString szTest = Transliterate("ЮЭя00");
-				sFieldName = wxString::FromUTF8(Transliterate(sFieldName.mb_str())); 
+				sFieldName = Transliterate(sFieldName); 
 				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
 				if(sFieldName.Len() > 8)
 					sFieldName = sFieldName.Left(8);
