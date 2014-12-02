@@ -37,6 +37,31 @@
 
 #include <wx/hashmap.h>
 
+
+/** @enum wxGISEnumNGWResourcesType
+
+    The NGW resource type.
+
+    @library{catalog}
+ */
+
+enum wxGISEnumNGWResourcesType {
+    enumNGWResourceTypeNone,
+    enumNGWResourceTypeResourceGroup,
+    enumNGWResourceTypePostgisLayer,
+    enumNGWResourceTypePostgisConnection,
+    enumNGWResourceTypeWMSServerService,
+    enumNGWResourceTypeBaseLayers,
+    enumNGWResourceTypeWebMap,
+    enumNGWResourceTypeWFSServerService,
+    enumNGWResourceTypeVectorLayer,
+    enumNGWResourceTypeRasterLayer,
+    enumNGWResourceTypeVectorLayerStyle,
+    enumNGWResourceTypeRasterLayerStyle,
+    enumNGWResourceTypeFileSet
+};
+
+
 /** @class wxGxNGWService
 
     A NextGIS Web Service GxObject.
@@ -97,6 +122,8 @@ public:
 		wxString sDefaultValue;
 	} CUSTOM_METADATA_ITEM;
 	virtual const wxVector<wxGxNGWService::CUSTOM_METADATA_ITEM>& GetCustomMetadata() const;
+	virtual bool IsTypeSupported(wxGISEnumNGWResourcesType eType) const;
+	virtual wxGISEnumNGWResourcesType GetType(const wxString &sType) const;
 protected:
 	virtual void LoadChildren(void);
 	virtual bool ConnectToNGW();
@@ -108,29 +135,7 @@ protected:
 	bool m_bChildrenLoaded, m_bIsConnected, m_bIsAuthorized;
 	wxString m_sAuthCookie;
 	wxVector<CUSTOM_METADATA_ITEM> m_staCustomMetadata;
-};
-
-/** @enum wxGISEnumNGWResourcesType
-
-    The NGW resource type.
-
-    @library{catalog}
- */
-
-enum wxGISEnumNGWResourcesType {
-    enumNGWResourceTypeNone,
-    enumNGWResourceTypeResourceGroup,
-    enumNGWResourceTypePostgisLayer,
-    enumNGWResourceTypePostgisConnection,
-    enumNGWResourceTypeWMSServerService,
-    enumNGWResourceTypeBaseLayers,
-    enumNGWResourceTypeWebMap,
-    enumNGWResourceTypeWFSServerService,
-    enumNGWResourceTypeVectorLayer,
-    enumNGWResourceTypeRasterLayer,
-    enumNGWResourceTypeVectorLayerStyle,
-    enumNGWResourceTypeRasterLayerStyle,
-    enumNGWResourceTypeFileSet
+	wxArrayInt m_eSupportedTypes;
 };
 
 WX_DECLARE_HASH_MAP(int, wxJSONValue, wxIntegerHash, wxIntegerEqual, wxNGWResourceDataMap);

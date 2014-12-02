@@ -137,6 +137,11 @@ void wxGISCurl::SetSSLVersion(long nVer)
     ((wxGISCurlRefData *)m_refData)->SetSSLVersion(nVer);
 }
 
+void wxGISCurl::SetUserPasswd(const wxString& sUser, wxString& sPasswd)
+{
+    ((wxGISCurlRefData *)m_refData)->SetUserPasswd(sUser, sPasswd);
+}
+
 void wxGISCurl::AppendHeader(const wxString & sHeadStr)
 {
     ((wxGISCurlRefData *)m_refData)->AppendHeader(sHeadStr);
@@ -272,6 +277,16 @@ bool wxGISCurlRefData::operator == (const wxGISCurlRefData& data) const
 void wxGISCurlRefData::SetSSLVersion(long nVer)
 {
     curl_easy_setopt(m_pCurl, CURLOPT_SSLVERSION, nVer);
+}
+
+void wxGISCurlRefData::SetUserPasswd(const wxString& sUser, wxString& sPasswd)
+{
+	wxString sUP = sUser + wxString(wxT(":")) + sPasswd;
+	curl_easy_setopt(m_pCurl, CURLOPT_USERPWD, (const char*)sUP.mb_str()); 
+	/*char *szup = new char[sUP.Len() + 1];
+	CPLStrlcat(szup, sUP.mb_str(), sUP.Len());
+	szup[sUP.Len() + 1] = 0;
+    curl_easy_setopt(m_pCurl, CURLOPT_USERPWD, szup); */
 }
 
 void wxGISCurlRefData::AppendHeader(const wxString & sHeadStr)

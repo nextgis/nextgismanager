@@ -206,9 +206,70 @@ bool wxGxNGWService::ConnectToNGW()
         {
             m_sAuthCookie = m_sAuthCookie.Left(pos);
         }
+		
     }
+	
+	//get capabilities
+	m_eSupportedTypes.clear();
+	//curl --user administrator:admin http://176.9.38.120/wwf/resource/schema
+
+	sURL = m_sURL + wxString(wxT("/resource/schema"));
+	curl.AppendHeader(wxT("Cookie:") + m_sAuthCookie);
+	res = curl.Get(sURL);
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		wxJSONReader reader;
+		wxJSONValue oSchema;
+		int numErrors = reader.Parse(res.sBody, &oSchema);
+		if(numErrors == 0)
+		{
+			wxJSONValue oResources = oSchema["resources"];
+			wxArrayString saClsArray = oResources.GetMemberNames();
+			for ( size_t i = 0; i < saClsArray.GetCount(); ++i ) 
+			{    
+				wxString sType = saClsArray[i];
+				wxGISEnumNGWResourcesType eType = GetType(sType);
+				if(eType != enumNGWResourceTypeNone && !IsTypeSupported(eType))
+					m_eSupportedTypes.Add(eType);
+			}
+
+		}
+	}
 
     return true;
+}
+
+bool wxGxNGWService::IsTypeSupported(wxGISEnumNGWResourcesType eType) const
+{
+	return m_eSupportedTypes.Index(eType) != wxNOT_FOUND;
+}
+
+wxGISEnumNGWResourcesType wxGxNGWService::GetType(const wxString &sType) const
+{
+    wxGISEnumNGWResourcesType eType = enumNGWResourceTypeNone;
+    if(sType.IsSameAs(wxT("resource_group")))
+        eType = enumNGWResourceTypeResourceGroup;
+    else if(sType.IsSameAs(wxT("postgis_layer")))
+        eType = enumNGWResourceTypePostgisLayer;
+    else if(sType.IsSameAs(wxT("wmsserver_service")))
+        eType = enumNGWResourceTypeWMSServerService;
+    else if(sType.IsSameAs(wxT("baselayers")))
+        eType = enumNGWResourceTypeBaseLayers;
+    else if(sType.IsSameAs(wxT("postgis_connection")))
+        eType = enumNGWResourceTypePostgisConnection;
+    else if(sType.IsSameAs(wxT("webmap")))
+        eType = enumNGWResourceTypeWebMap;
+    else if(sType.IsSameAs(wxT("wfsserver_service")))
+        eType = enumNGWResourceTypeWFSServerService;
+	else if(sType.IsSameAs(wxT("vector_layer")))
+		eType = enumNGWResourceTypeVectorLayer;
+	else if(sType.IsSameAs(wxT("raster_layer")))
+		eType = enumNGWResourceTypeRasterLayer;
+    else if (sType.IsSameAs(wxT("file_bucket")))
+        eType = enumNGWResourceTypeFileSet;
+    return eType;
 }
 
 bool wxGxNGWService::Connect(void)
@@ -1094,27 +1155,7 @@ void wxGxNGWResourceGroup::RenameObject(int nRemoteId, const wxString &sNewName)
 wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data) const
 {
     wxString sType = Data["resource"]["cls"].AsString();
-    wxGISEnumNGWResourcesType eType = enumNGWResourceTypeNone;
-    if(sType.IsSameAs(wxT("resource_group")))
-        eType = enumNGWResourceTypeResourceGroup;
-    else if(sType.IsSameAs(wxT("postgis_layer")))
-        eType = enumNGWResourceTypePostgisLayer;
-    else if(sType.IsSameAs(wxT("wmsserver_service")))
-        eType = enumNGWResourceTypeWMSServerService;
-    else if(sType.IsSameAs(wxT("baselayers")))
-        eType = enumNGWResourceTypeBaseLayers;
-    else if(sType.IsSameAs(wxT("postgis_connection")))
-        eType = enumNGWResourceTypePostgisConnection;
-    else if(sType.IsSameAs(wxT("webmap")))
-        eType = enumNGWResourceTypeWebMap;
-    else if(sType.IsSameAs(wxT("wfsserver_service")))
-        eType = enumNGWResourceTypeWFSServerService;
-	else if(sType.IsSameAs(wxT("vector_layer")))
-		eType = enumNGWResourceTypeVectorLayer;
-	else if(sType.IsSameAs(wxT("raster_layer")))
-		eType = enumNGWResourceTypeRasterLayer;
-    else if (sType.IsSameAs(wxT("file_bucket")))
-        eType = enumNGWResourceTypeFileSet;
+    wxGISEnumNGWResourcesType eType = m_pService->GetType(sType);
     return eType;
 }
 
@@ -1199,7 +1240,7 @@ bool wxGxNGWResourceGroup::CanCreate(long nDataType, long DataSubtype)
 	
     if (nDataType == enumGISRasterDataset)
     {
-        return false;
+        return true;
     }
 	
     return false;

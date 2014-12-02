@@ -60,6 +60,7 @@ public:
 	virtual void SetDefaultHeader(void);
 	virtual void FollowLocation(bool bSet, unsigned short iMaxRedirs);
 	virtual void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
+	virtual void SetUserPasswd(const wxString& sUser, wxString& sPasswd);
 	virtual PERFORMRESULT Get(const wxString & sURL);
     virtual bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
     virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);
@@ -91,6 +92,7 @@ public:
 	void AppendHeader(const wxString & sHeadStr);
     void FollowLocation(bool bSet, unsigned short iMaxRedirs);
 	void SetSSLVersion(long nVer = CURL_SSLVERSION_SSLv3);
+	void SetUserPasswd(const wxString& sUser, wxString& sPasswd);
 	PERFORMRESULT Get(const wxString & sURL);
     bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
     PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);

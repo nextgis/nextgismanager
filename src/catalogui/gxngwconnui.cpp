@@ -534,38 +534,45 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		//create PostGIS Layer
 		if(NULL != pGxNGWPostGISConnection)
 		{
-			ProgressDlg.ShowProgress(true);
-			//don't forget rename id field in created layer or something else
-			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			if(!m_pService->IsTypeSupported(enumNGWResourceTypePostgisLayer))
 			{
-				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
-				//ProgressDlg.SetTitle(sMessage);
-				ProgressDlg.PutMessage(sMessage);
-				if(!ProgressDlg.Continue())
-					break;
-					
-				wxGxPostGISFeatureDataset* pGxPostGISFeatureDataset = wxDynamicCast(pCatalog->FindGxObject(saGxObjectPaths[i]), wxGxPostGISFeatureDataset);
-				if (NULL != pGxPostGISFeatureDataset)
+				ProgressDlg.PutMessage(_("The type PostgisLayer is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
+			}
+			else
+			{
+				ProgressDlg.ShowProgress(true);
+				//don't forget rename id field in created layer or something else
+				for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 				{
-					wxString sName = pGxPostGISFeatureDataset->GetName();
-					int nConnId = pGxNGWPostGISConnection->GetRemoteId();
-					wxString sTable = pGxPostGISFeatureDataset->GetTableName();
-					wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
-					wxGISFeatureDataset* pDataset = wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
-					if(NULL == pDataset)
+					wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+					//ProgressDlg.SetTitle(sMessage);
+					ProgressDlg.PutMessage(sMessage);
+					if(!ProgressDlg.Continue())
+						break;
+						
+					wxGxPostGISFeatureDataset* pGxPostGISFeatureDataset = wxDynamicCast(pCatalog->FindGxObject(saGxObjectPaths[i]), wxGxPostGISFeatureDataset);
+					if (NULL != pGxPostGISFeatureDataset)
 					{
-						wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
-						continue;
+						wxString sName = pGxPostGISFeatureDataset->GetName();
+						int nConnId = pGxNGWPostGISConnection->GetRemoteId();
+						wxString sTable = pGxPostGISFeatureDataset->GetTableName();
+						wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
+						wxGISFeatureDataset* pDataset = wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
+						if(NULL == pDataset)
+						{
+							wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
+							continue;
+						}
+						wxString sFid = pDataset->GetFIDColumn();
+						wxString sGeom = pDataset->GetGeometryColumn();
+						
+						if(!CreatePostGISLayer(sName, nConnId, sTable, sSchema, sFid, sGeom))
+						{
+							wxGISErrorMessageBox(_("Failed to create PostGIS Layer"), wxString::FromUTF8(CPLGetLastErrorMsg()));
+						}
 					}
-					wxString sFid = pDataset->GetFIDColumn();
-					wxString sGeom = pDataset->GetGeometryColumn();
-					
-					if(!CreatePostGISLayer(sName, nConnId, sTable, sSchema, sFid, sGeom))
-					{
-						wxGISErrorMessageBox(_("Failed to create PostGIS Layer"), wxString::FromUTF8(CPLGetLastErrorMsg()));
-					}
+					ProgressDlg.SetValue(i);				
 				}
-				ProgressDlg.SetValue(i);				
 			}
 			
 			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
@@ -575,175 +582,182 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 		else
 		{
 			//upload other vector and raster DS
-			wxVector<wxGxObject*> paDatasets;
-			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
+			if(!m_pService->IsTypeSupported(enumNGWResourceTypeFileSet))
 			{
-                wxBusyCursor wait;
-				wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
-				if (NULL != pGxObject)
-				{
-					//add file based datasets
-					IGxDataset *pDataset = dynamic_cast<IGxDataset*>(pGxObject);
-					//add archives
-					wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(pGxObject);
-					//add wxGxFile
-					wxGxFile *pFile = dynamic_cast<wxGxFile*>(pGxObject);
-					//TODO: wxGxQGISProjFile etc.
-					if (pDataset && IsFileDataset(pDataset->GetType(), pDataset->GetSubType()))
-					{						
-						paDatasets.push_back(pGxObject);
-					}
-					else if(pArchive)
-					{
-						paDatasets.push_back(pGxObject);
-					}
-					else if(pFile)
-					{
-						paDatasets.push_back(pGxObject);
-					}
-                }
-            }
-			
-			size_t nCount = paDatasets.size();
-			ProgressDlg.SetTitle(_("Upload selected items"));
-			ProgressDlg.ShowProgress(true);
-			for ( size_t j = 0; j < nCount; ++j ) 
+				ProgressDlg.PutMessage(_("The type FileBucket is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
+			}
+			else
 			{				
-				ProgressDlg.SetRange(nCount);
-				ProgressDlg.SetValue(j);
-				if(!ProgressDlg.Continue())
+				wxVector<wxGxObject*> paDatasets;
+				for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
 				{
-					return false;
+					wxBusyCursor wait;
+					wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
+					if (NULL != pGxObject)
+					{
+						//add file based datasets
+						IGxDataset *pDataset = dynamic_cast<IGxDataset*>(pGxObject);
+						//add archives
+						wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(pGxObject);
+						//add wxGxFile
+						wxGxFile *pFile = dynamic_cast<wxGxFile*>(pGxObject);
+						//TODO: wxGxQGISProjFile etc.
+						if (pDataset && IsFileDataset(pDataset->GetType(), pDataset->GetSubType()))
+						{						
+							paDatasets.push_back(pGxObject);
+						}
+						else if(pArchive)
+						{
+							paDatasets.push_back(pGxObject);
+						}
+						else if(pFile)
+						{
+							paDatasets.push_back(pGxObject);
+						}
+					}
 				}
 				
-				IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
-				wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(paDatasets[j]);
-				wxGxFile *pFile = dynamic_cast<wxGxFile*>(paDatasets[j]);
-				if(pGxDset)
-				{
-					wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
-					if(pDSet)
+				size_t nCount = paDatasets.size();
+				ProgressDlg.SetTitle(_("Upload selected items"));
+				ProgressDlg.ShowProgress(true);
+				for ( size_t j = 0; j < nCount; ++j ) 
+				{				
+					ProgressDlg.SetRange(nCount);
+					ProgressDlg.SetValue(j);
+					if(!ProgressDlg.Continue())
 					{
-						int nPreviewXSize = 640;
-						int nPreviewYSize = 640;
-						wxGISAppConfig oConfig = GetConfig();
-						if(oConfig.IsOk())
+						return false;
+					}
+					
+					IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
+					wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(paDatasets[j]);
+					wxGxFile *pFile = dynamic_cast<wxGxFile*>(paDatasets[j]);
+					if(pGxDset)
+					{
+						wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
+						if(pDSet)
 						{
-							wxString sAppName = GetApplication()->GetAppName();
-							nPreviewXSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_x_size"), nPreviewXSize);
-							nPreviewYSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_y_size"), nPreviewYSize);
-						}
-						
-						//create raster preview
-						CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
-						CPLString osPreviewPath = CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
-					    wxGISMapBitmap bmp(nPreviewXSize, nPreviewYSize); 
-						bmp.SetTrackCancel(&ProgressDlg);
-						wxVector<wxGISLayer*> paLayers;
-						
-						switch(pDSet->GetType())
-						{
-							case enumGISFeatureDataset:
-								paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
-								while(pDSet->IsCaching())
-								{
-									wxSleep(1);
-								}	
-								break;
-							case enumGISRasterDataset:
-								paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
-								break;
-							case enumGISContainer:
-								//iterate on datasets of the container
-								{
-									wxGxDatasetContainer* pGxDatasetCont = dynamic_cast<wxGxDatasetContainer*>(pGxDset);
-									if(pGxDatasetCont && pGxDatasetCont->HasChildren(true))
+							int nPreviewXSize = 640;
+							int nPreviewYSize = 640;
+							wxGISAppConfig oConfig = GetConfig();
+							if(oConfig.IsOk())
+							{
+								wxString sAppName = GetApplication()->GetAppName();
+								nPreviewXSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_x_size"), nPreviewXSize);
+								nPreviewYSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_y_size"), nPreviewYSize);
+							}
+							
+							//create raster preview
+							CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
+							CPLString osPreviewPath = CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
+							wxGISMapBitmap bmp(nPreviewXSize, nPreviewYSize); 
+							bmp.SetTrackCancel(&ProgressDlg);
+							wxVector<wxGISLayer*> paLayers;
+							
+							switch(pDSet->GetType())
+							{
+								case enumGISFeatureDataset:
+									paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
+									while(pDSet->IsCaching())
 									{
-										wxGxObjectList ObjectList = pGxDatasetCont->GetChildren();
-										wxGxObjectList::iterator iter;
-										for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
+										wxSleep(1);
+									}	
+									break;
+								case enumGISRasterDataset:
+									paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
+									break;
+								case enumGISContainer:
+									//iterate on datasets of the container
+									{
+										wxGxDatasetContainer* pGxDatasetCont = dynamic_cast<wxGxDatasetContainer*>(pGxDset);
+										if(pGxDatasetCont && pGxDatasetCont->HasChildren(true))
 										{
-											wxGxObject *current = *iter;
-											wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
-											if(pGxDataset)
+											wxGxObjectList ObjectList = pGxDatasetCont->GetChildren();
+											wxGxObjectList::iterator iter;
+											for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
 											{
-												wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, &ProgressDlg);	
-												if(pwxGISDataset)
+												wxGxObject *current = *iter;
+												wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
+												if(pGxDataset)
 												{
-													wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
-													if(pLayer)
+													wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, &ProgressDlg);	
+													if(pwxGISDataset)
 													{
-														paLayers.push_back(pLayer);
+														wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
+														if(pLayer)
+														{
+															paLayers.push_back(pLayer);
+														}
+														while(pwxGISDataset->IsCaching())
+														{
+															wxSleep(1);
+														}
+														wsDELETE(pwxGISDataset);
 													}
-													while(pwxGISDataset->IsCaching())
-													{
-														wxSleep(1);
-													}
-													wsDELETE(pwxGISDataset);
 												}
 											}
 										}
 									}
-								}
-							break;
-						};
-						
-						for (size_t k = 0; k < paLayers.size(); ++k)
-						{
-							if (paLayers[k])
+								break;
+							};
+							
+							for (size_t k = 0; k < paLayers.size(); ++k)
 							{
-								if (paLayers[k]->IsValid())
+								if (paLayers[k])
 								{
-									bmp.AddLayer(paLayers[k]);
+									if (paLayers[k]->IsValid())
+									{
+										bmp.AddLayer(paLayers[k]);
+									}
+									else
+									{
+										wxDELETE(paLayers[k]);
+									}
+								}
+							}
+							
+							
+					
+							wxArrayString paths;
+							char** papszFileList = pDSet->GetFileList();
+							papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
+							
+							//add it to paths list
+							bmp.SetFullExtent();
+							if (bmp.SaveAsBitmap(osPreviewPath, enumRasterPng, NULL, false))
+								papszFileList = CSLAddString(papszFileList, osPreviewPath);
+							
+							for (int k = 0; papszFileList[k] != NULL; ++k)
+							{
+								wxString sPath = wxString::FromUTF8(papszFileList[k]);
+								if(sPath.StartsWith(wxT("/vsi")))
+								{
+									ProgressDlg.PutMessage(wxString::Format(_("The archived file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
 								}
 								else
 								{
-									wxDELETE(paLayers[k]);
+									paths.Add(sPath);
 								}
 							}
+							CSLDestroy(papszFileList);
+							CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
+							
+							wsDELETE(pDSet);
 						}
-						
-						
-                
-						wxArrayString paths;
-						char** papszFileList = pDSet->GetFileList();
-						papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
-						
-						//add it to paths list
-						bmp.SetFullExtent();
-						if (bmp.SaveAsBitmap(osPreviewPath, enumRasterPng, NULL, false))
-							papszFileList = CSLAddString(papszFileList, osPreviewPath);
-						
-						for (int k = 0; papszFileList[k] != NULL; ++k)
-						{
-							wxString sPath = wxString::FromUTF8(papszFileList[k]);
-							if(sPath.StartsWith(wxT("/vsi")))
-							{
-								ProgressDlg.PutMessage(wxString::Format(_("The archived file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
-							}
-							else
-							{
-								paths.Add(sPath);
-							}
-						}
-						CSLDestroy(papszFileList);
-						CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
-						
-						wsDELETE(pDSet);
 					}
+					else if(pArchive)
+					{
+						wxArrayString paths;
+						paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
+						CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);					
+					}
+					else if(pFile)
+					{
+						wxArrayString paths;
+						paths.Add(wxString::FromUTF8(pFile->GetPath()));
+						CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
+					}				
 				}
-				else if(pArchive)
-				{
-					wxArrayString paths;
-					paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
-					CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);					
-				}
-				else if(pFile)
-				{
-					wxArrayString paths;
-					paths.Add(wxString::FromUTF8(pFile->GetPath()));
-					CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
-				}				
 			}
 			
 			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());		
