@@ -258,7 +258,9 @@ public:
 	virtual bool CanCopy(const CPLString &szDestPath);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 	virtual bool CanMove(const CPLString &szDestPath);
-	//wxGxNGWResourceGroup
+	// wxGxObjectContainerUpdater
+	virtual void RenameObject(int nRemoteId, const wxString &sNewName);
+	// wxGxNGWResourceGroup
 	virtual wxString CheckUniqName(const wxString &sName, const wxString& sAdd = wxT(" "), int nCounter = 0) const;
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);

@@ -46,6 +46,7 @@ wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, cons
 
 void wxGxNGWService::ReadConnectionFile()
 {
+	m_staCustomMetadata.clear();
 	wxXmlDocument doc(wxString::FromUTF8(m_sPath));
     if (doc.IsOk())
     {
@@ -182,6 +183,8 @@ bool wxGxNGWService::ConnectToNGW()
     {
          return false;
     }
+	
+	ReadConnectionFile();
 
     wxString sURL = m_sURL + wxString(wxT("/login"));
     wxString sPostData = wxString::Format(wxT("login=%s&password=%s"), m_sLogin.ToUTF8(), m_sPassword.ToUTF8());
@@ -1075,6 +1078,17 @@ wxGxNGWResourceGroup::wxGxNGWResourceGroup(wxGxNGWService *pService, const wxJSO
 wxGxNGWResourceGroup::~wxGxNGWResourceGroup()
 {
 
+}
+
+void wxGxNGWResourceGroup::RenameObject(int nRemoteId, const wxString &sNewName)
+{
+	wxGxObject *pObj = GetChildByRemoteId(nRemoteId);
+	if(NULL != pObj)
+	{
+		pObj->SetName(sNewName);
+		CPLString szNewSchemaName(pObj->GetName().ToUTF8());
+		wxGIS_GXCATALOG_EVENT_ID(ObjectChanged, pObj->GetId());
+	}
 }
 
 wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data) const
