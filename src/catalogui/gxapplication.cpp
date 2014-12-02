@@ -226,6 +226,16 @@ void wxGxApplication::OnClose(wxCloseEvent& event)
     }
 }
 
+void wxGxApplication::OnIdle(wxIdleEvent & event)
+{
+	if(m_pCatalog)
+    {
+		m_pCatalog->OnIdle();
+	}
+	
+	wxGISApplicationEx::OnIdle(event);
+}
+
 wxIcon wxGxApplication::GetAppIcon(void)
 {
     if(!m_pAppIcon.IsOk())

@@ -131,6 +131,7 @@ public:
 	//register / unregister pointer and uniq ID
 	virtual void RegisterObject(wxGxObject* pObj);
 	virtual void UnRegisterObject(long nId);
+	virtual void DeleteOnIdle(wxGxObject* pObj);
 	//get pointer by ID
 	virtual wxGxObject* const GetRegisterObject(long nId);
     //Initialization
@@ -147,6 +148,7 @@ public:
 	virtual void ObjectChanged(long nObjectID) = 0;
 	virtual void ObjectDeleted(long nObjectID) = 0;
 	virtual void ObjectRefreshed(long nObjectID) = 0;
+	virtual void OnIdle(void) = 0;
 protected:
 	virtual wxString GetConfigName(void) const = 0;
     virtual void LoadObjectFactories() = 0;
@@ -154,8 +156,10 @@ protected:
 protected:
     long m_nGlobalId;
     std::map<long, wxGxObject*> m_moGxObject; //map of registered IGxObject pointers
+	wxVector<wxGxObject*> m_paDeleteOnIdle;
     bool m_bIsInitialized;
     bool m_bShowHidden, m_bShowExt;
+	wxCriticalSection m_DeleteOnIdleCritSect;
 };
 
 /** \fn wxGxCatalogBase * const GetGxCatalogBase(void)

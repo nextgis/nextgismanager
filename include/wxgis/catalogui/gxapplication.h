@@ -48,6 +48,7 @@ public:
 	virtual ~wxGxApplication(void);
     //events 
     virtual void OnClose(wxCloseEvent& event);
+	virtual void OnIdle(wxIdleEvent & event);
     //wxGISApplicationBase
     virtual wxString GetAppName(void) const {return wxString(wxT("wxGISCatalog"));};
 	virtual wxString GetAppDisplayName(void) const;

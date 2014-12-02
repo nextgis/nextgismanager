@@ -34,6 +34,7 @@ extern WXDLLIMPEXP_GIS_CLT void SetGxCatalog(wxGxCatalogBase* pCat)
 		if(!pCat)
 			wxLogMessage(_("Destroy catalog"));
         g_pGxCatalog->Destroy();
+		delete g_pGxCatalog;
 	}
 	g_pGxCatalog = pCat;
 }
@@ -89,6 +90,19 @@ void wxGxCatalogBase::RegisterObject(wxGxObject* pObj)
 void wxGxCatalogBase::UnRegisterObject(long nId)
 {
     m_moGxObject[nId] = NULL;
+}
+
+void wxGxCatalogBase::DeleteOnIdle(wxGxObject* pObj)
+{
+	if(this == pObj)
+		return;
+	wxCriticalSectionLocker lock(m_DeleteOnIdleCritSect);
+	for ( size_t i = 0; i < m_paDeleteOnIdle.size(); ++i ) 
+	{    
+		if(m_paDeleteOnIdle[i] == pObj)
+			return;
+	}
+	m_paDeleteOnIdle.push_back(pObj);
 }
 
 wxGxObject* const wxGxCatalogBase::GetRegisterObject(long nId)
@@ -246,19 +260,8 @@ bool wxGxObject::Create(wxGxObject *oParent, const wxString &soName, const CPLSt
 
 wxGxObject::~wxGxObject(void)
 {
-    // notify the parent about this window destruction
-    if( m_oParent && m_oParent->IsKindOf(wxCLASSINFO(wxGxObjectContainer)) )
-    {
-        wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(m_oParent, wxGxObjectContainer);
-        if(pGxObjectContainer)
-        {
-            pGxObjectContainer->RemoveChild(this);
-        }
-    }
-    if(GetGxCatalog() && this != GetGxCatalog())
-    {
-        GetGxCatalog()->UnRegisterObject(GetId());
-    }
+
+
 }
 
 wxString wxGxObject::GetBaseName(void) const
@@ -270,10 +273,29 @@ wxString wxGxObject::GetBaseName(void) const
 
 bool wxGxObject::Destroy(void)
 {
-    if(GetGxCatalog())
+    // notify the parent about this window destruction
+    if( m_oParent && m_oParent->IsKindOf(wxCLASSINFO(wxGxObjectContainer)) )
+    {
+        wxGxObjectContainer* pGxObjectContainer = wxDynamicCast(m_oParent, wxGxObjectContainer);
+        if(pGxObjectContainer)
+        {
+            pGxObjectContainer->RemoveChild(this);
+        }
+    }    
+	
+	if(GetGxCatalog())
+    {
+		if(this != GetGxCatalog())
+			GetGxCatalog()->UnRegisterObject(GetId());
         GetGxCatalog()->ObjectDeleted(GetId());
-
-    delete this;
+		
+		GetGxCatalog()->DeleteOnIdle(this);
+    }    
+	else
+	{
+		delete this;
+	}
+	
     return true;
 }
 

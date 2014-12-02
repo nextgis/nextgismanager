@@ -426,6 +426,8 @@ bool wxGxCatalog::Destroy(void)
 	}
 
 	EmptyObjectFactories();
+	
+	OnIdle();
 
     return wxGxCatalogBase::Destroy();
 }
@@ -563,4 +565,14 @@ void wxGxCatalog::StopFSWatcher()
 void wxGxCatalog::StartFSWatcher()
 {
     m_bFSWatcherEnable = true;
+}
+
+void wxGxCatalog::OnIdle(void)
+{
+	wxCriticalSectionLocker lock(m_DeleteOnIdleCritSect);
+	for ( size_t i = 0; i < m_paDeleteOnIdle.size(); ++i ) 
+	{    
+		wxDELETE(m_paDeleteOnIdle[i]);
+	}	
+	m_paDeleteOnIdle.clear();
 }

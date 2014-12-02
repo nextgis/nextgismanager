@@ -291,11 +291,11 @@ bool wxGxNGWService::Disconnect(void)
     }
 
     DestroyChildren();
-    wxGIS_GXCATALOG_EVENT(ObjectChanged);
 
     m_bChildrenLoaded = false;
     m_bIsConnected = false;
 
+    wxGIS_GXCATALOG_EVENT(ObjectChanged);
     return true;
 }
 
