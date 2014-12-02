@@ -39,6 +39,7 @@
 
     @library{catalog}
 */
+class Destroy;
 class WXDLLIMPEXP_GIS_CLT wxGxCatalog :
     public wxGxCatalogBase,
 	public wxGISConnectionPointContainer
@@ -54,6 +55,7 @@ public:
     virtual bool CreateChildren(wxGxObject* pParent, char** &pFileNames, wxArrayLong & pChildrenIds);
     virtual void EnableRootItem(size_t nItemId, bool bEnable);
     virtual bool Destroy(void);
+	virtual void OnIdle(void);
     virtual wxGxObject* const GetRootItemByType(const wxClassInfo * info) const;
     virtual wxGxObjectFactory* const GetObjectFactoryByClassName(const wxString &sClassName);
     virtual wxGxObjectFactory* const GetObjectFactoryByName(const wxString &sFactoryName);

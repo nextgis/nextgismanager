@@ -218,6 +218,7 @@ bool wxGxRemoteConnection::Disconnect(void)
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
     }
     wsDELETE(pDSet);
+	wsDELETE(m_pwxGISDataset);
     m_bChildrenLoaded = false;
 
     return true;
@@ -335,6 +336,7 @@ void wxGxRemoteConnection::AddObject(int nRemoteId, const wxString &sName)
 	wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(nRemoteId, sName, szPath, pDSet);
 	if(NULL != pObj)
 		wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
+	wsDELETE(pDSet);
 }
 
 bool wxGxRemoteConnection::CanCreate(long nDataType, long DataSubtype)
@@ -356,9 +358,11 @@ bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
 
     if(pDSet->CreateSchema(sSchemaName))
 	{
+		wsDELETE(pDSet);
 		OnGetUpdates();
 		return true;
 	}
+	wsDELETE(pDSet);
 	return false;
 }
 
