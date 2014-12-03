@@ -233,9 +233,9 @@ bool INetConnection::ProcessOutputNetMessage(void)
 
 #ifdef USE_STREAMS
 #ifdef _DEBUG
-        //wxString sOut;
-        //writer.Write(msgout.GetInternalValue(), sOut);
-        //wxLogMessage(sOut);
+        wxString sOut;
+        writer.Write(msgout.GetInternalValue(), sOut);
+        wxLogMessage(wxT("> %s"), sOut.c_str());
 #endif //_DEBUG
 
 
@@ -291,10 +291,10 @@ bool INetConnection::ProcessInputNetMessage(void)
         int numErrors = reader.Parse( in, &value );
 
 #ifdef _DEBUG
-        //wxString sOut;
-        //wxJSONWriter writer(wxJSONWRITER_NONE);
-        //writer.Write(value, sOut);
-        //wxLogMessage(sOut);
+        wxString sOut;
+        wxJSONWriter writer(wxJSONWRITER_NONE);
+        writer.Write(value, sOut);
+        wxLogMessage(wxT("< %s"), sOut.c_str());
 #endif // _DEBUG
 
 #else
