@@ -142,7 +142,7 @@ bool wxGxNGWService::Rename(const wxString &sNewName)
 
 bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    bool bRet = CopyFile(m_sPath, szDestPath, pTrackCancel);
+    bool bRet = CopyFile(m_sPath, CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL), pTrackCancel);
 
     if (!bRet)
     {
@@ -158,7 +158,7 @@ bool wxGxNGWService::Copy(const CPLString &szDestPath, ITrackCancel* const pTrac
 bool wxGxNGWService::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     Disconnect();
-    bool bRet = MoveFile(m_sPath, szDestPath, pTrackCancel);
+    bool bRet = MoveFile(m_sPath, CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL), pTrackCancel);
 
     if (!bRet)
     {
@@ -211,8 +211,6 @@ bool wxGxNGWService::ConnectToNGW()
 	
 	//get capabilities
 	m_eSupportedTypes.clear();
-	//curl --user administrator:admin http://176.9.38.120/wwf/resource/schema
-
 	sURL = m_sURL + wxString(wxT("/resource/schema"));
 	curl.AppendHeader(wxT("Cookie:") + m_sAuthCookie);
 	res = curl.Get(sURL);
@@ -243,6 +241,8 @@ bool wxGxNGWService::ConnectToNGW()
 
 bool wxGxNGWService::IsTypeSupported(wxGISEnumNGWResourcesType eType) const
 {
+    if (m_eSupportedTypes.empty()) //if http://<ngw>/resource/schema failed let server decide is type supported 
+        return true;
 	return m_eSupportedTypes.Index(eType) != wxNOT_FOUND;
 }
 
