@@ -259,6 +259,7 @@ public:
     virtual void ProcessNetMessage(const wxNetMessage &msg);
     virtual void SetMaxTaskExec(short nMaxExecTaskCount);
     virtual bool CreateTask(wxGISTask* const pTask);
+    virtual void QuereTasks();
     //NET messages
     virtual void SendNetMessageAsync(wxGISNetCommand eCmd, wxGISNetCommandState eCmdState, const wxJSONValue &val);
     virtual wxGISNetCommandState SendNetMessageSync(wxGISNetCommand eCmd, wxGISNetCommandState eCmdState, const wxJSONValue &val);
@@ -268,6 +269,7 @@ protected:
 protected:
     wxGISTaskManager* m_pTaskManager;
     short m_nMaxTasks;
+    bool m_bGotTasks;
 };
 
     //wxGISEnumReturnType AddTask(const wxString &sCategory, int nMaxExecTaskCount, const wxString &sName, const wxString &sDesc, const wxString &sPath, long nPriority, const wxXmlNode *pParameters, wxString & sMsg);

@@ -98,6 +98,7 @@ protected:
 
     wxFontEncoding m_Encoding;
     bool m_bRecodeToSystem;
+    wxString m_sCPLSetConfigOption;
 
     long m_nFeatureCount, m_nCurrentFID;
     bool m_bOLCStringsAsUTF8;

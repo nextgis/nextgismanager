@@ -105,6 +105,7 @@ bool wxGISTable::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrac
             wxString sEnc = wxLocale::GetSystemEncodingName();
             const char* sz_enc = sEnc.mb_str();
             CPLSetConfigOption("SHAPE_ENCODING", sz_enc);
+            m_sCPLSetConfigOption = sz_enc;
         }
     }
 
@@ -824,8 +825,7 @@ void wxGISTable::SetEncoding(const wxFontEncoding &oEncoding)
     else if (m_nSubType == enumTableDBF)
     {
         wxString sEnc = wxLocale::GetSystemEncodingName();
-        const char* sz_enc = sEnc.mb_str();
-        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("SHAPE_ENCODING", sz_enc), sz_enc);
+        m_bRecodeToSystem = !m_sCPLSetConfigOption.IsSameAs(sEnc, false);
     }
     m_Encoding = oEncoding;
 }

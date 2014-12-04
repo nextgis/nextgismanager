@@ -814,7 +814,7 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
         //pIDsData->AddDecimal(pGxObject->GetId());
     }
 
-	event.Allow();
+	//event.Allow();
     wxDropSource dragSource( this );
 	dragSource.SetData( *pDragData );
 	wxDragResult result = dragSource.DoDragDrop( wxDrag_AllowMove );

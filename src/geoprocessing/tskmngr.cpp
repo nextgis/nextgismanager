@@ -220,7 +220,7 @@ void wxGISTaskManager::StartTaskManagerServer()
         }
     }
     //start timer to connect task manager server
-    m_timer.Start(5500, false); //2,5 sec. disconnect timer
+    m_timer.Start(4500, false); //4.5 sec. disconnect timer
 }
 
 bool wxGISTaskManager::IsValid(void) const
@@ -383,12 +383,6 @@ void wxGISTaskManager::FillDetails(const wxJSONValue &val)
             wxString sCatName = oCategories[i].AsString();
             wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatName, this);
             m_omCategories[sCatName] = pGISTaskCategory;
-            //request category tasks asynchronously
-            wxNetMessage msg_gettasks(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh);
-            wxJSONValue val;
-            val[wxT("cat")] = sCatName;
-            msg_gettasks.SetValue(val);
-            SendNetMessageAsync(msg_gettasks);
         }
     }
     m_bDetailesFilled = true;
@@ -409,7 +403,10 @@ void wxGISTaskManager::OnTimer( wxTimerEvent & event)
 
 wxGISTaskCategory* const wxGISTaskManager::GetCategory(const wxString& sName)
 {
-    return m_omCategories[sName];
+    wxGISTaskCategory* pCat = m_omCategories[sName];
+    if (pCat)
+        pCat->QuereTasks(); //quere remote tasks
+    return pCat;
 }
 
 bool wxGISTaskManager::CreateCategory(const wxString& sName)

@@ -767,10 +767,25 @@ wxGISTaskCategory::wxGISTaskCategory(const wxString &sName, wxGISTaskManager* pT
 {
     m_sName = sName;
     m_pTaskManager = pTaskManager;
+    m_bGotTasks = false;
 }
 
 wxGISTaskCategory::~wxGISTaskCategory()
 {
+}
+
+void wxGISTaskCategory::QuereTasks()
+{
+    if (m_bGotTasks)
+        return;
+    m_bGotTasks = true;
+
+    //request category tasks asynchronously
+    wxNetMessage msg_gettasks(enumGISNetCmdCmd, enumGISCmdChildren, enumGISPriorityHigh);
+    wxJSONValue val;
+    val[wxT("cat")] = m_sName;
+    msg_gettasks.SetValue(val);
+    m_pTaskManager->SendNetMessageAsync(msg_gettasks);
 }
 
 void wxGISTaskCategory::ProcessNetMessage(const wxNetMessage &msg)

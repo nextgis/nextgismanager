@@ -195,6 +195,14 @@ bool wxGxPostGISTable::Move(const CPLString &szDestPath, ITrackCancel* const pTr
     return false;
 }
 
+void wxGxPostGISTable::SetName(const wxString &soName)
+{
+    m_sTableName = soName;
+    m_msIndexs.clear();
+    FillIndixes();
+    wxGxTable::SetName(soName);
+}
+
 //-----------------------------------------------------------------------------------
 // wxGxPostGISFeatureDataset
 //-----------------------------------------------------------------------------------
@@ -295,6 +303,14 @@ bool wxGxPostGISFeatureDataset::Copy(const CPLString &szDestPath, ITrackCancel* 
 bool wxGxPostGISFeatureDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     return false;
+}
+
+void wxGxPostGISFeatureDataset::SetName(const wxString &soName)
+{
+    m_sTableName = soName;
+    m_msIndexs.clear();
+    FillIndixes();
+    wxGxFeatureDataset::SetName(soName);
 }
 
 #endif //wxGIS_USE_POSTGRES

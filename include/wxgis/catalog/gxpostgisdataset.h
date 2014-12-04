@@ -71,7 +71,8 @@ public:
 	wxGxPostGISTable(int nRemoteId, const wxString &sSchema, wxGISPostgresDataSource* pwxGISRemoteConn, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
 	virtual ~wxGxPostGISTable(void);
 	//wxGxObject
-	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Table"));};
+    virtual wxString GetCategory(void) const { return wxString(_("PostGIS Table")); };
+    virtual void SetName(const wxString &soName);
     //wxGxDataset
     virtual void FillMetadata(bool bForce);
     //IGxDatasetEdit
@@ -104,6 +105,7 @@ public:
 	virtual ~wxGxPostGISFeatureDataset(void);
 	//wxGxObject
 	virtual wxString GetCategory(void) const {return wxString(_("PostGIS Feature class"));};
+    virtual void SetName(const wxString &soName);
     //wxGxDataset
     virtual void FillMetadata(bool bForce);
     //IGxDatasetEdit

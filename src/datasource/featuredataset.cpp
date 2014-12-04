@@ -209,16 +209,14 @@ void wxGISFeatureDataset::SetEncoding(const wxFontEncoding &oEncoding)
     if (m_nSubType == enumVecESRIShapefile )
     {
         wxString sEnc = wxLocale::GetSystemEncodingName();
-        const char* sz_enc = sEnc.mb_str();
-        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("SHAPE_ENCODING", sz_enc), sz_enc);
+        m_bRecodeToSystem = !m_sCPLSetConfigOption.IsSameAs(sEnc, false);
     }
     else if (m_nSubType == enumVecDXF)
     {
         wxString sEnc = wxLocale::GetSystemEncodingName();
-        const char* sz_enc = sEnc.mb_str();
-        m_bRecodeToSystem = wxGISEQUAL(CPLGetConfigOption("DXF_ENCODING", sz_enc), sz_enc);
+        m_bRecodeToSystem = !m_sCPLSetConfigOption.IsSameAs(sEnc, false);
     }
-    m_Encoding = oEncoding;
+    wxGISTable::SetEncoding(oEncoding);
 }
 
 bool wxGISFeatureDataset::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrackCancel* const pTrackCancel)
@@ -237,6 +235,7 @@ bool wxGISFeatureDataset::Open(int iLayer, bool bUpdate, bool bShared, bool bCac
             wxString sEnc = wxLocale::GetSystemEncodingName();
             const char* sz_enc = sEnc.mb_str();
             CPLSetConfigOption("SHAPE_ENCODING", sz_enc);
+            m_sCPLSetConfigOption = sEnc;
         }
     }
     else if (m_nSubType == enumVecDXF)
@@ -248,6 +247,7 @@ bool wxGISFeatureDataset::Open(int iLayer, bool bUpdate, bool bShared, bool bCac
             wxString sEnc = wxLocale::GetSystemEncodingName();
             const char* sz_enc = sEnc.mb_str();
             CPLSetConfigOption("DXF_ENCODING", sz_enc);
+            m_sCPLSetConfigOption = sEnc;
         }
     }
 
