@@ -59,7 +59,6 @@ protected:
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
     wxIcon m_LargeSubIcon, m_SmallSubIcon;
-    long m_nPendUId;
 };
 
 /** @class wxGxMLSubDatasetUI

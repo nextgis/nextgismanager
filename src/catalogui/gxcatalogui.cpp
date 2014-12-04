@@ -63,14 +63,14 @@ long wxGxCatalogUI::AddPending(long nParentId)
     {
         wxImageList lst(16, 16);
         lst.Add(wxBitmap(process_working_16_xpm));
-        for(size_t i = 0; i < lst.GetImageCount(); i++)
+        for(size_t i = 0; i < lst.GetImageCount(); ++i)
             m_oaPendingIconsSmall.push_back(lst.GetIcon(i));
     }
     if(m_oaPendingIconsLarge.empty())
     {
         wxImageList lst(48, 48);
         lst.Add(wxBitmap(process_working_48_xpm));
-        for(size_t i = 0; i < lst.GetImageCount(); i++)
+        for(size_t i = 0; i < lst.GetImageCount(); ++i)
             m_oaPendingIconsLarge.push_back(lst.GetIcon(i));
     }
 

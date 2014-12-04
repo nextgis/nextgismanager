@@ -38,7 +38,9 @@ class WXDLLIMPEXP_GIS_CLU wxGxPendingUI :
     DECLARE_CLASS(wxGxPendingUI)
     enum
     {
-        TIMER_ID = 1014
+        TIMER_ID = 1014,
+        STOP_ID,
+        START_ID
     };
 public:
 	wxGxPendingUI(wxVector<wxIcon> *pImageListSmall = NULL, wxVector<wxIcon> *pImageListLarge = NULL, wxGxObject *oParent = NULL, const wxString &soName = wxString(_("Waiting...")), const CPLString &soPath = "");
@@ -51,11 +53,13 @@ public:
 	virtual wxString ContextMenu(void) const {return wxEmptyString;};
 	virtual wxString NewMenu(void) const {return wxEmptyString;};
     //
+    virtual void Start(void);
     virtual void Stop(void);
     virtual void StopAndDestroy(void);
 protected:
     //events
     void OnTimer( wxTimerEvent & event);
+    void OnEvent(wxCommandEvent &event);
 protected:
     short m_nCurrentImage;
     wxTimer m_timer;

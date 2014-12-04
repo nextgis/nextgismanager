@@ -68,12 +68,6 @@ void wxGxGNMConnectivityUI::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
 		return;
 
-    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-    if(pCat)
-    {
-        m_nPendUId = pCat->AddPending(GetId());
-    }
-
     CreateAndRunThread();
 
 	m_bIsChildrenLoaded = true;
@@ -82,7 +76,11 @@ void wxGxGNMConnectivityUI::LoadChildren(void)
 wxThread::ExitCode wxGxGNMConnectivityUI::Entry()
 {
     /*
-    //ITrackCancel trackcancel;
+    wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
+    if(pCat)
+    {
+        m_nPendUId = pCat->AddPending(GetId());
+    }    //ITrackCancel trackcancel;
 	wxGISDataset* pDSet = GetDataset(false);
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
     if(pDSet)

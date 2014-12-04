@@ -153,6 +153,13 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
         {
             wxThreadEvent event( wxEVT_THREAD, EXIT_EVENT );
             wxQueueEvent( this, event.Clone() );
+
+            if (nPendingId != wxNOT_FOUND)
+            {
+                pCat->RemovePending(nPendingId);
+                nPendingId = wxNOT_FOUND;
+            }
+
             return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
         }
     }

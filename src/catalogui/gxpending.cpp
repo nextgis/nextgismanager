@@ -31,7 +31,8 @@
 IMPLEMENT_CLASS(wxGxPendingUI, wxGxObject)
 
 BEGIN_EVENT_TABLE(wxGxPendingUI, wxGxObject)
-  EVT_TIMER(TIMER_ID, wxGxPendingUI::OnTimer)
+    EVT_TIMER(TIMER_ID, wxGxPendingUI::OnTimer)	
+    EVT_COMMAND(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxGxPendingUI::OnEvent)
 END_EVENT_TABLE()
 
 wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon> *pImageListLarge, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObject(oParent, soName, soPath), m_timer(this, TIMER_ID)
@@ -46,7 +47,8 @@ wxGxPendingUI::wxGxPendingUI(wxVector<wxIcon> *pImageListSmall, wxVector<wxIcon>
         m_nImageCount = wxMin(m_pImageListSmall->size(), m_pImageListLarge->size());
     else
         m_nImageCount = 0;
-    m_timer.Start(UPDATE_TIMER);
+
+    Start();
 }
 
 wxGxPendingUI::~wxGxPendingUI(void)
@@ -55,8 +57,33 @@ wxGxPendingUI::~wxGxPendingUI(void)
 }
 
 void wxGxPendingUI::Stop(void)
+{    
+    if (wxIsMainThread())
+    {
+        m_timer.Stop();
+    }
+    else
+    {
+        //send message to itself
+        wxCommandEvent ValueEvent(wxEVT_COMMAND_BUTTON_CLICKED); // Keep it simple, don't give a specific event ID
+        ValueEvent.SetId(STOP_ID);
+        wxPostEvent(this, ValueEvent);
+    }
+}
+
+void wxGxPendingUI::Start(void)
 {
-    m_timer.Stop();
+    if (wxIsMainThread())
+    {
+        m_timer.Start(UPDATE_TIMER);
+    }
+    else
+    {
+        //send message to itself
+        wxCommandEvent ValueEvent(wxEVT_COMMAND_BUTTON_CLICKED); // Keep it simple, don't give a specific event ID
+        ValueEvent.SetId(START_ID);
+        wxPostEvent(this, ValueEvent);
+    }
 }
 
 void wxGxPendingUI::StopAndDestroy(void)
@@ -114,3 +141,17 @@ void wxGxPendingUI::OnTimer( wxTimerEvent& event )
     }
 }
 
+void wxGxPendingUI::OnEvent(wxCommandEvent &event)
+{
+    switch (event.GetId())
+    {
+    case STOP_ID:
+        m_timer.Stop();
+        break;
+    case START_ID:
+        m_timer.Start(UPDATE_TIMER);
+        break;
+    default:
+        break;
+    }
+}

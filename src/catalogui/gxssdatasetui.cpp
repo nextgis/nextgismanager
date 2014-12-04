@@ -40,7 +40,6 @@ IMPLEMENT_CLASS(wxGxSpreadsheetDatasetUI, wxGxSpreadsheetDataset)
 
 wxGxSpreadsheetDatasetUI::wxGxSpreadsheetDatasetUI(wxGISEnumTableType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIcon, const wxIcon &SmallIcon, const wxIcon &SubLargeIcon, const wxIcon &SubSmallIcon) : wxGxSpreadsheetDataset(eType, oParent, soName, soPath), wxGISThreadHelper()
 {
-    m_nPendUId = wxNOT_FOUND;
     m_LargeIcon = LargeIcon;
     m_SmallIcon = SmallIcon;
     m_LargeSubIcon = SubLargeIcon;
@@ -112,20 +111,19 @@ void wxGxSpreadsheetDatasetUI::LoadChildren(void)
 
 wxThread::ExitCode wxGxSpreadsheetDatasetUI::Entry()
 {
+    long nPendUId = wxNOT_FOUND;
 	wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
 	if(pCat)
 	{
-		m_nPendUId = pCat->AddPending(GetId());
+        nPendUId = pCat->AddPending(GetId());
 	}	
 	
 	LoadChildren();
 
-    if(m_nPendUId != wxNOT_FOUND && pCat)
+    if (nPendUId != wxNOT_FOUND && pCat)
     {
-        pCat->RemovePending(m_nPendUId);
-        m_nPendUId = wxNOT_FOUND;
+        pCat->RemovePending(nPendUId);
     }
-
 
     //wxGIS_GXCATALOG_EVENT(ObjectChanged);
 
