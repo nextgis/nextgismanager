@@ -44,6 +44,17 @@ wxGxNGWService::wxGxNGWService(wxGxObject *oParent, const wxString &soName, cons
     ReadConnectionFile();
 }
 
+wxGxNGWService::wxGxNGWService(const wxString& sURL, const wxString &sLogin, const wxString &sPasswd, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainer(oParent, soName, soPath)
+{
+    m_bChildrenLoaded = false;
+    m_bIsConnected = false;
+    m_bIsAuthorized = false;
+
+    m_sURL = sURL;
+    m_sLogin = sLogin;
+    m_sPassword = sPasswd;
+}
+
 void wxGxNGWService::ReadConnectionFile()
 {
 	m_staCustomMetadata.clear();

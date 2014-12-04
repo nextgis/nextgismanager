@@ -31,7 +31,7 @@
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalog/gxfile.h"
 #include "wxgis/catalog/gxarchfolder.h"
-#include "wxgis/cartoui/mapbitmap.h"
+#include "wxgis/carto/mapbitmap.h"
 #include "wxgis/carto/featurelayer.h"
 #include "wxgis/carto/rasterlayer.h"
 

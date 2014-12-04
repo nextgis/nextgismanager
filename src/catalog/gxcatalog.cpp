@@ -39,11 +39,19 @@ wxGxCatalog::wxGxCatalog(wxGxObject *oParent, const wxString &soName, const CPLS
     m_pWatcher = new wxFileSystemWatcher();
     m_pWatcher->SetOwner(this);
     m_bFSWatcherEnable = true;
+
+    //disable loading drivers on GDAL_DRIVER_PATH env value
+    CPLSetConfigOption("GDAL_DRIVER_PATH", "disabled");
+    OGRRegisterAll();
+    GDALAllRegister();
 }
 
 wxGxCatalog::~wxGxCatalog(void)
 {
     wxDELETE(m_pWatcher);
+
+    GDALDestroyDriverManager();
+    OGRCleanupAll();
 }
 
 void wxGxCatalog::ObjectDeleted(long nObjectID)

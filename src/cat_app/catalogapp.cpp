@@ -25,8 +25,6 @@
 
 #include <locale.h>
 
-#undef LT_OBJDIR
-#include "ogr_api.h"
 #include "gdal_priv.h"
 
 #include "../../art/splash.xpm"
@@ -51,9 +49,6 @@ wxGISCatalogApp::wxGISCatalogApp(void) : wxApp()
 
 wxGISCatalogApp::~wxGISCatalogApp(void)
 {
- 	GDALDestroyDriverManager();
-	OGRCleanupAll();
-
 	UnLoadLibs();	
 }
 
@@ -134,16 +129,11 @@ bool wxGISCatalogApp::OnInit()
 	bool bDebugMode = oConfig.GetDebugMode();
     m_pMainFrame->SetDebugMode(bDebugMode);
 
-    //disable loading drivers on GDAL_DRIVER_PATH env value
-    CPLSetConfigOption("GDAL_DRIVER_PATH", "disabled");
     wxString sTempDir = oConfig.GetTempDir();
     if(!wxDirExists(sTempDir))
 		wxFileName::Mkdir(sTempDir, 0777, wxPATH_MKDIR_FULL);
 
     CPLSetConfigOption("CPL_TMPDIR", sTempDir.mb_str(wxConvUTF8));
-
-	OGRRegisterAll();
-	GDALAllRegister();
 
 	wxLogVerbose(_("wxGISCatalogApp: Start main frame"));
 

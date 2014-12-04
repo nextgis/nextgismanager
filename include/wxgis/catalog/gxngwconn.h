@@ -78,7 +78,8 @@ class WXDLLIMPEXP_GIS_CLT wxGxNGWService :
 	DECLARE_CLASS(wxGxNGWService)
 public:
 	wxGxNGWService(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
-	virtual ~wxGxNGWService(void);
+    wxGxNGWService(const wxString& sURL, const wxString &sLogin, const wxString &sPasswd, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+    virtual ~wxGxNGWService(void);
 	//wxGxObject
 	virtual wxString GetCategory(void) const {
 		return wxString(_("NextGIS Web service"));

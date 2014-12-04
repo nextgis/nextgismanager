@@ -20,11 +20,9 @@
  ****************************************************************************/
 #pragma once
 
-#include "wxgis/cartoui/cartoui.h"
+#include "wxgis/carto/carto.h"
 #include "wxgis/display/symbol.h"
 #include "wxgis/carto/map.h"
-#include "wxgis/cartoui/mxeventui.h"
-#include "wxgis/carto/mxevent.h"
 
 /** @class wxGISMapBitmap
     
@@ -33,7 +31,7 @@
     @librarycartoui
 */
 
-class WXDLLIMPEXP_GIS_CTU wxGISMapBitmap :
+class WXDLLIMPEXP_GIS_CRT wxGISMapBitmap :
 	public wxGISExtentStack
 {
 public:
