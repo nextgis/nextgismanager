@@ -391,6 +391,7 @@ protected:
 
     @library{catalog}
 */
+#ifdef wxGIS_USE_POSTGRES
 
 class WXDLLIMPEXP_GIS_CLT wxGxNGWPostGISConnection :
 	public wxGxNGWResource,
@@ -418,7 +419,7 @@ protected:
 protected:
 	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
 };
-
+#endif //wxGIS_USE_POSTGRES
 
 /** @class wxGxNGWFileSet
 

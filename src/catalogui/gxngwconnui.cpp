@@ -1410,7 +1410,7 @@ bool wxGxNGWRasterUI::HasPropertyPages(void) const
 //--------------------------------------------------------------
 //class wxGxNGWPostGISConnectionUI
 //--------------------------------------------------------------
-
+#ifdef wxGIS_USE_POSTGRES
 IMPLEMENT_CLASS(wxGxNGWPostGISConnectionUI, wxGxRemoteConnectionUI)
 
 wxGxNGWPostGISConnectionUI::wxGxNGWPostGISConnectionUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnectionUI(oParent, soName, soPath, LargeIconConn, SmallIconConn, LargeIconDisconn, SmallIconDisconn), wxGxNGWResource(Data)
@@ -1541,7 +1541,7 @@ bool wxGxNGWPostGISConnectionUI::HasPropertyPages(void) const
 {
 	return true;
 }
-
+#endif //wxGIS_USE_POSTGRES
 //--------------------------------------------------------------
 //class wxGxNGWFileSetUI
 //--------------------------------------------------------------

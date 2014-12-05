@@ -28,7 +28,7 @@
 
 #include <cairo.h>
 
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
 	#include <cairo-win32.h>
 #endif
 
@@ -76,7 +76,6 @@ public:
 	virtual void World2DCDist(double* pdX, double* pdY, bool bRotated = true);
 	//
 	virtual void OnEraseBackground(void); //Fill #0 cache of background color
-	virtual void Output(wxDC* pDC);
     virtual bool Output(GDALDataset *pGDALDataset);
 	//Styles
     virtual void SetColor(const wxGISColor &Color);
@@ -96,10 +95,7 @@ public:
 	virtual bool DrawPointFast(double dX, double dY, double dOffsetX = 0, double dOffsetY = 0);
 	virtual bool DrawLine(OGRRawPoint* pOGRRawPoints, int nPointCount, bool bOwn = true, double dOffsetX = 0, double dOffsetY = 0, bool bIsRing = false);
 	virtual void DrawRaster(cairo_surface_t *surface, const OGREnvelope& Envelope, bool bDrawEnvelope = false);
-	virtual void ZoomingDraw(const wxRect& rc, wxDC* pDC);
-	virtual void WheelingDraw(double dZoom, wxDC* pDC);
-	virtual void PanningDraw(wxCoord x, wxCoord y, wxDC* pDC);
-	virtual void RotatingDraw(double dAngle, wxDC* pDC);
+
 	virtual OGREnvelope TransformRect(wxRect &rect);
 	//Testing
 	virtual void TestDraw(void);
@@ -112,8 +108,6 @@ public:
     } LAYERCACHEDATA;
     virtual wxCriticalSection &GetLock();
 protected:
-	virtual void Output(cairo_surface_t *pSurface, wxDC* pDC);
-	virtual cairo_t* CreateContext(wxDC* dc);
 	virtual void InitTransformMatrix(void);
 	virtual inline double GetScaledWidth(double nWidth)
 	{
@@ -148,3 +142,30 @@ protected:
 	cairo_surface_t *m_surface_tmp;
 	cairo_t *m_cr_tmp;
 };
+
+#if defined(wxUSE_GUI) && wxUSE_GUI
+#include <wx/dc.h>
+
+/** @class wxGISDisplayUI
+
+    A class requered wxWidgets core lib
+
+    @library{display}
+*/
+class WXDLLIMPEXP_GIS_DSP wxGISDisplayUI : public wxGISDisplay
+{
+public:
+    wxGISDisplayUI(void);
+    virtual ~wxGISDisplayUI(void);
+    //
+    virtual void Output(wxDC* pDC);
+    virtual void ZoomingDraw(const wxRect& rc, wxDC* pDC);
+    virtual void WheelingDraw(double dZoom, wxDC* pDC);
+    virtual void PanningDraw(wxCoord x, wxCoord y, wxDC* pDC);
+    virtual void RotatingDraw(double dAngle, wxDC* pDC);
+protected:
+    virtual cairo_t* CreateContext(wxDC* dc);
+    virtual void Output(cairo_surface_t *pSurface, wxDC* pDC);
+};
+
+#endif

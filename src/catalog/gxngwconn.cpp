@@ -2416,6 +2416,7 @@ bool wxGxNGWRaster::CanMove(const CPLString &szDestPath)
 //--------------------------------------------------------------
 // wxGxNGWPostGISConnection
 //--------------------------------------------------------------
+#ifdef wxGIS_USE_POSTGRES
 
 IMPLEMENT_CLASS(wxGxNGWPostGISConnection, wxGxRemoteConnection)
 
@@ -2578,7 +2579,7 @@ bool wxGxNGWPostGISConnection::CanMove(const CPLString &szDestPath)
 		return CanCopy(szDestPath) && CanDelete();
 	return true;	
 }
-
+#endif //wxGIS_USE_POSTGRES
 
 //--------------------------------------------------------------
 //class wxGxNGWFileSet

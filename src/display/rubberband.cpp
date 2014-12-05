@@ -46,7 +46,7 @@ BEGIN_EVENT_TABLE(wxGISRubberBand, wxEvtHandler)
 	EVT_MOUSE_CAPTURE_LOST(wxGISRubberBand::OnCaptureLost)
 END_EVENT_TABLE()
 
-wxGISRubberBand::wxGISRubberBand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) :  m_bLock(true)
+wxGISRubberBand::wxGISRubberBand(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) :  m_bLock(true)
 {
 	m_pWnd = pWnd;
 	m_pDisp = pDisp;
@@ -146,7 +146,7 @@ void wxGISRubberBand::OnCaptureLost(wxMouseCaptureLostEvent & event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberEnvelope, wxGISRubberBand)
 
-wxGISRubberEnvelope::wxGISRubberEnvelope(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberEnvelope::wxGISRubberEnvelope(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -215,7 +215,7 @@ void wxGISRubberEnvelope::OnMouseUp(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberCircle, wxGISRubberBand)
 
-wxGISRubberCircle::wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberCircle::wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -275,7 +275,7 @@ void wxGISRubberCircle::OnMouseUp(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberEllipse, wxGISRubberEnvelope)
 
-wxGISRubberEllipse::wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberEnvelope(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberEllipse::wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberEnvelope(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -312,7 +312,7 @@ IMPLEMENT_CLASS(wxGISRubberFreeHand, wxGISRubberBand)
 
 #define FREEHAND_STEP_PIX 7
 
-wxGISRubberFreeHand::wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberFreeHand::wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -424,7 +424,7 @@ void wxGISRubberFreeHand::OnMouseUp(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberMarker, wxGISRubberBand)
 
-wxGISRubberMarker::wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberMarker::wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -457,7 +457,7 @@ void wxGISRubberMarker::OnMouseUp(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberLine, wxGISRubberBand)
 
-wxGISRubberLine::wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberLine::wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberBand(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -539,7 +539,7 @@ void wxGISRubberLine::OnMouseDoubleClick(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberPolygon, wxGISRubberLine)
 
-wxGISRubberPolygon::wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberPolygon::wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
 {
 }
 
@@ -619,7 +619,7 @@ void wxGISRubberPolygon::OnMouseDoubleClick(wxMouseEvent& event)
 //----------------------------------------------------
 IMPLEMENT_CLASS(wxGISRubberSpline, wxGISRubberLine)
 
-wxGISRubberSpline::wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
+wxGISRubberSpline::wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef) : wxGISRubberLine(oPen, pWnd, pDisp, SpaRef)
 {
 }
 

@@ -62,7 +62,7 @@ END_EVENT_TABLE()
 
 wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper()//wxTHREAD_JOINABLE
 {
-	m_pGISDisplay = NULL;
+    m_pGISDisplay = m_pGISDisplayUI = NULL;
 	m_pTrackCancel = NULL;
 	m_pAni = NULL;
 	m_nDrawingState = enumGISMapNone;
@@ -74,7 +74,7 @@ wxGISMapView::wxGISMapView(void) : wxGISExtentStack(), wxGISThreadHelper()//wxTH
 
 wxGISMapView::wxGISMapView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxGISExtentStack(), wxGISThreadHelper()//wxTHREAD_JOINABLE
 {
-	m_pGISDisplay = NULL;
+    m_pGISDisplay = m_pGISDisplayUI = NULL;
 	m_pTrackCancel = NULL;
 	m_pAni = NULL;
 	m_nDrawingState = enumGISMapNone;
@@ -94,13 +94,15 @@ wxGISMapView::~wxGISMapView(void)
     }
 
     wxDELETE(m_pGISDisplay);
+    m_pGISDisplayUI = NULL;
 }
 
 bool wxGISMapView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxWindow::Create(parent, id, pos, size, style, name ))
 		return false;
-	m_pGISDisplay = new wxGISDisplay();
+    m_pGISDisplayUI = new wxGISDisplayUI();
+    m_pGISDisplay = m_pGISDisplayUI;
 
 	UpdateFrameCenter();
 
@@ -127,9 +129,9 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 		return;
 	}
 
-	if(m_pGISDisplay)
+    if (m_pGISDisplayUI)
 	{
-        if (IsThreadRun() && m_pGISDisplay->IsDerty())//m_nDrawingState = enumGISMapDrawing
+        if (IsThreadRun() && m_pGISDisplayUI->IsDerty())//m_nDrawingState = enumGISMapDrawing
         {
             return;
         }
@@ -137,7 +139,7 @@ void wxGISMapView::OnPaint(wxPaintEvent & event)
 		{
 			//draw contents of m_pGISDisplay
             wxClientDC CDC(this);
-            m_pGISDisplay->Output(&CDC);
+            m_pGISDisplayUI->Output(&CDC);
             //m_pGISDisplay->Output(&paint_dc);
 		}
 	}
@@ -158,22 +160,22 @@ void wxGISMapView::OnSize(wxSizeEvent & event)
 	    if(m_nDrawingState == enumGISMapZooming)
 	    {
 		    wxClientDC CDC(this);
-		    if(m_pGISDisplay)
-			    m_pGISDisplay->ZoomingDraw(rc, &CDC);
+            if (m_pGISDisplayUI)
+                m_pGISDisplayUI->ZoomingDraw(rc, &CDC);
 	    }
 	    else
 	    {
 		    //start zooming action
 		    m_nDrawingState = enumGISMapZooming;
-            if(m_pGISDisplay)
-                m_pGISDisplay->SetDeviceFrame(rc);
+            if (m_pGISDisplayUI)
+                m_pGISDisplayUI->SetDeviceFrame(rc);
 			m_timer.Start(TM_ZOOMING);
         }
     }
     else
     {
-        if(m_pGISDisplay)
-            m_pGISDisplay->SetDeviceFrame(rc);
+        if (m_pGISDisplayUI)
+            m_pGISDisplayUI->SetDeviceFrame(rc);
     }
 
 	UpdateFrameCenter();
@@ -479,7 +481,7 @@ void wxGISMapView::OnMouseWheel(wxMouseEvent& event)
 	m_nFactor += ZOOM_FACTOR * (double)nFactor;
 
 
-	if(m_pGISDisplay)
+    if (m_pGISDisplayUI)
 	{
 		double dZoom = 1;
 		if(m_nFactor < 0)
@@ -487,7 +489,7 @@ void wxGISMapView::OnMouseWheel(wxMouseEvent& event)
 		else if(m_nFactor > 0)
 			dZoom = 1 + m_nFactor;
         wxClientDC CDC(this);
-		m_pGISDisplay->WheelingDraw(dZoom, &CDC);
+        m_pGISDisplayUI->WheelingDraw(dZoom, &CDC);
 
 		//draw scale text
 		OGREnvelope Env = CreateEnvelopeFromZoomFactor(dZoom);
@@ -606,8 +608,8 @@ void wxGISMapView::PanMoveTo(wxPoint MouseLocation)
 		wxCoord x =  m_StartMouseLocation.x - MouseLocation.x;
 		wxCoord y =  m_StartMouseLocation.y - MouseLocation.y;
 		wxClientDC CDC(this);
-		if(m_pGISDisplay)
-			m_pGISDisplay->PanningDraw(x, y, &CDC);
+        if (m_pGISDisplayUI)
+            m_pGISDisplayUI->PanningDraw(x, y, &CDC);
 	}
 }
 
@@ -701,7 +703,7 @@ void wxGISMapView::RotateBy(wxPoint MouseLocation)
 {
 	if(m_nDrawingState == enumGISMapRotating)
 	{
-		if(m_pGISDisplay)
+        if (m_pGISDisplayUI)
 		{
 			//compute angle
 			double dX = m_FrameCenter.x - MouseLocation.x;
@@ -712,9 +714,9 @@ void wxGISMapView::RotateBy(wxPoint MouseLocation)
 				dAngle += 2 * M_PI;
 
 			wxClientDC CDC(this);
-			m_pGISDisplay->RotatingDraw(dAngle, &CDC);
+            m_pGISDisplayUI->RotatingDraw(dAngle, &CDC);
 
-			m_dCurrentAngle = DOUBLEPI - m_pGISDisplay->GetRotate() - dAngle;
+            m_dCurrentAngle = DOUBLEPI - m_pGISDisplayUI->GetRotate() - dAngle;
 			if(m_dCurrentAngle >= DOUBLEPI)
 				m_dCurrentAngle -= DOUBLEPI;
 			if(m_dCurrentAngle < 0)

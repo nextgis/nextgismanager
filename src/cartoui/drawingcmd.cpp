@@ -379,7 +379,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
     {
     case enumGISDrawingToolRectangle://
     {
-        wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberEnvelope.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -388,7 +388,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
     }
     case enumGISDrawingToolMarker://
     {
-        wxGISRubberMarker RubberMarker(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberMarker RubberMarker(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberMarker.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -397,7 +397,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
     }
     case enumGISDrawingToolCircle://
     {
-        wxGISRubberCircle RubberCircle(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberCircle RubberCircle(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberCircle.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -406,7 +406,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
     }
     case enumGISDrawingToolEllipse://
     {
-        wxGISRubberEllipse RubberEllipse(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberEllipse RubberEllipse(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberEllipse.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -419,7 +419,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
 
-        wxGISRubberPolygon RubberPolygon(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberPolygon RubberPolygon(oPen, m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberPolygon.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -432,7 +432,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
 
-        wxGISRubberLine RubberLine(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberLine RubberLine(oPen, m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberLine.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;
@@ -460,7 +460,7 @@ void wxGISDrawingTool::OnMouseDown(wxMouseEvent& event)
         oPen.SetCap(wxCAP_ROUND);
         oPen.SetJoin(wxJOIN_ROUND);
 
-        wxGISRubberFreeHand RubberFreeHand(oPen, m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+        wxGISRubberFreeHand RubberFreeHand(oPen, m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
         wxGISGeometry Geom = RubberFreeHand.TrackNew(event.GetX(), event.GetY());
         if (!Geom.IsOk() || m_pMapView == NULL)
             break;

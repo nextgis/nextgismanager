@@ -20,7 +20,7 @@
  ****************************************************************************/
 #include "wxgis/display/color.h"
 
-#include "wx/tokenzr.h"
+#include <wx/tokenzr.h>
 
 //---------------------------------------------------------------------------
 // wxGISColor
@@ -46,10 +46,12 @@ wxGISColor::wxGISColor(const wxColour &Color)
     SetValues(Color.Red(), Color.Green(), Color.Blue(), Color.Alpha());
 }
 
+#if defined(wxUSE_GUI) && wxUSE_GUI
 wxColour wxGISColor::GetColour() const
 {
     return wxColour(Red(), Green(), Blue(), Alpha());
 }
+#endif
 
 void wxGISColor::Set(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha)
 {

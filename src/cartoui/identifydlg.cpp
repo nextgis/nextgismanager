@@ -865,9 +865,9 @@ void wxAxIdentifyView::Identify(wxGISMapView* pMapView, wxGISGeometry &GeometryB
         dfHeight = oConfig.ReadDouble(enumGISHKCU, wxString(wxT("wxGISCommon/identify/search_height")), dfHeight);
     }
 
-    if(m_pMapView->GetDisplay())
+    if(m_pMapView->GetDisplayUI())
     {
-        m_pMapView->GetDisplay()->DC2WorldDist(&dfWidth, &dfHeight);
+        m_pMapView->GetDisplayUI()->DC2WorldDist(&dfWidth, &dfHeight);
         dfWidth = std::fabs(dfWidth);
         dfHeight = std::fabs(dfHeight);
     }

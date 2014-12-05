@@ -544,7 +544,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
             if(!Geom.IsOk())
 				break;
@@ -561,7 +561,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
             if(!Geom.IsOk())
 				break;
@@ -595,7 +595,7 @@ void wxGISCartoMainTool::OnMouseDown(wxMouseEvent& event)
                 nWidth = GetDecimalValue( pNode, wxT("width"), nWidth);
             }
 
-            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplay(), m_pMapView->GetSpatialReference());
+            wxGISRubberEnvelope RubberEnvelope(wxPen(color.GetColour(), nWidth), m_pMapView, m_pMapView->GetDisplayUI(), m_pMapView->GetSpatialReference());
 			wxGISGeometry Geom = RubberEnvelope.TrackNew( event.GetX(), event.GetY() );
 			if(!m_pIdentifyView)
                 return;

@@ -51,7 +51,7 @@ public:
 	virtual ~wxGISMapView(void);
     virtual bool Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE, const wxString& name = wxT("GISMapView"));//wxSTATIC_BORDER|
 	virtual void SetTrackCancel(ITrackCancel* pTrackCancel);
-	virtual wxGISDisplay* GetDisplay(void) const {return m_pGISDisplay;};
+	virtual wxGISDisplayUI* GetDisplayUI(void) const {return m_pGISDisplayUI;};
 	//wxGISExtentStack
 	virtual bool AddLayer(wxGISLayer* pLayer);
 	virtual void Clear(void);
@@ -133,6 +133,8 @@ protected:
 	//wxGISPointsArray m_ClipGeometry;
     wxSize m_PrevSize;
     wxDateTime m_dtNow;
+
+    wxGISDisplayUI *m_pGISDisplayUI;
 private:
 	DECLARE_EVENT_TABLE()
 };

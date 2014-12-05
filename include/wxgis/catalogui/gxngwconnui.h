@@ -204,7 +204,7 @@ protected:
 
     @library{catalogui}
 */
-
+#ifdef wxGIS_USE_POSTGRES
 class WXDLLIMPEXP_GIS_CLU wxGxNGWPostGISConnectionUI :
     public wxGxRemoteConnectionUI,
     public wxGxNGWResource
@@ -234,7 +234,7 @@ protected:
 protected:
 	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
 };
-
+#endif //wxGIS_USE_POSTGRES
 
 /** @class wxGxNGWFileSetUI
 

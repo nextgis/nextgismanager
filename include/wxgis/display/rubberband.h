@@ -37,7 +37,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberBand :
 {
     DECLARE_CLASS(wxGISRubberBand)
 public:
-	wxGISRubberBand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+	wxGISRubberBand(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
 	virtual ~wxGISRubberBand(void);
 	virtual wxGISGeometry TrackNew(wxCoord x, wxCoord y);
 	virtual void OnUnlock(void);
@@ -58,7 +58,7 @@ protected:
 	wxCoord m_StartXScr;
 	wxCoord m_StartYScr;
 	wxWindow *m_pWnd;
-	wxGISDisplay *m_pDisp;
+	wxGISDisplayUI *m_pDisp;
 	wxPen m_oPen;
 
     //wxRect m_PrevRect;
@@ -80,7 +80,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberEnvelope :
 {
     DECLARE_CLASS(wxGISRubberEnvelope)
 public:
-	wxGISRubberEnvelope(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+	wxGISRubberEnvelope(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
 	virtual ~wxGISRubberEnvelope(void);
 	virtual void OnMouseMove(wxMouseEvent& event);
 	virtual void OnMouseUp(wxMouseEvent& event);
@@ -98,7 +98,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberCircle :
 {
     DECLARE_CLASS(wxGISRubberCircle)
 public:
-    wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberCircle(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberCircle(void);
     virtual void OnMouseMove(wxMouseEvent& event);
     virtual void OnMouseUp(wxMouseEvent& event);
@@ -116,7 +116,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberEllipse :
 {
     DECLARE_CLASS(wxGISRubberEllipse)
 public:
-    wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberEllipse(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberEllipse(void);
     virtual void OnMouseMove(wxMouseEvent& event);
 };
@@ -133,7 +133,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberFreeHand :
 {
     DECLARE_CLASS(wxGISRubberFreeHand)
 public:
-    wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberFreeHand(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberFreeHand(void);
     virtual void OnMouseMove(wxMouseEvent& event);
     virtual void OnMouseUp(wxMouseEvent& event);
@@ -153,7 +153,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberMarker :
 {
     DECLARE_CLASS(wxGISRubberMarker)
 public:
-    wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberMarker(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberMarker(void);
     virtual void OnMouseUp(wxMouseEvent& event);
 };
@@ -170,7 +170,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberLine :
 {
     DECLARE_CLASS(wxGISRubberLine)
 public:
-    wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberLine(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberLine(void);
     virtual void OnMouseMove(wxMouseEvent& event);
     virtual void OnMouseDown(wxMouseEvent& event);
@@ -191,7 +191,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberPolygon :
 {
     DECLARE_CLASS(wxGISRubberPolygon)
 public:
-    wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberPolygon(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberPolygon(void);
     virtual void OnMouseMove(wxMouseEvent& event);
     virtual void OnMouseDoubleClick(wxMouseEvent& event);
@@ -211,7 +211,7 @@ class WXDLLIMPEXP_GIS_DSP wxGISRubberSpline :
 {
     DECLARE_CLASS(wxGISRubberSpline)
 public:
-    wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplay *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
+    wxGISRubberSpline(wxPen oPen, wxWindow *pWnd, wxGISDisplayUI *pDisp, const wxGISSpatialReference &SpaRef = wxNullSpatialReference);
     virtual ~wxGISRubberSpline(void);
     virtual void OnMouseMove(wxMouseEvent& event);
 };

@@ -22,6 +22,18 @@
 
 #include "wxgis/display/display.h"
 
+#if defined(wxUSE_GUI) && wxUSE_GUI
+    #include <wx/colour.h>
+#else
+enum {
+    wxC2S_NAME = 1,   // return colour name, when possible
+    wxC2S_CSS_SYNTAX = 2,   // return colour in rgb(r,g,b) syntax
+    wxC2S_HTML_SYNTAX = 4    // return colour in #rrggbb syntax
+}; 
+
+const unsigned char wxALPHA_TRANSPARENT = 0;
+const unsigned char wxALPHA_OPAQUE = 0xff;
+#endif
 #define ChannelType unsigned char
 
 /** @class wxGISColor
@@ -38,7 +50,9 @@ public:
     wxGISColor(ChannelType red, ChannelType green, ChannelType blue, ChannelType alpha = wxALPHA_OPAQUE);
     wxGISColor(const wxColour &Color);
     wxGISColor(const wxGISColor &Color);
+#if defined(wxUSE_GUI) && wxUSE_GUI
     wxColour GetColour() const;
+#endif
     wxGISColor& operator=(const wxGISColor& Color);
     double GetRed() const;
     double GetBlue() const;

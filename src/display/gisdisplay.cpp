@@ -25,6 +25,10 @@
 #include <wx/graphics.h>
 #include <wx/dcgraph.h>
 
+//--------------------------------------------------------------------------------
+// wxGISDisplay
+//--------------------------------------------------------------------------------
+
 wxGISDisplay::wxGISDisplay(void)
 {
 	//default background color
@@ -126,25 +130,6 @@ void wxGISDisplay::Clear()
 	OnEraseBackground();
 }
 
-cairo_t* wxGISDisplay::CreateContext(wxDC* dc)
-{
-    cairo_t *cr(NULL);
-#ifdef __WXMSW__
-//#if CAIRO_HAS_WIN32_SURFACE
-     HDC hdc = (HDC)dc->GetHDC();
-     cr = cairo_create(cairo_win32_surface_create( hdc ));
-#endif
-
-#ifdef __WXGTK__
-     wxGraphicsRenderer * const renderer = wxGraphicsRenderer::GetCairoRenderer();
-     wxWindowDC* pwdc =  wxDynamicCast(dc, wxWindowDC);
-     wxGraphicsContext * gc = renderer->CreateContext(*pwdc);
-     if(gc)
-          cr =  (cairo_t*)gc->GetNativeContext();
-#endif
-     return cr;
-}
-
 void wxGISDisplay::OnEraseBackground(void)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
@@ -175,34 +160,6 @@ void wxGISDisplay::ClearCache(size_t nCacheId)
     }
 }
 
-void wxGISDisplay::Output(wxDC* pDC)
-{
-    //TODO: draw all 1 - size caches to tmp_surface
-	wxCriticalSectionLocker locker(m_CritSect);
-
-	cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	cairo_paint(m_cr_tmp);
-
-	cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
-	cairo_paint (m_cr_tmp);
-
-    Output(m_surface_tmp, pDC);
-}
-
-void wxGISDisplay::Output(cairo_surface_t *pSurface, wxDC* pDC)
-{
-    cairo_t *cr = CreateContext(pDC);
-    if(cr == NULL)
-        return;
-
-	cairo_set_source_surface (cr, pSurface, 0, 0);
-	cairo_paint (cr);
-
-//#ifdef __WXMSW__
-    cairo_destroy (cr);
-//#endif
-}
-
 bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
 {
     wxCriticalSectionLocker locker(m_CritSect);
@@ -217,174 +174,6 @@ bool wxGISDisplay::Output(GDALDataset *pGDALDataset)
 
     CPLErr eErr = pGDALDataset->RasterIO(GF_Write, 0, 0, nWidth, nHeight, pData, nWidth, nHeight, GDT_Byte, 4, anBandMap, 4, nWidth * 4, 1);
     return eErr == CE_None;
-}
-
-void wxGISDisplay::ZoomingDraw(const wxRect& rc, wxDC* pDC)
-{
-	wxCriticalSectionLocker locker(m_CritSect);
-
-	//compute scale
-	double dScaleX = double(rc.GetWidth()) / m_oDeviceFrameRect.GetWidth();
-	double dScaleY = double(rc.GetHeight()) / m_oDeviceFrameRect.GetHeight();
-#ifdef PROPORTIONAL_ZOOM
-    double dZoom = wxMin(dScaleX,dScaleY);
-#endif
-    double dFrameCenterX = rc.GetWidth() / 2;
-    double dFrameCenterY = rc.GetHeight() / 2;
-
-    cairo_surface_t *pSurfaceTmp = cairo_image_surface_create (CAIRO_FORMAT_RGB24, rc.GetWidth(), rc.GetHeight());
-	cairo_t * pCrTmp = cairo_create (pSurfaceTmp);
-
-#ifdef PROPORTIONAL_ZOOM
-	double dDCXDelta = dFrameCenterX / dZoom;
-	double dDCYDelta = dFrameCenterY / dZoom;
-#else
-	double dDCXDelta = dFrameCenterX / dScaleX;
-	double dDCYDelta = dFrameCenterY / dScaleY;
-#endif
-
-	double dOrigin_X = m_dCacheCenterX - dDCXDelta;
-	double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
-
-#ifdef PROPORTIONAL_ZOOM
-    cairo_scale(pCrTmp, dZoom, dZoom);
-#else
-    cairo_scale(pCrTmp, dScaleX, dScaleY);
-#endif
-
-    cairo_set_source_rgb(pCrTmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	cairo_paint(pCrTmp);
-
-	cairo_set_source_surface (pCrTmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dOrigin_X, -dOrigin_Y);
-
-    cairo_paint (pCrTmp);
-
-    Output(pSurfaceTmp, pDC);
-
-    cairo_surface_destroy (pSurfaceTmp);
-    cairo_destroy (pCrTmp);
-}
-
-void wxGISDisplay::WheelingDraw(double dZoom, wxDC* pDC)
-{
-	wxCriticalSectionLocker locker(m_CritSect);
-
-	if(IsDoubleEquil(dZoom, 1)) // no zoom
-	{
-		cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
-		cairo_set_operator (m_cr_tmp, CAIRO_OPERATOR_SOURCE);
-
-        cairo_paint (m_cr_tmp);
-
-	}
-	else if(dZoom > 1) // zoom in
-	{
-		double dDCXDelta = m_dFrameCenterX / dZoom;
-		double dDCYDelta = m_dFrameCenterY / dZoom;
-		double dOrigin_X = m_dCacheCenterX - dDCXDelta;
-		double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
-
-        cairo_scale(m_cr_tmp, dZoom, dZoom);
-
-        cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	    cairo_paint(m_cr_tmp);
-
-		cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dOrigin_X, -dOrigin_Y);
-
-        cairo_paint (m_cr_tmp);
-	}
-	else //zoom out
-	{
-		double dDCXDelta = m_dFrameCenterX * dZoom;
-		double dDCYDelta = m_dFrameCenterY * dZoom;
-		double dOrigin_X = m_dFrameCenterX - dDCXDelta;
-		double dOrigin_Y = m_dFrameCenterY - dDCYDelta;
-
-        cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	    cairo_paint(m_cr_tmp);
-
-        cairo_translate (m_cr_tmp, dOrigin_X, dOrigin_Y);
-		cairo_scale(m_cr_tmp, dZoom, dZoom);
-
-		cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
-
-        cairo_paint (m_cr_tmp);
-	}
-    cairo_matrix_t mat = {1, 0, 0, 1, 0, 0};
-	cairo_set_matrix (m_cr_tmp, &mat);
-
-    Output(m_surface_tmp, pDC);
-}
-
-void wxGISDisplay::PanningDraw(wxCoord x, wxCoord y, wxDC* pDC)
-{
-	wxCriticalSectionLocker locker(m_CritSect);
-
-	cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	cairo_paint(m_cr_tmp);
-
-	double dNewX = m_dOrigin_X + double(x);
-	double dNewY = m_dOrigin_Y + double(y);
-	cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dNewX, -dNewY);
-
-	cairo_paint (m_cr_tmp);
-
-	//cairo_surface_t *surface;
-    cairo_t *cr;
-
-	cr = CreateContext(pDC);
-	//surface = cairo_get_target(cr);
-
-	cairo_set_source_surface (cr, m_surface_tmp, 0, 0);
-	cairo_paint (cr);
-
-#ifdef __WXMSW__
-    //cairo_surface_destroy (surface);
-    cairo_destroy (cr);
-#endif
-}
-
-void wxGISDisplay::RotatingDraw(double dAngle, wxDC* pDC)
-{
-	wxCriticalSectionLocker locker(m_CritSect);
-
-	cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
-	cairo_paint(m_cr_tmp);
-
-	int w = cairo_image_surface_get_width (cairo_get_target(m_cr_tmp));
-	int h = cairo_image_surface_get_height (cairo_get_target(m_cr_tmp));
-	//cairo_translate (m_cr_tmp, 0.5 * m_oDeviceFrameRect.GetWidth(), 0.5 * m_oDeviceFrameRect.GetHeight());
-
-	//double dWorldCenterX = m_CurrentBounds.MinX + double(m_CurrentBounds.MaxX - m_CurrentBounds.MinX) / 2;
-	//double dWorldCenterY = m_CurrentBounds.MinY + double(m_CurrentBounds.MaxY - m_CurrentBounds.MinY) / 2;
-	//World2DC(&dWorldCenterX, &dWorldCenterY);
-
-	//cairo_translate (m_cr_tmp, dWorldCenterX, dWorldCenterY);
-	cairo_translate (m_cr_tmp, m_dFrameCenterX, m_dFrameCenterY);
-	cairo_rotate (m_cr_tmp, dAngle);
-	//cairo_translate (m_cr_tmp, -0.5 * m_oDeviceFrameRect.GetWidth(), -0.5 * m_oDeviceFrameRect.GetHeight());
-	//cairo_translate (m_cr_tmp, -dWorldCenterX, -dWorldCenterY);
-	cairo_translate (m_cr_tmp, -m_dFrameCenterX, -m_dFrameCenterY);
-	cairo_set_source_surface (m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
-
-	cairo_paint (m_cr_tmp);
-
-	//cairo_surface_t *surface;
-    cairo_t *cr;
-
-	cr = CreateContext(pDC);
-	//surface = cairo_get_target(cr);
-
-	cairo_set_source_surface (cr, m_surface_tmp, 0, 0);
-	cairo_paint (cr);
-
-	cairo_matrix_t mat = {1, 0, 0, 1, 0, 0};
-	cairo_set_matrix (m_cr_tmp, &mat);
-
-#ifdef __WXMSW__
-    //cairo_surface_destroy (surface);
-    cairo_destroy (cr);
-#endif
 }
 
 size_t wxGISDisplay::AddCache(void)
@@ -966,3 +755,236 @@ wxCriticalSection &wxGISDisplay::GetLock()
     return m_CritSect;
 }
 
+//--------------------------------------------------------------------------------
+// wxGISDisplayUI
+//--------------------------------------------------------------------------------
+#if defined(wxUSE_GUI) && wxUSE_GUI
+
+wxGISDisplayUI::wxGISDisplayUI(void) : wxGISDisplay()
+{
+
+}
+
+wxGISDisplayUI::~wxGISDisplayUI()
+{
+
+}
+
+cairo_t* wxGISDisplayUI::CreateContext(wxDC* dc)
+{
+    cairo_t *cr(NULL);
+#ifdef __WXMSW__
+    //#if CAIRO_HAS_WIN32_SURFACE
+    HDC hdc = (HDC)dc->GetHDC();
+    cr = cairo_create(cairo_win32_surface_create(hdc));
+#endif
+
+#ifdef __WXGTK__
+    wxGraphicsRenderer * const renderer = wxGraphicsRenderer::GetCairoRenderer();
+    wxWindowDC* pwdc = wxDynamicCast(dc, wxWindowDC);
+    wxGraphicsContext * gc = renderer->CreateContext(*pwdc);
+    if (gc)
+        cr = (cairo_t*)gc->GetNativeContext();
+#endif
+    return cr;
+}
+
+void wxGISDisplayUI::Output(wxDC* pDC)
+{
+    //TODO: draw all 1 - size caches to tmp_surface
+    wxCriticalSectionLocker locker(m_CritSect);
+
+    cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+    cairo_paint(m_cr_tmp);
+
+    cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
+    cairo_paint(m_cr_tmp);
+
+    Output(m_surface_tmp, pDC);
+}
+
+void wxGISDisplayUI::Output(cairo_surface_t *pSurface, wxDC* pDC)
+{
+    cairo_t *cr = CreateContext(pDC);
+    if (cr == NULL)
+        return;
+
+    cairo_set_source_surface(cr, pSurface, 0, 0);
+    cairo_paint(cr);
+
+    //#ifdef __WXMSW__
+    cairo_destroy(cr);
+    //#endif
+}
+
+
+void wxGISDisplayUI::ZoomingDraw(const wxRect& rc, wxDC* pDC)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+
+    //compute scale
+    double dScaleX = double(rc.GetWidth()) / m_oDeviceFrameRect.GetWidth();
+    double dScaleY = double(rc.GetHeight()) / m_oDeviceFrameRect.GetHeight();
+#ifdef PROPORTIONAL_ZOOM
+    double dZoom = wxMin(dScaleX, dScaleY);
+#endif
+    double dFrameCenterX = rc.GetWidth() / 2;
+    double dFrameCenterY = rc.GetHeight() / 2;
+
+    cairo_surface_t *pSurfaceTmp = cairo_image_surface_create(CAIRO_FORMAT_RGB24, rc.GetWidth(), rc.GetHeight());
+    cairo_t * pCrTmp = cairo_create(pSurfaceTmp);
+
+#ifdef PROPORTIONAL_ZOOM
+    double dDCXDelta = dFrameCenterX / dZoom;
+    double dDCYDelta = dFrameCenterY / dZoom;
+#else
+    double dDCXDelta = dFrameCenterX / dScaleX;
+    double dDCYDelta = dFrameCenterY / dScaleY;
+#endif
+
+    double dOrigin_X = m_dCacheCenterX - dDCXDelta;
+    double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
+
+#ifdef PROPORTIONAL_ZOOM
+    cairo_scale(pCrTmp, dZoom, dZoom);
+#else
+    cairo_scale(pCrTmp, dScaleX, dScaleY);
+#endif
+
+    cairo_set_source_rgb(pCrTmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+    cairo_paint(pCrTmp);
+
+    cairo_set_source_surface(pCrTmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dOrigin_X, -dOrigin_Y);
+
+    cairo_paint(pCrTmp);
+
+    Output(pSurfaceTmp, pDC);
+
+    cairo_surface_destroy(pSurfaceTmp);
+    cairo_destroy(pCrTmp);
+}
+
+void wxGISDisplayUI::WheelingDraw(double dZoom, wxDC* pDC)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+
+    if (IsDoubleEquil(dZoom, 1)) // no zoom
+    {
+        cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nCurrentLayer].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
+        cairo_set_operator(m_cr_tmp, CAIRO_OPERATOR_SOURCE);
+
+        cairo_paint(m_cr_tmp);
+
+    }
+    else if (dZoom > 1) // zoom in
+    {
+        double dDCXDelta = m_dFrameCenterX / dZoom;
+        double dDCYDelta = m_dFrameCenterY / dZoom;
+        double dOrigin_X = m_dCacheCenterX - dDCXDelta;
+        double dOrigin_Y = m_dCacheCenterY - dDCYDelta;
+
+        cairo_scale(m_cr_tmp, dZoom, dZoom);
+
+        cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+        cairo_paint(m_cr_tmp);
+
+        cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dOrigin_X, -dOrigin_Y);
+
+        cairo_paint(m_cr_tmp);
+    }
+    else //zoom out
+    {
+        double dDCXDelta = m_dFrameCenterX * dZoom;
+        double dDCYDelta = m_dFrameCenterY * dZoom;
+        double dOrigin_X = m_dFrameCenterX - dDCXDelta;
+        double dOrigin_Y = m_dFrameCenterY - dDCYDelta;
+
+        cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+        cairo_paint(m_cr_tmp);
+
+        cairo_translate(m_cr_tmp, dOrigin_X, dOrigin_Y);
+        cairo_scale(m_cr_tmp, dZoom, dZoom);
+
+        cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
+
+        cairo_paint(m_cr_tmp);
+    }
+    cairo_matrix_t mat = { 1, 0, 0, 1, 0, 0 };
+    cairo_set_matrix(m_cr_tmp, &mat);
+
+    Output(m_surface_tmp, pDC);
+}
+
+void wxGISDisplayUI::PanningDraw(wxCoord x, wxCoord y, wxDC* pDC)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+
+    cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+    cairo_paint(m_cr_tmp);
+
+    double dNewX = m_dOrigin_X + double(x);
+    double dNewY = m_dOrigin_Y + double(y);
+    cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -dNewX, -dNewY);
+
+    cairo_paint(m_cr_tmp);
+
+    //cairo_surface_t *surface;
+    cairo_t *cr;
+
+    cr = CreateContext(pDC);
+    //surface = cairo_get_target(cr);
+
+    cairo_set_source_surface(cr, m_surface_tmp, 0, 0);
+    cairo_paint(cr);
+
+#ifdef __WXMSW__
+    //cairo_surface_destroy (surface);
+    cairo_destroy(cr);
+#endif
+}
+
+void wxGISDisplayUI::RotatingDraw(double dAngle, wxDC* pDC)
+{
+    wxCriticalSectionLocker locker(m_CritSect);
+
+    cairo_set_source_rgb(m_cr_tmp, m_BackGroudnColour.GetRed(), m_BackGroudnColour.GetGreen(), m_BackGroudnColour.GetBlue());
+    cairo_paint(m_cr_tmp);
+
+    int w = cairo_image_surface_get_width(cairo_get_target(m_cr_tmp));
+    int h = cairo_image_surface_get_height(cairo_get_target(m_cr_tmp));
+    //cairo_translate (m_cr_tmp, 0.5 * m_oDeviceFrameRect.GetWidth(), 0.5 * m_oDeviceFrameRect.GetHeight());
+
+    //double dWorldCenterX = m_CurrentBounds.MinX + double(m_CurrentBounds.MaxX - m_CurrentBounds.MinX) / 2;
+    //double dWorldCenterY = m_CurrentBounds.MinY + double(m_CurrentBounds.MaxY - m_CurrentBounds.MinY) / 2;
+    //World2DC(&dWorldCenterX, &dWorldCenterY);
+
+    //cairo_translate (m_cr_tmp, dWorldCenterX, dWorldCenterY);
+    cairo_translate(m_cr_tmp, m_dFrameCenterX, m_dFrameCenterY);
+    cairo_rotate(m_cr_tmp, dAngle);
+    //cairo_translate (m_cr_tmp, -0.5 * m_oDeviceFrameRect.GetWidth(), -0.5 * m_oDeviceFrameRect.GetHeight());
+    //cairo_translate (m_cr_tmp, -dWorldCenterX, -dWorldCenterY);
+    cairo_translate(m_cr_tmp, -m_dFrameCenterX, -m_dFrameCenterY);
+    cairo_set_source_surface(m_cr_tmp, m_saLayerCaches[m_nLastCacheID].pCairoSurface, -m_dOrigin_X, -m_dOrigin_Y);
+
+    cairo_paint(m_cr_tmp);
+
+    //cairo_surface_t *surface;
+    cairo_t *cr;
+
+    cr = CreateContext(pDC);
+    //surface = cairo_get_target(cr);
+
+    cairo_set_source_surface(cr, m_surface_tmp, 0, 0);
+    cairo_paint(cr);
+
+    cairo_matrix_t mat = { 1, 0, 0, 1, 0, 0 };
+    cairo_set_matrix(m_cr_tmp, &mat);
+
+#ifdef __WXMSW__
+    //cairo_surface_destroy (surface);
+    cairo_destroy(cr);
+#endif
+}
+
+
+#endif
