@@ -3,7 +3,7 @@
  * Purpose:  wxGxDatasetUI classes.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010-2011,2013.2014 Dmitry Baryshnikov
+*   Copyright (C) 2010-2011,2013,2014 Dmitry Baryshnikov
 *   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -54,9 +54,9 @@ protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
 
-/** @class wxGxFeatureDataset
+/** @class wxGxFeatureDatasetUI
 
-    A Feature Dataset GxObject.
+    A Feature Dataset GxObjectUI
 
     @library{catalogui}
 */
@@ -84,9 +84,9 @@ protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
 
-/** @class wxGxRasterDataset
+/** @class wxGxRasterDatasetUI
   * 
-  * A Raster Dataset GxObject
+  * A Raster Dataset GxObjectUI
   * 
   * @library{catalogui}
   */
@@ -110,6 +110,36 @@ public:
 	//IGxObjectEditUI
 	virtual wxArrayString GetPropertyPages() const;
 	virtual bool HasPropertyPages(void) const;
+protected:
+    wxIcon m_LargeIcon, m_SmallIcon;
+};
+
+/** @class wxGxRasterDatasetContainerUI
+ *
+ *  A Raster Dataset GxObjectContainerUI
+ *
+ *  @library{catalogui}
+ */
+
+class WXDLLIMPEXP_GIS_CLU wxGxRasterDatasetContainerUI :
+    public wxGxRasterDatasetContainer,
+    public IGxObjectUI,
+    public IGxObjectEditUI
+{
+    DECLARE_CLASS(wxGxRasterDatasetContainerUI)
+public:
+    wxGxRasterDatasetContainerUI(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon & LargeIcon = wxNullIcon, const wxIcon & SmallIcon = wxNullIcon);
+    virtual ~wxGxRasterDatasetContainerUI(void);
+    //wxGxRasterDataset
+    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
+    //IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxRasterDataset.ContextMenu")); };
+    virtual wxString NewMenu(void) const { return wxEmptyString; };//wxString(wxT("wxGxRasterDataset.NewMenu"));};
+    //IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };

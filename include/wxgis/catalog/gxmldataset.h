@@ -57,7 +57,6 @@ protected:
     virtual wxGISDataset* const GetDatasetFast(void);
 protected:
     bool m_bIsChildrenLoaded;
-    wxGISDataset* m_pwxGISDataset;
 	wxGISEnumVectorDatasetType m_eType;
 };
 

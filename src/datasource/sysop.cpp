@@ -645,3 +645,15 @@ void AddFileToZip(const CPLString &szPath, void* hZIP, GByte **pabyBuffer, size_
     VSIFCloseL(fp);
 
 }
+
+wxDateTime GetFileModificatioDate(const CPLString &szPath)
+{
+    VSIStatBufL BufL;
+    wxDateTime dt;
+    int ret = VSIStatL(szPath, &BufL);
+    if (ret == 0)
+    {
+        dt = wxDateTime(BufL.st_mtime);
+    }
+    return dt;
+}

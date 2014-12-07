@@ -39,7 +39,7 @@
 #include "wx/propdlg.h"
 
 //--------------------------------------------------------------
-//class wxGxTableUI
+// wxGxTableUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxTableUI, wxGxTable)
@@ -88,7 +88,7 @@ wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pT
 }
 
 //--------------------------------------------------------------
-//class wxGxFeatureDatasetUI
+// wxGxFeatureDatasetUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxFeatureDatasetUI, wxGxFeatureDataset)
@@ -138,7 +138,7 @@ wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel*
 }
 
 //--------------------------------------------------------------
-//class wxGxRasterDatasetUI
+// wxGxRasterDatasetUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxRasterDatasetUI, wxGxRasterDataset)
@@ -183,6 +183,58 @@ wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* 
     if(NULL == pOut)
     {
 		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
+        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
+    }
+    wsGET(pOut);
+}
+
+
+//--------------------------------------------------------------
+// wxGxRasterDatasetContainerUI
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxRasterDatasetContainerUI, wxGxRasterDatasetContainer)
+
+wxGxRasterDatasetContainerUI::wxGxRasterDatasetContainerUI(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon & LargeIcon, const wxIcon & SmallIcon) : wxGxRasterDatasetContainer(nType, oParent, soName, soPath)
+{
+    m_LargeIcon = LargeIcon;
+    m_SmallIcon = SmallIcon;
+}
+
+wxGxRasterDatasetContainerUI::~wxGxRasterDatasetContainerUI(void)
+{
+}
+
+wxIcon wxGxRasterDatasetContainerUI::GetLargeImage(void)
+{
+    return m_LargeIcon;
+}
+
+wxIcon wxGxRasterDatasetContainerUI::GetSmallImage(void)
+{
+    return m_SmallIcon;
+}
+
+wxArrayString wxGxRasterDatasetContainerUI::GetPropertyPages() const
+{
+    wxArrayString out;
+    out.Add("wxGISRasterPropertyPage");
+    out.Add("wxGISSpatialReferencePropertyPage");
+    out.Add("wxGISRasterHistogramPropertyPage");
+    return out;
+}
+
+bool wxGxRasterDatasetContainerUI::HasPropertyPages(void) const
+{
+    return true;
+}
+
+wxGISDataset* const wxGxRasterDatasetContainerUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
+{
+    wxGISDataset* const pOut = wxGxRasterDatasetContainer::GetDataset(bCached, pTrackCancel);
+    if (NULL == pOut)
+    {
+        wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
         wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
     }
     wsGET(pOut);

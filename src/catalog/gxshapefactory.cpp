@@ -131,6 +131,26 @@ wxGxObject* wxGxShapeFactory::GetGxObject(wxGxObject* pParent, const wxString &s
     {
     case enumGISFeatureDataset:
         {
+        //remove dbf, prj if exist
+        CPLString sTestPath;
+        wxGxObjectContainer* pParentCont = wxDynamicCast(pParent, wxGxObjectContainer);
+
+        for (int j = 0; shape_filter_exts[j] != NULL; ++j)
+        {
+            sTestPath = (char*)CPLResetExtension(szPath, shape_filter_exts[j]);
+
+            wxGxObjectList::const_iterator iter;
+            for (iter = pParentCont->GetChildren().begin(); iter != pParentCont->GetChildren().end(); ++iter)
+            {
+                wxGxObject *current = *iter;
+                if (wxGISEQUAL(current->GetPath(), sTestPath))
+                {
+                    current->Destroy();
+                    break;
+                }
+            }
+        }
+
 	    wxGxFeatureDataset* pDataset = new wxGxFeatureDataset(enumVecESRIShapefile, pParent, soName, szPath);
         return wxStaticCast(pDataset, wxGxObject);
         }

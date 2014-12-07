@@ -1609,7 +1609,7 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	return false;	
 }
 
-bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxJSONValue& oMetadata, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxDateTime& dt, const wxJSONValue& oMetadata, ITrackCancel* const pTrackCancel)
 {
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
@@ -1662,6 +1662,10 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 		val["resource"]["parent"]["id"] = m_nRemoteId;
 		val["resource"]["display_name"] = sName;
 		val["file_bucket"]["files"] = JSONRoot["upload_meta"];
+        //TODO: fix tstamp
+        //if (dt.IsValid())
+        //    val["file_bucket"]["tstamp"] = dt.FormatISOCombined(); //"tstamp": "2014-11-18T19:53:06.726542"
+        
 		if(oMetadata.IsValid())
 			val["resmeta"]["items"] = oMetadata;
 		
@@ -2874,6 +2878,10 @@ bool wxGxNGWFileSet::CopyToFolder(const CPLString &szPath, ITrackCancel * const 
 				pTrackCancel->PutMessage(wxString::Format(_("File %s download failed"), m_asFiles[i].sName.c_str()), wxNOT_FOUND, enumGISMessageError);
 			return false;	
 		}
+
+        //set time stamp
+        wxFileName sNewFile(wxString::FromUTF8(szPath) + wxFileName::GetPathSeparator() + m_asFiles[i].sName);
+        sNewFile.SetTimes(&m_dtMod, &m_dtMod, &m_dtMod);
 	}	
 	
 	return true;

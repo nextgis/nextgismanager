@@ -92,7 +92,7 @@ char **wxGISRasterDataset::GetFileList()
     CPLString szPath;
     //papszFileList = CSLAddString( papszFileList, osIMDFile );
 	
-	bool bCaseSensitive = wxFileName::IsCaseSensitive();
+	bool bCaseSensitive = wxFileName::IsCaseSensitive() || wxGISEQUALN(m_sPath, "/vsiz", 5);
     switch(m_nSubType)
     {
 	case enumRasterSAGA:

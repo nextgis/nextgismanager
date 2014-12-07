@@ -190,3 +190,38 @@ protected:
 protected:
     wxGISEnumRasterDatasetType m_eType;
 };
+
+/** @class wxGxRasterDatasetContainer
+
+    A Raster Dataset GxObjectContainer.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxRasterDatasetContainer :
+    public wxGxDatasetContainer
+{
+    DECLARE_CLASS(wxGxRasterDatasetContainer)
+public:
+    wxGxRasterDatasetContainer(wxGISEnumRasterDatasetType eType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "");
+    virtual ~wxGxRasterDatasetContainer(void);
+    //wGxObject
+    virtual wxString GetCategory(void) const;
+    virtual void Refresh(void);
+    //wxGxObjectContainer 
+    virtual bool DestroyChildren();
+    virtual bool AreChildrenViewable(void) const { return true; };
+    virtual bool HasChildren(bool bWaitLoading = false);
+    //wxGxDataset
+    virtual wxGISDataset* const GetDataset(bool bCache = true, ITrackCancel* const pTrackCancel = NULL);
+    virtual wxGISEnumDatasetType GetType(void) const { return enumGISRasterDataset; };
+    virtual int GetSubType(void) const { return m_eType; };
+protected:
+    //wxGxRasterDatasetContainer
+    virtual void LoadChildren(void);
+    //wxGxDatasetContainer
+    virtual wxGISDataset* const GetDatasetFast(void);
+protected:
+    bool m_bIsChildrenLoaded;
+    wxGISEnumRasterDatasetType m_eType;
+};

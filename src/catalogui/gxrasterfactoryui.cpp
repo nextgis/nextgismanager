@@ -59,6 +59,7 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
         return NULL;
     }
 
+    wxGxObject* pRet = NULL;
     wxIcon icLargeIcon, icSmallIcon;
     //different icons for rasters
     switch(type)
@@ -70,6 +71,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icBMPLargeIcon = wxIcon(raster_bmp48_xpm);
         icLargeIcon = m_icBMPLargeIcon;
         icSmallIcon = m_icBMPSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterTiff:
         if(!m_icTIFSmallIcon.IsOk())
@@ -78,6 +83,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icTIFLargeIcon = wxIcon(raster_tif48_xpm);
         icLargeIcon = m_icTIFLargeIcon;
         icSmallIcon = m_icTIFSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterTil:
         if(!m_icTILSmallIcon.IsOk())
@@ -86,6 +95,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icTILLargeIcon = wxIcon(raster_til48_xpm);
         icLargeIcon = m_icTILLargeIcon;
         icSmallIcon = m_icTILSmallIcon;
+        {
+            wxGxRasterDatasetContainerUI* pDataset = new wxGxRasterDatasetContainerUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterImg:
         if(!m_icIMGSmallIcon.IsOk())
@@ -94,6 +107,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icIMGLargeIcon = wxIcon(raster_img48_xpm);
         icLargeIcon = m_icIMGLargeIcon;
         icSmallIcon = m_icIMGSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterJpeg:
         if(!m_icJPGSmallIcon.IsOk())
@@ -102,6 +119,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icJPGLargeIcon = wxIcon(raster_48_xpm);
         icLargeIcon = m_icJPGLargeIcon;
         icSmallIcon = m_icJPGSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterPng:
         if(!m_icPNGSmallIcon.IsOk())
@@ -110,6 +131,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icPNGLargeIcon = wxIcon(raster_png48_xpm);
         icLargeIcon = m_icPNGLargeIcon;
         icSmallIcon = m_icPNGSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterGif:
         if(!m_icGIFSmallIcon.IsOk())
@@ -118,6 +143,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icGIFLargeIcon = wxIcon(raster_gif48_xpm);
         icLargeIcon = m_icGIFLargeIcon;
         icSmallIcon = m_icGIFSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterSAGA:
         if(!m_icSAGASmallIcon.IsOk())
@@ -126,6 +155,10 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icSAGALargeIcon = wxIcon(raster_saga48_xpm);
         icLargeIcon = m_icSAGALargeIcon;
         icSmallIcon = m_icSAGASmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     case enumRasterVRT:
         if(!m_icVRTSmallIcon.IsOk())
@@ -134,6 +167,11 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icVRTLargeIcon = wxIcon(raster_vrt48_xpm);
         icLargeIcon = m_icVRTLargeIcon;
         icSmallIcon = m_icVRTSmallIcon;
+        //TODO: container too
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     default:
         if(!m_icSmallIcon.IsOk())
@@ -142,10 +180,13 @@ wxGxObject* wxGxRasterFactoryUI::GetGxObject(wxGxObject* pParent, const wxString
             m_icLargeIcon = wxIcon(raster_unk48_xpm);
         icLargeIcon = m_icLargeIcon;
         icSmallIcon = m_icSmallIcon;
+        {
+            wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
         break;
     };
 
-    wxGxRasterDatasetUI* pDataset = new wxGxRasterDatasetUI(type, pParent, soName, szPath, icLargeIcon, icSmallIcon);
-    return wxStaticCast(pDataset, wxGxObject);
+    return pRet; 
 }
 

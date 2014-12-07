@@ -23,8 +23,11 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxshapefactory.h"
 
-/** \class wxGxShapeFactoryUI gxshapefactoryui.h
-    \brief A shape file GxObject factory.
+/** @\class wxGxShapeFactoryUI
+
+    A shape file GxObject factory.
+
+    @library{catalogui}
 */
 
 class wxGxShapeFactoryUI :

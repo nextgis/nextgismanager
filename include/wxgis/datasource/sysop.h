@@ -259,3 +259,4 @@ WXDLLIMPEXP_GIS_DS wxString Transliterate(const wxString & str);
 WXDLLIMPEXP_GIS_DS CPLString GetExtension(const CPLString &sPath, const CPLString &sName = "");
 WXDLLIMPEXP_GIS_DS wxString GetConvName(const CPLString &szPath, bool bIsPath = true);
 WXDLLIMPEXP_GIS_DS void AddFileToZip(const CPLString &szPath, void* hZIP, GByte **pabyBuffer, size_t nBufferSize, const CPLString &szPrependPath, const wxString &sCharset);
+WXDLLIMPEXP_GIS_DS wxDateTime GetFileModificatioDate(const CPLString &szPath);

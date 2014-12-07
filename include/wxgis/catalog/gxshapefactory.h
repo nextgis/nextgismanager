@@ -3,7 +3,7 @@
  * Purpose:  wxGxShapeFactory class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2013 Dmitry Baryshnikov
+*   Copyright (C) 2009-2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,16 @@
 #include "wxgis/catalog/gxobjectfactory.h"
 #include "wxgis/datasource/datasource.h"
 
-/** \class wxGxShapeFactory gxshapefactory.h
-    \brief A shape file GxObject factory.
+
+static const char *shape_filter_exts[] = {
+    "dbf", "prj", "qpj", NULL
+};
+
+/** @class wxGxShapeFactory
+
+    A shape file GxObject factory.
+
+    @library{catalog}
 */
 
 class WXDLLIMPEXP_GIS_CLT wxGxShapeFactory :

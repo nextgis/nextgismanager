@@ -76,7 +76,7 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
         wxGxObject* pGxObj = NULL;
         CPLString szExt = CPLGetExtension(pFileNames[i]);
         CPLString szPath;
-        bool bContinue(false);
+        bool bContinue(false);       
 
         unsigned int j;
         for(j = 0; j < sizeof(raster_exts) / sizeof(raster_exts[0]); ++j)
@@ -89,6 +89,51 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
                     pGxObj = GetGxObject(pParent, GetConvName(szPath), szPath, raster_exts[j].eType, bCheckNames);
                     if(pGxObj != NULL)
                         pChildrenIds.Add(pGxObj->GetId());
+                    
+                    // raster dataset container specific
+                    if (raster_exts[j].eType == enumRasterTil)
+                    {
+                        IGxDataset* pGxDataset = dynamic_cast<IGxDataset*>(pGxObj);
+                        if (pGxDataset)
+                        {
+                            wxGISDataset* pDSet = pGxDataset->GetDataset(false);
+                            if (pDSet)
+                            {
+                                wxGxObjectContainer* pParentContainer = wxDynamicCast(pParent, wxGxObjectContainer);
+                                char** papszFileList = pDSet->GetFileList();
+                                for (size_t k = 0; k < CSLCount(papszFileList); ++k)
+                                {
+                                    wxString sTestName = wxString::FromUTF8(CPLGetFilename(papszFileList[k]));
+                                    if (pParentContainer->IsNameExist(sTestName))
+                                    {
+                                        wxGxObjectList::iterator iter;
+                                        wxGxObjectList children = pParentContainer->GetChildren();
+                                        for (iter = children.begin(); iter != children.end(); ++iter)
+                                        {
+                                            wxGxObject *current = *iter;
+                                            if (current && current->GetName().IsSameAs(sTestName, false))
+                                            {
+                                                current->Destroy();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                    for (int n = 0; n < i; ++n)
+                                    {
+                                        if (wxGISEQUAL(pFileNames[n], papszFileList[k]))
+                                        {
+                                            pFileNames = CSLRemoveStrings(pFileNames, n, 1, NULL);
+                                            i--;
+                                            break;
+                                        }
+                                    }
+                                }                                
+                                CSLDestroy(papszFileList);
+                            }
+                            wsDELETE(pDSet);                                                  
+                        }
+                    }
                 }
                 pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
                 bContinue = true;
@@ -104,7 +149,6 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
         {
 			if(pFileNames)
 			{
-                unsigned int j;
                 for(j = 0; j < sizeof(raster_exts) / sizeof(raster_exts[0]); ++j)
                 {
     				szPath = (char*)CPLResetExtension(pFileNames[i], raster_exts[j].sExt);
@@ -140,6 +184,22 @@ wxGxObject* wxGxRasterFactory::GetGxObject(wxGxObject* pParent, const wxString &
         return NULL;
     }
 
-    wxGxRasterDataset* pDataset = new wxGxRasterDataset(type, pParent, soName, szPath);
-    return wxStaticCast(pDataset, wxGxObject);
+    wxGxObject *pRet = NULL;
+    switch (type)
+    {
+    case enumRasterTil:
+        {
+            wxGxRasterDatasetContainer* pDataset = new wxGxRasterDatasetContainer(type, pParent, soName, szPath);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
+        break;
+    default:
+        {
+            wxGxRasterDataset* pDataset = new wxGxRasterDataset(type, pParent, soName, szPath);
+            pRet = wxStaticCast(pDataset, wxGxObject);
+        }
+        break;
+    }
+    
+    return pRet;
 }

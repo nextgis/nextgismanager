@@ -32,7 +32,6 @@ IMPLEMENT_CLASS(wxGxMLDataset, wxGxDatasetContainer)
 wxGxMLDataset::wxGxMLDataset(wxGISEnumVectorDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDatasetContainer(oParent, soName, soPath)
 {
     m_bIsChildrenLoaded = false;
-    m_pwxGISDataset = NULL;
     m_eType = eType;
 }
 

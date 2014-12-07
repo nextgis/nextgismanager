@@ -464,7 +464,7 @@ bool wxGxObjectContainer::IsNameExist(const wxString &sName) const
     for(iter = GetChildren().begin(); iter != GetChildren().end(); ++iter)
     {
         wxGxObject *current = *iter;
-        if( current->GetName().IsSameAs(sName) )
+        if( current->GetName().IsSameAs(sName, false) )
             return true;
 	}
 	return false;

@@ -740,7 +740,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 								}
 							}
 							CSLDestroy(papszFileList);
-							CreateFileBucket(paDatasets[j]->GetName(), paths, wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
+                            pGxDset->FillMetadata();
+                            CreateFileBucket(paDatasets[j]->GetName(), paths, pGxDset->GetModificationDate(), wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
 							
 							wsDELETE(pDSet);
 						}
@@ -749,13 +750,13 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 					{
 						wxArrayString paths;
 						paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
-						CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);					
+                        CreateFileBucket(paDatasets[j]->GetName(), paths, GetFileModificatioDate(pArchive->GetRealPath()), wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
 					}
 					else if(pFile)
 					{
 						wxArrayString paths;
-						paths.Add(wxString::FromUTF8(pFile->GetPath()));
-						CreateFileBucket(paDatasets[j]->GetName(), paths, wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
+						paths.Add(wxString::FromUTF8(pFile->GetPath()));                       
+                        CreateFileBucket(paDatasets[j]->GetName(), paths, GetFileModificatioDate(pFile->GetPath()), wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
 					}				
 				}
 			}

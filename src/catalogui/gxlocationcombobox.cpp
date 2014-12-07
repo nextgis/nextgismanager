@@ -651,7 +651,7 @@ void wxGxPathsListViewPopupParent::DestroyPathsPopup(void)
 {
     if(m_pProbablePathsPopup)
     {
-        wxYield();
+        //wxYield();
         m_pProbablePathsPopup->Destroy();
         m_pProbablePathsPopup = NULL;
     }

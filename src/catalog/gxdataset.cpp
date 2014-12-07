@@ -691,3 +691,97 @@ wxGISDataset* const wxGxRasterDataset::GetDataset(bool bCache, ITrackCancel* con
 	wsGET(m_pwxGISDataset);
 }
 
+//--------------------------------------------------------------
+// wxGxRasterDatasetContainer
+//--------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxRasterDatasetContainer, wxGxDatasetContainer)
+
+wxGxRasterDatasetContainer::wxGxRasterDatasetContainer(wxGISEnumRasterDatasetType eType, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxDatasetContainer(oParent, soName, soPath)
+{
+    m_eType = eType; 
+    m_bIsChildrenLoaded = false;
+}
+
+wxGxRasterDatasetContainer::~wxGxRasterDatasetContainer(void)
+{
+}
+
+wxString wxGxRasterDatasetContainer::GetCategory(void) const
+{
+    return wxString(_("Raster set"));
+}
+
+wxGISDataset* const wxGxRasterDatasetContainer::GetDatasetFast(void)
+{
+    if (m_pwxGISDataset == NULL)
+    {
+        wxGISRasterDataset* pDSet = new wxGISRasterDataset(m_sPath, m_eType);
+        m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+        m_pwxGISDataset->Reference();
+    }
+    wsGET(m_pwxGISDataset);
+}
+
+wxGISDataset* const wxGxRasterDatasetContainer::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
+{
+    wxGISRasterDataset* pwxGISRasterDataset(NULL);
+    pwxGISRasterDataset = wxDynamicCast(GetDatasetFast(), wxGISRasterDataset);
+
+    if (pwxGISRasterDataset && !pwxGISRasterDataset->IsOpened())
+    {
+        if (!pwxGISRasterDataset->Open())
+        {
+            wsDELETE(pwxGISRasterDataset);
+            const char* err = CPLGetLastErrorMsg();
+            wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
+            wxLogError(sErr);
+            if (pTrackCancel)
+                pTrackCancel->PutMessage(sErr, wxNOT_FOUND, enumGISMessageError);
+            return NULL;
+        }
+        wxGIS_GXCATALOG_EVENT(ObjectChanged);
+        wsDELETE(pwxGISRasterDataset);
+    }
+
+    wsGET(m_pwxGISDataset);
+}
+
+bool wxGxRasterDatasetContainer::HasChildren(bool bWaitLoading)
+{
+    LoadChildren();
+    return wxGxDatasetContainer::HasChildren(bWaitLoading);
+}
+
+bool wxGxRasterDatasetContainer::DestroyChildren()
+{
+    m_bIsChildrenLoaded = false;
+    return wxGxDatasetContainer::DestroyChildren();
+}
+
+void wxGxRasterDatasetContainer::Refresh(void)
+{
+    DestroyChildren();
+    LoadChildren();
+    wxGxObject::Refresh();
+}
+
+void wxGxRasterDatasetContainer::LoadChildren(void)
+{
+    if (m_bIsChildrenLoaded)
+        return;
+
+    wxGISDataset* pDSet = GetDataset(false);
+    if (pDSet)
+    {
+        if (GetGxCatalog())
+        {
+            wxArrayLong ids;
+            char** papszFileList = pDSet->GetFileList();
+            GetGxCatalog()->CreateChildren(this, papszFileList, ids);
+            CSLDestroy(papszFileList);
+        }
+        wsDELETE(pDSet);
+    }
+    m_bIsChildrenLoaded = true;
+}

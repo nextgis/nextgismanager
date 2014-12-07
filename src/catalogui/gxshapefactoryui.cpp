@@ -3,7 +3,7 @@
  * Purpose:  wxGxShapeFactoryUI class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2010,2014 Dmitry Baryshnikov
+*   Copyright (C) 2010,2012,2014 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,11 +26,6 @@
 #include "../../art/shp_dset_48.xpm"
 #include "../../art/table_dbf_16.xpm"
 #include "../../art/table_dbf_48.xpm"
-
-static const char *shape_filter_exts[] = {
-    "dbf", "prj", "qpj", NULL
-};
-
 
 IMPLEMENT_DYNAMIC_CLASS(wxGxShapeFactoryUI, wxGxShapeFactory)
 
@@ -55,7 +50,6 @@ wxGxObject* wxGxShapeFactoryUI::GetGxObject(wxGxObject* pParent, const wxString 
         {
             //remove dbf, prj if exist
             CPLString sTestPath;
-            wxGxObject *pCompoundObjectPart = NULL;
             wxGxObjectContainer* pParentCont = wxDynamicCast(pParent, wxGxObjectContainer);
 
             for (int j = 0; shape_filter_exts[j] != NULL; ++j)
