@@ -28,7 +28,7 @@ IMPLEMENT_ABSTRACT_CLASS(wxGISLayer, wxEvtHandler)
 
 wxGISLayer::wxGISLayer(const wxString &sName, wxGISDataset* pwxGISDataset)
 {
-    m_pwxGISDataset = pwxGISDataset;
+    wsSET(m_pwxGISDataset, pwxGISDataset);
     m_sName = sName;
     m_dMaxScale = wxNOT_FOUND;
     m_dMinScale = wxNOT_FOUND;

@@ -215,10 +215,6 @@ IMPLEMENT_CLASS(wxGISUniqueValueRenderer, wxGISFeatureRenderer)
 wxGISUniqueValueRenderer::wxGISUniqueValueRenderer(wxGISLayer* pwxGISLayer) : wxGISFeatureRenderer(pwxGISLayer)
 {
     m_pwxGISFeatureDataset = wxDynamicCast(m_pwxGISFeatureLayer->GetDataset(), wxGISFeatureDataset);
-    if (m_pwxGISFeatureDataset)
-    {
-        m_pwxGISFeatureDataset->Reference();
-    }
 }
 
 wxGISUniqueValueRenderer::~wxGISUniqueValueRenderer(void)

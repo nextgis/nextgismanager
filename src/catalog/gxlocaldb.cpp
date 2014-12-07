@@ -59,6 +59,7 @@ void wxGxOpenFileGDB::LoadChildren(void)
 		return;
 
     wxGISDataSource* pDSource = wxDynamicCast(GetDatasetFast(), wxGISDataSource);
+    wxGISPointerHolder holder(pDSource);
 
     if (NULL == pDSource)
     {
@@ -70,6 +71,8 @@ void wxGxOpenFileGDB::LoadChildren(void)
     for (size_t i = 0; i < pDSource->GetSubsetsCount(); ++i)
     {
         wxGISDataset* pDSet = pDSource->GetSubset(i);
+        wxGISPointerHolder holder1(pDSet);
+
         if (NULL == pDSet)
             continue;
         switch (pDSet->GetType())
@@ -87,7 +90,6 @@ void wxGxOpenFileGDB::LoadChildren(void)
             break;
         }
     }
-    wsDELETE(pDSource);
 
 	m_bIsChildrenLoaded = true;
 }
@@ -109,6 +111,8 @@ void wxGxOpenFileGDB::FillMetadata(bool bForce)
     m_bIsMetadataFilled = true;
 
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
+
     if (NULL == pDSet)
     {
         return;
@@ -151,25 +155,22 @@ void wxGxOpenFileGDB::FillMetadata(bool bForce)
 
     m_nSize = nSize;
     m_dtMod = dt;
-
-    wsDELETE(pDSet);
 }
 
 wxGISDataset* const wxGxOpenFileGDB::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
     wxGISDataSource* pwxGISDataSource = wxDynamicCast(GetDatasetFast(), wxGISDataSource);
+    wxGISPointerHolder holder(pwxGISDataSource);
 
-    if (NULL != pwxGISDataSource && !pwxGISDataSource->IsOpened())
+    if (NULL != pwxGISDataSource)
     {
-        if (!pwxGISDataSource->Open(true))
+        if (!pwxGISDataSource->IsOpened() && !pwxGISDataSource->Open(true))
         {
-            wsDELETE(pwxGISDataSource);
 			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));            
 			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
             return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
-        wsDELETE(pwxGISDataSource);
     }
 
     wsGET(m_pwxGISDataset);
@@ -200,11 +201,11 @@ bool wxGxOpenFileGDB::CanDelete(void)
 bool wxGxOpenFileGDB::Delete(void)
 {
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if (NULL != pDSet)
     {
         pDSet->Close();
-        wsDELETE(pDSet);
     }
 
     if (DeleteDir(m_sPath))
@@ -229,11 +230,11 @@ bool wxGxOpenFileGDB::CanRename(void)
 bool wxGxOpenFileGDB::Rename(const wxString &sNewName)
 {
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if (NULL != pDSet)
     {
         pDSet->Close();
-        wsDELETE(pDSet);
     }
 
     wxFileName PathName(wxString(m_sPath, wxConvUTF8));
@@ -266,11 +267,11 @@ bool wxGxOpenFileGDB::CanCopy(const CPLString &szDestPath)
 bool wxGxOpenFileGDB::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if (NULL != pDSet)
     {
         pDSet->Close();
-        wsDELETE(pDSet);
     }
 
     if (pTrackCancel)
@@ -299,11 +300,11 @@ bool wxGxOpenFileGDB::CanMove(const CPLString &szDestPath)
 bool wxGxOpenFileGDB::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if (NULL != pDSet)
     {
         pDSet->Close();
-        wsDELETE(pDSet);
     }
 
     if (pTrackCancel)

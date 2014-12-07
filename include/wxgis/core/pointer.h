@@ -64,3 +64,18 @@ public:
 protected:
 	wxInt32 m_RefCount;
 };
+
+/** @class wxGISPointerHolder
+  * 
+  * A wxGISPointer holder. Dereference on distruct.
+  *
+  * @library{core}
+  */
+class WXDLLIMPEXP_GIS_CORE wxGISPointerHolder
+{
+public:
+    wxGISPointerHolder(wxGISPointer* pPointer);
+    virtual ~wxGISPointerHolder(void);
+protected:
+    wxGISPointer* m_pPointer;
+};

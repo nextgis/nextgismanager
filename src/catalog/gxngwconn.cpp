@@ -2824,13 +2824,13 @@ wxGISDataset* const wxGxNGWFileSet::GetDatasetFast(void)
 wxGISDataset* const wxGxNGWFileSet::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
 {
 	wxGISRasterDataset* pwxGISRasterDataset(NULL);
-	pwxGISRasterDataset = wxDynamicCast(GetDatasetFast(), wxGISRasterDataset);
+    pwxGISRasterDataset = wxDynamicCast(GetDatasetFast(), wxGISRasterDataset);
+    wxGISPointerHolder holder(pwxGISRasterDataset);
 
-    if(pwxGISRasterDataset && !pwxGISRasterDataset->IsOpened())
+    if(pwxGISRasterDataset)
     {
-        if(!pwxGISRasterDataset->Open())
+        if(!pwxGISRasterDataset->IsOpened() && !pwxGISRasterDataset->Open())
         {
-            wsDELETE(pwxGISRasterDataset);
 		    const char* err = CPLGetLastErrorMsg();
 			wxString sErr = wxString::Format(_("Operation '%s' failed! GDAL error: %s"), _("Open"), wxString(err, wxConvUTF8).c_str());
             wxLogError(sErr);
@@ -2839,7 +2839,6 @@ wxGISDataset* const wxGxNGWFileSet::GetDataset(bool bCached, ITrackCancel* const
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
-        wsDELETE(pwxGISRasterDataset);
 	}
 
 	wsGET(m_pwxGISDataset);

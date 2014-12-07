@@ -181,9 +181,10 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
             if(pLayer)
             {
                 wxGISDataset* pDSet = pLayer->GetDataset();
+                wxGISPointerHolder holder(pDSet);
+
                 if(NULL != pDSet && !pDSet->IsCached() && !pDSet->IsCaching())
                 {
-                    wsDELETE(pDSet);
                     bIsCached = false;
                     break;
                 }
@@ -201,10 +202,11 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
             if(pLayer)
             {
                 wxGISDataset* pDSet = pLayer->GetDataset();
-                if(NULL != pDSet && pDSet->IsCaching())
+                wxGISPointerHolder holder(pDSet);
+                if(NULL != pDSet)
                 {
-                    pDSet->StopCaching();
-                    wsDELETE(pDSet);
+                    if (pDSet->IsCaching())
+                        pDSet->StopCaching();
                 }
             }
         }
@@ -216,9 +218,7 @@ void wxGxMapView::OnSelectionChanged(wxGxSelectionEvent& event)
 void wxGxMapView::LoadLayer(wxGxDataset* const pGxDataset)
 {
     wxCHECK_RET(pGxDataset, wxT("Input wxGxDataset pointer is NULL"));
-	wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true);
-    wxGISLayer* pLayer = GetLayerFromDataset(pwxGISDataset);
-	wsDELETE(pwxGISDataset);
+    wxGISLayer* pLayer = GetLayerFromDataset(pGxDataset->GetDataset(true));
 
     Clear();
 
@@ -247,10 +247,11 @@ void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
             wxGxObject *current = *iter;
             if(current && current->IsKindOf(wxCLASSINFO(wxGxDataset)))
             {
-				wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
+				wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);  
 				if(pGxDataset)
 				{
 					wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true);
+                    wxGISPointerHolder holder(pwxGISDataset);
 					wxGISLayer* pLayer = GetLayerFromDataset(pwxGISDataset);
 					if(pLayer)
 					{
@@ -263,7 +264,6 @@ void wxGxMapView::LoadLayers(wxGxDatasetContainer* const pGxDataset)
 							wxDELETE(pLayer);
 						}
 					}
-					wsDELETE(pwxGISDataset);
 				}
             }
         }

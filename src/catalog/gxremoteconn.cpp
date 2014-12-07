@@ -61,7 +61,8 @@ wxGISDataset* const wxGxRemoteConnection::GetDatasetFast(void)
 
 bool wxGxRemoteConnection::Delete(void)
 {
-	wxGISDataset* pDSet = GetDatasetFast();
+    wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if (NULL == pDSet)
     {
@@ -69,7 +70,6 @@ bool wxGxRemoteConnection::Delete(void)
     }
 
     bool bRet = pDSet->Delete();
-    wsDELETE(pDSet);
 
     if( !bRet )
     {
@@ -111,7 +111,8 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
     if(pTrackCancel)
         pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Copy"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
 
-	wxGISDataset* pDSet = GetDatasetFast();
+    wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if(NULL == pDSet)
     {
@@ -123,7 +124,6 @@ bool wxGxRemoteConnection::Copy(const CPLString &szDestPath, ITrackCancel* const
     }
 
     bool bRet = pDSet->Copy(szDestPath, pTrackCancel);
-    wsDELETE(pDSet);
 
     if(!bRet)
     {
@@ -145,7 +145,8 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
 		pTrackCancel->PutMessage(wxString::Format(_("%s %s %s"), _("Move"), GetCategory().c_str(), m_sName.c_str()), wxNOT_FOUND, enumGISMessageInformation);
     }
 
-	wxGISDataset* pDSet = GetDatasetFast();
+    wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
 
     if(NULL == pDSet)
     {
@@ -158,7 +159,6 @@ bool wxGxRemoteConnection::Move(const CPLString &szDestPath, ITrackCancel* const
 
     Disconnect();
     bool bRet = pDSet->Move(szDestPath, pTrackCancel);
-    wsDELETE(pDSet);
 
     if(!bRet)
     {
@@ -181,12 +181,13 @@ bool wxGxRemoteConnection::Connect(void)
     }
     bool bRes = true;
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
+
     if(NULL != pDSet)
     {
         bRes = pDSet->Open();
         if (!bRes)
         {
-            wsDELETE(pDSet);
             return bRes;
         }
 
@@ -194,7 +195,6 @@ bool wxGxRemoteConnection::Connect(void)
 
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
     }
-    wsDELETE(pDSet);
 
     CreateAndRunThread();
 
@@ -211,13 +211,14 @@ bool wxGxRemoteConnection::Disconnect(void)
     DestroyThreadSync();
 		
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
+
     if(NULL != pDSet)
     {
         pDSet->Close();
         DestroyChildren();
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
     }
-    wsDELETE(pDSet);
 	wsDELETE(m_pwxGISDataset);
     m_bChildrenLoaded = false;
 
@@ -227,8 +228,9 @@ bool wxGxRemoteConnection::Disconnect(void)
 bool wxGxRemoteConnection::IsConnected()
 {
     wxGISDataset* pDSet = GetDatasetFast();
+    wxGISPointerHolder holder(pDSet);
+
     bool bRet =  NULL != pDSet && pDSet->IsOpened();
-    wsDELETE(pDSet);
     return bRet;
 }
 
@@ -243,7 +245,9 @@ wxGxObjectMap wxGxRemoteConnection::GetRemoteObjects()
 {
     wxCriticalSectionLocker lock(m_CritSect);
 	wxGxObjectMap ret;
-	wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
+
     if (NULL == pDSet)
     {
         return ret;
@@ -255,9 +259,10 @@ wxGxObjectMap wxGxRemoteConnection::GetRemoteObjects()
 
 	wxGISTableCached* pInfoSchema = wxDynamicCast(pDSet->ExecuteSQL2(wxT("SELECT nspname,oid FROM pg_catalog.pg_namespace WHERE nspname NOT IN ('information_schema')"), wxT("PG")), wxGISTableCached);
 
+    wxGISPointerHolder holder1(pInfoSchema);
+
     if (NULL == pInfoSchema)
 	{
-		wsDELETE(pDSet);
         return ret;
     }
 	
@@ -290,18 +295,15 @@ wxGxObjectMap wxGxRemoteConnection::GetRemoteObjects()
             }
         }
         ret[nOID] = sSchema;
-    }
-
-	
-	wsDELETE(pInfoSchema);
-	wsDELETE(pDSet);
-	
+    }	
     return ret;	
 }
 
 void wxGxRemoteConnection::LoadChildren(void)
 {
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
+
     if (NULL == pDSet)
     {
         return;
@@ -316,8 +318,6 @@ void wxGxRemoteConnection::LoadChildren(void)
 	}
 		
 	m_bChildrenLoaded = true;
-	
-    wsDELETE(pDSet);
 }
 
 
@@ -331,12 +331,13 @@ void wxGxRemoteConnection::AddObject(int nRemoteId, const wxString &sName)
 	if(NULL != GetChildByRemoteId(nRemoteId))
 		return;
 	
-	wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
+
 	CPLString szPath(CPLFormFilename(GetPath(), sName.ToUTF8(), ""));
 	wxGxRemoteDBSchema* pObj = GetNewRemoteDBSchema(nRemoteId, sName, szPath, pDSet);
 	if(NULL != pObj)
 		wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pObj->GetId());
-	wsDELETE(pDSet);
 }
 
 bool wxGxRemoteConnection::CanCreate(long nDataType, long DataSubtype)
@@ -351,6 +352,7 @@ bool wxGxRemoteConnection::CanCreate(long nDataType, long DataSubtype)
 bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
 {
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
     if (NULL == pDSet)
     {
         return false;
@@ -358,11 +360,9 @@ bool wxGxRemoteConnection::CreateSchema(const wxString& sSchemaName)
 
     if(pDSet->CreateSchema(sSchemaName))
 	{
-		wsDELETE(pDSet);
 		OnGetUpdates();
 		return true;
 	}
-	wsDELETE(pDSet);
 	return false;
 }
 
@@ -523,6 +523,7 @@ wxGxObjectMap wxGxRemoteDBSchema::GetRemoteObjects()
 	//select relname,relfilenode,oid from pg_class where relnamespace = 40910 AND (relkind = 'r'::"char" OR relkind = 'v'::"char" OR relkind = 'm'::"char" OR relkind = 'f'::"char");
 	wxString sSql = wxString::Format(wxT("SELECT relname,oid FROM pg_class WHERE relnamespace = %d AND (relkind = 'r'::\"char\" OR relkind = 'v'::\"char\" OR relkind = 'm'::\"char\" OR relkind = 'f'::\"char\")"), GetRemoteId());
     wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sSql, wxT("PG")), wxGISTableCached);
+    wxGISPointerHolder holder(pTableList);
     if (NULL != pTableList)
     {
         wxFeatureCursor Cursor = pTableList->Search();
@@ -550,7 +551,6 @@ wxGxObjectMap wxGxRemoteDBSchema::GetRemoteObjects()
         }
         
     }
-	wsDELETE(pTableList);
 	
     return ret;
 }
@@ -569,7 +569,8 @@ void wxGxRemoteDBSchema::LoadChildren(void)
 
     //get geometry, geography and rasters
 	wxString sSql =  wxString::Format(wxT("SELECT relname,c.oid,t.typname FROM pg_class c, pg_attribute a, pg_type t WHERE c.relnamespace = %d AND (t.typname = 'geometry'::name or t.typname = 'geography'::name or t.typname = 'raster'::name) AND a.attisdropped = false AND a.atttypid = t.oid AND a.attrelid = c.oid AND (relkind = 'r'::\"char\" OR relkind = 'v'::\"char\" OR relkind = 'm'::\"char\" OR relkind = 'f'::\"char\")"), GetRemoteId());
-	wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sSql, wxT("PG")), wxGISTableCached);
+    wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sSql, wxT("PG")), wxGISTableCached);
+    wxGISPointerHolder holder(pTableList);
 	
     if(NULL != pTableList)
 	{
@@ -595,8 +596,7 @@ void wxGxRemoteDBSchema::LoadChildren(void)
 				}
 			}
 		}
-		wsDELETE( pTableList );
-	}    
+	} 
 
     m_bChildrenLoaded = true;
 
@@ -616,6 +616,8 @@ void wxGxRemoteDBSchema::AddObject(int nRemoteId, const wxString &sName)
 	//get type from oid
 	wxString sSql = wxString::Format(wxT("SELECT t.typname FROM pg_class c, pg_attribute a, pg_type t WHERE c.relnamespace = %d AND c.oid = %d AND (t.typname = 'geometry'::name or t.typname = 'geography'::name or t.typname = 'raster'::name) AND a.attisdropped = false AND a.atttypid = t.oid AND a.attrelid = c.oid"), GetRemoteId(), nRemoteId);
 	wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sSql, wxT("PG")), wxGISTableCached);
+    wxGISPointerHolder holder(pTableList);
+
 	wxGISEnumDatasetType eType = enumGISTable;
     if(NULL != pTableList)
 	{
@@ -628,9 +630,7 @@ void wxGxRemoteDBSchema::AddObject(int nRemoteId, const wxString &sName)
 				eType = enumGISFeatureDataset;
 			else if(sType.IsSameAs(wxT("raster")))	
 				eType = enumGISRasterDataset;
-		}
-		
-		wsDELETE( pTableList );
+		}		
 	} 
 	
 	wxGxObject* pObj = GetNewTable(nRemoteId, sName, eType);

@@ -269,7 +269,8 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
 		wxGISPostgresDataSource oPostgresDataSource(m_sUser, m_sPass, m_sPort, m_sServer, m_sDatabase, wxT("80"), m_bIsBinaryCursor);
 		if( oPostgresDataSource.Open(false, true ) )
 		{
-		    wxGISTableCached* pInfoSchema = wxDynamicCast(oPostgresDataSource.ExecuteSQL2(wxT("SELECT datname FROM pg_database;"), wxT("PG")), wxGISTableCached);
+            wxGISTableCached* pInfoSchema = wxDynamicCast(oPostgresDataSource.ExecuteSQL2(wxT("SELECT datname FROM pg_database;"), wxT("PG")), wxGISTableCached);
+            wxGISPointerHolder holder(pInfoSchema);
 		    if(pInfoSchema)
             {
                 //add tables to the list
@@ -285,7 +286,6 @@ void wxGISCreateDBDlg::OnTest(wxCommandEvent& event)
                 }
                 m_TempateChoice->SetSelection(0);
 
-                wsDELETE(pInfoSchema);
             }
 			wxMessageBox(wxString(_("Connected successfully!")), wxString(_("Information")), wxICON_INFORMATION | wxOK, this );
 		}
@@ -411,7 +411,7 @@ END_EVENT_TABLE();
 
 wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
 {
-	wsSET(m_pFeatureClass, pSrcDs);
+	m_pFeatureClass = pSrcDs;
 	
 	wxFlexGridSizer* fgSizer1;
     fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
@@ -724,13 +724,13 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 			{			
 				if(pSrcDs->GetType() == enumGISFeatureDataset)
 				{		
-					wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+                    wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+                    wxGISPointerHolder holder(pGISDs);
 					if(!pGISDs)
 						continue;
 					wxGISFeatureDataset* pSrcFeatureDs = dynamic_cast<wxGISFeatureDataset*>(pGISDs);		
 					if(!pSrcFeatureDs)
 					{
-						wsDELETE(pGISDs);
 						continue;
 					}
 					//split for geometry bag to separate panels
@@ -810,23 +810,21 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 							m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
 						}
 					}
-					wsDELETE(pGISDs);
 				}
 				else if(pSrcDs->GetType() == enumGISRasterDataset)
 				{
 					wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+                    wxGISPointerHolder holder(pGISDs);
 					if(!pGISDs)
 						continue;
 					wxGISRasterDataset* pSrcRasterDs = dynamic_cast<wxGISRasterDataset*>(pGISDs);		
 					if(!pSrcRasterDs)
 					{
-						wsDELETE(pGISDs);
 						continue;
 					}
 					
 					wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
 					m_bMainSizer->Add( new wxGISRasterImportPanel(pSrcRasterDs, pDestDs, sOutName, this), 0, wxEXPAND | wxALL, 0 );
-					wsDELETE(pGISDs);
 				}
 			}
 		}
@@ -849,7 +847,10 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 
 wxGISDatasetImportDlg::~wxGISDatasetImportDlg()
 {
-	
+    for (size_t i = 0; i < m_paDatasets.size(); ++i)
+    {
+        wsDELETE(m_paDatasets[i].pDataset);
+    }
 }
 
 size_t wxGISDatasetImportDlg::GetDatasetCount()
@@ -890,6 +891,8 @@ wxGISDatasetImportDlg::DATASETDESCR wxGISDatasetImportDlg::GetDataset(size_t nIn
 {
 	if(m_paDatasets.size() > nIndex)
 	{
+        if (m_paDatasets[nIndex].pDataset)
+            m_paDatasets[nIndex].pDataset->Reference();
 		return m_paDatasets[nIndex];
 	}
 	DATASETDESCR ret = {NULL, wxEmptyString, wkbUnknown, false, 0, 0, 0, 0};

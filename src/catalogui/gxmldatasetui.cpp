@@ -93,7 +93,8 @@ void wxGxMLDatasetUI::LoadChildren(void)
 		return;
 
     //ITrackCancel trackcancel;
-	wxGISDataset* pDSet = GetDataset(false);
+    wxGISDataset* pDSet = GetDataset(false);
+    wxGISPointerHolder holder(pDSet);
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
     if(pDSet)
     {
@@ -104,10 +105,7 @@ void wxGxMLDatasetUI::LoadChildren(void)
             wxGxMLSubDatasetUI* pGxMLSubDatasetUI = new wxGxMLSubDatasetUI((wxGISEnumVectorDatasetType)GetSubType(), pwxGISFeatureSuDataset, wxStaticCast(this, wxGxObject), sSubsetName, wxGxObjectContainer::GetPath(), m_LargeSubIcon, m_SmallSubIcon);
             wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pGxMLSubDatasetUI->GetId());
 	    }
-
-        wsDELETE(pDSet);
     }
-
 	m_bIsChildrenLoaded = true;
 }
 
@@ -136,17 +134,20 @@ wxThread::ExitCode wxGxMLDatasetUI::Entry()
 wxGISDataset* const wxGxMLDatasetUI::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);
+    wxGISPointerHolder holder(pwxGISFeatureDataset);
 
-    if(pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
+    if(pwxGISFeatureDataset)
     {
-        if (!pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
+        if (!pwxGISFeatureDataset->IsOpened())
         {
-			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
-			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
-            wsDELETE(pwxGISFeatureDataset);
-			return NULL;
+            if (!pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
+            {
+			    wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
+			    wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
+			    return NULL;
+            }
+            wxGIS_GXCATALOG_EVENT(ObjectChanged);        
         }
-        wxGIS_GXCATALOG_EVENT(ObjectChanged);
 	}
 
 	wsGET( m_pwxGISDataset );

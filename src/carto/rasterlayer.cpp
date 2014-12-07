@@ -32,7 +32,6 @@ wxGISRasterLayer::wxGISRasterLayer(const wxString &sName, wxGISDataset* pwxGISDa
     wxGISRasterDataset* pwxGISRasterDataset = wxDynamicCast(pwxGISDataset, wxGISRasterDataset);
 	if(pwxGISRasterDataset)
 	{
-        pwxGISRasterDataset->Reference();
         if(m_sName.IsEmpty())
             m_sName = pwxGISRasterDataset->GetName();
 

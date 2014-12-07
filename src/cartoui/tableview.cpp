@@ -40,7 +40,7 @@ IMPLEMENT_CLASS(wxGISGridTable, wxGridTableBase)
 wxGISGridTable::wxGISGridTable(wxGISDataset* pGISDataset)
 {
     m_nRows = m_nCols = 0;
-    m_pGISDataset = wxDynamicCast(pGISDataset, wxGISTable);
+    wsSET(m_pGISDataset, wxDynamicCast(pGISDataset, wxGISTable));
 	OGRFeatureDefn* pOGRFeatureDefn = m_pGISDataset->GetDefinition();
 	if(pOGRFeatureDefn)
 	{

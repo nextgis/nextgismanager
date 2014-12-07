@@ -792,10 +792,13 @@ bool wxGISMapView::CanRotate(void)
         if(pLayer)
         {
             wxGISDataset* pDSet = pLayer->GetDataset();
-            if(NULL != pDSet && pDSet->IsCaching())
+            wxGISPointerHolder holder(pDSet);
+            if(NULL != pDSet)
             {
-               wsDELETE(pDSet);
-               return false;
+                if (pDSet->IsCaching())
+                {
+                    return false;
+                }
             }
         }
     }

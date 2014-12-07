@@ -138,6 +138,8 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
 	wxGxCatalogUI* pCat  = NULL;
 	
     wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
+    wxGISPointerHolder holder(pDSet);
+
     if(NULL != pDSet)
     {
 		//add pending item
@@ -159,11 +161,9 @@ wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
                 pCat->RemovePending(nPendingId);
                 nPendingId = wxNOT_FOUND;
             }
-
             return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
         }
     }
-    wsDELETE(pDSet);
 
     if (!m_bChildrenLoaded)
     {		

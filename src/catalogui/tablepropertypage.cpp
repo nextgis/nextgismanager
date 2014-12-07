@@ -66,7 +66,10 @@ bool wxGISTablePropertyPage::Create(wxGxTable* pGxDataset, wxWindow* parent, wxW
     if (!m_pDataset->IsOpened())
     {
         if (!m_pDataset->Open(0, true, true, false))
+        {
+            wsDELETE(m_pDataset);
             return false;
+        }
     }
 
 	wxBoxSizer* bMainSizer;
@@ -77,6 +80,8 @@ bool wxGISTablePropertyPage::Create(wxGxTable* pGxDataset, wxWindow* parent, wxW
     m_pg->SetColumnProportion(1, 70);
 
     FillGrid();
+
+    wsDELETE(m_pDataset);
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 

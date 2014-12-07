@@ -650,6 +650,8 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     ProgressDlg.ShowProgress(true);
 
     wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);
+    wxGISPointerHolder holder(pDataset);
+
     wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(pDataset, wxGISFeatureDataset);
 
     if (NULL == pFeatureDataset)
@@ -664,7 +666,6 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
         if (!pFeatureDataset->Open(0, false, true, false, &ProgressDlg))
         {
             wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
-            wsDELETE(pFeatureDataset);
             return;
         }
     }
@@ -681,16 +682,8 @@ void ExportSingleVectorDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     }
 
 
-    if (!ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, papszLayerOptions, true, &ProgressDlg))
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-    else if (ProgressDlg.GetWarningCount() > 0)
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-
-    wsDELETE(pFeatureDataset);
+    ExportFormat(pFeatureDataset, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, papszLayerOptions, true, &ProgressDlg);
+    ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
 }
 
 void ExportSingleRasterDataset(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset)
@@ -701,6 +694,8 @@ void ExportSingleRasterDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
     ProgressDlg.ShowProgress(true);
 
     wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);
+    wxGISPointerHolder holder(pDataset);
+
     wxGISRasterDataset* pRaster = wxDynamicCast(pDataset, wxGISRasterDataset);
 
     if (NULL == pRaster)
@@ -715,21 +710,12 @@ void ExportSingleRasterDataset(wxWindow* pWnd, const CPLString &sPath, const wxS
         if (!pRaster->Open())
         {
             wxGISErrorMessageBox(_("Input raster open failed!"));
-            wsDELETE(pRaster);
             return;
         }
     }
 
-    if (!ExportFormat(pRaster, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, &ProgressDlg))
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-    else if (ProgressDlg.GetWarningCount() > 0)
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-
-    wsDELETE(pRaster);	
+    ExportFormat(pRaster, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, &ProgressDlg);
+    ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
 }
 
 void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, IGxDataset* const pGxDataset)
@@ -741,6 +727,8 @@ void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &s
     ProgressDlg.ShowProgress(true);
 
     wxGISDataset* pDataset = pGxDataset->GetDataset(false, &ProgressDlg);
+    wxGISPointerHolder holder(pDataset);
+
     wxGISTable* pTable = wxDynamicCast(pDataset, wxGISTable);
 
     if (NULL == pTable)
@@ -755,21 +743,12 @@ void ExportSingleTable(wxWindow* pWnd, const CPLString &sPath, const wxString &s
         if (!pTable->Open(0, false, true, false, &ProgressDlg))
         {
             wxGISErrorMessageBox(ProgressDlg.GetLastMessage());
-            wsDELETE(pTable);
             return;
         }
     }
 
-    if (!ExportFormat(pTable, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg))
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-    else if (ProgressDlg.GetWarningCount() > 0)
-    {
-        ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
-
-    wsDELETE(pTable);
+    ExportFormat(pTable, sPath, sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg);
+    ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
 }
 
 void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets)
@@ -784,6 +763,8 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
     {
         ProgressDlg.SetTitle(wxString::Format(_("Proceed %ld of %ld..."), i + 1, paDatasets.size()));
         wxGISDataset* pDataset = paDatasets[i].pDSet->GetDataset(false, &ProgressDlg);
+        wxGISPointerHolder holder(pDataset);
+
         wxVector<wxGISFeatureDataset*> apFeatureDatasets;
         if (pDataset->GetSubsetsCount() == 0)
         {
@@ -827,11 +808,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
                 }
             }
 
-            if (!ExportFormat(apFeatureDatasets[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, true, &ProgressDlg))
-            {
-                wsDELETE(apFeatureDatasets[j]);
-                continue;
-            }
+            ExportFormat(apFeatureDatasets[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, true, &ProgressDlg);
             wsDELETE(apFeatureDatasets[j]);
         }
     }
@@ -840,6 +817,7 @@ void ExportMultipleVectorDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxOb
     {
         ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
     }
+
 }
 
 void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets)
@@ -859,6 +837,7 @@ void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilte
     {
         ProgressDlg.SetTitle(wxString::Format(_("Proceed %ld of %ld..."), i + 1, paDatasets.size()));
         wxGISDataset* pDataset = paDatasets[i].pDSet->GetDataset(false, &ProgressDlg);
+        wxGISPointerHolder holder(pDataset);
         wxVector<wxGISTable*> apTables;
         if (pDataset->GetSubsetsCount() == 0)
         {
@@ -902,11 +881,7 @@ void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilte
                 }
             }
 
-            if (!ExportFormat(apTables[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg))
-            {
-                wsDELETE(apTables[j]);
-                continue;
-            }
+            ExportFormat(apTables[j], sPath, paDatasets[i].sName, pFilter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg);
             wsDELETE(apTables[j]);
         }
     }
@@ -914,7 +889,7 @@ void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilte
     if (ProgressDlg.GetWarningCount() > 0 && ProgressDlg.Continue())
     {
         ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
-    }
+    }    
 }
 
 #endif // wxGIS_HAVE_GEOPROCESSING
@@ -968,6 +943,7 @@ bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject,
         }
 
         wxGISDataset* pDS = pGxDS->GetDataset(false);
+        wxGISPointerHolder holder(pDS);
         if (NULL == pDS)
         {
             return false;

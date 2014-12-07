@@ -101,18 +101,17 @@ wxGISDataset* const wxGxMLDataset::GetDatasetFast(void)
 wxGISDataset* const wxGxMLDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISFeatureDataset* pwxGISFeatureDataset = wxDynamicCast(GetDatasetFast(), wxGISFeatureDataset);
+    wxGISPointerHolder holder(pwxGISFeatureDataset);
 
-    if(NULL != pwxGISFeatureDataset && !pwxGISFeatureDataset->IsOpened())
+    if(NULL != pwxGISFeatureDataset)
     {
-        if (!pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
+        if (!pwxGISFeatureDataset->IsOpened() && !pwxGISFeatureDataset->Open(0, true, true, bCache, pTrackCancel))
         {
-            wsDELETE(pwxGISFeatureDataset);
 			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));   
 			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);	
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
-        wsDELETE(pwxGISFeatureDataset);
 	}
 
     wsGET(m_pwxGISDataset);
@@ -142,7 +141,9 @@ void wxGxMLDataset::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
 		return;
 
-	wxGISDataset* pDSet = GetDataset(false);
+    wxGISDataset* pDSet = GetDataset(false);
+    wxGISPointerHolder holder(pDSet);
+
     if(pDSet)
     {
         for(size_t i = 0; i < pDSet->GetSubsetsCount(); ++i)
@@ -150,7 +151,6 @@ void wxGxMLDataset::LoadChildren(void)
             wxGISDataset* pwxGISFeatureSuDataset = m_pwxGISDataset->GetSubset(i);
             new wxGxMLSubDataset((wxGISEnumVectorDatasetType)GetSubType(), pwxGISFeatureSuDataset, wxStaticCast(this, wxGxObject), pwxGISFeatureSuDataset->GetName(), wxGxObjectContainer::GetPath());
 	    }
-        wsDELETE(pDSet);
     }
 	m_bIsChildrenLoaded = true;
 }
@@ -162,7 +162,7 @@ IMPLEMENT_CLASS(wxGxMLSubDataset, wxGxFeatureDataset)
 
 wxGxMLSubDataset::wxGxMLSubDataset(wxGISEnumVectorDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(nType, oParent, soName, soPath)
 {
-    wsSET(m_pwxGISDataset, pwxGISDataset);
+    m_pwxGISDataset = pwxGISDataset;
 
     m_sPath = CPLString(CPLFormFilename(soPath, soName.mb_str(wxConvUTF8), ""));
 }

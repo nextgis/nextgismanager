@@ -129,3 +129,17 @@ wxInt32 wxGISPointer::Release(void)
         return m_RefCount;
     }
 }
+
+//--------------------------------------------------------------------------
+// wxGISPointerHolder
+//--------------------------------------------------------------------------
+
+wxGISPointerHolder::wxGISPointerHolder(wxGISPointer* pPointer)
+{
+    m_pPointer = pPointer;
+}
+
+wxGISPointerHolder::~wxGISPointerHolder(void)
+{
+    wsDELETE(m_pPointer);
+}

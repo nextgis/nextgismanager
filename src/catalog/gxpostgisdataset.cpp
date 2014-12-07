@@ -31,7 +31,7 @@
 //-----------------------------------------------------------------------------------
 wxGISPostGISBaseTable::wxGISPostGISBaseTable(int nRemoteId, const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn) : wxGxRemoteId(nRemoteId)
 {
-    wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
+    m_pwxGISRemoteConn = pwxGISRemoteConn;
     m_sFullyQualifiedName = wxT("\"") + sSchema + wxT("\".\"") + soName + wxT("\"");
     m_sSchemaName = sSchema;
 	m_sTableName =	soName;
@@ -48,6 +48,8 @@ wxULongLong wxGISPostGISBaseTable::GetTableSize()
 	wxString sStatement = wxString::Format(wxT("SELECT pg_total_relation_size('%s'::regclass::oid);"), m_sFullyQualifiedName);
     
     wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sStatement, wxT("PG")), wxGISTableCached);
+    wxGISPointerHolder holder(pTableList);
+
     if (NULL != pTableList)
     {
         wxFeatureCursor Cursor = pTableList->Search(wxGISNullQueryFilter, true);
@@ -57,7 +59,6 @@ wxULongLong wxGISPostGISBaseTable::GetTableSize()
             nSize = Feature.GetFieldAsInteger(0);
         }
 
-        wsDELETE(pTableList);
     }
 	return nSize;
 }
@@ -70,6 +71,7 @@ void wxGISPostGISBaseTable::FillIndixes()
 	wxString sStatement = wxString::Format(wxT("SELECT i.relname as index_name, a.attname as column_name FROM pg_namespace n, pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid and i.oid = ix.indexrelid and a.attrelid = t.oid and a.attnum = ANY(ix.indkey) and t.relkind = 'r' and t.relname like '%s' and n.nspname like '%s';"), m_sTableName.c_str(), m_sSchemaName.c_str());
     
     wxGISTableCached* pTableList = wxDynamicCast(m_pwxGISRemoteConn->ExecuteSQL2(sStatement, wxT("PG")), wxGISTableCached);
+    wxGISPointerHolder holder(pTableList);
     if (NULL != pTableList)
     {
         wxFeatureCursor Cursor = pTableList->Search();
@@ -81,8 +83,7 @@ void wxGISPostGISBaseTable::FillIndixes()
 			m_msIndexs[sCol] = sIndex;
         }
 
-        wsDELETE(pTableList);
-    }	
+    }
 }
 
 wxString wxGISPostGISBaseTable::GetTableName() const
@@ -165,15 +166,16 @@ bool wxGxPostGISTable::Delete()
 
 bool wxGxPostGISTable::Rename(const wxString &sNewName)
 {
-	wxGISTable* pDst = wxDynamicCast(GetDataset(), wxGISTable);		
-	if(NULL == pDst)
+    wxGISTable* pDSet = wxDynamicCast(GetDataset(), wxGISTable);
+    wxGISPointerHolder holder(pDSet);
+
+    if (NULL == pDSet)
 		return false;
 	FillIndixes();
-	wxString sPkIdx = m_msIndexs[pDst->GetFIDColumn()];
+    wxString sPkIdx = m_msIndexs[pDSet->GetFIDColumn()];
 	if( m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName, sPkIdx) )
 	{
-		pDst->Close();
-		wsDELETE(pDst);
+        pDSet->Close();
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
@@ -181,7 +183,6 @@ bool wxGxPostGISTable::Rename(const wxString &sNewName)
 		}
 		return true;
 	}
-	wsDELETE(pDst);
 	return false;
 }
 
@@ -273,17 +274,18 @@ bool wxGxPostGISFeatureDataset::Delete()
 
 bool wxGxPostGISFeatureDataset::Rename(const wxString &sNewName)
 {
-	wxGISFeatureDataset* pDst = wxDynamicCast(GetDataset(), wxGISFeatureDataset);	
-	if(NULL == pDst)
+    wxGISFeatureDataset* pDSet = wxDynamicCast(GetDataset(), wxGISFeatureDataset);
+    wxGISPointerHolder holder(pDSet);
+
+    if (NULL == pDSet)
 		return false;
 	FillIndixes();
-	wxString sPkIdx = m_msIndexs[pDst->GetFIDColumn()];
-	wxString sGeomIdx = m_msIndexs[pDst->GetGeometryColumn()];
+    wxString sPkIdx = m_msIndexs[pDSet->GetFIDColumn()];
+    wxString sGeomIdx = m_msIndexs[pDSet->GetGeometryColumn()];
 	
 	if( m_pwxGISRemoteConn->RenameTable(m_sSchemaName, m_sName, sNewName, sPkIdx, sGeomIdx) )
 	{
-		pDst->Close();
-		wsDELETE(pDst);
+        pDSet->Close();
 		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
 		if(pNotify)
 		{
@@ -291,7 +293,6 @@ bool wxGxPostGISFeatureDataset::Rename(const wxString &sNewName)
 		}
 		return true;
 	}
-	wsDELETE(pDst);
 	return false;
 }
 

@@ -86,7 +86,7 @@ bool wxGxTableView::Activate(IApplication* const pApplication, wxXmlNode* const 
 
 void wxGxTableView::Deactivate(void)
 {
-    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND & NULL != m_pSelection)
+    if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
     {
         m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
         m_ConnectionPointSelectionCookie = wxNOT_FOUND;
@@ -138,10 +138,10 @@ void wxGxTableView::OnSelectionChanged(wxGxSelectionEvent& event)
         if(pTable)
         {
             wxGISTable* pDs = pTable->GetDataset();
+            wxGISPointerHolder holder(pDs);
             if(NULL != pDs && pDs->IsCaching())
             {
                 pDs->StopCaching();
-                wsDELETE(pDs)
             }
         }
         return;
@@ -161,10 +161,14 @@ void wxGxTableView::LoadData(long nGxObjectId)
 
     wxBusyCursor wait;
 	wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(false);
+    wxGISPointerHolder holder(pwxGISDataset);
+
     wxGISTable* pGISTable = wxDynamicCast(pwxGISDataset, wxGISTable);
 
-	if(pGISTable == NULL)
+    if (pGISTable == NULL)
+    {
 		return;
+    }
 
 	m_nParentGxObjectID = pGxObject->GetId();
 

@@ -92,18 +92,17 @@ wxGISDataset* const wxGxSpreadsheetDataset::GetDatasetFast(void)
 wxGISDataset* const wxGxSpreadsheetDataset::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISTable* pwxGISTable = wxDynamicCast(GetDatasetFast(), wxGISTable);
+    wxGISPointerHolder holder(pwxGISTable);
 
-    if(NULL != pwxGISTable && !pwxGISTable->IsOpened())
+    if(NULL != pwxGISTable)
     {
-        if (!pwxGISTable->Open(0, true, true, bCache, pTrackCancel))
+        if (!pwxGISTable->IsOpened() && !pwxGISTable->Open(0, true, true, bCache, pTrackCancel))
         {
 			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
 			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
-            wsDELETE(pwxGISTable);			
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);
-        wsDELETE(pwxGISTable);
 	}
 
     wsGET(m_pwxGISDataset);
@@ -133,7 +132,8 @@ void wxGxSpreadsheetDataset::LoadChildren(void)
 	if(m_bIsChildrenLoaded)
 		return;
 
-	wxGISDataset* pDSet = GetDataset(false);
+    wxGISDataset* pDSet = GetDataset(false);
+    wxGISPointerHolder holder(pDSet);
     if(pDSet)
     {
         for(size_t i = 0; i < pDSet->GetSubsetsCount(); ++i)
@@ -141,7 +141,6 @@ void wxGxSpreadsheetDataset::LoadChildren(void)
             wxGISDataset* pwxGISSuDataset = m_pwxGISDataset->GetSubset(i);
             new wxGxSpreadsheetSubDataset((wxGISEnumTableType)GetSubType(), pwxGISSuDataset, wxStaticCast(this, wxGxObject), pwxGISSuDataset->GetName(), wxGxObjectContainer::GetPath());
 	    }
-        wsDELETE(pDSet);
     }
 	m_bIsChildrenLoaded = true;
 }
@@ -154,7 +153,6 @@ IMPLEMENT_CLASS(wxGxSpreadsheetSubDataset, wxGxTable)
 wxGxSpreadsheetSubDataset::wxGxSpreadsheetSubDataset(wxGISEnumTableType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxTable(nType, oParent, soName, soPath)
 {
     wsSET(m_pwxGISDataset, pwxGISDataset);
-
     m_sPath = CPLString(CPLFormFilename(soPath, soName.mb_str(wxConvUTF8), ""));
 }
 

@@ -97,6 +97,8 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
                         if (pGxDataset)
                         {
                             wxGISDataset* pDSet = pGxDataset->GetDataset(false);
+                            wxGISPointerHolder holder(pDSet);
+
                             if (pDSet)
                             {
                                 wxGxObjectContainer* pParentContainer = wxDynamicCast(pParent, wxGxObjectContainer);
@@ -130,8 +132,7 @@ bool wxGxRasterFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
                                     }
                                 }                                
                                 CSLDestroy(papszFileList);
-                            }
-                            wsDELETE(pDSet);                                                  
+                            }                                       
                         }
                     }
                 }

@@ -44,7 +44,6 @@ wxGISFeatureLayer::wxGISFeatureLayer(const wxString &sName, wxGISDataset* pwxGIS
     m_pwxGISFeatureDataset = wxDynamicCast(pwxGISDataset, wxGISFeatureDataset);
 	if(m_pwxGISFeatureDataset)
 	{
-        m_pwxGISFeatureDataset->Reference();
         if(m_sName.IsEmpty())
             m_sName = m_pwxGISFeatureDataset->GetName();
 
@@ -68,7 +67,6 @@ wxGISFeatureLayer::~wxGISFeatureLayer(void)
         m_nConnectionPointDSCookie = wxNOT_FOUND;
     }
     wxDELETE(m_pSpatialTree);    
-    wsDELETE(m_pwxGISFeatureDataset);
 }
 
 bool wxGISFeatureLayer::Draw(wxGISEnumDrawPhase DrawPhase, ITrackCancel* const pTrackCancel)

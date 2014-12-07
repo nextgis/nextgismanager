@@ -880,6 +880,7 @@ bool wxGISRasterRGBARenderer::CanRender(wxGISLayer* const pwxGISLayer) const
     {
         //check for more than 3 bands
         wxGISRasterDataset* pwxGISRasterDataset = wxDynamicCast(pwxGISLayer->GetDataset(), wxGISRasterDataset);
+        wxGISPointerHolder holder(pwxGISRasterDataset);
         if(NULL != pwxGISRasterDataset)
         {
             GDALDataset* poGDALDataset = pwxGISRasterDataset->GetRaster();
@@ -887,7 +888,6 @@ bool wxGISRasterRGBARenderer::CanRender(wxGISLayer* const pwxGISLayer) const
             {
                 return poGDALDataset->GetRasterCount() > 2;
             }
-            wsDELETE(pwxGISRasterDataset);
         }
     }
 	return false;
@@ -1106,6 +1106,7 @@ bool wxGISRasterRasterColormapRenderer::CanRender(wxGISLayer* const pwxGISLayer)
         //GPI_CMYK 	 Cyan, Magenta, Yellow and Black (in c1, c2, c3 and c4)
         //GPI_HLS 	 Hue, Lightness and Saturation (in c1, c2, and c3)
         wxGISRasterDataset* pwxGISRasterDataset = wxDynamicCast(pwxGISLayer->GetDataset(), wxGISRasterDataset);
+        wxGISPointerHolder holder(pwxGISRasterDataset);
         if(NULL != pwxGISRasterDataset)
         {
             GDALDataset* poGDALDataset = pwxGISRasterDataset->GetRaster();
@@ -1123,7 +1124,6 @@ bool wxGISRasterRasterColormapRenderer::CanRender(wxGISLayer* const pwxGISLayer)
                     }
                 }
             }
-            wsDELETE(pwxGISRasterDataset);
         }
     }
 	return false;

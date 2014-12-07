@@ -106,10 +106,15 @@ bool wxGISVectorPropertyPage::FillProperties(wxGxSelection* const pSel)
 		}
 		else */if (!m_pDataset->IsOpened())
 		{
-			if(!m_pDataset->Open(0, true, true, false))
-				return false;
+            if (!m_pDataset->Open(0, true, true, false))
+            {
+                wsDELETE(m_pDataset);
+                return false;
+            }
 		}	
-		FillGrid();		
+		FillGrid();	
+
+        wsDELETE(m_pDataset);
 	}
 	return true;
 }			

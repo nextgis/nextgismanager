@@ -116,8 +116,11 @@ bool wxGISRasterPropertyPage::FillProperties(wxGxSelection* const pSel)
 			return false;
 		if(!m_pDataset->IsOpened())
 		{
-			if(!m_pDataset->Open(true))
+            if (!m_pDataset->Open(true))
+            {
+                wsDELETE(m_pDataset);
 				return false;
+            }
 		}
 		/*else if(m_pDataset->IsReadOnly())
 		{
@@ -127,6 +130,8 @@ bool wxGISRasterPropertyPage::FillProperties(wxGxSelection* const pSel)
 		}*/		
 			
 		FillGrid();
+
+        wsDELETE(m_pDataset);
 	}
 	
 	return true;
@@ -818,8 +823,11 @@ bool wxGISRasterHistogramPropertyPage::FillProperties(wxGxSelection* const pSel)
 	
 		if(!m_pDataset->IsOpened())
 		{
-			if(!m_pDataset->Open(true))
-				return false;
+            if (!m_pDataset->Open(true))
+            {
+                wsDELETE(m_pDataset);
+                return false;
+            }
 		}
 		/*else if(m_pDataset->IsReadOnly())
 		{
@@ -829,6 +837,8 @@ bool wxGISRasterHistogramPropertyPage::FillProperties(wxGxSelection* const pSel)
 		}	*/	
 		
 		FillHistogram();	
+
+        wsDELETE(m_pDataset);
 	}	
 	return true;
 }

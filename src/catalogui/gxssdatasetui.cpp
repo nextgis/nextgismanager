@@ -92,6 +92,7 @@ void wxGxSpreadsheetDatasetUI::LoadChildren(void)
 		return;
 
 	wxGISDataset* pDSet = GetDataset(false);
+    wxGISPointerHolder holder(pDSet);
     wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
     if(pDSet)
     {
@@ -103,7 +104,6 @@ void wxGxSpreadsheetDatasetUI::LoadChildren(void)
             wxGIS_GXCATALOG_EVENT_ID(ObjectAdded, pGxSpreadsheetSubDatasetUI->GetId());
 	    }
 
-        wsDELETE(pDSet);
     }
 
 	m_bIsChildrenLoaded = true;
@@ -133,6 +133,7 @@ wxThread::ExitCode wxGxSpreadsheetDatasetUI::Entry()
 wxGISDataset* const wxGxSpreadsheetDatasetUI::GetDataset(bool bCache, ITrackCancel* const pTrackCancel)
 {
     wxGISTable* pwxGISTable = wxDynamicCast(GetDatasetFast(), wxGISTable);
+    wxGISPointerHolder holder(pwxGISTable);
 
     if(pwxGISTable && !pwxGISTable->IsOpened())
     {
@@ -140,8 +141,6 @@ wxGISDataset* const wxGxSpreadsheetDatasetUI::GetDataset(bool bCache, ITrackCanc
         {
 			wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
 			wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
-			
-            wsDELETE(pwxGISTable);
 			return NULL;
         }
         wxGIS_GXCATALOG_EVENT(ObjectChanged);

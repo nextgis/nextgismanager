@@ -558,6 +558,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 						wxString sTable = pGxPostGISFeatureDataset->GetTableName();
 						wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
 						wxGISFeatureDataset* pDataset = wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
+                        wxGISPointerHolder holder(pDataset);
 						if(NULL == pDataset)
 						{
 							wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
@@ -635,6 +636,8 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 					if(pGxDset)
 					{
 						wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
+                        wxGISPointerHolder holder(pDSet);
+
 						if(pDSet)
 						{
 							int nPreviewXSize = 640;
@@ -681,19 +684,16 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 												if(pGxDataset)
 												{
 													wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, &ProgressDlg);	
+                                                    wxGISPointerHolder holder1(pwxGISDataset);
 													if(pwxGISDataset)
 													{
 														wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
-														if(pLayer)
-														{
-															paLayers.push_back(pLayer);
-														}
+														paLayers.push_back(pLayer);
 														while(pwxGISDataset->IsCaching())
 														{
 															wxSleep(1);
 														}
-														wsDELETE(pwxGISDataset);
-													}
+                                                    }
 												}
 											}
 										}
@@ -741,9 +741,7 @@ bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMo
 							}
 							CSLDestroy(papszFileList);
                             pGxDset->FillMetadata();
-                            CreateFileBucket(paDatasets[j]->GetName(), paths, pGxDset->GetModificationDate(), wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);
-							
-							wsDELETE(pDSet);
+                            CreateFileBucket(paDatasets[j]->GetName(), paths, pGxDset->GetModificationDate(), wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);	
 						}
 					}
 					else if(pArchive)
@@ -1305,6 +1303,7 @@ bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 				}
 				
 				wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
+                wxGISPointerHolder holder(descr.pDataset);
 				if(descr.pDataset != NULL)
 				{
 					if(descr.pDataset->GetType() == enumGISFeatureDataset)

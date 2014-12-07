@@ -941,6 +941,7 @@ void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent& event)
         if(pGxDSet)
         {
             wxGISTable* pDSet = wxDynamicCast(pGxDSet->GetDataset(false), wxGISTable);
+            wxGISPointerHolder holder(pDSet);
             if(pDSet)
             {
                 OGRFeatureDefn* const pDef = pDSet->GetDefinition();
@@ -989,7 +990,6 @@ void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent& event)
                     }
                 }
             }
-            wsDELETE(pDSet);
         }
     }
 }

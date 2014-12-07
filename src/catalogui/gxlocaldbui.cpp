@@ -60,8 +60,14 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
         return;
 
     wxGISDataSource* pDSource = wxDynamicCast(GetDatasetFast(), wxGISDataSource);
+    wxGISPointerHolder holder(pDSource);
 
-    if (NULL == pDSource || !pDSource->Open(false))
+    if (NULL == pDSource)
+    {
+        return;
+    }
+
+    if (!pDSource->Open(false))
     {
         return;
     }
@@ -70,6 +76,8 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
     for (size_t i = 0; i < pDSource->GetSubsetsCount(); ++i)
     {
         wxGISDataset* pDSet = pDSource->GetSubset(i);
+        wxGISPointerHolder holder(pDSet);
+
         if (NULL == pDSet)
             continue;
         switch (pDSet->GetType())
@@ -91,12 +99,10 @@ void wxGxOpenFileGDBUI::LoadChildren(void)
             break;
         case enumGISRasterDataset:
             //TODO:
-            break;
         default:
             break;
         }
     }
-    wsDELETE(pDSource);
 
     m_bIsChildrenLoaded = true;
 }
