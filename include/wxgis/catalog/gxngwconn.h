@@ -458,7 +458,8 @@ public:
 		wxString sMime;
 		wxULongLong nSize;
 	} NGWFILEDESCRIPTION;
-
+    //wxGxNGWFileSet
+    virtual bool CanSync() const;
 protected:
 	virtual bool CopyToFolder(const CPLString &szPath, ITrackCancel * const pTrackCancel = NULL);
 	virtual int GetParentResourceId() const;

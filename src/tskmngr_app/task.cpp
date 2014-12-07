@@ -24,6 +24,9 @@
 
 #include <wx/dir.h>
 #include <wx/wfstream.h>
+#include <wx/txtstrm.h>
+
+#define TASK_SEND_COUNT 7
 
 //------------------------------------------------------------------
 // wxGISTaskBase
@@ -1007,6 +1010,414 @@ void wxGISTask::SetPriority(long nNewPriority)
 
 
 //------------------------------------------------------------------------------
+// wxGISTaskPeriodic
+//------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISTaskPeriodic, wxGISTask)
+
+wxGISTaskPeriodic::wxGISTaskPeriodic(wxGISTaskBase* pParentTask, const wxString &sPath) : wxGISTask(pParentTask, sPath)
+{
+    m_nPeriod = 0;
+}
+
+wxGISTaskPeriodic::~wxGISTaskPeriodic(void)
+{
+}
+
+
+bool wxGISTaskPeriodic::Load(void)
+{
+    if (!wxFileName::FileExists(m_sStoragePath))
+    {
+        return false;
+    }
+
+    wxFileInputStream StorageInputStream(m_sStoragePath);
+    wxJSONReader oStorageReader;
+    wxJSONValue  oStorageRoot;
+    //try to load connections storage file
+    int numErrorsStorage = oStorageReader.Parse(StorageInputStream, &oStorageRoot);
+    if (numErrorsStorage > 0)  {
+        wxLogError("The JSON Storage document is not well-formed");
+        return false;
+    }
+
+    m_sName = oStorageRoot.Get(wxT("name"), wxJSONValue(NONAME)).AsString();
+    m_sDescription = oStorageRoot.Get(wxT("desc"), wxJSONValue(NONAME)).AsString();
+    m_nState = (wxGISEnumTaskStateType)oStorageRoot.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
+    if (m_nState == enumGISTaskWork)
+        m_nState = enumGISTaskQuered;
+    m_nGroupId = oStorageRoot.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
+    m_nPriority = oStorageRoot.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
+    m_nPeriod = oStorageRoot.Get(wxT("period"), wxJSONValue(0)).AsLong();
+    m_dtCreated = GetDateValue(oStorageRoot, wxT("create"), wxDateTime::Now());
+
+    m_nVolume = oStorageRoot.Get(wxT("vol"), wxJSONValue(wxUint64(0))).AsUInt64();
+    m_dfDone = oStorageRoot.Get(wxT("done"), wxJSONValue(0.0)).AsDouble();
+
+    m_Params = oStorageRoot[wxT("params")];
+    m_sExecPath = oStorageRoot.Get(wxT("exec"), wxJSONValue(wxEmptyString)).AsString();
+
+    if (oStorageRoot.HasMember(wxT("subtasks")))
+    {
+        m_SubTasksDesc = oStorageRoot[wxT("subtasks")];
+        if (m_nState == enumGISTaskQuered)
+            LoadSubTasks(m_SubTasksDesc);
+    }
+
+    if (m_nState == enumGISTaskDone)
+        m_dfDone = 100;
+    else
+        m_dfDone = 0;
+    m_dfPrevDone = m_dfDone;
+
+    if (m_nPeriod > 0)
+    {
+        CreateAndRunThread();
+    }
+
+    return true;
+}
+
+
+bool wxGISTaskPeriodic::Create(const wxJSONValue& TaskConfig)
+{
+    m_sName = TaskConfig.Get(wxT("name"), wxJSONValue(NONAME)).AsString();
+    m_sDescription = TaskConfig.Get(wxT("desc"), wxJSONValue(NONAME)).AsString();
+    m_nGroupId = TaskConfig.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
+    m_nState = (wxGISEnumTaskStateType)TaskConfig.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
+    m_nPriority = m_nId;
+    m_nPeriod = TaskConfig.Get(wxT("prio"), wxJSONValue(0)).AsLong();
+    m_dtCreated = wxDateTime::Now();
+
+    m_nVolume = 0;
+    m_dfDone = 0;
+
+    m_Params = TaskConfig[wxT("params")];
+    m_sExecPath = TaskConfig.Get(wxT("exec"), wxJSONValue(wxEmptyString)).AsString();
+
+    if (TaskConfig.HasMember(wxT("subtasks")))
+    {
+        wxJSONValue subtasks = TaskConfig[wxT("subtasks")];
+        for (int i = 0; i < subtasks.Size(); ++i)
+        {
+            wxGISTask* pTask = new wxGISTask(this, GetNewStorePath(wxString::Format(wxT("%d"), wxNewId()), SUBTSKDIR));
+            if (pTask->Create(subtasks[i]))
+            {
+                m_omSubTasks[pTask->GetId()] = pTask;
+            }
+            else
+            {
+                wxDELETE(pTask);
+                return false;
+            }
+        }
+        m_bSubTasksLoaded = true;
+    }
+    return Save();
+}
+
+
+wxJSONValue wxGISTaskPeriodic::GetStoreConfig(void)
+{
+    wxJSONValue val;
+    val[wxT("name")] = m_sName;
+    val[wxT("desc")] = m_sDescription;
+    val[wxT("groupid")] = m_nGroupId;
+    val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
+    val[wxT("done")] = m_dfDone;
+    val[wxT("exec")] = m_sExecPath;
+    val[wxT("state")] = m_nState;
+    val[wxT("prio")] = m_nPriority;
+    val[wxT("period")] = m_nPeriod;
+    val[wxT("create")] = SetDateValue(m_dtCreated);
+    val[wxT("params")] = m_Params;
+
+    if (m_bSubTasksLoaded)
+    {
+        int nCounter(0);
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            val[wxT("subtasks")][nCounter++] = it->second->GetStorePath();
+        }
+    }
+    else
+    {
+        val[wxT("subtasks")] = m_SubTasksDesc;
+    }
+
+
+    return val;
+}
+
+wxJSONValue wxGISTaskPeriodic::GetAsJSON(void)
+{
+    wxJSONValue val;
+    val[wxT("id")] = m_nId;
+    val[wxT("name")] = m_sName;
+    val[wxT("desc")] = m_sDescription;
+    val[wxT("groupid")] = m_nGroupId;
+    val[wxT("exec")] = m_sExecPath;
+    val[wxT("state")] = m_nState;
+    val[wxT("prio")] = m_nPriority;
+    val[wxT("period")] = m_nPeriod;
+    val[wxT("create")] = SetDateValue(m_dtCreated);
+    val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
+    val[wxT("done")] = m_dfDone;
+
+    val[wxT("beg")] = SetDateValue(m_dtBeg);
+    val[wxT("end")] = SetDateValue(m_dtEstEnd);
+
+    val[wxT("params")] = m_Params;
+
+    if (m_bSubTasksLoaded)
+    {
+        val[wxT("subtask_count")] = m_omSubTasks.size();
+    }
+    else
+    {
+        val[wxT("subtask_count")] = m_SubTasksDesc.Size();
+    }
+
+    return val;
+}
+
+wxThread::ExitCode wxGISTaskPeriodic::Entry()
+{
+    if (m_nPeriod < 1) //not periodic task
+        return wxGISProcess::Entry();
+
+    long nCounter = m_nPeriod * 1000;
+    while (!TestDestroy())
+    {
+        wxThread::Sleep(100);
+
+        if (nCounter <= 0)
+        {
+            nCounter = m_nPeriod * 1000;
+            OnStart();
+        }
+        else
+        {
+            nCounter -= 100;
+        }
+
+        if (m_nState == enumGISTaskWork)
+        {
+            wxInputStream &InStream = *GetInputStream();
+            wxTextInputStream InputStr(InStream, wxT(" \t"), *wxConvCurrent);
+            if (InStream.IsOk() && !InStream.Eof())
+            {
+                while (InStream.CanRead() && !TestDestroy())
+                {
+                    wxString line = InputStr.ReadLine();
+                    if (line.IsEmpty())
+                        break;
+                    ProcessInput(line);
+                }
+            }
+        }
+    }
+
+    return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
+}
+
+bool wxGISTaskPeriodic::Start()
+{
+    m_pid = Execute();
+    if (m_pid == 0)
+    {
+        m_nState = enumGISTaskError;
+        return false;
+    }
+
+    m_nState = enumGISTaskWork;
+    m_dtBeg = wxDateTime::Now();
+    m_dfDone = 0;
+
+    if (IsInputOpened() && m_nPeriod < 1) //not periodic task
+    {
+        return CreateAndRunThread();
+    }
+
+    return true;
+}
+
+void wxGISTaskPeriodic::Stop(void)
+{
+    if (m_nState == enumGISTaskDone || m_nState == enumGISTaskError)
+        return;
+
+    wxCriticalSectionLocker lock(m_ExitLock);
+
+    if (m_nState == enumGISTaskWork)
+    {
+        if (m_pid != 0)
+        {
+            wxKillError eErr = wxKILL_ERROR;
+            char nKillCounter = 0;
+            //try kill 3 times
+            while (eErr != wxKILL_OK && nKillCounter < 3)
+            {
+                eErr = Kill(m_pid, wxSIGKILL);// wxSIGINT wxSIGTERM
+                nKillCounter++;
+            }
+
+            if (eErr == wxKILL_OK)
+            {
+                m_pid = 0;
+
+                if (m_nPeriod < 1)
+                    DestroyThreadAsync();
+
+                //and detach
+                Detach();
+            }
+            else
+            {
+                wxASSERT_MSG(0, wxT("Incorrect case"));
+            }
+        }
+
+    }
+    m_nState = enumGISTaskPaused;
+    m_dtEstEnd = wxDateTime::Now();
+}
+
+void wxGISTaskPeriodic::OnTerminate(int pid, int status)
+{
+    if (m_nPeriod < 1)
+        DestroyThreadAsync();
+
+    if (m_nState == enumGISTaskPaused)//process paused
+    {
+        m_dfDone = 0;
+        if (m_pParent)
+            m_pParent->OnFinish(this, false);
+        return;
+    }
+
+    if (m_pParent && m_nState == enumGISTaskWork)
+    {
+        m_dfDone = 100.0;
+        if (m_pParent)
+            m_pParent->OnFinish(this, status == EXIT_FAILURE);
+    }
+
+    m_nState = status == EXIT_SUCCESS ? enumGISTaskDone : enumGISTaskError;
+    m_dtEstEnd = wxDateTime::Now();
+
+    m_dfPrevDone = 0;
+    StartNextQueredTask();
+    wxGISTask::ChangeTask();
+    Save();
+}
+
+bool wxGISTaskPeriodic::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUserId)
+{
+    if (!m_pParentTask)
+        return false;
+
+    wxJSONValue val;
+    val[wxT("id")] = m_nId;
+
+    bool nHaveChanges = false;
+    wxString sName = TaskVal.Get(wxT("name"), m_sName).AsString();
+    if (m_sName != sName)
+    {
+        if (m_pParentTask->HasName(sName)) //TODO: error message
+            return false;
+        m_sName = sName;
+        val[wxT("name")] = m_sName;
+        nHaveChanges = true;
+    }
+
+    wxString sDescription = TaskVal.Get(wxT("desc"), m_sDescription).AsString();
+    if (m_sDescription != sDescription)
+    {
+        m_sDescription = sDescription;
+        val[wxT("desc")] = m_sDescription;
+        nHaveChanges = true;
+    }
+
+    int nGroupId = TaskVal.Get(wxT("groupid"), m_nGroupId).AsInt();
+    if (m_nGroupId != nGroupId)
+    {
+        m_nGroupId = nGroupId;
+        val[wxT("groupid")] = m_nGroupId;
+        nHaveChanges = true;
+    }
+
+    int nPriority = TaskVal.Get(wxT("prio"), m_nPriority).AsLong();
+    if (m_nPriority != nPriority)
+    {
+        m_nPriority = nPriority;
+        val[wxT("prio")] = m_nPriority;
+        nHaveChanges = true;
+    }
+
+    int nPeriod = TaskVal.Get(wxT("period"), m_nPeriod).AsLong();
+    if (m_nPeriod != nPeriod)
+    {
+        m_nPeriod = nPeriod;
+        val[wxT("period")] = m_nPeriod;
+        nHaveChanges = true;
+    }
+
+    if (TaskVal.HasMember(wxT("params")))
+    {
+        m_Params = TaskVal[wxT("params")];
+        val[wxT("params")] = m_Params;
+        nHaveChanges = true;
+    }
+
+    wxString sExecPath = TaskVal.Get(wxT("exec"), m_sExecPath).AsString();
+    if (m_sExecPath != sExecPath)
+    {
+        m_sExecPath = sExecPath;
+        val[wxT("exec")] = m_sExecPath;
+        nHaveChanges = true;
+    }
+
+    if (TaskVal.HasMember(wxT("subtasks")))
+    {
+        //delete exist subtasks
+        for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+        {
+            wxGISTask* pTask = dynamic_cast<wxGISTask*>(it->second);
+            if (pTask)
+            {
+                if (!pTask->Delete())
+                    return false;
+            }
+        }
+        m_omSubTasks.clear();
+
+        wxJSONValue subtasks = TaskVal[wxT("subtasks")];
+        for (int i = 0; i < subtasks.Size(); ++i)
+        {
+            wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
+            if (pTask->Load())
+            {
+                m_omSubTasks[pTask->GetId()] = pTask;
+            }
+            else
+            {
+                wxDELETE(pTask);
+            }
+        }
+        val[wxT("subtasks")] = subtasks;
+        nHaveChanges = true;
+        m_bSubTasksLoaded = true;
+    }
+
+    if (nHaveChanges)
+        m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHigh, val, _("Task changed"), nMessageId, nUserId);
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
 // wxGISTaskCategory
 //------------------------------------------------------------------------------
 
@@ -1037,7 +1448,7 @@ bool wxGISTaskCategory::Load(void)
         bool bContinue = dir.GetFirst(&sTaskName, wxT("*.json"), wxDIR_FILES);
         while ( bContinue )
         {
-            wxGISTaskBase* pGISTask = new wxGISTask(this, m_sStoragePath + wxFileName::GetPathSeparator() + sTaskName);
+            wxGISTaskBase* pGISTask = new wxGISTaskPeriodic(this, m_sStoragePath + wxFileName::GetPathSeparator() + sTaskName);
             if(pGISTask->Load())
             {
                 wxLogMessage(_("The task '%s' loaded"), pGISTask->GetName().c_str());
@@ -1205,7 +1616,7 @@ void wxGISTaskCategory::SendNetMessage(wxGISNetCommand eCmd, wxGISNetCommandStat
 bool wxGISTaskCategory::AddTask(const wxJSONValue &TaskConfig, long nMessageId, int nUserId)
 {
     wxLogMessage(_("Create new task in category '%s'"), GetName().c_str());
-    wxGISTask *pTask = new wxGISTask(this, GetNewStorePath(wxString::Format(wxT("%d"), wxNewId())));
+    wxGISTaskPeriodic *pTask = new wxGISTaskPeriodic(this, GetNewStorePath(wxString::Format(wxT("%d"), wxNewId())));
 
     //store in file
     if( pTask->Create(TaskConfig) )
@@ -1241,7 +1652,7 @@ void wxGISTaskCategory::GetChildren(long nMessageId, int nUserId)
     if(m_omSubTasks.empty())
         return;
 
-    int nTaskSendCount(7);
+    int nTaskSendCount(TASK_SEND_COUNT);
     wxGISAppConfig oConfig = GetConfig();
     if (oConfig.IsOk())
     {

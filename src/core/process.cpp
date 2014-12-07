@@ -23,7 +23,7 @@
 
 #include <wx/txtstrm.h>
 
-#define READ_LINE_DELAY 550
+#define READ_LINE_DELAY 350
 
 //------------------------------------------------------------------------------
 // Class wxGISProcess

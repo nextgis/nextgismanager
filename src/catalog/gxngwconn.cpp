@@ -2886,4 +2886,57 @@ bool wxGxNGWFileSet::CopyToFolder(const CPLString &szPath, ITrackCancel * const 
 	return true;
 }
 
+bool wxGxNGWFileSet::CanSync() const
+{
+    if (m_sName.Lower().EndsWith(wxT("shp")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("tab")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("mif")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("kml")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("kmz")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("dxf")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("gml")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("geojson")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("sxf")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("000")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("csv")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("ods")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("dbf")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("xls")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("xlsx")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("bmp")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("tif")) || m_sName.Lower().EndsWith(wxT("tiff")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("jpg")) || m_sName.Lower().EndsWith(wxT("jpeg")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("img")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("png")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("gif")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("sdat")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("til")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("vrt")))
+        return true;
+    return false;
+}
+
 #endif // wxGIS_USE_CURL

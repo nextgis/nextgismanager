@@ -162,6 +162,36 @@ protected:
     wxJSONValue m_SubTasksDesc;
 };
 
+/** @class wxGISTaskPeriodic
+  *
+  * A preiodic task class.
+  *
+  * @library{gp}
+  */
+
+class wxGISTaskPeriodic :
+    public wxGISTask
+{
+    DECLARE_CLASS(wxGISTaskPeriodic)
+public:
+    wxGISTaskPeriodic(wxGISTaskBase* pParentTask, const wxString &sPath);
+    virtual ~wxGISTaskPeriodic(void);
+    //wxGISTask
+    virtual bool Load(void);
+    virtual bool Create(const wxJSONValue& TaskConfig);
+    virtual wxJSONValue GetAsJSON(void);
+    virtual bool ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUserId);
+    //wxGISProcess
+    virtual void OnTerminate(int pid, int status);
+    virtual bool Start(void);
+    virtual void Stop(void);
+protected:
+    virtual wxThread::ExitCode Entry();
+    virtual wxJSONValue GetStoreConfig(void);
+protected:
+    long m_nPeriod;
+};
+
 /** @class wxGISTaskCategory
 
     The tasks category class.
