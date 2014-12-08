@@ -20,6 +20,10 @@
  ****************************************************************************/
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalogui/gxcatalogui.h"
+#include "wxgis/datasource/sysop.h"
+
+#include "../../art/lnk_16.xpm"
+#include "../../art/lnk_48.xpm"
 
 //---------------------------------------------------------------------------
 // wxGxFolderUI
@@ -29,9 +33,24 @@ IMPLEMENT_CLASS(wxGxFolderUI, wxGxFolder)
 
 wxGxFolderUI::wxGxFolderUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon & LargeIcon, const wxIcon & SmallIcon) : wxGxFolder(oParent, soName, soPath), wxGxAutoRenamer()
 {
-    m_oLargeIcon = LargeIcon;
-    m_oSmallIcon = SmallIcon;
-
+#ifdef __LINUX__
+	if(IsSymlink(soPath))
+	{
+		wxImage largeImage = LargeIcon.ConvertToImage();
+		largeImage.Paste(wxBitmap(lnk_48_xpm).ConvertToImage(), 32, 32);
+		m_oLargeIcon.CopyFromBitmap(wxBitmap(largeImage));
+		
+		wxImage smallImage = SmallIcon.ConvertToImage();
+		smallImage.Paste(wxBitmap(lnk_16_xpm).ConvertToImage(), 7, 7);
+		m_oSmallIcon.CopyFromBitmap(wxBitmap(smallImage));
+	}
+	else
+#endif	
+	{
+		m_oLargeIcon = LargeIcon;
+		m_oSmallIcon = SmallIcon;
+	}
+	
     m_pGxViewToRename = NULL;
 }
 

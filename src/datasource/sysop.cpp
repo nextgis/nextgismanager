@@ -29,6 +29,12 @@
 
 bool DeleteDir(const CPLString &sPath, ITrackCancel* const pTrackCancel)
 {
+	//test if symlink
+	if(IsSymlink(sPath))
+	{		
+		return DeleteFile(sPath, pTrackCancel);
+	}
+
     int result = CPLUnlinkTree(sPath);
     //int result = VSIRmdir(sPath);
     if (result == -1)
@@ -148,6 +154,8 @@ bool CopyDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
 
 bool DeleteFile(const CPLString &sPath, ITrackCancel* const pTrackCancel)
 {
+	//test if symlink
+	
     int result = VSIUnlink(sPath);
     if (result == -1)
     {
@@ -656,4 +664,22 @@ wxDateTime GetFileModificatioDate(const CPLString &szPath)
         dt = wxDateTime(BufL.st_mtime);
     }
     return dt;
+}
+
+
+bool IsSymlink(const CPLString &szPath)
+{
+#ifdef __LINUX__	
+	//test if symlink
+	struct stat BufL;
+	int ret = lstat(szPath, &BufL);
+	if(ret == 0)
+	{		
+		if(VSI_ISLNK(BufL.st_mode))
+		{			
+			return true;
+		}
+	}
+#endif //__LINUX__	
+	return false;
 }
