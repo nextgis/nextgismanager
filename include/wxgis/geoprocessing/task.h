@@ -190,6 +190,7 @@ public:
     virtual wxULongLong GetVolume(void) const;
     virtual long GetPriority(void) const;
     virtual void SetPriority(long nPriority);
+    virtual long GetPeriod(void) const;
     virtual double GetDone(void) const;
     virtual void SetState(wxGISEnumTaskStateType eState);
     /**\fn
@@ -216,6 +217,7 @@ protected:
     wxString m_sExecPath;
     wxULongLong m_nVolume;//value in, eg. bytes
     long m_nPriority;
+    long m_nPeriod;
     int m_nGroupId;
     double m_dfDone;
     wxJSONValue m_Params;
@@ -240,6 +242,7 @@ public:
     virtual void SetDescription(const wxString& sDescription);
     virtual void SetExecutable(const wxString& sExecutable);
     virtual void SetParameters(const wxJSONValue &val);
+    virtual void SetPeriod(long nPeriod);
 };
 
 /** @class wxGISTaskCategory

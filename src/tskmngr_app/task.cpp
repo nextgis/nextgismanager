@@ -1351,6 +1351,11 @@ bool wxGISTaskPeriodic::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, 
     int nPriority = TaskVal.Get(wxT("prio"), m_nPriority).AsLong();
     if (m_nPriority != nPriority)
     {
+        if (m_nPriority < 1 && nPriority > 0)
+            CreateAndRunThread();
+        else
+            DestroyThreadAsync();
+
         m_nPriority = nPriority;
         val[wxT("prio")] = m_nPriority;
         nHaveChanges = true;

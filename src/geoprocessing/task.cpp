@@ -376,6 +376,7 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
         m_sExecPath = TaskConfig.Get(wxT("exec"), wxJSONValue(NONAME)).AsString();
         m_nState = (wxGISEnumTaskStateType)TaskConfig.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
         m_nPriority = TaskConfig.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
+        m_nPeriod = TaskConfig.Get(wxT("period"), wxJSONValue(0)).AsLong();
         m_nGroupId = TaskConfig.Get(wxT("groupid"), wxJSONValue(wxNOT_FOUND)).AsInt();
 
         m_dtBeg = GetDateValue(TaskConfig, wxT("beg"), wxDateTime::Now());
@@ -413,6 +414,7 @@ wxGISTask::wxGISTask(wxGISTaskBase *pParentTask, const wxJSONValue &TaskConfig) 
         m_nVolume = 0;
         m_dfDone = 0;
         m_nPriority = wxNOT_FOUND;
+        m_nPeriod = 0;
         m_nId = wxNewId();
         m_nChildrenCount = 0;
     }
@@ -495,6 +497,11 @@ long wxGISTask::GetPriority(void) const
     return m_nPriority;
 }
 
+long wxGISTask::GetPeriod(void) const
+{
+    return m_nPeriod;
+}
+
 void wxGISTask::SetPriority(long nPriority)
 {
     m_nPriority = nPriority;
@@ -541,6 +548,7 @@ void wxGISTask::ChangeTask(const wxJSONValue &val)
     m_sExecPath = val.Get(wxT("exec"), wxJSONValue(m_sExecPath)).AsString();
     m_nState = (wxGISEnumTaskStateType)val.Get(wxT("state"), wxJSONValue(m_nState)).AsLong();
     m_nPriority = val.Get(wxT("prio"), wxJSONValue(m_nPriority)).AsLong();
+    m_nPeriod = val.Get(wxT("period"), wxJSONValue(m_nPeriod)).AsLong();
     m_nGroupId = val.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
 
     m_dtBeg = GetDateValue(val, wxT("beg"), m_dtBeg);
@@ -626,6 +634,7 @@ wxJSONValue wxGISTask::GetConfig(void)
     val[wxT("groupid")] = m_nGroupId;
     val[wxT("state")] = m_nState;
     val[wxT("prio")] = m_nPriority;
+    val[wxT("period")] = m_nPeriod;
     val[wxT("exec")] = m_sExecPath;
     //val[wxT("beg")] = SetDateValue(m_dtBeg);
     //val[wxT("end")] = SetDateValue(m_dtEnd);
@@ -756,6 +765,12 @@ void wxGISTaskEdit::SetExecutable(const wxString& sExecutable)
 void wxGISTaskEdit::SetParameters(const wxJSONValue &val)
 {
     m_Params = val;
+}
+
+
+void wxGISTaskEdit::SetPeriod(long nPeriod)
+{
+    m_nPeriod = nPeriod;
 }
 
 //------------------------------------------------------------------
