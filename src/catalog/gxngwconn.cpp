@@ -2617,14 +2617,17 @@ wxGxNGWFileSet::~wxGxNGWFileSet()
 
 void wxGxNGWFileSet::FillFilesArray(const wxJSONValue &files)
 {
-    for (size_t i = 0; i < files.Size(); ++i)
+    if (files.IsArray())
     {
-        wxString sMime = files[i]["mime"].AsString();
-        wxString sName = files[i]["name"].AsString();
-        wxULongLong nSize = files[i]["size"].AsULong();
+        for (size_t i = 0; i < files.Size(); ++i)
+        {
+            wxString sMime = files[i]["mime"].AsString();
+            wxString sName = files[i]["name"].AsString();
+            wxULongLong nSize = files[i]["size"].AsULong();
 
-        NGWFILEDESCRIPTION desc = { sName, sMime, nSize };
-        m_asFiles.push_back(desc);
+            NGWFILEDESCRIPTION desc = { sName, sMime, nSize };
+            m_asFiles.push_back(desc);
+        }    
     }
 
     FillMetadata(true);
