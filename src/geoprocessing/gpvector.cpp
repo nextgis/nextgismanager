@@ -160,7 +160,7 @@ bool CopyRows(wxGISTable* const pSrcDataSet, wxGISTable* const pDstDataSet, cons
     return true;
 }
 
-bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, const wxVector<ST_FIELD_MAP> &staFieldMap, OGRwkbGeometryType eFilterGeomType, bool bToMulti, bool bSkipEmptyGeometry, ITrackCancel* const pTrackCancel)
+bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const pDstDataSet, const wxVector<ST_FIELD_MAP> &staFieldMap, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxDword eSkipGeometry, ITrackCancel* const pTrackCancel)
 {
     const wxGISSpatialReference oSrcSRS = pSrcDataSet->GetSpatialReference();
     const wxGISSpatialReference oDstSRS = pDstDataSet->GetSpatialReference();
@@ -230,7 +230,25 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
 
         //set geometry
         wxGISGeometry Geom = Feature.GetGeometry();
-        if (Geom.IsOk())
+		bool bSkip = true;
+		if(eSkipGeometry & enumGISSkipGeometryNone)
+		{
+			bSkip = false;			
+		}
+		else
+		{
+			if((eSkipGeometry & enumGISSkipEmptyGeometry) && !Geom.IsOk())
+				bSkip = true;
+			else
+				bSkip = false;
+			
+			if(!bSkip && (eSkipGeometry & enumGISSkipInvalidGeometry) && !Geom.IsValid())
+				bSkip = true;
+			else
+				bSkip = false;
+		}
+ 
+        if (!bSkip)
         {
             OGRGeometry *pNewGeom = NULL;
             OGRwkbGeometryType eGeomType = Geom.GetType();
@@ -296,13 +314,13 @@ bool CopyRows(wxGISFeatureDataset* const pSrcDataSet, wxGISFeatureDataset* const
             }
             newFeature.SetGeometryDirectly(wxGISGeometry(pNewGeom, false));
         }
-		else if(bSkipEmptyGeometry)
+		else
 		{
 			//skip feature
 			
 			if (pTrackCancel)
             {
-                pTrackCancel->PutMessage(wxString::Format(_("Skip feature id %ld with empty geometry"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
+                pTrackCancel->PutMessage(wxString::Format(_("Skip feature id %ld with empty or invalid geometry"), Feature.GetFID()), wxNOT_FOUND, enumGISMessageWarning);
             }
 			
 			if (pProgressor)
@@ -471,7 +489,7 @@ bool ExportFormatEx(wxGISTable* const pSrsDataSet, const CPLString &sPath, const
     return eErr == OGRERR_NONE;
 }
 
-bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, OGRwkbGeometryType eFilterGeomType, bool bToMulti, bool bSkipEmptyGeometry, ITrackCancel* const pTrackCancel)
+bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, OGRFeatureDefn* const poFields, const wxVector<ST_FIELD_MAP> &staFieldMap, const wxGISSpatialReference &oSpatialRef, char ** papszDataSourceOptions, char ** papszLayerOptions, bool bCreateEmpty, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxDword eSkipGeometry, ITrackCancel* const pTrackCancel)
 {
     wxCHECK_MSG(NULL != pSrsDataSet && NULL != pFilter && NULL != poFields, false, wxT("Input data are invalid"));
 
@@ -513,7 +531,7 @@ bool ExportFormatEx(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPa
     OGRErr eErr = pDstDataSet->StartTransaction();
 
     //copy data
-    if (!CopyRows(pSrsDataSet, pDstDataSet, staFieldMap, eFilterGeomType, bToMulti, bSkipEmptyGeometry, pTrackCancel))
+    if (!CopyRows(pSrsDataSet, pDstDataSet, staFieldMap, eFilterGeomType, bToMulti, eSkipGeometry, pTrackCancel))
     {
         wxString sErr(_("Error copying data to a new dataset!"));
 		wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, pTrackCancel);
@@ -787,7 +805,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
                 pNewDef->SetGeomType(IT->first);
                 sType.Replace(" ", "");
 
-                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, false, pTrackCancel))
+                if (!ExportFormatEx(pSrsDataSet, sPath, sName + wxT("_") + sType.MakeLower(), pFilter, oNewSpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, false, IT->first, bToMulti, enumGISSkipGeometryNone, pTrackCancel))
                 {
                     return false;
                 }
@@ -847,7 +865,7 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
         wxGISConfigOptionReset reset_copy("PG_USE_COPY", "YES", CPLGetConfigOption("PG_USE_COPY", "YES"));
         //}
 
-        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, false, pTrackCancel))
+        if (!ExportFormatEx(pSrsDataSet, sPath, sName, pFilter, SpaFilter, pNewDef, staFieldMap, DstSpaRef, papszDataSourceOptions, papszLayerOptions, true, wkbUnknown, bToMulti, enumGISSkipGeometryNone, pTrackCancel))
         {
             return false;
         }

@@ -874,6 +874,14 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
 				if(sFieldName.Len() > 8)
 					sFieldName = sFieldName.Left(8);
+				sFieldName.Replace(wxT(" "), wxT("_"));	
+				sFieldName.Replace(wxT("\""), wxT("_"));
+				sFieldName.Replace(wxT("'"), wxT("_"));
+				sFieldName.Replace(wxT("."), wxT("_"));				
+				sFieldName.Replace(wxT(","), wxT("_"));				
+				sFieldName.Replace(wxT(":"), wxT("_"));
+				sFieldName.Replace(wxT(";"), wxT("_"));				
+				sFieldName.Replace(wxT("!"), wxT("_"));
 					
 				sFieldName.Append(sAppend);
 				pFieldDefn->SetName( sFieldName.ToUTF8() );
@@ -904,7 +912,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	
 	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 	
-	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, true, pTrackCancel))
+	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, enumGISSkipEmptyGeometry | enumGISSkipInvalidGeometry, pTrackCancel))
 	{
 		return false;
 	}
