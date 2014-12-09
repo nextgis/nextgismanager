@@ -23,6 +23,7 @@
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/catalog/gxfolder.h"
 #include "wxgis/catalog/gxfile.h"
+#include "wxgis/catalog/gxngwconn.h"
 #include "wxgis/catalog/gxremoteconn.h"
 #include "wxgis/datasource/sysop.h"
 
@@ -829,4 +830,52 @@ wxString wxGxTableFilter::GetDriver(void) const
 int wxGxTableFilter::GetSubType(void) const
 {
     return m_nSubType;
+}
+
+
+//------------------------------------------------------------
+// wxGxNGWResourceGroupFilter
+//------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxNGWResourceGroupFilter, wxGxObjectFilter)
+
+wxGxNGWResourceGroupFilter::wxGxNGWResourceGroupFilter(void)
+{
+}
+
+wxGxNGWResourceGroupFilter::~wxGxNGWResourceGroupFilter(void)
+{
+}
+
+bool wxGxNGWResourceGroupFilter::CanChooseObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (pObject->IsKindOf(wxCLASSINFO(wxGxNGWResourceGroup)))
+        return true;
+    return false;
+}
+
+bool wxGxNGWResourceGroupFilter::CanDisplayObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (pObject->GetCategory() == wxString(wxT("Root")))
+        return true;
+    if (pObject->IsKindOf(wxCLASSINFO(wxGxNGWResourceGroup)) || pObject->IsKindOf(wxCLASSINFO(wxGxNGWService)))
+        return true;
+    if (pObject->GetCategory() == wxString(_("Web services folder")))
+        return true;
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;
+    return false;
+}
+
+bool wxGxNGWResourceGroupFilter::CanStoreToObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    return pObject->IsKindOf(wxCLASSINFO(wxGxNGWResourceGroup));
+}
+
+wxString wxGxNGWResourceGroupFilter::GetName(void) const
+{
+    return wxString(_("NGW Resource group"));
 }

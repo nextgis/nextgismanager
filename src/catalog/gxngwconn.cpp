@@ -236,14 +236,18 @@ bool wxGxNGWService::ConnectToNGW()
 		{
 			wxJSONValue oResources = oSchema["resources"];
 			wxArrayString saClsArray = oResources.GetMemberNames();
-			for ( size_t i = 0; i < saClsArray.GetCount(); ++i ) 
-			{    
-				wxString sType = saClsArray[i];
-				wxGISEnumNGWResourcesType eType = GetType(sType);
-				if(eType != enumNGWResourceTypeNone && !IsTypeSupported(eType))
-					m_eSupportedTypes.Add(eType);
-			}
-
+            for (size_t i = 0; i < saClsArray.GetCount(); ++i)
+            {
+                wxString sType = saClsArray[i];
+                wxGISEnumNGWResourcesType eType = GetType(sType);
+                if (eType != enumNGWResourceTypeNone)
+                {
+                    if (m_eSupportedTypes.empty())
+                        m_eSupportedTypes.Add(eType);
+                    else if (!IsTypeSupported(eType))
+                        m_eSupportedTypes.Add(eType);
+                }
+            }
 		}
 	}
 

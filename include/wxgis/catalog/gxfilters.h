@@ -230,3 +230,21 @@ protected:
     wxGISEnumTableType m_nSubType;
 };
 
+/** @class wxGxNGWResourceGroupFilter
+
+    The NGW Resource GxObject Filters.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxNGWResourceGroupFilter : public wxGxObjectFilter
+{
+    DECLARE_CLASS(wxGxNGWResourceGroupFilter)
+public:
+    wxGxNGWResourceGroupFilter(void);
+    virtual ~wxGxNGWResourceGroupFilter(void);
+    virtual bool CanChooseObject(wxGxObject* const pObject);
+    virtual bool CanDisplayObject(wxGxObject* const pObject);
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
+};

@@ -459,7 +459,7 @@ void wxGISDTFolderPath::OnOpen(wxCommandEvent& event)
     dlg.SetName( Name.GetFullName() );
     if(dlg.ShowModal() == wxID_OK)
     {
-        wxString sPath = dlg.GetPath();
+        wxString sPath = dlg.GetFullName();
         m_pParam->SetValue(wxVariant(sPath, wxT("path")));
     }
 
