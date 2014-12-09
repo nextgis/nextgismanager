@@ -20,11 +20,10 @@
  ****************************************************************************/
 #include "wxgis/catalogui/gxdbconnfactoryui.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
+#include "wxgis/framework/icon.h"
 
 #include "../../art/rdb_conn_16.xpm"
 #include "../../art/rdb_conn_48.xpm"
-#include "../../art/rdb_disconn_16.xpm"
-#include "../../art/rdb_disconn_48.xpm"
 
 //------------------------------------------------------------------------------
 // wxGxDBConnectionFactoryUI
@@ -36,8 +35,8 @@ wxGxDBConnectionFactoryUI::wxGxDBConnectionFactoryUI(void) : wxGxDBConnectionFac
 {
     m_LargeIconConn = wxIcon(rdb_conn_48_xpm);
     m_SmallIconConn = wxIcon(rdb_conn_16_xpm);
-    m_LargeIconDisconn = wxIcon(rdb_disconn_48_xpm);
-    m_SmallIconDisconn = wxIcon(rdb_disconn_16_xpm);
+    m_LargeIconDisconn = GetStateIcon(m_LargeIconConn, wxGISEnumIconStateDisconnect, true);
+    m_SmallIconDisconn = GetStateIcon(m_SmallIconConn, wxGISEnumIconStateDisconnect, false);
 }
 
 wxGxDBConnectionFactoryUI::~wxGxDBConnectionFactoryUI(void)

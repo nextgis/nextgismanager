@@ -29,11 +29,12 @@
 #include "wxgis/catalogui/gxremoteconnui.h"
 #include "wxgis/catalogui/gxngwconnui.h"
 #include "wxgis/catalogui/createremotedlgs.h"
+#include "wxgis/framework/icon.h"
 
-#include "../../art/rdb_create.xpm"
+#include "../../art/rdb_conn_16.xpm"
+#include "../../art/dbschema_16.xpm"
+#include "../../art/folder_arch_16.xpm"
 #include "../../art/web_conn_create.xpm"
-#include "../../art/dbschema_create.xpm"
-#include "../../art/folder_arch_create.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISCreateNewCmd, wxObject)
@@ -54,7 +55,7 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 		case enumGISCatalogCreateNewCmdRemoteDBConnection:
 		case enumGISCatalogCreateNewCmdNGWPostGISConnection:
 			if(!m_IconCreateRemoteConn.IsOk())
-				m_IconCreateRemoteConn = wxIcon(rdb_create_xpm);
+                m_IconCreateRemoteConn = GetStateIcon(rdb_conn_16_xpm, wxGISEnumIconStateNew, false);
 			return m_IconCreateRemoteConn;
 		case enumGISCatalogCreateNewCmdTMSConnection:
         case enumGISCatalogCreateNewCmdNGWConnection:
@@ -63,11 +64,11 @@ wxIcon wxGISCreateNewCmd::GetBitmap(void)
 			return m_IconCreateWebConn;
 		case enumGISCatalogCreateNewCmdDBSchema:
 			if(!m_IconCreateSchema.IsOk())
-                m_IconCreateSchema = wxIcon(dbschema_create_xpm);
+                m_IconCreateSchema = GetStateIcon(dbschema_16_xpm, wxGISEnumIconStateNew, false);
             return m_IconCreateSchema;
 		case enumGISCatalogCreateNewCmdNGWResourceGroup:	
 			if(!m_IconCreateResourceGroup.IsOk())
-                m_IconCreateResourceGroup = wxIcon(folder_arch_create_xpm);
+                m_IconCreateResourceGroup = GetStateIcon(folder_arch_16_xpm, wxGISEnumIconStateNew, false);
             return m_IconCreateResourceGroup;
         default:
 			return wxNullIcon;

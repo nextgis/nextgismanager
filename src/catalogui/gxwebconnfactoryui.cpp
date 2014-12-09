@@ -21,17 +21,12 @@
 #include "wxgis/catalogui/gxwebconnfactoryui.h"
 #include "wxgis/catalogui/gxremoteconnui.h"
 #include "wxgis/catalogui/gxngwconnui.h"
+#include "wxgis/framework/icon.h"
 
 #include "../../art/web_tms_conn_16.xpm"
 #include "../../art/web_tms_conn_48.xpm"
-#include "../../art/web_tms_disconn_16.xpm"
-#include "../../art/web_tms_disconn_48.xpm"
 #include "../../art/ngw_conn_16.xpm"
 #include "../../art/ngw_conn_48.xpm"
-#include "../../art/ngw_disconn_16.xpm"
-#include "../../art/ngw_disconn_48.xpm"
-#include "../../art/ngw_conn_guest_16.xpm"
-#include "../../art/ngw_conn_guest_48.xpm"
 
 //------------------------------------------------------------------------------
 // wxGxWebConnectionFactoryUI
@@ -44,14 +39,14 @@ wxGxWebConnectionFactoryUI::wxGxWebConnectionFactoryUI(void) : wxGxWebConnection
 
     m_LargeIconConn = wxIcon(web_tms_conn_48_xpm);
     m_SmallIconConn = wxIcon(web_tms_conn_16_xpm);
-    m_LargeIconDisconn = wxIcon(web_tms_disconn_48_xpm);
-    m_SmallIconDisconn = wxIcon(web_tms_disconn_16_xpm);
+    m_LargeIconDisconn = GetStateIcon(m_LargeIconConn, wxGISEnumIconStateDisconnect, true);
+    m_SmallIconDisconn = GetStateIcon(m_SmallIconConn, wxGISEnumIconStateDisconnect, false);
     m_LargeIconNGWConn = wxIcon(ngw_conn_48_xpm);
     m_SmallIconNGWConn = wxIcon(ngw_conn_16_xpm);
-    m_LargeIconNGWDisconn = wxIcon(ngw_disconn_48_xpm);
-    m_SmallIconNGWDisconn = wxIcon(ngw_disconn_16_xpm);
-    m_LargeIconNGWConnGuest = wxIcon(ngw_conn_guest_48_xpm);
-    m_SmallIconNGWConnGuest = wxIcon(ngw_conn_guest_16_xpm);
+    m_LargeIconNGWDisconn = GetStateIcon(m_LargeIconNGWConn, wxGISEnumIconStateDisconnect, true);
+    m_SmallIconNGWDisconn = GetStateIcon(m_SmallIconNGWConn, wxGISEnumIconStateDisconnect, false);
+    m_LargeIconNGWConnGuest = GetStateIcon(m_LargeIconNGWConn, wxGISEnumIconStateWarning, true);
+    m_SmallIconNGWConnGuest = GetStateIcon(m_SmallIconNGWDisconn, wxGISEnumIconStateWarning, false);
 }
 
 wxGxWebConnectionFactoryUI::~wxGxWebConnectionFactoryUI(void)

@@ -92,6 +92,7 @@ set(PROJECT_HHEADERS ${PROJECT_HHEADERS}
     ${LIB_HEADERS}/toolbarmenu.h
     ${LIB_HEADERS}/dataobject.h
     ${LIB_HEADERS}/tabstyle.h
+    ${LIB_HEADERS}/icon.h
 )
 
 set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
@@ -115,6 +116,7 @@ set(PROJECT_CSOURCES ${PROJECT_CSOURCES}
     ${LIB_SOURCES}/toolbarmenu.cpp
     ${LIB_SOURCES}/dataobject.cpp
     ${LIB_SOURCES}/tabstyle.cpp
+    ${LIB_SOURCES}/icon.cpp
 )
 
 add_definitions(-DWXMAKINGDLL_GIS_FRW -DwxUSE_GUI=1)

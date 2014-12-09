@@ -22,9 +22,6 @@
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/datasource/sysop.h"
 
-#include "../../art/lnk_16.xpm"
-#include "../../art/lnk_48.xpm"
-
 //---------------------------------------------------------------------------
 // wxGxFolderUI
 //---------------------------------------------------------------------------
@@ -35,14 +32,9 @@ wxGxFolderUI::wxGxFolderUI(wxGxObject *oParent, const wxString &soName, const CP
 {
 #ifdef __LINUX__
 	if(IsSymlink(soPath))
-	{
-		wxImage largeImage = LargeIcon.ConvertToImage();
-		largeImage.Paste(wxBitmap(lnk_48_xpm).ConvertToImage(), 32, 32);
-		m_oLargeIcon.CopyFromBitmap(wxBitmap(largeImage));
-		
-		wxImage smallImage = SmallIcon.ConvertToImage();
-		smallImage.Paste(wxBitmap(lnk_16_xpm).ConvertToImage(), 7, 7);
-		m_oSmallIcon.CopyFromBitmap(wxBitmap(smallImage));
+	{		
+        m_oLargeIcon = GetStateIcon(largeIcon, wxGISEnumIconStateLink, true);
+        m_oSmallIcon = GetStateIcon(SmallIcon, wxGISEnumIconStateLink, false);
 	}
 	else
 #endif	

@@ -1,0 +1,35 @@
+/* XPM */
+static const char *err_16_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"7 7 22 1",
+"  c #9F3232",
+". c #BE2222",
+"X c #BE2B2B",
+"o c #CC0000",
+"O c #C72626",
+"+ c #C72727",
+"@ c #C32828",
+"# c #C52929",
+"$ c #C12F2F",
+"% c #C13333",
+"& c #C53332",
+"* c #C33535",
+"= c #D73535",
+"- c #B64E4C",
+"; c #DB4A4A",
+": c #DC5050",
+"> c #E16868",
+", c #E37777",
+"< c #F1BBBB",
+"1 c #F2BDBD",
+"2 c #FBEAEA",
+"3 c #FFFDFD",
+/* pixels */
+"-*%%##.",
+"&1:o;<+",
+"&=2,2=+",
+"#o>3>o+",
+"@=2,2=+",
+"$1:o;<+",
+" XX#++."
+};

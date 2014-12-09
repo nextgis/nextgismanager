@@ -24,6 +24,7 @@
 #include "wxgis/catalogui/processing.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/framework/progressdlg.h"
+#include "wxgis/framework/icon.h"
 #include "wxgis/catalog/gxfilters.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/json/jsonreader.h"
@@ -47,8 +48,8 @@
 #include "../../art/ngw_layer_48.xpm"
 #include "../../art/rdb_conn_16.xpm"
 #include "../../art/rdb_conn_48.xpm"
-#include "../../art/rdb_disconn_16.xpm"
-#include "../../art/rdb_disconn_48.xpm"
+//#include "../../art/rdb_disconn_16.xpm"
+//#include "../../art/rdb_disconn_48.xpm"
 #include "../../art/raster_bmp16.xpm"
 #include "../../art/raster_bmp48.xpm"
 #include "../../art/properties.xpm"
@@ -299,9 +300,9 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
  		if(!m_icPGConnSmallIcon.IsOk())
 			m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
 		if(!m_icPGDisConnLargeIcon.IsOk())
-			m_icPGDisConnLargeIcon = wxIcon(rdb_disconn_48_xpm);
+            m_icPGDisConnLargeIcon = GetStateIcon(m_icPGConnLargeIcon, wxGISEnumIconStateDisconnect, true);
  		if(!m_icPGDisConnSmallIcon.IsOk())
-			m_icPGDisConnSmallIcon = wxIcon(rdb_disconn_16_xpm);
+            m_icPGDisConnSmallIcon = GetStateIcon(m_icPGConnSmallIcon, wxGISEnumIconStateDisconnect, false);
 		if(m_bHasGeoJSON)
 			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnectionUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icPGConnLargeIcon, m_icPGConnSmallIcon, m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon), wxGxObject);
 		break;

@@ -39,8 +39,9 @@
 #include "wxgis/core/format.h"
 #include "wxgis/datasource/postgisdataset.h"
 #include "wxgis/framework/applicationbase.h"
+#include "wxgis/framework/icon.h"
 
-#include "../../art/rdb_create.xpm"
+#include "../../art/rdb_conn_16.xpm"
 
 #include <wx/valgen.h>
 #include <wx/valtext.h>
@@ -53,7 +54,7 @@
 
 wxGISCreateDBDlg::wxGISCreateDBDlg( CPLString pszConnPath, wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxGISRemoteDBConnDlg( pszConnPath, parent, id, title, pos, size, style )
 {
-    SetIcon(wxIcon(rdb_create_xpm));
+    SetIcon(GetStateIcon(rdb_conn_16_xpm, wxGISEnumIconStateNew, false));
 
 	m_bCreateNew = true;
 

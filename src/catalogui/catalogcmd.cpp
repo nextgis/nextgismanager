@@ -30,6 +30,7 @@
 #include "wxgis/catalog/gxdiscconnections.h"
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/framework/dataobject.h"
+#include "wxgis/framework/icon.h"
 #include "wxgis/catalogui/gxlocationcombobox.h"
 #include "wxgis/net/mail/email.h"
 #include "wxgis/catalog/gxdataset.h"
@@ -41,9 +42,8 @@
 #include "../../art/delete.xpm"
 #include "../../art/edit.xpm"
 
-#include "../../art/folder_conn_new.xpm"
-#include "../../art/folder_conn_del.xpm"
-#include "../../art/folder_new.xpm"
+#include "../../art/folder_conn_16.xpm"
+#include "../../art/folder_16.xpm"
 #include "../../art/folder_up.xpm"
 
 #include "../../art/view-refresh.xpm"
@@ -92,11 +92,11 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
         case enumGISCatalogMainCmdConnectCurrentFolder:
 		case enumGISCatalogMainCmdConnectFolder:
 			if(!m_IconFolderConn.IsOk())
-				m_IconFolderConn = wxIcon(folder_conn_new_xpm);
+                m_IconFolderConn = GetStateIcon(folder_conn_16_xpm, wxGISEnumIconStateNew, false);
 			return m_IconFolderConn;
 		case enumGISCatalogMainCmdDisconnectFolder:
 			if(!m_IconFolderConnDel.IsOk())
-				m_IconFolderConnDel = wxIcon(folder_conn_del_xpm);
+                m_IconFolderConnDel = GetStateIcon(folder_conn_16_xpm, wxGISEnumIconStateDisconnectAlt, false);
 			return m_IconFolderConnDel;
 		case enumGISCatalogMainCmdDelete:
 			if(!m_IconDel.IsOk())
@@ -118,7 +118,7 @@ wxIcon wxGISCatalogMainCmd::GetBitmap(void)
 			return m_IconGoNext;
 		case enumGISCatalogMainCmdCreateFolder:
 			if(!m_IconFolderNew.IsOk())
-				m_IconFolderNew = wxIcon(folder_new_xpm);
+                m_IconFolderNew = GetStateIcon(folder_16_xpm, wxGISEnumIconStateNew, false);
 			return m_IconFolderNew;
 		case enumGISCatalogMainCmdRename:
 			if(!m_IconEdit.IsOk())
