@@ -33,7 +33,7 @@ wxGxFolderUI::wxGxFolderUI(wxGxObject *oParent, const wxString &soName, const CP
 #ifdef __LINUX__
 	if(IsSymlink(soPath))
 	{		
-        m_oLargeIcon = GetStateIcon(largeIcon, wxGISEnumIconStateLink, true);
+        m_oLargeIcon = GetStateIcon(LargeIcon, wxGISEnumIconStateLink, true);
         m_oSmallIcon = GetStateIcon(SmallIcon, wxGISEnumIconStateLink, false);
 	}
 	else
