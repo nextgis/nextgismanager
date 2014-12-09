@@ -1662,9 +1662,13 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 		val["resource"]["parent"]["id"] = m_nRemoteId;
 		val["resource"]["display_name"] = sName;
 		val["file_bucket"]["files"] = JSONRoot["upload_meta"];
-        //TODO: fix tstamp
-        //if (dt.IsValid())
-        //    val["file_bucket"]["tstamp"] = dt.FormatISOCombined(); //"tstamp": "2014-11-18T19:53:06.726542"
+        
+        if (dt.IsValid())
+		{
+			wxDateTime dtUTC = dt.ToUTC();
+			wxString sDT = dtUTC.FormatISOCombined(); //"tstamp": "2014-11-18T19:53:06.726542"
+            val["file_bucket"]["tstamp"] = sDT;
+		}
         
 		if(oMetadata.IsValid())
 			val["resmeta"]["items"] = oMetadata;
@@ -2605,6 +2609,7 @@ wxGxNGWFileSet::wxGxNGWFileSet(wxGxNGWService *pService, const wxJSONValue &Data
     wxJSONValue JSONFilesBucket = Data["file_bucket"];
     wxString sTimeStamp = JSONFilesBucket["tstamp"].AsString();
     m_dtMod.ParseISOCombined(sTimeStamp);
+	m_dtMod.MakeFromUTC();
 
     wxJSONValue JSONFiles = JSONFilesBucket["files"];
     FillFilesArray(JSONFiles);
