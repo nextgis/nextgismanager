@@ -669,7 +669,7 @@ wxDateTime GetFileModificatioDate(const CPLString &szPath)
 
 bool IsSymlink(const CPLString &szPath)
 {
-#ifdef __LINUX__	
+#ifdef __UNIX__
 	//test if symlink
 	struct stat BufL;
 	int ret = lstat(szPath, &BufL);
@@ -680,6 +680,6 @@ bool IsSymlink(const CPLString &szPath)
 			return true;
 		}
 	}
-#endif //__LINUX__	
+#endif //__UNIX__
 	return false;
 }

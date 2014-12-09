@@ -674,7 +674,7 @@ wxGISEnumReturnType wxGISApplication::SetupLoc(const wxString &sLoc, const wxStr
 		// shows that you may make use of the standard message catalogs as well
 		//
 		// if it's not installed on your system, it is just silently ignored
-	#ifdef __LINUX__
+    #ifdef __UNIX__
 		{
 			wxLogNull noLog;
 			m_pLocale->AddCatalog(_T("fileutils"));

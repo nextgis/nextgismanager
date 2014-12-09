@@ -31,7 +31,7 @@ IMPLEMENT_CLASS(wxGxFolderUI, wxGxFolder)
 
 wxGxFolderUI::wxGxFolderUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon & LargeIcon, const wxIcon & SmallIcon) : wxGxFolder(oParent, soName, soPath), wxGxAutoRenamer()
 {
-#ifdef __LINUX__
+#ifdef __UNIX__
 	if(IsSymlink(soPath))
 	{		
         m_oLargeIcon = GetStateIcon(LargeIcon, wxGISEnumIconStateLink, true);
