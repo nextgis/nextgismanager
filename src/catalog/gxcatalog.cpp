@@ -24,6 +24,9 @@
 #include "wxgis/core/format.h"
 #include "wxgis/catalog/gxfolder.h"
 
+#include "gdal_priv.h"
+#include "ogr_api.h"
+
 // ----------------------------------------------------------------------------
 // wxGxCatalog
 // ----------------------------------------------------------------------------
