@@ -21,6 +21,7 @@
 #include "wxgis/catalogui/gxfolderui.h"
 #include "wxgis/catalogui/gxcatalogui.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/framework/icon.h"
 
 //---------------------------------------------------------------------------
 // wxGxFolderUI
