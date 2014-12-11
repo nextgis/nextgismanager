@@ -38,7 +38,7 @@ if(EXE_MSGFMT)
             set(MO_FILES ${MO_FILES} ${MO})
             add_custom_command(
                 OUTPUT ${MO}
-                COMMAND ${EXE_MSGFMT} ${PO} -o ${MO}
+                COMMAND ${EXE_MSGFMT} -o ${MO} ${PO}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                 DEPENDS ${PO})
         endforeach()

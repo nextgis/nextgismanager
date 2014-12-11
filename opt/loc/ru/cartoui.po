@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 10:57+0300\n"
-"PO-Revision-Date: 2014-12-11 10:57+0300\n"
-"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-12-11 15:39+0300\n"
+"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.7.1\n"
+"X-Generator: Poedit 1.6.11\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/cartoui\n"
@@ -31,8 +31,7 @@ msgstr "П&редыдущий охват"
 msgid "&Next Extent"
 msgstr "&Следующий охват"
 
-#: ../../../src/cartoui/cartocmd.cpp:109
-#: ../../../src/cartoui/cartocmd.cpp:338
+#: ../../../src/cartoui/cartocmd.cpp:109 ../../../src/cartoui/cartocmd.cpp:338
 msgid "Geography"
 msgstr "География"
 
@@ -126,18 +125,15 @@ msgstr "Ввести угол поворота"
 msgid "View"
 msgstr "Вид"
 
-#: ../../../src/cartoui/cartocmd.cpp:791
-#: ../../../src/cartoui/cartocmd.cpp:832
+#: ../../../src/cartoui/cartocmd.cpp:791 ../../../src/cartoui/cartocmd.cpp:832
 msgid "Rotate map frame"
 msgstr "Повернуть окно карты"
 
-#: ../../../src/cartoui/cartocmd.cpp:793
-#: ../../../src/cartoui/cartocmd.cpp:834
+#: ../../../src/cartoui/cartocmd.cpp:793 ../../../src/cartoui/cartocmd.cpp:834
 msgid "Cancel rotate map frame"
 msgstr "Отменить поворот окна карты"
 
-#: ../../../src/cartoui/cartocmd.cpp:795
-#: ../../../src/cartoui/cartocmd.cpp:836
+#: ../../../src/cartoui/cartocmd.cpp:795 ../../../src/cartoui/cartocmd.cpp:836
 msgid "Input map frame rotate angle"
 msgstr "Ввести угол поворота окна карты"
 
