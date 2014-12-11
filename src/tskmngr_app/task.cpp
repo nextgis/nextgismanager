@@ -866,6 +866,12 @@ bool wxGISTask::IsGroupIdExecuting(int nGroupId) const
 
 long wxGISTask::Execute(void)
 {
+    if (!wxFileName::Exists(m_sExecPath))
+    {
+        AddInfo(enumGISMessageError, wxString::Format(_("The file '%s' cannot be found"), m_sExecPath.c_str()));
+        return wxNOT_FOUND;
+    }
+
     wxString sCmd = m_sExecPath + wxT(" --execonf \"") + m_sStoragePath + wxT("\"");
     if(!m_Params.IsNull())
     {
@@ -883,6 +889,10 @@ long wxGISTask::Execute(void)
                 //writer.Write( Param, sParam );
                 continue;
             }
+            else if (Param.IsObject())
+            {
+                continue;
+            }
             else
             {
                 sParam = Param.AsString();
@@ -898,6 +908,10 @@ long wxGISTask::Execute(void)
             }
         }
     }
+
+#ifdef _DEBUG
+    wxLogMessage(sCmd);
+#endif // DEBUG
     return wxExecute(sCmd, wxEXEC_ASYNC, this);
 }
 
@@ -1015,6 +1029,12 @@ void wxGISTask::SetPriority(long nNewPriority)
 
 IMPLEMENT_CLASS(wxGISTaskPeriodic, wxGISTask)
 
+//wxDEFINE_EVENT(wxEVT_COMMAND_STARTTASK, wxTimerEvent);
+
+BEGIN_EVENT_TABLE(wxGISTaskPeriodic, wxGISTask)
+    EVT_TIMER(wxID_ANY, wxGISTaskPeriodic::OnStartTask)
+END_EVENT_TABLE()
+
 wxGISTaskPeriodic::wxGISTaskPeriodic(wxGISTaskBase* pParentTask, const wxString &sPath) : wxGISTask(pParentTask, sPath)
 {
     m_nPeriod = 0;
@@ -1024,6 +1044,10 @@ wxGISTaskPeriodic::~wxGISTaskPeriodic(void)
 {
 }
 
+void wxGISTaskPeriodic::OnStartTask(wxTimerEvent& event)
+{
+    OnStart();
+}
 
 bool wxGISTaskPeriodic::Load(void)
 {
@@ -1045,7 +1069,7 @@ bool wxGISTaskPeriodic::Load(void)
     m_sName = oStorageRoot.Get(wxT("name"), wxJSONValue(NONAME)).AsString();
     m_sDescription = oStorageRoot.Get(wxT("desc"), wxJSONValue(NONAME)).AsString();
     m_nState = (wxGISEnumTaskStateType)oStorageRoot.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
-    if (m_nState == enumGISTaskWork)
+    if (m_nState != enumGISTaskPaused)
         m_nState = enumGISTaskQuered;
     m_nGroupId = oStorageRoot.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
     m_nPriority = oStorageRoot.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
@@ -1087,7 +1111,7 @@ bool wxGISTaskPeriodic::Create(const wxJSONValue& TaskConfig)
     m_nGroupId = TaskConfig.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
     m_nState = (wxGISEnumTaskStateType)TaskConfig.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
     m_nPriority = m_nId;
-    m_nPeriod = TaskConfig.Get(wxT("prio"), wxJSONValue(0)).AsLong();
+    m_nPeriod = TaskConfig.Get(wxT("period"), wxJSONValue(0)).AsLong();
     m_dtCreated = wxDateTime::Now();
 
     m_nVolume = 0;
@@ -1195,7 +1219,8 @@ wxThread::ExitCode wxGISTaskPeriodic::Entry()
         if (nCounter <= 0)
         {
             nCounter = m_nPeriod * 1000;
-            OnStart();
+            //OnStart();            
+            wxQueueEvent(this, new wxTimerEvent());
         }
         else
         {

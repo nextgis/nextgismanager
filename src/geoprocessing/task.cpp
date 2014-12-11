@@ -767,10 +767,14 @@ void wxGISTaskEdit::SetParameters(const wxJSONValue &val)
     m_Params = val;
 }
 
-
 void wxGISTaskEdit::SetPeriod(long nPeriod)
 {
     m_nPeriod = nPeriod;
+}
+
+void wxGISTaskEdit::SetGroupId(long nGroupId)
+{
+    m_nGroupId = nGroupId;
 }
 
 //------------------------------------------------------------------

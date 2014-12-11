@@ -162,6 +162,8 @@ protected:
     wxJSONValue m_SubTasksDesc;
 };
 
+//wxDECLARE_EVENT(wxEVT_COMMAND_STARTTASK, wxTimerEvent);
+
 /** @class wxGISTaskPeriodic
   *
   * A preiodic task class.
@@ -185,11 +187,15 @@ public:
     virtual void OnTerminate(int pid, int status);
     virtual bool Start(void);
     virtual void Stop(void);
+    //events
+    void OnStartTask(wxTimerEvent& event);
 protected:
     virtual wxThread::ExitCode Entry();
     virtual wxJSONValue GetStoreConfig(void);
 protected:
     long m_nPeriod;
+private:
+    DECLARE_EVENT_TABLE()
 };
 
 /** @class wxGISTaskCategory

@@ -243,6 +243,7 @@ public:
     virtual void SetExecutable(const wxString& sExecutable);
     virtual void SetParameters(const wxJSONValue &val);
     virtual void SetPeriod(long nPeriod);
+    virtual void SetGroupId(long nGroupId);
 };
 
 /** @class wxGISTaskCategory

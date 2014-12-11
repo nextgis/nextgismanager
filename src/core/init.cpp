@@ -137,7 +137,7 @@ bool wxGISInitializer::Initialize(const wxString &sAppName, const wxString &sLog
 	if(!SetupLog(sLogDir, sLogFilePrefix))
         return false;
     oConfig.ReportPaths();
-	wxLogMessage(_("wxGISInitializer: %s %s is initializing..."), sAppName.c_str(), wxString(wxGIS_VERSION_NUM_DOT_STRING_T).c_str());
+	wxLogMessage(_("%s %s is initializing..."), sAppName.c_str(), wxString(wxGIS_VERSION_NUM_DOT_STRING_T).c_str());
 
 	if(SetupLoc(oConfig.GetLocale(), oConfig.GetLocaleDir()) == enumGISReturnFailed)
         return false;

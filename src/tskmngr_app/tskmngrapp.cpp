@@ -277,7 +277,7 @@ bool wxGISTaskManagerApp::Initialize(const wxString &sAppName, const wxString &s
 	wxString sLogDir = oConfig.GetLogDir();
 	if(!SetupLog(sLogDir, sLogFilePrefix))
         return false;
-	wxLogMessage(_("%s %s is initializing..."), sAppName.c_str(), GetAppVersionString().c_str());
+    wxLogMessage(_("%s %s is initializing..."), GetAppName().c_str(), GetAppVersionString().c_str());
 
 	if(!SetupLoc(oConfig.GetLocale(), oConfig.GetLocaleDir()))
         return false;
