@@ -57,7 +57,7 @@ public:
     virtual void Refresh(void);
 	virtual long GetId(void) const {return m_nId;};
 	virtual void SetId(long nId){m_nId = nId;};
-    virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);  //search by Path stored in CPLString sPath
+    virtual wxGxObject *FindGxObjectByPath(const CPLString &sPath);  //search by Path stored in CPLString sPath
     virtual wxGxObject *FindGxObject(const wxString &sPath);        //search by Name stored in wxString sName
 protected:
     wxString m_sName;
@@ -100,9 +100,9 @@ public:
     virtual bool Destroy(void);
     virtual wxGxObjectList& GetChildren();
     virtual void Refresh(void);
-    virtual wxGxObject *FindGxObjectByPath(const wxString &sPath);
+    virtual wxGxObject *FindGxObjectByPath(const CPLString &sPath);
     virtual wxGxObject *FindGxObject(const wxString &sPath);
-	virtual wxGxObjectList FindGxObjectsByPath(const wxString &sPath);
+	virtual wxGxObjectList FindGxObjectsByPath(const CPLString &sPath);
 protected:
     wxGxObjectList m_Children;
 };

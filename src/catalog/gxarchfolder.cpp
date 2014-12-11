@@ -104,11 +104,12 @@ bool wxGxArchive::Rename(const wxString &sNewName)
 	return false;
 }
 
-wxGxObject *wxGxArchive::FindGxObjectByPath(const wxString &sPath)
+wxGxObject *wxGxArchive::FindGxObjectByPath(const CPLString &sPath)
 {
+    wxString sInputPath(sPath, wxConvUTF8);
     wxString sThisPath(m_sPath, wxConvUTF8);
 
-    if(sThisPath.IsSameAs(sPath, false))
+    if (sThisPath.IsSameAs(sInputPath, false))
         return (wxGxObject *)this;
     wxString sTestPath = wxT("/vsizip/") + sPath;
     if(sThisPath.IsSameAs(sTestPath, false))

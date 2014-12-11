@@ -322,10 +322,11 @@ wxGxObject *wxGxObject::FindGxObject(const wxString &sPath)
     return NULL;
 }
 
-wxGxObject *wxGxObject::FindGxObjectByPath(const wxString &sPath)
+wxGxObject *wxGxObject::FindGxObjectByPath(const CPLString &sPath)
 {
+    wxString sInputPath(sPath, wxConvUTF8);
     wxString sThisPath(m_sPath, wxConvUTF8);
-    if(sThisPath.IsSameAs(sPath, false))
+    if (sThisPath.IsSameAs(sInputPath, false))
         return (wxGxObject *)this;
     return NULL;
 }
@@ -489,14 +490,15 @@ bool wxGxObjectContainer::Destroy(void)
     return false;
 }
 
-wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const wxString &sPath)
+wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const CPLString &sPath)
 {
     wxGxObject *ret = wxGxObject::FindGxObjectByPath(sPath);
     if(ret)
         return ret;
 
+    wxString sInputPath(sPath, wxConvUTF8);
     wxString sThisPath(m_sPath, wxConvUTF8);
-    bool bHavePart = sPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
+    bool bHavePart = sInputPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
     if(bHavePart && HasChildren(true))
     {
         wxGxObjectList::const_iterator iter;
@@ -512,16 +514,16 @@ wxGxObject *wxGxObjectContainer::FindGxObjectByPath(const wxString &sPath)
     return NULL;
 }
 
-wxGxObjectList wxGxObjectContainer::FindGxObjectsByPath(const wxString &sPath)
+wxGxObjectList wxGxObjectContainer::FindGxObjectsByPath(const CPLString &sPath)
 {
 	wxGxObjectList retList;
 	wxGxObject *ret = wxGxObject::FindGxObjectByPath(sPath);
     if(ret)
 		retList.Append(ret);
 		
-		
+    wxString sInputPath(sPath, wxConvUTF8);
 	wxString sThisPath(m_sPath, wxConvUTF8);
-    bool bHavePart = sPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
+    bool bHavePart = sInputPath.Lower().Find(sThisPath.MakeLower()) != wxNOT_FOUND;
     if(bHavePart && HasChildren(true))
     {
         wxGxObjectList::const_iterator iter;

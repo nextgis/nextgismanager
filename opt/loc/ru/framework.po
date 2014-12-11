@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:15+0300\n"
-"PO-Revision-Date: 2014-11-28 21:15+0300\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 10:57+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,22 +13,132 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/framework\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/framework\n"
 
-#: ../../../src/framework/toolbarmenu.cpp:102
-#: ../../../src/framework/toolbarmenu.cpp:122
-#: ../../../src/framework/toolbarmenu.cpp:142
-#: ../../../include/wxgis/framework/toolbarmenu.h:33
-msgid "Toolbars"
-msgstr "Панели инструментов"
+#: ../../../src/framework/addcommanddlg.cpp:68
+#: ../../../src/framework/customizedlg.cpp:74
+#: ../../../src/framework/customizedlg.cpp:702
+msgid "Command Name"
+msgstr "Имя команды"
 
-#: ../../../src/framework/toolbarmenu.cpp:107
-msgid "[Menus]"
-msgstr "[Меню]"
+#: ../../../src/framework/addcommanddlg.cpp:69
+#: ../../../src/framework/customizedlg.cpp:75
+#: ../../../src/framework/customizedlg.cpp:703
+msgid "Description"
+msgstr "Описание"
+
+#: ../../../src/framework/addcommanddlg.cpp:70
+#: ../../../src/framework/customizedlg.cpp:76
+#: ../../../src/framework/customizedlg.cpp:704
+msgid "KeyCode"
+msgstr "Клавиша"
+
+#: ../../../src/framework/addcommanddlg.cpp:77
+#: ../../../src/framework/createcbdlg.cpp:97
+#: ../../../src/framework/keycodedlg.cpp:127
+msgid "OK"
+msgstr "ОК"
+
+#: ../../../src/framework/addcommanddlg.cpp:79
+#: ../../../src/framework/createcbdlg.cpp:99
+#: ../../../src/framework/progressdlg.cpp:71
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../../../src/framework/application.cpp:387
+msgid "Ready"
+msgstr "Готов"
+
+#: ../../../src/framework/application.cpp:465
+msgid "Get config failed!"
+msgstr "Не удалось получить конфигурацию!"
+
+#: ../../../src/framework/application.cpp:472
+msgid "No Property Pages"
+msgstr "Отсутсвуют страницы свойств"
+
+#: ../../../src/framework/application.cpp:481
+msgid "Options"
+msgstr "Параметры"
+
+#: ../../../src/framework/application.cpp:514
+msgid "Applying new configuration..."
+msgstr "Применение новой конфигурации..."
+
+#: ../../../src/framework/application.cpp:548
+msgid "There were several warnings."
+msgstr "Было несколько предупреждений."
+
+#: ../../../src/framework/application.cpp:548
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: ../../../src/framework/application.cpp:561
+msgid "Failed to get log folder"
+msgstr "Ошибка получения папки с логами"
+
+#: ../../../src/framework/application.cpp:576
+#, c-format
+msgid "Failed to open log file %s"
+msgstr "Ошибка открытия лога %s"
+
+#: ../../../src/framework/application.cpp:590
+#, c-format
+msgid "HOST '%s': OS desc - %s, free memory - %s"
+msgstr "Имя ПК '%s': Описание ОС - %s, свободно памяти - %s"
+
+#: ../../../src/framework/application.cpp:591
+#, c-format
+msgid "%s %s is initializing..."
+msgstr "%s %s иннициализируется..."
+
+#: ../../../src/framework/application.cpp:592
+#, c-format
+msgid "Log file: %s"
+msgstr "Лог: %s"
+
+#: ../../../src/framework/application.cpp:602
+#, c-format
+msgid "wxGISCatalogApp: System folder is absent! Lookup path '%s'"
+msgstr "wxGISCatalogApp: Отсутствует системная папка! Путь поиска '%s'"
+
+#: ../../../src/framework/application.cpp:611
+msgid "Initialize locale"
+msgstr "Инициализация локализации"
+
+#: ../../../src/framework/application.cpp:622
+#, c-format
+msgid "Language is set to %s"
+msgstr "Выбран язык %s"
+
+#: ../../../src/framework/application.cpp:623
+#, c-format
+msgid "Language locale files path '%s'"
+msgstr "Папка файлов локализации '%s'"
+
+#: ../../../src/framework/applicationbase.cpp:44
+msgid "Error"
+msgstr "Ошибка"
+
+#: ../../../src/framework/applicationex.cpp:295
+msgid "wxGISApplicationEx: Start. Creating main application frame..."
+msgstr "wxGISApplicationEx: Начало. Создание главного окна приложения..."
+
+#: ../../../src/framework/applicationex.cpp:314
+msgid "wxGISApplicationEx: Creation complete"
+msgstr "wxGISApplicationEx: Создание завершено"
+
+#: ../../../src/framework/applicationex.cpp:394
+#: ../../../src/framework/applicationex.cpp:398
+#: ../../../src/framework/applicationex.cpp:402
+#: ../../../src/framework/applicationex.cpp:406
+#, c-format
+msgid "Failed to find gdal sys dir in path %s"
+msgstr "Ошибка поиска директории системных файлов gdal по пути %s"
 
 #: ../../../src/framework/command.cpp:101
 msgid "E&xit"
@@ -160,116 +270,6 @@ msgstr "Прилепить слева"
 msgid "Right dockable"
 msgstr "Прилепить справа"
 
-#: ../../../src/framework/createcbdlg.cpp:97
-#: ../../../src/framework/keycodedlg.cpp:127
-#: ../../../src/framework/addcommanddlg.cpp:77
-msgid "OK"
-msgstr "ОК"
-
-#: ../../../src/framework/createcbdlg.cpp:99
-#: ../../../src/framework/progressdlg.cpp:71
-#: ../../../src/framework/addcommanddlg.cpp:79
-msgid "Cancel"
-msgstr "Отмена"
-
-#: ../../../src/framework/application.cpp:387
-msgid "Ready"
-msgstr "Готов"
-
-#: ../../../src/framework/application.cpp:465
-msgid "Get config failed!"
-msgstr "Не удалось получить конфигурацию!"
-
-#: ../../../src/framework/application.cpp:472
-msgid "No Property Pages"
-msgstr "Отсутсвуют страницы свойств"
-
-#: ../../../src/framework/application.cpp:481
-msgid "Options"
-msgstr "Параметры"
-
-#: ../../../src/framework/application.cpp:514
-msgid "Applying new configuration..."
-msgstr "Применение новой конфигурации..."
-
-#: ../../../src/framework/application.cpp:548
-msgid "There were several warnings."
-msgstr "Было несколько предупреждений."
-
-#: ../../../src/framework/application.cpp:548
-msgid "Warning"
-msgstr "Предупреждение"
-
-#: ../../../src/framework/application.cpp:561
-msgid "Failed to get log folder"
-msgstr "Ошибка получения папки с логами"
-
-#: ../../../src/framework/application.cpp:576
-#, c-format
-msgid "Failed to open log file %s"
-msgstr "Ошибка открытия лога %s"
-
-#: ../../../src/framework/application.cpp:590
-#, c-format
-msgid "HOST '%s': OS desc - %s, free memory - %s"
-msgstr "Имя ПК '%s': Описание ОС - %s, свободно памяти - %s"
-
-#: ../../../src/framework/application.cpp:591
-#, c-format
-msgid "%s %s is initializing..."
-msgstr "%s %s иннициализируется..."
-
-#: ../../../src/framework/application.cpp:592
-#, c-format
-msgid "Log file: %s"
-msgstr "Лог: %s"
-
-#: ../../../src/framework/application.cpp:602
-#, c-format
-msgid "wxGISCatalogApp: System folder is absent! Lookup path '%s'"
-msgstr "wxGISCatalogApp: Отсутствует системная папка! Путь поиска '%s'"
-
-#: ../../../src/framework/application.cpp:611
-msgid "Initialize locale"
-msgstr "Инициализация локализации"
-
-#: ../../../src/framework/application.cpp:622
-#, c-format
-msgid "Language is set to %s"
-msgstr "Выбран язык %s"
-
-#: ../../../src/framework/application.cpp:623
-#, c-format
-msgid "Language locale files path '%s'"
-msgstr "Папка файлов локализации '%s'"
-
-#: ../../../src/framework/statusbar.cpp:162
-#: ../../../src/framework/statusbar.cpp:210
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#: ../../../src/framework/applicationbase.cpp:44
-msgid "Error"
-msgstr "Ошибка"
-
-#: ../../../src/framework/customizedlg.cpp:74
-#: ../../../src/framework/customizedlg.cpp:702
-#: ../../../src/framework/addcommanddlg.cpp:68
-msgid "Command Name"
-msgstr "Имя команды"
-
-#: ../../../src/framework/customizedlg.cpp:75
-#: ../../../src/framework/customizedlg.cpp:703
-#: ../../../src/framework/addcommanddlg.cpp:69
-msgid "Description"
-msgstr "Описание"
-
-#: ../../../src/framework/customizedlg.cpp:76
-#: ../../../src/framework/customizedlg.cpp:704
-#: ../../../src/framework/addcommanddlg.cpp:70
-msgid "KeyCode"
-msgstr "Клавиша"
-
 #: ../../../src/framework/customizedlg.cpp:83
 msgid "Create toolbar/menu"
 msgstr "Создать панель или меню"
@@ -337,22 +337,6 @@ msgstr "Осталось времени:"
 #, c-format
 msgid " - %d%% done"
 msgstr " - %d%% выполнено"
-
-#: ../../../src/framework/applicationex.cpp:295
-msgid "wxGISApplicationEx: Start. Creating main application frame..."
-msgstr "wxGISApplicationEx: Начало. Создание главного окна приложения..."
-
-#: ../../../src/framework/applicationex.cpp:314
-msgid "wxGISApplicationEx: Creation complete"
-msgstr "wxGISApplicationEx: Создание завершено"
-
-#: ../../../src/framework/applicationex.cpp:393
-#: ../../../src/framework/applicationex.cpp:397
-#: ../../../src/framework/applicationex.cpp:401
-#: ../../../src/framework/applicationex.cpp:405
-#, c-format
-msgid "Failed to find gdal sys dir in path %s"
-msgstr "Ошибка поиска директории системных файлов gdal по пути %s"
 
 #: ../../../src/framework/propertypages.cpp:84
 msgid "Splash screen"
@@ -489,6 +473,30 @@ msgstr "Параметры SXF"
 msgid "Other OGR options"
 msgstr "Другие параметры OGR"
 
+#: ../../../src/framework/statusbar.cpp:162
+#: ../../../src/framework/statusbar.cpp:210
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: ../../../src/framework/toolbarmenu.cpp:102
+#: ../../../src/framework/toolbarmenu.cpp:122
+#: ../../../src/framework/toolbarmenu.cpp:142
+#: ../../../include/wxgis/framework/toolbarmenu.h:33
+msgid "Toolbars"
+msgstr "Панели инструментов"
+
+#: ../../../src/framework/toolbarmenu.cpp:107
+msgid "[Menus]"
+msgstr "[Меню]"
+
+#: ../../../include/wxgis/framework/addcommanddlg.h:70
+msgid "Add command"
+msgstr "Добавить команду"
+
+#: ../../../include/wxgis/framework/command.h:25
+msgid "[No category]"
+msgstr "[Без категории]"
+
 #: ../../../include/wxgis/framework/commandbar.h:32
 msgid "Standard"
 msgstr "Стандартная"
@@ -519,13 +527,9 @@ msgstr "Без подписи"
 msgid "Create toolbar or menu"
 msgstr "Создать панель или меню"
 
-#: ../../../include/wxgis/framework/propertypages.h:105
-msgid "Miscellaneous"
-msgstr "Прочее"
-
-#: ../../../include/wxgis/framework/propertypages.h:169
-msgid "GDAL Configuration"
-msgstr "Конфигурация GDAL"
+#: ../../../include/wxgis/framework/keycodedlg.h:77
+msgid "Enter key code"
+msgstr "Ввести клавишу"
 
 #: ../../../include/wxgis/framework/menubar.h:27
 msgid "&File"
@@ -555,17 +559,13 @@ msgstr "&Окно"
 msgid "&Tools"
 msgstr "&Инструменты"
 
-#: ../../../include/wxgis/framework/keycodedlg.h:77
-msgid "Enter key code"
-msgstr "Ввести клавишу"
+#: ../../../include/wxgis/framework/propertypages.h:105
+msgid "Miscellaneous"
+msgstr "Прочее"
 
-#: ../../../include/wxgis/framework/command.h:25
-msgid "[No category]"
-msgstr "[Без категории]"
-
-#: ../../../include/wxgis/framework/addcommanddlg.h:70
-msgid "Add command"
-msgstr "Добавить команду"
+#: ../../../include/wxgis/framework/propertypages.h:169
+msgid "GDAL Configuration"
+msgstr "Конфигурация GDAL"
 
 #~ msgid "wxGISApplication: Log file: %s"
 #~ msgstr "wxGISApplication: Лог-файл: %s"

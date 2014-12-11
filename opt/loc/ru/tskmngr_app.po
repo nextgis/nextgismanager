@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:16+0300\n"
-"PO-Revision-Date: 2014-11-28 21:16+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 11:58+0300\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/tskmngr_app\n"
@@ -100,71 +100,77 @@ msgstr "Пользователь №%d отключился"
 msgid "User #%d from %s:%d is disconnected"
 msgstr "Пользователь №%d с %s:%d отключился"
 
-#: ../../../src/tskmngr_app/task.cpp:347
+#: ../../../src/tskmngr_app/task.cpp:350
 msgid "Start succeeded"
 msgstr "Запуск выполнен"
 
-#: ../../../src/tskmngr_app/task.cpp:361
+#: ../../../src/tskmngr_app/task.cpp:364
 msgid "Stop succeeded"
 msgstr "Остановка выполнена"
 
-#: ../../../src/tskmngr_app/task.cpp:525
+#: ../../../src/tskmngr_app/task.cpp:528
 msgid "Delete succeeded"
 msgstr "Удаление выполнено"
 
-#: ../../../src/tskmngr_app/task.cpp:570 ../../../src/tskmngr_app/task.cpp:582
+#: ../../../src/tskmngr_app/task.cpp:573 ../../../src/tskmngr_app/task.cpp:585
 msgid "Children get succeeded"
 msgstr "Получен список задач"
 
-#: ../../../src/tskmngr_app/task.cpp:640
+#: ../../../src/tskmngr_app/task.cpp:643
 msgid "Delete failed"
 msgstr "Не удалось удалить"
 
-#: ../../../src/tskmngr_app/task.cpp:648
+#: ../../../src/tskmngr_app/task.cpp:651
 msgid "Change task failed"
 msgstr "Не удалось изменить задачу."
 
-#: ../../../src/tskmngr_app/task.cpp:656
+#: ../../../src/tskmngr_app/task.cpp:659
 msgid "Start failed"
 msgstr "Не удалось запустить"
 
-#: ../../../src/tskmngr_app/task.cpp:664
+#: ../../../src/tskmngr_app/task.cpp:667
 msgid "Stop failed"
 msgstr "Не удалось остановить"
 
-#: ../../../src/tskmngr_app/task.cpp:728 ../../../src/tskmngr_app/task.cpp:837
+#: ../../../src/tskmngr_app/task.cpp:731 ../../../src/tskmngr_app/task.cpp:840
+#: ../../../src/tskmngr_app/task.cpp:1445
 msgid "Task changed"
 msgstr "Задача изменена"
 
-#: ../../../src/tskmngr_app/task.cpp:743
+#: ../../../src/tskmngr_app/task.cpp:746
 msgid "Task new message"
 msgstr "Новое сообщение от задачи"
 
-#: ../../../src/tskmngr_app/task.cpp:1043
+#: ../../../src/tskmngr_app/task.cpp:871
+#, c-format
+msgid "The file '%s' cannot be found"
+msgstr "Файл '%s' не найден"
+
+#: ../../../src/tskmngr_app/task.cpp:1484
 #, c-format
 msgid "The task '%s' loaded"
 msgstr "Задача '%s' загружена"
 
-#: ../../../src/tskmngr_app/task.cpp:1048
+#: ../../../src/tskmngr_app/task.cpp:1489
 #, c-format
 msgid "The task from '%s' load failed "
 msgstr "Не удалось загрузить задачу из '%s'"
 
-#: ../../../src/tskmngr_app/task.cpp:1207
+#: ../../../src/tskmngr_app/task.cpp:1648
 #, c-format
 msgid "Create new task in category '%s'"
 msgstr "Создать новую задачу в категории '%s'"
 
-#: ../../../src/tskmngr_app/task.cpp:1214
+#: ../../../src/tskmngr_app/task.cpp:1655
 msgid "Add succeeded"
 msgstr "Добавление прошло удачно"
 
-#: ../../../src/tskmngr_app/task.cpp:1222
+#: ../../../src/tskmngr_app/task.cpp:1663
 #, c-format
 msgid "Save changes to file '%s' failed"
 msgstr "Не удалось сохранить изменения в файл '%s'."
 
-#: ../../../src/tskmngr_app/task.cpp:1224
+#: ../../../src/tskmngr_app/task.cpp:1665
 #, c-format
 msgid "Create new task in category '%s' failed. %s"
 msgstr "Не удалось создать новую задачу в категории  '%s'. %s"

@@ -164,7 +164,7 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
 	
 	
 	CPLString szBaseName = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
-    wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString::FromUTF8(szBaseName)), wxGxObject);
+    wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(szBaseName), wxGxObject);
     if (!OverWriteGxObject(pObj, pTrackCancel))
     {
         wxString sErr(_("Overwrite failed"));

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:15+0300\n"
-"PO-Revision-Date: 2014-11-28 21:15+0300\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 10:57+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,150 +13,11 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/geoprocessingui\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/geoprocessingui\n"
-
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:48
-msgid "Toolbox"
-msgstr "Набор инструментов"
-
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:156
-#: ../../../src/geoprocessingui/gptoolboxview.cpp:187
-msgid "Toolboxes"
-msgstr "Наборы инструментов"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:152
-#: ../../../src/geoprocessingui/gpcontrols.cpp:550
-#: ../../../src/geoprocessingui/gpcontrols.cpp:706
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1124
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1206
-msgid "(optional)"
-msgstr " (опционально)"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:191
-#: ../../../src/geoprocessingui/gpcontrols.cpp:437
-msgid "Select input object"
-msgstr "Выбрать исходный объект"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:232
-#: ../../../src/geoprocessingui/gpcontrols.cpp:437
-msgid "Select output object"
-msgstr "Выбрать выходной объект"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:298
-#: ../../../src/geoprocessingui/gpcontrols.cpp:486
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1322
-msgid "The value is required"
-msgstr "Требуется значение"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:317
-#: ../../../src/geoprocessingui/gpcontrols.cpp:505
-msgid "The output object exists and will be overwritten!"
-msgstr "Выходной объект существует и будет перезаписан!"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:326
-#: ../../../src/geoprocessingui/gpcontrols.cpp:514
-msgid "The input object doesn't exist"
-msgstr "Исходный объект не существует"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:438
-msgid "Select"
-msgstr "Выбрать"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:623
-#: ../../../src/geoprocessingui/gpcontrols.cpp:785
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1024
-msgid "The input data are invalid"
-msgstr "Неправильные исходные данные"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1287
-msgid "Select Spatial Reference"
-msgstr "Выбор Системы координат"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1291
-msgid "Coordinate Systems"
-msgstr "Системы координат"
-
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1342
-msgid "Unsupported Spatial reference"
-msgstr "Система координат не поддерживается"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:89
-msgid "Show tool dialog"
-msgstr "Показать диалог инструмента"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:91
-msgid "Show execution dialog"
-msgstr "Показать диалог исполнения"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:93
-#: ../../../src/geoprocessingui/taskcmd.cpp:221
-#: ../../../src/geoprocessingui/taskcmd.cpp:310
-msgid "Start task"
-msgstr "Запустить задачу"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:95
-#: ../../../src/geoprocessingui/taskcmd.cpp:223
-#: ../../../src/geoprocessingui/taskcmd.cpp:312
-msgid "Stop task"
-msgstr "Остановить задачу"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:109
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:116
-msgid "Geoprocessing"
-msgstr "Геопроцессинг"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:217
-#: ../../../src/geoprocessingui/taskcmd.cpp:306
-msgid "Show tool config dialog"
-msgstr "Показать диалог настройки инструмента"
-
-#: ../../../src/geoprocessingui/taskcmd.cpp:219
-#: ../../../src/geoprocessingui/taskcmd.cpp:308
-msgid "Show task execution dialog"
-msgstr "Показать диалог исполнения инструмента"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:92
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:102
-msgid "Tool Execute View"
-msgstr "Вид списка исполнения"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:137
-msgid "Priority"
-msgstr "Приоритет"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:138
-msgid "Tool name"
-msgstr "Название инструмента"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:139
-msgid "Start"
-msgstr "Начало"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:140
-msgid "Finish"
-msgstr "Конец"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:141
-msgid "Done %"
-msgstr "Завершено %"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:142
-msgid "Last message"
-msgstr "Последнее сообщение"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:264
-#, c-format
-msgid "%ld objects selected"
-msgstr "выделено %ld объектов (файлов)"
-
-#: ../../../src/geoprocessingui/gxtoolexecview.cpp:308
-#, c-format
-msgid "%d objects selected"
-msgstr "выделено %d объектов (файлов)"
 
 #: ../../../src/geoprocessingui/geoprocessingcmd.cpp:92
 msgid "Show/Hide &Toolbox panel"
@@ -181,6 +42,11 @@ msgstr "&Импорт"
 #: ../../../src/geoprocessingui/geoprocessingcmd.cpp:111
 msgid "View"
 msgstr "Вид"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:116
+#: ../../../src/geoprocessingui/taskcmd.cpp:109
+msgid "Geoprocessing"
+msgstr "Геопроцессинг"
 
 #: ../../../src/geoprocessingui/geoprocessingcmd.cpp:234
 #: ../../../src/geoprocessingui/geoprocessingcmd.cpp:432
@@ -218,6 +84,140 @@ msgstr "Экспорт атрибутов"
 #: ../../../src/geoprocessingui/geoprocessingcmd.cpp:440
 msgid "Import into the item"
 msgstr "Импорт в элемент"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:156
+#: ../../../src/geoprocessingui/gpcontrols.cpp:554
+#: ../../../src/geoprocessingui/gpcontrols.cpp:710
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1128
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1210
+msgid "(optional)"
+msgstr " (опционально)"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:195
+#: ../../../src/geoprocessingui/gpcontrols.cpp:441
+msgid "Select input object"
+msgstr "Выбрать исходный объект"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:236
+#: ../../../src/geoprocessingui/gpcontrols.cpp:441
+msgid "Select output object"
+msgstr "Выбрать выходной объект"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:302
+#: ../../../src/geoprocessingui/gpcontrols.cpp:490
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1326
+msgid "The value is required"
+msgstr "Требуется значение"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:321
+#: ../../../src/geoprocessingui/gpcontrols.cpp:509
+msgid "The output object exists and will be overwritten!"
+msgstr "Выходной объект существует и будет перезаписан!"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:330
+#: ../../../src/geoprocessingui/gpcontrols.cpp:518
+msgid "The input object doesn't exist"
+msgstr "Исходный объект не существует"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:442
+msgid "Select"
+msgstr "Выбрать"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:627
+#: ../../../src/geoprocessingui/gpcontrols.cpp:789
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1028
+msgid "The input data are invalid"
+msgstr "Неправильные исходные данные"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1291
+msgid "Select Spatial Reference"
+msgstr "Выбор Системы координат"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1295
+msgid "Coordinate Systems"
+msgstr "Системы координат"
+
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1346
+msgid "Unsupported Spatial reference"
+msgstr "Система координат не поддерживается"
+
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:48
+msgid "Toolbox"
+msgstr "Набор инструментов"
+
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:156
+#: ../../../src/geoprocessingui/gptoolboxview.cpp:187
+msgid "Toolboxes"
+msgstr "Наборы инструментов"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:92
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:102
+msgid "Tool Execute View"
+msgstr "Вид списка исполнения"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:137
+msgid "Priority"
+msgstr "Приоритет"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:138
+msgid "Tool name"
+msgstr "Название инструмента"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:139
+msgid "Start"
+msgstr "Начало"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:140
+msgid "Finish"
+msgstr "Конец"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:141
+msgid "Done %"
+msgstr "Завершено %"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:142
+msgid "Last message"
+msgstr "Последнее сообщение"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:271
+#, c-format
+msgid "%ld objects selected"
+msgstr "выделено %ld объектов (файлов)"
+
+#: ../../../src/geoprocessingui/gxtoolexecview.cpp:315
+#, c-format
+msgid "%d objects selected"
+msgstr "выделено %d объектов (файлов)"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:89
+msgid "Show tool dialog"
+msgstr "Показать диалог инструмента"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:91
+msgid "Show execution dialog"
+msgstr "Показать диалог исполнения"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:93
+#: ../../../src/geoprocessingui/taskcmd.cpp:221
+#: ../../../src/geoprocessingui/taskcmd.cpp:310
+msgid "Start task"
+msgstr "Запустить задачу"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:95
+#: ../../../src/geoprocessingui/taskcmd.cpp:223
+#: ../../../src/geoprocessingui/taskcmd.cpp:312
+msgid "Stop task"
+msgstr "Остановить задачу"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:217
+#: ../../../src/geoprocessingui/taskcmd.cpp:306
+msgid "Show tool config dialog"
+msgstr "Показать диалог настройки инструмента"
+
+#: ../../../src/geoprocessingui/taskcmd.cpp:219
+#: ../../../src/geoprocessingui/taskcmd.cpp:308
+msgid "Show task execution dialog"
+msgstr "Показать диалог исполнения инструмента"
 
 #~ msgid "Stop"
 #~ msgstr "Остановить"

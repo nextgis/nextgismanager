@@ -1604,7 +1604,7 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
         szFullPath = CPLFormFilename(sPath, sName.ToUTF8(), pFilter->GetExt().ToUTF8());
     }
 	
-	wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(wxString::FromUTF8(szFullPath)), wxGxObject);
+	wxGxObject* pObj = wxDynamicCast(GetGxCatalog()->FindGxObjectByPath(szFullPath), wxGxObject);
     if (!OverWriteGxObject(pObj, pTrackCancel))
     {
         wxString sErr(_("Overwrite failed"));

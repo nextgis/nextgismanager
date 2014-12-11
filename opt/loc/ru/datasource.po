@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:15+0300\n"
-"PO-Revision-Date: 2014-11-28 21:15+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 11:57+0300\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,92 +13,43 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/datasource\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/datasource\n"
 
-#: ../../../src/datasource/spatialtree.cpp:143
-msgid "PreLoad Geometry of "
-msgstr "Предварительная загрузка геометрии из "
+#: ../../../src/datasource/datacontainer.cpp:153
+msgid "Connect failed!"
+msgstr "Не удалось выполнить подключение!"
 
-#: ../../../src/datasource/spatialtree.cpp:222
-msgid "Cancel"
-msgstr "Отмена"
-
-#: ../../../src/datasource/spatialtree.cpp:262
-msgid "Done"
-msgstr "Выполнено"
-
-#: ../../../src/datasource/table.cpp:141
+#: ../../../src/datasource/datacontainer.cpp:161
 #, c-format
-msgid "Table open failed! Path '%s'"
-msgstr "Не удалось открыть таблицу! Путь '%s'"
+msgid "Connect succeeded! Path '%s'"
+msgstr "Подключение выполнено удачно. Папка '%s'"
 
-#: ../../../src/datasource/table.cpp:583 ../../../src/datasource/table.cpp:627
-#: ../../../src/datasource/table.cpp:1095
-#: ../../../src/datasource/table.cpp:1141
-msgid "Interrupted by user"
-msgstr "Отменено пользователем"
+#: ../../../src/datasource/dataset.cpp:260
+msgid "No files to rename"
+msgstr "Нет файлов для переименования"
 
-#: ../../../src/datasource/table.cpp:863
+#: ../../../src/datasource/dataset.cpp:292
+#, c-format
+msgid "Skip file '%s' to rename"
+msgstr "Пропуск файла '%s' при переименовании"
+
+#: ../../../src/datasource/dataset.cpp:314
+msgid "No files to move"
+msgstr "Нет файлов для перемещения"
+
+#: ../../../src/datasource/dataset.cpp:364
+#: ../../../src/datasource/rasterdataset.cpp:694
+msgid "No files to copy"
+msgstr "Нет файлов для копирования"
+
 #: ../../../src/datasource/featuredataset.cpp:579
+#: ../../../src/datasource/table.cpp:863
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
-
-#: ../../../src/datasource/sysop.cpp:38
-#, c-format
-msgid "Delete folder failed! Folder '%s'"
-msgstr "Не удалось удалить папку! Папка '%s'"
-
-#: ../../../src/datasource/sysop.cpp:45
-#, c-format
-msgid "Delete folder succeeded! Folder '%s'"
-msgstr "Папка '%s' удалена"
-
-#: ../../../src/datasource/sysop.cpp:57
-#, c-format
-msgid "Create folder failed! Folder '%s'"
-msgstr "Не удалось создать папку! Папка '%s'"
-
-#: ../../../src/datasource/sysop.cpp:64
-#, c-format
-msgid "Create folder succeeded! Folder '%s'"
-msgstr "Папка '%s' создана"
-
-#: ../../../src/datasource/sysop.cpp:101
-msgid "Cannot copy folder inside itself"
-msgstr "Нельзя копировать папку саму в себя"
-
-#: ../../../src/datasource/sysop.cpp:156
-#, c-format
-msgid "Delete file failed! File '%s'"
-msgstr "Удаление не удалось. Файл '%s'"
-
-#: ../../../src/datasource/sysop.cpp:163
-#, c-format
-msgid "Delete file succeeded! File '%s'"
-msgstr "Файл '%s' удален"
-
-#: ../../../src/datasource/sysop.cpp:176
-#, c-format
-msgid "Rename file failed! Old path '%s', new path '%s'"
-msgstr "Не удалось переименовать файл! Старый путь '%s', новый путь '%s'"
-
-#: ../../../src/datasource/sysop.cpp:183
-#, c-format
-msgid "Rename file succeeded! Old path '%s', new path '%s'"
-msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
-
-#: ../../../src/datasource/sysop.cpp:496
-msgid "Error open input file!"
-msgstr "Не возможно открыть входной файл!"
-
-#: ../../../src/datasource/sysop.cpp:506
-#, c-format
-msgid "Error create the output file '%s'!"
-msgstr "Не возможно создать выходной файл '%s'!"
 
 #: ../../../src/datasource/postgisdataset.cpp:414
 msgid "ExecuteSQL failed!"
@@ -147,28 +98,6 @@ msgstr "Не удалось выполнить операцию '%s'! "
 msgid "Operation '%s' succeeded!"
 msgstr "Операция '%s' выполнена успешно! "
 
-#: ../../../src/datasource/dataset.cpp:260
-msgid "No files to rename"
-msgstr "Нет файлов для переименования"
-
-#: ../../../src/datasource/dataset.cpp:300
-msgid "No files to move"
-msgstr "Нет файлов для перемещения"
-
-#: ../../../src/datasource/dataset.cpp:344
-#: ../../../src/datasource/rasterdataset.cpp:694
-msgid "No files to copy"
-msgstr "Нет файлов для копирования"
-
-#: ../../../src/datasource/datacontainer.cpp:153
-msgid "Connect failed!"
-msgstr "Не удалось выполнить подключение!"
-
-#: ../../../src/datasource/datacontainer.cpp:161
-#, c-format
-msgid "Connect succeeded! Path '%s'"
-msgstr "Подключение выполнено удачно. Папка '%s'"
-
 #: ../../../src/datasource/rasterdataset.cpp:387
 #, c-format
 msgid "Raster open failed! Path '%s'"
@@ -188,6 +117,82 @@ msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"
+
+#: ../../../src/datasource/spatialtree.cpp:143
+msgid "PreLoad Geometry of "
+msgstr "Предварительная загрузка геометрии из "
+
+#: ../../../src/datasource/spatialtree.cpp:222
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../../../src/datasource/spatialtree.cpp:262
+msgid "Done"
+msgstr "Выполнено"
+
+#: ../../../src/datasource/sysop.cpp:44
+#, c-format
+msgid "Delete folder failed! Folder '%s'"
+msgstr "Не удалось удалить папку! Папка '%s'"
+
+#: ../../../src/datasource/sysop.cpp:51
+#, c-format
+msgid "Delete folder succeeded! Folder '%s'"
+msgstr "Папка '%s' удалена"
+
+#: ../../../src/datasource/sysop.cpp:63
+#, c-format
+msgid "Create folder failed! Folder '%s'"
+msgstr "Не удалось создать папку! Папка '%s'"
+
+#: ../../../src/datasource/sysop.cpp:70
+#, c-format
+msgid "Create folder succeeded! Folder '%s'"
+msgstr "Папка '%s' создана"
+
+#: ../../../src/datasource/sysop.cpp:107
+msgid "Cannot copy folder inside itself"
+msgstr "Нельзя копировать папку саму в себя"
+
+#: ../../../src/datasource/sysop.cpp:164
+#, c-format
+msgid "Delete file failed! File '%s'"
+msgstr "Удаление не удалось. Файл '%s'"
+
+#: ../../../src/datasource/sysop.cpp:171
+#, c-format
+msgid "Delete file succeeded! File '%s'"
+msgstr "Файл '%s' удален"
+
+#: ../../../src/datasource/sysop.cpp:184
+#, c-format
+msgid "Rename file failed! Old path '%s', new path '%s'"
+msgstr "Не удалось переименовать файл! Старый путь '%s', новый путь '%s'"
+
+#: ../../../src/datasource/sysop.cpp:191
+#, c-format
+msgid "Rename file succeeded! Old path '%s', new path '%s'"
+msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
+
+#: ../../../src/datasource/sysop.cpp:503
+msgid "Error open input file!"
+msgstr "Не возможно открыть входной файл!"
+
+#: ../../../src/datasource/sysop.cpp:513
+#, c-format
+msgid "Error create the output file '%s'!"
+msgstr "Не возможно создать выходной файл '%s'!"
+
+#: ../../../src/datasource/table.cpp:142
+#, c-format
+msgid "Table open failed! Path '%s'"
+msgstr "Не удалось открыть таблицу! Путь '%s'"
+
+#: ../../../src/datasource/table.cpp:584 ../../../src/datasource/table.cpp:628
+#: ../../../src/datasource/table.cpp:1095
+#: ../../../src/datasource/table.cpp:1141
+msgid "Interrupted by user"
+msgstr "Отменено пользователем"
 
 #~ msgid ""
 #~ "Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"

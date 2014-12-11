@@ -122,7 +122,7 @@ wxArrayString wxGISDropTarget::PathsToNames(const wxArrayString saPaths)
             for(iter = pConnections->GetChildren().begin(); iter != pConnections->GetChildren().end(); ++iter)
             {
                 wxGxObject *current = *iter;
-                wxGxObject *searched = current->FindGxObjectByPath(saPaths[i]);
+                wxGxObject *searched = current->FindGxObjectByPath(CPLString(saPaths[i].ToUTF8()));
                 if(searched)
                 {
                     asObjects.Add(searched->GetFullName());

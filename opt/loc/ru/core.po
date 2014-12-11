@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:15+0300\n"
-"PO-Revision-Date: 2014-11-28 21:15+0300\n"
-"Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 11:56+0300\n"
+"Last-Translator: Dmitry Baryshnikov (bishop) <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,11 +13,32 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../include/wxgis/core\n"
 "X-Poedit-SearchPath-1: ../../../src/core\n"
+
+#: ../../../src/core/config.cpp:582
+#, c-format
+msgid "Failed to save config '%s'"
+msgstr "Ошибка сохранения файла конфигурации '%s'"
+
+#: ../../../src/core/crypt.cpp:189
+msgid "Crypt: Failed EVP_EncryptInit!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
+
+#: ../../../src/core/crypt.cpp:203
+msgid "Crypt: Failed EVP_EncryptUpdate!"
+msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
+
+#: ../../../src/core/crypt.cpp:233
+msgid "Decrypt: Failed EVP_DecryptInit!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
+
+#: ../../../src/core/crypt.cpp:248
+msgid "Decrypt: Failed EVP_DecryptUpdate!"
+msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
 
 #: ../../../src/core/format.cpp:33 ../../../src/core/format.cpp:480
 msgid "W"
@@ -37,14 +58,6 @@ msgstr "ВД"
 msgid "N"
 msgstr "СШ"
 
-#: ../../../src/core/process.cpp:49
-msgid "Could not create the thread!"
-msgstr "Не удалось создать поток!"
-
-#: ../../../src/core/process.cpp:56
-msgid "Could not run the thread!"
-msgstr "Не удалось запустить поток!"
-
 #: ../../../src/core/init.cpp:72
 #, c-format
 msgid "wxGISAppWithLibs: Library %s loaded"
@@ -57,8 +70,8 @@ msgstr "wxGISAppWithLibs: Ошибка загрузки библиотеки %s"
 
 #: ../../../src/core/init.cpp:140
 #, c-format
-msgid "wxGISInitializer: %s %s is initializing..."
-msgstr "wxGISInitializer: %s %s инициализируется..."
+msgid "%s %s is initializing..."
+msgstr "%s %s инициализируется..."
 
 #: ../../../src/core/init.cpp:184
 #, c-format
@@ -148,26 +161,13 @@ msgstr "Сервис удален"
 msgid "Cannot disassociate from controlling TTY"
 msgstr "Не удалось отключится от консоли"
 
-#: ../../../src/core/crypt.cpp:189
-msgid "Crypt: Failed EVP_EncryptInit!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptInit!"
+#: ../../../src/core/process.cpp:49
+msgid "Could not create the thread!"
+msgstr "Не удалось создать поток!"
 
-#: ../../../src/core/crypt.cpp:203
-msgid "Crypt: Failed EVP_EncryptUpdate!"
-msgstr "Crypt: Не удалось выполнить EVP_EncryptUpdate!"
-
-#: ../../../src/core/crypt.cpp:233
-msgid "Decrypt: Failed EVP_DecryptInit!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
-
-#: ../../../src/core/crypt.cpp:248
-msgid "Decrypt: Failed EVP_DecryptUpdate!"
-msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
-
-#: ../../../src/core/config.cpp:582
-#, c-format
-msgid "Failed to save config '%s'"
-msgstr "Ошибка сохранения файла конфигурации '%s'"
+#: ../../../src/core/process.cpp:56
+msgid "Could not run the thread!"
+msgstr "Не удалось запустить поток!"
 
 #: ../../../include/wxgis/core/core.h:177
 msgid "wxGISCore"

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: PostgreSQL 9 current\n"
 "Report-Msgid-Bugs-To: pgsql-bugs@postgresql.org\n"
 "POT-Creation-Date: 2010-11-29 18:43+0000\n"
-"PO-Revision-Date: 2014-11-28 21:16+0300\n"
+"PO-Revision-Date: 2014-12-11 10:57+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: pgsql-rus\n"
 "Language: ru_RU\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 
 #: fe-auth.c:212 fe-auth.c:432 fe-auth.c:659
 msgid "host name must be specified\n"
@@ -66,11 +66,10 @@ msgstr "GSSAPI ошибка импорта имени"
 msgid "SSPI continuation error"
 msgstr "SSPI ошибка возобновления"
 
-#: fe-auth.c:556 fe-auth.c:630 fe-auth.c:665 fe-auth.c:762 fe-connect.c:1970
-#: fe-connect.c:3369 fe-connect.c:3586 fe-connect.c:4002 fe-connect.c:4011
-#: fe-connect.c:4148 fe-connect.c:4194 fe-connect.c:4212 fe-connect.c:4291
-#: fe-connect.c:4361 fe-connect.c:4407 fe-connect.c:4425 fe-exec.c:3121
-#: fe-exec.c:3286 fe-lobj.c:696 fe-protocol2.c:1027 fe-protocol3.c:1425
+#: fe-auth.c:556 fe-auth.c:630 fe-auth.c:665 fe-auth.c:762 fe-connect.c:1970 fe-connect.c:3369
+#: fe-connect.c:3586 fe-connect.c:4002 fe-connect.c:4011 fe-connect.c:4148 fe-connect.c:4194 fe-connect.c:4212
+#: fe-connect.c:4291 fe-connect.c:4361 fe-connect.c:4407 fe-connect.c:4425 fe-exec.c:3121 fe-exec.c:3286
+#: fe-lobj.c:696 fe-protocol2.c:1027 fe-protocol3.c:1425
 msgid "out of memory\n"
 msgstr "недостаточно памяти\n"
 
@@ -115,8 +114,7 @@ msgstr "неверное значение sslmode: \"%s\"\n"
 #: fe-connect.c:780
 #, c-format
 msgid "sslmode value \"%s\" invalid when SSL support is not compiled in\n"
-msgstr ""
-"значение sslmode \"%s\" неверно, если поддержка SSL не скомпилирована\n"
+msgstr "значение sslmode \"%s\" неверно, если поддержка SSL не скомпилирована\n"
 
 #: fe-connect.c:963
 #, c-format
@@ -183,15 +181,11 @@ msgstr "не удалось преобразовать имя хоста \"%s\" 
 #: fe-connect.c:1321
 #, c-format
 msgid "could not translate Unix-domain socket path \"%s\" to address: %s\n"
-msgstr ""
-"не удалось преобразовать название директории сокетов UNIX-домена \"%s\" в "
-"адрес: %s\n"
+msgstr "не удалось преобразовать название директории сокетов UNIX-домена \"%s\" в адрес: %s\n"
 
 #: fe-connect.c:1531
 msgid "invalid connection state, probably indicative of memory corruption\n"
-msgstr ""
-"неверное состояние соединения, возможный указатель на нарушение целостности "
-"памяти\n"
+msgstr "неверное состояние соединения, возможный указатель на нарушение целостности памяти\n"
 
 #: fe-connect.c:1572
 #, c-format
@@ -206,9 +200,7 @@ msgstr "не удалось установить сокет в неблокир�
 #: fe-connect.c:1607
 #, c-format
 msgid "could not set socket to close-on-exec mode: %s\n"
-msgstr ""
-"не удалось установить сокет в режим закрытия-на-выполнение (close-on-exec): "
-"%s\n"
+msgstr "не удалось установить сокет в режим закрытия-на-выполнение (close-on-exec): %s\n"
 
 #: fe-connect.c:1625
 msgid "keepalives parameter must be an integer\n"
@@ -247,8 +239,7 @@ msgstr "локальный пользователь с ID %d не существ
 #: fe-connect.c:1906
 #, c-format
 msgid "requirepeer specifies \"%s\", but actual peer user name is \"%s\"\n"
-msgstr ""
-"requirepeer задан как \"%s\", но настоящее имя пользователя peer-а \"%s\"\n"
+msgstr "requirepeer задан как \"%s\", но настоящее имя пользователя peer-а \"%s\"\n"
 
 #: fe-connect.c:1912
 msgid "requirepeer parameter is not supported on this platform\n"
@@ -290,9 +281,7 @@ msgstr "неожиданное сообщение от сервера при з�
 #: fe-connect.c:2548
 #, c-format
 msgid "invalid connection state %d, probably indicative of memory corruption\n"
-msgstr ""
-"неверное состояние соединения %d, возможно, это признак нарушения "
-"целостности памяти\n"
+msgstr "неверное состояние соединения %d, возможно, это признак нарушения целостности памяти\n"
 
 #: fe-connect.c:2977 fe-connect.c:3037
 #, c-format
@@ -317,8 +306,7 @@ msgstr "не корректный LDAP URL \"%s\": должен быть тол�
 #: fe-connect.c:3418 fe-connect.c:3475
 #, c-format
 msgid "invalid LDAP URL \"%s\": must have search scope (base/one/sub)\n"
-msgstr ""
-"не корректный LDAP URL \"%s\": должна быть границы поиска (base/one/sub)\n"
+msgstr "не корректный LDAP URL \"%s\": должна быть границы поиска (base/one/sub)\n"
 
 #: fe-connect.c:3429
 #, c-format
@@ -367,9 +355,7 @@ msgstr "неоконченная строка (не хватает кавычк�
 
 #: fe-connect.c:3758
 msgid "could not get home directory to locate service definition file"
-msgstr ""
-"не удалось получить домашнюю директорию, чтобы найти файл со служебными "
-"определениями"
+msgstr "не удалось получить домашнюю директорию, чтобы найти файл со служебными определениями"
 
 #: fe-connect.c:3791
 #, c-format
@@ -402,12 +388,10 @@ msgstr "ВНИМАНИЕ: файл паролей \"%s\" не обычный т�
 
 #: fe-connect.c:4874
 #, c-format
-msgid ""
-"WARNING: password file \"%s\" has group or world access; permissions should "
-"be u=rw (0600) or less\n"
+msgid "WARNING: password file \"%s\" has group or world access; permissions should be u=rw (0600) or less\n"
 msgstr ""
-"ВНИМАНИЕ: файл с паролями \"%s\" имеет права на чтение для всех или для "
-"группы; права должны быть u=rw (0600) или меньше\n"
+"ВНИМАНИЕ: файл с паролями \"%s\" имеет права на чтение для всех или для группы; права должны быть u=rw (0600) "
+"или меньше\n"
 
 #: fe-connect.c:4962
 #, c-format
@@ -464,8 +448,7 @@ msgstr "Сначала, состояние COPY IN должно завершит
 msgid "COPY OUT state must be terminated first\n"
 msgstr "Сначала, состояние COPY OUT должно завершиться\n"
 
-#: fe-exec.c:2016 fe-exec.c:2082 fe-exec.c:2167 fe-protocol2.c:1172
-#: fe-protocol3.c:1561
+#: fe-exec.c:2016 fe-exec.c:2082 fe-exec.c:2167 fe-protocol2.c:1172 fe-protocol3.c:1561
 msgid "no COPY in progress\n"
 msgstr "COPY не выполняется\n"
 
@@ -526,8 +509,7 @@ msgstr "не в состоянии призвести запись в файл \
 
 #: fe-lobj.c:744
 msgid "query to initialize large object functions did not return data\n"
-msgstr ""
-"запрос об инициализации функций для больших объектов (LOs) не вернул данных\n"
+msgstr "запрос об инициализации функций для больших объектов (LOs) не вернул данных\n"
 
 #: fe-lobj.c:785
 msgid "cannot determine OID of function lo_open\n"
@@ -611,15 +593,12 @@ msgstr "select() не удался: %s\n"
 #: fe-protocol2.c:89
 #, c-format
 msgid "invalid setenv state %c, probably indicative of memory corruption\n"
-msgstr ""
-"неверное состояние setenv %c, возможный указатель на нарушение целостности "
-"памяти\n"
+msgstr "неверное состояние setenv %c, возможный указатель на нарушение целостности памяти\n"
 
 #: fe-protocol2.c:330
 #, c-format
 msgid "invalid state %c, probably indicative of memory corruption\n"
-msgstr ""
-"неверное состояние %c, возможный указатель на нарушение целостности памяти\n"
+msgstr "неверное состояние %c, возможный указатель на нарушение целостности памяти\n"
 
 #: fe-protocol2.c:419 fe-protocol3.c:186
 #, c-format
@@ -632,20 +611,13 @@ msgid "unexpected character %c following empty query response (\"I\" message)"
 msgstr "неожиданный символ %c вслед за пустым ответом (сообщение \"I\")"
 
 #: fe-protocol2.c:516
-msgid ""
-"server sent data (\"D\" message) without prior row description (\"T\" "
-"message)"
-msgstr ""
-"сервер отправил данные (сообщение \"D\") без предварительного строки "
-"описания (сообщение \"T\")"
+msgid "server sent data (\"D\" message) without prior row description (\"T\" message)"
+msgstr "сервер отправил данные (сообщение \"D\") без предварительного строки описания (сообщение \"T\")"
 
 #: fe-protocol2.c:532
-msgid ""
-"server sent binary data (\"B\" message) without prior row description (\"T\" "
-"message)"
+msgid "server sent binary data (\"B\" message) without prior row description (\"T\" message)"
 msgstr ""
-"сервер отправил двоичные данные (сообщение \"B\") без предварительного "
-"строки описания (сообщение \"T\")"
+"сервер отправил двоичные данные (сообщение \"B\") без предварительного строки описания (сообщение \"T\")"
 
 #: fe-protocol2.c:547 fe-protocol3.c:382
 #, c-format
@@ -671,12 +643,8 @@ msgid "protocol error: id=0x%x\n"
 msgstr "ошибка протокола: id=0x%x\n"
 
 #: fe-protocol3.c:344
-msgid ""
-"server sent data (\"D\" message) without prior row description (\"T\" "
-"message)\n"
-msgstr ""
-"сервер отправил данные (сообщение \"D\") без предварительного строки "
-"описания (сообщение \"T\")\n"
+msgid "server sent data (\"D\" message) without prior row description (\"T\" message)\n"
+msgstr "сервер отправил данные (сообщение \"D\") без предварительного строки описания (сообщение \"T\")\n"
 
 #: fe-protocol3.c:403
 #, c-format
@@ -686,8 +654,7 @@ msgstr "содержимое сообщения не согласуется с �
 #: fe-protocol3.c:424
 #, c-format
 msgid "lost synchronization with server: got message type \"%c\", length %d\n"
-msgstr ""
-"потеряна синхронизация с сервером: получено сообщение типа \"%c\", длина %d\n"
+msgstr "потеряна синхронизация с сервером: получено сообщение типа \"%c\", длина %d\n"
 
 #: fe-protocol3.c:646
 msgid "unexpected field count in \"D\" message\n"
@@ -782,9 +749,7 @@ msgstr "не удалось создать контекст SSL: %s\n"
 
 #: fe-secure.c:843
 msgid "could not get home directory to locate client certificate files\n"
-msgstr ""
-"не удалось получить домашнюю директорию, чтобы найти файлы с клиентскими "
-"сертификатами\n"
+msgstr "не удалось получить домашнюю директорию, чтобы найти файлы с клиентскими сертификатами\n"
 
 #: fe-secure.c:868
 #, c-format
@@ -823,12 +788,10 @@ msgstr "сертификат присутствует, но нет файла с
 
 #: fe-secure.c:1025
 #, c-format
-msgid ""
-"private key file \"%s\" has group or world access; permissions should be "
-"u=rw (0600) or less\n"
+msgid "private key file \"%s\" has group or world access; permissions should be u=rw (0600) or less\n"
 msgstr ""
-"файл приватного ключа \"%s\" имеет права на чтение для всех или для группы; "
-"права должны быть u=rw (0600) или меньше\n"
+"файл приватного ключа \"%s\" имеет права на чтение для всех или для группы; права должны быть u=rw (0600) или "
+"меньше\n"
 
 #: fe-secure.c:1036
 #, c-format
@@ -854,12 +817,10 @@ msgstr "Библиотека SSL не поддерживает CRL сертиф�
 #, c-format
 msgid ""
 "root certificate file \"%s\" does not exist\n"
-"Either provide the file or change sslmode to disable server certificate "
-"verification.\n"
+"Either provide the file or change sslmode to disable server certificate verification.\n"
 msgstr ""
 "корневой файл сертификата \"%s\" не существует\n"
-"Предоставьте файл с сертификатом или измените sslmode, чтобы отключить "
-"проверку сертификата.\n"
+"Предоставьте файл с сертификатом или измените sslmode, чтобы отключить проверку сертификата.\n"
 
 #: fe-secure.c:1203
 #, c-format

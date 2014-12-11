@@ -78,13 +78,13 @@ bool MoveDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
     if(wxGISEQUAL(sPathFrom, sPathTo))
         return true;
 
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     if(!EQUALN(sPathTo,"/vsi",4) && EQUALN(sPathFrom, sPathTo, 3))
     {
         //if in same disc - copy/rename
         return RenameFile(sPathFrom, sPathTo, pTrackCancel);
     }
-#endif //__WXMSW__
+#endif //__WINDOWS__
     else
     {
         //if in different discs - copy/move

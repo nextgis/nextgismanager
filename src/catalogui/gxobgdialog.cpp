@@ -447,11 +447,11 @@ wxGxObjectDialog::wxGxObjectDialog( wxWindow* parent, wxWindowID id, const wxStr
 	bHeaderSizer->Add( m_staticText1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
 	m_TreeCombo = new wxComboCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCB_READONLY);
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     m_TreeCombo->UseAltPopupWindow(true);
 #else
     m_TreeCombo->UseAltPopupWindow(false);
-#endif
+#endif //__WINDOWS__
     m_PopupCtrl = new wxTreeViewComboPopup();
     m_TreeCombo->SetPopupControl(m_PopupCtrl);
     m_TreeCombo->EnablePopupAnimation(true);

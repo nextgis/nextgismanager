@@ -107,7 +107,7 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             //get object parent
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetPath();
-			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			wxGxObjectList list = FindGxObjectsByPath(CPLString(sPath.ToUTF8()));
 			wxGxObjectList::const_iterator iter;
 			for(iter = list.begin(); iter != list.end(); ++iter)
 			{
@@ -138,7 +138,7 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             //search gxobject
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetFullPath();
-			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			wxGxObjectList list = FindGxObjectsByPath(CPLString(sPath.ToUTF8()));
 			wxGxObjectList::const_iterator iter;
 			for(iter = list.begin(); iter != list.end(); ++iter)
 			{
@@ -158,13 +158,13 @@ void wxGxCatalog::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
             wxFileName oName = event.GetPath();
             wxString sPath = oName.GetFullPath();
 			wxGxObjectList::const_iterator iter;
-			wxGxObjectList list = FindGxObjectsByPath(sPath);
+			wxGxObjectList list = FindGxObjectsByPath(CPLString(sPath.ToUTF8()));
 			if(list.IsEmpty())
 			{
 				oName = event.GetNewPath();
 				sPath = oName.GetPath();
 				
-				list = FindGxObjectsByPath(sPath);
+				list = FindGxObjectsByPath(CPLString(sPath.ToUTF8()));
 				for(iter = list.begin(); iter != list.end(); ++iter)
 				{
 					wxGxObject *current = *iter;

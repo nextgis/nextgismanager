@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 21:15+0300\n"
-"PO-Revision-Date: 2014-11-28 21:15+0300\n"
+"POT-Creation-Date: 2014-12-11 10:57+0300\n"
+"PO-Revision-Date: 2014-12-11 10:57+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,36 +13,36 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/cat_app\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/cat_app\n"
 
-#: ../../../src/cat_app/catalogapp.cpp:66
+#: ../../../src/cat_app/catalogapp.cpp:61
 msgid "Application initialization failed"
 msgstr "Ошибка инициализации приложения"
 
-#: ../../../src/cat_app/catalogapp.cpp:73
+#: ../../../src/cat_app/catalogapp.cpp:68
 msgid "No valid configuration exist"
 msgstr "Нет валидной конфигурации"
 
-#: ../../../src/cat_app/catalogapp.cpp:85
+#: ../../../src/cat_app/catalogapp.cpp:80
 #, c-format
 msgid "The log directory '%s' is not valid"
 msgstr "Папка лога '%s' отсутствует "
 
-#: ../../../src/cat_app/catalogapp.cpp:95
+#: ../../../src/cat_app/catalogapp.cpp:90
 #, c-format
 msgid "Setup locale failed. Locale files directory '%s', locale: %s"
 msgstr "Ошибка установки локализации. Папка '%s', язык: %s"
 
-#: ../../../src/cat_app/catalogapp.cpp:129
+#: ../../../src/cat_app/catalogapp.cpp:124
 #, c-format
 msgid "System directory '%s' is not valid"
 msgstr "Папка системных файлов '%s' отсутсвует"
 
-#: ../../../src/cat_app/catalogapp.cpp:148
+#: ../../../src/cat_app/catalogapp.cpp:138
 msgid "wxGISCatalogApp: Start main frame"
 msgstr "wxGISCatalogApp: Загрузка главного окна"
 

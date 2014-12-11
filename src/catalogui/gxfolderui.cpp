@@ -64,7 +64,7 @@ wxIcon wxGxFolderUI::GetSmallImage(void)
 void wxGxFolderUI::EditProperties(wxWindow *parent)
 {
     //TODO: Linux folder props
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     SHELLEXECUTEINFO SEInf = {0};
     SEInf.cbSize = sizeof(SEInf);
     SEInf.hwnd = parent->GetHWND();

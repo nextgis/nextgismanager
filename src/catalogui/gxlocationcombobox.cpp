@@ -25,7 +25,7 @@
 
 #include "../../art/document_16.xpm"
 
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     #define wxGIS_LIST_STATE_DROPHILITED wxLIST_STATE_DROPHILITED
 #else
     #define wxGIS_LIST_STATE_DROPHILITED wxLIST_STATE_SELECTED
@@ -588,9 +588,9 @@ void wxGxPathsListViewPopup::OnMouseClick(wxMouseEvent& event)
     {
         m_pParent->SetControlText(m_pGxPathsListView->GetItemText(nSelItem), true);
     }
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     m_pParent->DestroyPathsPopup();
-#endif // __WXMSW__
+#endif // __WINDOWS__
     event.Skip(false);
 }
 

@@ -133,11 +133,11 @@ private:
     DECLARE_EVENT_TABLE();
 };
 
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     #define WXGISBITBUTTONSIZE 18
 #else
     #define WXGISBITBUTTONSIZE 24
-#endif
+#endif // __WINDOWS__
 
 class WXDLLIMPEXP_GIS_CTU wxGISTableView :
 	public wxPanel
