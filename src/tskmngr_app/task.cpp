@@ -936,6 +936,9 @@ void wxGISTask::AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData)
 
         ChangeTaskMsg(nType, sInfoData);
     }
+
+    if (nType == enumGISMessageError)
+        wxLogError(sInfoData);
 }
 
 void wxGISTask::GetQueredTasks(wxGISQueredTasksArray &oaTasks)
@@ -1068,9 +1071,7 @@ bool wxGISTaskPeriodic::Load(void)
 
     m_sName = oStorageRoot.Get(wxT("name"), wxJSONValue(NONAME)).AsString();
     m_sDescription = oStorageRoot.Get(wxT("desc"), wxJSONValue(NONAME)).AsString();
-    m_nState = (wxGISEnumTaskStateType)oStorageRoot.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();
-    if (m_nState != enumGISTaskPaused)
-        m_nState = enumGISTaskQuered;
+    m_nState = (wxGISEnumTaskStateType)oStorageRoot.Get(wxT("state"), wxJSONValue(enumGISTaskUnk)).AsLong();    
     m_nGroupId = oStorageRoot.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
     m_nPriority = oStorageRoot.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
     m_nPeriod = oStorageRoot.Get(wxT("period"), wxJSONValue(0)).AsLong();
@@ -1089,11 +1090,10 @@ bool wxGISTaskPeriodic::Load(void)
             LoadSubTasks(m_SubTasksDesc);
     }
 
-    if (m_nState == enumGISTaskDone)
-        m_dfDone = 100;
-    else
-        m_dfDone = 0;
-    m_dfPrevDone = m_dfDone;
+    if (m_nState != enumGISTaskPaused)
+        m_nState = enumGISTaskQuered;
+
+    m_dfPrevDone = 0;
 
     if (m_nPeriod > 0)
     {
@@ -1227,19 +1227,22 @@ wxThread::ExitCode wxGISTaskPeriodic::Entry()
             nCounter -= 100;
         }
 
-        if (m_nState == enumGISTaskWork)
+        if (m_nState == enumGISTaskWork && IsInputOpened())
         {
             wxInputStream &InStream = *GetInputStream();
-            wxTextInputStream InputStr(InStream, wxT(" \t"), *wxConvCurrent);
-            if (InStream.IsOk() && !InStream.Eof())
+            if (InStream.IsOk())
             {
-                while (InStream.CanRead() && !TestDestroy())
+                wxTextInputStream InputStr(InStream, wxT(" \t"), *wxConvCurrent);
+                if (InStream.IsOk() && !InStream.Eof())
                 {
-                    wxString line = InputStr.ReadLine();
-                    if (line.IsEmpty())
-                        break;
-                    ProcessInput(line);
-                }
+                    while (InStream.CanRead() && !TestDestroy())
+                    {
+                        wxString line = InputStr.ReadLine();
+                        if (line.IsEmpty())
+                            break;
+                        ProcessInput(line);
+                    }
+                }           
             }
         }
     }
@@ -1250,9 +1253,10 @@ wxThread::ExitCode wxGISTaskPeriodic::Entry()
 bool wxGISTaskPeriodic::Start()
 {
     m_pid = Execute();
-    if (m_pid == 0)
+    if (m_pid == wxNOT_FOUND)
     {
         m_nState = enumGISTaskError;
+        wxGISTask::ChangeTask();
         return false;
     }
 
@@ -1264,6 +1268,11 @@ bool wxGISTaskPeriodic::Start()
     {
         return CreateAndRunThread();
     }
+
+    //wait a little and give a chance to quere message to be send first. overwise working state may be owerwrite by quere state
+    wxMilliSleep(550);
+
+    wxGISTask::ChangeTask();
 
     return true;
 }
@@ -1415,11 +1424,8 @@ bool wxGISTaskPeriodic::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, 
         for (wxGISTaskMap::iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
         {
             wxGISTask* pTask = dynamic_cast<wxGISTask*>(it->second);
-            if (pTask)
-            {
-                if (!pTask->Delete())
-                    return false;
-            }
+            if (pTask && !pTask->Delete())
+                return false;
         }
         m_omSubTasks.clear();
 
@@ -1427,7 +1433,7 @@ bool wxGISTaskPeriodic::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, 
         for (int i = 0; i < subtasks.Size(); ++i)
         {
             wxGISTask* pTask = new wxGISTask(this, subtasks[i].AsString());
-            if (pTask->Load())
+            if (pTask && pTask->Load())
             {
                 m_omSubTasks[pTask->GetId()] = pTask;
             }

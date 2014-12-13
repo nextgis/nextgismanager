@@ -34,7 +34,7 @@ IMPLEMENT_APP(wxGISCatalogApp)
 wxGISCatalogApp::wxGISCatalogApp(void) : wxApp()
 {
     m_vendorName = wxString(VENDOR);
-    m_vendorDisplayName = wxString(wxT("wxGIS"));
+    m_vendorDisplayName = wxString(wxT("NextGIS"));
 
     m_appName = wxString(wxT("wxGISCatalog"));
     m_appDisplayName = wxString(wxT("NextGIS Manager"));

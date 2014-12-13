@@ -127,6 +127,12 @@ option(wxGIS_USE_CURL "Set ON to build with curl support" ON)
 set(WXGISCORE_LIB_NAME "")
 mark_as_advanced(WXGISCORE_LIB_NAME)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/core/)
+
+option(wxGIS_BUILD_CONFAPP "Set ON to build config application" ON)
+if(wxGIS_BUILD_CONFAPP)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/conf/)
+endif(wxGIS_BUILD_CONFAPP)
+
 #networking
 set(WXGISNET_LIB_NAME "")
 mark_as_advanced(WXGISNET_LIB_NAME)

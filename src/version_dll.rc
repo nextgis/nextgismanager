@@ -70,20 +70,20 @@ BEGIN
     BEGIN
         BLOCK LANG_WITH_CHARSET
         BEGIN
-            VALUE "Comments", "wxGIS library from wxGIS project\0"
-            VALUE "CompanyName", "wxGIS development team\0"
+            VALUE "Comments", "Spatial data manager library\0"
+            VALUE "CompanyName", "NextGIS\0"
 #ifdef _WIN64
-            VALUE "FileDescription", "wxGIS(x64) for MSW\0"
+            VALUE "FileDescription", "NextGIS Manager(x64) for MSW\0"
 #else
-            VALUE "FileDescription", "wxGIS(x86) for MSW\0"
+            VALUE "FileDescription", "NextGIS Manager(x86) for MSW\0"
 #endif
             VALUE "FileVersion", wxGIS_VERSION_NUM_DOT_STRING "\0"
             VALUE "InternalName", wxGIS_FILENAME "\0"
-            VALUE "LegalCopyright", "Copyright 2009-2013 wxGIS development team\0"
+            VALUE "LegalCopyright", "Copyright NextGIS\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", wxGIS_FILENAME ".dll\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "wxGIS\0"
+            VALUE "ProductName", "NextGIS Manager\0"
             VALUE "ProductVersion", wxGIS_VERSION_NUM_DOT_STRING "\0"
             VALUE "SpecialBuild", "\0"            
         END

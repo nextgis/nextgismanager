@@ -30,7 +30,7 @@
 
 #ifdef wxGIS_USE_CURL
 
-//#define NGW_USE_TIMESTAMP
+#define NGW_USE_TIMESTAMP
 
 //--------------------------------------------------------------
 //class wxGxNGWWebService
@@ -1178,9 +1178,12 @@ wxGISEnumNGWResourcesType wxGxNGWResourceGroup::GetType(const wxJSONValue &Data)
 
 wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
 {
-    if (!Data.HasMember(wxT("display_name")))
+    wxJSONValue oResource = Data["resource"];
+    if (!oResource.IsValid())
         return NULL;
-    if (Data["display_name"].IsNull() || !Data["display_name"].IsValid())
+    if (!oResource.HasMember(wxT("display_name")))
+        return NULL;
+    if (oResource["display_name"].IsNull() || !oResource["display_name"].IsValid())
         return NULL;
 
     wxGISEnumNGWResourcesType eType = GetType(Data);
@@ -1418,11 +1421,11 @@ wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
         for(size_t i = 0; i < pArr->size(); ++i)
         {            
             wxJSONValue JSONVal = pArr->operator[](i);
-			wxJSONValue JSONResource = JSONVal["resource"];
-            if (JSONResource.HasMember(wxT("display_name")) && JSONResource["display_name"].IsValid() && !JSONResource["display_name"].IsNull())
+			wxJSONValue oResource = JSONVal["resource"];
+            if (oResource.HasMember(wxT("display_name")) && oResource["display_name"].IsValid() && !oResource["display_name"].IsNull())
             {
-			    wxString sName = JSONResource["display_name"].AsString();
-			    int nId = JSONResource["id"].AsInt();
+                wxString sName = oResource["display_name"].AsString();
+                int nId = oResource["id"].AsInt();
 			
 			    ret[nId] = sName;
 			    m_moJSONData[nId] = JSONVal;            

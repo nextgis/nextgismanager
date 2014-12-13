@@ -484,6 +484,19 @@ bool wxGISConfig::Write(wxGISEnumConfigKey Key, const wxString &sPath, int nValu
 	return true;
 }
 
+bool wxGISConfig::Delete(wxGISEnumConfigKey Key, const wxString &sPath)
+{
+    wxCriticalSectionLocker locker(((wxGISConfigRefData *)m_refData)->m_oCritSect);
+    wxXmlNode* pNode = GetConfigNode(Key, sPath);
+    wxXmlNode* pParentNode = pNode->GetParent();
+    if (pParentNode->RemoveChild(pNode))
+    {
+        delete pNode;
+        return true;
+    }
+    return false;
+}
+
 wxString wxGISConfig::GetLocalConfigDir(void) const
 {
     wxCHECK_MSG( IsOk(), wxEmptyString, wxT("Invalid wxGISConfig") );
@@ -502,9 +515,9 @@ wxString wxGISConfig::GetLocalConfigDirNonPortable(void) const
     return ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPathNonPortable;
 }
 
-void wxGISConfig::Save(const wxGISEnumConfigKey Key)
+bool wxGISConfig::Save(const wxGISEnumConfigKey Key)
 {
-    wxCHECK_RET( IsOk(), wxT("Invalid wxGISConfig") );
+    wxCHECK_MSG(IsOk(), false, wxT("Invalid wxGISConfig"));
     return ((wxGISConfigRefData *)m_refData)->Save(Key);
 }
 
@@ -562,7 +575,7 @@ wxGISConfigRefData::~wxGISConfigRefData()
 	m_paConfigFiles.clear();
 }
 
-void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXmlFileName)
+bool wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXmlFileName)
 {
     wxCriticalSectionLocker locker(m_oCritSect);
 		
@@ -580,6 +593,7 @@ void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXm
                     if(!bSave)
                     {
                         wxLogError(_("Failed to save config '%s'"), sXmlFilePath.c_str());
+                        return false;
                     }
                 }
             }
@@ -587,17 +601,23 @@ void wxGISConfigRefData::Save(const wxGISEnumConfigKey Key, const wxString&  sXm
     }
     else
     {
+        bool bHasErrors = false;
  	    for(size_t i = 0; i < m_paConfigFiles.size(); ++i)
         {
             if(m_paConfigFiles[i].eKey & Key && m_paConfigFiles[i].sXmlFileName.CmpNoCase(sXmlFileName) == 0)
             {
                 if(m_paConfigFiles[i].pXmlDoc && m_paConfigFiles[i].pXmlDoc->IsOk())
                 {
-                    m_paConfigFiles[i].pXmlDoc->Save(m_paConfigFiles[i].sXmlFilePath);
+                    bool bSave = m_paConfigFiles[i].pXmlDoc->Save(m_paConfigFiles[i].sXmlFilePath);
+                    if (!bSave)
+                        bHasErrors = true;
                 }
             }
 	    }
+        return bHasErrors;
     }
+
+    return true;
 }
 
 wxGISConfigRefData::wxGISConfigRefData( const wxGISConfigRefData& data ) : wxObjectRefData()

@@ -49,6 +49,8 @@ public:
     bool operator == ( const wxGISConfig& obj ) const;
     bool operator != (const wxGISConfig& obj) const { return !(*this == obj); };
 
+    bool Delete(wxGISEnumConfigKey Key, const wxString &sPath);
+
 	wxString Read(wxGISEnumConfigKey Key, const wxString &sPath, const wxString &sDefaultValue);
 	int ReadInt(wxGISEnumConfigKey Key, const wxString &sPath, int nDefaultValue);
 	double ReadDouble(wxGISEnumConfigKey Key, const wxString &sPath, double dDefaultValue);
@@ -65,7 +67,7 @@ public:
 	wxString GetGlobalConfigDir(void) const;
 	wxString GetLocalConfigDirNonPortable(void) const;
 
-    void Save(const wxGISEnumConfigKey Key = enumGISHKAny);
+    bool Save(const wxGISEnumConfigKey Key = enumGISHKAny);
 	wxString GetConfigDir(const wxString& wxDirName) const;
 protected:
 	bool SplitPathToXml(const wxString &  fullpath, wxString *psFileName, wxString *psPathInXml);
@@ -90,7 +92,7 @@ class  wxGISConfigRefData : public wxObjectRefData
 public:
     wxGISConfigRefData();
     virtual ~wxGISConfigRefData();
-    void Save(const wxGISEnumConfigKey Key = enumGISHKAny, const wxString&  sXmlFileName = wxEmptyString);
+    bool Save(const wxGISEnumConfigKey Key = enumGISHKAny, const wxString&  sXmlFileName = wxEmptyString);
     wxGISConfigRefData( const wxGISConfigRefData& data );
     bool operator == (const wxGISConfigRefData& data) const;
 

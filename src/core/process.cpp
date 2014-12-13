@@ -239,6 +239,11 @@ void wxGISProcess::Stop(void)
 void wxGISProcess::UpdatePercent(const wxString &sPercentData)
 {
 	m_dfDone = wxAtof(sPercentData);
+    if (m_dfDone > 100)
+        m_dfDone = 100;
+    if (m_dfDone < 0)
+        m_dfDone = 0;
+
 	wxTimeSpan Elapsed = wxDateTime::Now() - m_dtBeg;//time left
 
     double nPercentR = 100.0 - m_dfDone;

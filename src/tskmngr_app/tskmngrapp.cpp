@@ -35,7 +35,7 @@ IMPLEMENT_APP_CONSOLE(wxGISTaskManagerApp)
 wxGISTaskManagerApp::wxGISTaskManagerApp(void) : wxAppConsole(), wxGISThreadHelper(), wxGISService()
 {
     m_vendorName = wxString(VENDOR);
-    m_vendorDisplayName = wxString(wxT("wxGIS"));
+    m_vendorDisplayName = wxString(wxT("NextGIS"));
 
     m_appName = wxString(wxT("wxGISTaskManager"));
     m_appDisplayName = wxString(wxT("NextGIS Task Manager"));

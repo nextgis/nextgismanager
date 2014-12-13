@@ -316,9 +316,10 @@ bool wxGISApplicationBase::CreateApp(void)
     CPLSetConfigOption("GTIFF_ESRI_CITATION", "YES");
 
     CPLSetConfigOption("GDAL_CACHEMAX", sGDALCacheMax.mb_str());
-    CPLSetConfigOption("LIBKML_USE_DOC.KML", "no");
+    CPLSetConfigOption("LIBKML_USE_DOC.KML", "NO");
     CPLSetConfigOption("GDAL_USE_SOURCE_OVERVIEWS", "ON");
     CPLSetConfigOption("OSR_USE_CT_GRAMMAR", "FALSE");
+    CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "YES");
 
     //GDAL_MAX_DATASET_POOL_SIZE
     //OGR_ARC_STEPSIZE
