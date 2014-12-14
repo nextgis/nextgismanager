@@ -39,10 +39,11 @@
 
     @library{catalog}
 */
-class Destroy;
+
 class WXDLLIMPEXP_GIS_CLT wxGxCatalog :
     public wxGxCatalogBase,
-	public wxGISConnectionPointContainer
+	public wxGISConnectionPointContainer,
+    public IGxObjectNoFilter
 {
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxGxCatalog);
 public:

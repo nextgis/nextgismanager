@@ -189,6 +189,7 @@ wxGxObject* wxGxRasterFactory::GetGxObject(wxGxObject* pParent, const wxString &
     switch (type)
     {
     case enumRasterTil:
+        if (CPLCheckForFile((char*)CPLResetExtension(szPath, "imd"), NULL) || CPLCheckForFile((char*)CPLResetExtension(szPath, "IMD"), NULL))
         {
             wxGxRasterDatasetContainer* pDataset = new wxGxRasterDatasetContainer(type, pParent, soName, szPath);
             pRet = wxStaticCast(pDataset, wxGxObject);

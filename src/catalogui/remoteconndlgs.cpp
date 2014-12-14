@@ -597,7 +597,11 @@ void wxGISTMSConnDlg::FillDefaults()
     IApplication *pApp = GetApplication();
     if(NULL != pApp)
     {
-        m_sUserAgent = pApp->GetAppName() + wxT(" (") + pApp->GetAppDisplayName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
+        wxString sVendor;
+        if (wxTheApp)
+            sVendor = wxTheApp->GetVendorDisplayName();
+
+        m_sUserAgent = sVendor + wxT(" (") + pApp->GetAppName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
     }
     m_sReferer = wxString(wxT("http://nextgis.com"));
 
@@ -1453,7 +1457,11 @@ void wxGISNGWConnDlg::FillDefaults()
     IApplication *pApp = GetApplication();
     if(NULL != pApp)
     {
-        m_sUserAgent = pApp->GetAppName() + wxT(" (") + pApp->GetAppDisplayName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
+        wxString sVendor;
+        if (wxTheApp)
+            sVendor = wxTheApp->GetVendorDisplayName();
+
+        m_sUserAgent = sVendor + wxT(" (") + pApp->GetAppName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
     }
 }
 

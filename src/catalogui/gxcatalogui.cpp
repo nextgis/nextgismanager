@@ -112,6 +112,7 @@ bool FolderDrop(const CPLString& pPath, const wxArrayString& GxObjectPaths, bool
     wxGxCatalogBase* pCatalog = GetGxCatalog();
     bool bCopyAsk = true;
 
+    wxWindowDisabler dis(&ProgressDlg);
     for(size_t i = 0; i < GxObjectPaths.GetCount(); ++i)
     {
 		wxString sMessage = wxString::Format(_("%s %ld object (file) from %ld"), sOper.c_str(), i + 1, GxObjectPaths.GetCount());

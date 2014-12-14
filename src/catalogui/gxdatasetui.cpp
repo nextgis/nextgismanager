@@ -76,17 +76,6 @@ bool wxGxTableUI::HasPropertyPages(void) const
 	return true;
 }
 
-wxGISDataset* const wxGxTableUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
-{
-    wxGISDataset* const pOut = wxGxTable::GetDataset(bCached, pTrackCancel);
-    if(NULL == pOut)
-    {
- 		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
-        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
-    }
-    wsGET(pOut);
-}
-
 //--------------------------------------------------------------
 // wxGxFeatureDatasetUI
 //--------------------------------------------------------------
@@ -124,17 +113,6 @@ wxArrayString wxGxFeatureDatasetUI::GetPropertyPages() const
 bool wxGxFeatureDatasetUI::HasPropertyPages(void) const
 {
 	return true;
-}
-
-wxGISDataset* const wxGxFeatureDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
-{
-    wxGISDataset* const pOut = wxGxFeatureDataset::GetDataset(bCached, pTrackCancel);
-    if(NULL == pOut)
-    {
-		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
-        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
-    }
-    wsGET(pOut);
 }
 
 //--------------------------------------------------------------
@@ -177,18 +155,6 @@ bool wxGxRasterDatasetUI::HasPropertyPages(void) const
 	return true;
 }
 
-wxGISDataset* const wxGxRasterDatasetUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
-{
-    wxGISDataset* const pOut = wxGxRasterDataset::GetDataset(bCached, pTrackCancel);
-    if(NULL == pOut)
-    {
-		wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
-        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
-    }
-    wsGET(pOut);
-}
-
-
 //--------------------------------------------------------------
 // wxGxRasterDatasetContainerUI
 //--------------------------------------------------------------
@@ -229,14 +195,4 @@ bool wxGxRasterDatasetContainerUI::HasPropertyPages(void) const
     return true;
 }
 
-wxGISDataset* const wxGxRasterDatasetContainerUI::GetDataset(bool bCached, ITrackCancel* const pTrackCancel)
-{
-    wxGISDataset* const pOut = wxGxRasterDatasetContainer::GetDataset(bCached, pTrackCancel);
-    if (NULL == pOut)
-    {
-        wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Open"));
-        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
-    }
-    wsGET(pOut);
-}
 

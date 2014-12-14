@@ -436,7 +436,7 @@ wxGISDTFolderPath::~wxGISDTFolderPath()
 void wxGISDTFolderPath::OnOpen(wxCommandEvent& event)
 {
     wxGISGPGxObjectDomain* pDomain = dynamic_cast<wxGISGPGxObjectDomain*>(m_pParam->GetDomain());
-    wxFileName Name(m_pParam->GetValue().MakeString());
+    wxString sCurrentPath(m_pParam->GetValue().MakeString());
 
     wxGxContainerDialog dlg(this, wxID_ANY, m_pParam->GetDirection() == enumGISGPParameterDirectionInput ? _("Select input object") : _("Select output object"));
 	dlg.SetButtonCaption(_("Select"));
@@ -454,9 +454,11 @@ void wxGISDTFolderPath::OnOpen(wxCommandEvent& event)
                 dlg.AddFilter(pDomain->GetFilter(i), false);
 			dlg.AddShowFilter(pDomain->GetFilter(i));
         }
+        dlg.SetAllFilters(false);
     }
-    dlg.SetAllFilters(false);
-    dlg.SetName( Name.GetFullName() );
+    if (!sCurrentPath.IsEmpty())
+        dlg.SetStartingLocation(sCurrentPath);
+
     if(dlg.ShowModal() == wxID_OK)
     {
         wxString sPath = dlg.GetFullName();

@@ -70,6 +70,12 @@ bool CreateDir(const CPLString &sPath, long mode, ITrackCancel* const pTrackCanc
         wxString sMsg = wxString::Format(_("Create folder succeeded! Folder '%s'"), wxString::FromUTF8(sPath));
 		wxGISLogMessage(sMsg, pTrackCancel);
     }
+#ifdef __WINDOWS__    
+    if (wxGISEQUALN(CPLGetFilename(sPath), ".", 1))
+    {
+        SetFileAttributes(wxString::FromUTF8(sPath), FILE_ATTRIBUTE_HIDDEN);
+    }
+#endif
     return true;
 }
 

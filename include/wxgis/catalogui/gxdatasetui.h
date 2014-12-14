@@ -48,8 +48,6 @@ public:
 	//IGxObjectEditUI
 	virtual wxArrayString GetPropertyPages() const;
 	virtual bool HasPropertyPages(void) const;
-    //wxGxTable
-    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
@@ -78,8 +76,6 @@ public:
 	//IGxObjectEditUI	
 	virtual wxArrayString GetPropertyPages() const;
 	virtual bool HasPropertyPages(void) const;
-    //wxGxTable
-    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
 protected:
     wxIcon m_LargeIcon, m_SmallIcon;
 };
@@ -100,8 +96,6 @@ class WXDLLIMPEXP_GIS_CLU wxGxRasterDatasetUI :
 public:
 	wxGxRasterDatasetUI(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon & LargeIcon = wxNullIcon, const wxIcon & SmallIcon = wxNullIcon);
 	virtual ~wxGxRasterDatasetUI(void);
-    //wxGxRasterDataset
-    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
 	//IGxObjectUI
 	virtual wxIcon GetLargeImage(void);
 	virtual wxIcon GetSmallImage(void);
@@ -130,8 +124,6 @@ class WXDLLIMPEXP_GIS_CLU wxGxRasterDatasetContainerUI :
 public:
     wxGxRasterDatasetContainerUI(wxGISEnumRasterDatasetType nType, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon & LargeIcon = wxNullIcon, const wxIcon & SmallIcon = wxNullIcon);
     virtual ~wxGxRasterDatasetContainerUI(void);
-    //wxGxRasterDataset
-    virtual wxGISDataset* const GetDataset(bool bCached = true, ITrackCancel* const pTrackCancel = NULL);
     //IGxObjectUI
     virtual wxIcon GetLargeImage(void);
     virtual wxIcon GetSmallImage(void);

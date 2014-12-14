@@ -49,8 +49,30 @@ bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent, wxWindowID id, c
 {
     m_bClicked = false;
 	int nOSMajorVer(0);
-    wxGetOsVersion(&nOSMajorVer);
+    wxGetOsVersion(&nOSMajorVer);    
     return wxGxTreeViewBase::Create(parent, TREECTRLID, pos, size, wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_SIMPLE | wxTR_SINGLE | wxTR_EDIT_LABELS | (nOSMajorVer > 5 ? wxTR_NO_LINES : 0), name);
+}
+
+bool wxGISSelectSearchScopeComboPopup::CanChooseObject(wxGxObject* pGxObject)
+{
+    if (NULL == pGxObject)
+        return false;
+
+    wxGxSearchObjectFilter fil;
+    if (fil.CanChooseObject(pGxObject))
+        return true;
+    return false;
+}
+
+
+void wxGISSelectSearchScopeComboPopup::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent)
+{
+    if (NULL == pGxObject)
+        return;
+
+    wxGxSearchObjectFilter fil;
+    if (fil.CanDisplayObject(pGxObject))
+       wxGxTreeViewBase::AddTreeItem(pGxObject, hParent);
 }
 
 void wxGISSelectSearchScopeComboPopup::OnMouseMove(wxMouseEvent& event)
@@ -129,9 +151,7 @@ void wxGISSelectSearchScopeComboPopup::OnMouseClick(wxMouseEvent& event)
 				oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), pObj->GetFullName());
 		} 
 	}
-	
 
-	
     Dismiss();
 
     event.Skip(true);
@@ -210,8 +230,6 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	if(!wxPanel::Create( parent, id, pos, size, style, name ))
 		return false;
 		
-
-
 	wxGISAppConfig oConfig = GetConfig();
 	wxString sLastScope(_("Catalog"));
 	if(oConfig.IsOk())
@@ -288,7 +306,14 @@ void wxGISFindDlg::OnFind(wxCommandEvent& event)
 
 void wxGISFindDlg::OnFindUI(wxUpdateUIEvent& event)
 {
-	if(!m_pFindCtrl || m_pFindCtrl->GetValue().IsEmpty())
+    /*wxGxSelection* const pSel = GetGxSelection();
+    if (NULL == pSel)
+        return NULL;
+    long nId = pSel->GetLastSelectedObjectId();
+    return m_pCatalog->GetRegisterObject(nId);
+    || m_PopupCtrl->CanChooseObject(m_PopupCtrl->getsele*/
+
+    if (!m_pFindCtrl || m_pFindCtrl->GetValue().IsEmpty())
 		event.Enable(false);
 	else	
 		event.Enable(true);

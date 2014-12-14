@@ -460,29 +460,30 @@ wxGxFolderFilter::~wxGxFolderFilter(void)
 bool wxGxFolderFilter::CanChooseObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-   if(!pObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-		return false;
-    if(pObject->GetCategory() == wxString(_("Folder")))
-        return true;
-    if(pObject->GetCategory() == wxString(_("Folder connection")))
-        return true;
+    //if(pObject->GetCategory() == wxString(_("Folder")))
+    //    return true;
+    //if(pObject->GetCategory() == wxString(_("Folder connection")))
+    //    return true;
+    if(pObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+		return true;
     return false;
 }
 
 bool wxGxFolderFilter::CanDisplayObject( wxGxObject* const pObject )
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-    if(pObject->GetCategory() == wxString(wxT("Root")))
-        return true;
-    if(!pObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
-		return false;
-    if(pObject->GetCategory() == wxString(_("Folder")))
-        return true;
-    if(pObject->GetCategory() == wxString(_("Folder connection")))
-        return true;
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
-        return true;
-    return false;
+        return true;    
+  //  if(pObject->IsKindOf(wxCLASSINFO(wxGxFolder)))
+		//return true;
+  //  if(pObject->GetCategory() == wxString(wxT("Root")))
+  //      return true;
+  //  if(pObject->GetCategory() == wxString(_("Folder")))
+  //      return true;
+  //  if(pObject->GetCategory() == wxString(_("Folder connection")))
+  //      return true;
+
+    return CanChooseObject(pObject);
 }
 
 bool wxGxFolderFilter::CanStoreToObject(wxGxObject* const pObject)
@@ -532,17 +533,8 @@ bool wxGxRasterDatasetFilter::CanDisplayObject(wxGxObject* const pObject)
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
-        return true;
-    wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
-    if (!pGxDataset)
-        return false;
-    if (pGxDataset->GetType() != GetType())
-        return false;
-    if (GetSubType() == enumRasterUnknown)
-        return true;
-    if (pGxDataset->GetSubType() != GetSubType())
-        return false;
-    return true;
+        return true;    
+    return CanChooseObject(pObject);
 }
 
 bool wxGxRasterDatasetFilter::CanStoreToObject(wxGxObject* const pObject)
@@ -674,12 +666,7 @@ bool wxGxTextFilter::CanDisplayObject( wxGxObject* const pObject )
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
         return true;
-	wxGxTextFile* poGxTextFile = wxDynamicCast(pObject, wxGxTextFile);
-	if(!poGxTextFile)
-		return false;
-    if(wxGISEQUAL(CPLGetExtension(poGxTextFile->GetPath()), m_soExtCmp.mb_str(wxConvUTF8)))
-		return true;
-	return false;
+    return CanChooseObject(pObject);
 }
 
 bool wxGxTextFilter::CanStoreToObject(wxGxObject* const pObject)
@@ -738,16 +725,7 @@ bool wxGxTableFilter::CanDisplayObject( wxGxObject* const pObject )
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
         return true;
-	wxGxDataset* pGxDataset = wxDynamicCast(pObject, wxGxDataset);
-	if(!pGxDataset)
-		return false;
-    if(pGxDataset->GetType() != GetType())
-		return false;
-    if(GetSubType() == enumTableUnknown)
-        return true;
-    if(pGxDataset->GetSubType() != GetSubType())
-		return false;
-    return true;
+    return CanChooseObject(pObject);
 }
 
 bool wxGxTableFilter::CanStoreToObject(wxGxObject* const pObject)
@@ -858,15 +836,11 @@ bool wxGxNGWResourceGroupFilter::CanChooseObject(wxGxObject* const pObject)
 bool wxGxNGWResourceGroupFilter::CanDisplayObject(wxGxObject* const pObject)
 {
     wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
-    if (pObject->GetCategory() == wxString(wxT("Root")))
-        return true;
-    if (pObject->IsKindOf(wxCLASSINFO(wxGxNGWResourceGroup)) || pObject->IsKindOf(wxCLASSINFO(wxGxNGWService)))
-        return true;
-    if (pObject->GetCategory() == wxString(_("Web services folder")))
-        return true;
     if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;    
+    if (pObject->IsKindOf(wxCLASSINFO(wxGxNGWService)))
         return true;
-    return false;
+    return CanChooseObject(pObject);
 }
 
 bool wxGxNGWResourceGroupFilter::CanStoreToObject(wxGxObject* const pObject)
@@ -878,4 +852,45 @@ bool wxGxNGWResourceGroupFilter::CanStoreToObject(wxGxObject* const pObject)
 wxString wxGxNGWResourceGroupFilter::GetName(void) const
 {
     return wxString(_("NGW Resource group"));
+}
+
+//------------------------------------------------------------
+// wxGxSearchObjectFilter
+//------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGxSearchObjectFilter, wxGxObjectFilter)
+
+wxGxSearchObjectFilter::wxGxSearchObjectFilter(void)
+{
+}
+
+wxGxSearchObjectFilter::~wxGxSearchObjectFilter(void)
+{
+}
+
+bool wxGxSearchObjectFilter::CanChooseObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (dynamic_cast<IGxSearchObject*>(pObject) != NULL)
+        return true;
+    return false;
+}
+
+bool wxGxSearchObjectFilter::CanDisplayObject(wxGxObject* const pObject)
+{
+    wxCHECK_MSG(pObject, false, wxT("Input pObject pointer is NULL"));
+    if (dynamic_cast<IGxObjectNoFilter*>(pObject) != NULL)
+        return true;    
+
+    return CanChooseObject(pObject);
+}
+
+bool wxGxSearchObjectFilter::CanStoreToObject(wxGxObject* const pObject)
+{    
+    return false;
+}
+
+wxString wxGxSearchObjectFilter::GetName(void) const
+{
+    return wxString(_("Search source"));
 }

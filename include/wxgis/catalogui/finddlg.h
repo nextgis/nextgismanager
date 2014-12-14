@@ -43,12 +43,16 @@ class wxGISSelectSearchScopeComboPopup : public wxTreeViewComboPopup
 public:	
 	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
 	virtual bool Create(wxWindow* parent);
-	virtual bool Create(wxWindow* parent, wxWindowID id = TREECTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_SIMPLE | wxTR_SINGLE | wxTR_EDIT_LABELS | wxTR_NO_LINES, const wxString& name = wxT("ViewComboPopup"));
+    virtual bool Create(wxWindow* parent, wxWindowID id = TREECTRLID, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxBORDER_SIMPLE | wxTR_SINGLE | wxTR_EDIT_LABELS | wxTR_NO_LINES, const wxString& name = wxT("ViewComboPopup"));
+    //wxGxTreeViewBase
+    virtual void AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParent);
+    //
 	virtual wxString GetStringValue() const;
 	virtual void OnPopup();
 	virtual void OnMouseMove(wxMouseEvent& event);
 	virtual void OnMouseClick(wxMouseEvent& event);
 	virtual void OnDblClick(wxTreeEvent& event);
+    virtual bool CanChooseObject(wxGxObject* pObject);
 };
 
 /** @class wxGISFindDlg

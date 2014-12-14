@@ -64,22 +64,29 @@ wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
         IApplication *pApp = GetApplication();
         if(NULL != pApp)
         {
-            sUserAgent = pApp->GetAppName() + wxT(" (") + pApp->GetAppDisplayName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
+            wxString sVendor;            
+            if (wxTheApp)
+                sVendor = wxTheApp->GetVendorDisplayName();
+
+            sUserAgent = sVendor + wxT(" (") + pApp->GetAppName() + wxT(" - ") + pApp->GetAppVersionString() + wxT(")");
         }
 
-        int pos = 0;
-        if((pos = sHeaders.Find(wxT("User-Agent"))) != wxNOT_FOUND)
-        {
-            wxString sNewHeaders = sHeaders.Left(pos);
-            wxString sSearchHeaders = sHeaders.Right(sHeaders.Len() - pos - 10);
-            pos = sSearchHeaders.Find(wxT("|"));
-            sNewHeaders += wxT("User-Agent: ") + sUserAgent;
-            sNewHeaders += sSearchHeaders.Right(sSearchHeaders.Len() - pos);
-            sHeaders = sNewHeaders;
-        }
-        else
-        {
-            sHeaders += wxT("|") + sUserAgent;
+        if (!sUserAgent.IsEmpty())
+        { 
+            int pos = 0;
+            if((pos = sHeaders.Find(wxT("User-Agent"))) != wxNOT_FOUND)
+            {
+                wxString sNewHeaders = sHeaders.Left(pos);
+                wxString sSearchHeaders = sHeaders.Right(sHeaders.Len() - pos - 10);
+                pos = sSearchHeaders.Find(wxT("|"));
+                sNewHeaders += wxT("User-Agent: ") + sUserAgent;
+                sNewHeaders += sSearchHeaders.Right(sSearchHeaders.Len() - pos);
+                sHeaders = sNewHeaders;
+            }
+            else
+            {
+                sHeaders += wxT("|") + sUserAgent;
+            }        
         }
     }
 
@@ -417,6 +424,11 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath, IT
 		res = curl_easy_perform(m_pCurl);
 	if(res == CURLE_OK)
 	{
+        if (wxFileName::Exists(sPath))
+        {
+            if (!wxRemoveFile(sPath))
+                return false;
+        }
 		wxFile file(sPath, wxFile::write);
 		if(file.IsOpened())
 		{

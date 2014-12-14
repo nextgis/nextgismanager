@@ -870,13 +870,13 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
 
 void wxGxTreeView::OnActivated(wxTreeEvent& event)
 {
-    event.Skip();
 
 	wxTreeItemId item = event.GetItem();
 
 	if(!item.IsOk() || NULL == m_pCatalog)
 		return;
 
+    event.Skip();
 	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
 	if (NULL == pData)
 	{
@@ -893,7 +893,7 @@ void wxGxTreeView::OnActivated(wxTreeEvent& event)
 			if(pGxObjectCont && pGxObjectCont->HasChildren())
 			{
 				SetItemHasChildren(item);
-				Expand(item);
+				//Expand(item);
 			}
 		}
 	}

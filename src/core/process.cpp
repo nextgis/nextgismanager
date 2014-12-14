@@ -314,12 +314,11 @@ wxThread::ExitCode wxGISProcess::Entry()
             break;
         if(InStream.IsOk())
         {
-            while (InStream.CanRead())
+            while (InStream.CanRead() && !TestDestroy())
             {
                 wxString line = InputStr.ReadLine();
-                if (line.IsEmpty())
-                    break;
-                ProcessInput(line);
+                if (!line.IsEmpty())
+                    ProcessInput(line);
             }		    
         }
 		wxThread::Sleep(READ_LINE_DELAY);

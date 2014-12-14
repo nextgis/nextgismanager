@@ -248,3 +248,22 @@ public:
     virtual bool CanStoreToObject(wxGxObject* const pObject);
     virtual wxString GetName(void) const;
 };
+
+/** @class wxGxNGWResourceGroupFilter
+
+    The NGW Resource GxObject Filters.
+
+    @library{catalog}
+*/
+
+class WXDLLIMPEXP_GIS_CLT wxGxSearchObjectFilter : public wxGxObjectFilter
+{
+    DECLARE_CLASS(wxGxSearchObjectFilter)
+public:
+    wxGxSearchObjectFilter(void);
+    virtual ~wxGxSearchObjectFilter(void);
+    virtual bool CanChooseObject(wxGxObject* const pObject);
+    virtual bool CanDisplayObject(wxGxObject* const pObject);
+    virtual bool CanStoreToObject(wxGxObject* const pObject);
+    virtual wxString GetName(void) const;
+};

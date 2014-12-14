@@ -708,6 +708,15 @@ wxGISDataset* const wxGxRasterDatasetContainer::GetDatasetFast(void)
 {
     if (m_pwxGISDataset == NULL)
     {
+        //check imd exist in till
+        if (m_eType == enumRasterTil)
+        {
+            if (!CPLCheckForFile((char*)CPLResetExtension(m_sPath, "imd"), NULL))
+            {
+                if (!CPLCheckForFile((char*)CPLResetExtension(m_sPath, "IMD"), NULL))
+                    return NULL;
+            }            
+        }
         wxGISRasterDataset* pDSet = new wxGISRasterDataset(m_sPath, m_eType);
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();

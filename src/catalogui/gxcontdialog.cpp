@@ -51,14 +51,16 @@ void wxTreeContainerView::AddTreeItem(wxGxObject* pGxObject, wxTreeItemId hParen
         for (size_t i = 0; i < m_ShowFilter.GetCount(); ++i)
         {
             if (m_ShowFilter[i]->CanDisplayObject(pGxObject))
-                goto ADD;
+            {
+                wxGxTreeViewBase::AddTreeItem(pGxObject, hParent);
+                break;
+            }
         }
-        return;
 	}
-
-
-ADD:
-    wxGxTreeViewBase::AddTreeItem(pGxObject, hParent);
+    else
+    {
+        wxGxTreeViewBase::AddTreeItem(pGxObject, hParent);
+    }
 }
 
 void wxTreeContainerView::AddShowFilter(wxGxObjectFilter* pFilter)
@@ -299,12 +301,6 @@ int wxGxContainerDialog::ShowModal(void)
 void wxGxContainerDialog::OnInit()
 {
     m_pTree = new wxTreeContainerView( this, TREECTRLID, wxTR_HAS_BUTTONS | wxTR_TWIST_BUTTONS | wxTR_NO_LINES | wxTR_SINGLE | wxTR_EDIT_LABELS );
-    wxGISAppConfig oConfig = GetConfig();
-    if (oConfig.IsOk())
-    {
-        wxXmlNode* pTreeViewConf = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/views/treeview")));
-        m_pTree->Activate(this, pTreeViewConf);
-    }
 
     RegisterChildWindow(m_pTree->GetId());
 
@@ -335,6 +331,12 @@ void wxGxContainerDialog::OnInit()
 	for(size_t i = 0; i < m_paShowFilter.size(); ++i)
 		m_pTree->AddShowFilter(m_paShowFilter[i]);
 
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        wxXmlNode* pTreeViewConf = oConfig.GetConfigNode(enumGISHKCU, GetAppName() + wxString(wxT("/frame/views/treeview")));
+        m_pTree->Activate(this, pTreeViewConf);
+    }
 
     wxString sLastPath = m_sStartPath;
     if (sLastPath.IsEmpty())
@@ -345,7 +347,16 @@ void wxGxContainerDialog::OnInit()
             sLastPath = m_pCatalog->GetName();
     }
 
-    SetLocation(sLastPath);
+    //check if last path is in filter
+    wxGxObject* pObj = GetGxCatalog()->FindGxObject(sLastPath);
+    for (size_t i = 0; i < m_FilterArray.GetCount(); ++i)
+    {
+        if (m_FilterArray[i]->CanDisplayObject(pObj))
+        {
+            SetLocation(sLastPath);
+            break;
+        }
+    }
 
     SerializeFramePos(false);
 }

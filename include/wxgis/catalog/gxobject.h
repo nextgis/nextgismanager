@@ -68,6 +68,20 @@ protected:
 
 WX_DECLARE_LIST_2(wxGxObject, wxGxObjectList, wxGxObjectListNode, class WXDLLIMPEXP_GIS_CLT);
 
+/** @class IGxSearchObject
+*
+* An Interface class that GxObject support search queries
+*
+* @library{catalog}
+*/
+
+class IGxSearchObject
+{
+public:
+    virtual ~IGxSearchObject(void){};
+    virtual wxGxObjectList SimpleSearch(const wxString &sText, ITrackCancel* const pTrackCancel) = 0;
+};
+
 /** @class wxGxObjectContainer catalog.h
 
     A GxObject with children GxObjects.

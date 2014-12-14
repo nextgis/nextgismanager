@@ -1238,9 +1238,8 @@ wxThread::ExitCode wxGISTaskPeriodic::Entry()
                     while (InStream.CanRead() && !TestDestroy())
                     {
                         wxString line = InputStr.ReadLine();
-                        if (line.IsEmpty())
-                            break;
-                        ProcessInput(line);
+                        if (!line.IsEmpty())
+                            ProcessInput(line);
                     }
                 }           
             }
@@ -1328,10 +1327,16 @@ void wxGISTaskPeriodic::OnTerminate(int pid, int status)
         m_dfDone = 0;
         if (m_pParent)
             m_pParent->OnFinish(this, false);
+
+        m_dfPrevDone = 0;
+        wxGISTask::ChangeTask();
+        StartNextQueredTask();
+        Save();
+
         return;
     }
 
-    if (m_pParent && m_nState == enumGISTaskWork)
+    if (m_nState == enumGISTaskWork)
     {
         m_dfDone = 100.0;
         if (m_pParent)
@@ -1342,8 +1347,8 @@ void wxGISTaskPeriodic::OnTerminate(int pid, int status)
     m_dtEstEnd = wxDateTime::Now();
 
     m_dfPrevDone = 0;
-    StartNextQueredTask();
     wxGISTask::ChangeTask();
+    StartNextQueredTask();
     Save();
 }
 

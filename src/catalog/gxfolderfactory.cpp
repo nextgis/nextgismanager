@@ -48,11 +48,12 @@ bool wxGxFolderFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxA
         int ret = VSIStatL(pFileNames[i], &BufL);
         if(ret == 0)
         {
-            if(VSI_ISDIR(BufL.st_mode))
+            if (VSI_ISDIR(BufL.st_mode))
 		    {
-                wxGxObject* pObj = GetGxObject(pParent, wxString(CPLGetFilename(pFileNames[i]), wxConvUTF8), pFileNames[i], bCheckNames);
+                const char* szFolderName = CPLGetFilename(pFileNames[i]);
+                wxGxObject* pObj = GetGxObject(pParent, wxString(szFolderName, wxConvUTF8), pFileNames[i], bCheckNames);
                 if(pObj)
-                    pChildrenIds.Add(pObj->GetId());
+                    pChildrenIds.Add(pObj->GetId());                
                 pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
 		    }
         }
