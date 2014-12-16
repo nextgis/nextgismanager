@@ -38,6 +38,7 @@ find_package(wxWidgets 2.9 REQUIRED base xml)
 # wxWidgets include (this will do all the magic to configure everything)
 if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
+    add_definitions("-DwxUSE_GUI=0")
 endif(wxWidgets_FOUND)
 
 option(wxGIS_USE_OPENSSL "Set OFF to build without OpenSSL support" OFF)
