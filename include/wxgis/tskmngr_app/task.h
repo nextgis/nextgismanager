@@ -32,6 +32,14 @@
 class wxGISTaskBase;
 WX_DECLARE_HASH_MAP( int, wxGISTaskBase*, wxIntegerHash, wxIntegerEqual, wxGISTaskMap );
 
+enum wxGISEnumTaskChangeType{
+    enumTaskChangeVolume  = 0x001,
+    enumTaskChangeState   = 0x002,
+    enumTaskChangeMessage = 0x004,
+    enumTaskChangePercent = 0x008,
+    enumTaskChangeAll = enumTaskChangeVolume | enumTaskChangeState | enumTaskChangeMessage | enumTaskChangePercent
+};
+
 
 /** @class wxGISTaskBase
 
@@ -119,9 +127,7 @@ public:
     virtual void OnTerminate(int pid, int status);
     virtual int GetRunningTaskCount(void) const;
     virtual void GetQueredTasks(wxGISQueredTasksArray &oaTasks);
-    virtual void ChangeTask(void);
-    virtual void ChangeTaskMsg(wxGISEnumMessageType nType, const wxString &sInfoData);
-
+    virtual void ChangeTask(WXDWORD eChangeType, wxGISEnumMessageType eMessageType = enumGISMessageUnknown, const wxString &sInfoData = wxEmptyString);
     //
     virtual long Execute(void);
     virtual bool IsGroupIdExecuting(int nGroupId) const;

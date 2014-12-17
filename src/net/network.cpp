@@ -235,7 +235,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
 #ifdef _DEBUG
         wxString sOut;
         writer.Write(msgout.GetInternalValue(), sOut);
-        wxLogMessage(wxT("> %s"), sOut.c_str());
+        wxLogMessage(wxT("< %s"), sOut.c_str());
 #endif //_DEBUG
 
 
@@ -247,7 +247,7 @@ bool INetConnection::ProcessOutputNetMessage(void)
         wxString sOut;
         writer.Write( msgout.GetInternalValue(), sOut );
 #ifdef _DEBUG
-        wxLogDebug(wxString::Format(wxT("snd:%s"), sOut));
+        wxLogDebug(wxString::Format(wxT("< %s"), sOut));
 #endif //_DEBUG
 
 
@@ -294,7 +294,7 @@ bool INetConnection::ProcessInputNetMessage(void)
         wxString sOut;
         wxJSONWriter writer(wxJSONWRITER_NONE);
         writer.Write(value, sOut);
-        wxLogMessage(wxT("< %s"), sOut.c_str());
+        wxLogMessage(wxT("> %s"), sOut.c_str());
 #endif // _DEBUG
 
 #else
@@ -303,7 +303,7 @@ bool INetConnection::ProcessInputNetMessage(void)
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
         wxString sIn(m_Buffer, nRead);
 #ifdef _DEBUG
-        wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
+        wxLogDebug(wxString::Format(wxT("> %d bits, %s"), nRead, sIn));
 #endif
         //wxCriticalSectionLocker lock(m_msgCS);
 

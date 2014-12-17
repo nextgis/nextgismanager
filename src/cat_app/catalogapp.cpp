@@ -131,7 +131,7 @@ bool wxGISCatalogApp::OnInit()
 
     wxString sTempDir = oConfig.GetTempDir();
     if(!wxDirExists(sTempDir))
-		wxFileName::Mkdir(sTempDir, 0777, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(sTempDir, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
 
     CPLSetConfigOption("CPL_TMPDIR", sTempDir.mb_str(wxConvUTF8));
 

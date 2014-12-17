@@ -75,7 +75,7 @@ void wxGISConfig::Create(bool bPortable)
         //if potable - config path: [app.exe path\config]
         ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath = ((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath = ((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath + wxFileName::GetPathSeparator() + wxString(wxT("config"));
 	    if(!wxDirExists(((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath))
-		    wxFileName::Mkdir(((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath, 0755, wxPATH_MKDIR_FULL);
+            wxFileName::Mkdir(((wxGISConfigRefData *)m_refData)->m_sLocalConfigDirPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
     }
     else
     {
@@ -230,39 +230,50 @@ wxXmlNode *wxGISConfig::GetConfigRootNode(wxGISEnumConfigKey Key, const wxString
 	};
 
 	if(!wxDirExists(sConfigDirPath))
-		wxFileName::Mkdir(sConfigDirPath, 0755, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(sConfigDirPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_OTHERS_READ, wxPATH_MKDIR_FULL);
 
 	wxString sConfigFilePath = sConfigDirPath + wxFileName::GetPathSeparator() + sFileName;
 	if(wxFileName::FileExists(sConfigFilePath))
 	{
         pXmlDoc = new wxXmlDocument(sConfigFilePath);
+        if (!pXmlDoc->IsOk())
+            wxDELETE(pXmlDoc);
 	}
-	else
+
+    if (!pXmlDoc)
 	{
 		//Get global config if local config is not available
 		if(Key == enumGISHKCU)
         {
 			if(!wxDirExists(((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath))
-				wxFileName::Mkdir(sConfigDirPath, 0777, wxPATH_MKDIR_FULL);
+                wxFileName::Mkdir(sConfigDirPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
 			else
 			{
 				wxString sConfigFilePathNew = ((wxGISConfigRefData *)m_refData)->m_sGlobalConfigDirPath + wxFileName::GetPathSeparator() + sFileName;
-				if(wxFileName::FileExists(sConfigFilePathNew))
-					pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
+                if (wxFileName::FileExists(sConfigFilePathNew))
+                {
+                    pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
+                    if (!pXmlDoc->IsOk())
+                        wxDELETE(pXmlDoc);
+                }
 			}
 		}
 
 		//last chance - load from config directory near application executable
-        if(!pXmlDoc || !pXmlDoc->IsOk())
+        if(!pXmlDoc)
 		{
             wxFileName oFName(((wxGISConfigRefData *)m_refData)->m_sAppExeDirPath);
             wxString sConfigFilePathNew = oFName.GetPath() + wxFileName::GetPathSeparator() + wxT("config") + wxFileName::GetPathSeparator() + sFileName;
             if(wxFileName::FileExists(sConfigFilePathNew))
-				pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
+            {
+                pXmlDoc = new wxXmlDocument(sConfigFilePathNew);
+                if (!pXmlDoc->IsOk())
+                    wxDELETE(pXmlDoc);
+            }
 		}
 
 		//create new config
-		if(!pXmlDoc || !pXmlDoc->IsOk())
+		if(!pXmlDoc)
 		{
 			wxString sRootNodeName = sFileName.Left(sFileName.Len() - 4);//trim ".xml"
             pXmlDoc = new wxXmlDocument();

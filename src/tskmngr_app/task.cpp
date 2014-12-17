@@ -377,7 +377,7 @@ void wxGISTask::OnStart(void)
 
     //change task and send message
     m_nState = enumGISTaskQuered;
-    ChangeTask();
+    ChangeTask(enumTaskChangeState | enumTaskChangePercent);
     //Save();
 
     if (m_omSubTasks.empty())
@@ -412,7 +412,7 @@ void wxGISTask::OnStop(void)
             if (pSubTask && pSubTask->GetState() == enumGISTaskQuered)
             {
                 pSubTask->SetState(enumGISTaskPaused);
-                pSubTask->ChangeTask();
+                pSubTask->ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
             }
         }
 
@@ -429,7 +429,7 @@ void wxGISTask::OnStop(void)
         m_nState = enumGISTaskPaused;
     }
 
-    ChangeTask();
+    ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
     //Save();
 }
 
@@ -439,7 +439,7 @@ void wxGISTask::OnTerminate(int pid, int status)
     wxGISProcess::OnTerminate(pid, status);
     m_dfPrevDone = 0;
     StartNextQueredTask();
-    ChangeTask();    
+    ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
     Save();
     //notify parent
     wxGISTask* pParentTask = dynamic_cast<wxGISTask*>(m_pParentTask);
@@ -486,7 +486,7 @@ void wxGISTask::OnTaskChanged(int nId)
 
     m_dfDone /= m_omSubTasks.size();
 
-    ChangeTask();
+    ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
     Save();
 }
 
@@ -498,7 +498,7 @@ bool wxGISTask::Start(void)
     //wait a little and give a chance to quere message to be send first. overwise working state may be owerwrite by quere state
     wxMilliSleep(550);
 
-    ChangeTask();
+    ChangeTask(enumTaskChangeState | enumTaskChangePercent);
     return bReturn;
 }
 
@@ -713,37 +713,49 @@ void wxGISTask::UpdatePercent(const wxString &sPercentData)
     if(m_dfDone - m_dfPrevDone > 0.1)
     {
         m_dfPrevDone = m_dfDone;
-        ChangeTask();
+        ChangeTask(enumTaskChangePercent);
     }
 }
 
-void wxGISTask::ChangeTask()
+void wxGISTask::ChangeTask(WXDWORD eChangeType, wxGISEnumMessageType eMessageType, const wxString &sInfoData)
 {
     if(!m_pParentTask)
         return;
+    wxString sMessage(_("Task changed"));
     wxJSONValue val;
     val[wxT("id")] = m_nId;
-    val[wxT("state")] = m_nState;
-    val[wxT("done")] = m_dfDone;
-    val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
-    val[wxT("beg")] = SetDateValue(m_dtBeg);
-    val[wxT("end")] = SetDateValue(m_dtEstEnd);
-    m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHigh, val, _("Task changed"), wxNOT_FOUND);
-}
 
-void wxGISTask::ChangeTaskMsg(wxGISEnumMessageType nType, const wxString &sInfoData)
-{
-    if(!m_pParentTask || sInfoData.IsEmpty())
+    if (eChangeType & enumTaskChangeState)
+    {
+        val[wxT("state")] = m_nState;
+        val[wxT("beg")] = SetDateValue(m_dtBeg);
+        val[wxT("end")] = SetDateValue(m_dtEstEnd);
+    }
+
+    if (eChangeType & enumTaskChangePercent)
+    {
+        val[wxT("done")] = m_dfDone;
+        val[wxT("beg")] = SetDateValue(m_dtBeg);
+        val[wxT("end")] = SetDateValue(m_dtEstEnd);
+    }
+
+    if (eChangeType & enumTaskChangeVolume)
+    {
+        val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
+    }
+
+    if (eChangeType == enumTaskChangeMessage && sInfoData.IsEmpty())
         return;
 
-    wxJSONValue val;
-    val[wxT("id")] = m_nId;
-    val[wxT("msg")] = sInfoData;
-    val[wxT("date")] = SetDateValue(wxDateTime::Now());
-    val[wxT("type")] = nType;
-    val[wxT("msg_id")] = wxNewId();
-
-    m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISCmdNoteMsg, enumGISPriorityLow, val, _("Task new message"), wxNOT_FOUND);
+    if (eChangeType & enumTaskChangeMessage && !sInfoData.IsEmpty())
+    {
+        val[wxT("msg")] = sInfoData;
+        val[wxT("date")] = SetDateValue(wxDateTime::Now());
+        val[wxT("type")] = eMessageType;
+        val[wxT("msg_id")] = wxNewId();
+        sMessage = wxString(_("Task new message"));
+    }
+    m_pParentTask->SendNetMessage(enumGISNetCmdCmd, enumGISCmdStChng, enumGISPriorityHigh, val, sMessage, wxNOT_FOUND);
 }
 
 bool wxGISTask::ChangeTask(const wxJSONValue& TaskVal, long nMessageId, int nUserId)
@@ -925,7 +937,7 @@ void wxGISTask::AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData)
         unsigned long long nVol;
         sRest.ToULongLong(&nVol);
         m_nVolume = nVol;
-        ChangeTask();
+        ChangeTask(enumTaskChangeVolume);
     }
     else
     {
@@ -934,7 +946,7 @@ void wxGISTask::AddInfo(wxGISEnumMessageType nType, const wxString &sInfoData)
 
         //don't accum, just send to listeners
 
-        ChangeTaskMsg(nType, sInfoData);
+        ChangeTask(enumTaskChangeMessage, nType, sInfoData);
     }
 
     if (nType == enumGISMessageError)
@@ -1255,7 +1267,7 @@ bool wxGISTaskPeriodic::Start()
     if (m_pid == wxNOT_FOUND)
     {
         m_nState = enumGISTaskError;
-        wxGISTask::ChangeTask();
+        wxGISTask::ChangeTask(enumTaskChangeState | enumTaskChangePercent);
         return false;
     }
 
@@ -1271,7 +1283,7 @@ bool wxGISTaskPeriodic::Start()
     //wait a little and give a chance to quere message to be send first. overwise working state may be owerwrite by quere state
     wxMilliSleep(550);
 
-    wxGISTask::ChangeTask();
+    wxGISTask::ChangeTask(enumTaskChangeState | enumTaskChangePercent);
 
     return true;
 }
@@ -1329,7 +1341,7 @@ void wxGISTaskPeriodic::OnTerminate(int pid, int status)
             m_pParent->OnFinish(this, false);
 
         m_dfPrevDone = 0;
-        wxGISTask::ChangeTask();
+        wxGISTask::ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
         StartNextQueredTask();
         Save();
 
@@ -1347,7 +1359,7 @@ void wxGISTaskPeriodic::OnTerminate(int pid, int status)
     m_dtEstEnd = wxDateTime::Now();
 
     m_dfPrevDone = 0;
-    wxGISTask::ChangeTask();
+    wxGISTask::ChangeTask(enumTaskChangeVolume | enumTaskChangeState | enumTaskChangePercent);
     StartNextQueredTask();
     Save();
 }

@@ -71,8 +71,6 @@ int wxGISTaskManagerApp::OnRun()
         return EXIT_FAILURE;
     }
 
-    CreateAndRunThread();
-
     wxAppConsole::OnRun();
 
     return EXIT_SUCCESS;//success == true ? EXIT_SUCCESS : EXIT_FAILURE;//EXIT_FAILURE;//
@@ -81,7 +79,6 @@ int wxGISTaskManagerApp::OnRun()
 bool wxGISTaskManagerApp::OnInit()
 {
 #ifdef _WIN32
-	wxLogDebug(wxT("wxSocketBase::Initialize"));
     wxSocketBase::Initialize();
 #endif
 
@@ -113,6 +110,12 @@ void wxGISTaskManagerApp::CleanUp()
     wxAppConsole::CleanUp();
 }
 
+//enter main loop
+void wxGISTaskManagerApp::OnEventLoopEnter(wxEventLoopBase* loop)
+{
+    CreateAndRunThread();
+}
+
 // Loop until user enters q or Q
 wxThread::ExitCode wxGISTaskManagerApp::Entry()
 {
@@ -138,6 +141,8 @@ wxThread::ExitCode wxGISTaskManagerApp::Entry()
             wxThread::Sleep(QUIT_CHAR_DELAY);
         }
     }
+
+    wxLogMessage(wxT("Exit task manager main thread"));
 
     return (wxThread::ExitCode)wxTHREAD_NO_ERROR;
 }
@@ -235,6 +240,7 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         exit(EXIT_SUCCESS);
         return true;
     }
+
  	else if( pParser.Found( wxT( "s" ) ) )
 	{
         if (!Initialize(wxT("wxGISTaskManager"), wxT("tskmngr_")))
@@ -243,18 +249,14 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         if (!m_pTaskManager)
             return false;
 
-        if (!m_pTaskManager->Init())
-        {
-            m_pTaskManager->Exit();
-            return false;
-        }
         m_pTaskManager->SetExitState(enumGISNetCmdStNoExit);
 
         wxLogMessage(wxT("Starting service..."));
 
         m_bService = true;
-        CreateAndRunThread();
 	}
+#endif //_WIN32
+
     else
     {
 		pParser.Usage();
@@ -262,8 +264,6 @@ bool wxGISTaskManagerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         exit(EXIT_SUCCESS);
         return true;
     }
-
-#endif //_WIN32
 
     return wxAppConsole::OnCmdLineParsed(pParser);
 }

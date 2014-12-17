@@ -258,8 +258,10 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
         case enumGISCmdStAdd:
             {
                 wxString sCatName = val[wxT("name")].AsString();
+                wxLogMessage("Create category directory %s", sCatName);
                 if(sCatName.IsEmpty() || m_omCategories[sCatName])
                 {
+                    wxLogError(_("The category name is empty or category is already exist"));
                     wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityLow, msg.GetId());
                     msgout.SetMessage(_("The category name is empty or category is already exist"));
                     SendNetMessage(msgout, nUserId);
@@ -268,8 +270,9 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                 {
                     wxString sCategoryName = ReplaceForbiddenCharsInFileName(sCatName);
                     wxString sCatPath = m_sUserConfigDir + wxFileName::GetPathSeparator() + sCategoryName;
-                    if (wxDir::Make(sCatPath, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL))
+                    if (wxFileName::Mkdir(sCatPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL)) //0755
                     {
+                        wxLogMessage("Successfully created category directory %s", sCatName);
                         wxGISTaskCategory* pGISTaskCategory = new wxGISTaskCategory(sCatPath, this);
                         m_omCategories[sCategoryName] = pGISTaskCategory;
 
@@ -281,6 +284,7 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
                     }
                     else
                     {
+                        wxLogError(_("Create category directory failed"));
                         wxNetMessage msgout(enumGISNetCmdCmd, enumGISNetCmdStErr, enumGISPriorityHigh,  msg.GetId());
                         msgout.SetMessage(_("Create category directory failed"));
                         SendNetMessage(msgout, nUserId);
@@ -301,11 +305,14 @@ void wxGISTaskManager::ProcessNetCommand(const wxNetMessage &msg, int nUserId)
 
 void wxGISTaskManager::SetExitState(wxGISNetCommandState nExitState)
 {
+    wxLogMessage(wxT("Set exit state %d"), nExitState);
     m_nExitState = nExitState;
 }
 
 void wxGISTaskManager::OnExit(void)
 {
+    wxLogMessage(wxT("OnExit, state %d"), m_nExitState);
+
     if(m_nExitState == enumGISNetCmdStNoExit)
         return;
     if (m_nExitState == enumGISNetCmdStExitAfterExec && GetExecTaskCount() > 0)
@@ -368,7 +375,7 @@ wxString wxGISTaskManager::GetNewStorePath(const wxString &sAddToName, const wxS
 {
     wxString sSubTaskConfigDir = m_sUserConfigDir + wxFileName::GetPathSeparator() + sSubDir;
     if(!wxDirExists(sSubTaskConfigDir))
-		wxFileName::Mkdir(sSubTaskConfigDir, 0755, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(sSubTaskConfigDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
     wxDateTime dt(wxDateTime::Now());
     wxString sTaskConfigPath = sSubTaskConfigDir + wxFileName::GetPathSeparator() + wxString::Format(wxT("%s%s.json"), dt.GetValue().ToString().c_str(), ReplaceForbiddenCharsInFileName(sAddToName).c_str());
     return sTaskConfigPath;

@@ -72,7 +72,7 @@ protected:
     wxString m_sAddr;
     INetService* m_pNetService;
     wxSocketServer* m_listeningSocket;
-
+private:
     DECLARE_EVENT_TABLE()
 };
 
@@ -87,13 +87,11 @@ class wxGISLocalServerConnection : public wxGISNetServerConnection
     DECLARE_CLASS(wxGISLocalServerConnection)
 public:
     wxGISLocalServerConnection(void);
-    //wxGISLocalServerConnection(wxSocketBase* sock);
 	virtual ~wxGISLocalServerConnection(void);
     virtual void SetSocket(wxSocketBase* sock);
 protected:
     //events
     virtual void OnSocketEvent(wxSocketEvent& event);
-    virtual void OnTimer( wxTimerEvent & event);
 protected:
     virtual bool ProcessInputNetMessage(void);
 };

@@ -29,6 +29,7 @@
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
+#include <wx/generic/stattextg.h>
 
 /** @class wxGISSelectSearchScopeComboPopup
  * 
@@ -53,6 +54,56 @@ public:
 	virtual void OnMouseClick(wxMouseEvent& event);
 	virtual void OnDblClick(wxTreeEvent& event);
     virtual bool CanChooseObject(wxGxObject* pObject);
+    virtual void SetSelectedObject(wxGxObject* const pGxObject);
+    virtual bool CanSearch();
+protected:
+    wxGxObject* m_pGxObject;
+};
+
+/** @class wxGISFindResultItemPanel
+*
+* The custom view for search results item
+*
+* @library{catalogui}
+*/
+
+class wxGISFindResultItemPanel :
+    public wxPanel
+{
+    enum{
+        ID_PATHTO = WXGISHIGHEST + 1
+    };
+public:
+    wxGISFindResultItemPanel(wxGxObject* const pObject, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxBORDER_NONE);
+    virtual ~wxGISFindResultItemPanel(void);
+    //event
+    void OnMouseMove(wxMouseEvent& event);
+    void OnLeftUp(wxMouseEvent& event);
+protected:
+    wxGenericStaticText *m_pPath;
+    wxGxObject* m_pObject;
+private:
+    DECLARE_EVENT_TABLE();
+};
+
+/** @class wxGISFindResultsView
+ * 
+ * The custom view for search results
+ * 
+ * @library{catalogui}
+ */
+
+class wxGISFindResultsView :
+    public wxScrolledWindow
+{
+public:
+    wxGISFindResultsView(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL | wxVSCROLL);
+    virtual ~wxGISFindResultsView(void);
+    virtual void AddPanel(wxGISFindResultItemPanel* const pResultPanel);
+    virtual void InsertPanel(wxGISFindResultItemPanel* const pResultPanel, long nPos = 0);
+    virtual void RemovePanel(wxGISFindResultItemPanel* const pResultPanel);
+protected:
+    wxBoxSizer* m_bMainSizer;
 };
 
 /** @class wxGISFindDlg

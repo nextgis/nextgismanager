@@ -35,15 +35,10 @@ BEGIN_EVENT_TABLE( wxGISNetServerConnection, INetConnection )
   EVT_TIMER(TIMER_ID, wxGISNetServerConnection::OnTimer)
 END_EVENT_TABLE()
 
-wxGISNetServerConnection::wxGISNetServerConnection(void) : INetConnection(), m_timer(this, TIMER_ID)
+wxGISNetServerConnection::wxGISNetServerConnection(void) : INetConnection()
 {
     m_bIsConnected = true;
 }
-
-//wxGISNetServerConnection::wxGISNetServerConnection(wxSocketBase* sock) : INetConnection(), m_timer(this, TIMER_ID)
-//{
-//    SetSocket(sock);
-//}
 
 void wxGISNetServerConnection::SetSocket(wxSocketBase* sock)
 {
@@ -62,6 +57,7 @@ void wxGISNetServerConnection::SetSocket(wxSocketBase* sock)
     {
         CreateAndRunThreads();
     }
+    m_timer.SetOwner(this, TIMER_ID);
     m_timer.Start(10000, true); //10 sec. disconnect timer TODO: get from config
 }
 
@@ -95,10 +91,10 @@ bool wxGISNetServerConnection::ProcessInputNetMessage(void)
         wxSocketInputStream in(*m_pSock);
         int numErrors = reader.Parse(in, &value);
 #ifdef _DEBUG
-        //wxString sOut;
-        //wxJSONWriter writer(wxJSONWRITER_NONE);
-        //writer.Write(value, sOut);
-        //wxLogMessage(sOut);
+        wxString sOut;
+        wxJSONWriter writer(wxJSONWRITER_NONE);
+        writer.Write(value, sOut);
+        wxLogMessage("> %s", sOut);
 #endif // _DEBUG
 
 #else
@@ -107,7 +103,7 @@ bool wxGISNetServerConnection::ProcessInputNetMessage(void)
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
         wxString sIn(m_Buffer, nRead);
 #ifdef _DEBUG
-//        wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
+        wxLogDebug(wxString::Format(wxT("> %d bits, %s"), nRead, sIn));
 #endif //_DEBUG
         //wxCriticalSectionLocker lock(m_msgCS);
 

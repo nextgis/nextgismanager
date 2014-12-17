@@ -199,7 +199,7 @@ bool wxGISInitializer::SetupLog(const wxString &sLogPath, const wxString &sNameP
         return false;
 	}
 	if(!wxDirExists(sLogPath))
-		wxFileName::Mkdir(sLogPath, 0777, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(sLogPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
 
 	wxDateTime dt(wxDateTime::Now());
     wxString logfilename = sLogPath + wxFileName::GetPathSeparator() + wxString::Format(wxT("%slog_%.4d%.2d%.2d.log"), sNamePrefix.c_str(), dt.GetYear(), dt.GetMonth() + 1, dt.GetDay());

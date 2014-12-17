@@ -65,11 +65,11 @@ public:
     virtual bool DestroyConnection( wxGISNetServerConnection* pConn );
     virtual void RemoveConnection( wxGISNetServerConnection* pConn );
     //wxGISNetworkService
-    bool DestroyConnections();
-    void SendNetMessage(const wxNetMessage & msg, int nId = wxNOT_FOUND);
+    virtual bool DestroyConnections();
+    virtual void SendNetMessage(const wxNetMessage & msg, int nId = wxNOT_FOUND);
     virtual void AddNetworkPlugin(const wxString &sClassName, const wxXmlNode *pConfigNode);
 protected:
-    wxGISNetServerConnectionList& GetConnections() { return m_plNetworkConnections; }
+    virtual wxGISNetServerConnectionList& GetConnections() { return m_plNetworkConnections; }
     //events
     virtual void OnGISNetEvent(wxGISNetEvent& event);
 protected:

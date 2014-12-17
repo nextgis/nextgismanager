@@ -182,6 +182,9 @@ bool DeleteFile(const CPLString &sPath, ITrackCancel* const pTrackCancel)
 
 bool RenameFile(const CPLString &sOldPath, const CPLString &sNewPath, ITrackCancel* const pTrackCancel)
 {
+    if (CPLCheckForFile((char*)sNewPath.c_str(), NULL))
+        DeleteFile(sNewPath);
+
 	int result = VSIRename(sOldPath, sNewPath);
     if (result == -1)
     {

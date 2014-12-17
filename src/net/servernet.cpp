@@ -96,7 +96,7 @@ bool wxGISNetworkService::Start()
         sAppName = GetApplication()->GetAppName();
 	wxString sPrepend = sAppName + wxString(wxT("/network"));
     m_nMaxConnectoinCount = oConfig.ReadInt(enumGISHKLM, sPrepend + wxString(wxT("/max_conn")), 5);
-    m_sServerName = oConfig.Read(enumGISHKLM, sPrepend + wxString(wxT("/server_name")), wxT("wxGIS Server"));
+    m_sServerName = oConfig.Read(enumGISHKLM, sPrepend + wxString(wxT("/server_name")), wxT("NextGIS Server"));
     wxXmlNode *pNetworkNode = oConfig.GetConfigNode(enumGISHKLM, sPrepend);
     if(pNetworkNode)
     {
@@ -132,10 +132,10 @@ void wxGISNetworkService::AddNetworkPlugin(const wxString &sClassName, const wxX
 	if(pPlugin && pPlugin->Start(this, pConfigNode))
 	{
 		m_paNetworkPlugins.push_back( pPlugin );
-		wxLogMessage(_("wxGISNetworkService: Plugin %s initialize"), sClassName.c_str());
+		wxLogMessage(_("Plugin %s initialize"), sClassName.c_str());
 	}
 	else
-		wxLogError(_("wxGISNetworkService: Error initializing plugin %s"), sClassName.c_str());
+		wxLogError(_("Error initializing plugin %s"), sClassName.c_str());
 }
 
 bool wxGISNetworkService::Stop()
@@ -145,7 +145,7 @@ bool wxGISNetworkService::Stop()
 	for(size_t i = 0; i < m_paNetworkPlugins.size(); ++i)
 		wgDELETE(m_paNetworkPlugins[i], Stop());
 
-	wxLogVerbose(_("wxGISNetworkService: Service stopped"));
+	wxLogVerbose(_("Service stopped"));
     return true;
 }
 

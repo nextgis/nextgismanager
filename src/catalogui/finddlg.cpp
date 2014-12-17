@@ -29,6 +29,9 @@
 #include <wx/valgen.h>
 #include <wx/valtext.h>
 
+#include "../../art/system_search.xpm"
+#include "../../art/document_16.xpm"
+
 //-------------------------------------------------------------------
 // wxGISSelectSearchScopeComboPopup
 //-------------------------------------------------------------------
@@ -37,7 +40,10 @@ IMPLEMENT_CLASS(wxGISSelectSearchScopeComboPopup, wxTreeViewComboPopup)
 
 void wxGISSelectSearchScopeComboPopup::OnSelectionChanged(wxGxSelectionEvent& event)
 {
+    if (event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID || NULL == m_pSelection || NULL == m_pCatalog)
+        return;
 
+    m_pGxObject = m_pCatalog->GetRegisterObject(m_pSelection->GetLastSelectedObjectId());
 }
 
 bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
@@ -47,6 +53,7 @@ bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
 
 bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
+    m_pGxObject = NULL;
     m_bClicked = false;
 	int nOSMajorVer(0);
     wxGetOsVersion(&nOSMajorVer);    
@@ -189,18 +196,191 @@ void wxGISSelectSearchScopeComboPopup::OnDblClick(wxTreeEvent& event)
 
 wxString wxGISSelectSearchScopeComboPopup::GetStringValue() const
 {
-/*    if( m_bClicked == false )
-    {
-        wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_pSelection->GetLastSelectedObjectId());
-        if(pGxObject)
-            return pGxObject->GetName();
-        return wxEmptyString;
-    }
-*/
     wxTreeItemId ItemId = wxTreeCtrl::GetSelection();
     if(ItemId.IsOk())
         return GetItemText(ItemId);
     return wxEmptyString;
+}
+
+void wxGISSelectSearchScopeComboPopup::SetSelectedObject(wxGxObject* const pGxObject)
+{
+    m_pGxObject = pGxObject;
+}
+
+bool wxGISSelectSearchScopeComboPopup::CanSearch()
+{
+    wxGxSearchObjectFilter fil;
+    return fil.CanChooseObject(m_pGxObject);
+}
+//-------------------------------------------------------------------
+// wxGISFindResultItemPanel
+//-------------------------------------------------------------------
+
+BEGIN_EVENT_TABLE(wxGISFindResultItemPanel, wxPanel)
+    EVT_MOTION(wxGISFindResultItemPanel::OnMouseMove)
+    EVT_LEFT_UP(wxGISFindResultItemPanel::OnLeftUp)
+END_EVENT_TABLE();
+
+wxGISFindResultItemPanel::wxGISFindResultItemPanel(wxGxObject* const pObject, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxPanel(parent, id, pos, size, style)
+{    
+    SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
+    m_pObject = pObject;
+
+    if (pObject)
+    {
+        wxBoxSizer* bParentMainSizer = new wxBoxSizer(wxVERTICAL);
+        wxBoxSizer* bMainSizer = new wxBoxSizer(wxHORIZONTAL);
+        IGxObjectUI* pObjUI = dynamic_cast<IGxObjectUI*>(pObject);
+        wxStaticBitmap* pStateBitmap = NULL;
+        if (pObjUI)
+        {
+            pStateBitmap = new wxStaticBitmap(this, wxID_ANY, pObjUI->GetSmallImage(), wxDefaultPosition, wxDefaultSize, 0);
+        }
+        else
+        {
+            pStateBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(document_16_xpm), wxDefaultPosition, wxDefaultSize, 0);
+        }
+        bMainSizer->Add(pStateBitmap, 0, wxALL, 5);
+
+        wxBoxSizer* bDetailesSizer = new wxBoxSizer(wxVERTICAL);
+        //add bold name and category
+        wxGenericStaticText *title = new wxGenericStaticText(this, wxID_ANY, pObject->GetName() + wxT(" (") + pObject->GetCategory() + wxT(")"), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+
+        wxFont titleFont = this->GetFont();
+        titleFont.SetWeight(wxFONTWEIGHT_BOLD);
+        title->SetFont(titleFont);
+        //title->Wrap(-1);
+        title->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
+        bDetailesSizer->Add(title, 0, wxALL, 1);
+        //add full name
+        m_pPath = new wxGenericStaticText(this, ID_PATHTO, pObject->GetFullName(), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+        
+        wxFont Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+        Font.SetUnderlined(true);
+        m_pPath->SetFont(Font);
+        m_pPath->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT));
+        m_pPath->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
+        bDetailesSizer->Add(m_pPath, 0, wxALL, 1);
+        //add size, mod date, count childrent, etc.
+        IGxDataset* pDataset = dynamic_cast<IGxDataset*>(pObject);
+        if (pDataset)
+        {
+            pDataset->FillMetadata();
+            pDataset->GetSize();
+            wxString sDate;
+            wxDateTime dt = pDataset->GetModificationDate();
+            if (dt.IsValid())
+                sDate = dt.Format();
+
+            wxString sText = wxString(_("Size")) + wxT(": ") + wxFileName::GetHumanReadableSize(pDataset->GetSize());
+            if (!sDate.IsEmpty())
+                sText += wxT("; ") + wxString(_("Modification date")) + wxT(": ") + sDate;
+            wxGenericStaticText *adds = new wxGenericStaticText(this, wxID_ANY, sText, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+            adds->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
+            bDetailesSizer->Add(adds, 0, wxALL, 1);
+        }
+
+        bMainSizer->Add(bDetailesSizer, 1, wxALL, 5);
+
+        bParentMainSizer->Add(bMainSizer, 0, wxALL, 5);
+        wxStaticLine *staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
+        staticline->SetBackgroundColour(GetBackgroundColour());
+        //staticline->GetForegroundColour
+        bParentMainSizer->Add(staticline, 0, wxEXPAND, 5);
+
+        this->SetSizer(bParentMainSizer);
+        this->Layout();
+
+        //add event handler for m_pPath
+        m_pPath->Bind(wxEVT_MOTION, &wxGISFindResultItemPanel::OnMouseMove, this);
+        m_pPath->Bind(wxEVT_LEFT_UP, &wxGISFindResultItemPanel::OnLeftUp, this);
+    }
+}
+
+wxGISFindResultItemPanel::~wxGISFindResultItemPanel(void)
+{
+
+}
+
+void wxGISFindResultItemPanel::OnMouseMove(wxMouseEvent& event)
+{
+    //event.Skip(true);
+
+    wxRect rect = m_pPath->GetScreenRect();
+    //rect.Inflate(2, 2);
+    wxPoint pt;
+    if (event.GetId() == m_pPath->GetId())
+        pt = m_pPath->ClientToScreen(event.GetPosition());
+    else if (event.GetId() == m_pPath->GetId())
+        pt = ClientToScreen(event.GetPosition());
+
+    if (rect.Contains(pt))
+    {
+        SetCursor(wxCursor(wxCURSOR_HAND));
+    }
+    else
+    {
+        SetCursor(wxCursor(wxCURSOR_ARROW));
+    }
+}
+
+void wxGISFindResultItemPanel::OnLeftUp(wxMouseEvent& event)
+{
+    //event.Skip(true);
+
+    wxRect rect = m_pPath->GetScreenRect();
+    //rect.Inflate(3, 3);
+    wxPoint pt;
+    if (event.GetId() == m_pPath->GetId())
+        pt = m_pPath->ClientToScreen(event.GetPosition());
+    else if (event.GetId() == m_pPath->GetId())
+        pt = ClientToScreen(event.GetPosition());
+
+    if (rect.Contains(pt))
+    {
+        wxGxApplication* pApp = dynamic_cast<wxGxApplication*>(GetApplication());
+        if (pApp && pApp->GetGxSelection())
+            pApp->GetGxSelection()->Select(m_pObject->GetId(), false, wxGxSelection::INIT_ALL);
+    }
+}
+
+//-------------------------------------------------------------------
+// wxGISFindResultsView
+//-------------------------------------------------------------------
+
+wxGISFindResultsView::wxGISFindResultsView(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxScrolledWindow(parent, id, pos, size, style)
+{
+    m_bMainSizer = new wxBoxSizer(wxVERTICAL);
+
+    SetScrollbars(20, 20, 50, 50);
+
+    this->SetSizer(m_bMainSizer);
+    this->Layout();
+}
+
+wxGISFindResultsView::~wxGISFindResultsView(void)
+{
+}
+
+void wxGISFindResultsView::AddPanel(wxGISFindResultItemPanel* const pResultPanel)
+{
+    m_bMainSizer->Add(pResultPanel, 0, wxEXPAND, 5);
+    Layout();
+    FitInside();
+}
+
+void wxGISFindResultsView::RemovePanel(wxGISFindResultItemPanel* const pResultPanel)
+{
+    m_bMainSizer->Detach(pResultPanel);
+    Layout();
+    FitInside();
+}
+
+void wxGISFindResultsView::InsertPanel(wxGISFindResultItemPanel* const pResultPanel, long nPos)
+{
+    m_bMainSizer->Insert(nPos, pResultPanel, 0, wxEXPAND, 5);
+    Layout();
+    FitInside();
 }
 
 //-------------------------------------------------------------------
@@ -209,8 +389,8 @@ wxString wxGISSelectSearchScopeComboPopup::GetStringValue() const
 IMPLEMENT_DYNAMIC_CLASS(wxGISFindDlg, wxPanel)
 
 BEGIN_EVENT_TABLE(wxGISFindDlg, wxPanel)
-    EVT_BUTTON(wxID_OK, wxGISFindDlg::OnFind)
-	EVT_UPDATE_UI(wxID_OK, wxGISFindDlg::OnFindUI)
+    EVT_BUTTON(wxID_FIND, wxGISFindDlg::OnFind)
+    EVT_UPDATE_UI(wxID_FIND, wxGISFindDlg::OnFindUI)
 END_EVENT_TABLE()
 
 
@@ -239,19 +419,18 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
     }
 
 	m_bMainSizer = new wxBoxSizer( wxVERTICAL );
+    wxFlexGridSizer* fgSizer1 = new wxFlexGridSizer(2, 2, 0, 0);
+    fgSizer1->AddGrowableCol(1);
+    fgSizer1->SetFlexibleDirection(wxBOTH);
+    fgSizer1->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-	wxStaticText* staticText1 = new wxStaticText(this, wxID_ANY, _("Find:"), wxDefaultPosition, wxDefaultSize, 0 );
-	staticText1->Wrap( -1 );
-	m_bMainSizer->Add( staticText1, 0, wxALL|wxLEFT, 5 );
-	//add search text ctrl
-	m_pFindCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sFind) );
-	m_bMainSizer->Add( m_pFindCtrl, 0, wxALL|wxEXPAND, 5 );
-	
+
 	wxStaticText *staticText2 = new wxStaticText( this, wxID_ANY, _("Scope:"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText2->Wrap( -1 );
-	m_bMainSizer->Add( staticText2, 0, wxALL|wxLEFT, 5 );
-	//add scope control
-	wxComboCtrl* pTreeCombo = new wxComboCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCB_READONLY);
+    fgSizer1->Add(staticText2, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    //add scope control
+    wxComboCtrl* pTreeCombo = new wxComboCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCB_READONLY);
 #ifdef __WXMSW__
     pTreeCombo->UseAltPopupWindow(true);
 #else
@@ -259,34 +438,50 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 #endif
     m_PopupCtrl = new wxGISSelectSearchScopeComboPopup();
     pTreeCombo->SetPopupControl(m_PopupCtrl);
-    pTreeCombo->EnablePopupAnimation(true);	
+    pTreeCombo->EnablePopupAnimation(true);
     //m_PopupCtrl->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( wxTreeViewComboPopup::OnMouseClick ), NULL, m_PopupCtrl );
     m_PopupCtrl->Activate(GetApplication(), NULL);//TODO:
-	wxGxCatalogBase* pCat = GetGxCatalog();
-	if(pCat)
-	{
-		wxGxObject* pObj = pCat->FindGxObject(sLastScope);
-		if(pObj)
-			pTreeCombo->SetText(pObj->GetName());		
-	}
+    wxGxCatalogBase* pCat = GetGxCatalog();
+    if (pCat)
+    {
+        wxGxObject* pObj = pCat->FindGxObject(sLastScope);
+        if (pObj)
+        {
+            pTreeCombo->SetText(pObj->GetName());
+            m_PopupCtrl->SetSelectedObject(pObj);
+        }
+    }
+    fgSizer1->Add(pTreeCombo, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
 
-	m_bMainSizer->Add( pTreeCombo, 0, wxALL | wxEXPAND, 5 );	
-	
+    //TODO:  	wxSearchCtrl 
+    //TODO: search when hit enter
+	wxStaticText* staticText1 = new wxStaticText(this, wxID_ANY, _("Find:"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText1->Wrap( -1 );
+    fgSizer1->Add(staticText1, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    wxBoxSizer *bFindSizer = new wxBoxSizer(wxHORIZONTAL);
+	m_pFindCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sFind) );
+    bFindSizer->Add(m_pFindCtrl, 1, wxALL | wxEXPAND, 5);
+
+    wxBitmapButton* bpFind = new wxBitmapButton(this, wxID_FIND, system_search_xpm, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+    bFindSizer->Add(bpFind, 0, wxALL, 5);
+
+    fgSizer1->Add(bFindSizer, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 0);
+    m_bMainSizer->Add(fgSizer1, 0, wxALL | wxEXPAND, 5);
+
 	wxStaticLine *staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
     m_bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
 	
-	wxStdDialogButtonSizer* sdbSizer = new wxStdDialogButtonSizer();
-	m_sdbSizerFind = new wxButton(this, wxID_OK, _("Find"));
-	sdbSizer->AddButton(m_sdbSizerFind);
-    sdbSizer->Realize();
-    m_bMainSizer->Add(sdbSizer, 0, wxEXPAND | wxALL, 5);	
-	
-	staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
-    m_bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
-	
-	wxPanel* pPanel = new wxPanel(this);
+    wxGISFindResultsView* pPanel = new wxGISFindResultsView(this);
+#ifdef TEST_SEARCHPANEL
+    for (size_t i = 0; i < 12; ++i)
+    {
+        wxGxObject* pOOBSD = GetGxCatalog()->FindGxObjectByPath("D:\\work\\testgeodata\\shp\\burned-areas_2011.shp");
+        wxGISFindResultItemPanel* pTest1 = new wxGISFindResultItemPanel(pOOBSD, pPanel);
+        pPanel->AddPanel(pTest1);
+    }
+#endif
 	m_bMainSizer->Add( pPanel, 1, wxALL | wxEXPAND, 5 );
-
 
 	this->SetSizer( m_bMainSizer );
 	this->Layout();
@@ -306,17 +501,10 @@ void wxGISFindDlg::OnFind(wxCommandEvent& event)
 
 void wxGISFindDlg::OnFindUI(wxUpdateUIEvent& event)
 {
-    /*wxGxSelection* const pSel = GetGxSelection();
-    if (NULL == pSel)
-        return NULL;
-    long nId = pSel->GetLastSelectedObjectId();
-    return m_pCatalog->GetRegisterObject(nId);
-    || m_PopupCtrl->CanChooseObject(m_PopupCtrl->getsele*/
-
-    if (!m_pFindCtrl || m_pFindCtrl->GetValue().IsEmpty())
-		event.Enable(false);
+    if (m_PopupCtrl && m_PopupCtrl->CanSearch() && m_pFindCtrl && !m_pFindCtrl->GetValue().IsEmpty())
+        event.Enable(true);
 	else	
-		event.Enable(true);
+		event.Enable(false);
 }
 
 //-------------------------------------------------------------------

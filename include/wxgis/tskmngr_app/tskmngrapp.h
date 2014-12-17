@@ -51,8 +51,9 @@ public:
     virtual bool OnInit();
     virtual int OnRun();
     virtual void CleanUp();
-    void OnInitCmdLine(wxCmdLineParser& pParser);
-    bool OnCmdLineParsed(wxCmdLineParser& pParser);
+    virtual void OnInitCmdLine(wxCmdLineParser& pParser);
+    virtual bool OnCmdLineParsed(wxCmdLineParser& pParser);
+    virtual void OnEventLoopEnter(wxEventLoopBase* loop);
     // wxGISInitializer
 	virtual bool Initialize(const wxString &sAppName, const wxString &sLogFilePrefix);//, wxCmdLineParser& parser
     // wxGISService

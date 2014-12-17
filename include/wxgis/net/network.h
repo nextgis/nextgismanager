@@ -90,8 +90,8 @@ public:
 	virtual int GetId(void) const {return m_nUserId;};
 	virtual void SetId(const int nUserId){m_nUserId = nUserId;};
 protected:
-    bool CreateAndRunThreads(void);
-    void DestroyThreads(void);
+    virtual bool CreateAndRunThreads(void);
+    virtual void DestroyThreads(void);
     virtual bool ProcessOutputNetMessage(void);
     virtual bool ProcessInputNetMessage(void);
 protected:

@@ -69,7 +69,7 @@ void wxGxShellConnections::Init(wxXmlNode* const pConfigNode)
     m_sPath = CPLString(m_sInternalPath.mb_str(wxConvUTF8));
 
 	if(!wxDirExists(m_sInternalPath))
-		wxFileName::Mkdir(m_sInternalPath, 0755, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(m_sInternalPath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
 }
 
 void wxGxShellConnections::Serialize(wxXmlNode* pConfigNode)

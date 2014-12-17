@@ -46,17 +46,17 @@ bool wxGISLocalNetworkService::Start()
 	}
 	else
     {
-		wxLogError(_("wxGISLocalNetworkService: Error initializing plugin wxGISLocalNetworkPlugin"));
+		wxLogError(_("Error initializing plugin wxGISLocalNetworkPlugin"));
     }
 
-    wxLogVerbose(_("wxGISLocalNetworkService: Service started"));
+    wxLogVerbose(_("Service started"));
 
     return true;
 }
 
 wxString wxGISLocalNetworkService::GetServerName(void) const
 {
-    return wxString(wxT("wxGIS Task Manager"));
+    return wxString(wxT("NextGIS Task Manager"));
 }
 
 bool wxGISLocalNetworkService::CanConnect(const wxString &sName, const wxString &sPass)
@@ -102,7 +102,7 @@ bool wxGISLocalNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* p
         }
     }
 
-	wxLogMessage(_("%s: Plugin is started..."), wxT("wxGISLocalNetworkPlugin"));
+    wxLogMessage(_("%s: Plugin is started...(%s:%d)"), wxT("LocalNetworkPlugin"), m_sAddr.IsEmpty() ? wxT("0.0.0.0") : m_sAddr.c_str(), m_nPort);
 
     return CreateListenSocket();
 }
@@ -110,7 +110,7 @@ bool wxGISLocalNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* p
 bool wxGISLocalNetworkPlugin::Stop(void)
 {
 
-	wxLogMessage(_("%s: Plugin is shutdown..."), wxT("wxGISLocalNetworkPlugin"));
+	wxLogMessage(_("%s: Plugin is shutdown..."), wxT("LocalNetworkPlugin"));
 
     if(m_listeningSocket)
     {
@@ -125,10 +125,10 @@ void wxGISLocalNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
     switch(event.GetSocketEvent())
     {
         case wxSOCKET_INPUT:
-            wxLogError(_("wxGISLocalNetworkPlugin: Unexpected wxSOCKET_INPUT in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_INPUT in wxSocketServer"));
             break;
         case wxSOCKET_OUTPUT:
-            wxLogError(_("wxGISLocalNetworkPlugin: Unexpected wxSOCKET_OUTPUT in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_OUTPUT in wxSocketServer"));
         break;
         case wxSOCKET_CONNECTION:
         {
@@ -141,20 +141,23 @@ void wxGISLocalNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
             IPaddress addr;
             if (!sock->GetPeer(addr))
             {
-                wxLogError(_("wxGISLocalNetworkPlugin: cannot get peer info"));
+                wxLogError(_("Cannot get peer info"));
             }
             else
             {
-                wxLogMessage(_("wxGISLocalNetworkPlugin: Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
+                wxLogMessage(_("Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
             }
 
             wxGISLocalServerConnection* pSrvConn = new wxGISLocalServerConnection();
-            pSrvConn->SetSocket(sock);
-            m_pNetService->AddConnection(pSrvConn);
+            if (pSrvConn)
+            {
+                pSrvConn->SetSocket(sock);
+                m_pNetService->AddConnection(pSrvConn);
+            }
         }
         break;
         case wxSOCKET_LOST:
-            wxLogError(_("wxGISLocalNetworkPlugin: Unexpected wxSOCKET_LOST in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_LOST in wxSocketServer"));
         break;
     }
 }
@@ -176,7 +179,7 @@ bool wxGISLocalNetworkPlugin::CreateListenSocket(void)
 
 	if(!bIsAddrSet)
 	{
-		wxLogError(_("wxGISLocalNetworkPlugin: Invalid address - %s"), m_sAddr.c_str());
+		wxLogError(_("Invalid address - %s"), m_sAddr.c_str());
 		return false;
 	}
 
@@ -186,7 +189,7 @@ bool wxGISLocalNetworkPlugin::CreateListenSocket(void)
     m_listeningSocket->Notify(true);
     if (!m_listeningSocket->IsOk())
     {
-		wxLogError(_("wxGISLocalNetworkPlugin: Could not listen at the specified port! Port number - %d"), m_nPort);
+		wxLogError(_("Could not listen at the specified port! Port number - %d"), m_nPort);
         //wxLogError(wxString(_("Cannot bind listening socket")));
         return false;
     }
@@ -206,10 +209,6 @@ IMPLEMENT_CLASS(wxGISLocalServerConnection, wxGISNetServerConnection)
 wxGISLocalServerConnection::wxGISLocalServerConnection(void) : wxGISNetServerConnection()
 {
 }
-
-//wxGISLocalServerConnection::wxGISLocalServerConnection(wxSocketBase* sock) : wxGISNetServerConnection(sock)
-//{
-//}
 
 void wxGISLocalServerConnection::SetSocket(wxSocketBase* sock)
 {
@@ -256,10 +255,10 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         int numErrors = reader.Parse( in, &value );
 
 #ifdef _DEBUG
-        //wxString sOut;
-        //wxJSONWriter writer(wxJSONWRITER_NONE);
-        //writer.Write(value, sOut);
-        //wxLogMessage(sOut);
+        wxString sOut;
+        wxJSONWriter writer(wxJSONWRITER_NONE);
+        writer.Write(value, sOut);
+        wxLogMessage("> %s", sOut);
 #endif // _DEBUG
 
 #else
@@ -268,7 +267,7 @@ bool wxGISLocalServerConnection::ProcessInputNetMessage(void)
         nRead = m_pSock->ReadMsg(m_Buffer, BUFF_SIZE).LastCount();
         wxString sIn(m_Buffer, nRead);
 #ifdef _DEBUG
-        //wxLogDebug(wxString::Format(wxT("rcv:%d bits, %s"), nRead, sIn));
+        wxLogDebug(wxString::Format(wxT("> %d bits, %s"), nRead, sIn));
 #endif // _DEBUG
 
         //m_pSock->SetTimeout(SLEEP);
@@ -347,8 +346,4 @@ void wxGISLocalServerConnection::OnSocketEvent(wxSocketEvent& event)
         default:
             break;
     }
-}
-
-void wxGISLocalServerConnection::OnTimer( wxTimerEvent & event)
-{
 }

@@ -52,7 +52,7 @@ bool wxServerTCPNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* 
 	m_nPort = wxAtoi(pConfig->GetAttribute(wxT("port"), wxT("9976")));
 	m_nAdvPort = wxAtoi(pConfig->GetAttribute(wxT("adv_port"), wxT("9977")));
 
-	wxLogMessage(_("%s: Plugin is started..."), wxT("wxServerTCPNetworkPlugin"));
+    wxLogMessage(_("%s: Plugin is started...(%s:%d)"), wxT("TCPNetworkPlugin"), m_sAddr.IsEmpty() ? wxT("0.0.0.0") : m_sAddr.c_str(), m_nPort);
 
     if(!CreateListenSocket())
         return false;
@@ -63,7 +63,7 @@ bool wxServerTCPNetworkPlugin::Start(INetService* pNetService, const wxXmlNode* 
 bool wxServerTCPNetworkPlugin::Stop(void)
 {
 
-	wxLogMessage(_("%s: Plugin is shutdown..."), wxT("wxServerTCPNetworkPlugin"));
+	wxLogMessage(_("%s: Plugin is shutdown..."), wxT("TCPNetworkPlugin"));
     if(m_udp_socket)
     {
         m_udp_socket->Destroy();
@@ -90,7 +90,7 @@ bool wxServerTCPNetworkPlugin::CreateUDPNotifier(void)
 		bIsAddrSet = LocalAddress.Hostname(m_sAddr);
 	if(!bIsAddrSet)
 	{
-		wxLogError(_("wxServerTCPNetworkPlugin: Invalid address - %s"), m_sAddr.c_str());
+		wxLogError(_("Invalid address - %s"), m_sAddr.c_str());
 		return false;
 	}
 
@@ -170,10 +170,10 @@ void wxServerTCPNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
     switch(event.GetSocketEvent())
     {
         case wxSOCKET_INPUT:
-            wxLogError(_("wxServerTCPNetworkPlugin: Unexpected wxSOCKET_INPUT in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_INPUT in wxSocketServer"));
             break;
         case wxSOCKET_OUTPUT:
-            wxLogError(_("wxServerTCPNetworkPlugin: Unexpected wxSOCKET_OUTPUT in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_OUTPUT in wxSocketServer"));
         break;
         case wxSOCKET_CONNECTION:
         {
@@ -186,11 +186,11 @@ void wxServerTCPNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
             IPaddress addr;
             if (!sock->GetPeer(addr))
             {
-                wxLogError(_("wxServerTCPNetworkPlugin: cannot get peer info"));
+                wxLogError(_("Cannot get peer info"));
             }
             else
             {
-                wxLogMessage(_("wxServerTCPNetworkPlugin: Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
+                wxLogMessage(_("Got connection from %s:%d"), addr.IPAddress().c_str(), addr.Service());
             }
 
             wxGISNetServerConnection* pSrvConn = new wxGISNetServerConnection();
@@ -199,7 +199,7 @@ void wxServerTCPNetworkPlugin::OnTCPServerEvent(wxSocketEvent& event)
         }
         break;
         case wxSOCKET_LOST:
-            wxLogError(_("wxServerTCPNetworkPlugin: Unexpected wxSOCKET_LOST in wxSocketServer"));
+            wxLogError(_("Unexpected wxSOCKET_LOST in wxSocketServer"));
         break;
     }
 }
@@ -216,7 +216,7 @@ bool wxServerTCPNetworkPlugin::CreateListenSocket(void)
 		bIsAddrSet = LocalAddress.Hostname(m_sAddr);
 	if(!bIsAddrSet)
 	{
-		wxLogError(_("wxServerTCPNetworkPlugin: Invalid address - %s"), m_sAddr.c_str());
+		wxLogError(_("Invalid address - %s"), m_sAddr.c_str());
 		return false;
 	}
 
@@ -226,7 +226,7 @@ bool wxServerTCPNetworkPlugin::CreateListenSocket(void)
     m_listeningSocket->Notify(true);
     if (!m_listeningSocket->IsOk())
     {
-		wxLogError(_("wxServerTCPNetworkPlugin: Could not listen at the specified port! Port number - %d"), m_nPort);
+		wxLogError(_("Could not listen at the specified port! Port number - %d"), m_nPort);
         return false;
     }
 
@@ -280,7 +280,7 @@ bool wxClientTCPNetFactory::StartServerSearch()
 		    bIsAddrSet = LocalAddress.Hostname(m_sAddr); //special interface to listen
 	    if(!bIsAddrSet)
 	    {
-		    wxLogError(_("wxClientTCPNetFactory: Invalid address - %s"), m_sAddr.c_str());
+		    wxLogError(_("Invalid address - %s"), m_sAddr.c_str());
 		    return false;
 	    }
 
@@ -291,7 +291,7 @@ bool wxClientTCPNetFactory::StartServerSearch()
         m_udp_socket->Notify(true);
         if (!m_udp_socket->IsOk())
         {
-            wxLogError(wxString(_("wxClientTCPNetFactory: Cannot bind listening socket")));
+            wxLogError(wxString(_("Cannot bind listening socket")));
             return false;
         }
     }

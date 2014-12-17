@@ -138,13 +138,13 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
 				////		{
 				////			wxString sProjDir = wxString(wxT("d:\\temp\\srs\\Projected Coordinate Systems"));
 				////			if(!wxDirExists(sProjDir))
-				////				wxFileName::Mkdir(sProjDir, 0755, wxPATH_MKDIR_FULL);
+				////				wxFileName::Mkdir(sProjDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 				////			wxString sGeogDir = wxString(wxT("d:\\temp\\srs\\Geographic Coordinate Systems"));
 				////			if(!wxDirExists(sGeogDir))
-				////				wxFileName::Mkdir(sGeogDir, 0755, wxPATH_MKDIR_FULL);
+				////				wxFileName::Mkdir(sGeogDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 				////			wxString sLoclDir = wxString(wxT("d:\\temp\\srs\\Vertical Coordinate Systems"));
 				////			if(!wxDirExists(sLoclDir))
-				////				wxFileName::Mkdir(sLoclDir, 0755, wxPATH_MKDIR_FULL);
+				////				wxFileName::Mkdir(sLoclDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
 				////			const char *pszProjection = pRef->GetAttrValue("PROJECTION");
 				////			wxString sProjection;
@@ -162,7 +162,7 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
 				////					sSubFldr.Trim(true); sSubFldr.Trim(false);
 				////					wxString sStorePath = sProjDir + wxFileName::GetPathSeparator() + sSubFldr;
 				////					if(!wxDirExists(sStorePath))
-				////						wxFileName::Mkdir(sStorePath, 0755, wxPATH_MKDIR_FULL);
+				////						wxFileName::Mkdir(sStorePath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
 				////					sName.Replace(wxString(wxT("/")), wxString(wxT("")));
 				////					sName.Replace(wxString(wxT("  ")), wxString(wxT(" ")));
@@ -196,7 +196,7 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
 				////					sSubFldr.Trim(true); sSubFldr.Trim(false);
 				////					wxString sStorePath = sGeogDir + wxFileName::GetPathSeparator() + sSubFldr;
 				////					if(!wxDirExists(sStorePath))
-				////						wxFileName::Mkdir(sStorePath, 0755, wxPATH_MKDIR_FULL);
+				////						wxFileName::Mkdir(sStorePath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
 				////					sName.Replace(wxString(wxT("/")), wxString(wxT("")));
 				////					sName.Replace(wxString(wxT("  ")), wxString(wxT(" ")));
@@ -261,13 +261,13 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
 
     //    //        wxString sProjDir = wxString(wxT("d:\\temp\\srs\\Projected Coordinate Systems"));
     //    //        if(!wxDirExists(sProjDir))
-		  //    //      wxFileName::Mkdir(sProjDir, 0755, wxPATH_MKDIR_FULL);
+		  //    //      wxFileName::Mkdir(sProjDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
     //    //        wxString sGeogDir = wxString(wxT("d:\\temp\\srs\\Geographic Coordinate Systems"));
     //    //        if(!wxDirExists(sGeogDir))
-		  //    //      wxFileName::Mkdir(sGeogDir, 0755, wxPATH_MKDIR_FULL);
+		  //    //      wxFileName::Mkdir(sGeogDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
     //    //        wxString sLoclDir = wxString(wxT("d:\\temp\\srs\\Vertical Coordinate Systems"));
     //    //        if(!wxDirExists(sLoclDir))
-		  //    //      wxFileName::Mkdir(sLoclDir, 0755, wxPATH_MKDIR_FULL);
+		  //    //      wxFileName::Mkdir(sLoclDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
     //    //        IStatusBar* pStatusBar = m_pApp->GetStatusBar();
     //    //        wxGISProgressor* pProgressor = dynamic_cast<wxGISProgressor*>(pStatusBar->GetProgressor());
@@ -302,7 +302,7 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
     //    //                            sSubFldr.Trim(true); sSubFldr.Trim(false);
     //    //                            wxString sStorePath = sProjDir + wxFileName::GetPathSeparator() + sSubFldr;
     //    //                            if(!wxDirExists(sStorePath))
-		  //    //                          wxFileName::Mkdir(sStorePath, 0755, wxPATH_MKDIR_FULL);
+		  //    //                          wxFileName::Mkdir(sStorePath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
     //    //                            sName.Replace(wxString(wxT("/")), wxString(wxT("")));
     //    //                            sName.Replace(wxString(wxT("  ")), wxString(wxT(" ")));
@@ -341,7 +341,7 @@ wxGxObject* wxGxPrjFolder::GetArchiveFolder(wxGxObject *oParent, const wxString 
     //    //                            sSubFldr.Trim(true); sSubFldr.Trim(false);
     //    //                            wxString sStorePath = sGeogDir + wxFileName::GetPathSeparator() + sSubFldr;
     //    //                            if(!wxDirExists(sStorePath))
-		  //    //                          wxFileName::Mkdir(sStorePath, 0755, wxPATH_MKDIR_FULL);
+		  //    //                          wxFileName::Mkdir(sStorePath, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL);
 
     //    //                            sName.Replace(wxString(wxT("/")), wxString(wxT("")));
     //    //                            sName.Replace(wxString(wxT("  ")), wxString(wxT(" ")));

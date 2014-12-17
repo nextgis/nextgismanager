@@ -240,13 +240,15 @@ void wxGxTreeViewBase::Deactivate(void)
 	{
         m_pCatalog->Unadvise(m_ConnectionPointCatalogCookie);
         m_ConnectionPointCatalogCookie = wxNOT_FOUND;
+        m_pCatalog = NULL;
 	}
 
 	if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
 	{
         m_pSelection->Unadvise(m_ConnectionPointSelectionCookie);
         m_ConnectionPointSelectionCookie = wxNOT_FOUND;
-	}
+        m_pSelection = NULL;
+    }
 
 	wxGxView::Deactivate();
 }

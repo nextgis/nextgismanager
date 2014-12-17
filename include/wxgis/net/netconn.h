@@ -41,7 +41,6 @@ class WXDLLIMPEXP_GIS_NET wxGISNetServerConnection : public INetConnection
     };
 public:
     wxGISNetServerConnection(void);
-    //wxGISNetServerConnection(wxSocketBase* sock);
 	virtual ~wxGISNetServerConnection(void);
     virtual void SetNetworkService(INetService* pNetService);
     virtual void SetSocket(wxSocketBase* sock);

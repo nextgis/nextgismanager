@@ -66,7 +66,7 @@ bool wxGxDiscConnections::Create(wxGxObject *oParent, const wxString &soName, co
     wxFileName oFileName = wxFileName::DirName(m_sUserConfigDir);
     //if dir is not exist create it
     if(!wxDirExists(m_sUserConfigDir))
-        wxFileName::Mkdir(m_sUserConfigDir, 0755, wxPATH_MKDIR_FULL);
+        wxFileName::Mkdir(m_sUserConfigDir, wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | wxPOSIX_GROUP_READ | wxPOSIX_GROUP_EXECUTE | wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_EXECUTE, wxPATH_MKDIR_FULL); //0755
 
     //wxLogDebug(wxT("monitoring dir is: %s"), oFileName.GetFullPath().c_str());
     if(!m_pCatalog->AddFSWatcherPath(oFileName, wxFSW_EVENT_MODIFY))//bool bAdd = |wxFSW_EVENT_CREATE
