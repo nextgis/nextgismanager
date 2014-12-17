@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2011,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -84,6 +85,320 @@ void CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDs
     poDstBand->SetCategoryNames( poSrcBand->GetCategoryNames() );
     if( !wxGISEQUAL(poSrcBand->GetUnitType(),"") )
         poDstBand->SetUnitType( poSrcBand->GetUnitType() );
+}
+
+void ProcessLine(void *pabyLine, GDALDataType eType, int iStart, int iEnd, int nBands, double dfNearDist, int nMaxNonBlack, Colors &poColors, int *panLastLineCounts, int bDoHorizontalCheck, int bDoVerticalCheck, int bBottomUp)
+{
+    int iDir, i;
+
+    // Vertical checking
+    if (bDoVerticalCheck)
+    {
+        int nXSize = wxMax(iStart + 1, iEnd + 1);
+        for (i = 0; i < nXSize; ++i)
+        {
+            // are we already terminated for this column?
+            if (panLastLineCounts[i] > nMaxNonBlack)
+                continue;
+
+            int bIsNonBlack = FALSE;
+
+            for (size_t iColor = 0; iColor < poColors.size(); ++iColor) 
+            {
+                Color oColor = poColors[iColor];
+                bIsNonBlack = FALSE;
+
+                for (int iBand = 0; iBand < nBands - 1; ++iBand) // w/o alpha band
+                {
+                    double nPix = (double)SRCVAL(pabyLine, eType, i * nBands + iBand);
+
+                    if (oColor[iBand] - nPix > dfNearDist || nPix > dfNearDist + oColor[iBand])
+                    {
+                        bIsNonBlack = TRUE;
+                        break;
+                    }
+                }
+                if (bIsNonBlack == FALSE)
+                    break;
+            }
+
+            if (bIsNonBlack) 
+            {
+                panLastLineCounts[i]++;
+
+                if (panLastLineCounts[i] > nMaxNonBlack)
+                    continue;
+            }
+            //else
+            //  panLastLineCounts[i] = 0; // not sure this even makes sense 
+
+            // no need to change raster
+            //for (int iBand = 0; iBand < nBands - 1; ++iBand)
+            //    SetPixelValue(pabyLine, eType, i * nBands + iBand, nReplacevalue);
+
+            // set alpha
+            SetPixelValue(pabyLine, eType, i * nBands + nBands - 1, 0);
+        }
+    }
+
+    // Horizontal Checking. 
+    if (bDoHorizontalCheck)
+    {
+        int nNonBlackPixels = 0;
+
+        if (bBottomUp)
+            nMaxNonBlack = 0;
+
+        if (iStart < iEnd)
+            iDir = 1;
+        else
+            iDir = -1;
+        int bDoTest = TRUE;
+
+        for (i = iStart; i != iEnd; i += iDir)
+        {
+            if (bDoTest) 
+            {
+                int bIsNonBlack = FALSE;
+
+                for (size_t iColor = 0; iColor < poColors.size(); ++iColor) 
+                {
+                    Color oColor = poColors[iColor];
+                    bIsNonBlack = FALSE;
+
+                    for (int iBand = 0; iBand < nBands - 1; ++iBand)
+                    {
+                        double nPix = (double)SRCVAL(pabyLine, eType, i * nBands + iBand);
+                        if (oColor[iBand] - nPix > dfNearDist || nPix > dfNearDist + oColor[iBand])
+                        {
+                            bIsNonBlack = TRUE;
+                            break;
+                        }
+                    }
+
+                    if (bIsNonBlack == FALSE)
+                        break;
+                }
+
+                if (bIsNonBlack) 
+                {
+                    if (panLastLineCounts[i] <= nMaxNonBlack)
+                        nNonBlackPixels = panLastLineCounts[i];
+                    else
+                        nNonBlackPixels++;
+                }
+
+                if (nNonBlackPixels > nMaxNonBlack) 
+                {
+                    bDoTest = FALSE;
+                    continue;
+                }
+
+                // no need to change raster
+                //for (int iBand = 0; iBand < nBands - 1; ++iBand)
+                //    SetPixelValue(pabyLine, eType, i * nBands + iBand, nReplacevalue);
+
+                // set alpha
+                SetPixelValue(pabyLine, eType, i * nBands + nBands - 1, 0);
+            }
+            else if (panLastLineCounts[i] == 0) 
+            {
+                bDoTest = TRUE;
+                nNonBlackPixels = 0;
+            }
+        }
+    }
+}
+
+bool MakeBorderTransparent(wxGISRasterDataset* const pSrcDataSet, const wxArrayInt & anBands, int nAphaBand, double dfTransparentColor, ITrackCancel* const pTrackCancel)
+{
+    wxCHECK_MSG(NULL != pSrcDataSet, false, wxT("Input data are invalid"));
+
+    double dfNearDist = 10;
+    int nMaxNonBlack = 3;
+
+    bool bOpenHere = false;
+
+    if (!pSrcDataSet->IsOpened())
+    {
+        bOpenHere = true;
+        pSrcDataSet->Open(true);
+    }
+
+    GDALDataset* pDset = pSrcDataSet->GetRaster();
+    if (!pDset)
+    {
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(_("Get raster failed"), wxNOT_FOUND, enumGISMessageError);
+        return false;
+    }
+
+    GDALRasterBand* pBand = pDset->GetRasterBand(nAphaBand);
+    if (!pBand)
+    {
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(_("Wrong alpha band"), wxNOT_FOUND, enumGISMessageError);
+        return false;
+    }
+
+    if (pBand->GetColorInterpretation() != GCI_AlphaBand)
+    {
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(_("The input alpha band has wrong color interpretation"), wxNOT_FOUND, enumGISMessageWarning);
+    }
+
+    int nXSize = pSrcDataSet->GetWidth();
+    int nYSize = pSrcDataSet->GetHeight();
+    int nBands;
+
+    int *panBands = NULL;
+    if (anBands.IsEmpty())
+    {
+        nBands = pSrcDataSet->GetBandCount();
+        int nConter = 0;
+        panBands = new int[nBands];
+        for (int i = 1; i < nBands + 1; ++i)
+        {
+            if (i == nAphaBand)
+                continue;
+            panBands[nConter++] = i;
+        }
+        panBands[nBands - 1] = nAphaBand;
+    }
+    else
+    {
+        int nConter = 0;
+        nBands = anBands.GetCount() + 1;
+        panBands = new int[nBands];
+        for (int i = 1; i < anBands.GetCount() + 1; ++i)
+        {
+            if (i == nAphaBand)
+                continue;
+            panBands[nConter++] = anBands[i];
+        }
+        panBands[nBands - 1] = nAphaBand;
+    }
+
+    Color oColor;
+    Colors oColors;
+
+    for (int iBand = 0; iBand < nBands; ++iBand)
+    {
+        oColor.push_back(dfTransparentColor);
+    }
+
+    oColors.push_back(oColor);
+
+    GDALDataType eDT = pSrcDataSet->GetDataType();
+    int nDataSize = GDALGetDataTypeSize(eDT) * 0.125;//same as /8
+
+    void *pabyLine = CPLMalloc(nXSize * nDataSize * nBands);
+
+    int *panLastLineCounts = (int *)CPLCalloc(sizeof(int), nXSize);
+
+    IProgressor *pProgress = NULL;
+    if (pTrackCancel)
+    {
+        pProgress = pTrackCancel->GetProgressor();
+        if (pProgress)
+            pProgress->SetRange(nYSize);
+    }
+
+    int iLine;
+    for (iLine = 0; iLine < nYSize; ++iLine)
+    {
+        if (pProgress)
+            pProgress->SetValue(iLine);
+
+        if (!pSrcDataSet->GetPixelData(pabyLine, 0, iLine, nXSize, 1, nXSize, 1, eDT, nBands, panBands))
+        {
+            CPLFree(pabyLine);
+            CPLFree(panLastLineCounts);
+            if (pTrackCancel)
+                pTrackCancel->PutMessage(_("Get pixel data failed"), wxNOT_FOUND, enumGISMessageError);
+
+            return false;
+        }
+
+        for (int iCol = 0; iCol < nXSize; ++iCol)
+        {
+            SetPixelValue(pabyLine, eDT, iCol * nBands + nBands - 1, 255);
+        }
+
+        ProcessLine(pabyLine, eDT, 0, nXSize - 1, nBands, dfNearDist, nMaxNonBlack, oColors, panLastLineCounts,
+            TRUE, // bDoHorizontalCheck
+            TRUE, // bDoVerticalCheck
+            FALSE // bBottomUp
+            );
+        ProcessLine(pabyLine, eDT, nXSize - 1, 0, nBands, dfNearDist, nMaxNonBlack, oColors, panLastLineCounts,
+            TRUE,  // bDoHorizontalCheck
+            FALSE, // bDoVerticalCheck
+            FALSE  // bBottomUp
+            );
+
+        //write result
+        if (!pSrcDataSet->SetPixelData(pabyLine, 0, iLine, nXSize, 1, nXSize, 1, eDT, nBands, panBands))
+        {
+            CPLFree(pabyLine);
+            CPLFree(panLastLineCounts);
+            if (pTrackCancel)
+                pTrackCancel->PutMessage(_("Get pixel data failed"), wxNOT_FOUND, enumGISMessageError);
+            return false;
+        }
+    }
+
+    /* -------------------------------------------------------------------- */
+    /*      Now process from the bottom back up                            .*/
+    /* -------------------------------------------------------------------- */
+    memset(panLastLineCounts, 0, sizeof(int)* nXSize);
+
+    for (iLine = nYSize - 1; iLine >= 0; iLine--)
+    {
+
+        if (!pSrcDataSet->GetPixelData(pabyLine, 0, iLine, nXSize, 1, nXSize, 1, eDT, nBands, panBands))
+        {
+            CPLFree(pabyLine);
+            CPLFree(panLastLineCounts);
+            if (pTrackCancel)
+                pTrackCancel->PutMessage(_("Get pixel data failed"), wxNOT_FOUND, enumGISMessageError);
+            return false;
+        }
+
+        for (int iCol = 0; iCol < nXSize; ++iCol)
+        {
+            SetPixelValue(pabyLine, eDT, iCol * nBands + nBands - 1, 255);
+        }
+
+        ProcessLine(pabyLine, eDT, 0, nXSize - 1, nBands, dfNearDist, nMaxNonBlack, oColors, panLastLineCounts,
+            TRUE, // bDoHorizontalCheck
+            TRUE, // bDoVerticalCheck
+            TRUE  // bBottomUp
+            );
+
+        ProcessLine(pabyLine, eDT, nXSize - 1, 0, nBands, dfNearDist, nMaxNonBlack, oColors, panLastLineCounts,
+            TRUE,  // bDoHorizontalCheck
+            FALSE, // bDoVerticalCheck
+            TRUE   // bBottomUp
+            );
+
+        //write result
+        if (!pSrcDataSet->SetPixelData(pabyLine, 0, iLine, nXSize, 1, nXSize, 1, eDT, nBands, panBands))
+        {
+            CPLFree(pabyLine);
+            CPLFree(panLastLineCounts);
+            if (pTrackCancel)
+                pTrackCancel->PutMessage(_("Get pixel data failed"), wxNOT_FOUND, enumGISMessageError);
+            return false;
+        }
+    }
+
+    CPLFree(pabyLine);
+    CPLFree(panLastLineCounts);
+
+    if (bOpenHere)
+        pSrcDataSet->Close();
+
+    return true;
 }
 
 bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszOptions, ITrackCancel* const pTrackCancel)

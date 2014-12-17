@@ -321,7 +321,7 @@ wxString wxGISCartoMainTool::GetCaption(void)
     case enumGISCartoMainToolPan:
 		return wxString(_("&Pan"));
     case enumGISCartoMainToolIdentify:
-		return wxString(_("&Information"));
+		return wxString(_("&Identification"));
 	default:
 		return wxEmptyString;
 	}

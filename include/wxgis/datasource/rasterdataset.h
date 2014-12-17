@@ -60,7 +60,8 @@ public:
     virtual int GetHeight(void){return m_nYSize;};
     virtual int GetBandCount(void){return m_nBandCount;};
 	virtual bool GetPixelData(void *data, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, int nBufYSize, GDALDataType eDT, int nBandCount, int *panBandList);
-	virtual bool HasNoData(int nBand){return !IsDoubleEquil(m_paNoData[nBand - 1], NOTNODATA);};
+    virtual bool SetPixelData(void *data, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, int nBufYSize, GDALDataType eDT, int nBandCount, int *panBandList);
+    virtual bool HasNoData(int nBand){ return !IsDoubleEquil(m_paNoData[nBand - 1], NOTNODATA); };
 	virtual double GetNoData(int nBand){return m_paNoData[nBand - 1];};
 	virtual bool WriteWorldFile(wxGISEnumWldExtType eType);
 	virtual bool IsWarped() const;

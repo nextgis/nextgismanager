@@ -1,9 +1,10 @@
 /******************************************************************************
- * Project:  wxGIS
- * Purpose:  raster operations.
- * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
- ******************************************************************************
-*   Copyright (C) 2011,2013 Dmitry Baryshnikov
+* Project:  wxGIS
+* Purpose:  raster operations.
+* Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
+******************************************************************************
+*   Copyright (C) 2011,2013,2014 Dmitry Baryshnikov
+*   Copyright (C) NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -17,7 +18,7 @@
 *
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+****************************************************************************/
 
 #include "wxgis/datasource/rasterop.h"
 

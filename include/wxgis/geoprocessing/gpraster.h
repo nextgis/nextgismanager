@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2011,2014 Dmitry Baryshnikov
+*   Copyright (C) 2014 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -39,6 +40,10 @@ enum wxGISEnumForceBandColorInterpretation
 	enumGISForceBandsToRGBA = 4      /**< Force 1 band to red, 2 - green, 3 - blue, 4 - alpha */
 };
 
+typedef std::vector<double> Color;
+typedef std::vector< Color > Colors;
+
+
 /** \fn bool SubrasterByVector(wxGISFeatureDatasetSPtr pSrcFeatureDataSet, wxGISRasterDatasetSPtr pSrcRasterDataSet, CPLString &szDstFolderPath)
  *  \brief Get subruster clipped by vector geometry.
  *  \param pSrcFeatureDataSet The clip geometry source dataset
@@ -53,6 +58,7 @@ enum wxGISEnumForceBandColorInterpretation
 WXDLLIMPEXP_GIS_GP bool ExportFormat(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, const wxGISSpatialFilter &SpaFilter, char ** papszOptions, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPath, const wxString &sName, wxGxObjectFilter* const pFilter, char ** papszOptions, const OGREnvelope &DstWin, GDALDataType eOutputType = GDT_Unknown, const wxArrayInt & anBands = wxArrayInt(), wxGISEnumForceBandColorInterpretation eForceBandColorTo = enumGISForceBandsToNone, bool bCopyNodata = false, bool bSkipSourceMetadata = false, ITrackCancel* const pTrackCancel = NULL);
 WXDLLIMPEXP_GIS_GP bool ComputeStatistics(wxGISRasterDataset* const pSrsDataSet, bool bApprox, ITrackCancel* const pTrackCancel = NULL);
+WXDLLIMPEXP_GIS_GP bool MakeBorderTransparent(wxGISRasterDataset* const pSrcDataSet, const wxArrayInt & anBands, int nAphaBand, double dfTransparentColor = 0, ITrackCancel* const pTrackCancel = NULL);
 
 /** @fn CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDstBand, bool bCanCopyStatsMetadata, bool bCopyScale, bool bCopyNoData )
   * 
@@ -63,4 +69,44 @@ WXDLLIMPEXP_GIS_GP bool ComputeStatistics(wxGISRasterDataset* const pSrsDataSet,
 void CopyBandInfo( GDALRasterBand * const poSrcBand, GDALRasterBand * const poDstBand, bool bCanCopyStatsMetadata, bool bCopyScale, bool bCopyNoData );
 void AttachMetadata( GDALDataset * pDS, char **papszMetadataOptions );
 bool ComputeStatistics(GDALDataset* poGDALDataset, bool bApprox, ITrackCancel* const pTrackCancel = NULL);
+void ProcessLine(void *pabyLine, GDALDataType eType, int iStart, int iEnd, int nBands, double dfNearDist, int nMaxNonBlack, Colors &poColors, int *panLastLineCounts, int bDoHorizontalCheck, int bDoVerticalCheck, int bBottomUp);
+
+inline void SetPixelValue(void* pBuff, GDALDataType eType, int nPos, double dfVal)
+{
+    switch (eType)
+    {
+    case GDT_Byte:
+        ((GByte *)pBuff)[nPos] = (GByte)dfVal;
+        break;
+    case GDT_Float32:
+        ((float *)pBuff)[nPos] = (float)dfVal;
+        break;
+    case GDT_Float64:
+        ((double *)pBuff)[nPos] = dfVal;
+        break;
+    case GDT_Int32:
+        ((GInt32 *)pBuff)[nPos] = (GInt32)dfVal;
+        break;
+    case GDT_UInt16:
+        ((GUInt16 *)pBuff)[nPos] = (GUInt16)dfVal;
+        break;
+    case GDT_UInt32:
+        ((GUInt32 *)pBuff)[nPos] = (GUInt32)dfVal;
+        break;
+    case GDT_CInt16:
+        ((GInt16 *)pBuff)[nPos * 2] = (GInt16)dfVal;
+        break;
+    case GDT_CInt32:
+        ((GInt32 *)pBuff)[nPos * 2] = (GInt32)dfVal;
+        break;
+    case GDT_CFloat32:
+        ((float *)pBuff)[nPos * 2] = (float)dfVal;
+        break;
+    case GDT_CFloat64:
+        ((double *)pBuff)[nPos * 2] = (double)dfVal;
+        break;
+    default:
+        break;
+    }
+}
 

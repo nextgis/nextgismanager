@@ -1113,9 +1113,17 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     anBands.Add(G);
     anBands.Add(B);
     wxGISEnumForceBandColorInterpretation eForceBandColorTo;
-    if (bAutoCrop || A < 1)
+    if (A < 1)
     {
-        eForceBandColorTo = enumGISForceBandsToRGB;
+        if (bAutoCrop)
+        {
+            eForceBandColorTo = enumGISForceBandsToRGBA;
+            anBands.Add(R);
+        }
+        else
+        {
+            eForceBandColorTo = enumGISForceBandsToRGB;
+        }
     }
     else
     {
@@ -1128,14 +1136,17 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     {
         return false;
     }
+
+    CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
 	
     //2. auto crop if needed
     if (bAutoCrop)
     {
-        // nearblack.cpp
+        wxGISRasterDataset TmpRasterDataset(szFilePath, enumRasterTiff);
+        if (!MakeBorderTransparent(&TmpRasterDataset, anBands, anBands.Last(), 0, pTrackCancel))
+            return false;
     }
    
-    CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
 
     //3. upload with progress
 

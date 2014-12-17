@@ -714,9 +714,9 @@ void wxGxContentView::OnBeginLabelEdit(wxListEvent& event)
 void wxGxContentView::OnEndLabelEdit(wxListEvent& event)
 {
     //event.Skip(false);
-        event.Veto();
-        EditLabel(event.GetItem());
-        return;
+    //    event.Veto();
+    //    EditLabel(event.GetItem());
+    //    return;
 
 
     if ( event.GetLabel().IsEmpty() || event.GetLabel().IsSameAs(GetItemText(event.GetIndex())))

@@ -806,7 +806,7 @@ bool wxGISRasterDataset::GetPixelData(void *data, int nXOff, int nYOff, int nXSi
 		err = m_poDataset->RasterIO(GF_Read, nXOff, nYOff, nXSize, nYSize, data, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, nPixelSpace, nLineSpace, nBandSpace);
 	}
 	catch(...){
-		
+        err = CE_Failure;
 	}
 	
     if(err != CE_None)
@@ -816,6 +816,47 @@ bool wxGISRasterDataset::GetPixelData(void *data, int nXOff, int nYOff, int nXSi
         return false;
     }
 	return true;
+}
+
+bool wxGISRasterDataset::SetPixelData(void *data, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, int nBufYSize, GDALDataType eDT, int nBandCount, int *panBandList)
+{
+    CPLErrorReset();
+
+    CPLErr err = CE_Failure;
+
+    //  CPLErr err = m_poDataset->AdviseRead(nXOff, nYOff, nXSize, nYSize, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, NULL);
+    //  if(err != CE_None)
+    //  {
+    //      const char* pszerr = CPLGetLastErrorMsg();
+    //wxLogError(_("AdviseRead failed! GDAL error: %s"), wxString(pszerr, wxConvUTF8).c_str());
+    //      return false;
+    //  }
+
+    int nPixelSpace(0);
+    int nLineSpace(0);
+    int nBandSpace(0);
+    if (nBandCount > 1)
+    {
+        int nDataSize = GDALGetDataTypeSize(eDT) * 0.125;//same as /8
+        nPixelSpace = nDataSize * nBandCount;
+        nLineSpace = nBufXSize * nPixelSpace;
+        nBandSpace = nDataSize;
+    }
+
+    try{
+        err = m_poDataset->RasterIO(GF_Write, nXOff, nYOff, nXSize, nYSize, data, nBufXSize, nBufYSize, eDT, nBandCount, panBandList, nPixelSpace, nLineSpace, nBandSpace);
+    }
+    catch (...){
+        err = CE_Failure;
+    }
+
+    if (err != CE_None)
+    {
+        const char* pszerr = CPLGetLastErrorMsg();
+        wxLogError(_("RasterIO failed! GDAL error: %s"), wxString(pszerr, wxConvUTF8).c_str());
+        return false;
+    }
+    return true;
 }
 
 bool wxGISRasterDataset::WriteWorldFile(wxGISEnumWldExtType eType)

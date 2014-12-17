@@ -521,6 +521,7 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	// Grid
 	m_grid->CreateGrid( 5, 5 );
 	m_grid->EnableEditing( false );
+    m_grid->EnableCellEditControl(false);
 	m_grid->EnableGridLines( true );
 	m_grid->EnableDragGridSize( false );
 	m_grid->SetMargins( 0, 0 );
@@ -636,7 +637,7 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 
 void wxGISTableView::OnSelectCell(wxGridEvent& event)
 {
-    event.Skip(true);
+    //event.Skip(true);
 	m_position->Clear();
 	(*m_position) << event.GetRow() + 1;
 
