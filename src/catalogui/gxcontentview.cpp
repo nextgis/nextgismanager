@@ -448,6 +448,8 @@ void wxGxContentView::OnContextMenu(wxContextMenuEvent& event)
 
 void wxGxContentView::OnSelected(wxListEvent& event)
 {
+    if (IsFrozen())
+        return;
 	//event.Skip();
     m_pSelection->Clear(NOTFIRESELID);
     long nItem = wxNOT_FOUND;
@@ -1056,8 +1058,31 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
 
 void wxGxContentView::SelectAll(void)
 {
-	for(long item = 0; item < GetItemCount(); ++item)
+    Freeze();
+    m_pSelection->Clear(NOTFIRESELID);
+    for (long item = 0; item < GetItemCount(); ++item)
+    {
         SetItemState(item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        LPITEMDATA pItemData = (LPITEMDATA)GetItemData(item);
+        if (pItemData != NULL)
+            m_pSelection->Select(pItemData->nObjectID, true, NOTFIRESELID);
+    }
+
+
+    if (m_pGxApp != NULL)
+    {
+        m_pSelection->SetInitiator(TREECTRLID);
+        m_pGxApp->UpdateNewMenu(m_pSelection);
+    }
+
+    wxGISStatusBar* pStatusBar = m_pApp->GetStatusBar();
+    if (pStatusBar)
+    {
+        pStatusBar->SetMessage(wxString::Format(_("%d objects selected"), GetItemCount()));
+    }
+
+    Thaw();
+    Update();
 }
 
 void wxGxContentView::SelectItem(int nChar, bool bShift)

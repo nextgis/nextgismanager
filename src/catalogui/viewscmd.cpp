@@ -221,7 +221,7 @@ void wxGISCatalogViewsCmd::OnClick(void)
             for(size_t i = 0; i < m_anContentsWinIDs.GetCount(); ++i)
             {
                 wxWindow* pWnd = wxWindow::FindWindowById(m_anContentsWinIDs[i]);
-                if(pWnd && pWnd->IsShownOnScreen())
+                if(pWnd && pWnd->IsShownOnScreen() && pWnd->HasFocus())
                 {
                     IGxContentsView* pGxContentsView = dynamic_cast<IGxContentsView*>(pWnd);                    
                     if(pGxContentsView)
