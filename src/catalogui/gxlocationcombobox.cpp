@@ -833,10 +833,13 @@ void wxGxLocationComboBox::Activate(wxGISApplicationBase* pApp)
     m_pSelection = m_pApp->GetGxSelection();
 	if(m_pSelection)
         m_ConnectionPointSelectionCookie = m_pSelection->Advise(this);
+
+    m_pApp->RegisterChildWindow(GetId());
 }
 
 void wxGxLocationComboBox::Deactivate(void)
 {
+    m_pApp->UnRegisterChildWindow(GetId());
     m_pListViewComboPopup->Deactivate();
 
     if (m_ConnectionPointSelectionCookie != wxNOT_FOUND && NULL != m_pSelection)
@@ -929,3 +932,24 @@ void wxGxLocationComboBox::OnMouseDblClick(wxMouseEvent& event)
     SetSelection(nPos, sPath.Len());
 }
 
+void wxGxLocationComboBox::SelectAll(void)
+{
+    wxString sPath = GetValue();
+    SetSelection(0, sPath.Len());
+}
+
+bool wxGxLocationComboBox::CanSetStyle(void)
+{
+    return false;
+}
+
+void wxGxLocationComboBox::SetStyle(wxGISEnumContentsViewStyle style)
+{
+
+}
+
+
+wxGISEnumContentsViewStyle wxGxLocationComboBox::GetStyle(void)
+{
+    return enumGISCVUndefined;
+}

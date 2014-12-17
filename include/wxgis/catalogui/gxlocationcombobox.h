@@ -191,7 +191,8 @@ private:
 class wxGxLocationComboBox :
 	public wxComboCtrl,
     public wxGxPathsListViewPopupParent,
-	public IToolBarControl
+	public IToolBarControl,
+    public IGxContentsView
 {
 public:
 	wxGxLocationComboBox(wxWindow* parent, wxWindowID id, const wxSize& size);
@@ -207,6 +208,11 @@ public:
 	//IToolBarControl
 	virtual void Activate(wxGISApplicationBase* pApp);
 	virtual void Deactivate(void);
+    //IGxContentsView
+    virtual void SelectAll(void);
+    virtual bool CanSetStyle(void);
+    virtual void SetStyle(wxGISEnumContentsViewStyle style);
+    virtual wxGISEnumContentsViewStyle GetStyle(void);
 	//events
 	virtual void OnSelectionChanged(wxGxSelectionEvent& event);
     virtual void OnKillFocus(wxFocusEvent& event);
