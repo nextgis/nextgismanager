@@ -270,9 +270,9 @@ bool MakeBorderTransparent(wxGISRasterDataset* const pSrcDataSet, const wxArrayI
         int nConter = 0;
         nBands = anBands.GetCount() + 1;
         panBands = new int[nBands];
-        for (int i = 1; i < anBands.GetCount() + 1; ++i)
+        for (int i = 0; i < anBands.GetCount(); ++i)
         {
-            if (i == nAphaBand)
+            if (anBands[i] == nAphaBand)
                 continue;
             panBands[nConter++] = anBands[i];
         }
@@ -354,6 +354,8 @@ bool MakeBorderTransparent(wxGISRasterDataset* const pSrcDataSet, const wxArrayI
 
     for (iLine = nYSize - 1; iLine >= 0; iLine--)
     {
+        if (pProgress)
+            pProgress->SetValue(iLine);
 
         if (!pSrcDataSet->GetPixelData(pabyLine, 0, iLine, nXSize, 1, nXSize, 1, eDT, nBands, panBands))
         {

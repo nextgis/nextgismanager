@@ -1142,8 +1142,9 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     //2. auto crop if needed
     if (bAutoCrop)
     {
+        anBands.RemoveAt(3);
         wxGISRasterDataset TmpRasterDataset(szFilePath, enumRasterTiff);
-        if (!MakeBorderTransparent(&TmpRasterDataset, anBands, anBands.Last(), 0, pTrackCancel))
+        if (!MakeBorderTransparent(&TmpRasterDataset, anBands, 4, 0, pTrackCancel))
             return false;
     }
    
