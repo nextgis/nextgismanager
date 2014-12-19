@@ -695,13 +695,19 @@ bool wxGISRasterDataset::Copy(const CPLString &szDestPath, ITrackCancel* const p
     }
 
     CPLString szCopyFileName;
+    CPLString szFileNameOriginal = CPLGetBasename(m_sPath);
     CPLString szFileName = CPLGetBasename(GetUniqPath(m_sPath, szDestPath, CPLGetBasename(m_sPath)));
 
     char** papszFileCopiedList = NULL;
 
     for(int i = 0; papszFileList[i] != NULL; ++i )
     {
-        CPLString szNewDestFileName(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileName)));
+        CPLString szNewDestFileName;
+        if (wxGISEQUAL(CPLGetBasename(papszFileList[i]), szFileNameOriginal))
+            szNewDestFileName = CPLString(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileNameOriginal)));
+        else
+            szNewDestFileName = CPLString(CPLFormFilename(szDestPath, CPLGetFilename(papszFileList[i]), NULL));
+
         papszFileCopiedList = CSLAddString(papszFileCopiedList, szNewDestFileName);
         szCopyFileName = szNewDestFileName;
         if(!CopyFile(papszFileList[i], szNewDestFileName, pTrackCancel))
@@ -759,21 +765,63 @@ bool wxGISRasterDataset::FixSAGARaster(const CPLString &szDestPath, const CPLStr
 
 bool wxGISRasterDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-    if(wxGISDataset::Move(szDestPath, pTrackCancel))
+    wxCriticalSectionLocker locker(m_CritSect);
+    Close();
+
+    char** papszFileList = GetFileList();
+    papszFileList = CSLAddString(papszFileList, m_sPath);
+    if (!papszFileList)
     {
-        bool bRet = true;
-        switch(m_nSubType)
-        {
-	    case enumRasterSAGA://write some internal info to files (e.g. sgrd mgrd -> new file name
-            bRet = FixSAGARaster(szDestPath, m_sPath);
-		    break;
-        default:
-		    break;
-        };
-        return bRet;
-    }
-    else
+        if (pTrackCancel)
+            pTrackCancel->PutMessage(_("No files to move"), wxNOT_FOUND, enumGISMessageError);
         return false;
+    }
+
+    CPLString szMoveFileName;
+    CPLString szFileNameOriginal = CPLGetBasename(m_sPath);
+    CPLString szFileName = CPLGetBasename(GetUniqPath(m_sPath, szDestPath, szFileNameOriginal));
+
+    char** papszMovedFileList = NULL;
+
+    for (int i = 0; papszFileList[i] != NULL; ++i)
+    {
+        CPLString szNewDestFileName;
+        if (wxGISEQUAL(CPLGetBasename(papszFileList[i]), szFileNameOriginal))
+            szNewDestFileName = CPLString(CPLFormFilename(szDestPath, szFileName, GetExtension(papszFileList[i], szFileNameOriginal)));
+        else
+            szNewDestFileName = CPLString(CPLFormFilename(szDestPath, CPLGetFilename(papszFileList[i]), NULL));
+
+        papszMovedFileList = CSLAddString(papszMovedFileList, szNewDestFileName);        
+        szMoveFileName = szNewDestFileName;
+        if (!MoveFile(papszFileList[i], szNewDestFileName, pTrackCancel))
+        {
+            // Try to put the ones we moved back.
+            pTrackCancel->Reset();
+            for (--i; i >= 0; i--)
+                MoveFile(papszMovedFileList[i], papszFileList[i]);
+
+            CSLDestroy(papszFileList);
+            CSLDestroy(papszMovedFileList);
+            return false;
+        }
+    }
+
+    m_sPath = CPLFormFilename(szDestPath, CPLGetFilename(m_sPath), NULL);
+
+    bool bRet = true;
+    switch (m_nSubType)
+    {
+    case enumRasterSAGA://write some internal info to files (e.g. sgrd mgrd -> new file name
+        bRet = FixSAGARaster(szDestPath, szMoveFileName);
+        break;
+    default:
+        break;
+    };
+
+    CSLDestroy(papszFileList);
+    CSLDestroy(papszMovedFileList);
+    return bRet;
+
 }
 
 bool wxGISRasterDataset::GetPixelData(void *data, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, int nBufYSize, GDALDataType eDT, int nBandCount, int *panBandList)
