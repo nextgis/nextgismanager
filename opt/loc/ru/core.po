@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 15:40+0300\n"
-"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"POT-Creation-Date: 2014-12-19 18:35+0300\n"
+"PO-Revision-Date: 2014-12-19 18:35+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: ../../../include/wxgis/core\n"
 "X-Poedit-SearchPath-1: ../../../src/core\n"
 
-#: ../../../src/core/config.cpp:582
+#: ../../../src/core/config.cpp:606
 #, c-format
 msgid "Failed to save config '%s'"
 msgstr "Ошибка сохранения файла конфигурации '%s'"

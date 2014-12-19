@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 15:40+0300\n"
-"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"POT-Creation-Date: 2014-12-19 18:35+0300\n"
+"PO-Revision-Date: 2014-12-19 18:42+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -92,7 +92,7 @@ msgid "Error getting raster"
 msgstr "Ошибка получения растра"
 
 #: ../../../src/geoprocessing/gpcompstattool.cpp:161
-#: ../../../src/geoprocessing/gpraster.cpp:600
+#: ../../../src/geoprocessing/gpraster.cpp:917
 #, c-format
 msgid "Proceed band %d"
 msgstr "Обработка канала %d"
@@ -103,7 +103,7 @@ msgid "ComputeStatistics failed! GDAL error: %s"
 msgstr "ComputeStatistics завершилось неудачно! Ошибка GDAL: %s"
 
 #: ../../../src/geoprocessing/gpcompstattool.cpp:173
-#: ../../../src/geoprocessing/gpraster.cpp:608
+#: ../../../src/geoprocessing/gpraster.cpp:925
 #, c-format
 msgid "Band %d: min - %.2f, max - %.2f, mean - %.2f, StdDev - %.2f"
 msgstr "Канал %d: мин. - %.2f, макс. - %.2f, ср. - %.2f, стд. откл. - %.2f"
@@ -428,51 +428,67 @@ msgstr "Система координат"
 msgid "Unsupported Spatial Reference"
 msgstr "Система координат не поддерживается"
 
-#: ../../../src/geoprocessing/gpraster.cpp:96
+#: ../../../src/geoprocessing/gpraster.cpp:232
+#: ../../../src/geoprocessing/gpraster.cpp:466
+#: ../../../src/geoprocessing/gpraster.cpp:897
+msgid "Get raster failed"
+msgstr "Не удалось получить растр"
+
+#: ../../../src/geoprocessing/gpraster.cpp:240
+msgid "Wrong alpha band"
+msgstr "Неверный канал прозрачности"
+
+#: ../../../src/geoprocessing/gpraster.cpp:247
+msgid "The input alpha band has wrong color interpretation"
+msgstr "Входной канал прозрачности имеет неверную отметку типа канала"
+
+#: ../../../src/geoprocessing/gpraster.cpp:318
+#: ../../../src/geoprocessing/gpraster.cpp:345
+#: ../../../src/geoprocessing/gpraster.cpp:365
+#: ../../../src/geoprocessing/gpraster.cpp:392
+msgid "Get pixel data failed"
+msgstr "Не удалось получить пикселы растра"
+
+#: ../../../src/geoprocessing/gpraster.cpp:413
 #: ../../../src/geoprocessing/gpvector.cpp:573
 #: ../../../src/geoprocessing/gpvector.cpp:647
 #, c-format
 msgid "Exporting %s to %s"
 msgstr "Экспорт %s в %s"
 
-#: ../../../src/geoprocessing/gpraster.cpp:111
+#: ../../../src/geoprocessing/gpraster.cpp:428
 msgid "Cut geometry project to SRS of input raster failed"
 msgstr "Перепроецирование обрезающей геометрии в СК входного растра не удалось"
 
-#: ../../../src/geoprocessing/gpraster.cpp:124
+#: ../../../src/geoprocessing/gpraster.cpp:441
 msgid "Input file has no bands, and so cannot be translated"
 msgstr "Входной файл не содержит каналов и не может быть преобразован"
 
-#: ../../../src/geoprocessing/gpraster.cpp:149
-#: ../../../src/geoprocessing/gpraster.cpp:580
-msgid "Get raster failed"
-msgstr "Не удалось получить растр"
-
-#: ../../../src/geoprocessing/gpraster.cpp:161
+#: ../../../src/geoprocessing/gpraster.cpp:478
 #, c-format
 msgid "Output driver '%s' not recognised."
 msgstr "Выходной драйвер '%s' не определяется."
 
-#: ../../../src/geoprocessing/gpraster.cpp:170
+#: ../../../src/geoprocessing/gpraster.cpp:487
 #: ../../../src/geoprocessing/gpvector.cpp:1610
 msgid "Overwrite failed"
 msgstr "Не удалось перезаписать"
 
-#: ../../../src/geoprocessing/gpraster.cpp:236
+#: ../../../src/geoprocessing/gpraster.cpp:553
 #, c-format
 msgid "The source window %d %d %d %d has negative width and/or height"
 msgstr "Входное окно %d %d %d %d имеет отрицательные высоту и/или ширину"
 
-#: ../../../src/geoprocessing/gpraster.cpp:247
+#: ../../../src/geoprocessing/gpraster.cpp:564
 #, c-format
 msgid "The source window %d %d %d %d falls %s outside raster extent"
 msgstr "Входное окно %d %d %d %d %s выходит за границы растра"
 
-#: ../../../src/geoprocessing/gpraster.cpp:247
+#: ../../../src/geoprocessing/gpraster.cpp:564
 msgid "completely"
 msgstr "полностью"
 
-#: ../../../src/geoprocessing/gpraster.cpp:247
+#: ../../../src/geoprocessing/gpraster.cpp:564
 msgid "partially"
 msgstr "частично"
 

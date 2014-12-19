@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 15:40+0300\n"
-"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"POT-Creation-Date: 2014-12-19 18:35+0300\n"
+"PO-Revision-Date: 2014-12-19 18:35+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -86,10 +86,10 @@ msgid "Import into the item"
 msgstr "Импорт в элемент"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:156
-#: ../../../src/geoprocessingui/gpcontrols.cpp:554
-#: ../../../src/geoprocessingui/gpcontrols.cpp:710
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1128
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1210
+#: ../../../src/geoprocessingui/gpcontrols.cpp:556
+#: ../../../src/geoprocessingui/gpcontrols.cpp:712
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1130
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1212
 msgid "(optional)"
 msgstr " (опционально)"
 
@@ -104,18 +104,18 @@ msgid "Select output object"
 msgstr "Выбрать выходной объект"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:302
-#: ../../../src/geoprocessingui/gpcontrols.cpp:490
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1326
+#: ../../../src/geoprocessingui/gpcontrols.cpp:492
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1328
 msgid "The value is required"
 msgstr "Требуется значение"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:321
-#: ../../../src/geoprocessingui/gpcontrols.cpp:509
+#: ../../../src/geoprocessingui/gpcontrols.cpp:511
 msgid "The output object exists and will be overwritten!"
 msgstr "Выходной объект существует и будет перезаписан!"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:330
-#: ../../../src/geoprocessingui/gpcontrols.cpp:518
+#: ../../../src/geoprocessingui/gpcontrols.cpp:520
 msgid "The input object doesn't exist"
 msgstr "Исходный объект не существует"
 
@@ -123,21 +123,21 @@ msgstr "Исходный объект не существует"
 msgid "Select"
 msgstr "Выбрать"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:627
-#: ../../../src/geoprocessingui/gpcontrols.cpp:789
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1028
+#: ../../../src/geoprocessingui/gpcontrols.cpp:629
+#: ../../../src/geoprocessingui/gpcontrols.cpp:791
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1030
 msgid "The input data are invalid"
 msgstr "Неправильные исходные данные"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1291
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1293
 msgid "Select Spatial Reference"
 msgstr "Выбор Системы координат"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1295
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1297
 msgid "Coordinate Systems"
 msgstr "Системы координат"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1346
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1348
 msgid "Unsupported Spatial reference"
 msgstr "Система координат не поддерживается"
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 15:40+0300\n"
-"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"POT-Creation-Date: 2014-12-19 18:35+0300\n"
+"PO-Revision-Date: 2014-12-19 18:35+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -28,21 +28,22 @@ msgstr "Не удалось выполнить подключение!"
 msgid "Connect succeeded! Path '%s'"
 msgstr "Подключение выполнено удачно. Папка '%s'"
 
-#: ../../../src/datasource/dataset.cpp:260
+#: ../../../src/datasource/dataset.cpp:258
 msgid "No files to rename"
 msgstr "Нет файлов для переименования"
 
-#: ../../../src/datasource/dataset.cpp:292
+#: ../../../src/datasource/dataset.cpp:290
 #, c-format
 msgid "Skip file '%s' to rename"
 msgstr "Пропуск файла '%s' при переименовании"
 
-#: ../../../src/datasource/dataset.cpp:314
+#: ../../../src/datasource/dataset.cpp:311
+#: ../../../src/datasource/rasterdataset.cpp:776
 msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
-#: ../../../src/datasource/dataset.cpp:364
-#: ../../../src/datasource/rasterdataset.cpp:694
+#: ../../../src/datasource/dataset.cpp:360
+#: ../../../src/datasource/rasterdataset.cpp:693
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
@@ -108,12 +109,13 @@ msgstr "Не удалось открыть растровый файл! Путь
 msgid "Raster open failed! Path '%s'. Raster has no bands"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
 
-#: ../../../src/datasource/rasterdataset.cpp:815
+#: ../../../src/datasource/rasterdataset.cpp:862
+#: ../../../src/datasource/rasterdataset.cpp:903
 #, c-format
 msgid "RasterIO failed! GDAL error: %s"
 msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/rasterdataset.cpp:850
+#: ../../../src/datasource/rasterdataset.cpp:938
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"
@@ -150,35 +152,35 @@ msgstr "Не удалось создать папку! Папка '%s'"
 msgid "Create folder succeeded! Folder '%s'"
 msgstr "Папка '%s' создана"
 
-#: ../../../src/datasource/sysop.cpp:107
+#: ../../../src/datasource/sysop.cpp:113
 msgid "Cannot copy folder inside itself"
 msgstr "Нельзя копировать папку саму в себя"
 
-#: ../../../src/datasource/sysop.cpp:164
+#: ../../../src/datasource/sysop.cpp:170
 #, c-format
 msgid "Delete file failed! File '%s'"
 msgstr "Удаление не удалось. Файл '%s'"
 
-#: ../../../src/datasource/sysop.cpp:171
+#: ../../../src/datasource/sysop.cpp:177
 #, c-format
 msgid "Delete file succeeded! File '%s'"
 msgstr "Файл '%s' удален"
 
-#: ../../../src/datasource/sysop.cpp:184
+#: ../../../src/datasource/sysop.cpp:193
 #, c-format
 msgid "Rename file failed! Old path '%s', new path '%s'"
 msgstr "Не удалось переименовать файл! Старый путь '%s', новый путь '%s'"
 
-#: ../../../src/datasource/sysop.cpp:191
+#: ../../../src/datasource/sysop.cpp:200
 #, c-format
 msgid "Rename file succeeded! Old path '%s', new path '%s'"
 msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
 
-#: ../../../src/datasource/sysop.cpp:503
+#: ../../../src/datasource/sysop.cpp:512
 msgid "Error open input file!"
 msgstr "Не возможно открыть входной файл!"
 
-#: ../../../src/datasource/sysop.cpp:513
+#: ../../../src/datasource/sysop.cpp:522
 #, c-format
 msgid "Error create the output file '%s'!"
 msgstr "Не возможно создать выходной файл '%s'!"

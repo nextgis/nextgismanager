@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 15:39+0300\n"
-"PO-Revision-Date: 2014-12-11 17:17+0300\n"
+"POT-Creation-Date: 2014-12-19 18:34+0300\n"
+"PO-Revision-Date: 2014-12-19 18:39+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -72,8 +72,8 @@ msgid "&Pan"
 msgstr "&Сдвинуть"
 
 #: ../../../src/cartoui/cartocmd.cpp:324
-msgid "&Information"
-msgstr "&Информация"
+msgid "&Identification"
+msgstr "&Идентификация"
 
 #: ../../../src/cartoui/cartocmd.cpp:423
 msgid "Zoom map in"
@@ -336,12 +336,12 @@ msgid "Show all rows"
 msgstr "Показать все записи"
 
 #: ../../../src/cartoui/identifydlg.cpp:157
-#: ../../../src/cartoui/tableview.cpp:608
+#: ../../../src/cartoui/tableview.cpp:609
 msgid "Unknown"
 msgstr "Неизвестно"
 
 #: ../../../src/cartoui/identifydlg.cpp:160
-#: ../../../src/cartoui/tableview.cpp:611
+#: ../../../src/cartoui/tableview.cpp:612
 msgid "Mac"
 msgstr "Mac"
 
@@ -440,15 +440,15 @@ msgstr "Закрепить/открепить колонку"
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../../../src/cartoui/tableview.cpp:552
+#: ../../../src/cartoui/tableview.cpp:553
 msgid "Record:"
 msgstr "Запись:"
 
-#: ../../../src/cartoui/tableview.cpp:598
+#: ../../../src/cartoui/tableview.cpp:599
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../../../src/cartoui/tableview.cpp:695
+#: ../../../src/cartoui/tableview.cpp:696
 #, c-format
 msgid "of %u"
 msgstr "из %u"
