@@ -31,7 +31,7 @@
 //-----------------------------------------------------------------------------------
 wxGISPostGISBaseTable::wxGISPostGISBaseTable(int nRemoteId, const wxString &sSchema, const wxString &soName, wxGISPostgresDataSource* pwxGISRemoteConn) : wxGxRemoteId(nRemoteId)
 {
-    m_pwxGISRemoteConn = pwxGISRemoteConn;
+    wsSET(m_pwxGISRemoteConn, pwxGISRemoteConn);
     m_sFullyQualifiedName = wxT("\"") + sSchema + wxT("\".\"") + soName + wxT("\"");
     m_sSchemaName = sSchema;
 	m_sTableName =	soName;
