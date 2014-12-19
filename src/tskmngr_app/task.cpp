@@ -717,7 +717,7 @@ void wxGISTask::UpdatePercent(const wxString &sPercentData)
     }
 }
 
-void wxGISTask::ChangeTask(WXDWORD eChangeType, wxGISEnumMessageType eMessageType, const wxString &sInfoData)
+void wxGISTask::ChangeTask(wxDword eChangeType, wxGISEnumMessageType eMessageType, const wxString &sInfoData)
 {
     if(!m_pParentTask)
         return;

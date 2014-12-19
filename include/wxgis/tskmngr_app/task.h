@@ -127,7 +127,7 @@ public:
     virtual void OnTerminate(int pid, int status);
     virtual int GetRunningTaskCount(void) const;
     virtual void GetQueredTasks(wxGISQueredTasksArray &oaTasks);
-    virtual void ChangeTask(WXDWORD eChangeType, wxGISEnumMessageType eMessageType = enumGISMessageUnknown, const wxString &sInfoData = wxEmptyString);
+    virtual void ChangeTask(wxDword eChangeType, wxGISEnumMessageType eMessageType = enumGISMessageUnknown, const wxString &sInfoData = wxEmptyString);
     //
     virtual long Execute(void);
     virtual bool IsGroupIdExecuting(int nGroupId) const;
