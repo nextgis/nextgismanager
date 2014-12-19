@@ -43,7 +43,7 @@ void wxGISSelectSearchScopeComboPopup::OnSelectionChanged(wxGxSelectionEvent& ev
     if (event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID || NULL == m_pSelection || NULL == m_pCatalog)
         return;
 
-    m_pGxObject = m_pCatalog->GetRegisterObject(m_pSelection->GetLastSelectedObjectId());
+    m_nSelObject = m_pSelection->GetLastSelectedObjectId();
 }
 
 bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
@@ -53,7 +53,7 @@ bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
 
 bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    m_pGxObject = NULL;
+    m_nSelObject = wxNOT_FOUND;
     m_bClicked = false;
 	int nOSMajorVer(0);
     wxGetOsVersion(&nOSMajorVer);    
@@ -204,13 +204,17 @@ wxString wxGISSelectSearchScopeComboPopup::GetStringValue() const
 
 void wxGISSelectSearchScopeComboPopup::SetSelectedObject(wxGxObject* const pGxObject)
 {
-    m_pGxObject = pGxObject;
+    m_nSelObject = pGxObject->GetId();
 }
 
 bool wxGISSelectSearchScopeComboPopup::CanSearch()
 {
     wxGxSearchObjectFilter fil;
-    return fil.CanChooseObject(m_pGxObject);
+	wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(m_nSelObject);
+	if(pGxObject)
+		return fil.CanChooseObject(pGxObject);
+	else
+		return false;
 }
 //-------------------------------------------------------------------
 // wxGISFindResultItemPanel
@@ -224,7 +228,7 @@ END_EVENT_TABLE();
 wxGISFindResultItemPanel::wxGISFindResultItemPanel(wxGxObject* const pObject, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style) : wxPanel(parent, id, pos, size, style)
 {    
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
-    m_pObject = pObject;
+    m_nSelObject = pObject->GetId();
 
     if (pObject)
     {
@@ -340,7 +344,7 @@ void wxGISFindResultItemPanel::OnLeftUp(wxMouseEvent& event)
     {
         wxGxApplication* pApp = dynamic_cast<wxGxApplication*>(GetApplication());
         if (pApp && pApp->GetGxSelection())
-            pApp->GetGxSelection()->Select(m_pObject->GetId(), false, wxGxSelection::INIT_ALL);
+            pApp->GetGxSelection()->Select(m_nSelObject, false, wxGxSelection::INIT_ALL);
     }
 }
 

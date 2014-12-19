@@ -21,6 +21,7 @@
 #include "wxgis/catalogui/gxcontentview.h"
 #include "wxgis/catalogui/gxapplication.h"
 #include "wxgis/catalog/gxdataset.h"
+#include "wxgis/catalog/gxarchfolder.h"
 #include "wxgis/core/format.h"
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/framework/dataobject.h"
@@ -1044,11 +1045,17 @@ void wxGxContentView::OnBeginDrag(wxListEvent& event)
         LPITEMDATA pItemData = (LPITEMDATA)GetItemData(nItem);
 	    if(pItemData == NULL)
             continue;
-
+			
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pItemData->nObjectID);
 	    if(pGxObject == NULL)
             continue;
-        wxString sSystemPath(pGxObject->GetPath(), wxConvUTF8);
+			
+		wxString sSystemPath;	
+		wxGxArchive* pArchive = wxDynamicCast(pGxObject, wxGxArchive);
+		if(pArchive)
+			sSystemPath = wxString::FromUTF8(pArchive->GetRealPath());
+        else
+			sSystemPath = wxString::FromUTF8(pGxObject->GetPath());
 
         pFileData->AddFile(sSystemPath);
         pNamesData->AddString(pGxObject->GetFullName());

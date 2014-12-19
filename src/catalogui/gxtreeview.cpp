@@ -22,6 +22,7 @@
 #include "wxgis/catalogui/gxapplication.h"
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/framework/dataobject.h"
+#include "wxgis/catalog/gxarchfolder.h"
 
 #include <wx/datstrm.h>
 #include <wx/stream.h>
@@ -809,8 +810,17 @@ void wxGxTreeView::OnBeginDrag(wxTreeEvent& event)
         wxGxObject* pGxObject = m_pCatalog->GetRegisterObject(pData->m_nObjectID);
 	    if(NULL == pGxObject)
             continue;
-        wxString sSystemPath = wxString::FromUTF8(pGxObject->GetPath());
-        pFileData->AddFile(sSystemPath); //bug: http://trac.wxwidgets.org/ticket/11744 //solution: http://jenyay.net/blog/2011/02/18/wxpython-i-dragndrop-fajjlov-v-linux/
+		wxString sSystemPath;	
+		wxGxArchive* pArchive = wxDynamicCast(pGxObject, wxGxArchive);
+		if(pArchive)
+			sSystemPath = wxString::FromUTF8(pArchive->GetRealPath());
+        else
+			sSystemPath = wxString::FromUTF8(pGxObject->GetPath());
+			
+        pFileData->AddFile(sSystemPath); 
+		//bug: http://trac.wxwidgets.org/ticket/11744 
+		//solution: http://jenyay.net/blog/2011/02/18/wxpython-i-dragndrop-fajjlov-v-linux/
+		
         wxString sName = pGxObject->GetFullName();
         pNamesData->AddString(sName);
         //pIDsData->AddDecimal(pGxObject->GetId());

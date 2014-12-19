@@ -57,7 +57,7 @@ public:
     virtual void SetSelectedObject(wxGxObject* const pGxObject);
     virtual bool CanSearch();
 protected:
-    wxGxObject* m_pGxObject;
+	long m_nSelObject;
 };
 
 /** @class wxGISFindResultItemPanel
@@ -81,7 +81,7 @@ public:
     void OnLeftUp(wxMouseEvent& event);
 protected:
     wxGenericStaticText *m_pPath;
-    wxGxObject* m_pObject;
+    long m_nSelObject;
 private:
     DECLARE_EVENT_TABLE();
 };
