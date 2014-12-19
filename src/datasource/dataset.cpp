@@ -248,7 +248,7 @@ bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCa
 
     CPLString szDirPath = CPLGetPath(m_sPath);
     CPLString szName = CPLGetBasename(m_sPath);
-	CPLString szNewName(ClearExt(sNewName).mb_str(wxConvUTF8));
+	CPLString szNewName(ClearExt(sNewName).ToUTF8());
 
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
@@ -264,7 +264,8 @@ bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCa
     for(int i = 0; papszFileList[i] != NULL; ++i )
     {
         CPLString szNewPath;
-        if (wxGISEQUAL(CPLGetBasename(papszFileList[i]), szName))
+		CPLString szTestName = CPLGetBasename(papszFileList[i]);
+        if (wxGISEQUALN(szTestName, szName, szName.size()))
         {
             szNewPath = CPLString(CPLFormFilename(szDirPath, szNewName, GetExtension(papszFileList[i], szName)));
 
