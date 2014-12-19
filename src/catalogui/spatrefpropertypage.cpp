@@ -100,6 +100,17 @@ bool wxGISSpatialReferencePropertyPage::FillProperties(wxGxSelection* const pSel
 					oSRS = pDataset->GetSpatialReference();
 				wsDELETE(pDataset);	
 			}
+            else
+            {
+                wxGxDatasetContainer* pGxDatasetContainer = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+                if (pGxDatasetContainer)
+			    {
+                    wxGISDataset* pDataset = pGxDatasetContainer->GetDataset(false, m_pTrackCancel);
+				    if(pDataset)
+					    oSRS = pDataset->GetSpatialReference();
+				    wsDELETE(pDataset);	
+			    }
+            }
 		}
 			
 		//fill propertygrid

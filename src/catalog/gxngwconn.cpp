@@ -463,8 +463,11 @@ wxGxNGWResource::~wxGxNGWResource()
 bool wxGxNGWResource::DeleteResource()
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in DeleteResource"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 	
 	// DELETE /resource/0/child/4 0 - parentid 4 - curren id
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
@@ -483,8 +486,11 @@ bool wxGxNGWResource::DeleteResource()
 bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in RenameResource"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 		
 	wxJSONValue val;
 	val["resource"]["display_name"] = sNewName;
@@ -512,8 +518,11 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 bool wxGxNGWResource::UpdateResource(const wxString &sNewName, const wxString &sNewKey, const wxString &sNewDescription)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in UpdateResource"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 		
 	wxJSONValue val;
 	if(!sNewName.IsEmpty())
@@ -547,9 +556,12 @@ bool wxGxNGWResource::UpdateResource(const wxString &sNewName, const wxString &s
 bool wxGxNGWResource::UpdateResourceDescritpion(const wxString &sNewDescription)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in UpdateResourceDescritpion"), wxT("wxGxNGWResource"), NULL);
         return false;
-		
+    }
+
 	wxJSONValue val;
 	val["resource"]["description"] = sNewDescription;
 	wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
@@ -577,8 +589,11 @@ bool wxGxNGWResource::UpdateResourceDescritpion(const wxString &sNewDescription)
 bool wxGxNGWResource::UpdateResourceMetadata(const wxJSONValue &oNewMetadata)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in UpdateResourceMetadata"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 		
 	//m_oMetadata
 	wxArrayString saKeys = oNewMetadata.GetMemberNames();
@@ -614,8 +629,11 @@ bool wxGxNGWResource::UpdateResourceMetadata(const wxJSONValue &oNewMetadata)
 bool wxGxNGWResource::FillPermissions()
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in FillPermissions"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 		
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/api/resource/%d/permission"), m_nRemoteId);
     PERFORMRESULT res = curl.Get(sURL);
@@ -638,8 +656,11 @@ bool wxGxNGWResource::FillPermissions()
 bool wxGxNGWResource::MoveResource(int nResourceId)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in MoveResource"), wxT("wxGxNGWResource"), NULL);
         return false;
+    }
 		
 	wxJSONValue val;
 	val["resource"]["parent"]["id"] = nResourceId;
@@ -712,6 +733,7 @@ void wxGxNGWResource::ReportError(int nHTTPCode, const wxString& sBody)
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
 	CPLError(CE_Failure, CPLE_AppDefined, sFullError.ToUTF8());
+    wxLogError(sFullError);
 }
 
 wxGxNGWService *wxGxNGWResource::GetNGWService() const
@@ -1081,7 +1103,7 @@ bool wxGxNGWResourceWithStyles::GetStyles()
     wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
-		CPLError(CE_Failure, CPLE_AppDefined, "libcurl initialize failed!");
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in GetStyles"), wxT("wxGxNGWResourceWithStyles"), NULL);
         return false;
 	}
 
@@ -1394,7 +1416,7 @@ wxGxObjectMap wxGxNGWResourceGroup::GetRemoteObjects()
     wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
-		CPLError(CE_Failure, CPLE_AppDefined, "libcurl initialize failed!");
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in GetRemoteObjects"), wxT("wxGxNGWResourceGroup"), NULL);
         return ret;
 	}
 
@@ -1507,8 +1529,11 @@ bool wxGxNGWResourceGroup::CreateResource(const wxString &sName, wxGISEnumNGWRes
 bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in CreateResourceGroup"), wxT("wxGxNGWResourceGroup"), NULL);
         return false;
+    }
 	
 	// {"resource":{"cls":"resource_group","parent":{"id":0},"display_name":"test","keyname":"test_key","description":"qqq"}}
 	wxJSONValue val;
@@ -1553,6 +1578,7 @@ bool wxGxNGWResourceGroup::CreatePostGISLayer(const wxString &sName, int nPGConn
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in CreatePostGISLayer"), wxT("wxGxNGWResourceGroup"), NULL);
 		return false;
 	}
 		
@@ -1593,6 +1619,7 @@ bool wxGxNGWResourceGroup::CreatePostGISConnection(const wxString &sName, const 
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in CreatePostGISConnection"), wxT("wxGxNGWResourceGroup"), NULL);
         return false;
 	}
 	
@@ -1631,10 +1658,7 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 	wxGISCurl curl = m_pService->GetCurl();
     if(!curl.IsOk())
 	{
-		if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
-        }
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in CreateFileBucket"), wxT("wxGxNGWResourceGroup"), pTrackCancel);
         return false;
 	}
 	
@@ -1656,11 +1680,9 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 		wxJSONReader reader;
 		wxJSONValue  JSONRoot;
 		int numErrors = reader.Parse(res.sBody, &JSONRoot);
-		if (numErrors > 0)  {    
-			if (pTrackCancel)
-			{
-				pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
-			}
+		if (numErrors > 0)  
+        {    
+            wxGISLogError(_("Unexpected error"), wxT("Error in CreateFileBucket"), wxT("wxGxNGWResourceGroup"), pTrackCancel);
 			return false;
 		}
 		
@@ -1720,10 +1742,7 @@ bool wxGxNGWResourceGroup::CreateFileBucket(const wxString &sName, const wxArray
 	}
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
-	if (pTrackCancel)
-	{
-		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
-	}
+    wxGISLogError(sFullError, wxEmptyString, wxEmptyString, pTrackCancel);
 	
 	return false;		
 }
@@ -2147,10 +2166,7 @@ bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nPare
 	wxGISCurl curl = pService->GetCurl();
     if(!curl.IsOk())
 	{
-		if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
-        }
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in CreateDefaultStyle"), wxT("wxGxNGWLayer"), pTrackCancel);
         return false;
 	}
 	
@@ -2218,11 +2234,8 @@ bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nPare
 	}
 	
 	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
-	if (pTrackCancel)
-	{
-		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
-	}
-	
+    wxGISLogError(sFullError, wxEmptyString, wxEmptyString, pTrackCancel);
+
 	return false;		
 }
 
@@ -2748,6 +2761,7 @@ bool wxGxNGWFileSet::Copy(const CPLString &szDestPath, ITrackCancel* const pTrac
 	wxGxCatalogBase* pCatalog = GetGxCatalog();
     if (NULL == pCatalog)
     {
+        wxGISLogError(_("Copy failed"), _("Get catalog failed"), wxT("wxGxNGWFileSet"), pTrackCancel);
         return false;
     }    
 	
@@ -2757,6 +2771,8 @@ bool wxGxNGWFileSet::Copy(const CPLString &szDestPath, ITrackCancel* const pTrac
 		//copy to folder
 		return CopyToFolder(pGxObj->GetPath(), pTrackCancel);	
 	}
+
+    wxGISLogError(_("Copy failed"), wxString::Format(_("FindGxObjectByPath '%s' failed"), wxString::FromUTF8(szDestPath).c_str()), wxT("wxGxNGWFileSet"), pTrackCancel);
     return false;
 }
 
@@ -2872,8 +2888,11 @@ wxGISDataset* const wxGxNGWFileSet::GetDataset(bool bCached, ITrackCancel* const
 bool wxGxNGWFileSet::CopyToFolder(const CPLString &szPath, ITrackCancel * const pTrackCancel)
 {
 	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
-        return false;	
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("CopyToFolder failed"), _("Curl is not valid"), wxT("wxGxNGWFileSet"), pTrackCancel);
+        return false;
+    }
 		
 	IProgressor *pProgress = NULL;
 	if(pTrackCancel)
@@ -2895,16 +2914,16 @@ bool wxGxNGWFileSet::CopyToFolder(const CPLString &szPath, ITrackCancel * const 
 			continue;
 		
 		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/file/%s"), m_nRemoteId, m_asFiles[i].sName.c_str());
-			
-		if(!curl.GetFile(sURL, wxString::FromUTF8(szPath) + wxFileName::GetPathSeparator() + m_asFiles[i].sName, pTrackCancel))
+        wxString sFileName = wxString::FromUTF8(szPath) + wxFileName::GetPathSeparator() + m_asFiles[i].sName;
+        if (!curl.GetFile(sURL, sFileName, pTrackCancel))
 		{
-			if(pTrackCancel)
-				pTrackCancel->PutMessage(wxString::Format(_("File %s download failed"), m_asFiles[i].sName.c_str()), wxNOT_FOUND, enumGISMessageError);
+            wxGISLogError(wxString::Format(_("File %s download failed"), m_asFiles[i].sName.c_str()), wxEmptyString, wxEmptyString, pTrackCancel);
 			return false;	
 		}
+
 #ifdef NGW_USE_TIMESTAMP
         //set time stamp
-        wxFileName sNewFile(wxString::FromUTF8(szPath) + wxFileName::GetPathSeparator() + m_asFiles[i].sName);
+        wxFileName sNewFile(sFileName);
         sNewFile.SetTimes(NULL, &m_dtMod, NULL);
 #endif
 	}	
@@ -2962,6 +2981,14 @@ bool wxGxNGWFileSet::CanSync() const
         return true;
     else if (m_sName.Lower().EndsWith(wxT("vrt")))
         return true;
+    /*else if (m_sName.Lower().EndsWith(wxT("zip")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("txt")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("prj")))
+        return true;
+    else if (m_sName.Lower().EndsWith(wxT("xml")))
+        return true;*/
     return false;
 }
 

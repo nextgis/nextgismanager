@@ -51,7 +51,7 @@ void wxGISLogError(const wxString& sAppErr, const wxString &sLibError, const wxS
 	{
 		if(!sLibErrorPrepend.IsEmpty())
 		{
-			sErrMsg.Append(wxT("\n") + sLibErrorPrepend);
+			sErrMsg.Append(wxT("\n") + sLibErrorPrepend + wxT(": "));
 		}
 		else
 		{

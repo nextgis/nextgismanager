@@ -107,7 +107,7 @@ bool wxGISRasterPropertyPage::FillProperties(wxGxSelection* const pSel)
 		if(NULL == pGxObject)
 			return false;
 	
-		m_pGxDataset = 	wxDynamicCast(pGxObject, wxGxRasterDataset);
+        m_pGxDataset = dynamic_cast<IGxDataset*>(pGxObject);
 		if(NULL == m_pGxDataset)
 			return false;
 		
@@ -232,7 +232,7 @@ void wxGISRasterPropertyPage::FillGrid(void)
     wxString sTmp;
     //fill propertygrid
     wxPGProperty* pid = AppendProperty( new wxPropertyCategory(_("Data Source")) );
-    AppendProperty( new wxStringProperty(_("Raster"), wxPG_LABEL, m_pGxDataset->GetName()) );
+    AppendProperty(new wxStringProperty(_("Raster"), wxPG_LABEL, m_pDataset->GetName()));
 
     CPLString soPath(m_pDataset->GetPath());
 
@@ -564,7 +564,7 @@ void wxGISRasterPropertyPage::FillGrid(void)
                     GDALRasterBand*	pOverview = pBand->GetOverview( iOverview );
                     wxString sOvrDesc = wxString::Format(wxT("%d x %d"), pOverview->GetXSize(), pOverview->GetYSize());
                     pszResampling = pOverview->GetMetadataItem("RESAMPLING", "" );
-                    if( pszResampling != NULL && EQUALN(pszResampling, "AVERAGE_BIT2", 12) )
+                    if (pszResampling != NULL && wxGISEQUALN(pszResampling, "AVERAGE_BIT2", 12))
                         sOvrDesc += wxT( ", *" );
                     else
                         sOvrDesc += wxString(pszResampling, wxConvLocal);

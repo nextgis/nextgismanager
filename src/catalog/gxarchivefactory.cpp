@@ -47,7 +47,7 @@ bool wxGxArchiveFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wx
     bool bCheckNames = CSLCount(pFileNames) < CHECK_DUBLES_MAX_COUNT;
     for(int i = CSLCount(pFileNames) - 1; i >= 0; i-- )
     {
-        if( EQUALN(pFileNames[i],"/vsi",4) )
+        if (wxGISEQUALN(pFileNames[i], "/vsi", 4))
             continue;
         
         wxString path(pFileNames[i], wxConvUTF8);

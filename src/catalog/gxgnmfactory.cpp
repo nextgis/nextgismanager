@@ -71,7 +71,7 @@ bool wxGxGNMFactory::GetChildren(wxGxObject* pParent, char** &pFileNames, wxArra
             szClasses = pFileNames[i];
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );
         }
-        else if (EQUALN(szName, "gnm_", 4))
+        else if (wxGISEQUALN(szName, "gnm_", 4))
         {
             paPossibleModelLayers.Add( wxString::FromUTF8(pFileNames[i]) );
             pFileNames = CSLRemoveStrings( pFileNames, i, 1, NULL );

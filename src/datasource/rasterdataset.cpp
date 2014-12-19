@@ -682,10 +682,9 @@ wxString wxGISRasterDataset::GetName(void)
 
 bool wxGISRasterDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
-	wxCriticalSectionLocker locker(m_CritSect);
-
     Close();
 
+	wxCriticalSectionLocker locker(m_CritSect);
     char** papszFileList = GetFileList();
     papszFileList = CSLAddString( papszFileList, m_sPath );
     if(!papszFileList)
@@ -904,7 +903,7 @@ char ** wxGISRasterDataset::GetTiles(char **papszStrList, const CPLString &szPat
         while (pszValue[0] == ' ' || pszValue[0] == '\t')
             pszValue++;
 
-        if (EQUALN(pszValue, "filename", 8))
+        if (wxGISEQUALN(pszValue, "filename", 8))
         {
             const char* pszFileName = CPLParseNameValue(pszValue, NULL);
             size_t size = CPLStrnlen(pszFileName, 1024);

@@ -26,8 +26,6 @@
 
 #include <wx/tokenzr.h>
 #include <wx/filename.h>
-#include <wx/file.h>
-#include <wx/ffile.h>
 
 #undef LT_OBJDIR
 #include "gdal_priv.h"
@@ -330,6 +328,7 @@ void wxGISCurlRefData::FollowLocation(bool bSet, unsigned short iMaxRedirs)
 
 PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 {
+    wxCriticalSectionLocker lock(m_CritSect);
 	PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
@@ -338,7 +337,9 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 
     headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 	res = curl_easy_perform(m_pCurl);
 
@@ -397,13 +398,18 @@ PERFORMRESULT wxGISCurlRefData::Get(const wxString & sURL)
 
 bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel)
 {
-	if(wxFileName::FileExists(sPath))
+    wxCriticalSectionLocker lock(m_CritSect);
+    if (wxFileName::FileExists(sPath))
 		return true/*false*/;
+
+    wxFile file(sPath, wxFile::write);
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPGET, 1);
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 
 	headstruct.size = 0;
+    headstruct.pFile = NULL;
 	bodystruct.size = 0;
+    bodystruct.pFile = &file;
 
 #if LIBCURL_VERSION_NUM >= 0x072000
     struct ProgressStruct prog = { false, pTrackCancel };
@@ -422,27 +428,24 @@ bool wxGISCurlRefData::GetFile(const wxString & sURL, const wxString & sPath, IT
 	res = curl_easy_perform(m_pCurl);
 	if(res == CURLE_COULDNT_RESOLVE_HOST)
 		res = curl_easy_perform(m_pCurl);
+    file.Close();
 	if(res == CURLE_OK)
 	{
-        if (wxFileName::Exists(sPath))
-        {
-            if (!wxRemoveFile(sPath))
-                return false;
-        }
-		wxFile file(sPath, wxFile::write);
+		/*wxFile file(sPath, wxFile::write);
 		if(file.IsOpened())
 		{
 			file.Write(bodystruct.memory, bodystruct.size);
-			file.Close();
+			file.Close();*/
 			return true;
-		}
+		//}
 	}
 	return false;
 }
 
 PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel)
 {
-	PERFORMRESULT result;
+    wxCriticalSectionLocker lock(m_CritSect);
+    PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode =0;
@@ -453,8 +456,10 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	//curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDSIZE, -1);
 	
-	headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 #if LIBCURL_VERSION_NUM >= 0x072000
     struct ProgressStruct prog = { true, pTrackCancel };
@@ -504,7 +509,8 @@ PERFORMRESULT wxGISCurlRefData::Post(const wxString & sURL, const wxString & sPo
 
 PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 {
-	PERFORMRESULT result;
+    wxCriticalSectionLocker lock(m_CritSect);
+    PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode = 0;
@@ -512,7 +518,9 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 	curl_easy_setopt(m_pCurl, CURLOPT_URL, (const char*)sURL.ToUTF8());
 
     headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 	res = curl_easy_perform(m_pCurl);
 
@@ -571,7 +579,8 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 
 PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& sPostData)
 {
-	PERFORMRESULT result;
+    wxCriticalSectionLocker lock(m_CritSect);
+    PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode = 0;
@@ -580,7 +589,9 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 	curl_easy_setopt(m_pCurl, CURLOPT_POSTFIELDS , (const char*)sPostData.ToUTF8());
 	
     headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 	res = curl_easy_perform(m_pCurl);
 
@@ -639,7 +650,8 @@ PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& s
 
 PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel)
 {	
-	PERFORMRESULT result;
+    wxCriticalSectionLocker lock(m_CritSect);
+    PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode = 0;
@@ -683,8 +695,10 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
     }
 #endif
 
-	headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 	res = curl_easy_perform(m_pCurl);
 
@@ -743,7 +757,8 @@ PERFORMRESULT wxGISCurlRefData::UploadFile(const wxString & sURL, const wxString
 
 PERFORMRESULT wxGISCurlRefData::UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel)
 {	
-	PERFORMRESULT result;
+    wxCriticalSectionLocker lock(m_CritSect);
+    PERFORMRESULT result;
 	result.IsValid = false;
 	result.iSize = 0;
 	result.nHTTPCode = 0;
@@ -784,8 +799,10 @@ PERFORMRESULT wxGISCurlRefData::UploadFiles(const wxString & sURL, const wxArray
     }
 #endif
 
-	headstruct.size = 0;
-	bodystruct.size = 0;
+    headstruct.size = 0;
+    headstruct.pFile = NULL;
+    bodystruct.size = 0;
+    bodystruct.pFile = NULL;
 
 	res = curl_easy_perform(m_pCurl);
 

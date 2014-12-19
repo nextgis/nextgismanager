@@ -26,6 +26,7 @@
 
 #include <curl/curl.h>
 #include <stdlib.h>
+#include <wx/file.h>
 
 typedef struct _perform_result
 {
@@ -105,6 +106,7 @@ protected:
 	CURL *m_pCurl;
 	wxString m_sHeaders;
 	bool m_bUseProxy;
+    wxCriticalSection m_CritSect;
 
 protected:
 	CURLcode res;
@@ -112,6 +114,7 @@ protected:
 	{
       char *memory;
       size_t size;
+      wxFile* pFile;
     };
 	struct MemoryStruct bodystruct;
 	struct MemoryStruct headstruct;
@@ -136,14 +139,21 @@ protected:
            size_t realsize = size * nmemb;
            struct MemoryStruct *mem = (struct MemoryStruct *)data;
 
-           mem->memory = (char *)myrealloc(mem->memory, mem->size + realsize + 1);
-           if (mem->memory)
-		   {
-             memcpy(&(mem->memory[mem->size]), ptr, realsize);
-             mem->size += realsize;
-             mem->memory[mem->size] = 0;
+           if (mem->pFile)
+           {
+               return mem->pFile->Write(ptr, realsize);
            }
-           return realsize;
+           else
+           {
+               mem->memory = (char *)myrealloc(mem->memory, mem->size + realsize + 1);
+               if (mem->memory)
+		       {
+                 memcpy(&(mem->memory[mem->size]), ptr, realsize);
+                 mem->size += realsize;
+                 mem->memory[mem->size] = 0;
+               }
+               return realsize;
+           }
 	}
 
     static int xferinfo(void *p, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)

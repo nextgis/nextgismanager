@@ -215,7 +215,6 @@ bool wxGISDataset::CanMove(const CPLString &szDestPath)
 bool wxGISDataset::Delete(ITrackCancel* const pTrackCancel)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
-
     Close();
 
     if(!DeleteFile(m_sPath))
@@ -245,7 +244,6 @@ bool wxGISDataset::Delete(ITrackCancel* const pTrackCancel)
 bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCancel)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
-
     Close();
 
     CPLString szDirPath = CPLGetPath(m_sPath);
@@ -303,7 +301,6 @@ bool wxGISDataset::Rename(const wxString &sNewName, ITrackCancel* const pTrackCa
 bool wxGISDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
-
     Close();
 
     char** papszFileList = GetFileList();
@@ -353,7 +350,6 @@ bool wxGISDataset::Move(const CPLString &szDestPath, ITrackCancel* const pTrackC
 bool wxGISDataset::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
 {
 	wxCriticalSectionLocker locker(m_CritSect);
-
     Close();
 
     char** papszFileList = GetFileList();

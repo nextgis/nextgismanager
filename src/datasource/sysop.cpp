@@ -85,7 +85,7 @@ bool MoveDir(const CPLString &sPathFrom, const CPLString &sPathTo, long mode, IT
         return true;
 
 #ifdef __WINDOWS__
-    if(!EQUALN(sPathTo,"/vsi",4) && EQUALN(sPathFrom, sPathTo, 3))
+    if (!wxGISEQUALN(sPathTo, "/vsi", 4) && EQUALN(sPathFrom, sPathTo, 3))
     {
         //if in same disc - copy/rename
         return RenameFile(sPathFrom, sPathTo, pTrackCancel);
@@ -237,21 +237,21 @@ wxFontEncoding ToFontEncoding(const CPLString &soCodePage)
     int nCP(-1);
 
 
-    if (EQUALN(soCodePage, "LDID/", 5))
+    if (wxGISEQUALN(soCodePage, "LDID/", 5))
     {
         nCP = atoi(soCodePage.c_str() + 5);
         //if( nCP > 255 )
         //    nCP = -1; // don't use 0 to indicate out of range as LDID/0 is a valid one
     }
-    else if (EQUALN(soCodePage, "UTF-8", 5))
+    else if (wxGISEQUALN(soCodePage, "UTF-8", 5))
         return wxFONTENCODING_UTF8;
-    else if (EQUALN(soCodePage, "UTF-7", 5))
+    else if (wxGISEQUALN(soCodePage, "UTF-7", 5))
         return wxFONTENCODING_UTF7;
-    else if (EQUALN(soCodePage, "UTF-16", 6))
+    else if (wxGISEQUALN(soCodePage, "UTF-16", 6))
         return wxFONTENCODING_UTF16;
-    else if (EQUALN(soCodePage, "KOI8-R", 6))
+    else if (wxGISEQUALN(soCodePage, "KOI8-R", 6))
         return wxFONTENCODING_KOI8;
-    else if (EQUALN(soCodePage, "KOI8-U", 6))
+    else if (wxGISEQUALN(soCodePage, "KOI8-U", 6))
         return wxFONTENCODING_KOI8_U;
     else
         nCP = atoi(soCodePage);
@@ -395,7 +395,7 @@ bool IsFileHidden(const CPLString &sPath)
     if (dwAttrs != INVALID_FILE_ATTRIBUTES)
 		return dwAttrs & FILE_ATTRIBUTE_HIDDEN;
 #endif
-	return EQUALN(CPLGetFilename(sPath), ".", 1);
+    return wxGISEQUALN(CPLGetFilename(sPath), ".", 1);
 }
 
 wxString CheckUniqName(const CPLString &sPath, const wxString &sName, const wxString &sExt, int nCounter)
@@ -573,7 +573,7 @@ bool MoveFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCance
         return RenameFile(sSrcPath, sDestPath, pTrackCancel);
     }
 #ifdef __WINDOWS__
-    else if(!EQUALN(sDestPath,"/vsi",4) && EQUALN(sDestPath, sSrcPath, 3))
+    else if (!wxGISEQUALN(sDestPath, "/vsi", 4) && wxGISEQUALN(sDestPath, sSrcPath, 3))
     {
         //if in same disc - copy/rename
         return RenameFile(sSrcPath, sDestPath, pTrackCancel);
@@ -612,7 +612,7 @@ wxString GetConvName(const CPLString &szPath, bool bIsPath)
         szName = CPLGetFilename(szPath);
     else
         szName = szPath;
-    if( EQUALN(szPath,"/vsizip/",8) )
+    if (wxGISEQUALN(szPath, "/vsizip/", 8))
         name = wxString(szName, wxConvUTF8);
     else
         name = wxString(szName, wxConvUTF8);

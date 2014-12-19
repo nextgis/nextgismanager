@@ -70,7 +70,7 @@ protected:
     void FillGrid(void);	
 protected:
     wxGISRasterDataset* m_pDataset;
-    wxGxRasterDataset* m_pGxDataset;
+    IGxDataset* m_pGxDataset;
     wxPropertyGrid* m_pg;
 	long m_nCounter;
 private:
