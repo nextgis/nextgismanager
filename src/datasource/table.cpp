@@ -532,7 +532,9 @@ wxGISFeature wxGISTable::Next(void)
     {
         return wxGISFeature();
     }
-    OGRFeature* pFeature = m_poLayer->GetNextFeature();
+	
+	OGRFeature* pFeature = m_poLayer->GetNextFeature();
+	
     if(!pFeature)
     {
         return wxGISFeature();

@@ -96,6 +96,9 @@ bool wxGISVectorPropertyPage::FillProperties(wxGxSelection* const pSel)
 		m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISFeatureDataset);
 		if(!m_pDataset)
 			return false;
+			
+		if(m_pDataset->IsCaching())
+			return false;
 		
 		/*if(m_pDataset->IsOpened() && m_pDataset->IsReadOnly())
 		{

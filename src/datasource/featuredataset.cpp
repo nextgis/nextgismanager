@@ -216,7 +216,7 @@ void wxGISFeatureDataset::SetEncoding(const wxFontEncoding &oEncoding)
         wxString sEnc = wxLocale::GetSystemEncodingName();
         m_bRecodeToSystem = !m_sCPLSetConfigOption.IsSameAs(sEnc, false);
     }
-    wxGISTable::SetEncoding(oEncoding);
+    m_Encoding = oEncoding;
 }
 
 bool wxGISFeatureDataset::Open(int iLayer, bool bUpdate, bool bShared, bool bCache, ITrackCancel* const pTrackCancel)

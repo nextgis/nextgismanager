@@ -23,6 +23,7 @@
 #include "wxgis/catalogui/catalogui.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/table.h"
+#include "wxgis/catalogui/propertydlg.h"
 
 #include "wx/propgrid/propgrid.h"
 
@@ -33,8 +34,8 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGISTablePropertyPage : 
-    public wxPanel
+class WXDLLIMPEXP_GIS_CLU wxGISTablePropertyPage :
+    public wxGxPropertyPage
 {
     DECLARE_DYNAMIC_CLASS(wxGISTablePropertyPage)
 	enum
@@ -44,20 +45,24 @@ class WXDLLIMPEXP_GIS_CLU wxGISTablePropertyPage :
 
 public:
     wxGISTablePropertyPage(void);
-    wxGISTablePropertyPage(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
+    wxGISTablePropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
 	~wxGISTablePropertyPage();
-    virtual bool Create(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
+    virtual bool Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("Table"));
     virtual wxString GetPageName(void){return wxString(_("Table"));};
     wxPGProperty* AppendProperty(wxPGProperty* pProp);
     wxPGProperty* AppendProperty(wxPGProperty* pid, wxPGProperty* pProp);
     wxPGProperty* AppendMetadataProperty(wxString sMeta);
     void FillGrid(void);
     void FillLayerDef(OGRLayer *poLayer, int iLayer, CPLString soPath);
+	// wxGxPropertyPage
+	virtual void Apply(void);
+	virtual bool CanApply() const;
+	virtual bool FillProperties(wxGxSelection* const pSel);
 	//events
 	void OnChildFocus(wxChildFocusEvent& event);
 protected:
     wxGISTable* m_pDataset;
-    wxGxTable* m_pGxDataset;
+    wxGxDataset* m_pGxDataset;
 
     wxPropertyGrid* m_pg;
 	long m_nCounter;

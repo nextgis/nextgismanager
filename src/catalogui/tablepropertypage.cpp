@@ -23,29 +23,37 @@
 
 #include "wx/propgrid/advprops.h"
 
+#include "../../art/table_dbf_16.xpm"
+
 //--------------------------------------------------------------------------
 // wxGISTablePropertyPage
 //--------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxGISTablePropertyPage, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(wxGISTablePropertyPage, wxGxPropertyPage)
 
-BEGIN_EVENT_TABLE(wxGISTablePropertyPage, wxPanel)
+BEGIN_EVENT_TABLE(wxGISTablePropertyPage, wxGxPropertyPage)
 	EVT_CHILD_FOCUS( wxGISTablePropertyPage::OnChildFocus )
 END_EVENT_TABLE()
 
-wxGISTablePropertyPage::wxGISTablePropertyPage(void)
+wxGISTablePropertyPage::wxGISTablePropertyPage(void): wxGxPropertyPage()
 {
 	m_nCounter = 0;
     m_pDataset = NULL;
     m_pGxDataset = NULL;
+    m_pg = NULL;
+	m_sPageName = wxString(_("Table"));	
+	m_PageIcon = wxBitmap(table_dbf_16_xpm);
 }
 
-wxGISTablePropertyPage::wxGISTablePropertyPage(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+wxGISTablePropertyPage::wxGISTablePropertyPage(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
 	m_nCounter = 0;
     m_pDataset = NULL;
     m_pGxDataset = NULL;
-    Create(pGxDataset, parent, id, pos, size, style, name);
+    m_pg = NULL;
+	m_sPageName = wxString(_("Table"));	
+	m_PageIcon = wxBitmap(table_dbf_16_xpm);
+    Create(pTrackCancel, parent, id, pos, size, style, name);
 }
 
 wxGISTablePropertyPage::~wxGISTablePropertyPage()
@@ -53,24 +61,70 @@ wxGISTablePropertyPage::~wxGISTablePropertyPage()
     wsDELETE(m_pDataset);
 }
 
-bool wxGISTablePropertyPage::Create(wxGxTable* pGxDataset, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+
+void wxGISTablePropertyPage::Apply(void)
+{
+	
+}
+
+bool wxGISTablePropertyPage::CanApply() const
+{
+	//TODO: Allow to edit spatial reference
+	return false;
+}
+
+bool wxGISTablePropertyPage::FillProperties(wxGxSelection* const pSel)
+{
+	if(m_pg)
+	{
+		m_pg->Clear();
+		
+		wsDELETE(m_pDataset);
+		if(NULL == pSel)
+			return false;
+			
+		wxGxCatalogBase* pCat = GetGxCatalog();	
+		wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetFirstSelectedObjectId());	
+		if(NULL == pGxObject)
+			return false;
+			
+		m_pGxDataset = wxDynamicCast(pGxObject, wxGxDataset);
+		if(NULL == m_pGxDataset)
+			return false;
+
+		m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISTable);
+		if(!m_pDataset)
+			return false;
+			
+		if(m_pDataset->IsCaching())
+			return false;
+		
+		/*if(m_pDataset->IsOpened() && m_pDataset->IsReadOnly())
+		{
+			m_pDataset->Close();
+			if(!m_pDataset->Open(0, true, true, false))
+				return false;
+			
+		}
+		else */if (!m_pDataset->IsOpened())
+		{
+            if (!m_pDataset->Open(0, true, true, false))
+            {
+                wsDELETE(m_pDataset);
+                return false;
+            }
+		}	
+		FillGrid();	
+
+        wsDELETE(m_pDataset);
+	}
+	return true;
+}			
+
+bool wxGISTablePropertyPage::Create(ITrackCancel * const pTrackCancel, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
 		return false;
-
-    m_pGxDataset = pGxDataset;
-
-    m_pDataset = wxDynamicCast(m_pGxDataset->GetDataset(false), wxGISTable);
-    if(!m_pDataset)
-        return false;
-    if (!m_pDataset->IsOpened())
-    {
-        if (!m_pDataset->Open(0, true, true, false))
-        {
-            wsDELETE(m_pDataset);
-            return false;
-        }
-    }
 
 	wxBoxSizer* bMainSizer;
 	bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -78,10 +132,6 @@ bool wxGISTablePropertyPage::Create(wxGxTable* pGxDataset, wxWindow* parent, wxW
     m_pg = new wxPropertyGrid(this, ID_PPCTRL, wxDefaultPosition, wxDefaultSize, wxPG_DEFAULT_STYLE | wxPG_TOOLTIPS | wxPG_SPLITTER_AUTO_CENTER);
     m_pg->SetColumnProportion(0, 30);
     m_pg->SetColumnProportion(1, 70);
-
-    FillGrid();
-
-    wsDELETE(m_pDataset);
 
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
