@@ -426,11 +426,17 @@ wxGxNGWResource::wxGxNGWResource(const wxJSONValue &Data)
 {
     wxJSONValue JSONResource = Data["resource"];
     m_bHasChildren = JSONResource["children"].AsBool();
-    m_sDescription = JSONResource["description"].AsString();
+	if(JSONResource.HasMember("description") && JSONResource["description"].IsValid() && !JSONResource["description"].IsNull())
+		m_sDescription = JSONResource["description"].AsString();
+	else
+		m_sDescription = wxEmptyString;
     m_sDisplayName = JSONResource["display_name"].AsString();
     SetRemoteId( JSONResource["id"].AsInt() );
     //wxArrayString m_aInterfaces;
-    m_sKeyName = JSONResource["keyname"].AsString();
+    if(JSONResource.HasMember("keyname") && JSONResource["keyname"].IsValid() && !JSONResource["keyname"].IsNull())
+		m_sKeyName = JSONResource["keyname"].AsString();
+	else
+		m_sKeyName = wxEmptyString;
     m_nOwnerId = JSONResource["owner_user"].AsInt();
 	/*
     const wxJSONInternalArray* pArr = JSONResource["permissions"].AsArray();
