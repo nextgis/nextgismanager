@@ -1150,6 +1150,12 @@ bool wxGISTaskPeriodic::Create(const wxJSONValue& TaskConfig)
         }
         m_bSubTasksLoaded = true;
     }
+
+    if (m_nPeriod > 0)
+    {
+        CreateAndRunThread();
+    }
+
     return Save();
 }
 
