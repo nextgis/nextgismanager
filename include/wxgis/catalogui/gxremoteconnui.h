@@ -55,8 +55,6 @@ public:
 	virtual wxIcon GetSmallImage(void);
 	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxRemoteConnection.ContextMenu"));};
 	virtual wxString NewMenu(void) const {return wxString(wxT("wxGxRemoteConnection.NewMenu"));};
-    //IGxRemoteConnection
-	virtual bool Connect(void);
 	//IGxObjectEditUI
 	virtual void EditProperties(wxWindow *parent);
     //IGxObjectWizard
@@ -66,17 +64,12 @@ public:
 protected:
     //wxGxRemoteConnection
     virtual wxGxRemoteDBSchema* GetNewRemoteDBSchema(int nRemoteId, const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn);
-    virtual wxThread::ExitCode Entry();
-    //events
-    virtual void OnThreadFinished(wxThreadEvent& event);
 protected:
     wxIcon m_oLargeIconConn, m_oSmallIconConn;
     wxIcon m_oLargeIconDisconn, m_oSmallIconDisconn;
     wxIcon m_oLargeIconFeatureClass, m_oSmallIconFeatureClass;
     wxIcon m_oLargeIconTable, m_oSmallIconTable;
     wxIcon m_oLargeIconSchema, m_oSmallIconSchema;
-private:
-	DECLARE_EVENT_TABLE()
 };
 
 /** @class wxGxRemoteDBSchemaUI

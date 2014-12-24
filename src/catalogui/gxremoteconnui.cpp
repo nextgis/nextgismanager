@@ -60,10 +60,6 @@
 
 IMPLEMENT_CLASS(wxGxRemoteConnectionUI, wxGxRemoteConnection)
 
-BEGIN_EVENT_TABLE(wxGxRemoteConnectionUI, wxGxRemoteConnection)
-	EVT_THREAD(wxID_ANY, wxGxRemoteConnectionUI::OnThreadFinished)
-END_EVENT_TABLE()
-
 wxGxRemoteConnectionUI::wxGxRemoteConnectionUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnection(oParent, soName, soPath), wxGxAutoRenamer()
 {
     m_oLargeIconConn = LargeIconConn;
@@ -116,116 +112,6 @@ bool wxGxRemoteConnectionUI::Invoke(wxWindow* pParentWnd)
 	}
 
     return true;
-}
-
-bool wxGxRemoteConnectionUI::Connect(void)
-{
-    if(IsConnected())
-        return true;
-    bool bRes = true;
-
-    //start thread to load schemes
-    if (!CreateAndRunThread())
-        return false;
-    return bRes;
-}
-
-//thread to load remote DB tables
-//before exit we assume that no tables exist
-wxThread::ExitCode wxGxRemoteConnectionUI::Entry()
-{
-	long nPendingId = wxNOT_FOUND;
-	wxGxCatalogUI* pCat  = NULL;
-	
-    wxGISPostgresDataSource* pDSet = wxDynamicCast(GetDatasetFast(), wxGISPostgresDataSource);
-    wxGISPointerHolder holder(pDSet);
-
-    if(NULL != pDSet)
-    {
-		//add pending item
-		pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-		if(NULL != pCat)
-		{
-			nPendingId = pCat->AddPending(GetId());
-			pCat->ObjectChanged(GetId());
-		}
-		
-		
-        if(!pDSet->Open())
-        {
-            wxThreadEvent event( wxEVT_THREAD, EXIT_EVENT );
-            wxQueueEvent( this, event.Clone() );
-
-            if (nPendingId != wxNOT_FOUND)
-            {
-                pCat->RemovePending(nPendingId);
-                nPendingId = wxNOT_FOUND;
-            }
-            return (wxThread::ExitCode)wxTHREAD_MISC_ERROR;
-        }
-    }
-
-    if (!m_bChildrenLoaded)
-    {		
-		if(nPendingId == wxNOT_FOUND)
-		{
-			//add pending item
-			pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-			if(NULL != pCat)
-			{
-				nPendingId = pCat->AddPending(GetId());
-				pCat->ObjectChanged(GetId());
-			}
-		}
-	
-        LoadChildren(); // first load children		
-		
-		
-		wxThreadEvent event(wxEVT_THREAD, LOADED_EVENT);
-		wxQueueEvent( this, event.Clone() );
-    }
-	
-	if(nPendingId != wxNOT_FOUND)
-	{
-		pCat->RemovePending(nPendingId);
-		nPendingId = wxNOT_FOUND;				
-	}
-
-    wxThread::Sleep(m_nShortWait / m_nStep);
-
-    wxThread::ExitCode eCode = wxGxRemoteConnection::Entry();
-	
-	wxThreadEvent event(wxEVT_THREAD, LOADED_EVENT);
-	wxQueueEvent( this, event.Clone() );
-		
-	return eCode;
-}
-
-void wxGxRemoteConnectionUI::OnThreadFinished(wxThreadEvent& event)
-{
-    if (event.GetId() == LOADED_EVENT) //call after the LoadChildren exited
-    {
-        wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-        if (pCat)
-        {
-            pCat->ObjectRefreshed(GetId());
-            pCat->ObjectChanged(GetId());
-        }
-    }
-    else if(event.GetId() == EXIT_EVENT)
-    {
-        wxGxCatalogUI* pCat = wxDynamicCast(GetGxCatalog(), wxGxCatalogUI);
-        if (pCat)
-        {
-            pCat->ObjectRefreshed(GetId());
-            pCat->ObjectChanged(GetId());
-        }
-
-        wxString sErr = wxString::Format(_("Operation '%s' failed!"), wxString(_("Connect")));
-        wxGISErrorMessageBox(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()));
-    }
-
-    //else do nothing
 }
 
 wxGxRemoteDBSchema* wxGxRemoteConnectionUI::GetNewRemoteDBSchema(int nRemoteId, const wxString &sName, const CPLString &soPath, wxGISPostgresDataSource *pwxGISRemoteConn)
