@@ -374,6 +374,7 @@ void wxGxTreeViewBase::OnItemExpanding(wxTreeEvent& event)
 	if(!item.IsOk() || NULL == m_pCatalog)
 		return;
 
+	event.Skip();
 	wxGxTreeItemData* pData = (wxGxTreeItemData*)GetItemData(item);
 	if(NULL != pData)
 	{

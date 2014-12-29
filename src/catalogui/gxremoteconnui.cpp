@@ -412,7 +412,7 @@ bool wxGxRemoteDBSchemaUI::HasChildren(bool bWaitLoading)
  
     CreateAndRunThread();
 
-    return wxGxObjectContainer::HasChildren(bWaitLoading);
+    return true; //we add pending in thread so we have children
 }
 
 wxThread::ExitCode wxGxRemoteDBSchemaUI::Entry()

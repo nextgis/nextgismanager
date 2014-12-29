@@ -37,6 +37,28 @@ IMPLEMENT_DYNAMIC_CLASS(wxGxCatalogUI, wxGxCatalog);
 wxGxCatalogUI::wxGxCatalogUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxCatalog(oParent, soName, soPath)
 {
     m_oIcon = wxIcon(mainframecat_xpm);
+	
+    if(m_oaPendingIconsSmall.empty())
+    {
+		wxBitmap lst(process_working_16_xpm);
+		for(size_t i = 0; i < lst.GetWidth(); i += 16)
+		{
+			wxIcon ico;
+			ico.CopyFromBitmap(lst.GetSubBitmap(wxRect(i, 0, 16, 16)));
+			m_oaPendingIconsSmall.push_back(ico);
+		}
+    }
+	
+    if(m_oaPendingIconsLarge.empty())
+    {
+		wxBitmap lst(process_working_48_xpm);
+		for(size_t i = 0; i < lst.GetWidth(); i += 48)
+		{
+			wxIcon ico;
+			ico.CopyFromBitmap(lst.GetSubBitmap(wxRect(i, 0, 48, 48)));
+			m_oaPendingIconsLarge.push_back(ico);
+		}
+    }
 }
 
 wxGxCatalogUI::~wxGxCatalogUI(void)
@@ -58,21 +80,6 @@ long wxGxCatalogUI::AddPending(long nParentId)
 	wxCriticalSectionLocker lock(m_PendCriticalSect);
     wxGxObjectContainer *pGxObjectContainer = wxDynamicCast(GetRegisterObject(nParentId), wxGxObjectContainer);
     wxCHECK_MSG(pGxObjectContainer, wxNOT_FOUND, wxT("The parent GxObject is not exist or not a container"));
-    //if not loaded load images to list
-    if(m_oaPendingIconsSmall.empty())
-    {
-        wxImageList lst(16, 16);
-        lst.Add(wxBitmap(process_working_16_xpm));
-        for(size_t i = 0; i < lst.GetImageCount(); ++i)
-            m_oaPendingIconsSmall.push_back(lst.GetIcon(i));
-    }
-    if(m_oaPendingIconsLarge.empty())
-    {
-        wxImageList lst(48, 48);
-        lst.Add(wxBitmap(process_working_48_xpm));
-        for(size_t i = 0; i < lst.GetImageCount(); ++i)
-            m_oaPendingIconsLarge.push_back(lst.GetIcon(i));
-    }
 
     wxGxPendingUI *pPend = new wxGxPendingUI(&m_oaPendingIconsSmall, &m_oaPendingIconsLarge, pGxObjectContainer);
     return pPend->GetId();
