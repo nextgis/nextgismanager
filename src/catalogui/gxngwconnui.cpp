@@ -1194,6 +1194,7 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
         writer.Write(val, sPayload);
 
         sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+		curl.SetTimeout(3600); //1 hour
         res = curl.Post(sURL, sPayload, pTrackCancel);
         bResult = res.IsValid && res.nHTTPCode < 400;
 

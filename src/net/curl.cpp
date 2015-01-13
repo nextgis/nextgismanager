@@ -142,6 +142,11 @@ void wxGISCurl::SetSSLVersion(long nVer)
     ((wxGISCurlRefData *)m_refData)->SetSSLVersion(nVer);
 }
 
+void wxGISCurl::SetTimeout(long nTimeout)
+{
+	((wxGISCurlRefData *)m_refData)->SetTimeout(nTimeout);
+}
+
 void wxGISCurl::SetUserPasswd(const wxString& sUser, wxString& sPasswd)
 {
     ((wxGISCurlRefData *)m_refData)->SetUserPasswd(sUser, sPasswd);
@@ -155,6 +160,11 @@ void wxGISCurl::AppendHeader(const wxString & sHeadStr)
 void wxGISCurl::SetDefaultHeader(void)
 {
     ((wxGISCurlRefData *)m_refData)->SetDefaultHeader();
+}
+
+void wxGISCurl::SetDefaultValues()
+{
+	((wxGISCurlRefData *)m_refData)->SetDefaultValues();
 }
 
 void wxGISCurl::FollowLocation(bool bSet, unsigned short iMaxRedirs)
@@ -207,6 +217,10 @@ wxGISCurlRefData::wxGISCurlRefData(const wxString & proxy, const wxString & sHea
 
     bodystruct.memory = NULL;
     headstruct.memory = NULL;
+	
+	m_dnscachetimeout = dnscachetimeout;
+	m_timeout = timeout;
+	m_conntimeout = conntimeout;
 
 	m_pCurl = curl_easy_init();
 	if(m_pCurl)
@@ -265,6 +279,9 @@ wxGISCurlRefData::wxGISCurlRefData(const wxGISCurlRefData& data) : wxObjectRefDa
     m_pCurl = data.m_pCurl;
     m_sHeaders = data.m_sHeaders;
     m_bUseProxy = data.m_bUseProxy;
+	m_conntimeout = data.m_conntimeout;
+	m_timeout = data.m_timeout;
+	m_dnscachetimeout = data.m_dnscachetimeout;
 
     curl_easy_setopt(m_pCurl, CURLOPT_WRITEFUNCTION, write_data);
     curl_easy_setopt(m_pCurl, CURLOPT_WRITEHEADER ,&headstruct);
@@ -284,6 +301,11 @@ void wxGISCurlRefData::SetSSLVersion(long nVer)
     curl_easy_setopt(m_pCurl, CURLOPT_SSLVERSION, nVer);
 }
 
+void wxGISCurlRefData::SetTimeout(long nTimeout)
+{
+    curl_easy_setopt(m_pCurl, CURLOPT_TIMEOUT, nTimeout);
+}
+
 void wxGISCurlRefData::SetUserPasswd(const wxString& sUser, wxString& sPasswd)
 {
 	wxString sUP = sUser + wxString(wxT(":")) + sPasswd;
@@ -300,6 +322,12 @@ void wxGISCurlRefData::AppendHeader(const wxString & sHeadStr)
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPHEADER, slist);
 }
 
+void wxGISCurlRefData::SetDefaultValues()
+{
+	curl_easy_setopt(m_pCurl, CURLOPT_DNS_CACHE_TIMEOUT, m_dnscachetimeout);
+	curl_easy_setopt(m_pCurl, CURLOPT_TIMEOUT, m_timeout);
+	curl_easy_setopt(m_pCurl, CURLOPT_CONNECTTIMEOUT, m_conntimeout);
+}
 
 void wxGISCurlRefData::SetDefaultHeader(void)
 {
