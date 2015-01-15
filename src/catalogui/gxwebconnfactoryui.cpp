@@ -46,7 +46,7 @@ wxGxWebConnectionFactoryUI::wxGxWebConnectionFactoryUI(void) : wxGxWebConnection
     m_LargeIconNGWDisconn = GetStateIcon(m_LargeIconNGWConn, wxGISEnumIconStateDisconnect, true);
     m_SmallIconNGWDisconn = GetStateIcon(m_SmallIconNGWConn, wxGISEnumIconStateDisconnect, false);
     m_LargeIconNGWConnGuest = GetStateIcon(m_LargeIconNGWConn, wxGISEnumIconStateWarning, true);
-    m_SmallIconNGWConnGuest = GetStateIcon(m_SmallIconNGWDisconn, wxGISEnumIconStateWarning, false);
+    m_SmallIconNGWConnGuest = GetStateIcon(m_SmallIconNGWConn, wxGISEnumIconStateWarning, false);
 }
 
 wxGxWebConnectionFactoryUI::~wxGxWebConnectionFactoryUI(void)

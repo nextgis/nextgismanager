@@ -106,6 +106,7 @@ wxIcon GetStateIcon(const wxIcon & icon, wxGISEnumIconStateType eType, bool bIsL
             image = OverlayImage(image, fore, 7, 7);
         }
         ret.CopyFromBitmap(wxBitmap(image));
+
         break;
     }
     };
@@ -126,14 +127,16 @@ wxImage OverlayImage(const wxImage &imgBack, const wxImage &imgFore, int xoff, i
     if (bgHeight - yoff < fgHeight)
         fgHeight = bgHeight - yoff;
 
-    for (int i = xoff; i < bgWidth; ++i)
+    for (int i = 0; i < fgWidth; ++i)
     {
-        for (int j = yoff; j < fgHeight; ++j)
+        for (int j = 0; j < fgHeight; ++j)
         {
-            int ifore = i - xoff;
-            int jfore = j - yoff;
-            if (!imgFore.IsTransparent(ifore, jfore))
-                out.SetRGB(i, j, imgFore.GetRed(ifore, jfore), imgFore.GetGreen(ifore, jfore), imgFore.GetBlue(ifore, jfore));
+            int ibk = i + xoff;
+            int jbk = j + yoff;
+            if (!imgFore.IsTransparent(i, j))
+            {
+                out.SetRGB(ibk, jbk, imgFore.GetRed(i, j), imgFore.GetGreen(i, j), imgFore.GetBlue(i, j));
+            }
         }
     }
     return out;
