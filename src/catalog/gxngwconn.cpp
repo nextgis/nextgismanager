@@ -225,11 +225,12 @@ bool wxGxNGWService::ConnectToNGW()
 	//get capabilities
 	m_eSupportedTypes.clear();
 	sURL = m_sURL + wxString(wxT("/resource/schema"));
-	curl.AppendHeader(wxT("Cookie:") + m_sAuthCookie);
+	if(m_bIsAuthorized)
+		curl.AppendHeader(wxT("Cookie:") + m_sAuthCookie);
 	res = curl.Get(sURL);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
-	wxLogMessage(_("Get resource schema %s"), bResult ? _("succeded") : _("failed"));
+	wxLogMessage(_("Get resource schema %s [%s], code %d"), bResult ? _("succeded") : _("failed"), sURL.c_str(), res.nHTTPCode);
 	
 	if(bResult)
 	{
@@ -251,7 +252,6 @@ bool wxGxNGWService::ConnectToNGW()
                     else if (!IsTypeSupported(eType))
 					{
                         m_eSupportedTypes.Add(eType);
-						wxLogMessage(_("Add supported resource: %d"), eType);
 					}
                 }
             }
