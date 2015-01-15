@@ -229,6 +229,8 @@ bool wxGxNGWService::ConnectToNGW()
 	res = curl.Get(sURL);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
+	wxLogMessage(_("Get resource schema %s"), bResult ? _("succeded") : _("failed"));
+	
 	if(bResult)
 	{
 		wxJSONReader reader;
@@ -247,11 +249,14 @@ bool wxGxNGWService::ConnectToNGW()
                     if (m_eSupportedTypes.empty())
                         m_eSupportedTypes.Add(eType);
                     else if (!IsTypeSupported(eType))
+					{
                         m_eSupportedTypes.Add(eType);
+						wxLogMessage(_("Add supported resource: %d"), eType);
+					}
                 }
             }
 		}
-	}
+	}	
 
     return true;
 }
