@@ -660,9 +660,42 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
 // ====================================================================
 
 	int bFilterOutStatsMetadata = FALSE;
-    for( size_t i = 0; i < anBands.GetCount(); ++i )
+	int nBandCount = anBands.GetCount();
+	if (eForceBandColorTo == enumGISForceBandsToRGB)
+		nBandCount = 3;
+	else if(eForceBandColorTo == enumGISForceBandsToRGBA)
+		nBandCount = 4;
+	else if(eForceBandColorTo == enumGISForceBandsToGray)
+		nBandCount = 1;
+		
+    for( size_t i = 0; i < nBandCount; ++i )
     {
-        int nSrcBand = anBands[i];  
+        int nSrcBand;
+		int nComponent = 0;
+		
+		if(pDset->GetRasterCount() < 3 || anBands.GetCount() < 3)
+		{
+			if(eForceBandColorTo == enumGISForceBandsToRGB || eForceBandColorTo == enumGISForceBandsToRGBA)
+			{
+				GDALColorInterp eColorInterpretation = poSrcBand->GetColorInterpretation();
+				if((eColorInterpretation == GCI_PaletteIndex || poSrcBand->GetRasterDataType() == GDT_Int32) && i < 3)
+				{
+					nSrcBand = anBands[0];
+					nComponent = i + 1;
+				}
+				else
+				{
+					nSrcBand = anBands[0];
+				}
+			}
+			else if(eForceBandColorTo == enumGISForceBandsToGray)
+				nSrcBand = anBands[0];
+		}
+		else
+		{
+			nSrcBand = anBands[i]; 
+		}
+
         poSrcBand = pDset->GetRasterBand(nSrcBand);
 
 // --------------------------------------------------------------------
@@ -775,26 +808,26 @@ bool ExportFormatEx(wxGISRasterDataset* const pSrsDataSet, const CPLString &sPat
 //      translation type required.                                     
 // --------------------------------------------------------------------
         
-        if( eBandType != poSrcBand->GetRasterDataType() )
+        if( eBandType != poSrcBand->GetRasterDataType() || eForceBandColorTo != enumGISForceBandsToNone)
         {
 			double dfScale=1.0, dfOffset=0.0;			
-			double	adfCMinMax[2];
-			poSrcBand->ComputeRasterMinMax(TRUE, adfCMinMax );
-			
-			if( adfCMinMax[1] == adfCMinMax[0] )
-                adfCMinMax[1] += 0.1;
+			if(nComponent == 0)
+			{
+				double	adfCMinMax[2];
+				poSrcBand->ComputeRasterMinMax(TRUE, adfCMinMax );
+				
+				if( adfCMinMax[1] == adfCMinMax[0] )
+					adfCMinMax[1] += 0.1;
 
-            dfScale = (dfScaleDstMax - dfScaleDstMin) / (adfCMinMax[1] - adfCMinMax[0]);
-            dfOffset = -1 * adfCMinMax[0] * dfScale + dfScaleDstMin;			
-			
-			int nComponent = 0;
-			//if ((eForceBandColorTo == enumGISForceBandsToRGB || eForceBandColorTo == enumGISForceBandsToRGBA ) && i < 3)
-			//	nComponent = i + 1;
+				dfScale = (dfScaleDstMax - dfScaleDstMin) / (adfCMinMax[1] - adfCMinMax[0]);
+				dfOffset = -1 * adfCMinMax[0] * dfScale + dfScaleDstMin;			
+			}
 #if GDAL_VERSION_NUM >= 1110000
             VRTComplexSource* poSource = new VRTComplexSource();
             poVRTBand->ConfigureSource( poSource, poSrcBand, FALSE, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3] );
-			poSource->SetLinearScaling(dfOffset, dfScale);
-            //poSource->SetColorTableComponent(nComponent);
+			if(nComponent == 0)
+				poSource->SetLinearScaling(dfOffset, dfScale);
+            poSource->SetColorTableComponent(nComponent);
             poVRTBand->AddSource( poSource );
 #else			
 			poVRTBand->AddComplexSource( poSrcBand, anSrcWin[0], anSrcWin[1], anSrcWin[2], anSrcWin[3], anDstWin[0], anDstWin[1], anDstWin[2], anDstWin[3], dfOffset, dfScale, VRT_NODATA_UNSET, nComponent );

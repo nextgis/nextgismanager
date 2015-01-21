@@ -230,8 +230,6 @@ bool wxGxNGWService::ConnectToNGW()
 	res = curl.Get(sURL);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
-	wxLogMessage(_("Get resource schema %s [%s], code %d"), bResult ? _("succeded") : _("failed"), sURL.c_str(), res.nHTTPCode);
-	
 	if(bResult)
 	{
 		wxJSONReader reader;
@@ -1812,11 +1810,11 @@ bool wxGxNGWResourceGroup::ValidateDataset( wxGISRasterDataset* const pSrcDataSe
 	//3. check channels
 	if(pSrcDataSet->GetBandCount() < 3)
 	{
-		pTrackCancel->PutMessage(_("The band count is less than 3. The additional bands will form from first band"), wxNOT_FOUND, enumGISMessageWarning);
+		pTrackCancel->PutMessage(_("The band count is less than 3. The additional bands will form from first band or color palete"), wxNOT_FOUND, enumGISMessageWarning);
 	}
 	else if(pSrcDataSet->GetBandCount() > 4)
 	{
-		pTrackCancel->PutMessage(_("The band count is more than 4. You have to select RGB band and additional Apha band"), wxNOT_FOUND, enumGISMessageWarning);
+		pTrackCancel->PutMessage(_("The band count is more than 4. You have to select RGB band and additional Alpha band"), wxNOT_FOUND, enumGISMessageWarning);
 	}
 	
 	return true;
