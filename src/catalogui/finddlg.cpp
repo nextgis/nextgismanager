@@ -40,10 +40,7 @@ IMPLEMENT_CLASS(wxGISSelectSearchScopeComboPopup, wxTreeViewComboPopup)
 
 void wxGISSelectSearchScopeComboPopup::OnSelectionChanged(wxGxSelectionEvent& event)
 {
-    if (event.GetInitiator() == GetId() || event.GetInitiator() == NOTFIRESELID || NULL == m_pSelection || NULL == m_pCatalog)
-        return;
-
-    m_nSelObject = m_pSelection->GetLastSelectedObjectId();
+    return;
 }
 
 bool wxGISSelectSearchScopeComboPopup::Create(wxWindow* parent)
@@ -157,6 +154,8 @@ void wxGISSelectSearchScopeComboPopup::OnMouseClick(wxMouseEvent& event)
 			if(pObj)
 				oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/find/scope/last_path")), pObj->GetFullName());
 		} 
+		
+		m_nSelObject = pData->m_nObjectID;
 	}
 
     Dismiss();
@@ -216,6 +215,12 @@ bool wxGISSelectSearchScopeComboPopup::CanSearch()
 	else
 		return false;
 }
+
+long wxGISSelectSearchScopeComboPopup::GetSelectedObjectId()
+{
+	return m_nSelObject;	
+}
+
 //-------------------------------------------------------------------
 // wxGISFindResultItemPanel
 //-------------------------------------------------------------------
@@ -476,16 +481,16 @@ bool wxGISFindDlg::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	wxStaticLine *staticline = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
     m_bMainSizer->Add(staticline, 0, wxALL | wxEXPAND, 5);
 	
-    wxGISFindResultsView* pPanel = new wxGISFindResultsView(this);
+    pFindResultsView = new wxGISFindResultsView(this);
 #ifdef TEST_SEARCHPANEL
     for (size_t i = 0; i < 12; ++i)
     {
         wxGxObject* pOOBSD = GetGxCatalog()->FindGxObjectByPath("D:\\work\\testgeodata\\shp\\burned-areas_2011.shp");
-        wxGISFindResultItemPanel* pTest1 = new wxGISFindResultItemPanel(pOOBSD, pPanel);
-        pPanel->AddPanel(pTest1);
+        wxGISFindResultItemPanel* pTest1 = new wxGISFindResultItemPanel(pOOBSD, pFindResultsView);
+        pFindResultsView->AddPanel(pTest1);
     }
 #endif
-	m_bMainSizer->Add( pPanel, 1, wxALL | wxEXPAND, 5 );
+	m_bMainSizer->Add( pFindResultsView, 1, wxALL | wxEXPAND, 5 );
 
 	this->SetSizer( m_bMainSizer );
 	this->Layout();
@@ -501,6 +506,20 @@ wxGISFindDlg::~wxGISFindDlg()
  
 void wxGISFindDlg::OnFind(wxCommandEvent& event)
 {
+	wxBusyCursor wait;
+	wxGxCatalogBase* pCat = GetGxCatalog();
+	IGxSearchObject* pSearchObject = dynamic_cast<IGxSearchObject*>(pCat->GetRegisterObject(m_PopupCtrl->GetSelectedObjectId()));
+	if(pSearchObject)
+	{		
+		const wxGxObjectList pSearchResult = pSearchObject->SimpleSearch(m_pFindCtrl->GetValue(), this);
+		wxGxObjectList::const_iterator iter;
+		for (iter = pSearchResult.begin(); iter != pSearchResult.end(); ++iter)
+		{
+			wxGxObject *current = *iter;
+			wxGISFindResultItemPanel* pResultPanel = new wxGISFindResultItemPanel(current, pFindResultsView);
+			pFindResultsView->AddPanel(pResultPanel);
+		}		
+	}
 }
 
 void wxGISFindDlg::OnFindUI(wxUpdateUIEvent& event)

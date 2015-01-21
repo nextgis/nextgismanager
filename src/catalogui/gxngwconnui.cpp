@@ -323,6 +323,7 @@ wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
 			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
 		break;
 	case enumNGWResourceTypeRasterLayer:
+	case enumNGWResourceTypeWMSClient:
 		if(!m_icNGWRasterLargeIcon.IsOk())
 			m_icNGWRasterLargeIcon = wxIcon(raster_bmp48_xpm);
  		if(!m_icNGWRasterSmallIcon.IsOk())

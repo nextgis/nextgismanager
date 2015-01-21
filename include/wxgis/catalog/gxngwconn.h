@@ -58,7 +58,8 @@ enum wxGISEnumNGWResourcesType {
     enumNGWResourceTypeRasterLayer,
     enumNGWResourceTypeVectorLayerStyle,
     enumNGWResourceTypeRasterLayerStyle,
-    enumNGWResourceTypeFileSet
+    enumNGWResourceTypeFileSet,
+	enumNGWResourceTypeWMSClient
 };
 
 
@@ -73,7 +74,8 @@ class WXDLLIMPEXP_GIS_CLT wxGxNGWService :
 	public wxGxObjectContainer,
 	public IGxObjectEdit,
 	public IGxRemoteConnection,
-	public IGxObjectNoFilter
+	public IGxObjectNoFilter,
+	public IGxSearchObject
 {
 	DECLARE_CLASS(wxGxNGWService)
 public:
@@ -112,6 +114,8 @@ public:
 	};
 	virtual bool HasChildren(bool bWaitLoading = false);
 	virtual bool CanCreate(long nDataType, long DataSubtype);
+	//IGxSearchObject
+	virtual wxGxObjectList SimpleSearch(const wxString &sText, ITrackCancel* const pTrackCancel);
 	//wxGxNGWService
 	virtual wxGISCurl GetCurl();
 	virtual wxString GetLogin() const;
@@ -274,6 +278,7 @@ public:
 	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxDateTime& dt, const wxJSONValue& oMetadata = wxJSONValue(wxJSONTYPE_INVALID), ITrackCancel* const pTrackCancel = NULL);
+	virtual wxGxObject* GetObjectByResourceId(long nResourceId);
 protected:
 	virtual void LoadChildren(void);
 	virtual wxGxObject* AddResource(const wxJSONValue &Data);

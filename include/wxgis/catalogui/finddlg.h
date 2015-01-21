@@ -56,6 +56,7 @@ public:
     virtual bool CanChooseObject(wxGxObject* pObject);
     virtual void SetSelectedObject(wxGxObject* const pGxObject);
     virtual bool CanSearch();
+	virtual long GetSelectedObjectId();
 protected:
 	long m_nSelObject;
 };
@@ -137,6 +138,7 @@ protected:
 	wxXmlNode* m_pConf;
     wxGISSelectSearchScopeComboPopup* m_PopupCtrl;
 	wxTextCtrl *m_pFindCtrl;
+	wxGISFindResultsView* pFindResultsView;
 protected:
 	wxString m_sFind;
 private:

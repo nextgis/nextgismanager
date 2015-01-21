@@ -289,6 +289,8 @@ wxGISEnumNGWResourcesType wxGxNGWService::GetType(const wxString &sType) const
 		eType = enumNGWResourceTypeRasterLayer;
     else if (sType.IsSameAs(wxT("file_bucket")))
         eType = enumNGWResourceTypeFileSet;
+	else if (sType.IsSameAs(wxT("wmsclient_layer")))
+		eType = enumNGWResourceTypeWMSClient;
     return eType;
 }
 
@@ -383,6 +385,69 @@ wxString wxGxNGWService::GetPassword() const
 wxString wxGxNGWService::GetURL() const
 {
 	return m_sURL;
+}
+
+wxGxObjectList wxGxNGWService::SimpleSearch(const wxString &sText, ITrackCancel* const pTrackCancel)
+{
+	wxGxObjectList pSearchResult;	
+	if(!IsConnected() && !Connect())
+		return pSearchResult;
+
+	//http://demo.nextgis.ru/rekod/api/resource/search?q=%D0%A0%D0%B8%D0%B0%D1%81
+	wxGISCurl curl = GetCurl();
+    if (!curl.IsOk())
+    {
+        wxGISLogError(_("cURL initialize failed."), wxT("Error in FillPermissions"), wxT("wxGxNGWResource"), NULL);
+        return pSearchResult;
+    }
+	
+	wxString sURL = GetURL() + wxString::Format(wxT("/api/resource/search?q=%s"), sText.c_str());
+    PERFORMRESULT res = curl.Get(sURL);
+	
+	bool bResult = res.IsValid && res.nHTTPCode < 400;
+	
+	if(bResult)
+	{
+		wxJSONReader reader;
+		wxJSONValue results;
+		int numErrors = reader.Parse(res.sBody, &results);
+		if(numErrors == 0)
+		{
+			IProgressor *pProgressor = NULL;			
+			if(pTrackCancel)
+				pProgressor = pTrackCancel->GetProgressor();
+				
+			if(pProgressor)
+				pProgressor->SetRange(results.Size());
+				
+			for(size_t i = 0; i < results.Size(); ++i)
+			{
+				if(pProgressor)
+					pProgressor->SetValue(i);
+				
+				wxJSONValue result = results[i];
+				long nResourceID = result["resource_id"].AsLong();
+				wxJSONValue parents = result["parents"];				
+				wxGxNGWResourceGroup *pParentResourceGroup = dynamic_cast<wxGxNGWResourceGroup*>( *m_Children.begin() );				
+				for ( size_t j = 0; j < parents.Size(); ++j ) 
+				{    
+					long nParentResourceId = parents[j].AsLong();
+					pParentResourceGroup = dynamic_cast<wxGxNGWResourceGroup*>(pParentResourceGroup->GetObjectByResourceId(nParentResourceId));	
+				}
+				
+				if(!pParentResourceGroup)
+					continue;
+				
+				wxGxObject *pFindResultObject = pParentResourceGroup->GetObjectByResourceId(nResourceID);
+				if(NULL != pFindResultObject)
+				{
+					pSearchResult.Append(pFindResultObject);
+				}
+			}
+		}
+	}
+		
+	return pSearchResult;
 }
 
 //--------------------------------------------------------------
@@ -1236,7 +1301,8 @@ wxGxObject* wxGxNGWResourceGroup::AddResource(const wxJSONValue &Data)
 	    if(m_bHasPostGIS)
 			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnection(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
-	case enumNGWResourceTypeRasterLayer:	
+	case enumNGWResourceTypeRasterLayer:
+	case enumNGWResourceTypeWMSClient:
 	    if(m_bHasWMS)
 			pReturnObj = wxDynamicCast(new wxGxNGWRaster(m_pService, Data, this, wxEmptyString, m_sPath), wxGxObject);
         break;
@@ -1482,6 +1548,32 @@ void wxGxNGWResourceGroup::LoadChildren(void)
 	{
 		AddResource(it->second);
     }
+}
+
+wxGxObject* wxGxNGWResourceGroup::GetObjectByResourceId(long nResourceId)
+{
+	if(nResourceId == m_nRemoteId)
+		return this;
+	if(!m_bChildrenLoaded)
+		LoadChildren();
+	wxGxObjectList::const_iterator iter;
+	for (iter = m_Children.begin(); iter != m_Children.end(); ++iter)
+	{
+		wxGxObject *current = *iter;
+		wxGxNGWResource *pResource = dynamic_cast<wxGxNGWResource*> (current);
+		if(pResource->GetRemoteId() == nResourceId)
+			return current;
+		
+		wxGxNGWResourceGroup *pResourceGroup = dynamic_cast<wxGxNGWResourceGroup*> (current);
+		if(pResourceGroup)
+		{
+			wxGxObject* pGetResult = pResourceGroup->GetObjectByResourceId(nResourceId);
+			if(pGetResult)
+				return pGetResult;
+		}
+	}	
+	
+	return NULL;
 }
 
 void wxGxNGWResourceGroup::AddObject(int nRemoteId, const wxString &sName)
@@ -2265,14 +2357,23 @@ IMPLEMENT_CLASS(wxGxNGWRaster, wxGxRasterDataset)
 
 wxGxNGWRaster::wxGxNGWRaster(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxRasterDataset(enumRasterWMSTMS, oParent, soName, soPath), wxGxNGWResourceWithStyles(Data)
 {
-    m_eResourceType = enumNGWResourceTypeRasterLayer;
     m_pService = pService;
     m_sName = m_sDisplayName;
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
 	m_sPath = CPLString(sURL.ToUTF8());
 	
-	m_nEPSGCode = Data["raster_layer"]["srs"]["id"].AsInt();
-	m_nBandCount = Data["raster_layer"]["band_count"].AsInt();
+	if(Data.HasMember("wmsclient_layer"))
+	{
+		m_eResourceType = enumNGWResourceTypeWMSClient;
+		m_nBandCount = 4;
+		m_nEPSGCode = Data["wmsclient_layer"]["srs"]["id"].AsInt();
+	}
+	else if(Data.HasMember("raster_layer"))
+	{
+		m_eResourceType = enumNGWResourceTypeRasterLayer;
+		m_nEPSGCode = Data["raster_layer"]["srs"]["id"].AsInt();
+		m_nBandCount = Data["raster_layer"]["band_count"].AsInt();
+	}
 }
 
 wxGxNGWRaster::~wxGxNGWRaster()
@@ -2294,19 +2395,31 @@ wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
 			GetStyles();
 		}
 		
-		if(m_apStyles.empty())
+
+		
+		wxString sURL;
+		if(m_eResourceType == enumNGWResourceTypeWMSClient)
+		{
+			//http://xxx.xxx.xxx.xxx/resource/234/tms?z=7&x=84&y=42
+			sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), GetRemoteId());
+		}
+		else if(m_eResourceType == enumNGWResourceTypeRasterLayer)
+		{
+			if(m_apStyles.empty())
+			{
+				return NULL;
+			}			
+			wxGxNGWResource* pStyle = m_apStyles[0];
+			if(pStyle == NULL)
+			{
+				return NULL;
+			}
+			sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
+		}
+		else
 		{
 			return NULL;
-		}
-		
-		wxGxNGWResource* pStyle = m_apStyles[0];
-		if(pStyle == NULL)
-		{
-			return NULL;
-		}
-		
-		//http://xxx.xxx.xxx.xxx/resource/234/tms?z=7&x=84&y=42
-		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
+		}	
 		
 		wxString sULX(wxT("-20037508.34"));
 		wxString sULY(wxT("20037508.34"));
