@@ -25,7 +25,7 @@
 /*  NB: this file is parsed by automatic tools so don't change its format! */
 #define wxGIS_MAJOR_VERSION      0
 #define wxGIS_MINOR_VERSION      6
-#define wxGIS_RELEASE_NUMBER     5
+#define wxGIS_RELEASE_NUMBER     6
 #define wxGIS_SUBRELEASE_NUMBER  0
 
 /*  these are used by version.rc and should always be ASCII, not Unicode */
