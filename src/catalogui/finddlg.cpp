@@ -513,6 +513,7 @@ void wxGISFindDlg::OnFind(wxCommandEvent& event)
 	{		
 		const wxGxObjectList pSearchResult = pSearchObject->SimpleSearch(m_pFindCtrl->GetValue(), this);
 		wxGxObjectList::const_iterator iter;
+		pFindResultsView->DestroyChildren();
 		for (iter = pSearchResult.begin(); iter != pSearchResult.end(); ++iter)
 		{
 			wxGxObject *current = *iter;
