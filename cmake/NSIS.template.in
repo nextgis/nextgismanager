@@ -3,7 +3,7 @@
 ; NSIS Script for NSIS 2.46
 ; Requires the ExecDos plugin (http://nsis.sourceforge.net/wiki/ExecDos)
 ;
-; Copyright (c) 2008,2014 Bishop
+; Copyright (c) 2008,2014,2015 Dmitry Baryshnikov (Bishop) polimax@mail.ru
 ;
 ; This program is free software; you can redistribute it and/or modify
 ; it under the terms of the GNU General Public License as published by
@@ -38,6 +38,8 @@ SetCompressor lzma
 ;TODO: fix paths
 !define PROJ_DIR "D:\work\projects"
 !define BIT "32"
+
+!define INST_DIR "@CPACK_TEMPORARY_DIRECTORY@"
 
 ; --------------------------------
 ; Configuration
@@ -129,6 +131,8 @@ LicenseLangString myLicenseData ${LANG_RUSSIAN} "${SOURCE_PATH}\docs\COPYING_RU"
   VIAddVersionKey /LANG=${LANG_RUSSIAN} "FileVersion" "${VERSION}.0" 
   VIAddVersionKey /LANG=${LANG_RUSSIAN} "LegalCopyright" "© 2009-2014 Dmitry Baryshnikov, © 2014 NextGIS"
   VIAddVersionKey /LANG=${LANG_RUSSIAN} "ProductVersion" "${VERSION}.0"
+  
+  @CPACK_NSIS_DEFINES@
 
 ;--------------------------------
 ;Installer Sections
@@ -142,81 +146,9 @@ Section "all" SecCommon
   DetailPrint "Installing Core Files..."
   SetDetailsPrint listonly  
   
-  ;system libs
-  SetOutPath "$INSTDIR\bin"
-  File /r "${PROJ_DIR}\wxGIS\inst\dll${BIT}\*.*"  
-  ;wxWidgets 32 bit libs
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_net_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxbase30u_xml_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_adv_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_aui_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_core_vc_custom.dll"  
-  File "${PROJ_DIR}\wxWidgets\lib\vc_dll\wxmsw30u_propgrid_vc_custom.dll"  
-  ;gdal libs
-  File "${PROJ_DIR}\gdal-nextgis-git\build${BIT}\Release\gdal20.dll"  
-  ;proj lib
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\proj4.dll"  
-  ;geos lib
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\geos_c.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\geos.dll"
-  ;curl lib
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libcurl.dll"
-  ;
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\cairo.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libeay32.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libexpat.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libiconv.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libjpeg.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libpng16.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\libtiff.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\ssleay32.dll"
-  File "${PROJ_DIR}\wxGIS\build${BIT}\Debug\zlib.dll"
-  
-  File "${BUILD_PATH}\Release\wxgiscarto@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgiscartoui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgiscatalog@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgiscatalogui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgiscore@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisdatasource@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisdisplay@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisframework@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisfreechart@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisgeoprocessing@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisgeoprocessingui@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  File "${BUILD_PATH}\Release\wxgisnet@CPACK_PACKAGE_VERSION_MAJOR@@CPACK_PACKAGE_VERSION_MINOR@.dll"
-  
-  File "${BUILD_PATH}\Release\wxgiscat.exe"
-  
-  File "${BUILD_PATH}\Release\wxgistaskmanager.exe"
-  
-  ;sys dir
-  SetOutPath "$INSTDIR\sys\gdal"
-  File /r "${SOURCE_PATH}\opt\sys\gdal\*.*"
-  SetOutPath "$INSTDIR\sys"
-  File "${SOURCE_PATH}\opt\sys\cs.zip"
-  
-  ;log dir will create by app in it folder
-  
-  ;conf dir
-  SetOutPath "$INSTDIR\config"
-  File "${SOURCE_PATH}\opt\config\wxGISContDialog.xml"
-  File "${SOURCE_PATH}\opt\config\wxGISObjDialog.xml"
-  File "${SOURCE_PATH}\opt\config\wxTranslit.xml"
-  
-  File "${SOURCE_PATH}\opt\config\wxCatalog.xml" 
-  File "${SOURCE_PATH}\opt\config\wxCatalogUI.xml" 
-  File "${SOURCE_PATH}\opt\config\wxGISCatalog.xml"
-  File /oname=wxGISCommon.xml "${SOURCE_PATH}\opt\config\wxGISCommon.xml.win"
-
-  ;locale dir
-  SetOutPath "$INSTDIR\locale"
-  File /r "${BUILD_PATH}\opt\loc\" 
-  File "${SOURCE_PATH}\opt\loc\*.txt"
-  
-  ;license
-  SetOutPath "$INSTDIR\docs"
-  File "${SOURCE_PATH}\docs\COPYING_*"
+  SetOutPath "$INSTDIR"
+  @CPACK_NSIS_EXTRA_PREINSTALL_COMMANDS@
+  @CPACK_NSIS_FULL_INSTALL@
   
   SetOutPath "$INSTDIR"
   
@@ -237,6 +169,8 @@ Section "all" SecCommon
   SetShellVarContext current
   CreateShortCut "$DESKTOP\nextgismanager.lnk" "$INSTDIR\bin\wxgiscat.exe"
   CreateShortCut "$QUICKLAUNCH\nextgismanager.lnk" "$INSTDIR\bin\wxgiscat.exe"
+  
+  @CPACK_NSIS_EXTRA_INSTALL_COMMANDS@
   
 SectionEnd
 
@@ -260,11 +194,15 @@ Section "Uninstall"
   SetDetailsPrint textonly
   DetailPrint "Uninstalling ${PRODUCT}..."
   SetDetailsPrint listonly
+  
+  @CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS@
 
   Delete "$INSTDIR\Uninstall.exe"
-
+  @CPACK_NSIS_DELETE_FILES@
+  @CPACK_NSIS_DELETE_DIRECTORIES@
+  
   RMDir /r /REBOOTOK "$INSTDIR"
-
+  
   DeleteRegKey HKLM "Software\@CPACK_PACKAGE_INSTALL_REGISTRY_KEY@"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}"
   

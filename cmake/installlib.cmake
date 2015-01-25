@@ -28,11 +28,18 @@ set_target_properties(${LIB_NAME}
     )
 
 if(WIN32)
-    if(CMAKE_CL_64)
-        install(TARGETS ${LIB_NAME} DESTINATION lib/x64)
-    else()
-        install(TARGETS ${LIB_NAME} DESTINATION lib/x86)
-     endif()
+    install(TARGETS ${LIB_NAME} RUNTIME DESTINATION bin)
+    if(NOT wxGIS_PORTABLE)
+        if(CMAKE_CL_64)
+            install(TARGETS ${LIB_NAME} 
+                ARCHIVE DESTINATION lib/x64
+                LIBRARY DESTINATION lib/x64)
+        else()
+            install(TARGETS ${LIB_NAME} 
+                ARCHIVE DESTINATION lib/x86
+                LIBRARY DESTINATION lib/x86)
+        endif()
+    endif(NOT wxGIS_PORTABLE)
 else()
     install(TARGETS ${LIB_NAME}
         RUNTIME DESTINATION bin
