@@ -733,13 +733,13 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		m_position->Clear();
 		
 		if(table->GetRowsCount() > 99999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 140);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 96);
 		else if(table->GetRowsCount() > 9999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 120);
-		else if(table->GetRowsCount() > 999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 100);
-		else if(table->GetRowsCount() > 99999)
 			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 80);
+		else if(table->GetRowsCount() > 999999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 64);
+		else if(table->GetRowsCount() > 99999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 48);
 		else if(table->GetRowsCount() > 9999)
 			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 32);
 		else if(table->GetRowsCount() > 999)	

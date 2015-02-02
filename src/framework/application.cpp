@@ -197,6 +197,13 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 						}
 					}
 				}
+				
+				if(wxIsKindOf(m_CommandBarArray[i], wxGISToolBarMenu))
+				{
+					wxGISToolBarMenu* pToolBarMenu = dynamic_cast<wxGISToolBarMenu*>(m_CommandBarArray[i]);
+					if(pToolBarMenu)
+						pToolBarMenu->Update();
+				}
 			}
 	#endif			
 				break;
