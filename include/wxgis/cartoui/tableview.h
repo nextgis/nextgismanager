@@ -40,7 +40,7 @@
 #include "wxgis/carto/carto.h"
 #include "wxgis/datasource/table.h"
 
-#define GRID_ROW_SIZE 15
+#define GRID_ROW_SIZE 25
 #define GRID_COL_SIZE 20
 
 WX_DECLARE_HASH_MAP(long, wxGISFeature, wxIntegerHash, wxIntegerEqual, wxGISFeatureMap);

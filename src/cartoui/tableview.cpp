@@ -132,7 +132,31 @@ wxString wxGISGridTable::GetColLabelValue(int col)
 
 wxString wxGISGridTable::GetRowLabelValue(int row)
 {
-	return wxEmptyString;
+	if(row < 0)
+		return wxEmptyString;
+
+	if(GetNumberRows() <= row)
+		return wxEmptyString;
+		
+	//fetch more data
+    wxGISFeature Feature;
+    if (m_moFeatures[row].IsOk())
+    {
+        Feature = m_moFeatures[row];
+    }
+    else
+    {
+     //   Feature = m_pGISDataset->GetFeature(row);
+     //   m_moFeatures[row] = Feature;
+        FillForPos(row);
+        return GetRowLabelValue(row);
+    }
+
+    if (Feature.IsOk())
+    {
+        return wxString::Format("%ld", Feature.GetFID());
+    }
+	return wxEmptyString;	
 }
 
 wxGISTable* wxGISGridTable::GetDataset() const
@@ -274,6 +298,13 @@ BEGIN_EVENT_TABLE(wxGridCtrl, wxGrid)
     //EVT_MOTION(wxGridCtrl::OnMouseMove)
 END_EVENT_TABLE();
 
+struct DefaultHeaderRenderers
+{
+	wxGridColumnHeaderRendererDefault colRenderer;
+	wxGridRowHeaderRendererDefault rowRenderer;
+	wxGridCornerHeaderRendererDefault cornerRenderer;
+} gs_defaultHeaderRenderers;
+
 wxGridCtrl::wxGridCtrl()
 {
 }
@@ -330,20 +361,26 @@ wxGridCtrl::~wxGridCtrl(void)
 
 void wxGridCtrl::DrawRowLabel(wxDC& dc, int row)
 {
-    if (GetRowHeight(row) <= 0 || m_rowLabelWidth <= 0)
-        return;
-    wxRect rect;
-    int rowTop = GetRowTop(row), rowBottom = GetRowBottom(row) - 1;
-    dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DSHADOW), 1, wxSOLID));
-    dc.DrawLine(m_rowLabelWidth - 1, rowTop, m_rowLabelWidth - 1, rowBottom);
-    dc.DrawLine(0, rowTop, 0, rowBottom);
-    dc.DrawLine(0, rowBottom, m_rowLabelWidth, rowBottom);
-    dc.SetPen(*wxWHITE_PEN);
-    dc.DrawLine(1, rowTop, 1, rowBottom);
-    dc.DrawLine(1, rowTop, m_rowLabelWidth - 1, rowTop);
+	if ( GetRowHeight(row) <= 0 || m_rowLabelWidth <= 0 )
+		return;
+		
+	wxGridCellAttrProvider * const attrProvider = m_table ? m_table->GetAttrProvider() : NULL;
+	
+	// notice that an explicit static_cast is needed to avoid a compilation
+	// error with VC7.1 which, for some reason, tries to instantiate (abstract)
+	// wxGridRowHeaderRenderer class without it
+	const wxGridRowHeaderRenderer& rend = attrProvider ? attrProvider->GetRowHeaderRenderer(row) : static_cast<const wxGridRowHeaderRenderer&> (gs_defaultHeaderRenderers.rowRenderer);
+	
+	wxRect rect(0, GetRowTop(row), m_rowLabelWidth, GetRowHeight(row));
+	rend.DrawBorder(*this, dc, rect);
+	int hAlign, vAlign;
+	GetRowLabelAlignment(&hAlign, &vAlign);
+	rend.DrawLabel(*this, dc, GetRowLabelValue(row), rect, hAlign, vAlign, wxHORIZONTAL);	
+	
     if (row == GetGridCursorRow())
 	{
-		dc.DrawBitmap(wxBitmap(small_arrow_xpm), 0, GetRowTop(row), true);
+		wxBitmap rowBmp(small_arrow_xpm);
+		dc.DrawBitmap(rowBmp, 0, GetRowTop(row) + GetRowHeight(row) / 2 - rowBmp.GetHeight() / 2, true);
     }
 }
 
@@ -535,7 +572,7 @@ bool wxGISTableView::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	// Rows
 	m_grid->EnableDragRowSize( true );
 	m_grid->SetRowLabelSize( GRID_ROW_SIZE );
-	m_grid->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	m_grid->SetRowLabelAlignment( wxALIGN_RIGHT, wxALIGN_CENTRE );
 
 //    EVT_GRID_SELECT_CELL(wxGISTableView::OnSelectCell)
     m_grid->Bind(wxEVT_GRID_SELECT_CELL, &wxGISTableView::OnSelectCell, this);
@@ -640,6 +677,7 @@ void wxGISTableView::OnSelectCell(wxGridEvent& event)
     //event.Skip(true);
 	m_position->Clear();
 	(*m_position) << event.GetRow() + 1;
+	m_grid->Refresh(true);
 
 }
 
@@ -649,6 +687,7 @@ void wxGISTableView::OnBtnFirst(wxCommandEvent& event)
 	m_grid->MakeCellVisible(0,0);
 	m_position->Clear();
 	(*m_position) << 1;
+	m_grid->Refresh(true);
 }
 
 void wxGISTableView::OnBtnNext(wxCommandEvent& event)
@@ -656,6 +695,7 @@ void wxGISTableView::OnBtnNext(wxCommandEvent& event)
 	m_grid->MoveCursorDown(false);
 	m_position->Clear();
 	(*m_position) << m_grid->GetGridCursorRow() + 1;
+	m_grid->Refresh(true);
 }
 
 void wxGISTableView::OnBtnPrev(wxCommandEvent& event)
@@ -663,6 +703,7 @@ void wxGISTableView::OnBtnPrev(wxCommandEvent& event)
 	m_grid->MoveCursorUp(false);
 	m_position->Clear();
 	(*m_position) << m_grid->GetGridCursorRow() + 1;
+	m_grid->Refresh(true);
 }
 
 void wxGISTableView::OnBtnLast(wxCommandEvent& event)
@@ -671,6 +712,7 @@ void wxGISTableView::OnBtnLast(wxCommandEvent& event)
 	m_grid->MakeCellVisible(m_grid->GetNumberRows() - 1,0);
 	m_position->Clear();
 	(*m_position) << m_grid->GetNumberRows();
+	m_grid->Refresh(true);
 }
 
 void wxGISTableView::OnSetPos(wxCommandEvent& event)
@@ -678,6 +720,7 @@ void wxGISTableView::OnSetPos(wxCommandEvent& event)
 	long pos = wxAtol(event.GetString());
 	m_grid->SetGridCursor(pos - 1,0);
 	m_grid->MakeCellVisible(pos - 1,0);
+	m_grid->Refresh(true);
 }
 
 void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid::wxGridSelectionModes selmode)
@@ -688,6 +731,23 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		m_grid->SetGridCursor(0,0);
 		m_grid->MakeCellVisible(0,0);
 		m_position->Clear();
+		
+		if(table->GetRowsCount() > 99999999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 140);
+		else if(table->GetRowsCount() > 9999999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 120);
+		else if(table->GetRowsCount() > 999999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 100);
+		else if(table->GetRowsCount() > 99999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 80);
+		else if(table->GetRowsCount() > 9999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 32);
+		else if(table->GetRowsCount() > 999)	
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 24);
+		else if(table->GetRowsCount() > 99)	
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 16);
+		else if(table->GetRowsCount() > 9)	
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE );
 
         if (m_grid->GetNumberRows() > 0)
         {
