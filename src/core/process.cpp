@@ -36,7 +36,6 @@ wxGISThreadHelper::wxGISThreadHelper(wxThreadKind kind) : wxThreadHelper(kind) /
 
 wxGISThreadHelper::~wxGISThreadHelper()
 {
-	wxCriticalSectionLocker locker(m_critSection);
     KillThread();
 }
 

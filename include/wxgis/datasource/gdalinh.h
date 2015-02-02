@@ -52,7 +52,7 @@ int WXDLLIMPEXP_GIS_DS CPL_STDCALL GDALExecuteProgress( double dfComplete, const
 
 /** @class wxGISSpatialReference
 
-    AnOGRSpatialReference wrapper class.
+    An OGRSpatialReference wrapper class.
 
     @library{datasource}
 */
@@ -85,7 +85,7 @@ extern WXDLLIMPEXP_DATA_GIS_DS(wxGISSpatialReference) wxNullSpatialReference;
 
 /** @class wxGISSpatialReferenceRefData
 
-    Areference data class for wxGISSpatialReference
+    A reference data class for wxGISSpatialReference
 
     @library{datasource}
 */
@@ -328,7 +328,7 @@ protected:
 
 /** @class wxGISGeometry
 
-    AOGRGeometry wrapper class.
+    An OGRGeometry wrapper class.
 
     @library{datasource}
 */

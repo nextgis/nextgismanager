@@ -75,23 +75,23 @@ wxGISDataset* const wxGxMLDataset::GetDatasetFast(void)
     {
         switch (GetSubType())
         {
-        case enumVecKML:
-        case enumVecKMZ:
-        case enumVecGML:
-        {
-            wxGISFeatureDatasetCached* pDSet = new wxGISFeatureDatasetCached(m_sPath, m_eType);
-            m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
-            m_pwxGISDataset->Reference();
-            break;
-        }
-        case enumVecSXF:
-        default:
-        {
-            wxGISFeatureDataset* pDSet = new wxGISFeatureDataset(m_sPath, m_eType);
-            m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
-            m_pwxGISDataset->Reference();
-            break;
-        }
+			case enumVecKML:
+			case enumVecKMZ:
+			case enumVecGML:
+			{
+				wxGISFeatureDatasetCached* pDSet = new wxGISFeatureDatasetCached(m_sPath, m_eType);
+				m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+				m_pwxGISDataset->Reference();
+				break;
+			}
+			case enumVecSXF:
+			default:
+			{
+				wxGISFeatureDataset* pDSet = new wxGISFeatureDataset(m_sPath, m_eType);
+				m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
+				m_pwxGISDataset->Reference();
+				break;
+			}
         }
     }
     wsGET(m_pwxGISDataset);
@@ -162,7 +162,7 @@ IMPLEMENT_CLASS(wxGxMLSubDataset, wxGxFeatureDataset)
 
 wxGxMLSubDataset::wxGxMLSubDataset(wxGISEnumVectorDatasetType nType, wxGISDataset* pwxGISDataset, wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxFeatureDataset(nType, oParent, soName, soPath)
 {
-    m_pwxGISDataset = pwxGISDataset;
+    wsSET(m_pwxGISDataset, pwxGISDataset);
 
     m_sPath = CPLString(CPLFormFilename(soPath, soName.mb_str(wxConvUTF8), ""));
 }
