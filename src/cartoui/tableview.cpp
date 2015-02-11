@@ -732,23 +732,25 @@ void wxGISTableView::SetTable(wxGridTableBase* table, bool takeOwnership, wxGrid
 		m_grid->MakeCellVisible(0,0);
 		m_position->Clear();
 		
-		if(table->GetRowsCount() > 99999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 96);
+        //TODO: get Fid Max to set row wlabel size
+		/*if(table->GetRowsCount() > 99999999)
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 98);
 		else if(table->GetRowsCount() > 9999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 80);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 82);
 		else if(table->GetRowsCount() > 999999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 64);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 66);
 		else if(table->GetRowsCount() > 99999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 48);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 50);
 		else if(table->GetRowsCount() > 9999)
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 32);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 34);
 		else if(table->GetRowsCount() > 999)	
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 24);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 26);
 		else if(table->GetRowsCount() > 99)	
-			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 16);
+			m_grid->SetRowLabelSize( GRID_ROW_SIZE + 18);
 		else if(table->GetRowsCount() > 9)	
 			m_grid->SetRowLabelSize( GRID_ROW_SIZE );
-
+            */
+        m_grid->SetRowLabelSize(GRID_ROW_SIZE + 40);
         if (m_grid->GetNumberRows() > 0)
         {
 		    (*m_position) << 1;

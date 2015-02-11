@@ -376,9 +376,12 @@ wxArrayString wxGISFeature::GetFieldAsStringList(int nIndex) const
     wxCHECK_MSG(m_refData && ((wxGISFeatureRefData *)m_refData)->m_poFeature, ret, wxT("The OGRFeature pointer is null"));
 
     char** papszLinkList = ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsStringList(nIndex);
-    for (int i = 0; papszLinkList[i] != NULL; ++i)
+    if (NULL != papszLinkList)
     {
-        ret.Add(EncodeString(papszLinkList[i], ((wxGISFeatureRefData *)m_refData)->m_oEncoding));
+        for (int i = 0; papszLinkList[i] != NULL; ++i)
+        {
+            ret.Add(EncodeString(papszLinkList[i], ((wxGISFeatureRefData *)m_refData)->m_oEncoding));
+        }
     }
 
     return ret;

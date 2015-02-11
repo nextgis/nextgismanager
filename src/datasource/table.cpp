@@ -313,6 +313,7 @@ void wxGISTable::Cache(ITrackCancel* pTrackCancel)
 
 void wxGISTable::Close(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(IsOpened())
     {
         if(m_poDS)
@@ -387,6 +388,7 @@ OGRErr wxGISTable::DeleteField(int nIndex)
 {
     if (!CanDeleteField())
 		return OGRERR_UNSUPPORTED_OPERATION;
+    wxCriticalSectionLocker locker(m_CritSect);
     OGRErr eErr = m_poLayer->DeleteField(nIndex);
 
     //PostEvent(new wxFeatureDSEvent(wxDS_FEATURE_DELETED, nIndex)); TODO:
@@ -395,13 +397,13 @@ OGRErr wxGISTable::DeleteField(int nIndex)
 
 }
 
-
 OGRErr wxGISTable::DeleteFeature(long nFID)
 {
 	if(!CanDeleteFeature())
 		return OGRERR_UNSUPPORTED_OPERATION;
 
-	OGRErr eErr = m_poLayer->DeleteFeature(nFID);
+    wxCriticalSectionLocker locker(m_CritSect);
+    OGRErr eErr = m_poLayer->DeleteFeature(nFID);
     if(eErr != OGRERR_NONE)
         return eErr;
 
@@ -434,6 +436,7 @@ OGRErr wxGISTable::StoreFeature(wxGISFeature &Feature)
 
 wxGISFeature wxGISTable::CreateFeature(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (NULL == m_poLayer)
     {
         return wxGISFeature();
@@ -450,6 +453,7 @@ wxGISFeature wxGISTable::CreateFeature(void)
 
 OGRErr wxGISTable::SetFeature(const wxGISFeature &Feature)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(!m_poLayer || m_nSubType == enumTableQueryResult || !Feature.IsOk())
 		return OGRERR_FAILURE;
 
@@ -462,6 +466,7 @@ OGRErr wxGISTable::SetFeature(const wxGISFeature &Feature)
 
 OGRErr wxGISTable::CommitTransaction(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (!m_poLayer || m_nSubType == enumTableQueryResult)
         return OGRERR_FAILURE;
     OGRErr eErr = m_poLayer->CommitTransaction();
@@ -471,6 +476,7 @@ OGRErr wxGISTable::CommitTransaction(void)
 
 OGRErr wxGISTable::StartTransaction(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (!m_poLayer || m_nSubType == enumTableQueryResult)
         return OGRERR_FAILURE;
     OGRErr eErr = m_poLayer->StartTransaction();
@@ -480,6 +486,7 @@ OGRErr wxGISTable::StartTransaction(void)
 
 OGRErr wxGISTable::RollbackTransaction(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (!m_poLayer || m_nSubType == enumTableQueryResult)
         return OGRERR_FAILURE;
     OGRErr eErr = m_poLayer->RollbackTransaction();
@@ -489,6 +496,7 @@ OGRErr wxGISTable::RollbackTransaction(void)
 
 wxGISFeature wxGISTable::GetFeatureByID(long nFID)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(m_poLayer)
 	{
 		OGRFeature* pFeature = m_poLayer->GetFeature(nFID);
@@ -502,6 +510,7 @@ wxGISFeature wxGISTable::GetFeatureByID(long nFID)
 
 wxGISFeature wxGISTable::GetFeature(long nIndex)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(!m_poLayer)
     {
         return wxGISFeature();
@@ -520,6 +529,7 @@ wxGISFeature wxGISTable::GetFeature(long nIndex)
 
 void wxGISTable::Reset(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(!m_poLayer)
         return;
     m_nCurrentFID = 0;
@@ -528,6 +538,7 @@ void wxGISTable::Reset(void)
 
 wxGISFeature wxGISTable::Next(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(!m_poLayer)
     {
         return wxGISFeature();
@@ -548,6 +559,7 @@ wxGISFeature wxGISTable::Next(void)
 
 wxFeatureCursor wxGISTable::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     wxFeatureCursor oOutCursor(this);
     if(	!m_poLayer )
 		return oOutCursor;
@@ -672,6 +684,7 @@ OGRFeatureDefn* const wxGISTable::GetDefinition(void) const
 
 OGRFeatureDefn* const wxGISTable::GetDefinition(void)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (m_poLayer)
     {
         return m_poLayer->GetLayerDefn();
@@ -712,6 +725,7 @@ wxString wxGISTable::GetFieldName(int nIndex) const
 
 OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if (NULL == m_poLayer)
     {
 		return OGRERR_FAILURE;
@@ -739,6 +753,7 @@ OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
 
 OGRErr wxGISTable::SetIgnoredFields(const wxArrayString &saIgnoredFields)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     if(	m_poLayer )
     {
         bool bOLCIgnoreFields = m_poLayer->TestCapability(OLCIgnoreFields) != 0;
@@ -1005,6 +1020,7 @@ OGRErr wxGISTableCached::DeleteFeature(long nFID)
 	if(!CanDeleteFeature())
 		return OGRERR_UNSUPPORTED_OPERATION;
 
+    wxCriticalSectionLocker locker(m_CritSect);
 	OGRErr eErr = m_poLayer->DeleteFeature(nFID);
     if(eErr != OGRERR_NONE)
         return eErr;
@@ -1043,6 +1059,7 @@ OGRErr wxGISTableCached::SetFeature(const wxGISFeature &Feature)
 
 wxGISFeature wxGISTableCached::GetFeatureByID(long nFID)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     wxGISFeature ret = m_omFeatures[nFID];
     if(ret.IsOk())
 		return ret;
@@ -1064,6 +1081,7 @@ wxGISFeature wxGISTableCached::GetFeatureByID(long nFID)
 
 wxFeatureCursor wxGISTableCached::Search(const wxGISQueryFilter &QFilter, bool bOnlyFirst, ITrackCancel* const pTrackCancel)
 {
+    wxCriticalSectionLocker locker(m_CritSect);
     wxFeatureCursor oOutCursor(this);
 
     IProgressor* pProgressor(NULL);

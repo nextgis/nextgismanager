@@ -767,13 +767,18 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
             pProgressor = pTrackCancel->GetProgressor();
         }
 
-        int nCounter(0);
         if (pProgressor)
         {
-            pProgressor->SetRange(pSrsDataSet->GetFeatureCount(false, pTrackCancel));
+            pProgressor->SetRange(pSrsDataSet->GetFeatureCount(false, NULL));
+        }
+
+        if (pSrsDataSet->IsCaching())
+        {
+            pSrsDataSet->StopCaching();
         }
 
         wxGISFeature Feature;
+        int nCounter = 0;
         while ((Feature = pSrsDataSet->Next()).IsOk())
         {
             //check if Feature will destroy by Ref Count

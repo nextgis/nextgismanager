@@ -71,21 +71,21 @@ enum wxGISEnumVectorDatasetType
 */
 enum wxGISEnumRasterDatasetType
 {
-	enumRasterUnknown = 0,
-	enumRasterBmp,
-	enumRasterTiff,
-	enumRasterTil,
-	enumRasterImg,
-	enumRasterJpeg,
-	enumRasterPng,
-    enumRasterGif,
-    enumRasterSAGA,
-    enumRasterVRT,
-    enumRasterWMS,
-    enumRasterWMSTMS,
-    enumRasterPostGIS,
-    enumRasterFileDBLayer,
-    enumRasterMAX
+	enumRasterUnknown = 0,  //0
+	enumRasterBmp,          //1
+	enumRasterTiff,         //2
+	enumRasterTil,          //3
+	enumRasterImg,          //4
+	enumRasterJpeg,         //5
+	enumRasterPng,          //6
+    enumRasterGif,          //7
+    enumRasterSAGA,         //8
+    enumRasterVRT,          //9
+    enumRasterWMS,          //10
+    enumRasterWMSTMS,       //11
+    enumRasterPostGIS,      //12
+    enumRasterFileDBLayer,  //13
+    enumRasterMAX           //14
 };
 
 /** @enum wxGISEnumTableType
