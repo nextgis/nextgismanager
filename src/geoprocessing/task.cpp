@@ -442,32 +442,40 @@ wxString wxGISTask::GetExecutable(void) const
 
 wxDateTime wxGISTask::GetDateBegin(void) const
 {
-    wxDateTime out(wxDateTime::Now());
-    for(wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+    if (m_nState == enumGISTaskQuered || m_nState == enumGISTaskPaused || m_omSubTasks.size() > 0)
     {
-        wxGISTask* pTask = wxDynamicCast(it->second, wxGISTask);
-        if(pTask)
+        wxDateTime out(wxDateTime::Now());
+        for (wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
         {
-            if(pTask->GetDateBegin() < out)
-                out = pTask->GetDateBegin();
+            wxGISTask* pTask = wxDynamicCast(it->second, wxGISTask);
+            if (pTask)
+            {
+                if (pTask->GetDateBegin() < out)
+                    out = pTask->GetDateBegin();
+            }
         }
+        return m_dtBeg < out ? m_dtBeg : out;
     }
-    return m_dtBeg < out ? m_dtBeg : out;
+    return m_dtBeg;
 }
 
 wxDateTime wxGISTask::GetDateEnd(void) const
 {
-    wxDateTime out(wxDateTime::Now());
-    for(wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
+    if (m_nState == enumGISTaskQuered || m_nState == enumGISTaskPaused || m_omSubTasks.size() > 0)
     {
-        wxGISTask* pTask = wxDynamicCast(it->second, wxGISTask);
-        if(pTask)
+        wxDateTime out(wxDateTime::Now());
+        for (wxGISTaskMap::const_iterator it = m_omSubTasks.begin(); it != m_omSubTasks.end(); ++it)
         {
-            if(pTask->GetDateEnd() > out)
-                out = pTask->GetDateEnd();
+            wxGISTask* pTask = wxDynamicCast(it->second, wxGISTask);
+            if (pTask)
+            {
+                if (pTask->GetDateEnd() > out)
+                    out = pTask->GetDateEnd();
+            }
         }
+        return m_dtEnd > out ? m_dtEnd : out;
     }
-    return m_dtEnd > out ? m_dtEnd : out;
+    return m_dtEnd;
 }
 
 wxDateTime wxGISTask::GetDateCreated(void) const

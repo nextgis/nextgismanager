@@ -203,6 +203,8 @@ bool wxGISTask::Load(void)
     m_nGroupId = oStorageRoot.Get(wxT("groupid"), wxJSONValue(m_nGroupId)).AsInt();
     m_nPriority = oStorageRoot.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
     m_dtCreated = GetDateValue(oStorageRoot, wxT("create"), wxDateTime::Now());
+    m_dtBeg = GetDateValue(oStorageRoot, wxT("beg"), wxDateTime::Now());
+    m_dtEstEnd = GetDateValue(oStorageRoot, wxT("end"), wxDateTime::Now());
 
     m_nVolume = oStorageRoot.Get(wxT("vol"), wxJSONValue(wxUint64(0))).AsUInt64();
     m_dfDone = oStorageRoot.Get(wxT("done"), wxJSONValue(0.0)).AsDouble();
@@ -306,6 +308,8 @@ wxJSONValue wxGISTask::GetStoreConfig(void)
         val[wxT("subtasks")] = m_SubTasksDesc;
     }
 
+    val[wxT("beg")] = SetDateValue(m_dtBeg);
+    val[wxT("end")] = SetDateValue(m_dtEstEnd);
 
     return val;
 }
@@ -1101,6 +1105,8 @@ bool wxGISTaskPeriodic::Load(void)
     m_nPriority = oStorageRoot.Get(wxT("prio"), wxJSONValue(wxNOT_FOUND)).AsLong();
     m_nPeriod = oStorageRoot.Get(wxT("period"), wxJSONValue(0)).AsLong();
     m_dtCreated = GetDateValue(oStorageRoot, wxT("create"), wxDateTime::Now());
+    m_dtBeg = GetDateValue(oStorageRoot, wxT("beg"), wxDateTime::Now());
+    m_dtEstEnd = GetDateValue(oStorageRoot, wxT("end"), wxDateTime::Now());
 
     m_nVolume = oStorageRoot.Get(wxT("vol"), wxJSONValue(wxUint64(0))).AsUInt64();
     m_dfDone = oStorageRoot.Get(wxT("done"), wxJSONValue(0.0)).AsDouble();
@@ -1201,6 +1207,8 @@ wxJSONValue wxGISTaskPeriodic::GetStoreConfig(void)
         val[wxT("subtasks")] = m_SubTasksDesc;
     }
 
+    val[wxT("beg")] = SetDateValue(m_dtBeg);
+    val[wxT("end")] = SetDateValue(m_dtEstEnd);
 
     return val;
 }
@@ -1309,7 +1317,7 @@ bool wxGISTaskPeriodic::Start()
 
 void wxGISTaskPeriodic::Stop(void)
 {
-    if (m_nState == enumGISTaskDone || m_nState == enumGISTaskError)
+    if (m_nState == enumGISTaskDone || m_nState == enumGISTaskError || m_nState == enumGISTaskPaused)
         return;
 
     wxCriticalSectionLocker lock(m_ExitLock);
