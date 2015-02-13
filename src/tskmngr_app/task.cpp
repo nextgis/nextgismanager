@@ -725,6 +725,22 @@ void wxGISTask::ChangeTask(wxDword eChangeType, wxGISEnumMessageType eMessageTyp
     wxJSONValue val;
     val[wxT("id")] = m_nId;
 
+    if (eChangeType == enumTaskChangeMessage)
+    {
+        if (sInfoData.IsEmpty())
+            return;
+        else
+        {
+            val[wxT("msg")] = sInfoData;
+            val[wxT("date")] = SetDateValue(wxDateTime::Now());
+            val[wxT("type")] = eMessageType;
+            val[wxT("msg_id")] = wxNewId();
+            sMessage = wxString(_("Task new message"));
+            m_pParentTask->SendNetMessage(enumGISNetCmdNote, enumGISCmdNoteMsg, enumGISPriorityHigh, val, sMessage, wxNOT_FOUND);
+            return;
+        }
+    }
+
     if (eChangeType & enumTaskChangeState)
     {
         val[wxT("state")] = m_nState;
@@ -743,9 +759,6 @@ void wxGISTask::ChangeTask(wxDword eChangeType, wxGISEnumMessageType eMessageTyp
     {
         val[wxT("vol")] = wxUint64(m_nVolume.GetValue());
     }
-
-    if (eChangeType == enumTaskChangeMessage && sInfoData.IsEmpty())
-        return;
 
     if (eChangeType & enumTaskChangeMessage && !sInfoData.IsEmpty())
     {
