@@ -1158,6 +1158,7 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     }
 
     wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
+	curl.SetTimeout(3600); //1 hour
     PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFilePath), pTrackCancel);
     DeleteFile(szFilePath, pTrackCancel);
     bool bResult = res.IsValid && res.nHTTPCode < 400;

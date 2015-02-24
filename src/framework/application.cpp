@@ -56,6 +56,7 @@ wxGISApplication::wxGISApplication(wxWindow* parent, wxWindowID id, const wxStri
     m_pTrackCancel = NULL;
     m_pLocale = NULL;
     m_sDecimalPoint = wxString(wxT("."));
+	m_bIsToolbarmenuPopuped = false;
 }
 
 wxGISApplication::~wxGISApplication(void)
@@ -201,7 +202,7 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 				if(wxIsKindOf(m_CommandBarArray[i], wxGISToolBarMenu))
 				{
 					wxGISToolBarMenu* pToolBarMenu = dynamic_cast<wxGISToolBarMenu*>(m_CommandBarArray[i]);
-					if(pToolBarMenu)
+					if(pToolBarMenu && !m_bIsToolbarmenuPopuped)
 						pToolBarMenu->Update();
 				}
 			}
@@ -384,7 +385,9 @@ void wxGISApplication::ShowToolBarMenu(void)
 	if(pToolBarMenu)
 	{
         pToolBarMenu->Update();
+		m_bIsToolbarmenuPopuped = true;
 		PopupMenu(pToolBarMenu);
+		m_bIsToolbarmenuPopuped = false;
 	}
 }
 

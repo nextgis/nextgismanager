@@ -102,14 +102,15 @@ void wxGISThreadHelper::DestroyThreadSync(int nWaitAfter)
 bool wxGISThreadHelper::TestDestroy()
 {    
     wxCriticalSectionLocker locker(m_critSection);
-    if (m_thread)
-        return m_thread->TestDestroy() || m_bKill;
+    if (!m_bKill && m_thread)
+        return m_thread->TestDestroy();
     return m_bKill;
 }
 
 void wxGISThreadHelper::KillThread()
 {
     wxCriticalSectionLocker locker(m_critSection);
+	m_bKill = true;
     if (m_thread)
     {
         m_thread->Kill();
