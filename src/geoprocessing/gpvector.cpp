@@ -732,6 +732,14 @@ bool ExportFormat(wxGISFeatureDataset* const pSrsDataSet, const CPLString &sPath
 						CPLStrlcpy(acNewName, pFieldDefn->GetNameRef(), 10);
 						pNewDef->GetFieldDefn(nCount)->SetName(acNewName);	
 					}
+					else if(pFilter->GetSubType() == enumVecPostGIS)
+					{
+						//make field name lower case
+						wxString sName(pFieldDefn->GetNameRef(), wxCSConv(pSrsDataSet->GetEncoding()));
+						sName.MakeLower();
+						pNewDef->GetFieldDefn(nCount)->SetName(sName.ToUTF8());	
+						
+					}
 					OGRFieldType eType = pFieldDefn->GetType();
 					ST_FIELD_MAP record = { nCount, i, eType };
 					staFieldMap.push_back(record);
