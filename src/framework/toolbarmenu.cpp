@@ -41,15 +41,7 @@ wxGISToolBarMenu::~wxGISToolBarMenu(void)
 
 void wxGISToolBarMenu::Update(void)
 {
-
-	//cleare contents
-    for (size_t i = 0; i < m_delitems.size(); ++i)
-    {
-		Destroy(m_delitems[i]);
-    }
-	m_delitems.clear();
-
-
+	wxVector<MENUITEM> current_items;
 	wxGISCommandBarPtrArray CommandBars = m_pApp->GetCommandBars();
 	for(size_t i = 0; i < CommandBars.GetCount(); ++i)
 	{
@@ -60,27 +52,55 @@ void wxGISToolBarMenu::Update(void)
 			bool bIsShown = m_pApp->IsApplicationWindowShown(pWnd);
 			
 			//TODO: sort panels in menu
-			wxMenuItem* pItem = Prepend(ID_TOOLBARCMD + i, pCmdBar->GetCaption(), wxT(""), wxITEM_CHECK);
-			pItem->Check(bIsShown);
-			m_delitems.push_back(pItem);
+			MENUITEM item = {ID_TOOLBARCMD + i, pCmdBar->GetCaption(), bIsShown}; 
+			current_items.push_back(item);
 		}
 	}
-	m_delitems.push_back(AppendSeparator());
-	wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdCustomize);
-    if (NULL != pCmd)
+		
+	bool bSame = true;
+	if(current_items.size() + 1 != m_menuitems.size())
+		bSame = false;
+		
+	if(bSame)	
+	{
+		for ( size_t i = 0; i < current_items.size(); ++i ) 
+		{    
+			if(current_items[i].name != m_menuitems[i + 1].name){
+				bSame = false;
+				break;
+			}
+			
+			if(current_items[i].checked != m_menuitems[i + 1].checked){
+				bSame = false;
+				break;
+			}
+		}
+	}
+	
+	if(bSame){
+		return;
+	}
+ 	//return;
+
+	//cleare contents
+    for (size_t i = 0; i < m_menuitems.size(); ++i)
     {
-		m_delitems.push_back(Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
+		Destroy(m_menuitems[i].id);
     }
-	pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdFitToolbars);
-    if (NULL != pCmd)
-    {
-		m_delitems.push_back(Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
-    }
-	pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdOptimizeToolbars);
-    if (NULL != pCmd)
-    {
-		m_delitems.push_back(Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind()));
-    }
+
+	m_menuitems.clear();
+
+	if(current_items.size() > 0){
+		MENUITEM item = {PrependSeparator()->GetId(), "", false};
+		m_menuitems.push_back(item);
+	}
+	
+	for ( size_t i = 0; i < current_items.size(); ++i ) 
+	{
+		m_menuitems.push_back(current_items[i]);
+		wxMenuItem* pAddedItem = PrependCheckItem(current_items[i].id, current_items[i].name);
+		pAddedItem->Check(current_items[i].checked);
+	}
 }
 
 void wxGISToolBarMenu::OnCommand(wxCommandEvent& event)
@@ -134,6 +154,23 @@ void wxGISToolBarMenu::OnClick(void)
 bool wxGISToolBarMenu::OnCreate(wxGISApplicationBase* pApp)
 {
 	m_pApp = dynamic_cast<wxGISApplication*>(pApp);
+	
+	wxGISCommand* pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdCustomize);
+    if (NULL != pCmd)
+    {
+		Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind());
+    }
+	pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdFitToolbars);
+    if (NULL != pCmd)
+    {
+		Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind());
+    }
+	pCmd = m_pApp->GetCommand(wxT("wxGISCommonCmd"), enumGISCommonCmdOptimizeToolbars);
+    if (NULL != pCmd)
+    {
+		Append(pCmd->GetId(), pCmd->GetCaption(), pCmd->GetTooltip(), (wxItemKind)pCmd->GetKind());
+    }
+	
 	return true;
 }
 

@@ -53,9 +53,14 @@ public:
 	virtual void Update(void);
 	//events
 	void OnCommand(wxCommandEvent& event);
+	typedef struct _menuitem{
+		int id;
+		wxString name;
+		bool checked;
+	} MENUITEM;
 protected:
 	wxGISApplication* m_pApp;
-	wxVector<wxMenuItem*> m_delitems;
+	wxVector<MENUITEM> m_menuitems;
 
 	DECLARE_EVENT_TABLE()
 };
