@@ -24,6 +24,7 @@
 #include "wxgis/catalogui/processing.h"
 #include "wxgis/framework/applicationbase.h"
 #include "wxgis/catalogui/remoteconndlgs.h"
+#include "wxgis/framework/progressdlg.h"
 
 #include "../../art/pg_vec_16.xpm"
 #include "../../art/pg_vec_48.xpm"
@@ -43,6 +44,7 @@
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/catalogui/vectorpropertypage.h"
 #include "wxgis/catalogui/tablepropertypage.h"
+#include "wxgis/catalogui/createremotedlgs.h"
 
 #include "../../art/properties.xpm"
 
@@ -50,6 +52,12 @@
 #include "wx/utils.h"
 #include "wx/propdlg.h"
 #include "wx/bookctrl.h"
+
+#ifdef wxGIS_HAVE_GEOPROCESSING
+	#include "wxgis/geoprocessing/gpdomain.h"
+	#include "wxgis/geoprocessing/gpvector.h"
+	#include "wxgis/geoprocessing/gpraster.h"
+#endif
 
 #ifdef wxGIS_USE_POSTGRES
 #include "wxgis/catalogui/gxpostgisdatasetui.h"
@@ -314,6 +322,8 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
     wxVector<EXPORTED_DATASET> paVectorDatasets;
     wxVector<EXPORTED_DATASET> paRasterDatasets;
     wxVector<EXPORTED_DATASET> paTables;
+	
+	wxVector<IGxDataset*> paDatasets;
 
     for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
     {
@@ -333,6 +343,8 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                     IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(pGxObject);
                     if (NULL != pGxDSet)
                     {
+						paDatasets.push_back(pGxDSet);
+						/*
                         wxString sName = CheckUniqTableName(pGxObject->GetBaseName());
                         EXPORTED_DATASET data = { sName, pGxDSet };
                         if (pGxDSet->GetType() == enumGISRasterDataset)
@@ -341,6 +353,7 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                             paVectorDatasets.push_back(data);
                         else if (pGxDSet->GetType() == enumGISTable)
                             paTables.push_back(data);
+						*/
                     }
                 }
             }
@@ -349,6 +362,8 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                 IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(pGxObject);
                 if (NULL != pGxDSet)
                 {
+					paDatasets.push_back(pGxDSet);
+					/*
                     wxString sName = CheckUniqTableName(pGxObject->GetBaseName(), wxT("_"));
                     EXPORTED_DATASET data = { sName, pGxDSet };
                     if (pGxDSet->GetType() == enumGISRasterDataset)
@@ -357,47 +372,87 @@ bool wxGxRemoteDBSchemaUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove
                         paVectorDatasets.push_back(data);
                     else if (pGxDSet->GetType() == enumGISTable)
                         paTables.push_back(data);
+					*/ 
                 }
             }
         }
     }
 
     wxWindow* pWnd = dynamic_cast<wxWindow*>(GetApplication());
-    //2. GxObject progress
-    wxGxObjectFilter* pFilter = new wxGxDatasetFilter(enumGISRasterDataset, enumRasterPostGIS);
-    if (paRasterDatasets.size() == 1)
-    {
-        ExportSingleRasterDataset(pWnd, GetPath(), paRasterDatasets[0].sName, pFilter, paRasterDatasets[0].pDSet);
-    }
-    else if (paRasterDatasets.size() > 1)
-    {
-        ExportMultipleRasterDatasets(pWnd, GetPath(), pFilter, paRasterDatasets);
-    }
-    wxDELETE(pFilter);
+	//2. Show config dialog
+	wxGISDatasetImportDlg dlg(this, paDatasets, pWnd);
+	if(dlg.ShowModal() == wxID_OK)
+	{
+		size_t nCount = dlg.GetDatasetCount();
+		wxGISProgressDlg ProgressDlg(_("Import selected items"), _("Begin operation..."), nCount, pWnd);
+		ProgressDlg.ShowProgress(true);
+		for ( size_t i = 0; i < nCount; ++i ) 
+		{    
+			ProgressDlg.SetValue(i);
+			if(!ProgressDlg.Continue())
+			{
+				return false;
+			}
+			
+			wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
+			wxGISPointerHolder holder(descr.pDataset);
+			if(descr.pDataset != NULL)
+			{
+				if(descr.pDataset->GetType() == enumGISFeatureDataset)
+				{
+					wxGxFeatureDatasetFilter filter(enumVecPostGIS);
+					wxGISFeatureDataset* pFeatureDataset = wxDynamicCast(descr.pDataset, wxGISFeatureDataset);
+					//create progress dialog
+					if (!pFeatureDataset->IsOpened())
+					{
+						if (!pFeatureDataset->Open(0, false, true, false, &ProgressDlg))
+						{
+							continue;
+						}
+					}
 
-    pFilter = new wxGxFeatureDatasetFilter(enumVecPostGIS);
-    if (paVectorDatasets.size() == 1)
-    {
-        ExportSingleVectorDataset(pWnd, GetPath(), paVectorDatasets[0].sName, pFilter, paVectorDatasets[0].pDSet);
-    }
-    else if (paVectorDatasets.size() > 1)
-    {
-        ExportMultipleVectorDatasets(pWnd, GetPath(), pFilter, paVectorDatasets);
-    }
-    wxDELETE(pFilter);
+					ExportFormat(pFeatureDataset, GetPath(), descr.sName, &filter, wxGISNullSpatialFilter, NULL, NULL, true, &ProgressDlg);
+				}
+				else if(descr.pDataset->GetType() == enumGISRasterDataset)
+				{
+					wxGxDatasetFilter filter(enumGISRasterDataset, enumRasterPostGIS);
+					wxGISRasterDataset* pRaster = wxDynamicCast(descr.pDataset, wxGISRasterDataset);
+					
+					if (!pRaster->IsOpened())
+					{
+						if (!pRaster->Open())
+						{
+							ProgressDlg.PutMessage(_("Input raster open failed!"), wxNOT_FOUND, enumGISMessageError);
+							continue;
+						}
+					}
 
-    pFilter = new wxGxTableFilter(enumTablePostgres);
-    if (paTables.size() == 1)
-    {
-        ExportSingleTable(pWnd, GetPath(), paTables[0].sName, pFilter, paTables[0].pDSet);
-    }
-    else if (paTables.size() > 1)
-    {
-        ExportMultipleTable(pWnd, GetPath(), pFilter, paTables);
-    }
-    wxDELETE(pFilter);
-	
-	OnGetUpdates(m_nShortWait / m_nStep);
+					ExportFormat(pRaster, GetPath(), descr.sName, &filter, wxGISNullSpatialFilter, NULL, &ProgressDlg);
+				}
+				else if(descr.pDataset->GetType() == enumGISTable)
+				{
+					wxGxTableFilter filter(enumTablePostgres);
+					wxGISTable* pTable = wxDynamicCast(descr.pDataset, wxGISTable);
+					//create progress dialog
+					if (!pTable->IsOpened())
+					{
+						if (!pTable->Open(0, false, true, false, &ProgressDlg))
+						{
+							continue;
+						}
+					}
+
+					ExportFormat(pTable, GetPath(), descr.sName, &filter, wxGISNullSpatialFilter, NULL, NULL, &ProgressDlg);
+				}
+			}
+		}
+		
+		ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());		
+		OnGetUpdates();
+		return true;		
+	}
+
+	return false;
 
 #else
 	wxString sErr(_("Function is not available! The geoprocessing was not build"));

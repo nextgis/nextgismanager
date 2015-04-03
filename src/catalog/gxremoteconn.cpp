@@ -36,6 +36,7 @@
 //--------------------------------------------------------------
 //class wxGxRemoteConnection
 //--------------------------------------------------------------
+class CreateSchema;
 IMPLEMENT_CLASS(wxGxRemoteConnection, wxGxObjectContainerUpdater)
 
 wxGxRemoteConnection::wxGxRemoteConnection(wxGxObject *oParent, const wxString &soName, const CPLString &soPath) : wxGxObjectContainerUpdater(oParent, soName, soPath)

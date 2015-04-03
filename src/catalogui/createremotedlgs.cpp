@@ -3,8 +3,8 @@
  * Purpose:  Create Remote Database dialog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2014 Dmitry Baryshnikov
-*   Copyright (C) 2014 NextGIS 
+*   Copyright (C) 2014-2015 Dmitry Baryshnikov
+*   Copyright (C) 2014-2015 NextGIS 
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -520,6 +520,103 @@ bool wxGISVectorImportPanel::GetToMulti() const
 
 
 //-------------------------------------------------------------------------------
+//  wxGISTableImportPanel
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxGISTableImportPanel, wxGISBaseImportPanel)
+
+BEGIN_EVENT_TABLE(wxGISTableImportPanel, wxGISBaseImportPanel)
+    EVT_CHOICE(wxGISTableImportPanel::ID_ENCODING, wxGISVectorImportPanel::OnEncodingSelect)
+	EVT_BUTTON(wxGISTableImportPanel::ID_TEST, wxGISVectorImportPanel::OnTestEncoding)
+END_EVENT_TABLE();
+
+wxGISTableImportPanel::wxGISTableImportPanel(wxGISTable *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
+{
+	m_pTable = pSrcDs;
+	
+	wxFlexGridSizer* fgSizer1;
+    fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+    wxStaticText *pInputStaticText = new wxStaticText( this, wxID_ANY, _("Input dataset:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pInputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pSrcDs->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( pInputStaticTextVal, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+
+	wxTextCtrl* pLayerName = new wxTextCtrl( this, wxID_ANY, sOutName, wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_sDatasetName) );
+	fgSizer1->Add( pLayerName, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxStaticText *pEncStaticText = new wxStaticText( this, wxID_ANY, _("Encoding:"), wxDefaultPosition, wxDefaultSize, 0 );
+    fgSizer1->Add( pEncStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxArrayString asEnc;
+	wxString sDefault;
+	for (int i = wxFONTENCODING_DEFAULT; i < wxFONTENCODING_MAX; i++)
+	{
+		wxString sDesc = wxFontMapper::GetEncodingDescription((wxFontEncoding)i);
+		if(sDesc.StartsWith(_("Unknown")))
+			continue;
+#ifndef __WXMAC__
+		if(sDesc.StartsWith(_("Mac")))
+			continue;
+#endif //MAC
+			
+		if (i == wxFONTENCODING_DEFAULT)
+			sDefault = sDesc;
+		asEnc.Add(sDesc);
+		m_mnEnc[sDesc] = (wxFontEncoding)i;
+	}
+	
+	m_pEncodingsCombo = new wxChoice(this, ID_ENCODING, wxDefaultPosition, wxDefaultSize, asEnc, wxCB_SORT);
+	m_pEncodingsCombo->SetSelection(m_pEncodingsCombo->FindString (sDefault));
+	
+	wxBoxSizer* pFunctSizer = new wxBoxSizer(wxHORIZONTAL);
+	pFunctSizer->Add( m_pEncodingsCombo, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_pTestButton = new wxButton(this, ID_TEST, _("Test"));
+	pFunctSizer->Add( m_pTestButton, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
+		
+	
+	m_bMainSizer->Add(fgSizer1, 0, wxEXPAND | wxALL, 5 );
+	
+	this->Layout();
+}
+
+wxGISTableImportPanel::~wxGISTableImportPanel()
+{
+	wsDELETE(m_pTable);
+}
+
+void wxGISTableImportPanel::OnEncodingSelect(wxCommandEvent& event)
+{
+    wxString sSel = m_pEncodingsCombo->GetStringSelection();
+    wxFontEncoding eEnc = m_mnEnc[sSel];
+	if(m_pTable)
+		m_pTable->SetEncoding(eEnc);
+}
+
+void wxGISTableImportPanel::OnTestEncoding(wxCommandEvent& event)
+{
+	wxGISDatasetTestEncodingDlg dlg(m_pTable, this);
+	dlg.ShowModal();
+}
+
+wxGISDataset* wxGISTableImportPanel::GetDataset() const
+{
+	wxGISDataset* pDSet = wxStaticCast(m_pTable, wxGISDataset);
+	wsGET(pDSet);
+}
+
+
+//-------------------------------------------------------------------------------
 //  wxGISRasterImportPanel
 //-------------------------------------------------------------------------------
 
@@ -811,6 +908,21 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 							m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
 						}
 					}
+				}
+				else if(pSrcDs->GetType() == enumGISTable)
+				{		
+                    wxGISDataset* pGISDs = pSrcDs->GetDataset(false);
+                    wxGISPointerHolder holder(pGISDs);
+					if(!pGISDs)
+						continue;
+					wxGISTable* pSrcTableDs = dynamic_cast<wxGISTable*>(pGISDs);		
+					if(!pSrcTableDs)
+					{
+						continue;
+					}
+					
+					wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
+					m_bMainSizer->Add( new wxGISTableImportPanel(pSrcTableDs, pDestDs, sOutName, this), 0, wxEXPAND | wxALL, 0 );
 				}
 				else if(pSrcDs->GetType() == enumGISRasterDataset)
 				{
