@@ -868,6 +868,7 @@ bool wxGISRasterHistogramPropertyPage::Create(ITrackCancel * const pTrackCancel,
 void wxGISRasterHistogramPropertyPage::FillHistogram()
 {
     //Histogram
+	/* TODO
     int nBucketCount, *panHistogram = NULL;
     double dfMin, dfMax;
 
@@ -934,14 +935,14 @@ void wxGISRasterHistogramPropertyPage::FillHistogram()
             plot->LinkDataHorizontalAxis(0, 0);
 
             // and finally create chart
-            Chart *chart = new Chart(plot, wxEmptyString /*GetName()*/, wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
+            Chart *chart = new Chart(plot, wxEmptyString /*GetName()*//*, wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
 
             m_pChartPanel->SetChart(chart);
         }
         else
         {
         }
-    }
+    }*/
 }
 
 

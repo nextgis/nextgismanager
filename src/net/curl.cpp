@@ -21,6 +21,7 @@
 #include "wxgis/net/curl.h"
 #include "wxgis/core/app.h"
 #include "wxgis/core/config.h"
+#include "wxgis/core/format.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -796,6 +797,8 @@ PERFORMRESULT wxGISCurlRefData::UploadFiles(const wxString & sURL, const wxArray
 	for ( size_t i = 0; i < asFilePaths.GetCount(); ++i ) 
 	{    
 		CPLString szFilePath(asFilePaths[i].ToUTF8());
+	
+	    //CPLString szFilePath = CPLString(Transliterate(asFilePaths[i]).ToUTF8());
 	
 		curl_formadd(&formpost, &lastptr,
 			CURLFORM_COPYNAME, "files[]",

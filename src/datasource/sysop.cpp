@@ -25,7 +25,6 @@
 
 #include <wx/filename.h>
 #include <wx/fontmap.h>
-#include <wx/tokenzr.h>
 
 bool DeleteDir(const CPLString &sPath, ITrackCancel* const pTrackCancel)
 {
@@ -440,33 +439,6 @@ CPLString GetUniqPath(const CPLString &szOriginalFullPath, const CPLString &szNe
 {
     CPLString szNewDestFileName(CPLFormFilename("", szNewName, CPLGetExtension(szOriginalFullPath)));
     return CheckUniqPath(szNewPath, szNewDestFileName);
-}
-
-wxString Transliterate(const wxString & str)
-{
-    wxArrayString saFrom, saTo;
-    wxGISAppConfig oConfig = GetConfig();
-    if (oConfig.IsOk())
-    {
-        saFrom = wxStringTokenize(oConfig.Read(enumGISHKCU, wxString(wxT("wxTranslit/from/values")), wxEmptyString), wxString(wxT(",")), wxTOKEN_RET_EMPTY);
-        saTo = wxStringTokenize(oConfig.Read(enumGISHKCU, wxString(wxT("wxTranslit/to/values")), wxEmptyString), wxString(wxT(",")), wxTOKEN_RET_EMPTY);
-    }
-
-    //load translit from config
-    wxString sOut;
-    for (size_t i = 0; i < str.Length(); ++i)
-    {		
-        int nInd = saFrom.Index(str.GetChar(i));
-        if (nInd == wxNOT_FOUND)
-        {
-            sOut += str.GetChar(i);
-        }
-        else
-        {
-            sOut += saTo[nInd];
-        }
-    }
-    return sOut;
 }
 
 bool CopyFile(const CPLString &sSrcPath, const CPLString &sDestPath, ITrackCancel* const pTrackCancel)

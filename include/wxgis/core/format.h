@@ -57,6 +57,7 @@ WXDLLIMPEXP_GIS_CORE int GetDecimalValue(const wxXmlNode* pNode, const wxString 
 WXDLLIMPEXP_GIS_CORE wxString GetSubString(const wxString &sInputString, const wxString &sBegin, const wxString &sEnd, bool bAppendBegin = false);
 WXDLLIMPEXP_GIS_CORE wxString DecodeHTMLEntities(const wxString &sSrc);
 
+WXDLLIMPEXP_GIS_CORE wxString Transliterate(const wxString & str);
 
 /** \fn static wxString NumberScale(double fScaleRatio) format.h
     \brief Format map scale text
