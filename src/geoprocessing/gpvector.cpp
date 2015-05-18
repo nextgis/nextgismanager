@@ -20,7 +20,7 @@
  ****************************************************************************/
 
 #include "wxgis/geoprocessing/gpvector.h"
-#include "wxgis/datasource/sysop.h"
+#include "wxgis/core/format.h"
 #include "wxgis/catalog/catop.h"
 #include "wxgis/core/app.h"
 

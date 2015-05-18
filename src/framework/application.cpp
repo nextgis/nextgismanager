@@ -204,7 +204,7 @@ void wxGISApplication::OnIdle(wxIdleEvent & event)
 					wxGISToolBarMenu* pToolBarMenu = dynamic_cast<wxGISToolBarMenu*>(m_CommandBarArray[i]);
 					if(pToolBarMenu && !m_bIsToolbarmenuPopuped)
 						pToolBarMenu->Update();
-				}
+				}				 
 			}
 	#endif			
 				break;

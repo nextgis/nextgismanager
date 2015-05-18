@@ -1564,13 +1564,13 @@ wxGxObject* wxGxNGWResourceGroup::GetObjectByResourceId(long nResourceId)
 		if(pResource->GetRemoteId() == nResourceId)
 			return current;
 		
-		wxGxNGWResourceGroup *pResourceGroup = dynamic_cast<wxGxNGWResourceGroup*> (current);
+		/*wxGxNGWResourceGroup *pResourceGroup = dynamic_cast<wxGxNGWResourceGroup*> (current);
 		if(pResourceGroup)
 		{
 			wxGxObject* pGetResult = pResourceGroup->GetObjectByResourceId(nResourceId);
 			if(pGetResult)
 				return pGetResult;
-		}
+		}*/
 	}	
 	
 	return NULL;

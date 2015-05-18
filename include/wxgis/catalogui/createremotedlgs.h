@@ -3,8 +3,8 @@
  * Purpose:  Create Remote Database dialog.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2014 Dmitry Baryshnikov
-*   Copyright (C) 2014 NextGIS
+*   Copyright (C) 2014-2015 Dmitry Baryshnikov
+*   Copyright (C) 2014-2015 NextGIS
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -202,6 +202,38 @@ protected:
 private:
     DECLARE_EVENT_TABLE()
 };
+
+
+/** @class wxGISTableImportPanel
+ *  
+ *  The import table panel.
+ * 
+ * 	@library{catalogui}
+ */
+class WXDLLIMPEXP_GIS_CLU wxGISTableImportPanel : public wxGISBaseImportPanel
+{
+	enum
+    {
+        ID_ENCODING = wxID_HIGHEST + 4001,
+		ID_TEST   
+    };
+    DECLARE_CLASS(wxGISTableImportPanel)
+public:
+	wxGISTableImportPanel( wxGISTable *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLIP_CHILDREN | wxCLIP_SIBLINGS | wxTAB_TRAVERSAL );
+    virtual ~wxGISTableImportPanel();
+	virtual wxGISDataset* GetDataset() const;
+	//events
+	virtual void OnEncodingSelect(wxCommandEvent& event);
+	virtual void OnTestEncoding(wxCommandEvent& event);
+protected:
+	wxGISTable *m_pTable;
+	std::map<wxString, wxFontEncoding> m_mnEnc;
+	wxChoice* m_pEncodingsCombo;
+	wxButton *m_pTestButton;
+private:
+    DECLARE_EVENT_TABLE()
+};
+
 
 /** @class wxGISDatasetTestEncodingDlg
 

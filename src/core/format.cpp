@@ -21,9 +21,11 @@
 
 #include "wxgis/core/format.h"
 #include "wxgis/core/app.h"
+#include "wxgis/core/config.h"
 
 #include <wx/numformatter.h>
 #include <wx/utils.h>
+#include <wx/tokenzr.h>
 
 wxString DoubleToString(double dVal, bool bIsLon)
 {
@@ -624,5 +626,32 @@ wxString wxGISCoordinatesFormat::Format(double dX, double dY)
         str += strY;
     }
     return str;
+}
+
+wxString Transliterate(const wxString & str)
+{
+    wxArrayString saFrom, saTo;
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk())
+    {
+        saFrom = wxStringTokenize(oConfig.Read(enumGISHKCU, wxString(wxT("wxTranslit/from/values")), wxEmptyString), wxString(wxT(",")), wxTOKEN_RET_EMPTY);
+        saTo = wxStringTokenize(oConfig.Read(enumGISHKCU, wxString(wxT("wxTranslit/to/values")), wxEmptyString), wxString(wxT(",")), wxTOKEN_RET_EMPTY);
+    }
+
+    //load translit from config
+    wxString sOut;
+    for (size_t i = 0; i < str.Length(); ++i)
+    {		
+        int nInd = saFrom.Index(str.GetChar(i));
+        if (nInd == wxNOT_FOUND)
+        {
+            sOut += str.GetChar(i);
+        }
+        else
+        {
+            sOut += saTo[nInd];
+        }
+    }
+    return sOut;
 }
 
