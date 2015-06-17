@@ -1145,7 +1145,42 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     {
         anBands.RemoveAt(3);
         wxGISRasterDataset TmpRasterDataset(szFilePath, enumRasterTiff);
-        if (!MakeBorderTransparent(&TmpRasterDataset, anBands, 4, 0, pTrackCancel))
+		 if (!TmpRasterDataset.IsOpened())
+		{
+			TmpRasterDataset.Open(true);
+		}
+		
+		int buff_size = 64 < TmpRasterDataset.GetWidth() ? 64 :  TmpRasterDataset.GetWidth();
+		buff_size = buff_size < TmpRasterDataset.GetHeight() ? buff_size :  TmpRasterDataset.GetHeight();
+		
+		// analyse crop color
+		void* data = CPLMalloc (buff_size * buff_size * GDALGetDataTypeSize(GDT_Byte) / 8 * 3);
+		int anB[3] = {1, 2, 3}; 
+		
+		int nCountWhite = 0, nCountBlack = 0;
+		//double dfColorBlack = 0, dfColorWhite = 255;
+		if(TmpRasterDataset.GetPixelData(data, 0, 0, buff_size, buff_size, buff_size, buff_size, GDT_Byte, 3, anB))
+		{
+			for(int i = 0; i < buff_size * buff_size; ++i)
+			{
+				unsigned char nColor = SRCVAL(data, GDT_Byte, i);
+				if(nColor > 250)
+				{
+					nCountWhite++;
+					//dfColorWhite = (dfColorWhite + nColor) / 2;
+				}
+				
+				if(nColor < 5)
+				{
+					nCountBlack++;
+					//dfColorBlack = (dfColorBlack + nColor) / 2;
+				}
+			}
+		}
+		
+		CPLFree (data);
+		
+        if (!MakeBorderTransparent(&TmpRasterDataset, anBands, 4, nCountWhite > nCountBlack ? 255 : 0, pTrackCancel))
             return false;
     }
    

@@ -132,9 +132,9 @@ void ProcessLine(void *pabyLine, GDALDataType eType, int iStart, int iEnd, int n
             //else
             //  panLastLineCounts[i] = 0; // not sure this even makes sense 
 
-            // no need to change raster
+            // no need to change raster?
             //for (int iBand = 0; iBand < nBands - 1; ++iBand)
-            //    SetPixelValue(pabyLine, eType, i * nBands + iBand, nReplacevalue);
+			//   SetPixelValue(pabyLine, eType, i * nBands + iBand, 0);
 
             // set alpha
             SetPixelValue(pabyLine, eType, i * nBands + nBands - 1, 0);
@@ -194,9 +194,9 @@ void ProcessLine(void *pabyLine, GDALDataType eType, int iStart, int iEnd, int n
                     continue;
                 }
 
-                // no need to change raster
-                //for (int iBand = 0; iBand < nBands - 1; ++iBand)
-                //    SetPixelValue(pabyLine, eType, i * nBands + iBand, nReplacevalue);
+                // no need to change raster?
+               //for (int iBand = 0; iBand < nBands - 1; ++iBand)
+               //   SetPixelValue(pabyLine, eType, i * nBands + iBand, 0);
 
                 // set alpha
                 SetPixelValue(pabyLine, eType, i * nBands + nBands - 1, 0);
