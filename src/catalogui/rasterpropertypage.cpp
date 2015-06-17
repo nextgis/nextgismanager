@@ -180,7 +180,7 @@ wxPGProperty* wxGISRasterPropertyPage::AppendMetadataProperty(wxPGProperty* pid,
 	
     //TODO: split item name by points eg. BAND_R.ULLat
 	
-    if(CPLStrnlen(Key, 255) == 0)
+    if(NULL == Key || CPLStrnlen(Key, 255) == 0)
 		return AppendProperty( new wxStringProperty(_("Item"), wxString::Format(wxT("Item_%ld"), ++m_nCounter), wxString::FromUTF8(Value)) );
     else
     {
