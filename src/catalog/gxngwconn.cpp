@@ -2077,6 +2077,12 @@ bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) 
 		return true;
 	if(sTestFieldName.IsSameAs(wxT("id"), false))
 		return true;
+	if(sTestFieldName.IsSameAs(wxT("type"), false))
+		return true;
+	if(sTestFieldName.IsSameAs(wxT("source"), false))
+		return true;
+		
+		
 	for(size_t i = 0; i < sTestFieldName.size(); ++i)
 	{
 		if(sTestFieldName[i] > 127)
