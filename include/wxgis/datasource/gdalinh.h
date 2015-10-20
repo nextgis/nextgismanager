@@ -146,7 +146,8 @@ public:
     wxArrayInt GetFieldAsIntegerList(const wxString &sFieldName) const;
     wxGISGeometry GetGeometry(void) const;
     int GetFieldAsInteger(int nIndex) const;
-    int GetFieldAsInteger(const wxString &sFieldName) const;
+    int GetFieldAsInteger(const wxString &sFieldName) const;	
+	wxString GetStyleString() const;
 
     int GetFieldIndex(const wxString &sFieldName) const;
     wxString GetFieldName(int nIndex) const;
