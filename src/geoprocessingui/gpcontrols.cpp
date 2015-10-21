@@ -904,7 +904,10 @@ void wxGISDTChoice::OnParamDomAddVal(wxGISGPParamEvent &event)
 {
     m_choice->Append(event.GetName());
     if(m_choice->GetCount() == 1)
+	{
         m_choice->Select(0);
+		m_pParam->SetValue(event.GetParamValue());
+	}
 }
 
 void wxGISDTChoice::OnParamDomClear(wxGISGPParamEvent &event)
