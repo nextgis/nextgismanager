@@ -275,7 +275,7 @@ public:
 	virtual bool CreateResource(const wxString &sName, wxGISEnumNGWResourcesType eType);
 	virtual bool CreatePostGISConnection(const wxString &sName, const wxString &sServer, const wxString &sDatabase, const wxString &sUser, const wxString &sPassword);
 	virtual bool CreatePostGISLayer(const wxString &sName, int nPGConnId, const wxString &sTable, const wxString &sSchema, const wxString &sFid, const wxString &sGeom);
-	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel = NULL);
+	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString& sStyle, bool bSkipInvalidGeometry = true, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel = NULL);
 	virtual bool CreateFileBucket(const wxString &sName, const wxArrayString& asPaths, const wxDateTime& dt, const wxJSONValue& oMetadata = wxJSONValue(wxJSONTYPE_INVALID), ITrackCancel* const pTrackCancel = NULL);
 	virtual wxGxObject* GetObjectByResourceId(long nResourceId);
@@ -348,7 +348,7 @@ public:
 	virtual bool CanCopy(const CPLString &szDestPath);
 	virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
 	virtual bool CanMove(const CPLString &szDestPath);
-	static bool CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, int nSubType = 0, ITrackCancel* const pTrackCancel = NULL);
+	static bool CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, int nSubType = 0, const wxString &sStyle = wxEmptyString, ITrackCancel* const pTrackCancel = NULL);
 protected:
 	//create wxGISDataset without openning it
 	virtual wxGISDataset* const GetDatasetFast(void);

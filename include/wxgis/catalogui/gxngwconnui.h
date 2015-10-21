@@ -101,7 +101,7 @@ public:
 	virtual bool CanImport();
 	virtual bool Import(wxWindow* pWnd);
 	//
-	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel);
+	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString& sStyle = wxEmptyString, bool bSkipInvalidGeometry = true, ITrackCancel* const pTrackCancel = NULL);
     virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel);
 	
 protected:

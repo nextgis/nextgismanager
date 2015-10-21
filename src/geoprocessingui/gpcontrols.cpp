@@ -1135,7 +1135,7 @@ wxGISDTBool::wxGISDTBool( const wxGISGPParameterArray &Params, int nParamIndex, 
 	fgSizer1->Add( m_StateBitmap, 0, wxALL, 5 );
 
 	m_sFullDisplayName = m_pParam->GetParameterType() == enumGISGPParameterTypeOptional ? m_pParam->GetDisplayName() + wxT(" ") + _("(optional)") : m_pParam->GetDisplayName();
-    m_pCheckBox = new wxCheckBox( this, ID_CHECKBOOL, wxT("..."), wxDefaultPosition, wxDefaultSize );
+    m_pCheckBox = new wxCheckBox( this, ID_CHECKBOOL, m_sFullDisplayName, wxDefaultPosition, wxDefaultSize );
     m_pCheckBox->SetValue(m_pParam->GetValue());
 	m_pCheckBox->SetToolTip(m_sFullDisplayName);
 	fgSizer1->Add( m_pCheckBox, 1, wxALL|wxEXPAND, 5 );
@@ -1144,10 +1144,7 @@ wxGISDTBool::wxGISDTBool( const wxGISGPParameterArray &Params, int nParamIndex, 
 	fgSizer1->Add( m_bitmap, 0, wxALL, 5 );
 
 	this->SetSizer( fgSizer1 );
-	this->Layout();
-	
-	
-	m_sParamDisplayName->SetLabel(m_sFullDisplayName);
+	this->Layout();	
 }
 
 wxGISDTBool::~wxGISDTBool()
@@ -1244,7 +1241,6 @@ bool wxGISDTText::Validate(void)
     if(m_pParam->GetHasBeenValidated())
 		return m_pParam->IsValid();
 
-
     if(m_TextCtrl->GetValue().IsEmpty())
     {
         m_pParam->SetAltered(false);
@@ -1275,6 +1271,8 @@ void wxGISDTText::OnParamChanged(wxGISGPParamEvent& event)
 {
     if(event.GetId() == m_nParamIndex)
     {
+		if(m_TextCtrl->GetValue() == event.GetParamValue().GetString())
+			return;
         m_TextCtrl->ChangeValue( event.GetParamValue() );
         Validate();
     }
