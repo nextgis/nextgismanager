@@ -2297,7 +2297,7 @@ bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nPare
 			val["resource"]["display_name"] = sStyleName;
 			if(sStyle.IsEmpty())
 			{
-				switch(nSubType)
+				switch(wkbFlatten(nSubType))
 				{
 					case wkbPoint:
 					case wkbMultiPoint:
