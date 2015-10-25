@@ -785,7 +785,7 @@ bool wxGxNGWResourceGroupUI::HasPropertyPages(void) const
 	return true;
 }
 
-bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString &sStyle, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
 {
 #ifdef wxGIS_HAVE_GEOPROCESSING	
 	wxGISFeatureDataset* pInputFeatureDataset = dynamic_cast<wxGISFeatureDataset*>(pInputDataset); 
@@ -914,9 +914,13 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	
 	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
 	
-	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, enumGISSkipEmptyGeometry | enumGISSkipInvalidGeometry, pTrackCancel))
+	wxWord eSkipGeometry = enumGISSkipEmptyGeometry;
+	if(bSkipInvalidGeometry)
+		eSkipGeometry |= enumGISSkipInvalidGeometry;
+	
+	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, eSkipGeometry, pTrackCancel))
 	{
-		return false;
+		return false; 
 	}
 	
 	//2. create temp zip from temp shp, shx, dbf, prj
@@ -1034,8 +1038,8 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 			}
 		
             //create default style
-			int nRasterLayerId = JSONRoot["id"].AsInt();
-			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeVectorLayerStyle, wkbFlatten(pInputFeatureDataset->GetGeometryType()), pTrackCancel);
+			int nVectorLayerId = JSONRoot["id"].AsInt();
+			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nVectorLayerId, sName, enumNGWResourceTypeVectorLayerStyle, wkbFlatten(pInputFeatureDataset->GetGeometryType()), sStyle, pTrackCancel);
 			OnGetUpdates();
 			
 			if(bResult)
@@ -1253,7 +1257,7 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
 
             //create default style
             int nRasterLayerId = JSONRoot["id"].AsInt();
-            bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeRasterLayerStyle, 0, pTrackCancel);
+            bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeRasterLayerStyle, 0, wxEmptyString, pTrackCancel);
             OnGetUpdates();
 
             if (bResult)
@@ -1367,7 +1371,7 @@ bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 				{
 					if(descr.pDataset->GetType() == enumGISFeatureDataset)
 					{
-						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, &ProgressDlg);
+						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, wxEmptyString, true, &ProgressDlg);
 					}
 					else if(descr.pDataset->GetType() == enumGISRasterDataset)
 					{

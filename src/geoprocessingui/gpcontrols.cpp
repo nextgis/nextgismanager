@@ -904,7 +904,10 @@ void wxGISDTChoice::OnParamDomAddVal(wxGISGPParamEvent &event)
 {
     m_choice->Append(event.GetName());
     if(m_choice->GetCount() == 1)
+	{
         m_choice->Select(0);
+		m_pParam->SetValue(event.GetParamValue());
+	}
 }
 
 void wxGISDTChoice::OnParamDomClear(wxGISGPParamEvent &event)
@@ -936,63 +939,67 @@ void wxGISDTFieldChoice::OnParamChanged(wxGISGPParamEvent& event)
     {
         //load fiels from vector file
         wxGISGPParameter* pParam = m_Params[event.GetId()];
-        wxString sPath = pParam->GetValue();
-        wxGxCatalogBase* pCatalog = GetGxCatalog();
-        wxGxObject* pObj = pCatalog->FindGxObject(sPath);
-        wxGxDataset* pGxDSet = wxDynamicCast(pObj, wxGxDataset);
-        if(pGxDSet)
-        {
-            wxGISTable* pDSet = wxDynamicCast(pGxDSet->GetDataset(false), wxGISTable);
-            wxGISPointerHolder holder(pDSet);
-            if(pDSet)
-            {
-                OGRFeatureDefn* const pDef = pDSet->GetDefinition();
-                {
-                    wxGISGPValueDomain* poGPValueDomain = wxDynamicCast(m_pParam->GetDomain(),wxGISGPValueDomain);
-                    if(poGPValueDomain)
-                    {
-                        poGPValueDomain->Clear();
-                    }
-                    else
-                    {
-                        poGPValueDomain = new wxGISGPValueDomain();
-                        m_pParam->SetDomain(poGPValueDomain);
-                    }
-                    for(int i = 0; i <  pDef->GetFieldCount(); ++i)
-                    {
-                        OGRFieldDefn* pFDef = pDef->GetFieldDefn(i);
-                        if(pFDef)
-                        {
-                            OGRFieldType eType = pFDef->GetType();
-                            if( (eType == OFTInteger && m_pParam->GetDataType() == enumGISGPParamDTFieldIntegerChoice) ||
-                                (eType == OFTReal && m_pParam->GetDataType() == enumGISGPParamDTFieldRealChoice) ||
-                                (eType == OFTDate && m_pParam->GetDataType() == enumGISGPParamDTFieldDateChoice) ||
-                                (eType == OFTString && m_pParam->GetDataType() == enumGISGPParamDTFieldStringChoice) ||
-                                (eType == OFTTime && m_pParam->GetDataType() == enumGISGPParamDTFieldTimeChoice) ||
-                                (eType == OFTDateTime && m_pParam->GetDataType() == enumGISGPParamDTFieldDateTimeChoice) ||
-                                (eType == OFTBinary && m_pParam->GetDataType() == enumGISGPParamDTFieldBinaryChoice) ||
-                                m_pParam->GetDataType() == enumGISGPParamDTFieldAnyChoice)
-                            {
-                                poGPValueDomain->AddValue(i, wxString(pFDef->GetNameRef(), wxConvUTF8));
-                            }
-                        }
-                    }
-                    if(poGPValueDomain->GetCount() > 0)
-                    {
-                        m_pParam->SetSelDomainValue(0);
-                        //wxString sVal = poGPValueDomain->GetValue(0).GetString();
-                        //if(sVal.IsEmpty())
-                        //{
-                        //    m_pParam->SetValid(false);
-                        //}
-                        //else
-                        //{
-                        //    m_pParam->SetValue(wxVariant(sVal, wxT("string")));
-                        //}
-                    }
-                }
-            }
-        }
+		
+		if(m_pParam->GetDependences().Index(pParam->GetName()) != wxNOT_FOUND)
+		{			
+			wxString sPath = pParam->GetValue();
+			wxGxCatalogBase* pCatalog = GetGxCatalog();
+			wxGxObject* pObj = pCatalog->FindGxObject(sPath);
+			wxGxDataset* pGxDSet = wxDynamicCast(pObj, wxGxDataset);
+			if(pGxDSet)
+			{
+				wxGISTable* pDSet = wxDynamicCast(pGxDSet->GetDataset(false), wxGISTable);
+				wxGISPointerHolder holder(pDSet);
+				if(pDSet)
+				{
+					OGRFeatureDefn* const pDef = pDSet->GetDefinition();
+					{
+						wxGISGPValueDomain* poGPValueDomain = wxDynamicCast(m_pParam->GetDomain(),wxGISGPValueDomain);
+						if(poGPValueDomain)
+						{
+							poGPValueDomain->Clear();
+						}
+						else
+						{
+							poGPValueDomain = new wxGISGPValueDomain();
+							m_pParam->SetDomain(poGPValueDomain);
+						}
+						for(int i = 0; i <  pDef->GetFieldCount(); ++i)
+						{
+							OGRFieldDefn* pFDef = pDef->GetFieldDefn(i);
+							if(pFDef)
+							{
+								OGRFieldType eType = pFDef->GetType();
+								if( (eType == OFTInteger && m_pParam->GetDataType() == enumGISGPParamDTFieldIntegerChoice) ||
+									(eType == OFTReal && m_pParam->GetDataType() == enumGISGPParamDTFieldRealChoice) ||
+									(eType == OFTDate && m_pParam->GetDataType() == enumGISGPParamDTFieldDateChoice) ||
+									(eType == OFTString && m_pParam->GetDataType() == enumGISGPParamDTFieldStringChoice) ||
+									(eType == OFTTime && m_pParam->GetDataType() == enumGISGPParamDTFieldTimeChoice) ||
+									(eType == OFTDateTime && m_pParam->GetDataType() == enumGISGPParamDTFieldDateTimeChoice) ||
+									(eType == OFTBinary && m_pParam->GetDataType() == enumGISGPParamDTFieldBinaryChoice) ||
+									m_pParam->GetDataType() == enumGISGPParamDTFieldAnyChoice)
+								{
+									poGPValueDomain->AddValue(i, wxString(pFDef->GetNameRef(), wxConvUTF8));
+								}
+							}
+						}
+						if(poGPValueDomain->GetCount() > 0)
+						{
+							m_pParam->SetSelDomainValue(0);
+							//wxString sVal = poGPValueDomain->GetValue(0).GetString();
+							//if(sVal.IsEmpty())
+							//{
+							//    m_pParam->SetValid(false);
+							//}
+							//else
+							//{
+							//    m_pParam->SetValue(wxVariant(sVal, wxT("string")));
+							//}
+						}
+					}
+				}
+			}
+		}
     }
 }
 
@@ -1128,7 +1135,7 @@ wxGISDTBool::wxGISDTBool( const wxGISGPParameterArray &Params, int nParamIndex, 
 	fgSizer1->Add( m_StateBitmap, 0, wxALL, 5 );
 
 	m_sFullDisplayName = m_pParam->GetParameterType() == enumGISGPParameterTypeOptional ? m_pParam->GetDisplayName() + wxT(" ") + _("(optional)") : m_pParam->GetDisplayName();
-    m_pCheckBox = new wxCheckBox( this, ID_CHECKBOOL, wxT("..."), wxDefaultPosition, wxDefaultSize );
+    m_pCheckBox = new wxCheckBox( this, ID_CHECKBOOL, m_sFullDisplayName, wxDefaultPosition, wxDefaultSize );
     m_pCheckBox->SetValue(m_pParam->GetValue());
 	m_pCheckBox->SetToolTip(m_sFullDisplayName);
 	fgSizer1->Add( m_pCheckBox, 1, wxALL|wxEXPAND, 5 );
@@ -1137,10 +1144,7 @@ wxGISDTBool::wxGISDTBool( const wxGISGPParameterArray &Params, int nParamIndex, 
 	fgSizer1->Add( m_bitmap, 0, wxALL, 5 );
 
 	this->SetSizer( fgSizer1 );
-	this->Layout();
-	
-	
-	m_sParamDisplayName->SetLabel(m_sFullDisplayName);
+	this->Layout();	
 }
 
 wxGISDTBool::~wxGISDTBool()
@@ -1237,7 +1241,6 @@ bool wxGISDTText::Validate(void)
     if(m_pParam->GetHasBeenValidated())
 		return m_pParam->IsValid();
 
-
     if(m_TextCtrl->GetValue().IsEmpty())
     {
         m_pParam->SetAltered(false);
@@ -1268,6 +1271,8 @@ void wxGISDTText::OnParamChanged(wxGISGPParamEvent& event)
 {
     if(event.GetId() == m_nParamIndex)
     {
+		if(m_TextCtrl->GetValue() == event.GetParamValue().GetString())
+			return;
         m_TextCtrl->ChangeValue( event.GetParamValue() );
         Validate();
     }

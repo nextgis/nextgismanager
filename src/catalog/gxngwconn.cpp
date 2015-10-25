@@ -1661,9 +1661,8 @@ bool wxGxNGWResourceGroup::CreateResourceGroup(const wxString &sName)
 	return false;	
 }
 
-bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, ITrackCancel* const pTrackCancel)
-{
-	
+bool wxGxNGWResourceGroup::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString &sStyle, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+{	
 	return false;		
 }
 
@@ -2077,6 +2076,12 @@ bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) 
 		return true;
 	if(sTestFieldName.IsSameAs(wxT("id"), false))
 		return true;
+	if(sTestFieldName.IsSameAs(wxT("type"), false))
+		return true;
+	if(sTestFieldName.IsSameAs(wxT("source"), false))
+		return true;
+		
+		
 	for(size_t i = 0; i < sTestFieldName.size(); ++i)
 	{
 		if(sTestFieldName[i] > 127)
@@ -2262,7 +2267,7 @@ bool wxGxNGWLayer::CanMove(const CPLString &szDestPath)
 	return true;	
 }
 
-bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, int nSubType, ITrackCancel* const pTrackCancel)
+bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nParentId, const wxString & sStyleName, wxGISEnumNGWResourcesType eType, int nSubType, const wxString &sStyle, ITrackCancel* const pTrackCancel)
 {
 	wxGISCurl curl = pService->GetCurl();
     if(!curl.IsOk())
@@ -2290,20 +2295,27 @@ bool wxGxNGWLayer::CreateDefaultStyle(wxGxNGWService * const pService, int nPare
 			val["resource"]["cls"] = wxString(wxT("mapserver_style"));
 			val["resource"]["parent"]["id"] = nParentId;
 			val["resource"]["display_name"] = sStyleName;
-			switch(nSubType)
+			if(sStyle.IsEmpty())
 			{
-				case wkbPoint:
-				case wkbMultiPoint:
-					val["mapserver_style"]["xml"] = wxString(wxT("<map><symbol><type>ellipse</type><name>circle</name><points>1 1</points><filled>true</filled></symbol><layer><class><style><color blue=\"189\" green=\"128\" red=\"188\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/><symbol>circle</symbol><size>6</size></style></class></layer></map>"));
-					break;
-				case wkbLineString:
-				case wkbMultiLineString:
-				case wkbPolygon:
-				case wkbMultiPolygon:
-					val["mapserver_style"]["xml"] = wxString(wxT("<map><layer><class><style><color blue=\"218\" green=\"186\" red=\"190\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/></style></class></layer></map>"));
-					break;
-				default:
-					return true;
+				switch(wkbFlatten(nSubType))
+				{
+					case wkbPoint:
+					case wkbMultiPoint:
+						val["mapserver_style"]["xml"] = wxString(wxT("<map><symbol><type>ellipse</type><name>circle</name><points>1 1</points><filled>true</filled></symbol><layer><class><style><color blue=\"189\" green=\"128\" red=\"188\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/><symbol>circle</symbol><size>6</size></style></class></layer></map>"));
+						break;
+					case wkbLineString:
+					case wkbMultiLineString:
+					case wkbPolygon:
+					case wkbMultiPolygon:
+						val["mapserver_style"]["xml"] = wxString(wxT("<map><layer><class><style><color blue=\"218\" green=\"186\" red=\"190\"/><outlinecolor blue=\"64\" green=\"64\" red=\"64\"/></style></class></layer></map>"));
+						break;
+					default:
+						return true;
+				}
+			}
+			else
+			{
+				val["mapserver_style"]["xml"] = sStyle;
 			}
 			break;
 		default:

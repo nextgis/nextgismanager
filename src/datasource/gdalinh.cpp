@@ -711,6 +711,12 @@ int wxGISFeature::GetFieldAsInteger(int nIndex) const
     return ((wxGISFeatureRefData *)m_refData)->m_poFeature->GetFieldAsInteger(nIndex);
 }
 
+wxString wxGISFeature::GetStyleString() const
+{
+	wxCHECK_MSG(m_refData && ((wxGISFeatureRefData *)m_refData)->m_poFeature, wxEmptyString, wxT("The OGRFeature pointer is null"));
+    return wxString(((wxGISFeatureRefData *)m_refData)->m_poFeature->GetStyleString());
+}
+
 int wxGISFeature::GetFieldIndex(const wxString &sFieldName) const
 {
     //TODO: check for russian field name encoding

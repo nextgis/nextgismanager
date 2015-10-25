@@ -351,12 +351,14 @@ wxArrayString wxGISGPParameter::GetDependences(void) const
 
 void wxGISGPParameter::OnValueAdded(const wxVariant &Value, const wxString &sName)
 {
+	m_bHasBeenValidated = false;
     wxGISGPParamEvent event(m_nId, wxGPPARAM_DOMAIN_ADDVAL, Value, sName);
     AddEvent(event);
 }
 
 void wxGISGPParameter::OnCleared(void)
 {
+	m_bHasBeenValidated = false;
     wxGISGPParamEvent event(m_nId, wxGPPARAM_DOMAIN_CLEAR, wxNullVariant, wxEmptyString);
     AddEvent(event);
 }
