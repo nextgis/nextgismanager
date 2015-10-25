@@ -21,8 +21,7 @@
 cmake_minimum_required (VERSION 2.8)
 set(PROJECT_NAME catalogapp)
 set(APP_NAME wxgiscat)
-set(wxGIS_MAINFAMEICON "${WXGIS_CURRENT_SOURCE_DIR}/art/catalog.ico")
-set(wxGIS_MAINFAMEICON_X "${WXGIS_CURRENT_SOURCE_DIR}/art/catalog_x.ico")
+set(wxGIS_MAINFAMEICON "${WXGIS_CURRENT_SOURCE_DIR}/art/ngmanager.ico")
 
 include(app)
 include(common)

@@ -49,5 +49,5 @@ WXDLLIMPEXP_GIS_CLU void ExportMultipleRasterDatasets(wxWindow* pWnd, const CPLS
 WXDLLIMPEXP_GIS_CLU void ExportMultipleTable(wxWindow* pWnd, const CPLString &sPath, wxGxObjectFilter* const pFilter, wxVector<EXPORTED_DATASET> &paDatasets);
 #endif // wxGIS_HAVE_GEOPROCESSING
 
-void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs);
+WXDLLIMPEXP_GIS_CLU void ShowMessageDialog(wxWindow* pWnd, const wxVector<MESSAGE>& msgs);
 bool AddGxObjectToZip(wxArrayString &saPaths, void* hZIP, wxGxObject* pGxObject, const CPLString &szPath = "");

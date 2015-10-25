@@ -42,7 +42,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 MAINFRAME           ICON                    wxGIS_MAINFAMEICON
-MAINFRAME_X         ICON                    wxGIS_MAINFAMEICON_X
 //#endif    
 /////////////////////////////////////////////////////////////////////////////
 

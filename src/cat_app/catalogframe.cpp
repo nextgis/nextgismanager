@@ -22,16 +22,11 @@
 
 #include "wxgis/app/gisaboutdlg.h"
 
-#include "../../art/wxgiscatalog_x16.xpm"
-#include "../../art/wxgiscatalog16.xpm"
-#include "../../art/wxgiscatalog_x32.xpm"
-#include "../../art/wxgiscatalog32.xpm"
-#include "../../art/wxgiscatalog_x48.xpm"
-#include "../../art/wxgiscatalog48.xpm"
-#include "../../art/wxgiscatalog_x64.xpm"
-#include "../../art/wxgiscatalog64.xpm"
-#include "../../art/wxgiscatalog_x128.xpm"
-#include "../../art/wxgiscatalog128.xpm"
+#include "../../art/ngmanager16.xpm"
+#include "../../art/ngmanager32.xpm"
+#include "../../art/ngmanager48.xpm"
+#include "../../art/ngmanager64.xpm"
+#include "../../art/ngmanager128.xpm"
 #include <wx/datetime.h>
 
 //-----------------------------------------------------------
@@ -82,37 +77,20 @@ wxGISCatalogFrame::wxGISCatalogFrame(wxWindow* parent, wxWindowID id, const wxSt
 		}
 	}
 	
-	if(!bIsBranded)
-	{
-		wxDateTime now = wxDateTime::Now();
-		if((now.GetMonth() == wxDateTime::Dec && now.GetDay() > 15) || (now.GetMonth() == wxDateTime::Jan && now.GetDay() < 15))
-		{
-			m_pAppIcon = wxIcon(wxgiscatalog_x16_xpm);
-    #ifdef __WINDOWS__
-			iconBundle.AddIcon(wxICON(MAINFRAME_X));
-	//#else
-	#endif
-			iconBundle.AddIcon(m_pAppIcon);
-			iconBundle.AddIcon(wxIcon(wxgiscatalog_x32_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog_x48_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog_x64_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog_x128_xpm));
+    if (!bIsBranded)
+    {
+        m_pAppIcon = wxIcon(ngmanager16_xpm);
+#ifdef __WINDOWS__
+        iconBundle.AddIcon(wxICON(MAINFRAME));
+        //#else
+#endif
+        iconBundle.AddIcon(m_pAppIcon);
+        iconBundle.AddIcon(wxIcon(ngmanager32_xpm));
+        iconBundle.AddIcon(wxIcon(ngmanager48_xpm));
+        iconBundle.AddIcon(wxIcon(ngmanager64_xpm));
+        iconBundle.AddIcon(wxIcon(ngmanager128_xpm));
+    }
 
-		}
-		else
-		{
-			m_pAppIcon = wxIcon(wxgiscatalog16_xpm);
-    #ifdef __WINDOWS__
-			iconBundle.AddIcon(wxICON(MAINFRAME));
-	//#else
-	#endif
-			iconBundle.AddIcon(m_pAppIcon);
-			iconBundle.AddIcon(wxIcon(wxgiscatalog32_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog48_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog64_xpm));
-			iconBundle.AddIcon(wxIcon(wxgiscatalog128_xpm));
-		}
-	}
     SetIcons(iconBundle);
 }
 
