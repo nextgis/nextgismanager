@@ -427,6 +427,21 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
     CPLSetConfigOption("SHAPE_ENCODING", CPL_ENC_ASCII);
     CPLSetConfigOption("DXF_ENCODING", CPL_ENC_ASCII);
 #endif //CPL_RECODE_ICONV
+
+
+	// set network stuff
+	
+	wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+	if(!sProxy.IsEmpty())
+		CPLSetConfigOption("GDAL_HTTP_PROXY",  sProxy.ToUTF8() );
+		
+	int nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
+	CPLSetConfigOption("GDAL_HTTP_TIMEOUT",  wxString::Format(wxT("%d"), nTimeout).ToUTF8());
+	
+	bool bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), true);
+	if(bSSLVerify)
+		CPLSetConfigOption("GDAL_HTTP_UNSAFESSL",  "YES" );
+	
     return true;
 }
 
