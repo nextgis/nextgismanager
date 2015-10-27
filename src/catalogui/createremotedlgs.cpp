@@ -415,7 +415,7 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 	m_pFeatureClass = pSrcDs;
 	
 	wxFlexGridSizer* fgSizer1;
-    fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );
+    fgSizer1 = new wxFlexGridSizer( 4, 2, 0, 0 );
 	fgSizer1->AddGrowableCol( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -464,6 +464,10 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 	
 	fgSizer1->Add( pFunctSizer, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 0 );
 		
+    wxStaticText *pTMPStaticText = new wxStaticText(this, wxID_ANY, _(" "), wxDefaultPosition, wxDefaultSize, 0);
+    fgSizer1->Add(pTMPStaticText, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+    m_pSkipInvalidGeometry = new wxCheckBox(this, ID_CHECKVALIDGEOM, _("Skip invalid geometry check"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bSkipGeomValid));
+    fgSizer1->Add(m_pSkipInvalidGeometry, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
 	
 	m_bMainSizer->Add(fgSizer1, 0, wxEXPAND | wxALL, 5 );
 	
@@ -518,6 +522,10 @@ bool wxGISVectorImportPanel::GetToMulti() const
 	return m_bToMulti;
 }
 
+bool wxGISVectorImportPanel::GetSkipInvalidGeometry() const
+{
+    return m_bSkipGeomValid;
+}
 
 //-------------------------------------------------------------------------------
 //  wxGISTableImportPanel
@@ -985,12 +993,12 @@ size_t wxGISDatasetImportDlg::GetDatasetCount()
 				{
 					if(pVectorPanel)
 					{
-						DATASETDESCR descr = {pDSet, pVectorPanel->GetDatasetName(), pVectorPanel->GetFilterGeometryType(), pVectorPanel->GetToMulti(), 0, 0, 0, 0};
+                        DATASETDESCR descr = { pDSet, pVectorPanel->GetDatasetName(), pVectorPanel->GetFilterGeometryType(), pVectorPanel->GetToMulti(), pVectorPanel->GetSkipInvalidGeometry(), 0, 0, 0, 0 };
 						m_paDatasets.push_back(descr);						
 					}
 					else if(pRasterPanel)
 					{
-						DATASETDESCR descr = {pDSet, pRasterPanel->GetDatasetName(), wkbUnknown, pRasterPanel->GetAutoCrop(), pRasterPanel->GetBands()};
+						DATASETDESCR descr = {pDSet, pRasterPanel->GetDatasetName(), wkbUnknown, pRasterPanel->GetAutoCrop(), false, pRasterPanel->GetBands()};
 						m_paDatasets.push_back(descr);
 					}
 				}

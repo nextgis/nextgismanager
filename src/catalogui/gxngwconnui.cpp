@@ -1371,7 +1371,7 @@ bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 				{
 					if(descr.pDataset->GetType() == enumGISFeatureDataset)
 					{
-						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, wxEmptyString, true, &ProgressDlg);
+						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, wxEmptyString, descr.bSkipInvalidGeometry, &ProgressDlg);
 					}
 					else if(descr.pDataset->GetType() == enumGISRasterDataset)
 					{

@@ -125,6 +125,7 @@ public:
 		wxString sName;
 		OGRwkbGeometryType eFilterGeometryType;
 		bool bToMultigeomOrAutoCrop;
+        bool bSkipInvalidGeometry;
 		BANDS nRGBABands;
 	} DATASETDESCR;	
 	wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVector<IGxDataset*> &paDatasets, wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configure import datasets"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
@@ -147,6 +148,7 @@ class WXDLLIMPEXP_GIS_CLU wxGISVectorImportPanel : public wxGISBaseImportPanel
 	enum
     {
         ID_ENCODING = wxID_HIGHEST + 4001,
+        ID_CHECKVALIDGEOM,
 		ID_TEST   
     };
     DECLARE_CLASS(wxGISVectorImportPanel)
@@ -156,6 +158,7 @@ public:
 	virtual wxGISDataset* GetDataset() const;
 	virtual OGRwkbGeometryType GetFilterGeometryType() const;
 	virtual bool GetToMulti() const;
+    virtual bool GetSkipInvalidGeometry() const;
 	//events
 	virtual void OnEncodingSelect(wxCommandEvent& event);
 	virtual void OnTestEncoding(wxCommandEvent& event);
@@ -163,8 +166,9 @@ protected:
 	wxGISFeatureDataset *m_pFeatureClass;
 	std::map<wxString, wxFontEncoding> m_mnEnc;
 	wxChoice* m_pEncodingsCombo;
+    wxCheckBox* m_pSkipInvalidGeometry;
 	OGRwkbGeometryType m_eFilterGeometryType;
-	bool m_bToMulti;	
+    bool m_bToMulti, m_bSkipGeomValid;
 	wxButton *m_pTestButton;
 private:
     DECLARE_EVENT_TABLE()
