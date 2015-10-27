@@ -73,26 +73,21 @@ wxString wxGISGridTable::GetValue(int row, int col)
 		return wxEmptyString;
 
 	if(GetNumberCols() <= col || GetNumberRows() <= row)
-		return wxEmptyString;
+		return wxEmptyString;    
 
 	//fetch more data
     wxGISFeature Feature;
     if (m_moFeatures[row].IsOk())
     {
         Feature = m_moFeatures[row];
+        return Feature.GetFieldAsString(col);
     }
     else
     {
-     //   Feature = m_pGISDataset->GetFeature(row);
-     //   m_moFeatures[row] = Feature;
         FillForPos(row);
         return GetValue(row, col);
     }
 
-    if (Feature.IsOk())
-    {
-        return Feature.GetFieldAsString(col);
-    }
 	return wxEmptyString;
 }
 
@@ -143,19 +138,14 @@ wxString wxGISGridTable::GetRowLabelValue(int row)
     if (m_moFeatures[row].IsOk())
     {
         Feature = m_moFeatures[row];
+        return wxString::Format("%ld", Feature.GetFID());
     }
     else
     {
-     //   Feature = m_pGISDataset->GetFeature(row);
-     //   m_moFeatures[row] = Feature;
         FillForPos(row);
         return GetRowLabelValue(row);
     }
 
-    if (Feature.IsOk())
-    {
-        return wxString::Format("%ld", Feature.GetFID());
-    }
 	return wxEmptyString;	
 }
 
@@ -170,11 +160,17 @@ bool wxGISGridTable::IsEmptyCell(int row, int col)
 }
 
 void wxGISGridTable::FillForPos(int nRow)
-{
-	wxCriticalSectionLocker locker(m_CritSectCache);
+{	
     wxBusyCursor wait;
 
+    wxCriticalSectionLocker locker(m_CritSectCache);
+
     long nBeg = floor(double(nRow) / FILL_STEP) * FILL_STEP;
+
+    while (m_pGISDataset->IsCaching())
+    {
+        wxMilliSleep(350);
+    }
 
     wxGISFeature Feature = m_pGISDataset->GetFeature(nBeg);
     if (Feature.IsOk())
@@ -188,11 +184,11 @@ void wxGISGridTable::FillForPos(int nRow)
 
     for (long i = nBeg + 1; i < nEndPos; ++i)
     {
-        //if (m_moFeatures[i].IsOk())
-        //    continue;
         Feature = m_pGISDataset->Next();
         if (Feature.IsOk())
+        {
             m_moFeatures[i] = Feature;
+        }
         else
         {
             m_nRows--;
@@ -207,6 +203,8 @@ void wxGISGridTable::FillForPos(int nRow)
 
 void wxGISGridTable::ClearFeatures(void)
 {
+    wxCriticalSectionLocker locker(m_CritSectCache);
+
     m_moFeatures.clear();
     m_mnAlign.clear();
 }

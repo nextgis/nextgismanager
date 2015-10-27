@@ -26,6 +26,8 @@
 
 #include "../../art/splash.xpm"
 
+//-----------------------------------------------------------------------------------------------------------
+
 wxBitmap PrepareSplashScreen(const IApplication *pApp, int nDeltH, int nDeltaV)
 {
     wxBitmap bkBitmap(splash_xpm);

@@ -350,6 +350,8 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 {
     if(!wxGISApplication::SetupSys(sSysPath))
         return false;
+    wxGISAppConfig oConfig = GetConfig();
+
 #ifdef __WINDOWS__
 	wxString sGdalDataDir = sSysPath + wxFileName::GetPathSeparator() + wxString(wxT("gdal")) + wxFileName::GetPathSeparator();
 	CPLSetConfigOption("GDAL_DATA", sGdalDataDir.ToUTF8() );
@@ -365,7 +367,6 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 #ifdef __UNIX__
     //check config option for gdal directory
     wxString sGDALPath;
-    wxGISAppConfig oConfig = GetConfig();
 	if(oConfig.IsOk())
     {
         sGDALPath = oConfig.Read(enumGISHKCU, wxString(wxT("wxGISCommon/GDAL/path")), wxEmptyString);
@@ -430,18 +431,19 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 
 
 	// set network stuff
-	
-	wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
-	if(!sProxy.IsEmpty())
-		CPLSetConfigOption("GDAL_HTTP_PROXY",  sProxy.ToUTF8() );
-		
-	int nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
-	CPLSetConfigOption("GDAL_HTTP_TIMEOUT",  wxString::Format(wxT("%d"), nTimeout).ToUTF8());
-	
-	bool bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), true);
-	if(bSSLVerify)
-		CPLSetConfigOption("GDAL_HTTP_UNSAFESSL",  "YES" );
-	
+    if (oConfig.IsOk())
+    {
+        wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+        if (!sProxy.IsEmpty())
+            CPLSetConfigOption("GDAL_HTTP_PROXY", sProxy.ToUTF8());
+
+        int nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
+        CPLSetConfigOption("GDAL_HTTP_TIMEOUT", wxString::Format(wxT("%d"), nTimeout).ToUTF8());
+
+        bool bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), true);
+        if (bSSLVerify)
+            CPLSetConfigOption("GDAL_HTTP_UNSAFESSL", "YES");
+    }
     return true;
 }
 
