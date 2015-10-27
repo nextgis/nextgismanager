@@ -466,6 +466,7 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
 		
     wxStaticText *pTMPStaticText = new wxStaticText(this, wxID_ANY, _(" "), wxDefaultPosition, wxDefaultSize, 0);
     fgSizer1->Add(pTMPStaticText, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+	m_bSkipGeomValid = false;
     m_pSkipInvalidGeometry = new wxCheckBox(this, ID_CHECKVALIDGEOM, _("Skip invalid geometry check"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bSkipGeomValid));
     fgSizer1->Add(m_pSkipInvalidGeometry, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
 	
@@ -524,7 +525,7 @@ bool wxGISVectorImportPanel::GetToMulti() const
 
 bool wxGISVectorImportPanel::GetSkipInvalidGeometry() const
 {
-    return m_bSkipGeomValid;
+    return !m_bSkipGeomValid;
 }
 
 //-------------------------------------------------------------------------------
