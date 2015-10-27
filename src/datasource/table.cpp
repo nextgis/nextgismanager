@@ -753,6 +753,7 @@ OGRErr wxGISTable::SetFilter(const wxGISQueryFilter &QFilter)
 
 OGRErr wxGISTable::SetIgnoredFields(const wxArrayString &saIgnoredFields)
 {
+	wxCriticalSectionLocker locker_c(m_CritSectCache);
     wxCriticalSectionLocker locker(m_CritSect);
     if(	m_poLayer )
     {

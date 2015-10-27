@@ -84,6 +84,7 @@ private:
     int m_nRows;          // rows initially returned by dataSet
     wxGISFeatureMap m_moFeatures;
     std::map<int, int> m_mnAlign;
+	wxCriticalSection m_CritSectCache;
 };
 
 /**

@@ -171,6 +171,7 @@ bool wxGISGridTable::IsEmptyCell(int row, int col)
 
 void wxGISGridTable::FillForPos(int nRow)
 {
+	wxCriticalSectionLocker locker(m_CritSectCache);
     wxBusyCursor wait;
 
     long nBeg = floor(double(nRow) / FILL_STEP) * FILL_STEP;
@@ -182,7 +183,7 @@ void wxGISGridTable::FillForPos(int nRow)
         m_nRows--;
 
     int nEndPos = nBeg + FILL_STEP;
-    if (nEndPos > m_nRows)
+    if (nEndPos > m_nRows )
         nEndPos = m_nRows;
 
     for (long i = nBeg + 1; i < nEndPos; ++i)

@@ -563,6 +563,7 @@ wxGISDataset* wxGISFeatureDatasetCached::GetSubset(const wxString & sSubsetName)
 
 void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
 {
+	wxCriticalSectionLocker locker(m_CritSectCache);
     if (m_bIsCached)
         return;
 
@@ -597,6 +598,7 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
     const char *oldlocale = setlocale(LC_NUMERIC, "C");
 
 	OGRFeature *poFeature;
+	long nFID = 0;
 	while((poFeature = m_poLayer->GetNextFeature()) != NULL )
 	{
 		if(pProgress)
@@ -612,19 +614,18 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
         //    OGRFeature::DestroyFeature(poFeature);
         //    continue;
         //}
-
-        long nFID;
+        
         if(poFeature && !m_bHasFID)
 		{
-            nFID = m_nCurrentFID;
-			poFeature->SetFID(nFID);
+			poFeature->SetFID(++nFID);
 		}
         else
+		{
             nFID = poFeature->GetFID();
+		}
 
         //store features in array for speed
         m_omFeatures[nFID] = wxGISFeature(poFeature, m_Encoding, m_bRecodeToSystem);
-		m_nCurrentFID++;
 
         //fill extent
         OGRGeometry* pGeom = poFeature->GetGeometryRef();
@@ -649,10 +650,10 @@ void wxGISFeatureDatasetCached::Cache(ITrackCancel* const pTrackCancel)
 			if(pProgress)
 				pProgress->ShowProgress(false);
 			return;
-		}
-		m_nFeatureCount = m_omFeatures.size();
+		}		
     }
 
+	m_nFeatureCount = m_omFeatures.size();
 
     setlocale(LC_NUMERIC, oldlocale);
 
@@ -703,7 +704,7 @@ wxGISFeature wxGISFeatureDatasetCached::Next(void)
 
 wxGISFeature wxGISFeatureDatasetCached::GetFeature(long nIndex)
 {
-    if(!m_poLayer)
+   if(!m_poLayer)
     {
         return wxGISFeature();
     }
@@ -724,6 +725,7 @@ size_t wxGISFeatureDatasetCached::GetFeatureCount(bool bForce, ITrackCancel* con
         if (m_omFeatures.empty())
         {
             Cache(pTrackCancel);
+			return m_nFeatureCount;
         }
         else if(m_bOLCFastFeatureCount)
             m_nFeatureCount = m_poLayer->GetFeatureCount(0);
@@ -787,6 +789,7 @@ OGRErr wxGISFeatureDatasetCached::SetFeature(const wxGISFeature &Feature)
 
 wxGISFeature wxGISFeatureDatasetCached::GetFeatureByID(long nFID)
 {
+	wxCriticalSectionLocker locker(m_CritSectCache);
     wxGISFeature ret = m_omFeatures[nFID];
     if(ret.IsOk())
 		return ret;

@@ -68,7 +68,7 @@ protected:
     virtual void* OpenInternal(const CPLString &szPath, bool bUpdate, bool bShared);
 protected:
 	CPLString m_sPath;
-    wxCriticalSection m_CritSect;
+    wxCriticalSection m_CritSect, m_CritSectCache;
     int m_nSubType;
 	wxGISEnumDatasetType m_nType;
 	bool m_bIsOpened, m_bIsReadOnly, m_bIsCached;
