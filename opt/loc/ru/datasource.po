@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:35+0300\n"
-"PO-Revision-Date: 2014-12-19 18:35+0300\n"
+"POT-Creation-Date: 2015-10-30 00:59+0300\n"
+"PO-Revision-Date: 2015-10-30 01:00+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.11\n"
+"X-Generator: Poedit 1.7.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: ../../../src/datasource\n"
@@ -32,23 +32,23 @@ msgstr "Подключение выполнено удачно. Папка '%s'"
 msgid "No files to rename"
 msgstr "Нет файлов для переименования"
 
-#: ../../../src/datasource/dataset.cpp:290
+#: ../../../src/datasource/dataset.cpp:291
 #, c-format
 msgid "Skip file '%s' to rename"
 msgstr "Пропуск файла '%s' при переименовании"
 
-#: ../../../src/datasource/dataset.cpp:311
+#: ../../../src/datasource/dataset.cpp:312
 #: ../../../src/datasource/rasterdataset.cpp:776
 msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
-#: ../../../src/datasource/dataset.cpp:360
+#: ../../../src/datasource/dataset.cpp:361
 #: ../../../src/datasource/rasterdataset.cpp:693
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
-#: ../../../src/datasource/featuredataset.cpp:579
-#: ../../../src/datasource/table.cpp:863
+#: ../../../src/datasource/featuredataset.cpp:580
+#: ../../../src/datasource/table.cpp:881
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
 
@@ -132,55 +132,55 @@ msgstr "Отмена"
 msgid "Done"
 msgstr "Выполнено"
 
-#: ../../../src/datasource/sysop.cpp:44
+#: ../../../src/datasource/sysop.cpp:43
 #, c-format
 msgid "Delete folder failed! Folder '%s'"
 msgstr "Не удалось удалить папку! Папка '%s'"
 
-#: ../../../src/datasource/sysop.cpp:51
+#: ../../../src/datasource/sysop.cpp:50
 #, c-format
 msgid "Delete folder succeeded! Folder '%s'"
 msgstr "Папка '%s' удалена"
 
-#: ../../../src/datasource/sysop.cpp:63
+#: ../../../src/datasource/sysop.cpp:62
 #, c-format
 msgid "Create folder failed! Folder '%s'"
 msgstr "Не удалось создать папку! Папка '%s'"
 
-#: ../../../src/datasource/sysop.cpp:70
+#: ../../../src/datasource/sysop.cpp:69
 #, c-format
 msgid "Create folder succeeded! Folder '%s'"
 msgstr "Папка '%s' создана"
 
-#: ../../../src/datasource/sysop.cpp:113
+#: ../../../src/datasource/sysop.cpp:112
 msgid "Cannot copy folder inside itself"
 msgstr "Нельзя копировать папку саму в себя"
 
-#: ../../../src/datasource/sysop.cpp:170
+#: ../../../src/datasource/sysop.cpp:169
 #, c-format
 msgid "Delete file failed! File '%s'"
 msgstr "Удаление не удалось. Файл '%s'"
 
-#: ../../../src/datasource/sysop.cpp:177
+#: ../../../src/datasource/sysop.cpp:176
 #, c-format
 msgid "Delete file succeeded! File '%s'"
 msgstr "Файл '%s' удален"
 
-#: ../../../src/datasource/sysop.cpp:193
+#: ../../../src/datasource/sysop.cpp:192
 #, c-format
 msgid "Rename file failed! Old path '%s', new path '%s'"
 msgstr "Не удалось переименовать файл! Старый путь '%s', новый путь '%s'"
 
-#: ../../../src/datasource/sysop.cpp:200
+#: ../../../src/datasource/sysop.cpp:199
 #, c-format
 msgid "Rename file succeeded! Old path '%s', new path '%s'"
 msgstr "Переименование выполнено успешно! Старый путь '%s', новый путь '%s'"
 
-#: ../../../src/datasource/sysop.cpp:512
+#: ../../../src/datasource/sysop.cpp:484
 msgid "Error open input file!"
 msgstr "Не возможно открыть входной файл!"
 
-#: ../../../src/datasource/sysop.cpp:522
+#: ../../../src/datasource/sysop.cpp:494
 #, c-format
 msgid "Error create the output file '%s'!"
 msgstr "Не возможно создать выходной файл '%s'!"
@@ -190,11 +190,35 @@ msgstr "Не возможно создать выходной файл '%s'!"
 msgid "Table open failed! Path '%s'"
 msgstr "Не удалось открыть таблицу! Путь '%s'"
 
-#: ../../../src/datasource/table.cpp:584 ../../../src/datasource/table.cpp:628
-#: ../../../src/datasource/table.cpp:1095
-#: ../../../src/datasource/table.cpp:1141
+#: ../../../src/datasource/table.cpp:598 ../../../src/datasource/table.cpp:642
+#: ../../../src/datasource/table.cpp:1116
+#: ../../../src/datasource/table.cpp:1162
 msgid "Interrupted by user"
 msgstr "Отменено пользователем"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:53
+msgid "Point"
+msgstr "Точка"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:54
+msgid "Line String"
+msgstr "Линия"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:55
+msgid "Polygon"
+msgstr "Полигон"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:56
+msgid "Multi Point"
+msgstr "Мультиточка"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:57
+msgid "Multi Line String"
+msgstr "Мультилиния"
+
+#: ../../../include/wxgis/datasource/gdalinh.h:58
+msgid "Multi Polygon"
+msgstr "Мультиполигон"
 
 #~ msgid ""
 #~ "Connect failed! GDAL error: %s, host='%s' dbname='%s' port='%s' user='%s'"

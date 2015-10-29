@@ -50,6 +50,13 @@
 
 int WXDLLIMPEXP_GIS_DS CPL_STDCALL GDALExecuteProgress( double dfComplete, const char *pszMessage, void *pData);
 
+#define POINT _("Point")
+#define LINESTRING _("Line String")
+#define POLYGON _("Polygon")
+#define MPOINT _("Multi Point")
+#define MLINESTRING _("Multi Line String")
+#define MPOLYGON _("Multi Polygon")
+
 /** @class wxGISSpatialReference
 
     An OGRSpatialReference wrapper class.
