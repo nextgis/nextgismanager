@@ -27,6 +27,10 @@
 
 #include <wx/hashmap.h>
 
+#ifdef wxGIS_HAVE_GEOPROCESSING
+#include "wxgis/geoprocessing/gpvector.h"
+#endif 	//wxGIS_HAVE_GEOPROCESSING
+
 #ifdef wxGIS_USE_CURL
 
 /** @class wxGxNGWServiceUI
@@ -106,6 +110,10 @@ public:
 	
 protected:
     virtual wxGxObject* AddResource(const wxJSONValue &Data);
+#ifdef wxGIS_HAVE_GEOPROCESSING
+    virtual CPLString PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel = NULL);
+    virtual CPLString PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel = NULL);
+#endif
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 	wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;

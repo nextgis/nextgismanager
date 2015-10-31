@@ -112,7 +112,6 @@
 #include "wx/bookctrl.h"
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
-	#include "wxgis/geoprocessing/gpvector.h"
     #include "wxgis/geoprocessing/gpraster.h"
 #endif 	//wxGIS_HAVE_GEOPROCESSING
 
@@ -811,7 +810,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	//1. create temp shp file
 	if (pTrackCancel)
     {
-        pTrackCancel->PutMessage(_("Prepare ESRI Shape file"), wxNOT_FOUND, enumGISMessageTitle);
+        pTrackCancel->PutMessage(_("Prepare feature class"), wxNOT_FOUND, enumGISMessageTitle);
     }
 	
 	const wxGISSpatialReference SrcSpaRef = pInputFeatureDataset->GetSpatialReference();
@@ -900,75 +899,10 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 			nCount++;		
 		}
 	}
-	
-	wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
-	char** papszLayerOptions = NULL;
-	if(pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
-	{
-		papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "CP1251");
-	}
-	else
-	{
-		papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
-	}
-	
-	CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
-	
-	wxWord eSkipGeometry = enumGISSkipEmptyGeometry;
-	if(bSkipInvalidGeometry)
-		eSkipGeometry |= enumGISSkipInvalidGeometry;
-	
-	if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, DstSpaRef, NULL, papszLayerOptions, true, eGeomType, true, eSkipGeometry, pTrackCancel))
-	{
-		return false; 
-	}
-	
-	//2. create temp zip from temp shp, shx, dbf, prj
-	
-	CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "zip");
-	CPLErrorReset();
-	void* hZIP = CPLCreateZip(szZipFileName, NULL);
-	if (!hZIP)
-	{
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' create failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
-        }
-        return false;	
-	}
-	
-	wxString sCharset(wxT("cp-866"));
-	size_t nBufferSize = 1024 * 1024;
-	GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);	
-	IProgressor* pProgress = NULL;
-	if (pTrackCancel)
-	{
-		pTrackCancel->PutMessage(_("Compress file"), wxNOT_FOUND, enumGISMessageInformation);
-		pProgress = pTrackCancel->GetProgressor();
-	}
-	
-	if(pProgress)
-		pProgress->SetRange(4);
-	AddFileToZip(CPLResetExtension(osTmpPath, "shp"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
-	if(pProgress)
-		pProgress->SetValue(1);
-	AddFileToZip(CPLResetExtension(osTmpPath, "shx"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
-	if(pProgress)
-		pProgress->SetValue(2);
-	AddFileToZip(CPLResetExtension(osTmpPath, "dbf"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
-	if(pProgress)
-		pProgress->SetValue(3);
-	AddFileToZip(CPLResetExtension(osTmpPath, "prj"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
-	if(pProgress)
-		pProgress->SetValue(4);
-	
-	CPLCloseZip(hZIP);
-	CPLFree(pabyBuffer);
-	
-	DeleteFile(CPLResetExtension(osTmpPath, "shp"), pTrackCancel);
-	DeleteFile(CPLResetExtension(osTmpPath, "shx"), pTrackCancel);
-	DeleteFile(CPLResetExtension(osTmpPath, "dbf"), pTrackCancel);
-	DeleteFile(CPLResetExtension(osTmpPath, "prj"), pTrackCancel);
+
+    CPLString sUploadFilePath = PrepareUploadGeoJSON(pInputFeatureDataset, pNewDef, DstSpaRef, staFieldMap, bSkipInvalidGeometry, pTrackCancel);
+    if (sUploadFilePath.empty())
+        return false;
 	
 	//3. upload with progress
 	
@@ -978,8 +912,8 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
     }
 	
 	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
-    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szZipFileName), pTrackCancel);
-	DeleteFile(szZipFileName, pTrackCancel);
+    PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(sUploadFilePath), pTrackCancel);
+	DeleteFile(sUploadFilePath, pTrackCancel);
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
 	if(bResult)
@@ -1077,6 +1011,101 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 	return false;
 #endif //# wxGIS_HAVE_GEOPROCESSING	
 }
+
+#ifdef wxGIS_HAVE_GEOPROCESSING
+CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+{
+    wxGxFeatureDatasetFilter Filter(enumVecGeoJSON);
+    char** papszLayerOptions = NULL;
+    papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
+    CPLString osTmpPath = CPLGenerateTempFilename("ngw");
+    wxWord eSkipGeometry = enumGISSkipEmptyGeometry;
+    if (bSkipInvalidGeometry)
+        eSkipGeometry |= enumGISSkipInvalidGeometry;
+
+    if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &Filter, wxGISNullSpatialFilter, pNewDef, staFieldMap, spaRef, NULL, papszLayerOptions, true, pNewDef->GetGeomType(), true, eSkipGeometry, pTrackCancel))
+    {
+        return CPLString();
+    }
+
+    CPLString szFileName = CPLResetExtension(osTmpPath, "geojson");
+    return szFileName;
+}
+
+CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+{
+    wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
+    char** papszLayerOptions = NULL;
+    if (pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
+    {
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "CP1251");
+    }
+    else
+    {
+        papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
+    }
+
+    CPLString osTmpPath = CPLGenerateTempFilename("ngw");
+
+    wxWord eSkipGeometry = enumGISSkipEmptyGeometry;
+    if (bSkipInvalidGeometry)
+        eSkipGeometry |= enumGISSkipInvalidGeometry;
+
+    if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, spaRef, NULL, papszLayerOptions, true, pNewDef->GetGeomType(), true, eSkipGeometry, pTrackCancel))
+    {
+        return CPLString();
+    }
+
+    //2. create temp zip from temp shp, shx, dbf, prj
+
+    CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "zip");
+    CPLErrorReset();
+    void* hZIP = CPLCreateZip(szZipFileName, NULL);
+    if (!hZIP)
+    {
+        if (pTrackCancel)
+        {
+            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' create failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
+        }
+        return CPLString();
+    }
+
+    wxString sCharset(wxT("cp-866"));
+    size_t nBufferSize = 1024 * 1024;
+    GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+    IProgressor* pProgress = NULL;
+    if (pTrackCancel)
+    {
+        pTrackCancel->PutMessage(_("Compress file"), wxNOT_FOUND, enumGISMessageInformation);
+        pProgress = pTrackCancel->GetProgressor();
+    }
+
+    if (pProgress)
+        pProgress->SetRange(4);
+    AddFileToZip(CPLResetExtension(osTmpPath, "shp"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+    if (pProgress)
+        pProgress->SetValue(1);
+    AddFileToZip(CPLResetExtension(osTmpPath, "shx"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+    if (pProgress)
+        pProgress->SetValue(2);
+    AddFileToZip(CPLResetExtension(osTmpPath, "dbf"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+    if (pProgress)
+        pProgress->SetValue(3);
+    AddFileToZip(CPLResetExtension(osTmpPath, "prj"), hZIP, &pabyBuffer, nBufferSize, "", sCharset);
+    if (pProgress)
+        pProgress->SetValue(4);
+
+    CPLCloseZip(hZIP);
+    CPLFree(pabyBuffer);
+
+    DeleteFile(CPLResetExtension(osTmpPath, "shp"), pTrackCancel);
+    DeleteFile(CPLResetExtension(osTmpPath, "shx"), pTrackCancel);
+    DeleteFile(CPLResetExtension(osTmpPath, "dbf"), pTrackCancel);
+    DeleteFile(CPLResetExtension(osTmpPath, "prj"), pTrackCancel);
+
+    return szZipFileName;
+}
+#endif //GEOPROCESSING
 
 bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel)
 {

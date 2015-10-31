@@ -2072,8 +2072,9 @@ bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) 
 {
 	if(sTestFieldName.IsEmpty())
 		return true;
-	if(sTestFieldName.Len() > 10)
-		return true;
+// Only for shapefile
+//	if(sTestFieldName.Len() > 10)
+//		return true;
 	if(sTestFieldName.IsSameAs(wxT("id"), false))
 		return true;
 	if(sTestFieldName.IsSameAs(wxT("type"), false))
