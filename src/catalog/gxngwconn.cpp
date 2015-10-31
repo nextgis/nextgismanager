@@ -2414,7 +2414,9 @@ wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
 		if(m_eResourceType == enumNGWResourceTypeWMSClient)
 		{
 			//http://xxx.xxx.xxx.xxx/resource/234/tms?z=7&x=84&y=42
-			sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), GetRemoteId());
+			//http://xxx.xxx.xxx.xxx/api/component/render/tile?z=(int: z)&x=(int: x)&y=(int: y)&resource=
+			//sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), GetRemoteId());
+			sURL = m_pService->GetURL() + wxString::Format(wxT("/api/component/render/tile?z=${z}&amp;x=${x}&amp;y=${y}&amp;resource=%d"), GetRemoteId());
 		}
 		else if(m_eResourceType == enumNGWResourceTypeRasterLayer)
 		{
@@ -2427,7 +2429,8 @@ wxGISDataset* const wxGxNGWRaster::GetDatasetFast(void)
 			{
 				return NULL;
 			}
-			sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
+			//sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/tms?z=${z}&amp;x=${x}&amp;y=${y}"), pStyle->GetRemoteId());
+			sURL = m_pService->GetURL() + wxString::Format(wxT("/api/component/render/tile?z=${z}&amp;x=${x}&amp;y=${y}&amp;resource=%d"), pStyle->GetRemoteId());
 		}
 		else
 		{
