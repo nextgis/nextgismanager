@@ -412,7 +412,7 @@ END_EVENT_TABLE();
 
 wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
 {
-	m_pFeatureClass = pSrcDs;
+	wsSET(m_pFeatureClass, pSrcDs);
 	
 	wxFlexGridSizer* fgSizer1;
     fgSizer1 = new wxFlexGridSizer( 4, 2, 0, 0 );
@@ -541,7 +541,7 @@ END_EVENT_TABLE();
 
 wxGISTableImportPanel::wxGISTableImportPanel(wxGISTable *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
 {
-	m_pTable = pSrcDs;
+	wsSET(m_pTable, pSrcDs);
 	
 	wxFlexGridSizer* fgSizer1;
     fgSizer1 = new wxFlexGridSizer( 3, 2, 0, 0 );

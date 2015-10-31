@@ -1005,9 +1005,13 @@ bool wxGxContentView::Applies(wxGxSelection* const pSelection)
 
 void wxGxContentView::ResetContents(void)
 {
-	for(long i = 0; i < GetItemCount(); ++i)
-		delete (LPITEMDATA)GetItemData(i);
-	DeleteAllItems();
+    for (long i = 0; i < GetItemCount(); ++i)
+    {
+        LPITEMDATA pItemData = (LPITEMDATA)GetItemData(i);
+        if (NULL != pItemData)
+            delete pItemData;
+    }
+    DeleteAllItems();
 }
 
 void wxGxContentView::OnBeginDrag(wxListEvent& event)

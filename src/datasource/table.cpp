@@ -896,7 +896,8 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
     //loading
     m_nCurrentFID = 1;
 
-	OGRFeature *poFeature;
+    OGRFeature *poFeature; 
+    long nFID = 0;
 	while((poFeature = m_poLayer->GetNextFeature()) != NULL )
 	{
 		if(pProgress)
@@ -913,11 +914,9 @@ void wxGISTableCached::Cache(ITrackCancel* const pTrackCancel)
         //    continue;
         //}
 
-        long nFID;
         if(poFeature && !m_bHasFID)
 		{
-            nFID = m_nCurrentFID;
-			poFeature->SetFID(nFID);
+            poFeature->SetFID(++nFID);
 		}
         else
             nFID = poFeature->GetFID();
