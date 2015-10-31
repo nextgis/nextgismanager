@@ -341,6 +341,7 @@ void wxGISCurlRefData::SetDefaultHeader(void)
 		wxString token = tkz.GetNextToken();
 		slist = curl_slist_append(slist, token.mb_str());
 	}
+    slist = curl_slist_append(slist, "Expect:"); // according to this bug #150
 	curl_easy_setopt(m_pCurl, CURLOPT_HTTPHEADER, slist);
 }
 

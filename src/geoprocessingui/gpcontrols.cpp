@@ -875,7 +875,8 @@ void wxGISDTChoice::OnParamChanged(wxGISGPParamEvent& event)
     if(event.GetId() == m_nParamIndex)
     {
         int nPos = m_choice->GetCurrentSelection();
-	    if(m_pParam->GetSelDomainValue() == nPos)
+        int nParamPos = m_pParam->GetSelDomainValue();
+        if (nParamPos == nPos)
 		    return;
 
         wxGISGPValueDomain* poGPValueDomain = dynamic_cast<wxGISGPValueDomain*>(m_pParam->GetDomain());
@@ -890,11 +891,11 @@ void wxGISDTChoice::OnParamChanged(wxGISGPParamEvent& event)
 		    //}
 		    //else
 		    //{
-			    int nParamPos = m_pParam->GetSelDomainValue();
-			    if(nPos == nParamPos)
-				    return;
+			//    int nParamPos = m_pParam->GetSelDomainValue();
+			//    if(nPos == nParamPos)
+			//	    return;
 		    //}
-		    m_choice->SetSelection( nPos );
+                m_choice->SetSelection(nParamPos);
 	    }
         Validate();
     }
@@ -903,11 +904,11 @@ void wxGISDTChoice::OnParamChanged(wxGISGPParamEvent& event)
 void wxGISDTChoice::OnParamDomAddVal(wxGISGPParamEvent &event)
 {
     m_choice->Append(event.GetName());
-    if(m_choice->GetCount() == 1)
+    /*if(m_choice->GetCount() == 1)
 	{
         m_choice->Select(0);
 		m_pParam->SetValue(event.GetParamValue());
-	}
+	}*/
 }
 
 void wxGISDTChoice::OnParamDomClear(wxGISGPParamEvent &event)
