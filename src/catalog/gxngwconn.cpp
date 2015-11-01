@@ -2085,7 +2085,7 @@ bool wxGxNGWResourceGroup::IsFieldNameForbidden(const wxString& sTestFieldName) 
 		
 	for(size_t i = 0; i < sTestFieldName.size(); ++i)
 	{
-		if(sTestFieldName[i] > 127)
+		if(sTestFieldName[i] > 127 || sTestFieldName[i] < 0)
 			return true;
 	}
 	return false;	

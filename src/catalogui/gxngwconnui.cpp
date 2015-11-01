@@ -873,8 +873,9 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 			{
 				sFieldName = Transliterate(sFieldName); 
 				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
-				if(sFieldName.Len() > 8)
-					sFieldName = sFieldName.Left(8);
+				//only for shape file
+				//if(sFieldName.Len() > 8)
+				//	sFieldName = sFieldName.Left(8);
 				sFieldName.Replace(wxT(" "), wxT("_"));	
 				sFieldName.Replace(wxT("\""), wxT("_"));
 				sFieldName.Replace(wxT("'"), wxT("_"));
