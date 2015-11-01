@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:34+0300\n"
-"PO-Revision-Date: 2014-12-19 18:39+0300\n"
+"POT-Creation-Date: 2015-11-01 18:12+0300\n"
+"PO-Revision-Date: 2015-11-01 18:12+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -336,12 +336,12 @@ msgid "Show all rows"
 msgstr "Показать все записи"
 
 #: ../../../src/cartoui/identifydlg.cpp:157
-#: ../../../src/cartoui/tableview.cpp:609
+#: ../../../src/cartoui/tableview.cpp:645
 msgid "Unknown"
 msgstr "Неизвестно"
 
 #: ../../../src/cartoui/identifydlg.cpp:160
-#: ../../../src/cartoui/tableview.cpp:612
+#: ../../../src/cartoui/tableview.cpp:648
 msgid "Mac"
 msgstr "Mac"
 
@@ -390,65 +390,65 @@ msgstr "Приблизить к геометрии"
 msgid "%.4f degree"
 msgstr "%.4f градусов"
 
-#: ../../../src/cartoui/tableview.cpp:128
+#: ../../../src/cartoui/tableview.cpp:123
 msgid " [*]"
 msgstr " [*]"
 
-#: ../../../src/cartoui/tableview.cpp:203
+#: ../../../src/cartoui/tableview.cpp:226
 #, c-format
 msgid "Operation '%s' failed!"
 msgstr "Операция '%s' выполнена с ошибкой!"
 
-#: ../../../src/cartoui/tableview.cpp:203
-#: ../../../src/cartoui/tableview.cpp:304
+#: ../../../src/cartoui/tableview.cpp:226
+#: ../../../src/cartoui/tableview.cpp:334
 msgid "Delete field"
 msgstr "Удалить поле"
 
-#: ../../../src/cartoui/tableview.cpp:285
+#: ../../../src/cartoui/tableview.cpp:315
 msgid "Sort ascending"
 msgstr "Сортировать по убыванию"
 
-#: ../../../src/cartoui/tableview.cpp:287
+#: ../../../src/cartoui/tableview.cpp:317
 msgid "Sort descending"
 msgstr "Сортировать по возрастанию"
 
-#: ../../../src/cartoui/tableview.cpp:289
+#: ../../../src/cartoui/tableview.cpp:319
 msgid "Advanced sorting..."
 msgstr "Расширенная сортировка"
 
-#: ../../../src/cartoui/tableview.cpp:292
+#: ../../../src/cartoui/tableview.cpp:322
 msgid "Statistics..."
 msgstr "Статистика..."
 
-#: ../../../src/cartoui/tableview.cpp:294
+#: ../../../src/cartoui/tableview.cpp:324
 msgid "Field calculator..."
 msgstr "Калькулятор поля..."
 
-#: ../../../src/cartoui/tableview.cpp:296
+#: ../../../src/cartoui/tableview.cpp:326
 msgid "Calculate geometry..."
 msgstr "Расчитать геометрию"
 
-#: ../../../src/cartoui/tableview.cpp:299
+#: ../../../src/cartoui/tableview.cpp:329
 msgid "Turn field off"
 msgstr "Отключить поле"
 
-#: ../../../src/cartoui/tableview.cpp:301
+#: ../../../src/cartoui/tableview.cpp:331
 msgid "Freeze/Unfreeze column"
 msgstr "Закрепить/открепить колонку"
 
-#: ../../../src/cartoui/tableview.cpp:320
+#: ../../../src/cartoui/tableview.cpp:350
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../../../src/cartoui/tableview.cpp:553
+#: ../../../src/cartoui/tableview.cpp:589
 msgid "Record:"
 msgstr "Запись:"
 
-#: ../../../src/cartoui/tableview.cpp:599
+#: ../../../src/cartoui/tableview.cpp:635
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../../../src/cartoui/tableview.cpp:696
+#: ../../../src/cartoui/tableview.cpp:757
 #, c-format
 msgid "of %u"
 msgstr "из %u"

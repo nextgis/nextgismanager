@@ -1824,7 +1824,9 @@ wxGISDataset* CreateDataset(const CPLString &sPath, const wxString &sName, wxGxO
             }
         }
 
-        wxGISFeatureDataset *pFeatureDataset = new wxGISFeatureDataset(szFullPath, pFilter->GetSubType(), poLayerDest, poDS);
+        // TODO: this is hack withg spatial reference for GeoJSON driver
+        wxGISFeatureDataset *pFeatureDataset = new wxGISFeatureDataset(szFullPath, pFilter->GetSubType(), poLayerDest, poDS, oSpatialRef);
+        //pFeatureDataset->
         int nRefCount = poDS->Dereference();
         wxASSERT_MSG(nRefCount > 0, wxT("Reference counting error"));
         pFeatureDataset->SetEncoding(oEncoding);
