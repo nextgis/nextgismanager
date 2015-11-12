@@ -1014,7 +1014,7 @@ bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDatas
 }
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
-CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
 {
     wxGxFeatureDatasetFilter Filter(enumVecGeoJSON);
     char** papszLayerOptions = NULL;
@@ -1033,7 +1033,7 @@ CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* cons
     return szFileName;
 }
 
-CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, wxGISSpatialReference &spaRef, wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
 {
     wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
     char** papszLayerOptions = NULL;

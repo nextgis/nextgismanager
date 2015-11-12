@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:34+0300\n"
-"PO-Revision-Date: 2014-12-19 18:40+0300\n"
+"POT-Creation-Date: 2015-11-01 18:12+0300\n"
+"PO-Revision-Date: 2015-11-01 18:13+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -64,12 +64,12 @@ msgstr "Не удалось получить конечный объект"
 #: ../../../src/catalog/gxngwconn.cpp:140
 #: ../../../src/catalog/gxngwconn.cpp:162
 #: ../../../src/catalog/gxngwconn.cpp:178
-#: ../../../src/catalog/gxngwconn.cpp:1374
-#: ../../../src/catalog/gxngwconn.cpp:2126
-#: ../../../src/catalog/gxngwconn.cpp:2416
-#: ../../../src/catalog/gxngwconn.cpp:2583
-#: ../../../src/catalog/gxngwconn.cpp:2811
-#: ../../../src/catalog/gxremoteconn.cpp:76
+#: ../../../src/catalog/gxngwconn.cpp:1449
+#: ../../../src/catalog/gxngwconn.cpp:2233
+#: ../../../src/catalog/gxngwconn.cpp:2554
+#: ../../../src/catalog/gxngwconn.cpp:2721
+#: ../../../src/catalog/gxngwconn.cpp:2949
+#: ../../../src/catalog/gxremoteconn.cpp:77
 #: ../../../src/catalog/gxssdataset.cpp:101
 #, c-format
 msgid "Operation '%s' failed!"
@@ -82,7 +82,7 @@ msgstr "Операция '%s' не удалась!"
 #: ../../../src/catalog/gxgisproj.cpp:177
 #: ../../../src/catalog/gxlocaldb.cpp:217
 #: ../../../src/catalog/gxngwconn.cpp:122
-#: ../../../src/catalog/gxremoteconn.cpp:76
+#: ../../../src/catalog/gxremoteconn.cpp:77
 msgid "Delete"
 msgstr "Удалить"
 
@@ -93,7 +93,7 @@ msgstr "Удалить"
 #: ../../../src/catalog/gxgisproj.cpp:206
 #: ../../../src/catalog/gxlocaldb.cpp:254
 #: ../../../src/catalog/gxngwconn.cpp:140
-#: ../../../src/catalog/gxremoteconn.cpp:95
+#: ../../../src/catalog/gxremoteconn.cpp:96
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -146,8 +146,8 @@ msgstr "wxGxCatalog: Корневого элемент %s отключен"
 #: ../../../src/catalog/gxgisproj.cpp:259
 #: ../../../src/catalog/gxlocaldb.cpp:278
 #: ../../../src/catalog/gxlocaldb.cpp:311
-#: ../../../src/catalog/gxremoteconn.cpp:112
-#: ../../../src/catalog/gxremoteconn.cpp:145
+#: ../../../src/catalog/gxremoteconn.cpp:113
+#: ../../../src/catalog/gxremoteconn.cpp:146
 #, c-format
 msgid "%s %s %s"
 msgstr "%s %s %s"
@@ -164,9 +164,9 @@ msgstr "%s %s %s"
 #: ../../../src/catalog/gxlocaldb.cpp:278
 #: ../../../src/catalog/gxlocaldb.cpp:286
 #: ../../../src/catalog/gxngwconn.cpp:162
-#: ../../../src/catalog/gxremoteconn.cpp:112
-#: ../../../src/catalog/gxremoteconn.cpp:121
-#: ../../../src/catalog/gxremoteconn.cpp:131
+#: ../../../src/catalog/gxremoteconn.cpp:113
+#: ../../../src/catalog/gxremoteconn.cpp:122
+#: ../../../src/catalog/gxremoteconn.cpp:132
 msgid "Copy"
 msgstr "Копировать"
 
@@ -174,8 +174,8 @@ msgstr "Копировать"
 #: ../../../src/catalog/gxdataset.cpp:238
 #: ../../../src/catalog/gxdataset.cpp:417
 #: ../../../src/catalog/gxdataset.cpp:446
-#: ../../../src/catalog/gxremoteconn.cpp:121
-#: ../../../src/catalog/gxremoteconn.cpp:155
+#: ../../../src/catalog/gxremoteconn.cpp:122
+#: ../../../src/catalog/gxremoteconn.cpp:156
 #, c-format
 msgid "%s %s %s failed!"
 msgstr "Не удалось %s %s %s!"
@@ -192,14 +192,14 @@ msgstr "Не удалось %s %s %s!"
 #: ../../../src/catalog/gxlocaldb.cpp:311
 #: ../../../src/catalog/gxlocaldb.cpp:319
 #: ../../../src/catalog/gxngwconn.cpp:178
-#: ../../../src/catalog/gxngwconn.cpp:1374
-#: ../../../src/catalog/gxngwconn.cpp:2126
-#: ../../../src/catalog/gxngwconn.cpp:2416
-#: ../../../src/catalog/gxngwconn.cpp:2583
-#: ../../../src/catalog/gxngwconn.cpp:2811
-#: ../../../src/catalog/gxremoteconn.cpp:145
-#: ../../../src/catalog/gxremoteconn.cpp:155
-#: ../../../src/catalog/gxremoteconn.cpp:166
+#: ../../../src/catalog/gxngwconn.cpp:1449
+#: ../../../src/catalog/gxngwconn.cpp:2233
+#: ../../../src/catalog/gxngwconn.cpp:2554
+#: ../../../src/catalog/gxngwconn.cpp:2721
+#: ../../../src/catalog/gxngwconn.cpp:2949
+#: ../../../src/catalog/gxremoteconn.cpp:146
+#: ../../../src/catalog/gxremoteconn.cpp:156
+#: ../../../src/catalog/gxremoteconn.cpp:167
 msgid "Move"
 msgstr "Переместить"
 
@@ -213,7 +213,7 @@ msgstr "Таблица"
 #: ../../../src/catalog/gxdataset.cpp:738 ../../../src/catalog/gxfile.cpp:177
 #: ../../../src/catalog/gxlocaldb.cpp:169
 #: ../../../src/catalog/gxmldataset.cpp:110
-#: ../../../src/catalog/gxngwconn.cpp:2876
+#: ../../../src/catalog/gxngwconn.cpp:3014
 #: ../../../src/catalog/gxssdataset.cpp:101
 msgid "Open"
 msgstr "Открыть"
@@ -228,7 +228,7 @@ msgstr "Растр"
 
 #: ../../../src/catalog/gxdataset.cpp:674
 #: ../../../src/catalog/gxdataset.cpp:738
-#: ../../../src/catalog/gxngwconn.cpp:2876
+#: ../../../src/catalog/gxngwconn.cpp:3014
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s"
@@ -240,8 +240,8 @@ msgstr "Набор растров"
 #: ../../../src/catalog/gxdbconnections.cpp:35
 #: ../../../src/catalog/gxdbconnections.cpp:40
 #: ../../../src/catalog/gxdbconnections.cpp:42
-#: ../../../src/catalog/gxremoteconn.cpp:273
-#: ../../../src/catalog/gxremoteconn.cpp:513
+#: ../../../src/catalog/gxremoteconn.cpp:274
+#: ../../../src/catalog/gxremoteconn.cpp:514
 #: ../../../include/wxgis/catalog/gxdbconnfactory.h:38
 msgid "DataBase connections"
 msgstr "Подключение к БД"
@@ -510,168 +510,170 @@ msgstr "Класс пространственных объектов GML"
 msgid "KML Feature class"
 msgstr "Класс пространственных объектов KML"
 
-#: ../../../src/catalog/gxngwconn.cpp:349
-#: ../../../src/catalog/gxngwconn.cpp:393
-#: ../../../include/wxgis/catalog/gxngwconn.h:307
+#: ../../../src/catalog/gxngwconn.cpp:354
+#: ../../../src/catalog/gxngwconn.cpp:461
+#: ../../../include/wxgis/catalog/gxngwconn.h:312
 msgid "Resources"
 msgstr "Ресурсы"
 
-#: ../../../src/catalog/gxngwconn.cpp:468
-#: ../../../src/catalog/gxngwconn.cpp:491
-#: ../../../src/catalog/gxngwconn.cpp:523
-#: ../../../src/catalog/gxngwconn.cpp:561
-#: ../../../src/catalog/gxngwconn.cpp:594
-#: ../../../src/catalog/gxngwconn.cpp:634
-#: ../../../src/catalog/gxngwconn.cpp:661
-#: ../../../src/catalog/gxngwconn.cpp:1106
-#: ../../../src/catalog/gxngwconn.cpp:1419
-#: ../../../src/catalog/gxngwconn.cpp:1534
-#: ../../../src/catalog/gxngwconn.cpp:1581
-#: ../../../src/catalog/gxngwconn.cpp:1622
-#: ../../../src/catalog/gxngwconn.cpp:1661
-#: ../../../src/catalog/gxngwconn.cpp:2169
+#: ../../../src/catalog/gxngwconn.cpp:400
+#: ../../../src/catalog/gxngwconn.cpp:542
+#: ../../../src/catalog/gxngwconn.cpp:565
+#: ../../../src/catalog/gxngwconn.cpp:597
+#: ../../../src/catalog/gxngwconn.cpp:635
+#: ../../../src/catalog/gxngwconn.cpp:668
+#: ../../../src/catalog/gxngwconn.cpp:708
+#: ../../../src/catalog/gxngwconn.cpp:735
+#: ../../../src/catalog/gxngwconn.cpp:1180
+#: ../../../src/catalog/gxngwconn.cpp:1494
+#: ../../../src/catalog/gxngwconn.cpp:1635
+#: ../../../src/catalog/gxngwconn.cpp:1681
+#: ../../../src/catalog/gxngwconn.cpp:1722
+#: ../../../src/catalog/gxngwconn.cpp:1761
+#: ../../../src/catalog/gxngwconn.cpp:2276
 msgid "cURL initialize failed."
 msgstr "Ошибка инициализации cURL"
 
-#: ../../../src/catalog/gxngwconn.cpp:720
+#: ../../../src/catalog/gxngwconn.cpp:794
 #, c-format
 msgid "Error code %d"
 msgstr "Код ошибки  %d"
 
-#: ../../../src/catalog/gxngwconn.cpp:727
-#: ../../../src/catalog/gxngwconn.cpp:1685
-#: ../../../src/catalog/gxngwconn.cpp:1737
-#: ../../../src/catalog/gxngwconn.cpp:2229
+#: ../../../src/catalog/gxngwconn.cpp:801
+#: ../../../src/catalog/gxngwconn.cpp:1785
+#: ../../../src/catalog/gxngwconn.cpp:1837
+#: ../../../src/catalog/gxngwconn.cpp:2343
 msgid "Unexpected error"
 msgstr "Неожиданная ошибка"
 
-#: ../../../src/catalog/gxngwconn.cpp:987
+#: ../../../src/catalog/gxngwconn.cpp:1061
 msgid "present"
 msgstr "имеется"
 
-#: ../../../src/catalog/gxngwconn.cpp:1671
+#: ../../../src/catalog/gxngwconn.cpp:1771
 msgid "Upload files"
 msgstr "Загрузить файлы"
 
-#: ../../../src/catalog/gxngwconn.cpp:1691
+#: ../../../src/catalog/gxngwconn.cpp:1791
 msgid "Create files set"
 msgstr "Создать набор файлов"
 
-#: ../../../src/catalog/gxngwconn.cpp:1730
-#: ../../../src/catalog/gxngwconn.cpp:2222
+#: ../../../src/catalog/gxngwconn.cpp:1830
+#: ../../../src/catalog/gxngwconn.cpp:2336
 #, c-format
 msgid "Error code %ld"
 msgstr "Код ошибки  %ld"
 
-#: ../../../src/catalog/gxngwconn.cpp:1759
+#: ../../../src/catalog/gxngwconn.cpp:1859
 msgid "The warped images is not supported!"
 msgstr "Изображение с преобразованием не поддерживается!"
 
-#: ../../../src/catalog/gxngwconn.cpp:1771
-#: ../../../src/catalog/gxngwconn.cpp:1869
+#: ../../../src/catalog/gxngwconn.cpp:1871
+#: ../../../src/catalog/gxngwconn.cpp:1969
 #, c-format
 msgid "Unsupported spatial reference '%s'"
 msgstr "Система координат '%s' не поддерживается"
 
-#: ../../../src/catalog/gxngwconn.cpp:1793
-#: ../../../src/catalog/gxngwconn.cpp:1795
-#: ../../../src/catalog/gxngwconn.cpp:1891
 #: ../../../src/catalog/gxngwconn.cpp:1893
+#: ../../../src/catalog/gxngwconn.cpp:1895
+#: ../../../src/catalog/gxngwconn.cpp:1991
+#: ../../../src/catalog/gxngwconn.cpp:1993
 msgid "The ToWGS is not defined. There may by an error while project"
 msgstr "Параметр ToWGS не определен. При перепроецировании могут быть ошибки"
 
-#: ../../../src/catalog/gxngwconn.cpp:1804
+#: ../../../src/catalog/gxngwconn.cpp:1904
 msgid ""
-"The band count is less than 3. The additional bands will form from first band"
+"The band count is less than 3. The additional bands will form from first "
+"band or color palete"
 msgstr ""
 "Количество каналов менее 3. Дополнительные каналы будут скопированы из "
 "первого канала"
 
-#: ../../../src/catalog/gxngwconn.cpp:1808
+#: ../../../src/catalog/gxngwconn.cpp:1908
 msgid ""
 "The band count is more than 4. You have to select RGB band and additional "
-"Apha band"
+"Alpha band"
 msgstr ""
 "Количество каналов более 4-х. Необходимо выбрать 3 канала (RGB) и "
 "опционально канал прозрачности (Alpha)"
 
-#: ../../../src/catalog/gxngwconn.cpp:1831
+#: ../../../src/catalog/gxngwconn.cpp:1931
 msgid "Error read dataset definition"
 msgstr "Ошибка чтения описания слоя"
 
-#: ../../../src/catalog/gxngwconn.cpp:1856
+#: ../../../src/catalog/gxngwconn.cpp:1956
 #, c-format
 msgid ""
 "The exist field name(s) '%s' are forbidden. They will be renamed or deleted"
 msgstr "Поле с именем '%s' не разрешено. Поле будет переименовано или удалено"
 
-#: ../../../src/catalog/gxngwconn.cpp:1912
+#: ../../../src/catalog/gxngwconn.cpp:2012
 msgid "Interrupted by user"
 msgstr "Прервано пользователем"
 
-#: ../../../src/catalog/gxngwconn.cpp:1934
+#: ../../../src/catalog/gxngwconn.cpp:2034
 #, c-format
 msgid "The geometry in feature %ld is not valid. The feature will be ignored"
 msgstr "Геометрия в записи %ld невалидна. Запись будет пропущена"
 
-#: ../../../src/catalog/gxngwconn.cpp:1954
+#: ../../../src/catalog/gxngwconn.cpp:2054
 #, c-format
 msgid "There is no geometry in feature %ld. The feature will be ignored"
 msgstr "В записи %ld нет геометрии. Запись будет пропущена."
 
-#: ../../../src/catalog/gxngwconn.cpp:2017
+#: ../../../src/catalog/gxngwconn.cpp:2124
 msgid "NGW vector layer"
 msgstr "Векторный слой NGW"
 
-#: ../../../src/catalog/gxngwconn.cpp:2019
+#: ../../../src/catalog/gxngwconn.cpp:2126
 msgid "NGW PostGIS layer"
 msgstr "Слой PostGIS NGW"
 
-#: ../../../src/catalog/gxngwconn.cpp:2175
+#: ../../../src/catalog/gxngwconn.cpp:2282
 #, c-format
 msgid "Create layer style '%s'"
 msgstr "Создание стиля  '%s' для слоя"
 
-#: ../../../src/catalog/gxngwconn.cpp:2276
+#: ../../../src/catalog/gxngwconn.cpp:2399
 msgid "NGW raster"
 msgstr "Растр НГВ"
 
-#: ../../../src/catalog/gxngwconn.cpp:2483
+#: ../../../src/catalog/gxngwconn.cpp:2621
 msgid "NGW PostGIS Connection"
 msgstr "Подключение к PostGIS"
 
-#: ../../../src/catalog/gxngwconn.cpp:2696
+#: ../../../src/catalog/gxngwconn.cpp:2834
 msgid "File set"
 msgstr "Набор файлов"
 
-#: ../../../src/catalog/gxngwconn.cpp:2764
-#: ../../../src/catalog/gxngwconn.cpp:2775
+#: ../../../src/catalog/gxngwconn.cpp:2902
+#: ../../../src/catalog/gxngwconn.cpp:2913
 msgid "Copy failed"
 msgstr "Не удалось сопировать"
 
-#: ../../../src/catalog/gxngwconn.cpp:2764
+#: ../../../src/catalog/gxngwconn.cpp:2902
 msgid "Get catalog failed"
 msgstr "Не удалось получить каталог"
 
-#: ../../../src/catalog/gxngwconn.cpp:2775
+#: ../../../src/catalog/gxngwconn.cpp:2913
 #, c-format
 msgid "FindGxObjectByPath '%s' failed"
 msgstr "FindGxObjectByPath '%s' failed"
 
-#: ../../../src/catalog/gxngwconn.cpp:2893
+#: ../../../src/catalog/gxngwconn.cpp:3031
 msgid "CopyToFolder failed"
 msgstr "CopyToFolder failed"
 
-#: ../../../src/catalog/gxngwconn.cpp:2893
+#: ../../../src/catalog/gxngwconn.cpp:3031
 msgid "Curl is not valid"
 msgstr "Curl невалидный"
 
-#: ../../../src/catalog/gxngwconn.cpp:2900
+#: ../../../src/catalog/gxngwconn.cpp:3038
 #, c-format
 msgid "Start copy %s"
 msgstr "Начало копирования %s"
 
-#: ../../../src/catalog/gxngwconn.cpp:2920
+#: ../../../src/catalog/gxngwconn.cpp:3058
 #, c-format
 msgid "File %s download failed"
 msgstr "Ошибка загрузки файла %s"
@@ -680,9 +682,9 @@ msgstr "Ошибка загрузки файла %s"
 msgid "Destroy catalog"
 msgstr "Уничтожение объекта каталог"
 
-#: ../../../src/catalog/gxremoteconn.cpp:95
-#: ../../../src/catalog/gxremoteconn.cpp:131
-#: ../../../src/catalog/gxremoteconn.cpp:166
+#: ../../../src/catalog/gxremoteconn.cpp:96
+#: ../../../src/catalog/gxremoteconn.cpp:132
+#: ../../../src/catalog/gxremoteconn.cpp:167
 #, c-format
 msgid "Operation '%s' failed! GDAL error: %s, %s '%s'"
 msgstr "Операция '%s' не удалась! Ошибка GDAL: %s, %s '%s'"
@@ -809,16 +811,16 @@ msgstr "Файлы MapInfo"
 msgid "Markup Languages files"
 msgstr "Файлы разметки"
 
-#: ../../../include/wxgis/catalog/gxngwconn.h:85
+#: ../../../include/wxgis/catalog/gxngwconn.h:87
 msgid "NextGIS Web service"
 msgstr "Сервер NextGIS Web"
 
-#: ../../../include/wxgis/catalog/gxngwconn.h:240
 #: ../../../include/wxgis/catalog/gxngwconn.h:244
+#: ../../../include/wxgis/catalog/gxngwconn.h:248
 msgid "Resource Group"
 msgstr "Группа ресурсов"
 
-#: ../../../include/wxgis/catalog/gxngwconn.h:311
+#: ../../../include/wxgis/catalog/gxngwconn.h:316
 msgid "NGW resources"
 msgstr "Ресурсы NGW"
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:35+0300\n"
-"PO-Revision-Date: 2014-12-19 18:35+0300\n"
+"POT-Creation-Date: 2015-11-01 18:12+0300\n"
+"PO-Revision-Date: 2015-11-01 18:12+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -40,21 +40,21 @@ msgstr "Decrypt: Не удалось выполнить EVP_DecryptInit!"
 msgid "Decrypt: Failed EVP_DecryptUpdate!"
 msgstr "Decrypt: Не удалось выполнить EVP_DecryptUpdate!"
 
-#: ../../../src/core/format.cpp:33 ../../../src/core/format.cpp:480
+#: ../../../src/core/format.cpp:35 ../../../src/core/format.cpp:482
 msgid "W"
 msgstr "ЗД"
 
-#: ../../../src/core/format.cpp:34 ../../../src/core/format.cpp:475
+#: ../../../src/core/format.cpp:36 ../../../src/core/format.cpp:477
 msgid "S"
 msgstr "ЮШ"
 
-#: ../../../src/core/format.cpp:38 ../../../src/core/format.cpp:80
-#: ../../../src/core/format.cpp:478
+#: ../../../src/core/format.cpp:40 ../../../src/core/format.cpp:82
+#: ../../../src/core/format.cpp:480
 msgid "E"
 msgstr "ВД"
 
-#: ../../../src/core/format.cpp:39 ../../../src/core/format.cpp:80
-#: ../../../src/core/format.cpp:473
+#: ../../../src/core/format.cpp:41 ../../../src/core/format.cpp:82
+#: ../../../src/core/format.cpp:475
 msgid "N"
 msgstr "СШ"
 

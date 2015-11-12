@@ -27,7 +27,7 @@
 
 IMPLEMENT_CLASS(wxGISFeatureDataset, wxGISTable)
 
-wxGISFeatureDataset::wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS) : wxGISTable(sPath, nSubType, poLayer, poDS)
+wxGISFeatureDataset::wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer, OGRCompatibleDataSource* poDS, const wxGISSpatialReference& oSpaRef) : wxGISTable(sPath, nSubType, poLayer, poDS)
 {
     m_nType = enumGISFeatureDataset;
     m_eGeomType = wkbUnknown;
@@ -35,6 +35,9 @@ wxGISFeatureDataset::wxGISFeatureDataset(const CPLString &sPath, int nSubType, O
 
     if(m_bIsOpened)
         SetInternalValues();
+
+    if (oSpaRef.IsOk())
+        m_SpatialReference = oSpaRef;
 }
 
 wxGISFeatureDataset::~wxGISFeatureDataset(void)

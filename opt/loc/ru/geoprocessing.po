@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:35+0300\n"
-"PO-Revision-Date: 2014-12-19 18:42+0300\n"
+"POT-Creation-Date: 2015-11-01 18:12+0300\n"
+"PO-Revision-Date: 2015-11-01 18:12+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -92,7 +92,7 @@ msgid "Error getting raster"
 msgstr "Ошибка получения растра"
 
 #: ../../../src/geoprocessing/gpcompstattool.cpp:161
-#: ../../../src/geoprocessing/gpraster.cpp:917
+#: ../../../src/geoprocessing/gpraster.cpp:950
 #, c-format
 msgid "Proceed band %d"
 msgstr "Обработка канала %d"
@@ -103,7 +103,7 @@ msgid "ComputeStatistics failed! GDAL error: %s"
 msgstr "ComputeStatistics завершилось неудачно! Ошибка GDAL: %s"
 
 #: ../../../src/geoprocessing/gpcompstattool.cpp:173
-#: ../../../src/geoprocessing/gpraster.cpp:925
+#: ../../../src/geoprocessing/gpraster.cpp:958
 #, c-format
 msgid "Band %d: min - %.2f, max - %.2f, mean - %.2f, StdDev - %.2f"
 msgstr "Канал %d: мин. - %.2f, макс. - %.2f, ср. - %.2f, стд. откл. - %.2f"
@@ -430,7 +430,7 @@ msgstr "Система координат не поддерживается"
 
 #: ../../../src/geoprocessing/gpraster.cpp:232
 #: ../../../src/geoprocessing/gpraster.cpp:466
-#: ../../../src/geoprocessing/gpraster.cpp:897
+#: ../../../src/geoprocessing/gpraster.cpp:930
 msgid "Get raster failed"
 msgstr "Не удалось получить растр"
 
@@ -470,7 +470,7 @@ msgid "Output driver '%s' not recognised."
 msgstr "Выходной драйвер '%s' не определяется."
 
 #: ../../../src/geoprocessing/gpraster.cpp:487
-#: ../../../src/geoprocessing/gpvector.cpp:1610
+#: ../../../src/geoprocessing/gpvector.cpp:1623
 msgid "Overwrite failed"
 msgstr "Не удалось перезаписать"
 
@@ -623,7 +623,7 @@ msgid "Error create the output file '%s'! OGR error: "
 msgstr "Ошибка создания выходного файла '%s'! Ошибка OGR: "
 
 #: ../../../src/geoprocessing/gptable.cpp:52
-#: ../../../src/geoprocessing/gpvector.cpp:1695
+#: ../../../src/geoprocessing/gpvector.cpp:1708
 msgid "Layer_"
 msgstr "Слой_"
 
@@ -784,55 +784,55 @@ msgstr "Получение записей..."
 msgid "Input spatial reference is not defined!"
 msgstr "Не задана исходная система координат!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:766
+#: ../../../src/geoprocessing/gpvector.cpp:774
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
-#: ../../../src/geoprocessing/gpvector.cpp:824
+#: ../../../src/geoprocessing/gpvector.cpp:837
 #, c-format
 msgid "Check if features geometry is the type of %s"
 msgstr "Проверка типа геометрии %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:855
+#: ../../../src/geoprocessing/gpvector.cpp:868
 #, c-format
 msgid "Force geometry field to %s"
 msgstr "Преобразование поля геометрии к %s"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1624
+#: ../../../src/geoprocessing/gpvector.cpp:1637
 msgid "Input data is invalid: unsuported filter"
 msgstr "Неверные входные данные: фильтр не поддерживается"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1632
+#: ../../../src/geoprocessing/gpvector.cpp:1645
 #, c-format
 msgid "The driver '%s' is not available!"
 msgstr "Драйвер '%s' недоступен!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1647
+#: ../../../src/geoprocessing/gpvector.cpp:1660
 msgid "Datasource open failed!"
 msgstr "Не удалось открыть источник данных!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1676
+#: ../../../src/geoprocessing/gpvector.cpp:1689
 #, c-format
 msgid "Error create the output file '%s'!"
 msgstr "Ошибка создания выходного файла '%s'!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1747
-#: ../../../src/geoprocessing/gpvector.cpp:1799
-#: ../../../src/geoprocessing/gpvector.cpp:1838
+#: ../../../src/geoprocessing/gpvector.cpp:1760
+#: ../../../src/geoprocessing/gpvector.cpp:1812
+#: ../../../src/geoprocessing/gpvector.cpp:1853
 #, c-format
 msgid "Error create the output layer '%s'!"
 msgstr "Ошибка создания выходного слоя '%s'!"
 
-#: ../../../src/geoprocessing/gpvector.cpp:1758
+#: ../../../src/geoprocessing/gpvector.cpp:1771
 msgid "DXF layer does not support arbitrary field creation."
 msgstr "Слой DXF не поддерживает создание полей."
 
-#: ../../../src/geoprocessing/gpvector.cpp:1788
+#: ../../../src/geoprocessing/gpvector.cpp:1801
 msgid "Unsupported type for shape file - OFTTime. Change to OFTString."
 msgstr ""
 "Тип данных OFTTime не поддерживается файлом ESRI shape. Изменен на OFTString."
 
-#: ../../../src/geoprocessing/gpvector.cpp:1829
+#: ../../../src/geoprocessing/gpvector.cpp:1844
 msgid "Unsupported type for dbf file - OFTTime. Change to OFTString."
 msgstr "Тип данных OFTTime не поддерживается файлом dbf. Изменен на OFTString."
 

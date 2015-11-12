@@ -34,7 +34,7 @@ class WXDLLIMPEXP_GIS_DS wxGISFeatureDataset :
 {
     DECLARE_CLASS(wxGISFeatureDataset)
 public:
-	wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL);
+	wxGISFeatureDataset(const CPLString &sPath, int nSubType, OGRLayer* poLayer = NULL, OGRCompatibleDataSource* poDS = NULL, const wxGISSpatialReference& oSpaRef = wxNullSpatialReference);
 	virtual ~wxGISFeatureDataset(void);
 //wxGISTable
     virtual const wxGISSpatialReference GetSpatialReference(void);

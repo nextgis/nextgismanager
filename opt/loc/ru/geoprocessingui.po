@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 18:35+0300\n"
-"PO-Revision-Date: 2014-12-19 18:35+0300\n"
+"POT-Creation-Date: 2015-11-01 18:12+0300\n"
+"PO-Revision-Date: 2015-11-01 18:12+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -88,8 +88,8 @@ msgstr "Импорт в элемент"
 #: ../../../src/geoprocessingui/gpcontrols.cpp:156
 #: ../../../src/geoprocessingui/gpcontrols.cpp:556
 #: ../../../src/geoprocessingui/gpcontrols.cpp:712
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1130
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1212
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1138
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1217
 msgid "(optional)"
 msgstr " (опционально)"
 
@@ -105,7 +105,7 @@ msgstr "Выбрать выходной объект"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:302
 #: ../../../src/geoprocessingui/gpcontrols.cpp:492
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1328
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1334
 msgid "The value is required"
 msgstr "Требуется значение"
 
@@ -125,19 +125,19 @@ msgstr "Выбрать"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:629
 #: ../../../src/geoprocessingui/gpcontrols.cpp:791
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1030
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1038
 msgid "The input data are invalid"
 msgstr "Неправильные исходные данные"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1293
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1299
 msgid "Select Spatial Reference"
 msgstr "Выбор Системы координат"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1297
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1303
 msgid "Coordinate Systems"
 msgstr "Системы координат"
 
-#: ../../../src/geoprocessingui/gpcontrols.cpp:1348
+#: ../../../src/geoprocessingui/gpcontrols.cpp:1354
 msgid "Unsupported Spatial reference"
 msgstr "Система координат не поддерживается"
 
