@@ -92,7 +92,7 @@ char **wxGISRasterDataset::GetFileList()
     CPLString szPath;
     //papszFileList = CSLAddString( papszFileList, osIMDFile );
 	
-	bool bCaseSensitive = wxFileName::IsCaseSensitive() || wxGISEQUALN(m_sPath, "/vsiz", 5);
+	bool bCaseSensitive = wxFileName::IsCaseSensitive() || wxGISEQUALN(m_sPath, "/vsi", 4);
     switch(m_nSubType)
     {
 	case enumRasterSAGA:
@@ -514,11 +514,15 @@ bool wxGISRasterDataset::Open(bool bUpdate, bool bShared)
             m_poMainDataset->Dereference();
             if(m_poDataset == NULL)
             {
+				m_poMainDataset->Reference();
                 m_poDataset = m_poMainDataset;
                 m_poMainDataset = NULL;
+				m_bWarped = false;
             }
-			
-			m_bWarped = true;
+			else 
+			{
+				m_bWarped = true;				
+			}
         }
     }
 

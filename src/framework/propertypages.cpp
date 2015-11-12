@@ -42,7 +42,7 @@ IMPLEMENT_ABSTRACT_CLASS(IPropertyPage, wxPanel)
 
 wxString IPropertyPage::GetLastErrorMessage() const
 {
-	return m_sErrMessage;
+    return m_sErrMessage;
 }
 
 //-------------------------------------------------------------------------------
@@ -52,9 +52,9 @@ wxString IPropertyPage::GetLastErrorMessage() const
 IMPLEMENT_DYNAMIC_CLASS(wxGISMiscPropertyPage, IPropertyPage)
 
 BEGIN_EVENT_TABLE(wxGISMiscPropertyPage, wxPanel)
-	EVT_BUTTON(ID_OPENLOCPATH, wxGISMiscPropertyPage::OnOpenLocPath)
-	EVT_BUTTON(ID_OPENSYSPATH, wxGISMiscPropertyPage::OnOpenSysPath)
-	EVT_BUTTON(ID_OPENLOGPATH, wxGISMiscPropertyPage::OnOpenLogPath)
+    EVT_BUTTON(ID_OPENLOCPATH, wxGISMiscPropertyPage::OnOpenLocPath)
+    EVT_BUTTON(ID_OPENSYSPATH, wxGISMiscPropertyPage::OnOpenSysPath)
+    EVT_BUTTON(ID_OPENLOGPATH, wxGISMiscPropertyPage::OnOpenLogPath)
 END_EVENT_TABLE()
 
 wxGISMiscPropertyPage::wxGISMiscPropertyPage(void) : m_pApp(NULL)
@@ -68,18 +68,18 @@ wxGISMiscPropertyPage::~wxGISMiscPropertyPage()
 bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
-		return false;
+        return false;
 
     m_pApp = application;
     if(!m_pApp)
         return false;
 
-	wxGISAppConfig oConfig = GetConfig();
-	if(!oConfig.IsOk())
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
         return false;
 
     wxBoxSizer* bMainSizer;
-	bMainSizer = new wxBoxSizer( wxVERTICAL );
+    bMainSizer = new wxBoxSizer( wxVERTICAL );
 
     wxStaticBoxSizer* sbRootSizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Splash screen") ), wxVERTICAL );
     m_checkShowSS = new wxCheckBox( this, wxID_ANY, _("Show"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -87,49 +87,47 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     bool bShowSplash = GetBoolValue(pSplashNode, wxT("show"), true);
 
     m_checkShowSS->SetValue(bShowSplash);
-	sbRootSizer->Add( m_checkShowSS, 0, wxALL | wxEXPAND, 5 );
+    sbRootSizer->Add( m_checkShowSS, 0, wxALL | wxEXPAND, 5 );
 
-	wxBoxSizer* bSizer011 = new wxBoxSizer( wxHORIZONTAL );
-	wxStaticText* pStaticText = new wxStaticText( this, wxID_ANY, _("Time out (sec.):"), wxDefaultPosition, wxDefaultSize, 0 );
-	pStaticText->Wrap( -1 );
-	bSizer011->Add( pStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+    wxBoxSizer* bSizer011 = new wxBoxSizer( wxHORIZONTAL );
+    wxStaticText* pStaticText = new wxStaticText( this, wxID_ANY, _("Time out (sec.):"), wxDefaultPosition, wxDefaultSize, 0 );
+    pStaticText->Wrap( -1 );
+    bSizer011->Add( pStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
     m_nTimeout = GetDecimalValue(pSplashNode, wxT("timeout"), 20000) / 1000;
     m_Timeout = new wxTextCtrl( this, ID_SSTIMEOUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxMakeIntegerValidator(&m_nTimeout) );
-	bSizer011->Add( m_Timeout, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+    bSizer011->Add( m_Timeout, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	sbRootSizer->Add( bSizer011, 0, wxALL | wxEXPAND, 5 );
+    sbRootSizer->Add( bSizer011, 0, wxALL | wxEXPAND, 5 );
 
-	bMainSizer->Add( sbRootSizer, 0, wxALL | wxEXPAND, 5 );
+    bMainSizer->Add( sbRootSizer, 0, wxALL | wxEXPAND, 5 );
 
 
-	m_staticText1 = new wxStaticText( this, wxID_ANY, _("Locale files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText1->Wrap( -1 );
-	bMainSizer->Add( m_staticText1, 0, wxEXPAND|wxALL, 5 );
+    m_staticText1 = new wxStaticText( this, wxID_ANY, _("Locale files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText1->Wrap( -1 );
+    bMainSizer->Add( m_staticText1, 0, wxEXPAND|wxALL, 5 );
 
-	wxBoxSizer* bLocPathSizer;
-	bLocPathSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bLocPathSizer;
+    bLocPathSizer = new wxBoxSizer( wxHORIZONTAL );
 
     //locale files path
-	m_LocalePath = new wxTextCtrl( this, ID_LOCPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_LocalePath = new wxTextCtrl( this, ID_LOCPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_LocalePath->ChangeValue( oConfig.GetLocaleDir() );
-	bLocPathSizer->Add( m_LocalePath, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    bLocPathSizer->Add( m_LocalePath, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	m_bpOpenLocPath = new wxBitmapButton( this, ID_OPENLOCPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	bLocPathSizer->Add( m_bpOpenLocPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    m_bpOpenLocPath = new wxBitmapButton( this, ID_OPENLOCPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    bLocPathSizer->Add( m_bpOpenLocPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	bMainSizer->Add( bLocPathSizer, 0, wxEXPAND, 5 );
+    bMainSizer->Add( bLocPathSizer, 0, wxEXPAND, 5 );
 
-	m_staticText2 = new wxStaticText( this, wxID_ANY, _("Language"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2->Wrap( -1 );
-	bMainSizer->Add( m_staticText2, 0, wxALL|wxEXPAND, 5 );
+    m_staticText2 = new wxStaticText( this, wxID_ANY, _("Language"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText2->Wrap( -1 );
+    bMainSizer->Add( m_staticText2, 0, wxALL|wxEXPAND, 5 );
 
     //see current locale dir for locales
 
-	//wxString m_LangChoiceChoices[] = { _("en") };
-	//int m_LangChoiceNChoices = sizeof( m_LangChoiceChoices ) / sizeof( wxString );
     FillLangArray(oConfig.GetLocaleDir());
-	m_LangChoice = new wxChoice( this, ID_LANGCHOICE, wxDefaultPosition, wxDefaultSize, m_aLangsDesc, 0 );
+    m_LangChoice = new wxChoice( this, ID_LANGCHOICE, wxDefaultPosition, wxDefaultSize, m_aLangsDesc, 0 );
     int nChoice = m_aLangs.Index(oConfig.GetLocale());
     if(nChoice == wxNOT_FOUND)
     {
@@ -139,70 +137,70 @@ bool wxGISMiscPropertyPage::Create(wxGISApplicationBase* application, wxWindow* 
     {
         m_LangChoice->SetStringSelection(m_aLangsDesc[nChoice]);
     }
-	bMainSizer->Add( m_LangChoice, 0, wxALL|wxEXPAND, 5 );
+    bMainSizer->Add( m_LangChoice, 0, wxALL|wxEXPAND, 5 );
 
-	m_staticText3 = new wxStaticText( this, wxID_ANY, _("System files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText3->Wrap( -1 );
-	bMainSizer->Add( m_staticText3, 0, wxEXPAND|wxALL, 5 );
+    m_staticText3 = new wxStaticText( this, wxID_ANY, _("System files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText3->Wrap( -1 );
+    bMainSizer->Add( m_staticText3, 0, wxEXPAND|wxALL, 5 );
 
-	wxBoxSizer* bSizer21;
-	bSizer21 = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizer21;
+    bSizer21 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_SysPath = new wxTextCtrl( this, ID_SYSPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_SysPath = new wxTextCtrl( this, ID_SYSPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_SysPath->ChangeValue( oConfig.GetSysDir() );
-	bSizer21->Add( m_SysPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+    bSizer21->Add( m_SysPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	m_bpOpenSysPath = new wxBitmapButton( this, ID_OPENSYSPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	bSizer21->Add( m_bpOpenSysPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    m_bpOpenSysPath = new wxBitmapButton( this, ID_OPENSYSPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    bSizer21->Add( m_bpOpenSysPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	bMainSizer->Add( bSizer21, 0, wxEXPAND, 5 );
+    bMainSizer->Add( bSizer21, 0, wxEXPAND, 5 );
 
-	m_staticText4 = new wxStaticText( this, wxID_ANY, _("Log files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	bMainSizer->Add( m_staticText4, 0, wxALL|wxEXPAND, 5 );
+    m_staticText4 = new wxStaticText( this, wxID_ANY, _("Log files folder path"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText4->Wrap( -1 );
+    bMainSizer->Add( m_staticText4, 0, wxALL|wxEXPAND, 5 );
 
-	wxBoxSizer* bSizer211 = new wxBoxSizer( wxHORIZONTAL );
-	m_LogPath = new wxTextCtrl( this, ID_LOGPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    wxBoxSizer* bSizer211 = new wxBoxSizer( wxHORIZONTAL );
+    m_LogPath = new wxTextCtrl( this, ID_LOGPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_LogPath->ChangeValue( oConfig.GetLogDir() );
-	bSizer211->Add( m_LogPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+    bSizer211->Add( m_LogPath, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	m_bpOpenLogPath = new wxBitmapButton( this, ID_OPENLOGPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	bSizer211->Add( m_bpOpenLogPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    m_bpOpenLogPath = new wxBitmapButton( this, ID_OPENLOGPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    bSizer211->Add( m_bpOpenLogPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	bMainSizer->Add( bSizer211, 0, wxEXPAND, 5 );
+    bMainSizer->Add( bSizer211, 0, wxEXPAND, 5 );
 
     m_checkDebug = new wxCheckBox( this, wxID_ANY, _("Log debug GDAL messages"), wxDefaultPosition, wxDefaultSize, 0 );
     m_checkDebug->SetValue(oConfig.GetDebugMode());
 
-	bMainSizer->Add( m_checkDebug, 0, wxALL|wxEXPAND, 5 );
+    bMainSizer->Add( m_checkDebug, 0, wxALL|wxEXPAND, 5 );
 
-	wxBoxSizer* bSizerInfo = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerInfo = new wxBoxSizer( wxHORIZONTAL );
 
     m_staticline = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	bMainSizer->Add( m_staticline, 0, wxEXPAND | wxALL, 5 );
+    bMainSizer->Add( m_staticline, 0, wxEXPAND | wxALL, 5 );
 
     m_ImageList.Create(16, 16);
-	m_ImageList.Add(wxBitmap(state_xpm));
+    m_ImageList.Add(wxBitmap(state_xpm));
 
-	m_bitmapwarn = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(3), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerInfo->Add( m_bitmapwarn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    m_bitmapwarn = new wxStaticBitmap( this, wxID_ANY, m_ImageList.GetIcon(3), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerInfo->Add( m_bitmapwarn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	m_staticTextWarn = new wxStaticText( this, wxID_ANY, _("To apply some changes on this page the application restart needed"), wxDefaultPosition, wxDefaultSize, 0 );
-	
-	int w = oConfig.ReadInt(enumGISHKCU, GetApplication()->GetAppName() + wxString(wxT("/propertypages/width")), 480);
-	
-	m_staticTextWarn->Wrap( w - 30 );
+    m_staticTextWarn = new wxStaticText( this, wxID_ANY, _("To apply some changes on this page the application restart needed"), wxDefaultPosition, wxDefaultSize, 0 );
+    
+    int w = oConfig.ReadInt(enumGISHKCU, GetApplication()->GetAppName() + wxString(wxT("/propertypages/width")), 480);
+    
+    m_staticTextWarn->Wrap( w - 30 );
 
     wxFont WarnFont = this->GetFont();
     WarnFont.SetWeight(wxFONTWEIGHT_BOLD);
     m_staticTextWarn->SetFont(WarnFont);
 
-	bSizerInfo->Add( m_staticTextWarn, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+    bSizerInfo->Add( m_staticTextWarn, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 
-	bMainSizer->Add( bSizerInfo, 0, wxALL|wxEXPAND, 5 );
+    bMainSizer->Add( bSizerInfo, 0, wxALL|wxEXPAND, 5 );
 
     this->SetSizerAndFit(bMainSizer);
-	this->Layout();
+    this->Layout();
 
     TransferDataToWindow();
 
@@ -214,50 +212,50 @@ void wxGISMiscPropertyPage::Apply(void)
     if ( Validate() && TransferDataFromWindow() )
     {
         wxGISAppConfig oConfig = GetConfig();
-	    if(!oConfig.IsOk())
-		    return;
+        if(!oConfig.IsOk())
+            return;
         wxString sChoice = m_LangChoice->GetStringSelection();
         if(!sChoice.IsEmpty())
         {
             int nIndex = m_aLangsDesc.Index(sChoice);
             if(nIndex != wxNOT_FOUND)
             {
-				wxString sLoc = m_aLangs[nIndex];
-				wxGISEnumReturnType eType = m_pApp->SetupLoc(m_aLangs[nIndex], m_LocalePath->GetValue());
-				
+                wxString sLoc = m_aLangs[nIndex];
+                wxGISEnumReturnType eType = m_pApp->SetupLoc(m_aLangs[nIndex], m_LocalePath->GetValue());
+                
                 if(eType == enumGISReturnWarning)
-				{
-					m_sErrMessage = wxString::Format(_("Failed to set %s locale, reset to English"), sChoice.c_str());
-					oConfig.SetLocale(wxT("en"));
-					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
-				}
-				else if(eType == enumGISReturnFailed)
-				{
-					m_sErrMessage = wxString::Format(_("Failed to set any locale"), sChoice.c_str());
-					oConfig.SetLocale(wxT("en"));
-					m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
-				}
-		        else
-				{
-					oConfig.SetLocale(m_aLangs[nIndex]);
-				}
-				oConfig.SetLocaleDir(m_LocalePath->GetValue());
+                {
+                    m_sErrMessage = wxString::Format(_("Failed to set %s locale, reset to English"), sChoice.c_str());
+                    oConfig.SetLocale(wxT("en"));
+                    m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
+                }
+                else if(eType == enumGISReturnFailed)
+                {
+                    m_sErrMessage = wxString::Format(_("Failed to set any locale"), sChoice.c_str());
+                    oConfig.SetLocale(wxT("en"));
+                    m_pApp->SetupLoc(wxT("en"), m_LocalePath->GetValue());
+                }
+                else
+                {
+                    oConfig.SetLocale(m_aLangs[nIndex]);
+                }
+                oConfig.SetLocaleDir(m_LocalePath->GetValue());
             }
         }
         if(m_LogPath->IsModified())
         {
             m_pApp->SetupLog(m_LogPath->GetValue());
-    	    oConfig.SetLogDir(m_LogPath->GetValue());
+            oConfig.SetLogDir(m_LogPath->GetValue());
         }
         if(m_SysPath->IsModified())
         {
             m_pApp->SetupSys(m_SysPath->GetValue());
-		    oConfig.SetSysDir(m_SysPath->GetValue());
+            oConfig.SetSysDir(m_SysPath->GetValue());
         }
         if(m_checkDebug->GetValue() != oConfig.GetDebugMode())
         {
             m_pApp->SetDebugMode(m_checkDebug->GetValue());
-		    oConfig.SetDebugMode(m_checkDebug->GetValue());
+            oConfig.SetDebugMode(m_checkDebug->GetValue());
         }
 
         wxXmlNode* pSplashNode = oConfig.GetConfigNode(enumGISHKCU, wxT("wxGISCommon/splash"));
@@ -321,48 +319,48 @@ void wxGISMiscPropertyPage::FillLangArray(wxString sPath)
 
 void wxGISMiscPropertyPage::OnOpenLocPath(wxCommandEvent& event)
 {
-	wxGISAppConfig oConfig = GetConfig();
-	if(!oConfig.IsOk())
-		return;
-	wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder with locale files")), oConfig.GetLocaleDir(), wxDD_DEFAULT_STYLE |wxDD_DIR_MUST_EXIST );
-	if(dlg.ShowModal() == wxID_OK)
-	{
-		wxString sPath = dlg.GetPath();
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
+        return;
+    wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder with locale files")), oConfig.GetLocaleDir(), wxDD_DEFAULT_STYLE |wxDD_DIR_MUST_EXIST );
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        wxString sPath = dlg.GetPath();
         m_LocalePath->ChangeValue( sPath );
         m_LocalePath->SetModified(true);
         m_LangChoice->Clear();
         FillLangArray(sPath);
         m_LangChoice->Append(m_aLangsDesc);
         m_LangChoice->SetSelection( 0 );
-	}
+    }
 }
 
 void wxGISMiscPropertyPage::OnOpenSysPath(wxCommandEvent& event)
 {
-	wxGISAppConfig oConfig = GetConfig();
-	if(!oConfig.IsOk())
-		return;
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
+        return;
     wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a wxGIS system files folder path")), oConfig.GetSysDir(), wxDD_DEFAULT_STYLE |wxDD_DIR_MUST_EXIST );
-	if(dlg.ShowModal() == wxID_OK)
-	{
-		wxString sPath = dlg.GetPath();
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        wxString sPath = dlg.GetPath();
         m_SysPath->ChangeValue( sPath );
         m_SysPath->SetModified(true);
-	}
+    }
 }
 
 void wxGISMiscPropertyPage::OnOpenLogPath(wxCommandEvent& event)
 {
-	wxGISAppConfig oConfig = GetConfig();
-	if(!oConfig.IsOk())
-		return;
-	wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a wxGIS log files folder path")), oConfig.GetLogDir(), wxDD_DEFAULT_STYLE |wxDD_DIR_MUST_EXIST );
-	if(dlg.ShowModal() == wxID_OK)
-	{
-		wxString sPath = dlg.GetPath();
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
+        return;
+    wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a wxGIS log files folder path")), oConfig.GetLogDir(), wxDD_DEFAULT_STYLE |wxDD_DIR_MUST_EXIST );
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        wxString sPath = dlg.GetPath();
         m_LogPath->ChangeValue( sPath );
         m_LogPath->SetModified(true);
-	}
+    }
 }
 
 
@@ -384,14 +382,14 @@ wxGISGDALConfPropertyPage::~wxGISGDALConfPropertyPage()
 bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     if(!wxPanel::Create(parent, id, pos, size, style, name))
-		return false;
+        return false;
 
     m_pApp = application;
     if(!m_pApp)
         return false;
 
-	wxGISAppConfig oConfig = GetConfig();
-	if(!oConfig.IsOk())
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
         return false;
 
     wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
@@ -759,7 +757,7 @@ bool wxGISGDALConfPropertyPage::Create(wxGISApplicationBase* application, wxWind
     bMainSizer->Add( m_pg, 1, wxEXPAND | wxALL, 5 );
 
     this->SetSizerAndFit(bMainSizer);
-	this->Layout();
+    this->Layout();
 
     return true;
 }
@@ -780,4 +778,45 @@ wxPGProperty* wxGISGDALConfPropertyPage::AppendProperty(wxPGProperty* pid, wxPGP
     wxPGProperty* pNewProp = m_pg->AppendIn(pid, pProp);
     //pNewProp->ChangeFlag(wxPG_PROP_READONLY, 1);
     return pNewProp;
+}
+
+//-------------------------------------------------------------------------------
+// wxGISNetworkPropertyPage
+//-------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(wxGISNetworkPropertyPage, IPropertyPage)
+
+wxGISNetworkPropertyPage::wxGISNetworkPropertyPage(void)
+{
+}
+
+wxGISNetworkPropertyPage::~wxGISNetworkPropertyPage()
+{
+}
+
+bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+{
+    if(!wxPanel::Create(parent, id, pos, size, style, name))
+        return false;
+
+    wxGISAppConfig oConfig = GetConfig();
+    if(!oConfig.IsOk())
+        return false;
+        
+    wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
+    this->SetSizerAndFit(bMainSizer);
+    this->Layout();
+
+    TransferDataToWindow();
+    return true;
+}
+
+void wxGISNetworkPropertyPage::Apply(void)
+{
+    if ( Validate() && TransferDataFromWindow() )
+    {
+        wxGISAppConfig oConfig = GetConfig();
+        if(!oConfig.IsOk())
+            return;
+    }
 }

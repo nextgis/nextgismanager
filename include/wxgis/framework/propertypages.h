@@ -180,3 +180,24 @@ protected:
     wxGISApplicationBase* m_pApp;
     wxPropertyGrid* m_pg;
 };
+
+/**
+ * @class wxGISNetworkPropertyPage
+ * @author Дмитрий Барышников
+ * @date 12/11/15
+ * @file propertypages.h
+ * @brief Networking settings property page
+ * @library{framework}
+ */
+class WXDLLIMPEXP_GIS_FRW wxGISNetworkPropertyPage : public IPropertyPage
+{
+        DECLARE_DYNAMIC_CLASS(wxGISNetworkPropertyPage)
+public:
+    wxGISNetworkPropertyPage(void);
+	~wxGISNetworkPropertyPage();
+    virtual bool Create(wxGISApplicationBase* application, wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("GDAL_conf_Panel"));
+//  IPropertyPage
+    virtual wxString GetPageName(void){return wxString(_("Network"));};
+    virtual void Apply(void);
+
+};
