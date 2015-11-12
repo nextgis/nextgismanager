@@ -429,7 +429,7 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
     wxStaticText *pInputStaticTextAdd = new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
     fgSizer1->Add(pInputStaticTextAdd, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
 
-    wxString sAdds = wxString::Format(wxT("%s [%d]"), wxGetTranslation(OGRGeometryTypeToName(eFilterGeomType)).c_str(), nFeatureCount);
+    wxString sAdds = wxString::Format(wxT("%s (%d)"), wxGetTranslation(OGRGeometryTypeToName(eFilterGeomType)).c_str(), nFeatureCount);
     wxStaticText *pInputStaticTextAddVal = new wxStaticText(this, wxID_ANY, sAdds, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
     fgSizer1->Add(pInputStaticTextAddVal, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
 	

@@ -271,6 +271,7 @@
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="10" name="Свойства"/>
       </menu>
       <menu name="wxGxDiscConnections.ContextMenu" caption="Folder connections">
+        <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="1" name="&amp;Подключить папку"/>
         <Item type="cmd" cmd_name="wxGISCatalogMainCmd" subtype="9" name="Обновить"/>
       </menu>
       <menu name="wxGxRemoteDBSchema.ContextMenu" caption="Remote Database Schema">
