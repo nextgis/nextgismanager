@@ -23,6 +23,8 @@
 
 
 #include "wx/valnum.h"
+#include <wx/valtext.h>
+#include <wx/valgen.h>
 
 #include "../../art/open.xpm"
 #include "../../art/state.xpm"
@@ -786,8 +788,13 @@ wxPGProperty* wxGISGDALConfPropertyPage::AppendProperty(wxPGProperty* pid, wxPGP
 
 IMPLEMENT_DYNAMIC_CLASS(wxGISNetworkPropertyPage, IPropertyPage)
 
+BEGIN_EVENT_TABLE(wxGISNetworkPropertyPage, wxPanel)
+    EVT_BUTTON(ID_OPENCACHEPATH, wxGISNetworkPropertyPage::OnOpenCachePath)
+END_EVENT_TABLE()
+
 wxGISNetworkPropertyPage::wxGISNetworkPropertyPage(void)
 {
+    m_pApp = NULL;
 }
 
 wxGISNetworkPropertyPage::~wxGISNetworkPropertyPage()
@@ -802,8 +809,180 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     wxGISAppConfig oConfig = GetConfig();
     if(!oConfig.IsOk())
         return false;
-        
+
+    m_pApp = application;
+
+    //fill values
+    wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+    if (sProxy.Find(':') != wxNOT_FOUND)
+    {
+        wxArrayString saProxy = wxStringTokenize(sProxy, wxT(":"), wxTOKEN_RET_EMPTY);
+        m_sProxyAddress = saProxy[0];
+        m_nProxyPort = wxAtoi(saProxy[1]);
+    }
+    else
+    {
+        m_sProxyAddress = wxEmptyString;
+        m_nProxyPort = 0;
+    }
+    
+    m_bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), true);
+    m_nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
+    m_nConnectTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), 30);
+    m_nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), 180);
+    m_nCacheDepth = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/cache_depth"), 2);
+    m_nWMSTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/timeout"), 300);
+    m_sHTTPCodes = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/zero_block_http_codes"), wxString(wxT("204,404")));
+    m_sWMSCachePath = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/cache_path"), oConfig.GetLocalConfigDirNonPortable() + wxFileName::GetPathSeparator() + wxString(wxT("cache")));
+
     wxBoxSizer* bMainSizer = new wxBoxSizer( wxVERTICAL );
+
+    wxFlexGridSizer* fgSizer1;
+    fgSizer1 = new wxFlexGridSizer(2, 2, 0, 0);
+    fgSizer1->SetFlexibleDirection(wxBOTH);
+    fgSizer1->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+
+    m_staticText1 = new wxStaticText(this, wxID_ANY, _("Timeout (sec.)"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText1->Wrap(-1);
+    fgSizer1->Add(m_staticText1, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_timeout = new wxTextCtrl(this, ID_M_TIMEOUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldTimeout = wxMakeIntegerValidator(&m_nTimeout);
+    vldTimeout.SetMin(1);
+    vldTimeout.SetMax(10000);
+    m_timeout->SetValidator(vldTimeout);
+
+    fgSizer1->Add(m_timeout, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText2 = new wxStaticText(this, wxID_ANY, _("Connect timeout (sec.)"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText2->Wrap(-1);
+    fgSizer1->Add(m_staticText2, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_ConnectTimeout = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldConnectTimeout = wxMakeIntegerValidator(&m_nConnectTimeout);
+    vldConnectTimeout.SetMin(1);
+    vldConnectTimeout.SetMax(10000);
+    m_ConnectTimeout->SetValidator(vldConnectTimeout);
+
+    fgSizer1->Add(m_ConnectTimeout, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText3 = new wxStaticText(this, wxID_ANY, _("DNS cache timeout (sec.)"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText3->Wrap(-1);
+    fgSizer1->Add(m_staticText3, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_dnsCacheTimeout = new wxTextCtrl(this, ID_M_DNSCACHETIMEOUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldDNSCacheTimeout = wxMakeIntegerValidator(&m_nDNSCacheTimeout);
+    vldDNSCacheTimeout.SetMin(1);
+    vldDNSCacheTimeout.SetMax(10000);
+    m_dnsCacheTimeout->SetValidator(vldDNSCacheTimeout);
+
+    fgSizer1->Add(m_dnsCacheTimeout, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    bMainSizer->Add(fgSizer1, 0, wxEXPAND, 5);
+
+    m_sslVerifyCheck = new wxCheckBox(this, ID_M_SSSVERIFYCHECK, _("SSL verify"), wxDefaultPosition, wxDefaultSize, 0);
+    m_sslVerifyCheck->SetValidator(wxGenericValidator(&m_bSSLVerify));
+
+    bMainSizer->Add(m_sslVerifyCheck, 0, wxALL | wxEXPAND, 5);
+
+    wxStaticBoxSizer* sbSizer1;
+    sbSizer1 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Proxy")), wxHORIZONTAL);
+
+    m_staticText4 = new wxStaticText(this, wxID_ANY, _("Address"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText4->Wrap(-1);
+    sbSizer1->Add(m_staticText4, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    wxString ipAddressFilter[11] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "." }; // authorized characters for IP Address
+    wxArrayString arraystrIPAddress(11, ipAddressFilter);
+
+    wxTextValidator txtvldIPAddress(wxFILTER_INCLUDE_CHAR_LIST, &m_sProxyAddress); //wxFILTER_ALPHANUMERIC text validator for IP Address
+    txtvldIPAddress.SetIncludes(arraystrIPAddress); // sets authorized characters for IP Address
+
+    m_ProxyAddress = new wxTextCtrl(this, ID_M_PROXYADDRESS, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    m_ProxyAddress->SetValidator(txtvldIPAddress);
+
+    sbSizer1->Add(m_ProxyAddress, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText5 = new wxStaticText(this, wxID_ANY, _("port"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText5->Wrap(-1);
+    sbSizer1->Add(m_staticText5, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_port = new wxTextCtrl(this, ID_M_PORT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldPort = wxMakeIntegerValidator(&m_nProxyPort);
+    vldPort.SetMin(0);
+    vldPort.SetMax(65535);
+    m_port->SetValidator(vldPort);
+
+    sbSizer1->Add(m_port, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    bMainSizer->Add(sbSizer1, 0, wxEXPAND, 5);
+
+    wxStaticBoxSizer* sbSizer2;
+    sbSizer2 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("WMS")), wxVERTICAL);
+
+    wxFlexGridSizer* fgSizer2;
+    fgSizer2 = new wxFlexGridSizer(2, 2, 0, 0);
+    fgSizer2->SetFlexibleDirection(wxBOTH);
+    fgSizer2->AddGrowableCol(1);
+    fgSizer2->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+
+    m_staticText6 = new wxStaticText(this, wxID_ANY, _("Cache path"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText6->Wrap(-1);
+    fgSizer2->Add(m_staticText6, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    //m_textCtrl6 = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    //fgSizer2->Add(m_textCtrl6, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    wxBoxSizer* bCachePathSizer = new wxBoxSizer(wxHORIZONTAL);
+    m_cachePath = new wxTextCtrl(this, ID_CACHEPATH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NONE, &m_sWMSCachePath));    
+    bCachePathSizer->Add(m_cachePath, 1, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_bpOpenCachePath = new wxBitmapButton(this, ID_OPENCACHEPATH, wxBitmap(open_xpm), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+    bCachePathSizer->Add(m_bpOpenCachePath, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    fgSizer2->Add(bCachePathSizer, 0, wxEXPAND, 5);
+
+    m_staticText7 = new wxStaticText(this, wxID_ANY, _("Cache depth"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText7->Wrap(-1);
+    fgSizer2->Add(m_staticText7, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_cacheDepth = new wxTextCtrl(this, ID_M_CAHEDEPTH, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldCacheDepth = wxMakeIntegerValidator(&m_nCacheDepth);
+    vldCacheDepth.SetMin(1);
+    vldCacheDepth.SetMax(5);
+    m_cacheDepth->SetValidator(vldCacheDepth);
+    fgSizer2->Add(m_cacheDepth, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText8 = new wxStaticText(this, wxID_ANY, _("Timeout (sec.)"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText8->Wrap(-1);
+    fgSizer2->Add(m_staticText8, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_WMSTimeout = new wxTextCtrl(this, ID_M_WMSTIMEOUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxIntegerValidator<int> vldWMSTimeout = wxMakeIntegerValidator(&m_nWMSTimeout);
+    vldWMSTimeout.SetMin(1);
+    vldWMSTimeout.SetMax(10000);
+    m_WMSTimeout->SetValidator(vldWMSTimeout);
+    fgSizer2->Add(m_WMSTimeout, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    m_staticText9 = new wxStaticText(this, wxID_ANY, _("Zero Block HTTP Codes"), wxDefaultPosition, wxDefaultSize, 0);
+    m_staticText9->Wrap(-1);
+    fgSizer2->Add(m_staticText9, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    m_httpCodes = new wxTextCtrl(this, ID_M_HTTPCODES, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    wxString codesFilter[11] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "," }; // authorized characters
+    wxArrayString arraystrCodes(11, codesFilter);
+
+    wxTextValidator txtvldCodes(wxFILTER_INCLUDE_CHAR_LIST, &m_sHTTPCodes);
+    txtvldCodes.SetIncludes(arraystrCodes);
+
+    m_httpCodes->SetValidator(txtvldCodes);
+
+    fgSizer2->Add(m_httpCodes, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    sbSizer2->Add(fgSizer2, 1, wxEXPAND, 5);
+
+    bMainSizer->Add(sbSizer2, 1, wxEXPAND, 5);
+
     this->SetSizerAndFit(bMainSizer);
     this->Layout();
 
@@ -818,5 +997,29 @@ void wxGISNetworkPropertyPage::Apply(void)
         wxGISAppConfig oConfig = GetConfig();
         if(!oConfig.IsOk())
             return;
+
+        if (!m_sProxyAddress.IsEmpty())
+            oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxString::Format(wxT("%s:%d"), m_sProxyAddress.c_str(), m_nProxyPort));
+        else
+            oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxString(wxT("")));
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), m_bSSLVerify);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), m_nTimeout);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), m_nConnectTimeout);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), m_nDNSCacheTimeout);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/cache_depth"), m_nCacheDepth);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/timeout"), m_nWMSTimeout);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/zero_block_http_codes"), m_sHTTPCodes);
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/GDAL/WMS/cache_path"), m_sWMSCachePath);
+    }
+}
+
+void wxGISNetworkPropertyPage::OnOpenCachePath(wxCommandEvent& event)
+{
+    wxDirDialog dlg(dynamic_cast<wxWindow*>(m_pApp), wxString(_("Choose a folder for cache")), m_sWMSCachePath, wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
+    if (dlg.ShowModal() == wxID_OK)
+    {
+        wxString sPath = dlg.GetPath();
+        m_cachePath->ChangeValue(sPath);
+        m_cachePath->SetModified(true);
     }
 }

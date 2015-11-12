@@ -26,8 +26,7 @@
     <Entry cmd_name="wxGISCatalogMainCmd" subtype="13" flags="CTRL|" keycode="V"/>
   </Accelerators>
   <Frame width="800" height="600" xpos="0" ypos="0" maxi="no">
-    <statusbar shown="yes"/>
-    <Perspective data="layout2|name=Application.Standard;caption=Стандартная;state=2106096;dir=1;layer=10;row=0;pos=0;prop=100000;bestw=397;besth=26;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Application.Location;caption=Путь;state=2106096;dir=1;layer=10;row=0;pos=399;prop=100000;bestw=480;besth=27;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Application.Geography;caption=География;state=2106096;dir=1;layer=10;row=0;pos=881;prop=100000;bestw=208;besth=26;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Application.Task;caption=Задачи;state=2106108;dir=1;layer=10;row=0;pos=1091;prop=100000;bestw=136;besth=26;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Application.MapFrameTools;caption=Инструменты окна карты;state=2106108;dir=1;layer=10;row=0;pos=1229;prop=100000;bestw=155;besth=26;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Application.Drawing;caption=Рисование;state=2106108;dir=1;layer=10;row=2;pos=0;prop=100000;bestw=326;besth=27;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=tree_window;caption=Вид дерева;state=2099196;dir=4;layer=1;row=0;pos=0;prop=100000;bestw=280;besth=128;minw=200;minh=64;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=main_window;caption=;state=17152;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=20;besth=20;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=window_1;caption=Набор инструментов;state=2099198;dir=2;layer=1;row=0;pos=0;prop=100000;bestw=280;besth=128;minw=200;minh=64;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=window_2;caption=Идентификация;state=2099196;dir=2;layer=1;row=0;pos=0;prop=100000;bestw=280;besth=128;minw=200;minh=64;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=window_3;caption=Свойства;state=2099198;dir=2;layer=1;row=0;pos=3;prop=100000;bestw=280;besth=128;minw=200;minh=64;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=window_4;caption=Поиск;state=2099198;dir=2;layer=1;row=0;pos=4;prop=100000;bestw=280;besth=128;minw=200;minh=64;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(1,10,0)=29|dock_size(4,1,0)=310|dock_size(5,0,0)=22|dock_size(2,1,0)=315|dock_size(1,10,2)=29|"/>
+    <statusbar shown="yes"/>    
     <Views>
       <TreeView/>
       <TabView>
@@ -425,6 +424,7 @@
   </Frame>
   <PropertyPages>
     <Page class="wxGISCatalogGeneralPropertyPage"/>
+    <Page class="wxGISNetworkPropertyPage"/>
     <Page class="wxGISGDALConfPropertyPage"/>
     <Page class="wxGISMiscPropertyPage"/>
   </PropertyPages>

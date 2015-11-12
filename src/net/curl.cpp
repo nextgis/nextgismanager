@@ -256,7 +256,7 @@ wxGISCurlRefData::wxGISCurlRefData(const wxString & proxy, const wxString & sHea
 #ifdef _DEBUG
 //        curl_easy_setopt(m_pCurl, CURLOPT_VERBOSE, 1);
 #endif
-		if(!proxy.IsEmpty())
+        if (!proxy.IsEmpty() && proxy.Find(':') != wxNOT_FOUND)
 		{
 			curl_easy_setopt(m_pCurl, CURLOPT_PROXY, (const char*)proxy.mb_str());
 			m_bUseProxy = true;

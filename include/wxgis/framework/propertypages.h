@@ -147,6 +147,7 @@ protected:
 
     int m_nTimeout;
 
+private:
     DECLARE_EVENT_TABLE()
 };
 
@@ -191,7 +192,20 @@ protected:
  */
 class WXDLLIMPEXP_GIS_FRW wxGISNetworkPropertyPage : public IPropertyPage
 {
-        DECLARE_DYNAMIC_CLASS(wxGISNetworkPropertyPage)
+    DECLARE_DYNAMIC_CLASS(wxGISNetworkPropertyPage)
+    enum
+    {
+        ID_M_TIMEOUT = 1000,
+        ID_M_DNSCACHETIMEOUT,
+        ID_M_SSSVERIFYCHECK,
+        ID_M_PROXYADDRESS,
+        ID_M_PORT,
+        ID_M_CAHEDEPTH,
+        ID_M_WMSTIMEOUT,
+        ID_M_HTTPCODES,
+        ID_CACHEPATH,
+        ID_OPENCACHEPATH
+    };
 public:
     wxGISNetworkPropertyPage(void);
 	~wxGISNetworkPropertyPage();
@@ -200,4 +214,44 @@ public:
     virtual wxString GetPageName(void){return wxString(_("Network"));};
     virtual void Apply(void);
 
+protected:
+    void OnOpenCachePath(wxCommandEvent& event);
+
+protected:
+    wxStaticText* m_staticText1;
+    wxTextCtrl* m_timeout;
+    wxStaticText* m_staticText2;
+    wxTextCtrl* m_ConnectTimeout;
+    wxStaticText* m_staticText3;
+    wxTextCtrl* m_dnsCacheTimeout;
+    wxCheckBox* m_sslVerifyCheck;
+    wxStaticText* m_staticText4;
+    wxTextCtrl* m_ProxyAddress;
+    wxStaticText* m_staticText5;
+    wxTextCtrl* m_port;
+    wxStaticText* m_staticText6;
+    wxTextCtrl* m_cachePath;
+    wxStaticText* m_staticText7;
+    wxTextCtrl* m_cacheDepth;
+    wxStaticText* m_staticText8;
+    wxTextCtrl* m_WMSTimeout;
+    wxStaticText* m_staticText9;
+    wxTextCtrl* m_httpCodes;
+    wxBitmapButton* m_bpOpenCachePath;
+
+protected:
+    int m_nTimeout;
+    int m_nConnectTimeout;
+    int m_nDNSCacheTimeout;
+    bool m_bSSLVerify;
+    wxString m_sProxyAddress;
+    int m_nProxyPort;
+    int m_nCacheDepth;
+    int m_nWMSTimeout;
+    wxString m_sHTTPCodes;
+    wxString m_sWMSCachePath; 
+    wxGISApplicationBase* m_pApp;
+
+private:
+    DECLARE_EVENT_TABLE()
 };
