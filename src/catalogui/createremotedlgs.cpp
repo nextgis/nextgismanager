@@ -410,12 +410,12 @@ BEGIN_EVENT_TABLE(wxGISVectorImportPanel, wxGISBaseImportPanel)
 	EVT_BUTTON(wxGISVectorImportPanel::ID_TEST, wxGISVectorImportPanel::OnTestEncoding)
 END_EVENT_TABLE();
 
-wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
+wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGxObjectContainer *pDestDs, const wxString &sOutName, OGRwkbGeometryType eFilterGeomType, long nFeatureCount, bool bToMulti, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxGISBaseImportPanel(parent, id, pos, size, style )
 {
 	wsSET(m_pFeatureClass, pSrcDs);
 	
 	wxFlexGridSizer* fgSizer1;
-    fgSizer1 = new wxFlexGridSizer( 4, 2, 0, 0 );
+    fgSizer1 = new wxFlexGridSizer( 5, 2, 0, 0 );
 	fgSizer1->AddGrowableCol( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -423,8 +423,15 @@ wxGISVectorImportPanel::wxGISVectorImportPanel(wxGISFeatureDataset *pSrcDs, wxGx
     wxStaticText *pInputStaticText = new wxStaticText( this, wxID_ANY, _("Input dataset:"), wxDefaultPosition, wxDefaultSize, 0 );
     fgSizer1->Add( pInputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 
-    wxStaticText *pInputStaticTextVal = new wxStaticText( this, wxID_ANY, pSrcDs->GetName(), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText *pInputStaticTextVal = new wxStaticText(this, wxID_ANY, pSrcDs->GetName(), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
 	fgSizer1->Add( pInputStaticTextVal, 1, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+
+    wxStaticText *pInputStaticTextAdd = new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    fgSizer1->Add(pInputStaticTextAdd, 0, wxALL | wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT, 5);
+
+    wxString sAdds = wxString::Format(wxT("%s [%d]"), wxGetTranslation(OGRGeometryTypeToName(eFilterGeomType)).c_str(), nFeatureCount);
+    wxStaticText *pInputStaticTextAddVal = new wxStaticText(this, wxID_ANY, sAdds, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
+    fgSizer1->Add(pInputStaticTextAddVal, 1, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5);
 	
 	wxStaticText *pOutputStaticText = new wxStaticText( this, wxID_ANY, _("Output name:"), wxDefaultPosition, wxDefaultSize, 0 );
     fgSizer1->Add( pOutputStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
@@ -844,7 +851,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 					if(pDestDs->CanStoreMultipleGeometryTypes())
 					{
 						wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
-						m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
+                        m_bMainSizer->Add(new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, pSrcFeatureDs->GetFeatureCount(), false, this), 0, wxEXPAND | wxALL, 0);
 					}
 					else
 					{
@@ -857,7 +864,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 							pSrcFeatureDs->SetIgnoredFields(saIgnoredFields);
 							pSrcFeatureDs->Reset();
 
-							std::map<OGRwkbGeometryType, int> mnCounts;
+							std::map<OGRwkbGeometryType, long> mnCounts;
 							
 							wxGISApplication *pApp = dynamic_cast<wxGISApplication*>(GetApplication());
 							wxGISStatusBar* pStatusBar = NULL;
@@ -899,7 +906,7 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 								}
 							}
 
-							for (std::map<OGRwkbGeometryType, int>::const_iterator IT = mnCounts.begin(); IT != mnCounts.end(); ++IT)
+							for (std::map<OGRwkbGeometryType, long>::const_iterator IT = mnCounts.begin(); IT != mnCounts.end(); ++IT)
 							{
 								if (IT->second > 0)
 								{
@@ -907,14 +914,14 @@ wxGISDatasetImportDlg::wxGISDatasetImportDlg(wxGxObjectContainer *pDestDs, wxVec
 									sType.Replace(" ", "");
 									
 									wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName() + wxT(" ") + sType.MakeLower());
-									m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, IT->first, bIsMultigeom, this), 0, wxEXPAND | wxALL, 0 );
+                                    m_bMainSizer->Add(new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, IT->first, IT->second, bIsMultigeom, this), 0, wxEXPAND | wxALL, 0);
 								}
 							}
 						}
 						else
 						{
 							wxString sOutName = pDestDs->ValidateName(pSrcDs->GetBaseName());
-							m_bMainSizer->Add( new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, false, this), 0, wxEXPAND | wxALL, 0 );
+                            m_bMainSizer->Add(new wxGISVectorImportPanel(pSrcFeatureDs, pDestDs, sOutName, wkbUnknown, pSrcFeatureDs->GetFeatureCount(), false, this), 0, wxEXPAND | wxALL, 0);
 						}
 					}
 				}
