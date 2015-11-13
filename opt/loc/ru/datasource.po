@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-01 18:12+0300\n"
-"PO-Revision-Date: 2015-11-01 18:12+0300\n"
+"POT-Creation-Date: 2015-11-13 03:36+0300\n"
+"PO-Revision-Date: 2015-11-13 03:36+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -38,12 +38,12 @@ msgid "Skip file '%s' to rename"
 msgstr "Пропуск файла '%s' при переименовании"
 
 #: ../../../src/datasource/dataset.cpp:312
-#: ../../../src/datasource/rasterdataset.cpp:776
+#: ../../../src/datasource/rasterdataset.cpp:780
 msgid "No files to move"
 msgstr "Нет файлов для перемещения"
 
 #: ../../../src/datasource/dataset.cpp:361
-#: ../../../src/datasource/rasterdataset.cpp:693
+#: ../../../src/datasource/rasterdataset.cpp:697
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
@@ -104,18 +104,18 @@ msgstr "Операция '%s' выполнена успешно! "
 msgid "Raster open failed! Path '%s'"
 msgstr "Не удалось открыть растровый файл! Путь '%s'"
 
-#: ../../../src/datasource/rasterdataset.cpp:535
+#: ../../../src/datasource/rasterdataset.cpp:539
 #, c-format
 msgid "Raster open failed! Path '%s'. Raster has no bands"
 msgstr "Не удалось открыть растровый файл! Путь '%s'. Нет каналов в растре"
 
-#: ../../../src/datasource/rasterdataset.cpp:862
-#: ../../../src/datasource/rasterdataset.cpp:903
+#: ../../../src/datasource/rasterdataset.cpp:866
+#: ../../../src/datasource/rasterdataset.cpp:907
 #, c-format
 msgid "RasterIO failed! GDAL error: %s"
 msgstr "Не удалось выполнить RasterIO! Ошибка GDAL: %s"
 
-#: ../../../src/datasource/rasterdataset.cpp:938
+#: ../../../src/datasource/rasterdataset.cpp:942
 #, c-format
 msgid "GetGeoTransform failed! GDAL error: %s"
 msgstr "Не удалось выполнить GetGeoTransform! Ошибка GDAL: %s"

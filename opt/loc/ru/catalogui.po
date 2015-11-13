@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-01 18:12+0300\n"
-"PO-Revision-Date: 2015-11-01 18:15+0300\n"
+"POT-Creation-Date: 2015-11-13 03:36+0300\n"
+"PO-Revision-Date: 2015-11-13 03:36+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -576,7 +576,7 @@ msgid "Test Connection"
 msgstr "Проверить подключение"
 
 #: ../../../src/catalogui/createremotedlgs.cpp:252
-#: ../../../src/catalogui/createremotedlgs.cpp:956
+#: ../../../src/catalogui/createremotedlgs.cpp:963
 #: ../../../src/catalogui/remoteconndlgs.cpp:86
 #: ../../../src/catalogui/remoteconndlgs.cpp:494
 #: ../../../src/catalogui/remoteconndlgs.cpp:1191
@@ -585,7 +585,7 @@ msgid "OK"
 msgstr "OK"
 
 #: ../../../src/catalogui/createremotedlgs.cpp:254
-#: ../../../src/catalogui/createremotedlgs.cpp:958
+#: ../../../src/catalogui/createremotedlgs.cpp:965
 #: ../../../src/catalogui/gxcontdialog.cpp:160
 #: ../../../src/catalogui/gxobgdialog.cpp:570
 #: ../../../src/catalogui/remoteconndlgs.cpp:88
@@ -629,76 +629,76 @@ msgid "Some input values are not correct!"
 msgstr "Некоторые входные значения некорректны!"
 
 #: ../../../src/catalogui/createremotedlgs.cpp:423
-#: ../../../src/catalogui/createremotedlgs.cpp:552
-#: ../../../src/catalogui/createremotedlgs.cpp:648
+#: ../../../src/catalogui/createremotedlgs.cpp:559
+#: ../../../src/catalogui/createremotedlgs.cpp:655
 msgid "Input dataset:"
 msgstr "Входной источник данных:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:429
-#: ../../../src/catalogui/createremotedlgs.cpp:558
-#: ../../../src/catalogui/createremotedlgs.cpp:654
+#: ../../../src/catalogui/createremotedlgs.cpp:436
+#: ../../../src/catalogui/createremotedlgs.cpp:565
+#: ../../../src/catalogui/createremotedlgs.cpp:661
 msgid "Output name:"
 msgstr "Выходное имя:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:435
-#: ../../../src/catalogui/createremotedlgs.cpp:564
+#: ../../../src/catalogui/createremotedlgs.cpp:442
+#: ../../../src/catalogui/createremotedlgs.cpp:571
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:443
-#: ../../../src/catalogui/createremotedlgs.cpp:572
+#: ../../../src/catalogui/createremotedlgs.cpp:450
+#: ../../../src/catalogui/createremotedlgs.cpp:579
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:446
-#: ../../../src/catalogui/createremotedlgs.cpp:575
+#: ../../../src/catalogui/createremotedlgs.cpp:453
+#: ../../../src/catalogui/createremotedlgs.cpp:582
 msgid "Mac"
 msgstr "Mac"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:462
-#: ../../../src/catalogui/createremotedlgs.cpp:591
+#: ../../../src/catalogui/createremotedlgs.cpp:469
+#: ../../../src/catalogui/createremotedlgs.cpp:598
 msgid "Test"
 msgstr "Тест"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:467
+#: ../../../src/catalogui/createremotedlgs.cpp:474
 msgid " "
 msgstr " "
 
-#: ../../../src/catalogui/createremotedlgs.cpp:470
+#: ../../../src/catalogui/createremotedlgs.cpp:477
 msgid "Skip invalid geometry check"
 msgstr "Пропустить проверку валидности геометрий"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:661
-#: ../../../src/catalogui/createremotedlgs.cpp:735
-#: ../../../src/catalogui/createremotedlgs.cpp:806
+#: ../../../src/catalogui/createremotedlgs.cpp:668
+#: ../../../src/catalogui/createremotedlgs.cpp:742
+#: ../../../src/catalogui/createremotedlgs.cpp:813
 msgid "none"
 msgstr "нет"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:695
+#: ../../../src/catalogui/createremotedlgs.cpp:702
 msgid "Bands:"
 msgstr "Каналы:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:702
+#: ../../../src/catalogui/createremotedlgs.cpp:709
 msgid "Red"
 msgstr "Красный"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:712
+#: ../../../src/catalogui/createremotedlgs.cpp:719
 msgid "Green"
 msgstr "Зеленый"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:722
+#: ../../../src/catalogui/createremotedlgs.cpp:729
 msgid "Blue"
 msgstr "Синий"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:732
+#: ../../../src/catalogui/createremotedlgs.cpp:739
 msgid "Alpha (opt.)"
 msgstr "Альфа (опц.)"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:742
+#: ../../../src/catalogui/createremotedlgs.cpp:749
 msgid "Auto crop"
 msgstr "Автоматическая обрезка"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:869
+#: ../../../src/catalogui/createremotedlgs.cpp:876
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
