@@ -3,7 +3,7 @@
  * Purpose:  FeatureDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2014 Dmitry Baryshnikov
+*   Copyright (C) 2009-2015 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,15 @@
  ****************************************************************************/
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/sysop.h"
+#include "wxgis/core/json/jsonreader.h"
+
+#ifdef wxGIS_USE_CURL
+
+#include "wxgis/net/curl.h"
+
+#endif // wxGIS_USE_CURL
+
+#include <wx/base64.h> 
 
 //---------------------------------------
 // wxGISFeatureDataset
@@ -841,6 +850,248 @@ void wxGISFeatureDatasetCached::SetEncoding(const wxFontEncoding &oEncoding)
     }
 }
 
+//---------------------------------------
+// wxGISNGWFeatureDataset
+//---------------------------------------
+#ifdef wxGIS_USE_CURL
+
+IMPLEMENT_CLASS(wxGISNGWFeatureDataset, wxGISFeatureDataset)
+
+wxGISNGWFeatureDataset::wxGISNGWFeatureDataset(long nResourceId, const wxJSONValue &Data, const wxString &sURL, const wxString &sLogin, const wxString &sPassword) : wxGISFeatureDataset("Memory", enumVecMem)
+{
+    m_sAuth = sLogin + wxT(":") + sPassword;
+    OGRCompatibleDriver* poMEMDrv = GetOGRCompatibleDriverByName("Memory");
+    if (poMEMDrv != NULL)
+    {
+        m_poDS = poMEMDrv->CreateOGRCompatibleDataSource("DS", NULL);
+        wxJSONValue JSONVectorLayer = Data["vector_layer"];
+        wxString sGeomType = JSONVectorLayer["geometry_type"].AsString();
+        OGRwkbGeometryType eGeomType = wkbUnknown;
+        if (sGeomType.IsSameAs(wxT("POINT"), false))
+        {
+            eGeomType = wkbMultiPoint;
+        }
+        else if (sGeomType.IsSameAs(wxT("LINESTRING"), false))
+        {
+            eGeomType = wkbMultiLineString;
+        }
+        else if (sGeomType.IsSameAs(wxT("POLYGON"), false))
+        {
+            eGeomType = wkbMultiPolygon;
+        }
+
+        int nEPSGCode = JSONVectorLayer["srs"]["id"].AsInt();
+        OGRSpatialReference spaRef;
+        spaRef.importFromEPSG(nEPSGCode);
+
+        m_poLayer = m_poDS->CreateLayer("layer", &spaRef, eGeomType, NULL);
+
+        wxJSONValue JSONFeatureLayer = Data["feature_layer"];
+        wxJSONValue oaFields = JSONFeatureLayer["fields"];
+
+        for (int i = 0; i < oaFields.Size(); ++i)
+        {
+            wxJSONValue JSONField = oaFields[i];
+            wxString sFieldName = JSONField["keyname"].AsString();
+            wxString sFieldType = JSONField["datatype"].AsString();
+            
+            OGRFieldType eFieldType = OFTMaxType;
+            if (sFieldType.IsSameAs(wxT("INTEGER"), false))
+            {
+                eFieldType = OFTInteger;
+            }
+            else if (sFieldType.IsSameAs(wxT("REAL"), false))
+            {
+                eFieldType = OFTReal;
+            }
+            else if (sFieldType.IsSameAs(wxT("STRING"), false))
+            {
+                eFieldType = OFTString;
+            }
+            else if (sFieldType.IsSameAs(wxT("DATE"), false))
+            {
+                eFieldType = OFTDate;
+            }
+            else if (sFieldType.IsSameAs(wxT("TIME"), false))
+            {
+                eFieldType = OFTTime;
+            }
+            else if (sFieldType.IsSameAs(wxT("DATETIME"), false))
+            {
+                eFieldType = OFTDateTime;
+            }
+
+            OGRFieldDefn oFieldDefn(sFieldName.ToUTF8(), eFieldType);
+            m_poLayer->CreateField(&oFieldDefn);
+        }
+    }
+
+    m_nResourceId = nResourceId;
+    m_sURL = sURL;
+
+    m_bIsOpened = true;
+    m_bIsReadOnly = false; // check permissions
+    m_bIsCached = false;
+
+    m_bHasFID = true; 
+    m_bOLCStringsAsUTF8 = true;
+    m_bOLCFastFeatureCount = false;
+
+    m_Encoding = wxFONTENCODING_UTF8;
+}
+
+wxGISNGWFeatureDataset::~wxGISNGWFeatureDataset(void)
+{
+}
+
+void wxGISNGWFeatureDataset::Cache(ITrackCancel* const pTrackCancel)
+{
+    if (m_bIsCached)
+    {
+        return;
+    }
+
+    // load NGW JSON and add features
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+        return;
+    }    
+    
+    wxString sPayload = wxT("Basic ") + wxBase64Encode(m_sAuth.c_str(), m_sAuth.Len());
+
+    curl.AppendHeader(wxT("Authorization:") + sPayload);
+    PERFORMRESULT res = curl.Get(m_sURL + wxString::Format(wxT("/api/resource/%ld/feature/"), m_nResourceId));
+    
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (!bResult)
+    {
+        return;
+    }
+        
+    wxJSONReader reader;
+    wxJSONValue features;
+    int numErrors = reader.Parse(res.sBody, &features);
+    if (numErrors != 0)
+    {
+        return;
+    }
+
+    for (int i = 0; i < features.Size(); ++i)
+    {
+        wxJSONValue feature = features[i];
+        long nId = feature["id"].AsLong();
+        wxString sGeom = feature["geom"].AsString();
+
+        OGRGeometry *pGeom = NULL;
+        CPLString sWKT = sGeom.ToUTF8();
+        char *pszWKT = (char *)sWKT.c_str();
+        OGRGeometryFactory::createFromWkt(&pszWKT, GetSpatialReference(), (OGRGeometry**)(&pGeom));
+
+        OGRFeature *poFeature = OGRFeature::CreateFeature(m_poLayer->GetLayerDefn());
+        poFeature->SetGeometryDirectly(pGeom);
+        poFeature->SetFID(nId);
+
+        wxJSONValue fields = feature["fields"];
+        OGRFeatureDefn* pDefn = GetDefinition();
+               
+        for (int j = 0; j < pDefn->GetFieldCount(); ++j)
+        {
+            OGRFieldDefn *pFieldDefn = pDefn->GetFieldDefn(j);
+            wxString sKey = wxString::FromUTF8(pFieldDefn->GetNameRef());
+            if (fields.HasMember(sKey))
+            {
+                switch (pFieldDefn->GetType())
+                {
+                case OFTInteger:
+                    poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsLong());
+                    break;
+                case OFTReal:
+                    poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsDouble());
+                    break;
+                case OFTString:
+                    poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsString().ToUTF8());
+                    break;
+                case OFTDate:
+                    {
+                        wxJSONValue date = fields[sKey];
+                        int nYear = date["year"].AsInt();
+                        int nMonth = date["month"].AsInt();
+                        int nDay = date["day"].AsInt();
+                        poFeature->SetField(pFieldDefn->GetNameRef(), nYear, nMonth, nDay);
+                    }
+                    break;
+                case OFTTime:
+                    {
+                        wxJSONValue date = fields[sKey];
+                        int nHour = date["hour"].AsInt();
+                        int nMinute = date["minute"].AsInt();
+                        int nSecond = date["second"].AsInt();
+                        poFeature->SetField(pFieldDefn->GetNameRef(), 1970, 1, 1, nHour, nMinute, nSecond);
+                    }
+                    break;
+                case OFTDateTime:
+                    {
+                        wxJSONValue date = fields[sKey];
+                        int nYear = date["year"].AsInt();
+                        int nMonth = date["month"].AsInt();
+                        int nDay = date["day"].AsInt();
+                        int nHour = date["hour"].AsInt();
+                        int nMinute = date["minute"].AsInt();
+                        int nSecond = date["second"].AsInt();
+                        poFeature->SetField(pFieldDefn->GetNameRef(), nYear, nMonth, nDay, nHour, nMinute, nSecond);
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        m_poLayer->CreateFeature(poFeature);
+    }
+
+    m_bOLCFastFeatureCount = true;
+
+    m_bOLCFastGetExtent = m_poLayer->TestCapability(OLCFastGetExtent) == TRUE;
+    if (m_bOLCFastGetExtent)
+    {
+        if (m_poLayer->GetExtent(&m_stExtent, FALSE) == OGRERR_NONE)
+        {
+            if (IsDoubleEquil(m_stExtent.MinX, m_stExtent.MaxX))
+            {
+                m_stExtent.MaxX += 1;
+                m_stExtent.MinX -= 1;
+            }
+            if (IsDoubleEquil(m_stExtent.MinY, m_stExtent.MaxY))
+            {
+                m_stExtent.MaxY += 1;
+                m_stExtent.MinY -= 1;
+            }
+        }
+    }
+
+    // create spatial reference
+    if (!m_pSpatialTree)
+    {
+        m_pSpatialTree = CreateSpatialTree(this);
+    }
+
+    if (IsCaching())
+    {
+        return;
+    }
+
+    m_pSpatialTree->Load(m_SpatialReference, pTrackCancel);
+}
+
+OGRErr wxGISNGWFeatureDataset::DeleteAll()
+{
+    
+    return OGRERR_NONE;
+}
+
+#endif // wxGIS_USE_CURL
 
 		    //bool bOLCFastGetExtent = pOGRLayer->TestCapability(OLCFastGetExtent);
       //      if(bOLCFastGetExtent)

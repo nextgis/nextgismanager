@@ -37,6 +37,14 @@ if(wxWidgets_FOUND)
     include(${wxWidgets_USE_FILE})
 endif(wxWidgets_FOUND)
 
+if(wxGIS_USE_CURL)
+    find_package(CURL REQUIRED)
+    if(CURL_FOUND)
+        include_directories(${CURL_INCLUDE_DIRS})
+        add_definitions(-DHAVE_CURL)
+    endif(CURL_FOUND)
+endif(wxGIS_USE_CURL)
+
 option(wxGIS_USE_POSTGRES "Set OFF to build without PostGIS support" OFF)
 if(wxGIS_USE_POSTGRES)
     find_package(POSTGRES REQUIRED)
@@ -116,7 +124,7 @@ if(OPENSSL_FOUND)
     target_link_libraries(${LIB_NAME} ${OPENSSL_LIBRARIES})
 endif(OPENSSL_FOUND) 
 
-target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME})
+target_link_libraries(${LIB_NAME} ${WXGISCORE_LIB_NAME} ${WXGISNET_LIB_NAME})
 
 include(installlib)
 

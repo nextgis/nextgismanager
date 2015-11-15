@@ -353,6 +353,9 @@ protected:
 	//create wxGISDataset without openning it
 	virtual wxGISDataset* const GetDatasetFast(void);
 	virtual int GetParentResourceId() const;
+
+protected:
+    wxJSONValue m_oData;
 };
 
 /** @class wxGxNGWRaster

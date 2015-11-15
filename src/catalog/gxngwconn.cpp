@@ -2109,6 +2109,8 @@ wxGxNGWLayer::wxGxNGWLayer(wxGxNGWService *pService, wxGISEnumNGWResourcesType e
     m_sName = m_sDisplayName;
 	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
 	m_sPath = CPLString(sURL.ToUTF8());
+
+    m_oData = Data;
 }
 
 wxGxNGWLayer::~wxGxNGWLayer()
@@ -2133,10 +2135,13 @@ wxGISDataset* const wxGxNGWLayer::GetDatasetFast(void)
 {
  	if(m_pwxGISDataset == NULL)
     {
-		wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
+        wxGISNGWFeatureDataset *pDSet = new wxGISNGWFeatureDataset(m_nRemoteId, m_oData, m_pService->GetURL(), m_pService->GetLogin(), m_pService->GetPassword());
+		/*
+        wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/geojson/"), m_nRemoteId);
 		wxString sAuth = m_pService->GetLogin() + wxT(":") + m_pService->GetPassword();
 		CPLSetConfigOption("GDAL_HTTP_USERPWD", sAuth.mb_str());
         wxGISFeatureDataset* pDSet = new wxGISFeatureDatasetCached(CPLString(sURL.ToUTF8()), m_eType);
+        */
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }

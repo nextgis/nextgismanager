@@ -3,7 +3,7 @@
  * Purpose:  FeatureDataset class.
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
-*   Copyright (C) 2009-2014 Dmitry Baryshnikov
+*   Copyright (C) 2009-2015 Dmitry Baryshnikov
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "wxgis/datasource/table.h"
+#include "wxgis/core/json/jsonval.h"
 
 /** @class wxGISFeatureDataset
 
@@ -108,3 +109,31 @@ public:
 protected:
     std::map<long, wxGISFeature> m_omFeatures;
 };
+
+
+#ifdef wxGIS_USE_CURL
+/** @class wxGISNGWFeatureDataset
+
+    A NextGIS Web FeatureDataset class.
+
+    @library{datasource}
+*/
+
+class WXDLLIMPEXP_GIS_DS wxGISNGWFeatureDataset :
+    public wxGISFeatureDataset
+{
+    DECLARE_CLASS(wxGISNGWFeatureDataset)
+    friend class wxGISQuadTree;
+public:
+    wxGISNGWFeatureDataset(long nResourceId, const wxJSONValue &Data, const wxString &sURL, const wxString &sLogin, const wxString &sPassword);
+    virtual ~wxGISNGWFeatureDataset(void);
+    virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
+    virtual OGRErr DeleteAll();
+protected:
+    wxString m_sAuth;
+    long m_nResourceId;
+    wxString m_sURL;
+
+};
+
+#endif // wxGIS_USE_CURL
