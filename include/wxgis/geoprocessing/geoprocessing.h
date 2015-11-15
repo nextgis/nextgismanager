@@ -89,6 +89,8 @@ enum wxGISEnumGPParameterDataType
 	enumGISGPParamDTIntegerList,        /**< The parameter type is comma separated int list */
 	enumGISGPParamDTDoubleList,         /**< The parameter type is comma separated double list */
 
+    enumGISGPParamDTRadiobutton,        /**< The parametr type is choice but in form of radiobutton */
+
 	enumGISGPParamDTSpatRef,            /**< The parameter type is Spatial Reference */
 	enumGISGPParamDTQuery,              /**< The parameter type is SQL Query */
 

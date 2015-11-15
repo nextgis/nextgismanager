@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2009-2011 Dmitry Baryshnikov
+*   Copyright (C) NextGIS, info@nextgis.com
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -18,9 +19,203 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-/*
+
 #include "wxgis/geoprocessingui/gptooldlg.h"
-#include "wxgis/core/globalfn.h"
+
+#include <wx/statline.h>
+
+//---------------------------------------------------------------------------
+// wxGISBarnaulDataLoaderDlg
+//---------------------------------------------------------------------------
+
+BEGIN_EVENT_TABLE(wxGISToolGenericDlg, wxDialog)
+    EVT_UPDATE_UI(wxID_OK, wxGISToolGenericDlg::OnOKUI)
+    EVT_BUTTON(wxID_OK, wxGISToolGenericDlg::OnOk)
+    EVT_GPPARAM_CHANGED(wxGISToolGenericDlg::OnParamChanged)
+END_EVENT_TABLE()
+
+wxGISToolGenericDlg::wxGISToolGenericDlg(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxDialog(parent, id, title, pos, size, style)
+{    
+}
+
+wxGISToolGenericDlg::~wxGISToolGenericDlg()
+{
+    SerializeFramePos(true);
+
+    for (size_t i = 0; i < m_paControls.size(); ++i)
+    {
+        if (m_paControls[i])
+            m_paControls[i]->OnDelete();
+    }
+    //wsDELETE(m_pDS);
+    for (size_t i = 0; i < m_Parameters.size(); ++i)
+    {
+        wxDELETE(m_Parameters[i]);
+    }
+}
+
+void wxGISToolGenericDlg::CreateControls()
+{
+    m_bMainSizer = new wxBoxSizer(wxVERTICAL);    
+
+    for (size_t i = 0; i < m_Parameters.GetCount(); ++i)
+    {
+        wxGISGPParameter* pParam = m_Parameters[i];
+        wxGISDTBase* pParamControl = NULL;
+        switch (pParam->GetDataType())
+        {
+        case enumGISGPParamDTBool:
+            pParamControl = new wxGISDTBool(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTInteger:
+        case enumGISGPParamDTDouble:
+            pParamControl = new wxGISDTDigit(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTText:
+            pParamControl = new wxGISDTText(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTStringChoice:
+        case enumGISGPParamDTIntegerChoice:
+        case enumGISGPParamDTDoubleChoice:
+        case enumGISGPParamDTStringChoiceEditable:
+            pParamControl = new wxGISDTChoice(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTFieldAnyChoice:
+        case enumGISGPParamDTFieldStringChoice:
+        case enumGISGPParamDTFieldIntegerChoice:
+        case enumGISGPParamDTFieldRealChoice:
+        case enumGISGPParamDTFieldDateChoice:
+        case enumGISGPParamDTFieldTimeChoice:
+        case enumGISGPParamDTFieldDateTimeChoice:
+        case enumGISGPParamDTFieldBinaryChoice:
+            pParamControl = new wxGISDTFieldChoice(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTStringList:
+        case enumGISGPParamDTIntegerList:
+        case enumGISGPParamDTDoubleList:
+            //todo: release this           
+            break;
+        case enumGISGPParamDTSpatRef:
+            pParamControl = new wxGISDTSpatRef(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTQuery:
+            break;
+        case enumGISGPParamDTPath:
+            pParamControl = new wxGISDTPath(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTFolderPath:
+            pParamControl = new wxGISDTFolderPath(m_Parameters, i, this);
+            break;
+        case enumGISGPParamDTPathArray:
+        case enumGISGPParamDTParamArray:
+        case enumGISGPParamDTRadiobutton:
+        case enumGISGPParamDTUnknown:
+        case enumGISGPParamMax:
+        default:
+            break;
+        }
+
+        if (NULL != pParamControl)
+        {
+            m_bMainSizer->Add(pParamControl, 0, wxEXPAND, 5);
+            m_paControls.push_back(pParamControl);
+        }
+    }
+
+    //
+    wxStaticLine *pStatLine = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
+    m_bMainSizer->Add(pStatLine, 0, wxEXPAND | wxALL, 5);
+
+    m_sdbSizer = new wxStdDialogButtonSizer();
+    wxButton *sdbSizerOK = new wxButton(this, wxID_OK);
+    m_sdbSizer->AddButton(sdbSizerOK);
+    sdbSizerOK->Disable();
+    wxButton *sdbSizerCancel = new wxButton(this, wxID_CANCEL, _("Cancel"));
+    m_sdbSizer->AddButton(sdbSizerCancel);
+    m_sdbSizer->Realize();
+    m_bMainSizer->Add(m_sdbSizer, 0, wxALIGN_CENTER_HORIZONTAL | wxEXPAND | wxALL, 5);
+
+    this->SetSizerAndFit(m_bMainSizer);
+    this->Layout();
+
+    this->Centre(wxBOTH);
+}
+
+void wxGISToolGenericDlg::OnOKUI(wxUpdateUIEvent & event)
+{
+    event.Enable(IsValid());
+}
+
+void wxGISToolGenericDlg::OnParamChanged(wxGISGPParamEvent& event)
+{
+}
+
+
+
+bool wxGISToolGenericDlg::IsValid(void)
+{
+    for (size_t i = 0; i < m_Parameters.GetCount(); ++i)
+    if (!m_Parameters[i]->IsValid())
+        return false;
+    //addition checks
+    //check fields of input file
+    return true;
+}
+
+void wxGISToolGenericDlg::OnOk(wxCommandEvent & event)
+{
+}
+
+
+void wxGISToolGenericDlg::SerializeFramePos(bool bSave)
+{
+    wxGISAppConfig oConfig = GetConfig();
+    if (!oConfig.IsOk())
+        return;
+
+    wxString sAppName = GetApplication()->GetAppName();
+    int x = 0, y = 0, w = 400, h = 300;
+
+    if (bSave)
+    {
+        GetPosition(&x, &y);
+        GetClientSize(&w, &h);
+        if (IsMaximized())
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/maxi")), true);
+        else
+        {
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/maxi")), false);
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/width")), w);
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/height")), h);
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/xpos")), x);
+            oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/ypos")), y);
+        }
+        oConfig.Write(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/first_run")), false);
+    }
+    else
+    {
+        if (oConfig.ReadBool(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/first_run")), true))
+            return;
+
+        //load
+        bool bMaxi = oConfig.ReadBool(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/maxi")), false);
+        if (!bMaxi)
+        {
+            x = oConfig.ReadInt(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/xpos")), x);
+            y = oConfig.ReadInt(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/ypos")), y);
+            w = oConfig.ReadInt(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/width")), w);
+            h = oConfig.ReadInt(enumGISHKCU, sAppName + wxString(wxT("/")) + GetDialogSettingsName() + wxString(wxT("/frame/height")), h);
+            Move(x, y);
+            SetClientSize(w, h);
+        }
+        else
+        {
+            Maximize();
+        }
+    }
+}
+
+/*#include "wxgis/core/globalfn.h"
 
 #include "../../art/tool_16.xpm"
 

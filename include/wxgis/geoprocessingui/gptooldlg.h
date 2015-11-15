@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2009-2011 Dmitry Baryshnikov
+*   Copyright (C) NextGIS, info@nextgis.com
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -19,10 +20,52 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #pragma once
-/*
-#include "wxgis/geoprocessing/geoprocessing.h"
+
 #include "wxgis/geoprocessingui/geoprocessingui.h"
 #include "wxgis/geoprocessingui/gpcontrols.h"
+
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/combobox.h>
+#include <wx/textctrl.h>
+#include <wx/sizer.h>
+#include <wx/button.h>
+#include <wx/dialog.h>
+
+class WXDLLIMPEXP_GIS_GPU wxGISToolGenericDlg : public wxDialog
+{
+public:
+    wxGISToolGenericDlg(wxWindow* parent, wxWindowID id = wxID_ANY,
+        const wxString& title = wxEmptyString,
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = wxCAPTION | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN);
+    ~wxGISToolGenericDlg();
+    bool IsValid(void);
+    //events
+    void OnOKUI(wxUpdateUIEvent & event);
+    void OnOk(wxCommandEvent & event);
+    void OnParamChanged(wxGISGPParamEvent& event);
+protected:
+    void CreateControls();
+    void SerializeFramePos(bool bSave);
+    virtual wxString GetDialogSettingsName() const = 0;
+protected:
+    wxStdDialogButtonSizer* m_sdbSizer;
+    wxBoxSizer* m_bMainSizer;
+    wxButton* m_sdbSizerCancel;
+    wxVector<wxGISDTBase*> m_paControls;
+    wxGISGPParameterArray m_Parameters;    
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+/*
+#include "wxgis/geoprocessing/geoprocessing.h"
 #include "wxgis/geoprocessingui/gptoolbox.h"
 
 #include <wx/intl.h>
