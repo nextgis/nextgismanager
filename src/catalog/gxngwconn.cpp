@@ -574,7 +574,7 @@ bool wxGxNGWResource::RenameResource(const wxString &sNewName)
 		
 	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
-    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+    PERFORMRESULT res = curl.Put(sURL, sPayload);
 	
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
@@ -609,7 +609,7 @@ bool wxGxNGWResource::UpdateResource(const wxString &sNewName, const wxString &s
 		
 	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
-    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+    PERFORMRESULT res = curl.Put(sURL, sPayload);
 	
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
@@ -644,7 +644,7 @@ bool wxGxNGWResource::UpdateResourceDescritpion(const wxString &sNewDescription)
 		
 	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
-    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+    PERFORMRESULT res = curl.Put(sURL, sPayload);
 	
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
@@ -686,7 +686,7 @@ bool wxGxNGWResource::UpdateResourceMetadata(const wxJSONValue &oNewMetadata)
 		
 	//wxString sPayload = teat;//wxString::Format(wxT("{\"resource\":{\"display_name\":\"%s\"}}"), sNewName.ToUTF8());
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
-    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+    PERFORMRESULT res = curl.Put(sURL, sPayload);
 	
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	
@@ -744,7 +744,7 @@ bool wxGxNGWResource::MoveResource(int nResourceId)
 	
 	//wxString sPayload = wxString::Format(wxT("{\"resource\":{\"parent\":{\"id\":\"%d\"}}}"), nResourceId);
     wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/%d"), GetParentResourceId(), m_nRemoteId);
-    PERFORMRESULT res = curl.PutData(sURL, sPayload);
+    PERFORMRESULT res = curl.Put(sURL, sPayload);
 	
 	bool bResult = res.IsValid && res.nHTTPCode < 400;
 	

@@ -40,8 +40,6 @@ wxGISToolGenericDlg::wxGISToolGenericDlg(wxWindow* parent, wxWindowID id, const 
 
 wxGISToolGenericDlg::~wxGISToolGenericDlg()
 {
-    SerializeFramePos(true);
-
     for (size_t i = 0; i < m_paControls.size(); ++i)
     {
         if (m_paControls[i])

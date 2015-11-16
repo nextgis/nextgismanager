@@ -370,6 +370,7 @@ public:
     OGRwkbGeometryType GetType() const;
     wxGISGeometry Clone() const;
 	bool IsValid() const;
+    wxString ToWKT() const;
 protected:
     virtual wxObjectRefData *CreateRefData() const;
     virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;

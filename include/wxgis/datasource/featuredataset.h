@@ -128,7 +128,12 @@ public:
     wxGISNGWFeatureDataset(long nResourceId, const wxJSONValue &Data, const wxString &sURL, const wxString &sLogin, const wxString &sPassword);
     virtual ~wxGISNGWFeatureDataset(void);
     virtual void Cache(ITrackCancel* const pTrackCancel = NULL);
-    virtual OGRErr DeleteAll();
+    virtual OGRErr DeleteAll(); 
+    virtual OGRErr DeleteFeature(long nFID);
+    virtual OGRErr StoreFeature(wxGISFeature &Feature);
+    virtual OGRErr SetFeature(const wxGISFeature &Feature);
+protected:
+    wxString FeatureToPayload(const wxGISFeature &Feature);
 protected:
     wxString m_sAuth;
     long m_nResourceId;

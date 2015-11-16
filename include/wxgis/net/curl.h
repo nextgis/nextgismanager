@@ -68,7 +68,7 @@ public:
     virtual bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
     virtual PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);
 	virtual PERFORMRESULT Delete(const wxString & sURL);
-	virtual PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
+	virtual PERFORMRESULT Put(const wxString & sURL, const wxString& sPostData);
     virtual PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
 	virtual PERFORMRESULT UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel = NULL);
 protected:
@@ -102,7 +102,7 @@ public:
     bool GetFile(const wxString & sURL, const wxString & sPath, ITrackCancel* const pTrackCancel = NULL);
     PERFORMRESULT Post(const wxString & sURL, const wxString & sPostData, ITrackCancel* const pTrackCancel = NULL);
 	PERFORMRESULT Delete(const wxString & sURL);
-	PERFORMRESULT PutData(const wxString & sURL, const wxString& sPostData);
+	PERFORMRESULT Put(const wxString & sURL, const wxString& sPostData);
     PERFORMRESULT UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel = NULL);
 	PERFORMRESULT UploadFiles(const wxString & sURL, const wxArrayString& asFilePaths, ITrackCancel* const pTrackCancel = NULL);
 protected:

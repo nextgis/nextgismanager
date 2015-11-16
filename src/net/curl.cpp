@@ -193,9 +193,9 @@ PERFORMRESULT wxGISCurl::Delete(const wxString & sURL)
     return ((wxGISCurlRefData *)m_refData)->Delete(sURL);
 }
 
-PERFORMRESULT wxGISCurl::PutData(const wxString & sURL, const wxString& sPostData)
+PERFORMRESULT wxGISCurl::Put(const wxString & sURL, const wxString& sPostData)
 {
-    return ((wxGISCurlRefData *)m_refData)->PutData(sURL, sPostData);
+    return ((wxGISCurlRefData *)m_refData)->Put(sURL, sPostData);
 }
 
 PERFORMRESULT wxGISCurl::UploadFile(const wxString & sURL, const wxString& sFilePath, ITrackCancel* const pTrackCancel)
@@ -607,7 +607,7 @@ PERFORMRESULT wxGISCurlRefData::Delete(const wxString & sURL)
 	return result;
 }
 
-PERFORMRESULT wxGISCurlRefData::PutData(const wxString & sURL, const wxString& sPostData)
+PERFORMRESULT wxGISCurlRefData::Put(const wxString & sURL, const wxString& sPostData)
 {
     wxCriticalSectionLocker lock(m_CritSect);
     PERFORMRESULT result;

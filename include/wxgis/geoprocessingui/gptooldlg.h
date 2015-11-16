@@ -44,15 +44,15 @@ public:
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long style = wxCAPTION | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN);
-    ~wxGISToolGenericDlg();
-    bool IsValid(void);
+    virtual ~wxGISToolGenericDlg();
+    virtual bool IsValid(void);
     //events
-    void OnOKUI(wxUpdateUIEvent & event);
-    void OnOk(wxCommandEvent & event);
-    void OnParamChanged(wxGISGPParamEvent& event);
+    virtual void OnOKUI(wxUpdateUIEvent & event);
+    virtual void OnOk(wxCommandEvent & event);
+    virtual void OnParamChanged(wxGISGPParamEvent& event);
 protected:
-    void CreateControls();
-    void SerializeFramePos(bool bSave);
+    virtual void CreateControls();
+    virtual void SerializeFramePos(bool bSave);
     virtual wxString GetDialogSettingsName() const = 0;
 protected:
     wxStdDialogButtonSizer* m_sdbSizer;

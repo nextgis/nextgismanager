@@ -21,6 +21,7 @@
 #include "wxgis/datasource/featuredataset.h"
 #include "wxgis/datasource/sysop.h"
 #include "wxgis/core/json/jsonreader.h"
+#include "wxgis/core/json/jsonwriter.h"
 
 #ifdef wxGIS_USE_CURL
 
@@ -866,25 +867,25 @@ wxGISNGWFeatureDataset::wxGISNGWFeatureDataset(long nResourceId, const wxJSONVal
         m_poDS = poMEMDrv->CreateOGRCompatibleDataSource("DS", NULL);
         wxJSONValue JSONVectorLayer = Data["vector_layer"];
         wxString sGeomType = JSONVectorLayer["geometry_type"].AsString();
-        OGRwkbGeometryType eGeomType = wkbUnknown;
+        m_eGeomType = wkbUnknown;
         if (sGeomType.IsSameAs(wxT("POINT"), false))
         {
-            eGeomType = wkbMultiPoint;
+            m_eGeomType = wkbMultiPoint;
         }
         else if (sGeomType.IsSameAs(wxT("LINESTRING"), false))
         {
-            eGeomType = wkbMultiLineString;
+            m_eGeomType = wkbMultiLineString;
         }
         else if (sGeomType.IsSameAs(wxT("POLYGON"), false))
         {
-            eGeomType = wkbMultiPolygon;
+            m_eGeomType = wkbMultiPolygon;
         }
 
         int nEPSGCode = JSONVectorLayer["srs"]["id"].AsInt();
         OGRSpatialReference spaRef;
         spaRef.importFromEPSG(nEPSGCode);
 
-        m_poLayer = m_poDS->CreateLayer("layer", &spaRef, eGeomType, NULL);
+        m_poLayer = m_poDS->CreateLayer("layer", &spaRef, m_eGeomType, NULL);
 
         wxJSONValue JSONFeatureLayer = Data["feature_layer"];
         wxJSONValue oaFields = JSONFeatureLayer["fields"];
@@ -1087,8 +1088,181 @@ void wxGISNGWFeatureDataset::Cache(ITrackCancel* const pTrackCancel)
 
 OGRErr wxGISNGWFeatureDataset::DeleteAll()
 {
-    
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxString sPayload = wxT("Basic ") + wxBase64Encode(m_sAuth.c_str(), m_sAuth.Len());
+    curl.AppendHeader(wxT("Authorization:") + sPayload);
+
+    PERFORMRESULT res = curl.Delete(m_sURL + wxString::Format(wxT("/api/resource/%ld/feature/"), m_nResourceId));
+
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (!bResult)
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxGISFeature feature;
+    while ((feature = Next()).IsOk())
+    {
+        wxGISFeatureDataset::DeleteFeature(feature.GetFID());
+    }
+
     return OGRERR_NONE;
+}
+
+OGRErr wxGISNGWFeatureDataset::DeleteFeature(long nFID)
+{
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxString sPayload = wxT("Basic ") + wxBase64Encode(m_sAuth.c_str(), m_sAuth.Len());
+    curl.AppendHeader(wxT("Authorization:") + sPayload);
+
+    PERFORMRESULT res = curl.Delete(m_sURL + wxString::Format(wxT("/api/resource/%ld/feature/%ld"), m_nResourceId, nFID));
+
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (!bResult)
+    {
+        return OGRERR_FAILURE;
+    }
+
+    return wxGISFeatureDataset::DeleteFeature(nFID);
+}
+
+OGRErr wxGISNGWFeatureDataset::StoreFeature(wxGISFeature &Feature)
+{
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxString sPayload = wxT("Basic ") + wxBase64Encode(m_sAuth.c_str(), m_sAuth.Len());
+    curl.AppendHeader(wxT("Authorization:") + sPayload);
+
+    PERFORMRESULT res = curl.Post(m_sURL + wxString::Format(wxT("/api/resource/%ld/feature/"), m_nResourceId), FeatureToPayload(Feature));
+
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (!bResult)
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxJSONReader reader;
+    wxJSONValue response;
+    int numErrors = reader.Parse(res.sBody, &response);
+    if (numErrors != 0)
+    {
+        return OGRERR_FAILURE;
+    }
+
+    Feature.SetFID(response["id"].AsLong());
+
+    return wxGISFeatureDataset::StoreFeature(Feature);
+}
+
+OGRErr wxGISNGWFeatureDataset::SetFeature(const wxGISFeature &Feature)
+{
+    wxGISCurl curl;
+    if (!curl.IsOk())
+    {
+        return OGRERR_FAILURE;
+    }
+
+    wxString sPayload = wxT("Basic ") + wxBase64Encode(m_sAuth.c_str(), m_sAuth.Len());
+    curl.AppendHeader(wxT("Authorization:") + sPayload);
+
+    PERFORMRESULT res = curl.Put(m_sURL + wxString::Format(wxT("/api/resource/%ld/feature/%ld"), m_nResourceId, Feature.GetFID()), FeatureToPayload(Feature));
+
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (!bResult)
+    {
+        return OGRERR_FAILURE;
+    }
+
+    return wxGISFeatureDataset::SetFeature(Feature);
+}
+
+wxString wxGISNGWFeatureDataset::FeatureToPayload(const wxGISFeature &Feature)
+{
+    wxString sGeom = Feature.GetGeometry().ToWKT();
+    wxJSONValue val;
+    val["geom"] = sGeom;
+
+    wxJSONValue fields;
+    OGRFeatureDefn* pDefn = GetDefinition();
+
+    for (int j = 0; j < pDefn->GetFieldCount(); ++j)
+    {
+        OGRFieldDefn *pFieldDefn = pDefn->GetFieldDefn(j);
+        wxString sKey = wxString::FromUTF8(pFieldDefn->GetNameRef());
+        switch (pFieldDefn->GetType())
+        {
+            case OFTInteger:
+                fields[sKey] = Feature.GetFieldAsInteger(j);
+                break;
+            case OFTReal:
+                fields[sKey] = Feature.GetFieldAsDouble(j); 
+                break;
+            case OFTString:
+                fields[sKey] = Feature.GetFieldAsString(j);
+                break;
+            case OFTDate:
+                {
+                    wxJSONValue date;
+                    wxDateTime dt = Feature.GetFieldAsDateTime(j);
+                    date["year"] = dt.GetYear();
+                    date["month"] = dt.GetMonth() + 1;
+                    date["day"] = dt.GetDay();
+                    fields[sKey] = date;
+                }
+                break;
+            case OFTTime:
+                {
+                    wxJSONValue date;
+                    wxDateTime dt = Feature.GetFieldAsDateTime(j);
+                    date["hour"] = dt.GetHour();
+                    date["minute"] = dt.GetMinute();
+                    date["second"] = dt.GetSecond();
+                    fields[sKey] = date;
+                }
+                break;
+            case OFTDateTime:
+                {
+                    wxJSONValue date;
+                    wxDateTime dt = Feature.GetFieldAsDateTime(j);
+                    date["year"] = dt.GetYear();
+                    date["month"] = dt.GetMonth() + 1;
+                    date["day"] = dt.GetDay();
+                    date["hour"] = dt.GetHour();
+                    date["minute"] = dt.GetMinute();
+                    date["second"] = dt.GetSecond();
+                    fields[sKey] = date;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    val["fields"] = fields;
+
+    wxString sPayload;
+    wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+    writer.Write(val, sPayload);
+
+    return sPayload;
 }
 
 #endif // wxGIS_USE_CURL

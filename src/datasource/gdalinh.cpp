@@ -790,6 +790,17 @@ bool wxGISGeometry::IsValid() const
     return ((wxGISGeometryRefData *)m_refData)->m_poGeom->IsValid() == TRUE;
 }
 
+wxString wxGISGeometry::ToWKT() const
+{
+    wxCHECK_MSG(m_refData && ((wxGISGeometryRefData *)m_refData)->m_poGeom, wxEmptyString, wxT("OGRGeometry pointer is null"));
+    char *pszWKT = NULL;
+    ((wxGISGeometryRefData *)m_refData)->m_poGeom->exportToWkt(&pszWKT);
+    wxString sResult(pszWKT);
+    CPLFree(pszWKT);
+
+    return sResult;
+}
+
 bool wxGISGeometry::operator == ( const wxGISGeometry& obj ) const
 {
     if (m_refData == obj.m_refData)
