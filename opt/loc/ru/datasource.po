@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-13 03:36+0300\n"
-"PO-Revision-Date: 2015-11-13 03:36+0300\n"
+"POT-Creation-Date: 2015-11-16 05:06+0300\n"
+"PO-Revision-Date: 2015-11-16 05:06+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -47,7 +47,7 @@ msgstr "Нет файлов для перемещения"
 msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
-#: ../../../src/datasource/featuredataset.cpp:583
+#: ../../../src/datasource/featuredataset.cpp:593
 #: ../../../src/datasource/table.cpp:881
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "

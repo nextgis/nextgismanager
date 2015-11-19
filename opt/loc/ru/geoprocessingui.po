@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-13 03:36+0300\n"
-"PO-Revision-Date: 2015-11-13 03:36+0300\n"
+"POT-Creation-Date: 2015-11-16 05:06+0300\n"
+"PO-Revision-Date: 2015-11-16 05:06+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -150,6 +150,10 @@ msgstr "Набор инструментов"
 msgid "Toolboxes"
 msgstr "Наборы инструментов"
 
+#: ../../../src/geoprocessingui/gptooldlg.cpp:131
+msgid "Cancel"
+msgstr "Отмена"
+
 #: ../../../src/geoprocessingui/gxtoolexecview.cpp:92
 #: ../../../src/geoprocessingui/gxtoolexecview.cpp:102
 msgid "Tool Execute View"
@@ -263,9 +267,6 @@ msgstr "Показать диалог исполнения инструмент�
 
 #~ msgid "Expand"
 #~ msgstr "Раскрыть"
-
-#~ msgid "Cancel"
-#~ msgstr "Отмена"
 
 #~ msgid "You mast stop task before closing dialog!"
 #~ msgstr "Вы должны остановить задачу перед закрытием диалога!"
