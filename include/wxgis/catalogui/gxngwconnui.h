@@ -29,7 +29,7 @@
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
 #include "wxgis/geoprocessing/gpvector.h"
-#endif 	//wxGIS_HAVE_GEOPROCESSING
+#endif // wxGIS_HAVE_GEOPROCESSING
 
 #ifdef wxGIS_USE_CURL
 
@@ -40,39 +40,55 @@
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI :
-    public wxGxNGWService,
-	public IGxObjectUI,
-    public IGxObjectEditUI,
-    public IGxObjectWizard
+class WXDLLIMPEXP_GIS_CLU wxGxNGWServiceUI : public wxGxNGWService,
+                                             public IGxObjectUI,
+                                             public IGxObjectEditUI,
+                                             public IGxObjectWizard
 {
     DECLARE_CLASS(wxGxNGWServiceUI)
 public:
-    wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon, const wxIcon &icLargeIconDsbl = wxNullIcon, const wxIcon &icSmallIconDsbl = wxNullIcon, const wxIcon &icLargeIconGuest = wxNullIcon, const wxIcon &icSmallIconGuest = wxNullIcon);
+    wxGxNGWServiceUI(wxGxObject* oParent,
+                     const wxString& soName = wxEmptyString,
+                     const CPLString& soPath = "",
+                     const wxIcon& icLargeIcon = wxNullIcon,
+                     const wxIcon& icSmallIcon = wxNullIcon,
+                     const wxIcon& icLargeIconDsbl = wxNullIcon,
+                     const wxIcon& icSmallIconDsbl = wxNullIcon,
+                     const wxIcon& icLargeIconGuest = wxNullIcon,
+                     const wxIcon& icSmallIconGuest = wxNullIcon);
     virtual ~wxGxNGWServiceUI(void);
-	//IGxObjectUI
-	virtual wxIcon GetLargeImage(void);
-	virtual wxIcon GetSmallImage(void);
-	virtual wxString ContextMenu(void) const {return wxString(wxT("wxGxNGWService.ContextMenu"));};
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWService.NewtMenu")); };
-	//IGxObjectEditUI
-	virtual void EditProperties(wxWindow *parent);
-    //IGxObjectWizard
+    // IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWService.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWService.NewtMenu"));
+    };
+    // IGxObjectEditUI
+    virtual void EditProperties(wxWindow* parent);
+    // IGxObjectWizard
     virtual bool Invoke(wxWindow* pParentWnd);
+
 protected:
     virtual void LoadChildren(void);
+
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
     wxIcon m_icLargeIconDsbl, m_icSmallIconDsbl;
     wxIcon m_icLargeIconGuest, m_icSmallIconGuest;
 };
 
-typedef struct _iconset{
-	wxIcon icSmallIcon;
-	wxIcon icLargeIcon;
+typedef struct _iconset
+{
+    wxIcon icSmallIcon;
+    wxIcon icLargeIcon;
 } ICONSET;
 
-WX_DECLARE_STRING_HASH_MAP( ICONSET, wxIconSetMap );
+WX_DECLARE_STRING_HASH_MAP(ICONSET, wxIconSetMap);
 
 /** @class wxGxNGWResourceGroupUI
 
@@ -81,52 +97,84 @@ WX_DECLARE_STRING_HASH_MAP( ICONSET, wxIconSetMap );
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI :
-    public wxGxNGWResourceGroup,
-    public IGxObjectUI,
-	public wxGxAutoRenamer,
-    public IGxDropTarget,
-    public IGxObjectEditUI
+class WXDLLIMPEXP_GIS_CLU wxGxNGWResourceGroupUI : public wxGxNGWResourceGroup,
+                                                   public IGxObjectUI,
+                                                   public wxGxAutoRenamer,
+                                                   public IGxDropTarget,
+                                                   public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWResourceGroupUI)
 public:
-    wxGxNGWResourceGroupUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWResourceGroupUI(wxGxNGWService* pService,
+                           const wxJSONValue& Data,
+                           wxGxObject* oParent,
+                           const wxString& soName = wxEmptyString,
+                           const CPLString& soPath = "",
+                           const wxIcon& icLargeIcon = wxNullIcon,
+                           const wxIcon& icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWResourceGroupUI(void);
-	//IGxObjectUI
-	virtual wxIcon GetLargeImage(void);
-	virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
-    //IGxDropTarget
+    // IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWResourceGroup.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWResourceGroup.NewMenu"));
+    };
+    // IGxDropTarget
     virtual bool Drop(const wxArrayString& saGxObjectPaths, bool bMove);
-	//IGxObjectEditUI	
-	virtual wxArrayString GetPropertyPages() const;
-	virtual bool HasPropertyPages(void) const;
-	virtual bool CanImport();
-	virtual bool Import(wxWindow* pWnd);
-	//
-	virtual bool CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString& sStyle = wxEmptyString, bool bSkipInvalidGeometry = true, ITrackCancel* const pTrackCancel = NULL);
-    virtual bool CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel);
-	
+    // IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
+    virtual bool CanImport();
+    virtual bool Import(wxWindow* pWnd);
+    //
+    virtual bool CreateVectorLayer(const wxString& sName,
+                                   wxGISDataset* const pInputDataset,
+                                   OGRwkbGeometryType eFilterGeomType,
+                                   const wxString& sStyle = wxEmptyString,
+                                   bool bSkipInvalidGeometry = true,
+                                   ITrackCancel* const pTrackCancel = NULL);
+    virtual bool CreateRasterLayer(const wxString& sName,
+                                   wxGISDataset* const pInputDataset,
+                                   unsigned char R,
+                                   unsigned char G,
+                                   unsigned char B,
+                                   unsigned char A,
+                                   bool bAutoCrop,
+                                   ITrackCancel* const pTrackCancel);
+
 protected:
-    virtual wxGxObject* AddResource(const wxJSONValue &Data);
+    virtual wxGxObject* AddResource(const wxJSONValue& Data);
 #ifdef wxGIS_HAVE_GEOPROCESSING
-    virtual CPLString PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel = NULL);
-    virtual CPLString PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel = NULL);
+    virtual CPLString PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset,
+                                             OGRFeatureDefn* const pNewDef,
+                                             const wxGISSpatialReference& spaRef,
+                                             const wxVector<ST_FIELD_MAP>& staFieldMap,
+                                             bool bSkipInvalidGeometry,
+                                             ITrackCancel* const pTrackCancel = NULL);
+    virtual CPLString PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset,
+                                           OGRFeatureDefn* const pNewDef,
+                                           const wxGISSpatialReference& spaRef,
+                                           const wxVector<ST_FIELD_MAP>& staFieldMap,
+                                           bool bSkipInvalidGeometry,
+                                           ITrackCancel* const pTrackCancel = NULL);
 #endif
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
-	wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;
-	wxIcon m_icPGLayerLargeIcon, m_icPGLayerSmallIcon;
-	wxIcon m_icPGConnLargeIcon, m_icPGConnSmallIcon;
-	wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
-	wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
-	wxIcon m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon;
-	wxIconSetMap m_stmIconSet;
-	
-    //wxIcon m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon;
-};
+    wxIcon m_icFolderLargeIcon, m_icFolderSmallIcon;
+    wxIcon m_icPGLayerLargeIcon, m_icPGLayerSmallIcon;
+    wxIcon m_icPGConnLargeIcon, m_icPGConnSmallIcon;
+    wxIcon m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon;
+    wxIcon m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon;
+    wxIcon m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon;
+    wxIconSetMap m_stmIconSet;
 
+    // wxIcon m_icNGWPackageLargeIcon, m_icNGWPackageSmallIcon;
+};
 
 /** @class wxGxNGWRootResourceUI
 
@@ -135,18 +183,28 @@ protected:
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWRootResourceUI :
-    public wxGxNGWResourceGroupUI
+class WXDLLIMPEXP_GIS_CLU wxGxNGWRootResourceUI : public wxGxNGWResourceGroupUI
 {
     DECLARE_CLASS(wxGxNGWRootResourceUI)
 public:
-    wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWRootResourceUI(wxGxNGWService* pService,
+                          wxGxObject* oParent,
+                          const wxString& soName = wxEmptyString,
+                          const CPLString& soPath = "",
+                          const wxIcon& icLargeIcon = wxNullIcon,
+                          const wxIcon& icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWRootResourceUI(void);
-    //IGxObjectUI
+    // IGxObjectUI
     virtual wxIcon GetLargeImage(void);
     virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxString(wxT("wxGxNGWResourceGroup.NewMenu")); };
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWResourceGroup.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWResourceGroup.NewMenu"));
+    };
 };
 
 /** @class wxGxNGWLayerUI
@@ -156,27 +214,39 @@ public:
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI :
-    public wxGxNGWLayer,
-    public IGxObjectUI,
-    public IGxObjectEditUI
+class WXDLLIMPEXP_GIS_CLU wxGxNGWLayerUI : public wxGxNGWLayer, public IGxObjectUI, public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWLayerUI)
 public:
-    wxGxNGWLayerUI(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWLayerUI(wxGxNGWService* pService,
+                   wxGISEnumNGWResourcesType eType,
+                   const wxJSONValue& Data,
+                   wxGxObject* oParent,
+                   const wxString& soName = wxEmptyString,
+                   const CPLString& soPath = "",
+                   const wxIcon& icLargeIcon = wxNullIcon,
+                   const wxIcon& icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWLayerUI(void);
-	//IGxObjectUI
-	virtual wxIcon GetLargeImage(void);
-	virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWLayer.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxEmptyString; };
-	//IGxObjectEditUI	
-	virtual wxArrayString GetPropertyPages() const;
-	virtual bool HasPropertyPages(void) const;
+    // IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWLayer.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxEmptyString;
+    };
+    // IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
+    virtual bool CanUpdate();
+    virtual bool Update(wxWindow* parent);
+
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
-
 
 /** @class wxGxNGWRasterUI
 
@@ -185,23 +255,33 @@ protected:
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWRasterUI :
-    public wxGxNGWRaster,
-    public IGxObjectUI,
-    public IGxObjectEditUI
+class WXDLLIMPEXP_GIS_CLU wxGxNGWRasterUI : public wxGxNGWRaster, public IGxObjectUI, public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWRasterUI)
 public:
-    wxGxNGWRasterUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWRasterUI(wxGxNGWService* pService,
+                    const wxJSONValue& Data,
+                    wxGxObject* oParent,
+                    const wxString& soName = wxEmptyString,
+                    const CPLString& soPath = "",
+                    const wxIcon& icLargeIcon = wxNullIcon,
+                    const wxIcon& icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWRasterUI(void);
-	//IGxObjectUI
-	virtual wxIcon GetLargeImage(void);
-	virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWRaster.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxEmptyString; };
-	//IGxObjectEditUI	
-	virtual wxArrayString GetPropertyPages() const;
-	virtual bool HasPropertyPages(void) const;
+    // IGxObjectUI
+    virtual wxIcon GetLargeImage(void);
+    virtual wxIcon GetSmallImage(void);
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWRaster.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxEmptyString;
+    };
+    // IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
+
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
@@ -213,36 +293,44 @@ protected:
     @library{catalogui}
 */
 #ifdef wxGIS_USE_POSTGRES
-class WXDLLIMPEXP_GIS_CLU wxGxNGWPostGISConnectionUI :
-    public wxGxRemoteConnectionUI,
-    public wxGxNGWResource
+class WXDLLIMPEXP_GIS_CLU wxGxNGWPostGISConnectionUI : public wxGxRemoteConnectionUI, public wxGxNGWResource
 {
     DECLARE_CLASS(wxGxNGWPostGISConnectionUI)
 public:
-    wxGxNGWPostGISConnectionUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &LargeIconConn = wxNullIcon, const wxIcon &SmallIconConn = wxNullIcon, const wxIcon &LargeIconDisconn = wxNullIcon, const wxIcon &SmallIconDisconn = wxNullIcon);
+    wxGxNGWPostGISConnectionUI(wxGxNGWService* pService,
+                               const wxJSONValue& Data,
+                               wxGxObject* oParent,
+                               const wxString& soName = wxEmptyString,
+                               const CPLString& soPath = "",
+                               const wxIcon& LargeIconConn = wxNullIcon,
+                               const wxIcon& SmallIconConn = wxNullIcon,
+                               const wxIcon& LargeIconDisconn = wxNullIcon,
+                               const wxIcon& SmallIconDisconn = wxNullIcon);
     virtual ~wxGxNGWPostGISConnectionUI(void);
-    //wxGxObject
-    virtual wxString GetCategory(void) const;    
-	//IGxObjectEdit
-	virtual bool Delete(void);
+    // wxGxObject
+    virtual wxString GetCategory(void) const;
+    // IGxObjectEdit
+    virtual bool Delete(void);
     virtual bool CanDelete(void);
-	virtual bool Rename(const wxString& NewName);
+    virtual bool Rename(const wxString& NewName);
     virtual bool CanRename(void);
-    virtual bool Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-    virtual bool CanCopy(const CPLString &szDestPath);
-    virtual bool Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel);
-    virtual bool CanMove(const CPLString &szDestPath);
-	//IGxObjectEditUI	
-	virtual wxArrayString GetPropertyPages() const;
-	virtual bool HasPropertyPages(void) const;
+    virtual bool Copy(const CPLString& szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanCopy(const CPLString& szDestPath);
+    virtual bool Move(const CPLString& szDestPath, ITrackCancel* const pTrackCancel);
+    virtual bool CanMove(const CPLString& szDestPath);
+    // IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
+
 protected:
-    //create wxGISDataset without openning it
+    // create wxGISDataset without openning it
     virtual wxGISDataset* const GetDatasetFast(void);
-	virtual int GetParentResourceId() const;
+    virtual int GetParentResourceId() const;
+
 protected:
-	wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
+    wxString m_sUser, m_sPass, m_sDatabase, m_sHost;
 };
-#endif //wxGIS_USE_POSTGRES
+#endif // wxGIS_USE_POSTGRES
 
 /** @class wxGxNGWFileSetUI
 
@@ -251,26 +339,35 @@ protected:
     @library{catalogui}
 */
 
-class WXDLLIMPEXP_GIS_CLU wxGxNGWFileSetUI :
-    public wxGxNGWFileSet,
-    public IGxObjectUI,
-    public IGxObjectEditUI
+class WXDLLIMPEXP_GIS_CLU wxGxNGWFileSetUI : public wxGxNGWFileSet, public IGxObjectUI, public IGxObjectEditUI
 {
     DECLARE_CLASS(wxGxNGWFileSetUI)
 public:
-    wxGxNGWFileSetUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName = wxEmptyString, const CPLString &soPath = "", const wxIcon &icLargeIcon = wxNullIcon, const wxIcon &icSmallIcon = wxNullIcon);
+    wxGxNGWFileSetUI(wxGxNGWService* pService,
+                     const wxJSONValue& Data,
+                     wxGxObject* oParent,
+                     const wxString& soName = wxEmptyString,
+                     const CPLString& soPath = "",
+                     const wxIcon& icLargeIcon = wxNullIcon,
+                     const wxIcon& icSmallIcon = wxNullIcon);
     virtual ~wxGxNGWFileSetUI(void);
-    //IGxObjectUI
+    // IGxObjectUI
     virtual wxIcon GetLargeImage(void);
     virtual wxIcon GetSmallImage(void);
-    virtual wxString ContextMenu(void) const { return wxString(wxT("wxGxNGWFileSet.ContextMenu")); };
-    virtual wxString NewMenu(void) const { return wxEmptyString; };
-    //IGxObjectEditUI    
-	virtual wxArrayString GetPropertyPages() const;
-	virtual bool HasPropertyPages(void) const;
+    virtual wxString ContextMenu(void) const
+    {
+        return wxString(wxT("wxGxNGWFileSet.ContextMenu"));
+    };
+    virtual wxString NewMenu(void) const
+    {
+        return wxEmptyString;
+    };
+    // IGxObjectEditUI
+    virtual wxArrayString GetPropertyPages() const;
+    virtual bool HasPropertyPages(void) const;
+
 protected:
     wxIcon m_icLargeIcon, m_icSmallIcon;
 };
-
 
 #endif // wxGIS_USE_CURL

@@ -70,6 +70,50 @@ protected:
     wxString m_sDBTempate;
 };
 
+/**
+ * @class wxGISDataReloaderDlg
+ * @author Дмитрий Барышников
+ * @date 26/11/15
+ * @file createremotedlgs.h
+ * @brief Dialog for choose and configure dataset reload
+ * @library{catalogui}
+ */
+ 
+class WXDLLIMPEXP_GIS_CLU wxGISDataReloaderDlg : public wxDialog
+{
+public:    
+    wxGISDataReloaderDlg(wxGISFeatureDataset *pSrcDs, wxGISFeatureDataset *pDstDs,
+        wxWindow* parent, wxWindowID id = wxID_ANY,
+        const wxString& title = _("Reload spatial data"),
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = wxCAPTION | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN);
+
+    virtual ~wxGISDataReloaderDlg();
+    //events
+    virtual void OnOk(wxCommandEvent & event);
+protected:
+    void SetField(wxGISFeature& feature, int newIndex, const wxGISFeature &row, int index, OGRFieldType eType);
+    OGRwkbGeometryType GetGeometryType(wxGISFeatureDataset * const pDSet);
+    virtual wxString GetDialogSettingsName() const;
+    void Reload();
+    wxGISFeatureDataset* PrepareDataset(OGRwkbGeometryType eGeomType, bool bFilterIvalidGeometry, ITrackCancel* const pTrackCancel);
+    bool IsFieldNameForbidden(const wxString& sTestFieldName) const;
+    virtual void SerializeFramePos(bool bSave);
+protected:
+    wxGISFeatureDataset *m_pSrcDs;
+    wxGISFeatureDataset *m_pDstDs;
+    bool m_bSkipGeomValid;
+    wxString m_sAppendOrReload;
+protected:
+    wxStdDialogButtonSizer* m_sdbSizer;
+    wxBoxSizer* m_bMainSizer;
+	wxChoice* m_pAppendOrReloadCombo;
+    wxCheckBox* m_pSkipInvalidGeometry;
+private:
+    DECLARE_EVENT_TABLE()
+};
+
 #endif //wxGIS_USE_POSTGRES
 
 /** @class wxGISBaseImportPanel

@@ -4,6 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2009-2011,2013 Dmitry Baryshnikov
+*   Copyright (C) 2015 NextGIS, info@nextgis.com
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 
 #include "../../art/export.xpm"
 #include "../../art/toolview.xpm"
+#include "../../art/view-refresh.xpm"
 
 #include "wxgis/catalog/catalog.h"
 #include "wxgis/catalog/gxdataset.h"
@@ -79,6 +81,10 @@ wxIcon wxGISGeoprocessingCmd::GetBitmap(void)
 				m_IconImport.CopyFromBitmap(wxBitmap(oImport));
 			}
 			return m_IconImport;
+         case enumGISGeoprocessingCmdIUpdate:
+			if(!m_IconUpdate.IsOk())
+				m_IconUpdate = wxIcon(view_refresh_xpm);
+			return m_IconUpdate;   
 		default:
 			return wxNullIcon;
 	}
@@ -97,7 +103,9 @@ wxString wxGISGeoprocessingCmd::GetCaption(void)
 		case enumGISGeoprocessingCmdExportAttrbutes:
 			return wxString(_("Export &attributes"));
 		case enumGISGeoprocessingCmdImport:
-			return wxString(_("&Import"));		
+			return wxString(_("&Import"));	
+		case enumGISGeoprocessingCmdIUpdate:
+			return wxString(_("&Update"));			
 		default:
 		    return wxEmptyString;
 	}
@@ -113,6 +121,7 @@ wxString wxGISGeoprocessingCmd::GetCategory(void)
 		case enumGISGeoprocessingCmdExportWithParameters:
         case enumGISGeoprocessingCmdExportAttrbutes:
 		case enumGISGeoprocessingCmdImport:
+        case enumGISGeoprocessingCmdIUpdate:
 			return wxString(_("Geoprocessing"));
 		default:
 			return NO_CATEGORY;
@@ -129,6 +138,7 @@ bool wxGISGeoprocessingCmd::GetChecked(void)
 		case enumGISGeoprocessingCmdExportWithParameters:
 		case enumGISGeoprocessingCmdExportAttrbutes:
 		case enumGISGeoprocessingCmdImport:
+        case enumGISGeoprocessingCmdIUpdate:
 		default:
 	        return false;
 	}
@@ -206,6 +216,20 @@ bool wxGISGeoprocessingCmd::GetEnabled(void)
 				}
 			}
             return false;		
+        case enumGISGeoprocessingCmdIUpdate:
+            if (NULL != pSel && NULL != pCat)
+			{
+				for (size_t i = 0; i < pSel->GetCount(); ++i)
+				{
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					IGxObjectEditUI* pObjEditUI = dynamic_cast<IGxObjectEditUI*>(pGxObject);
+					if (NULL != pObjEditUI && pObjEditUI->CanUpdate())
+					{
+						return true;
+					}
+				}
+			}
+            return false;	
 		default:
 			return false;
 	}
@@ -221,6 +245,7 @@ wxGISEnumCommandKind wxGISGeoprocessingCmd::GetKind(void)
 		case enumGISGeoprocessingCmdExportWithParameters:
         case enumGISGeoprocessingCmdExportAttrbutes:
 		case enumGISGeoprocessingCmdImport:
+        case enumGISGeoprocessingCmdIUpdate:
 		default:
 			return enumGISCommandNormal;
 	}
@@ -240,6 +265,8 @@ wxString wxGISGeoprocessingCmd::GetMessage(void)
 			return wxString(_("Export selected item attributes"));
 		case enumGISGeoprocessingCmdImport:	
 			return wxString(_("Import into selected item"));
+        case enumGISGeoprocessingCmdIUpdate:        
+			return wxString(_("Update selected item"));
 		default:
 			return wxEmptyString;
 	}
@@ -412,6 +439,21 @@ void wxGISGeoprocessingCmd::OnClick(void)
 				}
 			}
 		break;
+     case enumGISGeoprocessingCmdIUpdate: 	
+			if (NULL != pSel && NULL != pCat)
+			{
+				for (size_t i = 0; i < pSel->GetCount(); ++i)
+				{
+					wxGxObject* pGxObject = pCat->GetRegisterObject(pSel->GetSelectedObjectId(i));
+					IGxObjectEditUI* pObjEditUI = dynamic_cast<IGxObjectEditUI*>(pGxObject);
+					if (NULL != pObjEditUI && pObjEditUI->CanUpdate())
+					{
+						wxWindow* pWnd = dynamic_cast<wxWindow*>(m_pApp);
+						pObjEditUI->Update(pWnd);
+					}
+				}
+			}
+		break;  
 	default:
 		return;
 	}
@@ -438,6 +480,8 @@ wxString wxGISGeoprocessingCmd::GetTooltip(void)
 			return wxString(_("Export item's attributes"));
 		case enumGISGeoprocessingCmdImport:
 			return wxString(_("Import into the item"));
+        case enumGISGeoprocessingCmdIUpdate:    
+			return wxString(_("Update the item via append or replace"));
 		default:
 			return wxEmptyString;
 	}

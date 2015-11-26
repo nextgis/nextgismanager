@@ -986,7 +986,7 @@ void wxGISNGWFeatureDataset::Cache(ITrackCancel* const pTrackCancel)
         wxString sGeom = feature["geom"].AsString();
 
         OGRGeometry *pGeom = NULL;
-        CPLString sWKT = sGeom.ToUTF8();
+        CPLString sWKT = CPLString(sGeom.ToUTF8());
         char *pszWKT = (char *)sWKT.c_str();
         OGRGeometryFactory::createFromWkt(&pszWKT, GetSpatialReference(), (OGRGeometry**)(&pGeom));
 
@@ -1006,7 +1006,7 @@ void wxGISNGWFeatureDataset::Cache(ITrackCancel* const pTrackCancel)
                 switch (pFieldDefn->GetType())
                 {
                 case OFTInteger:
-                    poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsLong());
+                    poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsInt());
                     break;
                 case OFTReal:
                     poFeature->SetField(pFieldDefn->GetNameRef(), fields[sKey].AsDouble());

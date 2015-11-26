@@ -94,7 +94,9 @@ public:
 	virtual wxArrayString GetPropertyPages() const {return wxArrayString();}
 	virtual void EditProperties(wxWindow *parent){}
 	virtual bool Import(wxWindow *parent){return false;}
-	virtual bool CanImport(void){return false;}
+	virtual bool CanImport(void){return false;}    
+    virtual bool Update(wxWindow *parent){return false;}
+	virtual bool CanUpdate(void){return false;}
 	virtual bool HasPropertyPages(void) const {return false;}
 };
 

@@ -58,7 +58,8 @@ public:
     //rowop
 	virtual size_t GetFeatureCount(bool bForce = false, ITrackCancel* const pTrackCancel = NULL);
     virtual bool CanDeleteFeature(void) const;
-	virtual OGRErr DeleteFeature(long nFID);
+	virtual OGRErr DeleteFeature(long nFID);    
+    virtual OGRErr DeleteAll(); 
     virtual OGRErr StoreFeature(wxGISFeature &Feature);
 	virtual wxGISFeature CreateFeature(void);
     virtual OGRErr SetFeature(const wxGISFeature &Feature);

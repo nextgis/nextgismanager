@@ -4,7 +4,7 @@
  * Author:   Dmitry Baryshnikov (aka Bishop), polimax@mail.ru
  ******************************************************************************
 *   Copyright (C) 2009-2011 Dmitry Baryshnikov
-*   Copyright (C) NextGIS, info@nextgis.com
+*   Copyright (C) 2015 NextGIS, info@nextgis.com
 *
 *    This program is free software: you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by

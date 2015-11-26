@@ -397,6 +397,12 @@ OGRErr wxGISTable::DeleteField(int nIndex)
 
 }
 
+ OGRErr wxGISTable::DeleteAll()
+ {
+     //todo: loop throw all features and delete them
+     return OGRERR_UNSUPPORTED_OPERATION;
+ }
+
 OGRErr wxGISTable::DeleteFeature(long nFID)
 {
 	if(!CanDeleteFeature())

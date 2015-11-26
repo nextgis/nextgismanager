@@ -97,8 +97,7 @@
 #include "../../art/table_dbf_16.xpm"
 #include "../../art/table_dbf_48.xpm"
 
-
-//propertypages
+// propertypages
 #include "wxgis/catalogui/spatrefpropertypage.h"
 #include "wxgis/catalogui/rasterpropertypage.h"
 #include "wxgis/catalogui/vectorpropertypage.h"
@@ -112,22 +111,30 @@
 #include "wx/bookctrl.h"
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
-    #include "wxgis/geoprocessing/gpraster.h"
-#endif 	//wxGIS_HAVE_GEOPROCESSING
+#include "wxgis/geoprocessing/gpraster.h"
+#endif // wxGIS_HAVE_GEOPROCESSING
 
 #ifdef wxGIS_USE_CURL
-
 
 #include "wxgis/catalogui/remoteconndlgs.h"
 
 //--------------------------------------------------------------
-//class wxGxNGWServiceUI
+// class wxGxNGWServiceUI
 //--------------------------------------------------------------
 
 class wxGxNGWLayerUI;
 IMPLEMENT_CLASS(wxGxNGWServiceUI, wxGxNGWService)
 
-wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon, const wxIcon &icLargeIconDsbl, const wxIcon &icSmallIconDsbl, const wxIcon &icLargeIconGuest, const wxIcon &icSmallIconGuest) : wxGxNGWService(oParent, soName, soPath)
+wxGxNGWServiceUI::wxGxNGWServiceUI(wxGxObject* oParent,
+                                   const wxString& soName,
+                                   const CPLString& soPath,
+                                   const wxIcon& icLargeIcon,
+                                   const wxIcon& icSmallIcon,
+                                   const wxIcon& icLargeIconDsbl,
+                                   const wxIcon& icSmallIconDsbl,
+                                   const wxIcon& icLargeIconGuest,
+                                   const wxIcon& icSmallIconGuest)
+    : wxGxNGWService(oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -143,62 +150,48 @@ wxGxNGWServiceUI::~wxGxNGWServiceUI(void)
 
 wxIcon wxGxNGWServiceUI::GetLargeImage(void)
 {
-    if (IsConnected())
-    {
-		if(m_bIsAuthorized)
-		{
-			return m_icLargeIcon;
-		}
-		else
-		{
-			return m_icLargeIconGuest;
-		}
-    }
-    else
-    {
+    if (IsConnected()) {
+        if (m_bIsAuthorized) {
+            return m_icLargeIcon;
+        } else {
+            return m_icLargeIconGuest;
+        }
+    } else {
         return m_icLargeIconDsbl;
     }
 }
 
 wxIcon wxGxNGWServiceUI::GetSmallImage(void)
 {
-    if (IsConnected())
-    {
-		if(m_bIsAuthorized)
-		{
-			return m_icSmallIcon;			
-		}
-		else
-		{
-			return m_icSmallIconGuest;	
-		}
-    }
-    else
-    {
+    if (IsConnected()) {
+        if (m_bIsAuthorized) {
+            return m_icSmallIcon;
+        } else {
+            return m_icSmallIconGuest;
+        }
+    } else {
         return m_icSmallIconDsbl;
     }
 }
 
-void wxGxNGWServiceUI::EditProperties(wxWindow *parent)
+void wxGxNGWServiceUI::EditProperties(wxWindow* parent)
 {
-	wxGISNGWConnDlg dlg(m_sPath, parent);
-	if(dlg.ShowModal() == wxID_OK)
-	{
+    wxGISNGWConnDlg dlg(m_sPath, parent);
+    if (dlg.ShowModal() == wxID_OK) {
         Disconnect();
-        //reread settings from connection file
+        // reread settings from connection file
         ReadConnectionFile();
-	}	
+    }
 }
 
 bool wxGxNGWServiceUI::Invoke(wxWindow* pParentWnd)
 {
     wxBusyCursor wait;
-    //connect
-	if(!Connect())
-	{
-		wxGISErrorMessageBox(_("Connect failed!"));
-		return false;
-	}
+    // connect
+    if (!Connect()) {
+        wxGISErrorMessageBox(_("Connect failed!"));
+        return false;
+    }
 
     return true;
 }
@@ -208,26 +201,34 @@ void wxGxNGWServiceUI::LoadChildren(void)
     if (m_bChildrenLoaded || !m_bIsConnected)
         return;
 
-    wxGxNGWRootResourceUI * pGxNGWRootResourceUI = new wxGxNGWRootResourceUI(this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
-	pGxNGWRootResourceUI->FillPermissions();
-/*    if(m_bIsAuthorized)
-        new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon, wxNullIcon);
-        */
+    wxGxNGWRootResourceUI* pGxNGWRootResourceUI = new wxGxNGWRootResourceUI(
+        this, this, _("Resources"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxIcon(layers_16_xpm));
+    pGxNGWRootResourceUI->FillPermissions();
+    /*    if(m_bIsAuthorized)
+            new wxGxNGWRootUI(this, _("Administration"), CPLString(m_sURL.ToUTF8()), wxNullIcon, wxNullIcon, wxNullIcon,
+       wxNullIcon);
+            */
     m_bChildrenLoaded = true;
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWRootResourceUI
+// class wxGxNGWRootResourceUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxNGWRootResourceUI, wxGxNGWResourceGroupUI)
 
-wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService *pService, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroupUI(pService, wxJSONValue(), oParent, soName, soPath, icLargeIcon, icSmallIcon)
+wxGxNGWRootResourceUI::wxGxNGWRootResourceUI(wxGxNGWService* pService,
+                                             wxGxObject* oParent,
+                                             const wxString& soName,
+                                             const CPLString& soPath,
+                                             const wxIcon& icLargeIcon,
+                                             const wxIcon& icSmallIcon)
+    : wxGxNGWResourceGroupUI(pService, wxJSONValue(), oParent, soName, soPath, icLargeIcon, icSmallIcon)
 {
     m_nRemoteId = 0;
     m_sName = wxString(_("Resources"));
-	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), 0);
-	m_sPath = CPLString(sURL.ToUTF8());
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), 0);
+    m_sPath = CPLString(sURL.ToUTF8());
 }
 
 wxGxNGWRootResourceUI::~wxGxNGWRootResourceUI(void)
@@ -245,12 +246,19 @@ wxIcon wxGxNGWRootResourceUI::GetSmallImage(void)
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWResourceGroupUI
+// class wxGxNGWResourceGroupUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxNGWResourceGroupUI, wxGxNGWResourceGroup)
 
-wxGxNGWResourceGroupUI::wxGxNGWResourceGroupUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWResourceGroup(pService, Data, oParent, soName, soPath)
+wxGxNGWResourceGroupUI::wxGxNGWResourceGroupUI(wxGxNGWService* pService,
+                                               const wxJSONValue& Data,
+                                               wxGxObject* oParent,
+                                               const wxString& soName,
+                                               const CPLString& soPath,
+                                               const wxIcon& icLargeIcon,
+                                               const wxIcon& icSmallIcon)
+    : wxGxNGWResourceGroup(pService, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -270,751 +278,741 @@ wxIcon wxGxNGWResourceGroupUI::GetSmallImage(void)
     return m_icSmallIcon;
 }
 
-wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue &Data)
+wxGxObject* wxGxNGWResourceGroupUI::AddResource(const wxJSONValue& Data)
 {
     wxGISEnumNGWResourcesType eType = GetType(Data);
-	wxGxObject* pReturnObj(NULL);
-	wxString sName = Data["resource"]["display_name"].AsString();
-	
-    switch(eType)
-    {
+    wxGxObject* pReturnObj(NULL);
+    wxString sName = Data["resource"]["display_name"].AsString();
+
+    switch (eType) {
     case enumNGWResourceTypeResourceGroup:
-		if(!m_icFolderLargeIcon.IsOk())
-			m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
- 		if(!m_icFolderSmallIcon.IsOk())
-			m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
-        pReturnObj = wxDynamicCast(new wxGxNGWResourceGroupUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon), wxGxObject);
+        if (!m_icFolderLargeIcon.IsOk())
+            m_icFolderLargeIcon = wxIcon(folder_arch_48_xpm);
+        if (!m_icFolderSmallIcon.IsOk())
+            m_icFolderSmallIcon = wxIcon(folder_arch_16_xpm);
+        pReturnObj =
+            wxDynamicCast(new wxGxNGWResourceGroupUI(
+                              m_pService, Data, this, wxEmptyString, m_sPath, m_icFolderLargeIcon, m_icFolderSmallIcon),
+                          wxGxObject);
         break;
-	case enumNGWResourceTypePostgisLayer:
-		if(!m_icPGLayerLargeIcon.IsOk())
-			m_icPGLayerLargeIcon = wxIcon(pg_vec_48_xpm);
- 		if(!m_icPGLayerSmallIcon.IsOk())
-			m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
-        if(m_bHasGeoJSON)
-			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypePostgisLayer, Data, this, wxEmptyString, m_sPath, m_icPGLayerLargeIcon, m_icPGLayerSmallIcon), wxGxObject);
-		break;
-	case enumNGWResourceTypePostgisConnection:
-		if(!m_icPGConnLargeIcon.IsOk())
-			m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
- 		if(!m_icPGConnSmallIcon.IsOk())
-			m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
-		if(!m_icPGDisConnLargeIcon.IsOk())
+    case enumNGWResourceTypePostgisLayer:
+        if (!m_icPGLayerLargeIcon.IsOk())
+            m_icPGLayerLargeIcon = wxIcon(pg_vec_48_xpm);
+        if (!m_icPGLayerSmallIcon.IsOk())
+            m_icPGLayerSmallIcon = wxIcon(pg_vec_16_xpm);
+        if (m_bHasGeoJSON)
+            pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService,
+                                                          enumNGWResourceTypePostgisLayer,
+                                                          Data,
+                                                          this,
+                                                          wxEmptyString,
+                                                          m_sPath,
+                                                          m_icPGLayerLargeIcon,
+                                                          m_icPGLayerSmallIcon),
+                                       wxGxObject);
+        break;
+    case enumNGWResourceTypePostgisConnection:
+        if (!m_icPGConnLargeIcon.IsOk())
+            m_icPGConnLargeIcon = wxIcon(rdb_conn_48_xpm);
+        if (!m_icPGConnSmallIcon.IsOk())
+            m_icPGConnSmallIcon = wxIcon(rdb_conn_16_xpm);
+        if (!m_icPGDisConnLargeIcon.IsOk())
             m_icPGDisConnLargeIcon = GetStateIcon(m_icPGConnLargeIcon, wxGISEnumIconStateDisconnect, true);
- 		if(!m_icPGDisConnSmallIcon.IsOk())
+        if (!m_icPGDisConnSmallIcon.IsOk())
             m_icPGDisConnSmallIcon = GetStateIcon(m_icPGConnSmallIcon, wxGISEnumIconStateDisconnect, false);
-		if(m_bHasGeoJSON)
-			pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnectionUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icPGConnLargeIcon, m_icPGConnSmallIcon, m_icPGDisConnLargeIcon, m_icPGDisConnSmallIcon), wxGxObject);
-		break;
-	case enumNGWResourceTypeWMSServerService:
-		break;
-	case enumNGWResourceTypeBaseLayers:
-		break;
-	case enumNGWResourceTypeWebMap:
-		break;
-	case enumNGWResourceTypeWFSServerService:
-		break;
-	case enumNGWResourceTypeVectorLayer:
-		if(!m_icNGWLayerLargeIcon.IsOk())
-			m_icNGWLayerLargeIcon = wxIcon(ngw_layer_48_xpm);
- 		if(!m_icNGWLayerSmallIcon.IsOk())
-			m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
-        if(m_bHasGeoJSON)
-			pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService, enumNGWResourceTypeVectorLayer, Data, this, wxEmptyString, m_sPath, m_icNGWLayerLargeIcon, m_icNGWLayerSmallIcon), wxGxObject);
-		break;
-	case enumNGWResourceTypeRasterLayer:
-	case enumNGWResourceTypeWMSClient:
-		if(!m_icNGWRasterLargeIcon.IsOk())
-			m_icNGWRasterLargeIcon = wxIcon(raster_bmp48_xpm);
- 		if(!m_icNGWRasterSmallIcon.IsOk())
-			m_icNGWRasterSmallIcon = wxIcon(raster_bmp16_xpm);
-		if(m_bHasWMS)
-			pReturnObj = wxDynamicCast(new wxGxNGWRasterUI(m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon), wxGxObject);
-		break;	
-    case enumNGWResourceTypeFileSet:
-	{
-		wxIcon icLargeIcon, icSmallIcon;
-#define SET_ICONS(n, l, s) { \
-			if(!m_stmIconSet[n].icLargeIcon.IsOk()) \
-				m_stmIconSet[n].icLargeIcon = wxIcon(l); \
-			if(!m_stmIconSet[n].icSmallIcon.IsOk())	\
-				m_stmIconSet[n].icSmallIcon = wxIcon(s); \
-			icLargeIcon = m_stmIconSet[n].icLargeIcon; \
-			icSmallIcon = m_stmIconSet[n].icSmallIcon; }
-		
-		if(sName.MakeLower().EndsWith(wxT("shp")))
-			SET_ICONS("shp", shp_dset_48_xpm, shp_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("tab")))
-			SET_ICONS("tab", mi_dset_48_xpm, mi_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("mif")))
-			SET_ICONS("mif", md_dset_48_xpm, md_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("kml")))
-			SET_ICONS("kml", kml_dset_48_xpm, kml_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("kmz")))
-			SET_ICONS("kmz", kmz_dset_48_xpm, kmz_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("dxf")))
-			SET_ICONS("dxf", dxf_dset_48_xpm, dxf_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("gml")))
-			SET_ICONS("gml", gml_dset_48_xpm, gml_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("geojson")))
-			SET_ICONS("geojson", json_dset_48_xpm, json_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("sxf")))
-			SET_ICONS("sxf", sxf_dset_48_xpm, sxf_dset_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("000")))
-			SET_ICONS("package", package_48_xpm, package_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("csv")))
-			SET_ICONS("csv", csv_48_xpm, csv_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("ods")))
-			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("dbf")))
-			SET_ICONS("dbf", table_dbf_48_xpm, table_dbf_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("xls")))
-			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("xlsx")))
-			SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("bmp")))
-			SET_ICONS("bmp", raster_bmp48_xpm, raster_bmp16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("tif")) || sName.MakeLower().EndsWith(wxT("tiff")))
-			SET_ICONS("tif", raster_tif48_xpm, raster_tif16_xpm)
-        else if (sName.MakeLower().EndsWith(wxT("jpg")) || sName.MakeLower().EndsWith(wxT("jpeg")))
-			SET_ICONS("jpg", raster_48_xpm, raster_16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("img")))
-			SET_ICONS("img", raster_img48_xpm, raster_img16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("png")))
-			SET_ICONS("png", raster_png48_xpm, raster_png16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("gif")))
-			SET_ICONS("gif", raster_gif48_xpm, raster_gif16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("sdat")))
-			SET_ICONS("sdat", raster_saga48_xpm, raster_saga16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("til")))
-			SET_ICONS("til", raster_til48_xpm, raster_til16_xpm)
-		else if(sName.MakeLower().EndsWith(wxT("vrt")))
-			SET_ICONS("vrt", raster_vrt48_xpm, raster_vrt16_xpm)
-		else 
-			SET_ICONS("package", package_48_xpm, package_16_xpm)
-			
-		pReturnObj = wxDynamicCast(new wxGxNGWFileSetUI(m_pService, Data, this, wxEmptyString, m_sPath, icLargeIcon, icSmallIcon), wxGxObject);
-	}
+        if (m_bHasGeoJSON)
+            pReturnObj = wxDynamicCast(new wxGxNGWPostGISConnectionUI(m_pService,
+                                                                      Data,
+                                                                      this,
+                                                                      wxEmptyString,
+                                                                      m_sPath,
+                                                                      m_icPGConnLargeIcon,
+                                                                      m_icPGConnSmallIcon,
+                                                                      m_icPGDisConnLargeIcon,
+                                                                      m_icPGDisConnSmallIcon),
+                                       wxGxObject);
         break;
+    case enumNGWResourceTypeWMSServerService:
+        break;
+    case enumNGWResourceTypeBaseLayers:
+        break;
+    case enumNGWResourceTypeWebMap:
+        break;
+    case enumNGWResourceTypeWFSServerService:
+        break;
+    case enumNGWResourceTypeVectorLayer:
+        if (!m_icNGWLayerLargeIcon.IsOk())
+            m_icNGWLayerLargeIcon = wxIcon(ngw_layer_48_xpm);
+        if (!m_icNGWLayerSmallIcon.IsOk())
+            m_icNGWLayerSmallIcon = wxIcon(ngw_layer_16_xpm);
+        if (m_bHasGeoJSON)
+            pReturnObj = wxDynamicCast(new wxGxNGWLayerUI(m_pService,
+                                                          enumNGWResourceTypeVectorLayer,
+                                                          Data,
+                                                          this,
+                                                          wxEmptyString,
+                                                          m_sPath,
+                                                          m_icNGWLayerLargeIcon,
+                                                          m_icNGWLayerSmallIcon),
+                                       wxGxObject);
+        break;
+    case enumNGWResourceTypeRasterLayer:
+    case enumNGWResourceTypeWMSClient:
+        if (!m_icNGWRasterLargeIcon.IsOk())
+            m_icNGWRasterLargeIcon = wxIcon(raster_bmp48_xpm);
+        if (!m_icNGWRasterSmallIcon.IsOk())
+            m_icNGWRasterSmallIcon = wxIcon(raster_bmp16_xpm);
+        if (m_bHasWMS)
+            pReturnObj = wxDynamicCast(
+                new wxGxNGWRasterUI(
+                    m_pService, Data, this, wxEmptyString, m_sPath, m_icNGWRasterLargeIcon, m_icNGWRasterSmallIcon),
+                wxGxObject);
+        break;
+    case enumNGWResourceTypeFileSet: {
+        wxIcon icLargeIcon, icSmallIcon;
+#define SET_ICONS(n, l, s)                           \
+    {                                                \
+        if (!m_stmIconSet[n].icLargeIcon.IsOk())     \
+            m_stmIconSet[n].icLargeIcon = wxIcon(l); \
+        if (!m_stmIconSet[n].icSmallIcon.IsOk())     \
+            m_stmIconSet[n].icSmallIcon = wxIcon(s); \
+        icLargeIcon = m_stmIconSet[n].icLargeIcon;   \
+        icSmallIcon = m_stmIconSet[n].icSmallIcon;   \
     }
-	
-	wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pReturnObj);
-	if(pGxNGWResource)
-		pGxNGWResource->FillPermissions();
-	
-	return pReturnObj;	
+
+        if (sName.MakeLower().EndsWith(wxT("shp")))
+            SET_ICONS("shp", shp_dset_48_xpm, shp_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("tab")))
+            SET_ICONS("tab", mi_dset_48_xpm, mi_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("mif")))
+            SET_ICONS("mif", md_dset_48_xpm, md_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("kml")))
+            SET_ICONS("kml", kml_dset_48_xpm, kml_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("kmz")))
+            SET_ICONS("kmz", kmz_dset_48_xpm, kmz_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("dxf")))
+            SET_ICONS("dxf", dxf_dset_48_xpm, dxf_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("gml")))
+            SET_ICONS("gml", gml_dset_48_xpm, gml_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("geojson")))
+            SET_ICONS("geojson", json_dset_48_xpm, json_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("sxf")))
+            SET_ICONS("sxf", sxf_dset_48_xpm, sxf_dset_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("000")))
+            SET_ICONS("package", package_48_xpm, package_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("csv")))
+            SET_ICONS("csv", csv_48_xpm, csv_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("ods")))
+            SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("dbf")))
+            SET_ICONS("dbf", table_dbf_48_xpm, table_dbf_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("xls")))
+            SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("xlsx")))
+            SET_ICONS("xlsx", localc_48_xpm, localc_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("bmp")))
+            SET_ICONS("bmp", raster_bmp48_xpm, raster_bmp16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("tif")) || sName.MakeLower().EndsWith(wxT("tiff")))
+            SET_ICONS("tif", raster_tif48_xpm, raster_tif16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("jpg")) || sName.MakeLower().EndsWith(wxT("jpeg")))
+            SET_ICONS("jpg", raster_48_xpm, raster_16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("img")))
+            SET_ICONS("img", raster_img48_xpm, raster_img16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("png")))
+            SET_ICONS("png", raster_png48_xpm, raster_png16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("gif")))
+            SET_ICONS("gif", raster_gif48_xpm, raster_gif16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("sdat")))
+            SET_ICONS("sdat", raster_saga48_xpm, raster_saga16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("til")))
+            SET_ICONS("til", raster_til48_xpm, raster_til16_xpm)
+        else if (sName.MakeLower().EndsWith(wxT("vrt")))
+            SET_ICONS("vrt", raster_vrt48_xpm, raster_vrt16_xpm)
+        else
+            SET_ICONS("package", package_48_xpm, package_16_xpm)
+
+        pReturnObj = wxDynamicCast(
+            new wxGxNGWFileSetUI(m_pService, Data, this, wxEmptyString, m_sPath, icLargeIcon, icSmallIcon), wxGxObject);
+    } break;
+    }
+
+    wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pReturnObj);
+    if (pGxNGWResource)
+        pGxNGWResource->FillPermissions();
+
+    return pReturnObj;
 }
 
 bool wxGxNGWResourceGroupUI::Drop(const wxArrayString& saGxObjectPaths, bool bMove)
-{	
+{
     wxGxCatalogBase* pCatalog = GetGxCatalog();
-    if (NULL == pCatalog)
-    {
+    if (NULL == pCatalog) {
         return false;
     }
-	
-	if(saGxObjectPaths.IsEmpty())
-	{
-		return false;
-	}
-	
-	bool bIsNGWResource = false;
-	bool bIsSameService = false;
-	//check the first element type
-	wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[0]));
-	if(NULL != pGxNGWResource)
-	{
-		bIsNGWResource = true;
-		//check if the same NGW by service address
-		wxGxNGWService* pNGWServiceOther = pGxNGWResource->GetNGWService();
-		wxGxNGWService* pNGWServiceThis = GetNGWService();
-		bIsSameService = NULL != pNGWServiceThis && NULL != pNGWServiceOther && pNGWServiceThis->GetURL().IsSameAs(pNGWServiceOther->GetURL(), false);
-	}
-	
-	//1. if saGxObjectPaths from the same NGW service - move
+
+    if (saGxObjectPaths.IsEmpty()) {
+        return false;
+    }
+
+    bool bIsNGWResource = false;
+    bool bIsSameService = false;
+    // check the first element type
+    wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[0]));
+    if (NULL != pGxNGWResource) {
+        bIsNGWResource = true;
+        // check if the same NGW by service address
+        wxGxNGWService* pNGWServiceOther = pGxNGWResource->GetNGWService();
+        wxGxNGWService* pNGWServiceThis = GetNGWService();
+        bIsSameService = NULL != pNGWServiceThis && NULL != pNGWServiceOther &&
+                         pNGWServiceThis->GetURL().IsSameAs(pNGWServiceOther->GetURL(), false);
+    }
+
+    // 1. if saGxObjectPaths from the same NGW service - move
     wxString sOper(bMove == true ? _("Move") : _("Copy"));
     wxString sTitle = wxString::Format(_("%s %ld objects (files)"), sOper.c_str(), saGxObjectPaths.GetCount());
     wxWindow* pParentWnd = dynamic_cast<wxWindow*>(GetApplication());
 
     wxGISProgressDlg ProgressDlg(sTitle, _("Begin operation..."), saGxObjectPaths.GetCount(), pParentWnd);
 
-	if(bIsNGWResource)
-	{		
-		ProgressDlg.ShowProgress(true);
-		//bool bCopyAsk = true;
-		if(bIsSameService && bMove)
-		{
-			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
-			{
-				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
-				//ProgressDlg.SetTitle(sMessage);
-				ProgressDlg.PutMessage(sMessage);
-				if(!ProgressDlg.Continue())
-					break;
-					
-				wxGxNGWResource* pGxNGWResource = dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[i]));
-				bool bRes = pGxNGWResource->MoveResource(GetRemoteId());
-				//report error
-				if(!bRes)
-				{
-					wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));  
-					sErr += wxT("\n") + wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
-					wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, &ProgressDlg);
-				}
-				else
-				{
-					wxGxObject* pObj = dynamic_cast<wxGxObject*>(pGxNGWResource);
-					if(NULL != pObj)
-					{
-						IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
-						if(pNotify)
-						{	
-							pNotify->OnGetUpdates();
-						}						
-					}		
-				}
-				ProgressDlg.SetValue(i);
-			}
-						
-			//report error if any
-			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+    if (bIsNGWResource) {
+        ProgressDlg.ShowProgress(true);
+        // bool bCopyAsk = true;
+        if (bIsSameService && bMove) {
+            for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i) {
+                wxString sMessage = wxString::Format(
+                    _("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+                // ProgressDlg.SetTitle(sMessage);
+                ProgressDlg.PutMessage(sMessage);
+                if (!ProgressDlg.Continue())
+                    break;
 
-			//notify this on updates
-			OnGetUpdates();
-				
-			return true;
-		}
-		else
-		{
-			// copy from local or remote NGW
-			for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
-			{
-				wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
-				ProgressDlg.PutMessage(sMessage);
-				if(!ProgressDlg.Continue())
-					break;
-					
-				wxGxObject* pGxObj = pCatalog->FindGxObject(saGxObjectPaths[i]);
-				IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);				
-				if(pGxObjectEdit && pGxObjectEdit->CanCopy(GetPath()))
-				{
-					if(!pGxObjectEdit->Copy(GetPath(), &ProgressDlg))
-					{
-						wxGISErrorMessageBox(wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()));
-						return false;
-					}
-				}
-				ProgressDlg.SetValue(i);
-			}
-			
-			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
-			
-			//notify this on updates
-			OnGetUpdates();
-		}
-	}
-	else
-	{
-		//check if drop object from postgis connection
-		wxGxNGWResource* pGxNGWPostGISConnection = NULL;
-		wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[0]);
-		if(pGxObject)
-		{
-			wxGxObject* pGxParentObject;
-			while((pGxParentObject = pGxObject->GetParent()) != NULL)
-			{
-				pGxNGWPostGISConnection = dynamic_cast<wxGxNGWResource*>(pGxParentObject);
-				if(NULL != pGxNGWPostGISConnection)
-				{
-					break;
-				}
-				
-				pGxObject = pGxParentObject;
-			}
-		}
-		
-		//create PostGIS Layer
-		if(NULL != pGxNGWPostGISConnection)
-		{
-			if(!m_pService->IsTypeSupported(enumNGWResourceTypePostgisLayer))
-			{
-				ProgressDlg.PutMessage(_("The type PostgisLayer is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
-			}
-			else
-			{
-				ProgressDlg.ShowProgress(true);
-				//don't forget rename id field in created layer or something else
-				for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
-				{
-					wxString sMessage = wxString::Format(_("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
-					//ProgressDlg.SetTitle(sMessage);
-					ProgressDlg.PutMessage(sMessage);
-					if(!ProgressDlg.Continue())
-						break;
-						
-					wxGxPostGISFeatureDataset* pGxPostGISFeatureDataset = wxDynamicCast(pCatalog->FindGxObject(saGxObjectPaths[i]), wxGxPostGISFeatureDataset);
-					if (NULL != pGxPostGISFeatureDataset)
-					{
-						wxString sName = pGxPostGISFeatureDataset->GetName();
-						int nConnId = pGxNGWPostGISConnection->GetRemoteId();
-						wxString sTable = pGxPostGISFeatureDataset->GetTableName();
-						wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
-						wxGISFeatureDataset* pDataset = wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
+                wxGxNGWResource* pGxNGWResource =
+                    dynamic_cast<wxGxNGWResource*>(pCatalog->FindGxObject(saGxObjectPaths[i]));
+                bool bRes = pGxNGWResource->MoveResource(GetRemoteId());
+                // report error
+                if (!bRes) {
+                    wxString sErr = wxString::Format(_("Operation '%s' failed!"), _("Copy"));
+                    sErr += wxT("\n") +
+                            wxString::Format(wxT("%s '%s'"), GetCategory().c_str(), wxString::FromUTF8(m_sPath));
+                    wxGISLogError(sErr, wxString::FromUTF8(CPLGetLastErrorMsg()), wxEmptyString, &ProgressDlg);
+                } else {
+                    wxGxObject* pObj = dynamic_cast<wxGxObject*>(pGxNGWResource);
+                    if (NULL != pObj) {
+                        IGxObjectNotifier* pNotify = dynamic_cast<IGxObjectNotifier*>(pObj->GetParent());
+                        if (pNotify) {
+                            pNotify->OnGetUpdates();
+                        }
+                    }
+                }
+                ProgressDlg.SetValue(i);
+            }
+
+            // report error if any
+            ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+
+            // notify this on updates
+            OnGetUpdates();
+
+            return true;
+        } else {
+            // copy from local or remote NGW
+            for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i) {
+                wxString sMessage = wxString::Format(
+                    _("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+                ProgressDlg.PutMessage(sMessage);
+                if (!ProgressDlg.Continue())
+                    break;
+
+                wxGxObject* pGxObj = pCatalog->FindGxObject(saGxObjectPaths[i]);
+                IGxObjectEdit* pGxObjectEdit = dynamic_cast<IGxObjectEdit*>(pGxObj);
+                if (pGxObjectEdit && pGxObjectEdit->CanCopy(GetPath())) {
+                    if (!pGxObjectEdit->Copy(GetPath(), &ProgressDlg)) {
+                        wxGISErrorMessageBox(
+                            wxString::Format(_("%s failed. Path: %s"), _("Copy"), pGxObj->GetFullName()));
+                        return false;
+                    }
+                }
+                ProgressDlg.SetValue(i);
+            }
+
+            ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+
+            // notify this on updates
+            OnGetUpdates();
+        }
+    } else {
+        // check if drop object from postgis connection
+        wxGxNGWResource* pGxNGWPostGISConnection = NULL;
+        wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[0]);
+        if (pGxObject) {
+            wxGxObject* pGxParentObject;
+            while ((pGxParentObject = pGxObject->GetParent()) != NULL) {
+                pGxNGWPostGISConnection = dynamic_cast<wxGxNGWResource*>(pGxParentObject);
+                if (NULL != pGxNGWPostGISConnection) {
+                    break;
+                }
+
+                pGxObject = pGxParentObject;
+            }
+        }
+
+        // create PostGIS Layer
+        if (NULL != pGxNGWPostGISConnection) {
+            if (!m_pService->IsTypeSupported(enumNGWResourceTypePostgisLayer)) {
+                ProgressDlg.PutMessage(_("The type PostgisLayer is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
+            } else {
+                ProgressDlg.ShowProgress(true);
+                // don't forget rename id field in created layer or something else
+                for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i) {
+                    wxString sMessage = wxString::Format(
+                        _("%s %ld object (resource) from %ld"), sOper.c_str(), i + 1, saGxObjectPaths.GetCount());
+                    // ProgressDlg.SetTitle(sMessage);
+                    ProgressDlg.PutMessage(sMessage);
+                    if (!ProgressDlg.Continue())
+                        break;
+
+                    wxGxPostGISFeatureDataset* pGxPostGISFeatureDataset =
+                        wxDynamicCast(pCatalog->FindGxObject(saGxObjectPaths[i]), wxGxPostGISFeatureDataset);
+                    if (NULL != pGxPostGISFeatureDataset) {
+                        wxString sName = pGxPostGISFeatureDataset->GetName();
+                        int nConnId = pGxNGWPostGISConnection->GetRemoteId();
+                        wxString sTable = pGxPostGISFeatureDataset->GetTableName();
+                        wxString sSchema = pGxPostGISFeatureDataset->GetTableSchemaName();
+                        wxGISFeatureDataset* pDataset =
+                            wxDynamicCast(pGxPostGISFeatureDataset->GetDataset(false), wxGISFeatureDataset);
                         wxGISPointerHolder holder(pDataset);
-						if(NULL == pDataset)
-						{
-							wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
-							continue;
-						}
-						wxString sFid = pDataset->GetFIDColumn();
-						wxString sGeom = pDataset->GetGeometryColumn();
-						
-						if(!CreatePostGISLayer(sName, nConnId, sTable, sSchema, sFid, sGeom))
-						{
-							wxGISErrorMessageBox(_("Failed to create PostGIS Layer"), wxString::FromUTF8(CPLGetLastErrorMsg()));
-						}
-					}
-					ProgressDlg.SetValue(i);				
-				}
-			}
-			
-			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
-			
-			OnGetUpdates();
-		}
-		else
-		{
-			//upload other vector and raster DS
-			if(!m_pService->IsTypeSupported(enumNGWResourceTypeFileSet))
-			{
-				ProgressDlg.PutMessage(_("The type FileBucket is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
-			}
-			else
-			{				
-				wxVector<wxGxObject*> paDatasets;
-				for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i)
-				{
-					wxBusyCursor wait;
-					wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
-					if (NULL != pGxObject)
-					{
-						//add file based datasets
-						IGxDataset *pDataset = dynamic_cast<IGxDataset*>(pGxObject);
-						//add archives
-						wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(pGxObject);
-						//add wxGxFile
-						wxGxFile *pFile = dynamic_cast<wxGxFile*>(pGxObject);
-						//TODO: wxGxQGISProjFile etc.
-						if (pDataset && IsFileDataset(pDataset->GetType(), pDataset->GetSubType()))
-						{						
-							paDatasets.push_back(pGxObject);
-						}
-						else if(pArchive)
-						{
-							paDatasets.push_back(pGxObject);
-						}
-						else if(pFile)
-						{
-							paDatasets.push_back(pGxObject);
-						}
-					}
-				}
-				
-				size_t nCount = paDatasets.size();
-				ProgressDlg.SetTitle(_("Upload selected items"));
-				ProgressDlg.ShowProgress(true);
-				for ( size_t j = 0; j < nCount; ++j ) 
-				{				
-					ProgressDlg.SetRange(nCount);
-					ProgressDlg.SetValue(j);
-					if(!ProgressDlg.Continue())
-					{
-						return false;
-					}
-					
-					IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
-					wxGxArchive *pArchive = dynamic_cast<wxGxArchive*>(paDatasets[j]);
-					wxGxFile *pFile = dynamic_cast<wxGxFile*>(paDatasets[j]);
-					if(pGxDset)
-					{
-						wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
+                        if (NULL == pDataset) {
+                            wxGISErrorMessageBox(_("Failed to get PostGIS Dataset"));
+                            continue;
+                        }
+                        wxString sFid = pDataset->GetFIDColumn();
+                        wxString sGeom = pDataset->GetGeometryColumn();
+
+                        if (!CreatePostGISLayer(sName, nConnId, sTable, sSchema, sFid, sGeom)) {
+                            wxGISErrorMessageBox(_("Failed to create PostGIS Layer"),
+                                                 wxString::FromUTF8(CPLGetLastErrorMsg()));
+                        }
+                    }
+                    ProgressDlg.SetValue(i);
+                }
+            }
+
+            ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+
+            OnGetUpdates();
+        } else {
+            // upload other vector and raster DS
+            if (!m_pService->IsTypeSupported(enumNGWResourceTypeFileSet)) {
+                ProgressDlg.PutMessage(_("The type FileBucket is unsupported"), wxNOT_FOUND, enumGISMessageWarning);
+            } else {
+                wxVector<wxGxObject*> paDatasets;
+                for (size_t i = 0; i < saGxObjectPaths.GetCount(); ++i) {
+                    wxBusyCursor wait;
+                    wxGxObject* pGxObject = pCatalog->FindGxObject(saGxObjectPaths[i]);
+                    if (NULL != pGxObject) {
+                        // add file based datasets
+                        IGxDataset* pDataset = dynamic_cast<IGxDataset*>(pGxObject);
+                        // add archives
+                        wxGxArchive* pArchive = dynamic_cast<wxGxArchive*>(pGxObject);
+                        // add wxGxFile
+                        wxGxFile* pFile = dynamic_cast<wxGxFile*>(pGxObject);
+                        // TODO: wxGxQGISProjFile etc.
+                        if (pDataset && IsFileDataset(pDataset->GetType(), pDataset->GetSubType())) {
+                            paDatasets.push_back(pGxObject);
+                        } else if (pArchive) {
+                            paDatasets.push_back(pGxObject);
+                        } else if (pFile) {
+                            paDatasets.push_back(pGxObject);
+                        }
+                    }
+                }
+
+                size_t nCount = paDatasets.size();
+                ProgressDlg.SetTitle(_("Upload selected items"));
+                ProgressDlg.ShowProgress(true);
+                for (size_t j = 0; j < nCount; ++j) {
+                    ProgressDlg.SetRange(nCount);
+                    ProgressDlg.SetValue(j);
+                    if (!ProgressDlg.Continue()) {
+                        return false;
+                    }
+
+                    IGxDataset* pGxDset = dynamic_cast<IGxDataset*>(paDatasets[j]);
+                    wxGxArchive* pArchive = dynamic_cast<wxGxArchive*>(paDatasets[j]);
+                    wxGxFile* pFile = dynamic_cast<wxGxFile*>(paDatasets[j]);
+                    if (pGxDset) {
+                        wxGISDataset* pDSet = pGxDset->GetDataset(false, &ProgressDlg);
                         wxGISPointerHolder holder(pDSet);
 
-						if(pDSet)
-						{
-							int nPreviewXSize = 640;
-							int nPreviewYSize = 640;
-							wxGISAppConfig oConfig = GetConfig();
-							if(oConfig.IsOk())
-							{
-								wxString sAppName = GetApplication()->GetAppName();
-								nPreviewXSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_x_size"), nPreviewXSize);
-								nPreviewYSize = oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_y_size"), nPreviewYSize);
-							}
-							
-							//create raster preview
-							CPLString osTmpPath = CPLGenerateTempFilename( "ngw" );
-							CPLString osPreviewPath = CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
-							wxGISMapBitmap bmp(nPreviewXSize, nPreviewYSize); 
-							bmp.SetTrackCancel(&ProgressDlg);
-							wxVector<wxGISLayer*> paLayers;
-							
-							switch(pDSet->GetType())
-							{
-								case enumGISFeatureDataset:
-									paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
-									while(pDSet->IsCaching())
-									{
-										wxSleep(1);
-									}	
-									break;
-								case enumGISRasterDataset:
-									paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
-									break;
-								case enumGISContainer:
-									//iterate on datasets of the container
-									{
-										wxGxDatasetContainer* pGxDatasetCont = dynamic_cast<wxGxDatasetContainer*>(pGxDset);
-										if(pGxDatasetCont && pGxDatasetCont->HasChildren(true))
-										{
-											wxGxObjectList ObjectList = pGxDatasetCont->GetChildren();
-											wxGxObjectList::iterator iter;
-											for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter)
-											{
-												wxGxObject *current = *iter;
-												wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
-												if(pGxDataset)
-												{
-													wxGISDataset* pwxGISDataset = pGxDataset->GetDataset(true, &ProgressDlg);	
-                                                    wxGISPointerHolder holder1(pwxGISDataset);
-													if(pwxGISDataset)
-													{
-														wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
-														paLayers.push_back(pLayer);
-														while(pwxGISDataset->IsCaching())
-														{
-															wxSleep(1);
-														}
-                                                    }
-												}
-											}
-										}
-									}
-								break;
-							};
-							
-							for (size_t k = 0; k < paLayers.size(); ++k)
-							{
-								if (paLayers[k])
-								{
-									if (paLayers[k]->IsValid())
-									{
-										bmp.AddLayer(paLayers[k]);
-									}
-									else
-									{
-										wxDELETE(paLayers[k]);
-									}
-								}
-							}
-							
-							
-					
-							wxArrayString paths;
-							char** papszFileList = pDSet->GetFileList();
-							papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
-							
-							//add it to paths list
-							bmp.SetFullExtent();
-							if (bmp.SaveAsBitmap(osPreviewPath, enumRasterPng, NULL, false))
-								papszFileList = CSLAddString(papszFileList, osPreviewPath);
-							
-							for (int k = 0; papszFileList[k] != NULL; ++k)
-							{
-								wxString sPath = wxString::FromUTF8(papszFileList[k]);
-								if(sPath.StartsWith(wxT("/vsi")))
-								{
-									ProgressDlg.PutMessage(wxString::Format(_("The archived file '%s' cannot be added to file set"), sPath.c_str()), wxNOT_FOUND, enumGISMessageWarning);
-								}
-								else
-								{
-									paths.Add(sPath);
-								}
-							}
-							CSLDestroy(papszFileList);
-                            pGxDset->FillMetadata();
-                            CreateFileBucket(paDatasets[j]->GetName(), paths, pGxDset->GetModificationDate(), wxGxNGWResource::MakeMetadata(pDSet), &ProgressDlg);	
-						}
-					}
-					else if(pArchive)
-					{
-						wxArrayString paths;
-						paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
-                        CreateFileBucket(paDatasets[j]->GetName(), paths, GetFileModificatioDate(pArchive->GetRealPath()), wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
-					}
-					else if(pFile)
-					{
-						wxArrayString paths;
-						paths.Add(wxString::FromUTF8(pFile->GetPath()));                       
-                        CreateFileBucket(paDatasets[j]->GetName(), paths, GetFileModificatioDate(pFile->GetPath()), wxJSONValue(wxJSONTYPE_INVALID), &ProgressDlg);
-					}				
-				}
-			}
-			
-			ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());		
-			OnGetUpdates();
-			return true;
-		}
-	}
-	return false;
+                        if (pDSet) {
+                            int nPreviewXSize = 640;
+                            int nPreviewYSize = 640;
+                            wxGISAppConfig oConfig = GetConfig();
+                            if (oConfig.IsOk()) {
+                                wxString sAppName = GetApplication()->GetAppName();
+                                nPreviewXSize =
+                                    oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_x_size"), nPreviewXSize);
+                                nPreviewYSize =
+                                    oConfig.ReadInt(enumGISHKCU, sAppName + wxT("/ngw/preview_y_size"), nPreviewYSize);
+                            }
 
-	//2. if saGxObjectPaths from the same NGW service and copy or from the other NGW service - copy
-	//3. if saGxObjectPaths is feature class or folder with feature class - export
+                            // create raster preview
+                            CPLString osTmpPath = CPLGenerateTempFilename("ngw");
+                            CPLString osPreviewPath =
+                                CPLFormFilename(CPLGetPath(osTmpPath), PREVIEW_FILE_NAME, PREVIEW_FILE_NAME_EXT);
+                            wxGISMapBitmap bmp(nPreviewXSize, nPreviewYSize);
+                            bmp.SetTrackCancel(&ProgressDlg);
+                            wxVector<wxGISLayer*> paLayers;
+
+                            switch (pDSet->GetType()) {
+                            case enumGISFeatureDataset:
+                                paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
+                                while (pDSet->IsCaching()) {
+                                    wxSleep(1);
+                                }
+                                break;
+                            case enumGISRasterDataset:
+                                paLayers.push_back(bmp.GetLayerFromDataset(pDSet));
+                                break;
+                            case enumGISContainer:
+                                // iterate on datasets of the container
+                                {
+                                    wxGxDatasetContainer* pGxDatasetCont = dynamic_cast<wxGxDatasetContainer*>(pGxDset);
+                                    if (pGxDatasetCont && pGxDatasetCont->HasChildren(true)) {
+                                        wxGxObjectList ObjectList = pGxDatasetCont->GetChildren();
+                                        wxGxObjectList::iterator iter;
+                                        for (iter = ObjectList.begin(); iter != ObjectList.end(); ++iter) {
+                                            wxGxObject* current = *iter;
+                                            wxGxDataset* pGxDataset = wxDynamicCast(current, wxGxDataset);
+                                            if (pGxDataset) {
+                                                wxGISDataset* pwxGISDataset =
+                                                    pGxDataset->GetDataset(true, &ProgressDlg);
+                                                wxGISPointerHolder holder1(pwxGISDataset);
+                                                if (pwxGISDataset) {
+                                                    wxGISLayer* pLayer = bmp.GetLayerFromDataset(pwxGISDataset);
+                                                    paLayers.push_back(pLayer);
+                                                    while (pwxGISDataset->IsCaching()) {
+                                                        wxSleep(1);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            };
+
+                            for (size_t k = 0; k < paLayers.size(); ++k) {
+                                if (paLayers[k]) {
+                                    if (paLayers[k]->IsValid()) {
+                                        bmp.AddLayer(paLayers[k]);
+                                    } else {
+                                        wxDELETE(paLayers[k]);
+                                    }
+                                }
+                            }
+
+                            wxArrayString paths;
+                            char** papszFileList = pDSet->GetFileList();
+                            papszFileList = CSLAddString(papszFileList, pDSet->GetPath());
+
+                            // add it to paths list
+                            bmp.SetFullExtent();
+                            if (bmp.SaveAsBitmap(osPreviewPath, enumRasterPng, NULL, false))
+                                papszFileList = CSLAddString(papszFileList, osPreviewPath);
+
+                            for (int k = 0; papszFileList[k] != NULL; ++k) {
+                                wxString sPath = wxString::FromUTF8(papszFileList[k]);
+                                if (sPath.StartsWith(wxT("/vsi"))) {
+                                    ProgressDlg.PutMessage(
+                                        wxString::Format(_("The archived file '%s' cannot be added to file set"),
+                                                         sPath.c_str()),
+                                        wxNOT_FOUND,
+                                        enumGISMessageWarning);
+                                } else {
+                                    paths.Add(sPath);
+                                }
+                            }
+                            CSLDestroy(papszFileList);
+                            pGxDset->FillMetadata();
+                            CreateFileBucket(paDatasets[j]->GetName(),
+                                             paths,
+                                             pGxDset->GetModificationDate(),
+                                             wxGxNGWResource::MakeMetadata(pDSet),
+                                             &ProgressDlg);
+                        }
+                    } else if (pArchive) {
+                        wxArrayString paths;
+                        paths.Add(wxString::FromUTF8(pArchive->GetRealPath()));
+                        CreateFileBucket(paDatasets[j]->GetName(),
+                                         paths,
+                                         GetFileModificatioDate(pArchive->GetRealPath()),
+                                         wxJSONValue(wxJSONTYPE_INVALID),
+                                         &ProgressDlg);
+                    } else if (pFile) {
+                        wxArrayString paths;
+                        paths.Add(wxString::FromUTF8(pFile->GetPath()));
+                        CreateFileBucket(paDatasets[j]->GetName(),
+                                         paths,
+                                         GetFileModificatioDate(pFile->GetPath()),
+                                         wxJSONValue(wxJSONTYPE_INVALID),
+                                         &ProgressDlg);
+                    }
+                }
+            }
+
+            ShowMessageDialog(pParentWnd, ProgressDlg.GetWarnings());
+            OnGetUpdates();
+            return true;
+        }
+    }
+    return false;
+
+    // 2. if saGxObjectPaths from the same NGW service and copy or from the other NGW service - copy
+    // 3. if saGxObjectPaths is feature class or folder with feature class - export
 }
 
 wxArrayString wxGxNGWResourceGroupUI::GetPropertyPages() const
 {
-	wxArrayString out;
-	out.Add("wxGISNGWResourcePropertyPage");
-	out.Add("wxGISNGWMetaPropertyPage");
-	return out;
+    wxArrayString out;
+    out.Add("wxGISNGWResourcePropertyPage");
+    out.Add("wxGISNGWMetaPropertyPage");
+    return out;
 }
 
 bool wxGxNGWResourceGroupUI::HasPropertyPages(void) const
 {
-	return true;
+    return true;
 }
 
-bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString &sName, wxGISDataset * const pInputDataset, OGRwkbGeometryType eFilterGeomType, const wxString &sStyle, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroupUI::CreateVectorLayer(const wxString& sName,
+                                               wxGISDataset* const pInputDataset,
+                                               OGRwkbGeometryType eFilterGeomType,
+                                               const wxString& sStyle,
+                                               bool bSkipInvalidGeometry,
+                                               ITrackCancel* const pTrackCancel)
 {
-#ifdef wxGIS_HAVE_GEOPROCESSING	
-	wxGISFeatureDataset* pInputFeatureDataset = dynamic_cast<wxGISFeatureDataset*>(pInputDataset); 
-	if(NULL == pInputFeatureDataset)
-	{
-		if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(_("Dataset type is not supported. Feature Class expected."), wxNOT_FOUND, enumGISMessageError);
+#ifdef wxGIS_HAVE_GEOPROCESSING
+    wxGISFeatureDataset* pInputFeatureDataset = dynamic_cast<wxGISFeatureDataset*>(pInputDataset);
+    if (NULL == pInputFeatureDataset) {
+        if (pTrackCancel) {
+            pTrackCancel->PutMessage(
+                _("Dataset type is not supported. Feature Class expected."), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
-	}
-	
-	wxGISCurl curl = m_pService->GetCurl();
-    if(!curl.IsOk())
-	{
-		if (pTrackCancel)
-        {
+    }
+
+    wxGISCurl curl = m_pService->GetCurl();
+    if (!curl.IsOk()) {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
-	}
-	
-	//1. create temp shp file
-	if (pTrackCancel)
-    {
+    }
+
+    // 1. create temp shp file
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(_("Prepare feature class"), wxNOT_FOUND, enumGISMessageTitle);
     }
-	
-	const wxGISSpatialReference SrcSpaRef = pInputFeatureDataset->GetSpatialReference();
-	if (!SrcSpaRef.IsOk())
-    {
-        if (pTrackCancel)
-        {
+
+    const wxGISSpatialReference SrcSpaRef = pInputFeatureDataset->GetSpatialReference();
+    if (!SrcSpaRef.IsOk()) {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("Input spatial reference is not defined!"), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
-	wxGISSpatialReference DstSpaRef = wxGISSpatialReference(new OGRSpatialReference(SRS_WKT_WGS84));
-	OGRFeatureDefn *pDef = pInputFeatureDataset->GetDefinition();
-    if(NULL == pDef)
-    {
-        if (pTrackCancel)
-        {
+    wxGISSpatialReference DstSpaRef = wxGISSpatialReference(new OGRSpatialReference(SRS_WKT_WGS84));
+    OGRFeatureDefn* pDef = pInputFeatureDataset->GetDefinition();
+    if (NULL == pDef) {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("Error read dataset definition"), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
 
-    //check multi geometry
-	OGRwkbGeometryType eGeomType = eFilterGeomType;
-	if(eFilterGeomType == wkbUnknown)
-		eGeomType = pInputFeatureDataset->GetGeometryType();
+    // check multi geometry
+    OGRwkbGeometryType eGeomType = eFilterGeomType;
+    if (eFilterGeomType == wkbUnknown)
+        eGeomType = pInputFeatureDataset->GetGeometryType();
 
     bool bIsMultigeom = wkbFlatten(eGeomType) == wkbUnknown || wkbFlatten(eGeomType) == wkbGeometryCollection;
-	if(bIsMultigeom)
-	{
-        if (pTrackCancel)
-        {
+    if (bIsMultigeom) {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("Geometry collection is not supported!"), wxNOT_FOUND, enumGISMessageError);
         }
-        return false;		
-	}
-	
-	OGRFeatureDefn *pNewDef = pDef->Clone();
-	if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4)
-	{
-		eGeomType = (OGRwkbGeometryType)(eGeomType + 3);
-		pNewDef->SetGeomType(eGeomType);//set multi
-		if (pTrackCancel)
-		{
-			pTrackCancel->PutMessage(wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(eGeomType)), wxNOT_FOUND, enumGISMessageInformation);
-		}
-	}
-	
-	//field map
-	wxVector<ST_FIELD_MAP> staFieldMap;
-	int nCount = 0;
-	for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i)
-	{
-		OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
-		if (NULL != pFieldDefn)
-		{
-			wxString sFieldName = wxString(pFieldDefn->GetNameRef(), wxCSConv(pInputFeatureDataset->GetEncoding()));
-			wxString sOldFieldName = sFieldName;
-			if (IsFieldNameForbidden(sFieldName))
-			{
-				sFieldName = Transliterate(sFieldName); 
-				wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
-				//only for shape file
-				//if(sFieldName.Len() > 8)
-				//	sFieldName = sFieldName.Left(8);
-				sFieldName.Replace(wxT(" "), wxT("_"));	
-				sFieldName.Replace(wxT("\""), wxT("_"));
-				sFieldName.Replace(wxT("'"), wxT("_"));
-				sFieldName.Replace(wxT("."), wxT("_"));				
-				sFieldName.Replace(wxT(","), wxT("_"));				
-				sFieldName.Replace(wxT(":"), wxT("_"));
-				sFieldName.Replace(wxT(";"), wxT("_"));				
-				sFieldName.Replace(wxT("!"), wxT("_"));
-					
-				sFieldName.Append(sAppend);
-				pFieldDefn->SetName( sFieldName.ToUTF8() );
-				if (pTrackCancel)
-				{
-					pTrackCancel->PutMessage(wxString::Format(_("Rename field '%s' to '%s'"), sOldFieldName.c_str(), sFieldName.c_str()), wxNOT_FOUND, enumGISMessageWarning);
-				}
-				
+        return false;
+    }
 
-			}
-			OGRFieldType eType = pFieldDefn->GetType();
-			ST_FIELD_MAP record = { nCount, i, eType };
-			staFieldMap.push_back(record);
-			nCount++;		
-		}
-	}
+    OGRFeatureDefn* pNewDef = pDef->Clone();
+    if (wkbFlatten(eGeomType) > 1 && wkbFlatten(eGeomType) < 4) {
+        eGeomType = (OGRwkbGeometryType)(eGeomType + 3);
+        pNewDef->SetGeomType(eGeomType); // set multi
+        if (pTrackCancel) {
+            pTrackCancel->PutMessage(
+                wxString::Format(_("Force geometry field to %s"), OGRGeometryTypeToName(eGeomType)),
+                wxNOT_FOUND,
+                enumGISMessageInformation);
+        }
+    }
 
-    CPLString sUploadFilePath = PrepareUploadGeoJSON(pInputFeatureDataset, pNewDef, DstSpaRef, staFieldMap, bSkipInvalidGeometry, pTrackCancel);
+    // field map
+    wxVector<ST_FIELD_MAP> staFieldMap;
+    int nCount = 0;
+    for (size_t i = 0; i < pNewDef->GetFieldCount(); ++i) {
+        OGRFieldDefn* pFieldDefn = pNewDef->GetFieldDefn(i);
+        if (NULL != pFieldDefn) {
+            wxString sFieldName = wxString(pFieldDefn->GetNameRef(), wxCSConv(pInputFeatureDataset->GetEncoding()));
+            wxString sOldFieldName = sFieldName;
+            if (IsFieldNameForbidden(sFieldName)) {
+                sFieldName = Transliterate(sFieldName);
+                wxString sAppend = wxString::Format(wxT("%.2d"), nCount + 1);
+                // only for shape file
+                // if(sFieldName.Len() > 8)
+                //	sFieldName = sFieldName.Left(8);
+                sFieldName.Replace(wxT(" "), wxT("_"));
+                sFieldName.Replace(wxT("\""), wxT("_"));
+                sFieldName.Replace(wxT("'"), wxT("_"));
+                sFieldName.Replace(wxT("."), wxT("_"));
+                sFieldName.Replace(wxT(","), wxT("_"));
+                sFieldName.Replace(wxT(":"), wxT("_"));
+                sFieldName.Replace(wxT(";"), wxT("_"));
+                sFieldName.Replace(wxT("!"), wxT("_"));
+
+                sFieldName.Append(sAppend);
+                pFieldDefn->SetName(sFieldName.ToUTF8());
+                if (pTrackCancel) {
+                    pTrackCancel->PutMessage(
+                        wxString::Format(_("Rename field '%s' to '%s'"), sOldFieldName.c_str(), sFieldName.c_str()),
+                        wxNOT_FOUND,
+                        enumGISMessageWarning);
+                }
+            }
+            OGRFieldType eType = pFieldDefn->GetType();
+            ST_FIELD_MAP record = { nCount, i, eType };
+            staFieldMap.push_back(record);
+            nCount++;
+        }
+    }
+
+    CPLString sUploadFilePath =
+        PrepareUploadGeoJSON(pInputFeatureDataset, pNewDef, DstSpaRef, staFieldMap, bSkipInvalidGeometry, pTrackCancel);
     if (sUploadFilePath.empty())
         return false;
-	
-	//3. upload with progress
-	
-	if (pTrackCancel)
-    {
+
+    // 3. upload with progress
+
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(_("Upload file"), wxNOT_FOUND, enumGISMessageTitle);
     }
-	
-	wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
+
+    wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
     PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(sUploadFilePath), pTrackCancel);
-	DeleteFile(sUploadFilePath, pTrackCancel);
-	bool bResult = res.IsValid && res.nHTTPCode < 400;
-	
-	if(bResult)
-	{
-		//  "{"upload_meta": [{"id": "0eddf759-86d3-4fe0-b0f1-869fe783d2ed", "name": "ngw1_1.zip", "mime_type": "application/octet-stream", "size": 2299}]}"
-  
-		wxJSONReader reader;
-		wxJSONValue  JSONRoot;
-		int numErrors = reader.Parse(res.sBody, &JSONRoot);
-		if (numErrors > 0)  {    
-			if (pTrackCancel)
-			{
-				pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
-			}
-			return false;
-		}
-		
-		//{"resource":{"cls":"vector_layer","parent":{"id":0},"display_name":"ggg www","keyname":null,"description":null},"vector_layer":{"srs":{"id":3857},"source":{"id":"2f906bf9-0947-45aa-b271-c711fef1d2fd","name":"ngw1_1.zip","mime_type":"application/zip","size":2299,"encoding":"utf-8"}}}
-		
-        if (pTrackCancel)
-        {
+    DeleteFile(sUploadFilePath, pTrackCancel);
+    bool bResult = res.IsValid && res.nHTTPCode < 400;
+
+    if (bResult) {
+        //  "{"upload_meta": [{"id": "0eddf759-86d3-4fe0-b0f1-869fe783d2ed", "name": "ngw1_1.zip", "mime_type":
+        // "application/octet-stream", "size": 2299}]}"
+
+        wxJSONReader reader;
+        wxJSONValue JSONRoot;
+        int numErrors = reader.Parse(res.sBody, &JSONRoot);
+        if (numErrors > 0) {
+            if (pTrackCancel) {
+                pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+            }
+            return false;
+        }
+
+        //{"resource":{"cls":"vector_layer","parent":{"id":0},"display_name":"ggg
+        //www","keyname":null,"description":null},"vector_layer":{"srs":{"id":3857},"source":{"id":"2f906bf9-0947-45aa-b271-c711fef1d2fd","name":"ngw1_1.zip","mime_type":"application/zip","size":2299,"encoding":"utf-8"}}}
+
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("Create NGW layer"), wxNOT_FOUND, enumGISMessageTitle);
         }
 
-		wxJSONValue val;
-		val["resource"]["cls"] = wxString(wxT("vector_layer"));
-		val["resource"]["parent"]["id"] = m_nRemoteId;
-		val["resource"]["display_name"] = sName;
-		val["vector_layer"]["srs"]["id"] = 3857;
-		val["vector_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
-		val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
-		val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
-		val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
-		if(pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
-			val["vector_layer"]["source"]["encoding"] = wxString(wxT("windows-1251"));
-		else
-			val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
-		
-		wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
-		wxString sPayload;
-		writer.Write(val, sPayload);
-		
-		sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-        res = curl.Post(sURL, sPayload, pTrackCancel);
-		bResult = res.IsValid && res.nHTTPCode < 400;
-		
-		if(bResult)
-		{
-            numErrors = reader.Parse(res.sBody, &JSONRoot);
-			if (numErrors > 0)  {    
-				if (pTrackCancel)
-				{
-					pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
-				}
-				return false;
-			}
-		
-            //create default style
-			int nVectorLayerId = JSONRoot["id"].AsInt();
-			bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nVectorLayerId, sName, enumNGWResourceTypeVectorLayerStyle, wkbFlatten(pInputFeatureDataset->GetGeometryType()), sStyle, pTrackCancel);
-			OnGetUpdates();
-			
-			if(bResult)
-				return true;	
-		}		
-	}
-		
-	wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
-	wxString sErr;		
-	wxJSONReader reader;
-    wxJSONValue  JSONRoot;
-    int numErrors = reader.Parse(res.sBody, &JSONRoot);
-    if(numErrors > 0 || !JSONRoot.HasMember("message"))
-	{
-		sErr = wxString (_("Unexpected error"));
-	}	
-	else
-	{
-		sErr = JSONRoot[wxT("message")].AsString();
-	}
-	
-	wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
-	if (pTrackCancel)
-	{
-		pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
-	}
-	
-	return false;		
-#else
-	if (pTrackCancel)
-	{
-		pTrackCancel->PutMessage(_("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
-	}
+        wxJSONValue val;
+        val["resource"]["cls"] = wxString(wxT("vector_layer"));
+        val["resource"]["parent"]["id"] = m_nRemoteId;
+        val["resource"]["display_name"] = sName;
+        val["vector_layer"]["srs"]["id"] = 3857;
+        val["vector_layer"]["source"]["id"] = JSONRoot["upload_meta"][0]["id"];
+        val["vector_layer"]["source"]["name"] = JSONRoot["upload_meta"][0]["name"];
+        val["vector_layer"]["source"]["mime_type"] = wxString(wxT("application/zip"));
+        val["vector_layer"]["source"]["size"] = JSONRoot["upload_meta"][0]["size"];
+        if (pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
+            val["vector_layer"]["source"]["encoding"] = wxString(wxT("windows-1251"));
+        else
+            val["vector_layer"]["source"]["encoding"] = wxString(wxT("utf-8"));
 
-	return false;
-#endif //# wxGIS_HAVE_GEOPROCESSING	
+        wxJSONWriter writer(wxJSONWRITER_NO_INDENTATION | wxJSONWRITER_NO_LINEFEEDS);
+        wxString sPayload;
+        writer.Write(val, sPayload);
+
+        sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
+        res = curl.Post(sURL, sPayload, pTrackCancel);
+        bResult = res.IsValid && res.nHTTPCode < 400;
+
+        if (bResult) {
+            numErrors = reader.Parse(res.sBody, &JSONRoot);
+            if (numErrors > 0) {
+                if (pTrackCancel) {
+                    pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
+                }
+                return false;
+            }
+
+            // create default style
+            int nVectorLayerId = JSONRoot["id"].AsInt();
+            bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService,
+                                                       nVectorLayerId,
+                                                       sName,
+                                                       enumNGWResourceTypeVectorLayerStyle,
+                                                       wkbFlatten(pInputFeatureDataset->GetGeometryType()),
+                                                       sStyle,
+                                                       pTrackCancel);
+            OnGetUpdates();
+
+            if (bResult)
+                return true;
+        }
+    }
+
+    wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
+    wxString sErr;
+    wxJSONReader reader;
+    wxJSONValue JSONRoot;
+    int numErrors = reader.Parse(res.sBody, &JSONRoot);
+    if (numErrors > 0 || !JSONRoot.HasMember("message")) {
+        sErr = wxString(_("Unexpected error"));
+    } else {
+        sErr = JSONRoot[wxT("message")].AsString();
+    }
+
+    wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
+    if (pTrackCancel) {
+        pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
+    }
+
+    return false;
+#else
+    if (pTrackCancel) {
+        pTrackCancel->PutMessage(
+            _("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
+    }
+
+    return false;
+#endif //# wxGIS_HAVE_GEOPROCESSING
 }
 
 #ifdef wxGIS_HAVE_GEOPROCESSING
-CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* const pInputFeatureDataset,
+                                                       OGRFeatureDefn* const pNewDef,
+                                                       const wxGISSpatialReference& spaRef,
+                                                       const wxVector<ST_FIELD_MAP>& staFieldMap,
+                                                       bool bSkipInvalidGeometry,
+                                                       ITrackCancel* const pTrackCancel)
 {
     wxGxFeatureDatasetFilter Filter(enumVecGeoJSON);
     char** papszLayerOptions = NULL;
@@ -1024,8 +1022,21 @@ CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* cons
     if (bSkipInvalidGeometry)
         eSkipGeometry |= enumGISSkipInvalidGeometry;
 
-    if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &Filter, wxGISNullSpatialFilter, pNewDef, staFieldMap, spaRef, NULL, papszLayerOptions, true, pNewDef->GetGeomType(), true, eSkipGeometry, pTrackCancel))
-    {
+    if (!ExportFormatEx(pInputFeatureDataset,
+                        CPLGetPath(osTmpPath),
+                        wxString::FromUTF8(CPLGetBasename(osTmpPath)),
+                        &Filter,
+                        wxGISNullSpatialFilter,
+                        pNewDef,
+                        staFieldMap,
+                        spaRef,
+                        NULL,
+                        papszLayerOptions,
+                        true,
+                        pNewDef->GetGeomType(),
+                        true,
+                        eSkipGeometry,
+                        pTrackCancel)) {
         return CPLString();
     }
 
@@ -1033,16 +1044,18 @@ CPLString wxGxNGWResourceGroupUI::PrepareUploadGeoJSON(wxGISFeatureDataset* cons
     return szFileName;
 }
 
-CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset, OGRFeatureDefn * const pNewDef, const wxGISSpatialReference &spaRef, const wxVector<ST_FIELD_MAP> &staFieldMap, bool bSkipInvalidGeometry, ITrackCancel* const pTrackCancel)
+CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* const pInputFeatureDataset,
+                                                         OGRFeatureDefn* const pNewDef,
+                                                         const wxGISSpatialReference& spaRef,
+                                                         const wxVector<ST_FIELD_MAP>& staFieldMap,
+                                                         bool bSkipInvalidGeometry,
+                                                         ITrackCancel* const pTrackCancel)
 {
     wxGxFeatureDatasetFilter SHPFilter(enumVecESRIShapefile);
     char** papszLayerOptions = NULL;
-    if (pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251)
-    {
+    if (pInputFeatureDataset->GetEncoding() == wxFONTENCODING_CP1251) {
         papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "CP1251");
-    }
-    else
-    {
+    } else {
         papszLayerOptions = CSLAddNameValue(papszLayerOptions, "ENCODING", "UTF-8");
     }
 
@@ -1052,31 +1065,43 @@ CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* co
     if (bSkipInvalidGeometry)
         eSkipGeometry |= enumGISSkipInvalidGeometry;
 
-    if (!ExportFormatEx(pInputFeatureDataset, CPLGetPath(osTmpPath), wxString::FromUTF8(CPLGetBasename(osTmpPath)), &SHPFilter, wxGISNullSpatialFilter, pNewDef, staFieldMap, spaRef, NULL, papszLayerOptions, true, pNewDef->GetGeomType(), true, eSkipGeometry, pTrackCancel))
-    {
+    if (!ExportFormatEx(pInputFeatureDataset,
+                        CPLGetPath(osTmpPath),
+                        wxString::FromUTF8(CPLGetBasename(osTmpPath)),
+                        &SHPFilter,
+                        wxGISNullSpatialFilter,
+                        pNewDef,
+                        staFieldMap,
+                        spaRef,
+                        NULL,
+                        papszLayerOptions,
+                        true,
+                        pNewDef->GetGeomType(),
+                        true,
+                        eSkipGeometry,
+                        pTrackCancel)) {
         return CPLString();
     }
 
-    //2. create temp zip from temp shp, shx, dbf, prj
+    // 2. create temp zip from temp shp, shx, dbf, prj
 
     CPLString szZipFileName = CPLResetExtension(CPLGenerateTempFilename("ngw"), "zip");
     CPLErrorReset();
     void* hZIP = CPLCreateZip(szZipFileName, NULL);
-    if (!hZIP)
-    {
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' create failed!"), szZipFileName.c_str()), wxNOT_FOUND, enumGISMessageError);
+    if (!hZIP) {
+        if (pTrackCancel) {
+            pTrackCancel->PutMessage(wxString::Format(_("Zip file '%s' create failed!"), szZipFileName.c_str()),
+                                     wxNOT_FOUND,
+                                     enumGISMessageError);
         }
         return CPLString();
     }
 
     wxString sCharset(wxT("cp-866"));
     size_t nBufferSize = 1024 * 1024;
-    GByte *pabyBuffer = (GByte *)CPLMalloc(nBufferSize);
+    GByte* pabyBuffer = (GByte*)CPLMalloc(nBufferSize);
     IProgressor* pProgress = NULL;
-    if (pTrackCancel)
-    {
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(_("Compress file"), wxNOT_FOUND, enumGISMessageInformation);
         pProgress = pTrackCancel->GetProgressor();
     }
@@ -1106,34 +1131,37 @@ CPLString wxGxNGWResourceGroupUI::PrepareUploadShapeFile(wxGISFeatureDataset* co
 
     return szZipFileName;
 }
-#endif //GEOPROCESSING
+#endif // GEOPROCESSING
 
-bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDataset * const pInputDataset, unsigned char R, unsigned char G, unsigned char B, unsigned char A, bool bAutoCrop, ITrackCancel* const pTrackCancel)
+bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString& sName,
+                                               wxGISDataset* const pInputDataset,
+                                               unsigned char R,
+                                               unsigned char G,
+                                               unsigned char B,
+                                               unsigned char A,
+                                               bool bAutoCrop,
+                                               ITrackCancel* const pTrackCancel)
 {
-#ifdef wxGIS_HAVE_GEOPROCESSING	
+#ifdef wxGIS_HAVE_GEOPROCESSING
     wxGISRasterDataset* pInputRasterDataset = dynamic_cast<wxGISRasterDataset*>(pInputDataset);
-    if (NULL == pInputRasterDataset)
-    {
-        if (pTrackCancel)
-        {
-            pTrackCancel->PutMessage(_("Dataset type is not supported. Raster expected."), wxNOT_FOUND, enumGISMessageError);
+    if (NULL == pInputRasterDataset) {
+        if (pTrackCancel) {
+            pTrackCancel->PutMessage(
+                _("Dataset type is not supported. Raster expected."), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
 
     wxGISCurl curl = m_pService->GetCurl();
-    if (!curl.IsOk())
-    {
-        if (pTrackCancel)
-        {
+    if (!curl.IsOk()) {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("cURL initialize failed."), wxNOT_FOUND, enumGISMessageError);
         }
         return false;
     }
 
-    //1. create temp tif file
-    if (pTrackCancel)
-    {
+    // 1. create temp tif file
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(_("Prepare GeoTiff file"), wxNOT_FOUND, enumGISMessageTitle);
     }
 
@@ -1148,106 +1176,98 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     anBands.Add(G);
     anBands.Add(B);
     wxGISEnumForceBandColorInterpretation eForceBandColorTo;
-    if (A < 1)
-    {
-        if (bAutoCrop)
-        {
+    if (A < 1) {
+        if (bAutoCrop) {
             eForceBandColorTo = enumGISForceBandsToRGBA;
             anBands.Add(R);
-        }
-        else
-        {
+        } else {
             eForceBandColorTo = enumGISForceBandsToRGB;
         }
-    }
-    else
-    {
+    } else {
         eForceBandColorTo = enumGISForceBandsToRGBA;
         anBands.Add(A);
     }
 
     CPLString szFileName = CPLGenerateTempFilename("ngw");
-    if (!ExportFormatEx(pInputRasterDataset, CPLGetPath(szFileName), wxString::FromUTF8(CPLGetBasename(szFileName)), &TIFFilter, papszOptions, OGREnvelope(), GDT_Byte, anBands, eForceBandColorTo, true, true, pTrackCancel))
-    {
+    if (!ExportFormatEx(pInputRasterDataset,
+                        CPLGetPath(szFileName),
+                        wxString::FromUTF8(CPLGetBasename(szFileName)),
+                        &TIFFilter,
+                        papszOptions,
+                        OGREnvelope(),
+                        GDT_Byte,
+                        anBands,
+                        eForceBandColorTo,
+                        true,
+                        true,
+                        pTrackCancel)) {
         return false;
     }
 
     CPLString szFilePath = CPLResetExtension(szFileName, TIFFilter.GetExt().ToUTF8());
-	
-    //2. auto crop if needed
-    if (bAutoCrop)
-    {
+
+    // 2. auto crop if needed
+    if (bAutoCrop) {
         anBands.RemoveAt(3);
         wxGISRasterDataset TmpRasterDataset(szFilePath, enumRasterTiff);
-		 if (!TmpRasterDataset.IsOpened())
-		{
-			TmpRasterDataset.Open(true);
-		}
-		
-		int buff_size = 64 < TmpRasterDataset.GetWidth() ? 64 :  TmpRasterDataset.GetWidth();
-		buff_size = buff_size < TmpRasterDataset.GetHeight() ? buff_size :  TmpRasterDataset.GetHeight();
-		
-		// analyse crop color
-		void* data = CPLMalloc (buff_size * buff_size * GDALGetDataTypeSize(GDT_Byte) / 8 * 3);
-		int anB[3] = {1, 2, 3}; 
-		
-		int nCountWhite = 0, nCountBlack = 0;
-		//double dfColorBlack = 0, dfColorWhite = 255;
-		if(TmpRasterDataset.GetPixelData(data, 0, 0, buff_size, buff_size, buff_size, buff_size, GDT_Byte, 3, anB))
-		{
-			for(int i = 0; i < buff_size * buff_size; ++i)
-			{
-				unsigned char nColor = SRCVAL(data, GDT_Byte, i);
-				if(nColor > 250)
-				{
-					nCountWhite++;
-					//dfColorWhite = (dfColorWhite + nColor) / 2;
-				}
-				
-				if(nColor < 5)
-				{
-					nCountBlack++;
-					//dfColorBlack = (dfColorBlack + nColor) / 2;
-				}
-			}
-		}
-		
-		CPLFree (data);
-		
+        if (!TmpRasterDataset.IsOpened()) {
+            TmpRasterDataset.Open(true);
+        }
+
+        int buff_size = 64 < TmpRasterDataset.GetWidth() ? 64 : TmpRasterDataset.GetWidth();
+        buff_size = buff_size < TmpRasterDataset.GetHeight() ? buff_size : TmpRasterDataset.GetHeight();
+
+        // analyse crop color
+        void* data = CPLMalloc(buff_size * buff_size * GDALGetDataTypeSize(GDT_Byte) / 8 * 3);
+        int anB[3] = { 1, 2, 3 };
+
+        int nCountWhite = 0, nCountBlack = 0;
+        // double dfColorBlack = 0, dfColorWhite = 255;
+        if (TmpRasterDataset.GetPixelData(data, 0, 0, buff_size, buff_size, buff_size, buff_size, GDT_Byte, 3, anB)) {
+            for (int i = 0; i < buff_size * buff_size; ++i) {
+                unsigned char nColor = SRCVAL(data, GDT_Byte, i);
+                if (nColor > 250) {
+                    nCountWhite++;
+                    // dfColorWhite = (dfColorWhite + nColor) / 2;
+                }
+
+                if (nColor < 5) {
+                    nCountBlack++;
+                    // dfColorBlack = (dfColorBlack + nColor) / 2;
+                }
+            }
+        }
+
+        CPLFree(data);
+
         if (!MakeBorderTransparent(&TmpRasterDataset, anBands, 4, nCountWhite > nCountBlack ? 255 : 0, pTrackCancel))
             return false;
     }
-   
 
-    //3. upload with progress
+    // 3. upload with progress
 
-    if (pTrackCancel)
-    {
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(_("Upload file"), wxNOT_FOUND, enumGISMessageTitle);
     }
 
     wxString sURL = m_pService->GetURL() + wxString(wxT("/file_upload/upload"));
-	curl.SetTimeout(3600); //1 hour
+    curl.SetTimeout(3600); // 1 hour
     PERFORMRESULT res = curl.UploadFile(sURL, wxString::FromUTF8(szFilePath), pTrackCancel);
     DeleteFile(szFilePath, pTrackCancel);
     bool bResult = res.IsValid && res.nHTTPCode < 400;
 
-    if (bResult)
-    {
+    if (bResult) {
         wxJSONReader reader;
-        wxJSONValue  JSONRoot;
+        wxJSONValue JSONRoot;
         int numErrors = reader.Parse(res.sBody, &JSONRoot);
-        if (numErrors > 0)  {
-            if (pTrackCancel)
-            {
+        if (numErrors > 0) {
+            if (pTrackCancel) {
                 pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
             }
             return false;
         }
 
-
-        if (pTrackCancel)
-        {
+        if (pTrackCancel) {
             pTrackCancel->PutMessage(_("Create NGW layer"), wxNOT_FOUND, enumGISMessageTitle);
         }
         wxJSONValue val;
@@ -1265,29 +1285,27 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
         writer.Write(val, sPayload);
 
         sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d/child/"), m_nRemoteId);
-		curl.SetTimeout(3600); //1 hour
+        curl.SetTimeout(3600); // 1 hour
         res = curl.Post(sURL, sPayload, pTrackCancel);
         bResult = res.IsValid && res.nHTTPCode < 400;
 
-        if (bResult)
-        {
+        if (bResult) {
             numErrors = reader.Parse(res.sBody, &JSONRoot);
-            if (numErrors > 0)  {
-                if (pTrackCancel)
-                {
+            if (numErrors > 0) {
+                if (pTrackCancel) {
                     pTrackCancel->PutMessage(_("Unexpected error"), wxNOT_FOUND, enumGISMessageError);
                 }
                 return false;
             }
 
-            if (pTrackCancel)
-            {
+            if (pTrackCancel) {
                 pTrackCancel->PutMessage(_("Create default layer style"), wxNOT_FOUND, enumGISMessageTitle);
             }
 
-            //create default style
+            // create default style
             int nRasterLayerId = JSONRoot["id"].AsInt();
-            bResult = wxGxNGWLayer::CreateDefaultStyle(m_pService, nRasterLayerId, sName, enumNGWResourceTypeRasterLayerStyle, 0, wxEmptyString, pTrackCancel);
+            bResult = wxGxNGWLayer::CreateDefaultStyle(
+                m_pService, nRasterLayerId, sName, enumNGWResourceTypeRasterLayerStyle, 0, wxEmptyString, pTrackCancel);
             OnGetUpdates();
 
             if (bResult)
@@ -1298,133 +1316,132 @@ bool wxGxNGWResourceGroupUI::CreateRasterLayer(const wxString &sName, wxGISDatas
     wxString sErrCode = wxString::Format(_("Error code %ld"), res.nHTTPCode);
     wxString sErr;
     wxJSONReader reader;
-    wxJSONValue  JSONRoot;
+    wxJSONValue JSONRoot;
     int numErrors = reader.Parse(res.sBody, &JSONRoot);
-    if (numErrors > 0 || !JSONRoot.HasMember("message"))
-    {
+    if (numErrors > 0 || !JSONRoot.HasMember("message")) {
         sErr = wxString(_("Unexpected error"));
-    }
-    else
-    {
+    } else {
         sErr = JSONRoot["message"].AsString();
     }
 
     wxString sFullError = sErr + wxT(" (") + sErrCode + wxT(")");
-    if (pTrackCancel)
-    {
+    if (pTrackCancel) {
         pTrackCancel->PutMessage(sFullError, wxNOT_FOUND, enumGISMessageError);
     }
 
     return false;
 #else
-    if (pTrackCancel)
-    {
-        pTrackCancel->PutMessage(_("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
+    if (pTrackCancel) {
+        pTrackCancel->PutMessage(
+            _("Geoprocessing requered to get this functionality."), wxNOT_FOUND, enumGISMessageError);
     }
 
     return false;
-#endif //# wxGIS_HAVE_GEOPROCESSING			
+#endif //# wxGIS_HAVE_GEOPROCESSING
 }
 
 bool wxGxNGWResourceGroupUI::CanImport()
 {
-	return true;
+    return true;
 }
 
 bool wxGxNGWResourceGroupUI::Import(wxWindow* pWnd)
 {
-	//open choose dialog
-	wxGxObjectDialog dlg(pWnd, wxID_ANY, _("Select input objects"));
-	wxGISAppConfig oConfig = GetConfig();
-	if(oConfig.IsOk())
-	{
-		wxString sPath = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/ngw_import/path"), wxEmptyString);
-		if(!sPath.IsEmpty())
-			dlg.SetStartingLocation(sPath);
-	}
-	dlg.SetAllowMultiSelect(true);
-	dlg.SetAllFilters(false);
-	dlg.SetOwnsFilter(true);
-	dlg.SetOverwritePrompt(false);
-	dlg.AddFilter(new wxGxDatasetFilter(enumGISAny), true);
-	
-	if(dlg.ShowModalOpen() == wxID_OK)
-	{
-		const wxGxObjectList lObj = dlg.GetChildren();
-		wxVector<IGxDataset*> paDatasets;
-		for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
-		{
-			wxGxObject* pGxObject = *it;
-			if (NULL != pGxObject)
-			{
-				if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer)))
-				{						
-					wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
-					if (!pCont->HasChildren(true))
-						continue;
-					const wxGxObjectList lObj = pCont->GetChildren();
-					for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it)
-					{
-						IGxDataset *pGxDSet = dynamic_cast<IGxDataset*>(*it);
-						if (NULL != pGxDSet)
-						{
-							paDatasets.push_back(pGxDSet);
-						}
-					}
-				}
-				else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset)))
-				{
-					paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
-				}
-			}
-		}		
-		
-		
-		//create dialog for vector and raster config
-		wxGISDatasetImportDlg dlg(this, paDatasets, pWnd);
-		if(dlg.ShowModal() == wxID_OK)
-		{
-			size_t nCount = dlg.GetDatasetCount();
-			wxGISProgressDlg ProgressDlg(_("Import selected items"), _("Begin operation..."), nCount, pWnd);
-			ProgressDlg.ShowProgress(true);
-			for ( size_t i = 0; i < nCount; ++i ) 
-			{    
-				ProgressDlg.SetValue(i);
-				if(!ProgressDlg.Continue())
-				{
-					return false;
-				}
-				
-				wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
+    // open choose dialog
+    wxGxObjectDialog dlg(pWnd, wxID_ANY, _("Select input objects"));
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk()) {
+        wxString sPath = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/ngw_import/path"), wxEmptyString);
+        if (!sPath.IsEmpty())
+            dlg.SetStartingLocation(sPath);
+    }
+    dlg.SetAllowMultiSelect(true);
+    dlg.SetAllFilters(false);
+    dlg.SetOwnsFilter(true);
+    dlg.SetOverwritePrompt(false);
+    dlg.AddFilter(new wxGxDatasetFilter(enumGISAny), true);
+
+    if (dlg.ShowModalOpen() == wxID_OK) {
+        const wxGxObjectList lObj = dlg.GetChildren();
+        wxVector<IGxDataset*> paDatasets;
+        for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it) {
+            wxGxObject* pGxObject = *it;
+            if (NULL != pGxObject) {
+                if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDatasetContainer))) {
+                    wxGxDatasetContainer* pCont = wxDynamicCast(pGxObject, wxGxDatasetContainer);
+                    if (!pCont->HasChildren(true))
+                        continue;
+                    const wxGxObjectList lObj = pCont->GetChildren();
+                    for (wxGxObjectList::const_iterator it = lObj.begin(); it != lObj.end(); ++it) {
+                        IGxDataset* pGxDSet = dynamic_cast<IGxDataset*>(*it);
+                        if (NULL != pGxDSet) {
+                            paDatasets.push_back(pGxDSet);
+                        }
+                    }
+                } else if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset))) {
+                    paDatasets.push_back(dynamic_cast<IGxDataset*>(pGxObject));
+                }
+            }
+        }
+
+        // create dialog for vector and raster config
+        wxGISDatasetImportDlg dlg(this, paDatasets, pWnd);
+        if (dlg.ShowModal() == wxID_OK) {
+            size_t nCount = dlg.GetDatasetCount();
+            wxGISProgressDlg ProgressDlg(_("Import selected items"), _("Begin operation..."), nCount, pWnd);
+            ProgressDlg.ShowProgress(true);
+            for (size_t i = 0; i < nCount; ++i) {
+                ProgressDlg.SetValue(i);
+                if (!ProgressDlg.Continue()) {
+                    return false;
+                }
+
+                wxGISDatasetImportDlg::DATASETDESCR descr = dlg.GetDataset(i);
                 wxGISPointerHolder holder(descr.pDataset);
-				if(descr.pDataset != NULL)
-				{
-					if(descr.pDataset->GetType() == enumGISFeatureDataset)
-					{
-						CreateVectorLayer(descr.sName, descr.pDataset, descr.eFilterGeometryType, wxEmptyString, descr.bSkipInvalidGeometry, &ProgressDlg);
-					}
-					else if(descr.pDataset->GetType() == enumGISRasterDataset)
-					{
-						CreateRasterLayer(descr.sName, descr.pDataset, descr.nRGBABands.R, descr.nRGBABands.G, descr.nRGBABands.B, descr.nRGBABands.A, descr.bToMultigeomOrAutoCrop, &ProgressDlg);
-					}
-				}
-			}
-			
-			ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());		
-			OnGetUpdates();
-			return true;
-		}		
-	}
-	return false;
+                if (descr.pDataset != NULL) {
+                    if (descr.pDataset->GetType() == enumGISFeatureDataset) {
+                        CreateVectorLayer(descr.sName,
+                                          descr.pDataset,
+                                          descr.eFilterGeometryType,
+                                          wxEmptyString,
+                                          descr.bSkipInvalidGeometry,
+                                          &ProgressDlg);
+                    } else if (descr.pDataset->GetType() == enumGISRasterDataset) {
+                        CreateRasterLayer(descr.sName,
+                                          descr.pDataset,
+                                          descr.nRGBABands.R,
+                                          descr.nRGBABands.G,
+                                          descr.nRGBABands.B,
+                                          descr.nRGBABands.A,
+                                          descr.bToMultigeomOrAutoCrop,
+                                          &ProgressDlg);
+                    }
+                }
+            }
+
+            ShowMessageDialog(pWnd, ProgressDlg.GetWarnings());
+            OnGetUpdates();
+            return true;
+        }
+    }
+    return false;
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWLayerUI
+// class wxGxNGWLayerUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxNGWLayerUI, wxGxNGWLayer)
 
-wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxNGWService *pService, wxGISEnumNGWResourcesType eType, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWLayer(pService, eType, Data, oParent, soName, soPath)
+wxGxNGWLayerUI::wxGxNGWLayerUI(wxGxNGWService* pService,
+                               wxGISEnumNGWResourcesType eType,
+                               const wxJSONValue& Data,
+                               wxGxObject* oParent,
+                               const wxString& soName,
+                               const CPLString& soPath,
+                               const wxIcon& icLargeIcon,
+                               const wxIcon& icSmallIcon)
+    : wxGxNGWLayer(pService, eType, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -1446,26 +1463,72 @@ wxIcon wxGxNGWLayerUI::GetSmallImage(void)
 
 wxArrayString wxGxNGWLayerUI::GetPropertyPages() const
 {
-	wxArrayString out;
-	out.Add("wxGISVectorPropertyPage");	
-	out.Add("wxGISSpatialReferencePropertyPage");	
-	out.Add("wxGISNGWResourcePropertyPage");	
-	out.Add("wxGISNGWMetaPropertyPage");	
-	return out;
+    wxArrayString out;
+    out.Add("wxGISVectorPropertyPage");
+    out.Add("wxGISSpatialReferencePropertyPage");
+    out.Add("wxGISNGWResourcePropertyPage");
+    out.Add("wxGISNGWMetaPropertyPage");
+    return out;
 }
 
 bool wxGxNGWLayerUI::HasPropertyPages(void) const
 {
-	return true;
+    return true;
+}
+bool wxGxNGWLayerUI::CanUpdate(void)
+{
+    true;
+}
+
+bool wxGxNGWLayerUI::Update(wxWindow* parent)
+{
+   // open choose dialog
+    wxGxObjectDialog dlg(parent, wxID_ANY, _("Select input objects"));
+    wxGISAppConfig oConfig = GetConfig();
+    if (oConfig.IsOk()) {
+        wxString sPath = oConfig.Read(enumGISHKCU, dlg.GetAppName() + wxT("/lastpath/ngw_reload/path"), wxEmptyString);
+        if (!sPath.IsEmpty())
+            dlg.SetStartingLocation(sPath);
+    }
+    dlg.SetAllowMultiSelect(false);
+    dlg.SetAllFilters(false);
+    dlg.SetOwnsFilter(true);
+    dlg.SetOverwritePrompt(false);
+    dlg.AddFilter(new wxGxDatasetFilter(enumGISFeatureDataset), true);
+
+    if (dlg.ShowModalOpen() == wxID_OK) {        
+        const wxGxObjectList lObj = dlg.GetChildren();
+        wxGxObject* pGxObject = *lObj.begin();
+        if (pGxObject->IsKindOf(wxCLASSINFO(wxGxDataset))) 
+        {
+            wxGxDataset* pGxDataset = dynamic_cast<wxGxDataset*>(pGxObject);
+            wxGISFeatureDataset* pSrcDs = dynamic_cast<wxGISFeatureDataset*>(pGxDataset->GetDataset(false));
+            wxGISFeatureDataset* pDstDs = dynamic_cast<wxGISFeatureDataset*>(GetDatasetFast());
+            wxGISDataReloaderDlg dlg(pSrcDs, pDstDs, parent);
+            if(dlg.ShowModal() != wxID_OK) 
+            {
+                return false;
+            }
+        }        
+        return true;
+    }
+    return false;
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWRasterUI
+// class wxGxNGWRasterUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxNGWRasterUI, wxGxNGWRaster)
 
-wxGxNGWRasterUI::wxGxNGWRasterUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWRaster(pService, Data, oParent, soName, soPath)
+wxGxNGWRasterUI::wxGxNGWRasterUI(wxGxNGWService* pService,
+                                 const wxJSONValue& Data,
+                                 wxGxObject* oParent,
+                                 const wxString& soName,
+                                 const CPLString& soPath,
+                                 const wxIcon& icLargeIcon,
+                                 const wxIcon& icSmallIcon)
+    : wxGxNGWRaster(pService, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -1487,38 +1550,48 @@ wxIcon wxGxNGWRasterUI::GetSmallImage(void)
 
 wxArrayString wxGxNGWRasterUI::GetPropertyPages() const
 {
-	wxArrayString out;
-	out.Add("wxGISRasterPropertyPage");	
-	out.Add("wxGISSpatialReferencePropertyPage");
-	out.Add("wxGISNGWResourcePropertyPage");	
-	out.Add("wxGISNGWMetaPropertyPage");	
-	return out;
+    wxArrayString out;
+    out.Add("wxGISRasterPropertyPage");
+    out.Add("wxGISSpatialReferencePropertyPage");
+    out.Add("wxGISNGWResourcePropertyPage");
+    out.Add("wxGISNGWMetaPropertyPage");
+    return out;
 }
 
 bool wxGxNGWRasterUI::HasPropertyPages(void) const
 {
-	return true;
+    return true;
 }
 
 //--------------------------------------------------------------
-//class wxGxNGWPostGISConnectionUI
+// class wxGxNGWPostGISConnectionUI
 //--------------------------------------------------------------
 #ifdef wxGIS_USE_POSTGRES
 IMPLEMENT_CLASS(wxGxNGWPostGISConnectionUI, wxGxRemoteConnectionUI)
 
-wxGxNGWPostGISConnectionUI::wxGxNGWPostGISConnectionUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &LargeIconConn, const wxIcon &SmallIconConn, const wxIcon &LargeIconDisconn, const wxIcon &SmallIconDisconn) : wxGxRemoteConnectionUI(oParent, soName, soPath, LargeIconConn, SmallIconConn, LargeIconDisconn, SmallIconDisconn), wxGxNGWResource(Data)
+wxGxNGWPostGISConnectionUI::wxGxNGWPostGISConnectionUI(wxGxNGWService* pService,
+                                                       const wxJSONValue& Data,
+                                                       wxGxObject* oParent,
+                                                       const wxString& soName,
+                                                       const CPLString& soPath,
+                                                       const wxIcon& LargeIconConn,
+                                                       const wxIcon& SmallIconConn,
+                                                       const wxIcon& LargeIconDisconn,
+                                                       const wxIcon& SmallIconDisconn)
+    : wxGxRemoteConnectionUI(oParent, soName, soPath, LargeIconConn, SmallIconConn, LargeIconDisconn, SmallIconDisconn)
+    , wxGxNGWResource(Data)
 {
     m_eResourceType = enumNGWResourceTypePostgisConnection;
     m_pService = pService;
-    m_sName = m_sDisplayName;	
-	wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
-	m_sPath = CPLString(sURL.ToUTF8());
-	
-	wxJSONValue JSONConn = Data[wxT("postgis_connection")];
-	m_sUser =  JSONConn[wxT("username")].AsString();
-	m_sPass =  JSONConn[wxT("password")].AsString();
-	m_sDatabase =  JSONConn[wxT("database")].AsString();
-	m_sHost =  JSONConn[wxT("hostname")].AsString();
+    m_sName = m_sDisplayName;
+    wxString sURL = m_pService->GetURL() + wxString::Format(wxT("/resource/%d"), m_nRemoteId);
+    m_sPath = CPLString(sURL.ToUTF8());
+
+    wxJSONValue JSONConn = Data[wxT("postgis_connection")];
+    m_sUser = JSONConn[wxT("username")].AsString();
+    m_sPass = JSONConn[wxT("password")].AsString();
+    m_sDatabase = JSONConn[wxT("database")].AsString();
+    m_sHost = JSONConn[wxT("hostname")].AsString();
 }
 
 wxGxNGWPostGISConnectionUI::~wxGxNGWPostGISConnectionUI(void)
@@ -1526,15 +1599,15 @@ wxGxNGWPostGISConnectionUI::~wxGxNGWPostGISConnectionUI(void)
 }
 
 wxString wxGxNGWPostGISConnectionUI::GetCategory(void) const
-{ 
-	return wxString(_("NGW PostGIS Connection")); 
+{
+    return wxString(_("NGW PostGIS Connection"));
 }
 
 wxGISDataset* const wxGxNGWPostGISConnectionUI::GetDatasetFast(void)
 {
- 	if(m_pwxGISDataset == NULL)
-    {
-        wxGISPostgresDataSource* pDSet = new wxGISPostgresDataSource(m_sUser, m_sPass, wxT("5432"), m_sHost, m_sDatabase);
+    if (m_pwxGISDataset == NULL) {
+        wxGISPostgresDataSource* pDSet =
+            new wxGISPostgresDataSource(m_sUser, m_sPass, wxT("5432"), m_sHost, m_sDatabase);
         m_pwxGISDataset = wxStaticCast(pDSet, wxGISDataset);
         m_pwxGISDataset->Reference();
     }
@@ -1543,105 +1616,105 @@ wxGISDataset* const wxGxNGWPostGISConnectionUI::GetDatasetFast(void)
 
 int wxGxNGWPostGISConnectionUI::GetParentResourceId() const
 {
-	wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
-	if(NULL == pParentResource)
-		return wxNOT_FOUND;
-	return pParentResource->GetRemoteId();
+    wxGxNGWResource* pParentResource = dynamic_cast<wxGxNGWResource*>(m_oParent);
+    if (NULL == pParentResource)
+        return wxNOT_FOUND;
+    return pParentResource->GetRemoteId();
 }
-
 
 bool wxGxNGWPostGISConnectionUI::CanDelete(void)
 {
-    //check permissions
-	if(m_oPermissions.IsValid())
-	{
-		bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
-		return bCanDelete && m_pService != NULL;
-	}
+    // check permissions
+    if (m_oPermissions.IsValid()) {
+        bool bCanDelete = m_oPermissions["resource"]["delete"].AsBool();
+        return bCanDelete && m_pService != NULL;
+    }
     return m_pService != NULL;
 }
 
 bool wxGxNGWPostGISConnectionUI::CanRename(void)
 {
-    //check permissions
-	if(m_oPermissions.IsValid())
-	{
-		bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
-		return bCanRename && m_pService != NULL;
-	}
+    // check permissions
+    if (m_oPermissions.IsValid()) {
+        bool bCanRename = m_oPermissions["resource"]["update"].AsBool();
+        return bCanRename && m_pService != NULL;
+    }
     return m_pService != NULL;
 }
 
 bool wxGxNGWPostGISConnectionUI::Delete(void)
 {
-    if( DeleteResource() )
-	{
-		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
-		if(pNotify)
-		{
-			pNotify->OnGetUpdates();
-		}
-		return true;
-	}
-	return false;
+    if (DeleteResource()) {
+        IGxObjectNotifier* pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+        if (pNotify) {
+            pNotify->OnGetUpdates();
+        }
+        return true;
+    }
+    return false;
 }
 
-bool wxGxNGWPostGISConnectionUI::Rename(const wxString &sNewName)
+bool wxGxNGWPostGISConnectionUI::Rename(const wxString& sNewName)
 {
-    if( RenameResource(sNewName) )
-	{
-		IGxObjectNotifier *pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
-		if(pNotify)
-		{
-			pNotify->OnGetUpdates();
-		}
-		return true;
-	}
-	return false;
+    if (RenameResource(sNewName)) {
+        IGxObjectNotifier* pNotify = dynamic_cast<IGxObjectNotifier*>(m_oParent);
+        if (pNotify) {
+            pNotify->OnGetUpdates();
+        }
+        return true;
+    }
+    return false;
 }
 
-bool wxGxNGWPostGISConnectionUI::Copy(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+bool wxGxNGWPostGISConnectionUI::Copy(const CPLString& szDestPath, ITrackCancel* const pTrackCancel)
 {
     return false;
 }
 
-bool wxGxNGWPostGISConnectionUI::CanCopy(const CPLString &szDestPath)
+bool wxGxNGWPostGISConnectionUI::CanCopy(const CPLString& szDestPath)
 {
-	return CanCopyResource(szDestPath);
+    return CanCopyResource(szDestPath);
 }
 
-bool wxGxNGWPostGISConnectionUI::Move(const CPLString &szDestPath, ITrackCancel* const pTrackCancel)
+bool wxGxNGWPostGISConnectionUI::Move(const CPLString& szDestPath, ITrackCancel* const pTrackCancel)
 {
     return false;
 }
 
-bool wxGxNGWPostGISConnectionUI::CanMove(const CPLString &szDestPath)
+bool wxGxNGWPostGISConnectionUI::CanMove(const CPLString& szDestPath)
 {
-	if(!CanMoveResource(szDestPath))
-		return CanCopy(szDestPath) && CanDelete();
-	return true;
+    if (!CanMoveResource(szDestPath))
+        return CanCopy(szDestPath) && CanDelete();
+    return true;
 }
 
 wxArrayString wxGxNGWPostGISConnectionUI::GetPropertyPages() const
 {
-	wxArrayString out;	
-	out.Add("wxGISNGWResourcePropertyPage");	
-	out.Add("wxGISNGWMetaPropertyPage");		
-	return out;
+    wxArrayString out;
+    out.Add("wxGISNGWResourcePropertyPage");
+    out.Add("wxGISNGWMetaPropertyPage");
+    return out;
 }
 
 bool wxGxNGWPostGISConnectionUI::HasPropertyPages(void) const
 {
-	return true;
+    return true;
 }
-#endif //wxGIS_USE_POSTGRES
+#endif // wxGIS_USE_POSTGRES
 //--------------------------------------------------------------
-//class wxGxNGWFileSetUI
+// class wxGxNGWFileSetUI
 //--------------------------------------------------------------
 
 IMPLEMENT_CLASS(wxGxNGWFileSetUI, wxGxNGWFileSet)
 
-wxGxNGWFileSetUI::wxGxNGWFileSetUI(wxGxNGWService *pService, const wxJSONValue &Data, wxGxObject *oParent, const wxString &soName, const CPLString &soPath, const wxIcon &icLargeIcon, const wxIcon &icSmallIcon) : wxGxNGWFileSet(pService, Data, oParent, soName, soPath)
+wxGxNGWFileSetUI::wxGxNGWFileSetUI(wxGxNGWService* pService,
+                                   const wxJSONValue& Data,
+                                   wxGxObject* oParent,
+                                   const wxString& soName,
+                                   const CPLString& soPath,
+                                   const wxIcon& icLargeIcon,
+                                   const wxIcon& icSmallIcon)
+    : wxGxNGWFileSet(pService, Data, oParent, soName, soPath)
 {
     m_icLargeIcon = icLargeIcon;
     m_icSmallIcon = icSmallIcon;
@@ -1663,16 +1736,15 @@ wxIcon wxGxNGWFileSetUI::GetSmallImage(void)
 
 wxArrayString wxGxNGWFileSetUI::GetPropertyPages() const
 {
-	wxArrayString out;	
-	out.Add("wxGISNGWResourcePropertyPage");	
-	out.Add("wxGISNGWMetaPropertyPage");		
-	return out;
+    wxArrayString out;
+    out.Add("wxGISNGWResourcePropertyPage");
+    out.Add("wxGISNGWMetaPropertyPage");
+    return out;
 }
 
 bool wxGxNGWFileSetUI::HasPropertyPages(void) const
 {
-	return true;
+    return true;
 }
-
 
 #endif // wxGIS_USE_CURL

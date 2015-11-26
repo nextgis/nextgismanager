@@ -32,6 +32,7 @@ enum wxGISGeoprocessingCmdType{
     enumGISGeoprocessingCmdExportWithParameters,
     enumGISGeoprocessingCmdExportAttrbutes,
 	enumGISGeoprocessingCmdImport,
+	enumGISGeoprocessingCmdIUpdate,
     enumGISGeoprocessingCmdMax
 };
 
@@ -65,5 +66,5 @@ protected:
 	wxGISApplicationBase* m_pApp;
 	wxGxApplicationBase* m_pGxApp;
 	wxWindow* m_pToolboxView;
-	wxIcon m_IconGPMenu, m_IconToolView, m_IconImport;
+	wxIcon m_IconGPMenu, m_IconToolView, m_IconImport, m_IconUpdate;
 };
