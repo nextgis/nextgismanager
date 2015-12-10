@@ -217,6 +217,7 @@ public:
 
 protected:
     void OnOpenCachePath(wxCommandEvent& event);
+    void OnUseProxyCheck(wxCommandEvent& event);
 
 protected:
     wxStaticText* m_staticText1;
@@ -252,6 +253,7 @@ protected:
     wxString m_sHTTPCodes;
     wxString m_sWMSCachePath; 
     wxGISApplicationBase* m_pApp;
+    wxCheckBox *m_pUseProxyCheck;
 
 private:
     DECLARE_EVENT_TABLE()

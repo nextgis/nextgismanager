@@ -790,6 +790,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGISNetworkPropertyPage, IPropertyPage)
 
 BEGIN_EVENT_TABLE(wxGISNetworkPropertyPage, wxPanel)
     EVT_BUTTON(ID_OPENCACHEPATH, wxGISNetworkPropertyPage::OnOpenCachePath)
+    EVT_CHECKBOX(ID_M_USEPROXYCHECK, wxGISNetworkPropertyPage::OnUseProxyCheck)
 END_EVENT_TABLE()
 
 wxGISNetworkPropertyPage::wxGISNetworkPropertyPage(void)
@@ -814,7 +815,7 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
 
     //fill values
     wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
-    if (oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), false) && sProxy.Find(':') != wxNOT_FOUND)
+    if (sProxy.Find(':') != wxNOT_FOUND)
     {
         wxArrayString saProxy = wxStringTokenize(sProxy, wxT(":"), wxTOKEN_RET_EMPTY);
         m_sProxyAddress = saProxy[0];
@@ -890,9 +891,9 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     wxStaticBoxSizer* sbSizer1;
     sbSizer1 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Proxy")), wxVERTICAL);
 
-    wxCheckBox *pUseProxyCheck = new wxCheckBox(this, ID_M_USEPROXYCHECK, _("Use proxy"), wxDefaultPosition, wxDefaultSize, 0);
-    pUseProxyCheck->SetValidator(wxGenericValidator(&m_bUseProxy));
-    sbSizer1->Add(pUseProxyCheck, 0, wxALL | wxEXPAND, 5);
+    m_pUseProxyCheck = new wxCheckBox(this, ID_M_USEPROXYCHECK, _("Use proxy"), wxDefaultPosition, wxDefaultSize, 0);
+    m_pUseProxyCheck->SetValidator(wxGenericValidator(&m_bUseProxy));
+    sbSizer1->Add(m_pUseProxyCheck, 0, wxALL | wxEXPAND, 5);
 
     wxBoxSizer* bProxySizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -926,6 +927,17 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     sbSizer1->Add(bProxySizer, 0, wxEXPAND, 5);
 
     bMainSizer->Add(sbSizer1, 0, wxEXPAND, 5);
+
+    if (m_bUseProxy)
+    {
+        m_ProxyAddress->Enable(true);
+        m_port->Enable(true);
+    }
+    else
+    {
+        m_ProxyAddress->Enable(false);
+        m_port->Enable(false);
+    }
 
     wxStaticBoxSizer* sbSizer2;
     sbSizer2 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("WMS")), wxVERTICAL);
@@ -998,6 +1010,20 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
 
     TransferDataToWindow();
     return true;
+}
+
+void wxGISNetworkPropertyPage::OnUseProxyCheck(wxCommandEvent& event)
+{
+    if (m_pUseProxyCheck->GetValue())
+    {
+        m_ProxyAddress->Enable(true);
+        m_port->Enable(true);
+    }
+    else
+    {
+        m_ProxyAddress->Enable(false);
+        m_port->Enable(false);
+    }
 }
 
 void wxGISNetworkPropertyPage::Apply(void)
