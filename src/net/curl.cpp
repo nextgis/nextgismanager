@@ -49,7 +49,8 @@ wxGISCurl::wxGISCurl(bool bReplaceUserAgent)
     wxGISAppConfig oConfig = GetConfig();
     if (oConfig.IsOk())
     {
-        sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+        if (oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), false))
+            sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
         sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), wxEmptyString);
         nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), nDNSCacheTimeout);
         nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), nTimeout);
@@ -107,7 +108,8 @@ wxObjectRefData *wxGISCurl::CreateRefData() const
     wxGISAppConfig oConfig = GetConfig();
     if (oConfig.IsOk())
     {
-        sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+        if (oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), false))
+            sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
         sHeaders = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/headers"), wxEmptyString);
         nDNSCacheTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/dns_cache_timeout"), nDNSCacheTimeout);
         nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), nTimeout);

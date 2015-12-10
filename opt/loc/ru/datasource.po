@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 05:06+0300\n"
-"PO-Revision-Date: 2015-11-16 05:06+0300\n"
+"POT-Creation-Date: 2015-12-10 17:39+0300\n"
+"PO-Revision-Date: 2015-12-10 17:39+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -48,7 +48,7 @@ msgid "No files to copy"
 msgstr "Нет файлов для копирования"
 
 #: ../../../src/datasource/featuredataset.cpp:593
-#: ../../../src/datasource/table.cpp:881
+#: ../../../src/datasource/table.cpp:887
 msgid "PreLoad Features of "
 msgstr "Предварительная загрузка геоданных из "
 
@@ -190,9 +190,9 @@ msgstr "Не возможно создать выходной файл '%s'!"
 msgid "Table open failed! Path '%s'"
 msgstr "Не удалось открыть таблицу! Путь '%s'"
 
-#: ../../../src/datasource/table.cpp:598 ../../../src/datasource/table.cpp:642
-#: ../../../src/datasource/table.cpp:1115
-#: ../../../src/datasource/table.cpp:1161
+#: ../../../src/datasource/table.cpp:604 ../../../src/datasource/table.cpp:648
+#: ../../../src/datasource/table.cpp:1121
+#: ../../../src/datasource/table.cpp:1167
 msgid "Interrupted by user"
 msgstr "Отменено пользователем"
 

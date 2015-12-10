@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 05:06+0300\n"
-"PO-Revision-Date: 2015-11-16 05:06+0300\n"
+"POT-Creation-Date: 2015-12-10 17:39+0300\n"
+"PO-Revision-Date: 2015-12-10 18:01+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -19,71 +19,83 @@ msgstr ""
 "X-Poedit-SearchPath-0: ../../../src/geoprocessingui\n"
 "X-Poedit-SearchPath-1: ../../../include/wxgis/geoprocessingui\n"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:92
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:98
 msgid "Show/Hide &Toolbox panel"
 msgstr "Показать/Скрыть панель &наборов инструментов"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:94
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:100
 msgid "&Export"
 msgstr "&Экспорт"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:96
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:102
 msgid "E&xport with parameters"
 msgstr "Э&кспорт с параметрами"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:98
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:104
 msgid "Export &attributes"
 msgstr "Экспорт &атрибутов"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:100
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:106
 msgid "&Import"
 msgstr "&Импорт"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:111
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:108
+msgid "&Update"
+msgstr "О&бновить"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:119
 msgid "View"
 msgstr "Вид"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:116
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:125
 #: ../../../src/geoprocessingui/taskcmd.cpp:109
 msgid "Geoprocessing"
 msgstr "Геопроцессинг"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:234
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:432
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:259
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:474
 msgid "Show/Hide Toolbox panel"
 msgstr "Показать/Скрыть панель наборов инструментов"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:236
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:261
 msgid "Export selected item(s) to another format"
 msgstr "Экспорт в другой формат"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:238
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:263
 msgid "Export selected item to another format"
 msgstr "Экспорт в другой формат"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:240
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:265
 msgid "Export selected item attributes"
 msgstr "Экспорт атрибутов выбранного объекта"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:242
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:267
 msgid "Import into selected item"
 msgstr "Импорт в выбранный элемент"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:434
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:269
+msgid "Update selected item"
+msgstr "Обновить выбранный элемент"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:476
 msgid "Export item(s)"
 msgstr "Экспорт элемента(ов)"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:436
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:478
 msgid "Export item with parameters"
 msgstr "Экспорт в другой формат с параметрами"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:438
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:480
 msgid "Export item's attributes"
 msgstr "Экспорт атрибутов"
 
-#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:440
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:482
 msgid "Import into the item"
 msgstr "Импорт в элемент"
+
+#: ../../../src/geoprocessingui/geoprocessingcmd.cpp:484
+msgid "Update the item via append or replace"
+msgstr "Обновить слой через добавление/замену"
 
 #: ../../../src/geoprocessingui/gpcontrols.cpp:156
 #: ../../../src/geoprocessingui/gpcontrols.cpp:556

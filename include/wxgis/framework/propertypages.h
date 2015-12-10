@@ -204,7 +204,8 @@ class WXDLLIMPEXP_GIS_FRW wxGISNetworkPropertyPage : public IPropertyPage
         ID_M_WMSTIMEOUT,
         ID_M_HTTPCODES,
         ID_CACHEPATH,
-        ID_OPENCACHEPATH
+        ID_OPENCACHEPATH,
+        ID_M_USEPROXYCHECK
     };
 public:
     wxGISNetworkPropertyPage(void);
@@ -243,7 +244,7 @@ protected:
     int m_nTimeout;
     int m_nConnectTimeout;
     int m_nDNSCacheTimeout;
-    bool m_bSSLVerify;
+    bool m_bSSLVerify, m_bUseProxy;
     wxString m_sProxyAddress;
     int m_nProxyPort;
     int m_nCacheDepth;

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 05:06+0300\n"
-"PO-Revision-Date: 2015-11-16 05:06+0300\n"
+"POT-Creation-Date: 2015-12-10 17:39+0300\n"
+"PO-Revision-Date: 2015-12-10 18:01+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -473,52 +473,56 @@ msgstr "Параметры SXF"
 msgid "Other OGR options"
 msgstr "Другие параметры OGR"
 
-#: ../../../src/framework/propertypages.cpp:845
-#: ../../../src/framework/propertypages.cpp:956
+#: ../../../src/framework/propertypages.cpp:847
+#: ../../../src/framework/propertypages.cpp:966
 msgid "Timeout (sec.)"
 msgstr "Задержка (сек.):"
 
-#: ../../../src/framework/propertypages.cpp:857
+#: ../../../src/framework/propertypages.cpp:859
 msgid "Connect timeout (sec.)"
 msgstr "Задержка подключения (сек.):"
 
-#: ../../../src/framework/propertypages.cpp:869
+#: ../../../src/framework/propertypages.cpp:871
 msgid "DNS cache timeout (sec.)"
 msgstr "Задержка DNS кэша (сек.):"
 
-#: ../../../src/framework/propertypages.cpp:883
+#: ../../../src/framework/propertypages.cpp:885
 msgid "SSL verify"
 msgstr "Проверка SSL"
 
-#: ../../../src/framework/propertypages.cpp:889
+#: ../../../src/framework/propertypages.cpp:891
 msgid "Proxy"
 msgstr "Прокси"
 
-#: ../../../src/framework/propertypages.cpp:891
+#: ../../../src/framework/propertypages.cpp:893
+msgid "Use proxy"
+msgstr "Использовать прокси"
+
+#: ../../../src/framework/propertypages.cpp:899
 msgid "Address"
 msgstr "Адрес"
 
-#: ../../../src/framework/propertypages.cpp:906
+#: ../../../src/framework/propertypages.cpp:914
 msgid "port"
 msgstr "порт"
 
-#: ../../../src/framework/propertypages.cpp:921
+#: ../../../src/framework/propertypages.cpp:931
 msgid "WMS"
 msgstr "WMS"
 
-#: ../../../src/framework/propertypages.cpp:929
+#: ../../../src/framework/propertypages.cpp:939
 msgid "Cache path"
 msgstr "Папка с кэшем"
 
-#: ../../../src/framework/propertypages.cpp:945
+#: ../../../src/framework/propertypages.cpp:955
 msgid "Cache depth"
 msgstr "Глубина кэша"
 
-#: ../../../src/framework/propertypages.cpp:967
+#: ../../../src/framework/propertypages.cpp:977
 msgid "Zero Block HTTP Codes"
 msgstr "Коды HTTP для пустых тайлов"
 
-#: ../../../src/framework/propertypages.cpp:1018
+#: ../../../src/framework/propertypages.cpp:1032
 msgid "Choose a folder for cache"
 msgstr "Выберите путь до папки кэша"
 
@@ -616,7 +620,7 @@ msgstr "Прочее"
 msgid "GDAL Configuration"
 msgstr "Конфигурация GDAL"
 
-#: ../../../include/wxgis/framework/propertypages.h:214
+#: ../../../include/wxgis/framework/propertypages.h:215
 msgid "Network"
 msgstr "Сеть"
 
