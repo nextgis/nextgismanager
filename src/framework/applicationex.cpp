@@ -433,9 +433,12 @@ bool wxGISApplicationEx::SetupSys(const wxString &sSysPath)
 	// set network stuff
     if (oConfig.IsOk())
     {
-        wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
-        if (!sProxy.IsEmpty() && sProxy.Find(':') != wxNOT_FOUND)
-            CPLSetConfigOption("GDAL_HTTP_PROXY", sProxy.ToUTF8());
+        if (oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), false))
+        {
+            wxString sProxy = oConfig.Read(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxEmptyString);
+            if (!sProxy.IsEmpty() && sProxy.Find(':') != wxNOT_FOUND)
+                CPLSetConfigOption("GDAL_HTTP_PROXY", sProxy.ToUTF8());        
+        }
 
         int nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
         CPLSetConfigOption("GDAL_HTTP_TIMEOUT", wxString::Format(wxT("%d"), nTimeout).ToUTF8());

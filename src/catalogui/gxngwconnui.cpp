@@ -1475,9 +1475,10 @@ bool wxGxNGWLayerUI::HasPropertyPages(void) const
 {
     return true;
 }
+
 bool wxGxNGWLayerUI::CanUpdate(void)
 {
-    true;
+    return true;
 }
 
 bool wxGxNGWLayerUI::Update(wxWindow* parent)

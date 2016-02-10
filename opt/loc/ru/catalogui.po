@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgis manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 05:06+0300\n"
-"PO-Revision-Date: 2015-11-16 05:06+0300\n"
+"POT-Creation-Date: 2015-12-10 17:39+0300\n"
+"PO-Revision-Date: 2015-12-10 17:41+0300\n"
 "Last-Translator: Dmitry Baryshnikov <polimax@mail.ru>\n"
 "Language-Team: NextGIS <polimax@mail.ru>\n"
 "Language: ru_RU\n"
@@ -75,9 +75,9 @@ msgstr "Свойства"
 #: ../../../src/catalogui/catalogcmd.cpp:198
 #: ../../../src/catalogui/gxcatalogui.cpp:113
 #: ../../../src/catalogui/gxcatalogui.cpp:168
-#: ../../../src/catalogui/gxngwconnui.cpp:434
-#: ../../../src/catalogui/gxngwconnui.cpp:459
-#: ../../../src/catalogui/gxngwconnui.cpp:502
+#: ../../../src/catalogui/gxngwconnui.cpp:471
+#: ../../../src/catalogui/gxngwconnui.cpp:494
+#: ../../../src/catalogui/gxngwconnui.cpp:531
 msgid "Copy"
 msgstr "Копировать"
 
@@ -257,6 +257,8 @@ msgstr ""
 "Продолжить?"
 
 #: ../../../src/catalogui/catalogcmd.cpp:681
+#: ../../../src/catalogui/createremotedlgs.cpp:399
+#: ../../../src/catalogui/createremotedlgs.cpp:622
 #: ../../../src/catalogui/processing.cpp:909
 #: ../../../src/catalogui/remoteconndlgs.cpp:1780
 #: ../../../src/catalogui/remoteconndlgs.cpp:1794
@@ -469,24 +471,24 @@ msgstr "Создание  '%s'  не удалось!"
 msgid "Create new NGW connection"
 msgstr "Создать новое подключение к NGW"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:49
+#: ../../../src/catalogui/createremotedlgs.cpp:52
 msgid "No template, use extension"
 msgstr "Без шаблона, использовать экстеншн"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:85
+#: ../../../src/catalogui/createremotedlgs.cpp:88
 #: ../../../src/catalogui/remoteconndlgs.cpp:259
 #: ../../../src/catalogui/remoteconndlgs.cpp:1531
 msgid "Crypt password failed!"
 msgstr "Не удалось зашифровать пароль!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:109
+#: ../../../src/catalogui/createremotedlgs.cpp:112
 #: ../../../src/catalogui/remoteconndlgs.cpp:284
 #: ../../../src/catalogui/remoteconndlgs.cpp:863
 #: ../../../src/catalogui/remoteconndlgs.cpp:1553
 msgid "The connection file already exist!"
 msgstr "Файл подключения уже существует!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:120
+#: ../../../src/catalogui/createremotedlgs.cpp:123
 #: ../../../src/catalogui/remoteconndlgs.cpp:295
 #: ../../../src/catalogui/remoteconndlgs.cpp:875
 #: ../../../src/catalogui/remoteconndlgs.cpp:901
@@ -494,8 +496,8 @@ msgstr "Файл подключения уже существует!"
 msgid "Connection create failed!"
 msgstr "Не удалось создать подключение!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:130
-#: ../../../src/catalogui/createremotedlgs.cpp:295
+#: ../../../src/catalogui/createremotedlgs.cpp:133
+#: ../../../src/catalogui/createremotedlgs.cpp:298
 #: ../../../src/catalogui/remoteconndlgs.cpp:359
 #, c-format
 msgid ""
@@ -504,79 +506,80 @@ msgid ""
 msgstr ""
 "Не удалось выполнить операцию '%s'! Хост '%s', База данных '%s', Порт='%s'"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:130
+#: ../../../src/catalogui/createremotedlgs.cpp:133
 msgid "Create DB"
 msgstr "Создать БД"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:138
+#: ../../../src/catalogui/createremotedlgs.cpp:141
+#: ../../../src/catalogui/createremotedlgs.cpp:671
 #: ../../../src/catalogui/remoteconndlgs.cpp:342
 #: ../../../src/catalogui/remoteconndlgs.cpp:915
 #: ../../../src/catalogui/remoteconndlgs.cpp:1590
 msgid "Some input values are incorrect!"
 msgstr "Некоторые входные значения некорректны!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:159
+#: ../../../src/catalogui/createremotedlgs.cpp:162
 msgid "DB Name:"
 msgstr "Имя БД:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:165
+#: ../../../src/catalogui/createremotedlgs.cpp:168
 msgid "DB Template:"
 msgstr "Шаблон БД"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:175
+#: ../../../src/catalogui/createremotedlgs.cpp:178
 msgid "DB Connection Name:"
 msgstr "Название подключения к БД"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:192
+#: ../../../src/catalogui/createremotedlgs.cpp:195
 #: ../../../src/catalogui/remoteconndlgs.cpp:425
 msgid "Server:"
 msgstr "Сервер:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:199
+#: ../../../src/catalogui/createremotedlgs.cpp:202
 #: ../../../src/catalogui/remoteconndlgs.cpp:432
 msgid "Port:"
 msgstr "Порт:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:206
+#: ../../../src/catalogui/createremotedlgs.cpp:209
 #: ../../../src/catalogui/remoteconndlgs.cpp:439
 msgid "Database:"
 msgstr "БД:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:216
+#: ../../../src/catalogui/createremotedlgs.cpp:219
 #: ../../../src/catalogui/remoteconndlgs.cpp:458
 #: ../../../src/catalogui/remoteconndlgs.cpp:1157
 #: ../../../src/catalogui/remoteconndlgs.cpp:1679
 msgid "Account"
 msgstr "Аутентификационные данные"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:224
+#: ../../../src/catalogui/createremotedlgs.cpp:227
 #: ../../../src/catalogui/remoteconndlgs.cpp:466
 #: ../../../src/catalogui/remoteconndlgs.cpp:1167
 #: ../../../src/catalogui/remoteconndlgs.cpp:1687
 msgid "User:"
 msgstr "Пользователь:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:231
+#: ../../../src/catalogui/createremotedlgs.cpp:234
 #: ../../../src/catalogui/remoteconndlgs.cpp:473
 #: ../../../src/catalogui/remoteconndlgs.cpp:1174
 #: ../../../src/catalogui/remoteconndlgs.cpp:1694
 msgid "Password:"
 msgstr "Пароль:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:242
+#: ../../../src/catalogui/createremotedlgs.cpp:245
 #: ../../../src/catalogui/remoteconndlgs.cpp:484
 msgid "Use binary cursor"
 msgstr "Использовать двоичный курсор"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:245
+#: ../../../src/catalogui/createremotedlgs.cpp:248
 #: ../../../src/catalogui/remoteconndlgs.cpp:487
 #: ../../../src/catalogui/remoteconndlgs.cpp:1184
 #: ../../../src/catalogui/remoteconndlgs.cpp:1738
 msgid "Test Connection"
 msgstr "Проверить подключение"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:252
-#: ../../../src/catalogui/createremotedlgs.cpp:963
+#: ../../../src/catalogui/createremotedlgs.cpp:255
+#: ../../../src/catalogui/createremotedlgs.cpp:1454
 #: ../../../src/catalogui/remoteconndlgs.cpp:86
 #: ../../../src/catalogui/remoteconndlgs.cpp:494
 #: ../../../src/catalogui/remoteconndlgs.cpp:1191
@@ -584,8 +587,9 @@ msgstr "Проверить подключение"
 msgid "OK"
 msgstr "OK"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:254
-#: ../../../src/catalogui/createremotedlgs.cpp:965
+#: ../../../src/catalogui/createremotedlgs.cpp:257
+#: ../../../src/catalogui/createremotedlgs.cpp:345
+#: ../../../src/catalogui/createremotedlgs.cpp:1456
 #: ../../../src/catalogui/gxcontdialog.cpp:160
 #: ../../../src/catalogui/gxobgdialog.cpp:570
 #: ../../../src/catalogui/remoteconndlgs.cpp:88
@@ -595,13 +599,13 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:291
+#: ../../../src/catalogui/createremotedlgs.cpp:294
 #: ../../../src/catalogui/remoteconndlgs.cpp:355
 #: ../../../src/catalogui/remoteconndlgs.cpp:1620
 msgid "Connected successfully!"
 msgstr "Подключение выполнено успешно!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:291
+#: ../../../src/catalogui/createremotedlgs.cpp:294
 #: ../../../src/catalogui/rasterpropertypage.cpp:282
 #: ../../../src/catalogui/remoteconndlgs.cpp:355
 #: ../../../src/catalogui/remoteconndlgs.cpp:1620
@@ -611,7 +615,7 @@ msgstr "Подключение выполнено успешно!"
 msgid "Information"
 msgstr "Информация"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:295
+#: ../../../src/catalogui/createremotedlgs.cpp:298
 #: ../../../src/catalogui/gxmldatasetui.cpp:145
 #: ../../../src/catalogui/gxobgdialog.cpp:689
 #: ../../../src/catalogui/gxssdatasetui.cpp:142
@@ -621,84 +625,135 @@ msgstr "Информация"
 msgid "Open"
 msgstr "Открыть"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:301
+#: ../../../src/catalogui/createremotedlgs.cpp:304
 #: ../../../src/catalogui/remoteconndlgs.cpp:365
 #: ../../../src/catalogui/remoteconndlgs.cpp:971
 #: ../../../src/catalogui/remoteconndlgs.cpp:1634
 msgid "Some input values are not correct!"
 msgstr "Некоторые входные значения некорректны!"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:423
-#: ../../../src/catalogui/createremotedlgs.cpp:559
-#: ../../../src/catalogui/createremotedlgs.cpp:655
-msgid "Input dataset:"
-msgstr "Входной источник данных:"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:436
-#: ../../../src/catalogui/createremotedlgs.cpp:565
-#: ../../../src/catalogui/createremotedlgs.cpp:661
-msgid "Output name:"
-msgstr "Выходное имя:"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:442
-#: ../../../src/catalogui/createremotedlgs.cpp:571
-msgid "Encoding:"
-msgstr "Кодировка:"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:450
-#: ../../../src/catalogui/createremotedlgs.cpp:579
-msgid "Unknown"
-msgstr "Неизвестно"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:453
-#: ../../../src/catalogui/createremotedlgs.cpp:582
-msgid "Mac"
-msgstr "Mac"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:469
-#: ../../../src/catalogui/createremotedlgs.cpp:598
-msgid "Test"
-msgstr "Тест"
-
-#: ../../../src/catalogui/createremotedlgs.cpp:474
-msgid " "
-msgstr " "
-
-#: ../../../src/catalogui/createremotedlgs.cpp:477
+#: ../../../src/catalogui/createremotedlgs.cpp:328
+#: ../../../src/catalogui/createremotedlgs.cpp:968
 msgid "Skip invalid geometry check"
 msgstr "Пропустить проверку валидности геометрий"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:668
-#: ../../../src/catalogui/createremotedlgs.cpp:742
-#: ../../../src/catalogui/createremotedlgs.cpp:813
+#: ../../../src/catalogui/createremotedlgs.cpp:332
+#: ../../../src/catalogui/createremotedlgs.cpp:582
+msgid "Reload"
+msgstr "Заменить"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:333
+msgid "Append"
+msgstr "Дописать"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:398
+msgid "Failed to get source feature dataset"
+msgstr "Не удалось получить источник геоданных"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:476
+#: ../../../src/catalogui/gxngwconnui.cpp:853
+#, c-format
+msgid "Force geometry field to %s"
+msgstr "Преобразование типа геометрии в %s"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:583
+msgid "Form output feature dataset"
+msgstr "Создание выходного слоя геоданных"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:583
+#: ../../../src/catalogui/gxcatalogui.cpp:117
+#: ../../../src/catalogui/gxngwconnui.cpp:475
+#: ../../../src/catalogui/gxngwconnui.cpp:1391
+#: ../../../src/catalogui/gxremoteconnui.cpp:387
+#: ../../../src/catalogui/processing.cpp:648
+#: ../../../src/catalogui/processing.cpp:692
+#: ../../../src/catalogui/processing.cpp:725
+#: ../../../src/catalogui/processing.cpp:758
+#: ../../../src/catalogui/processing.cpp:832
+msgid "Begin operation..."
+msgstr "Начать операцию..."
+
+#: ../../../src/catalogui/createremotedlgs.cpp:608
+#, c-format
+msgid "Remove non exist field %s"
+msgstr "Удаление несуществующего поля %s"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:621
+msgid "Failed to delete all features"
+msgstr "Не удалось удалить все записи"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:646
+#, c-format
+msgid "Failed to project feature # %ld"
+msgstr "Не удалось перепроецировать запись # %ld"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:910
+#: ../../../src/catalogui/createremotedlgs.cpp:1050
+#: ../../../src/catalogui/createremotedlgs.cpp:1146
+msgid "Input dataset:"
+msgstr "Входной источник данных:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:927
+#: ../../../src/catalogui/createremotedlgs.cpp:1056
+#: ../../../src/catalogui/createremotedlgs.cpp:1152
+msgid "Output name:"
+msgstr "Выходное имя:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:933
+#: ../../../src/catalogui/createremotedlgs.cpp:1062
+msgid "Encoding:"
+msgstr "Кодировка:"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:941
+#: ../../../src/catalogui/createremotedlgs.cpp:1070
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:944
+#: ../../../src/catalogui/createremotedlgs.cpp:1073
+msgid "Mac"
+msgstr "Mac"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:960
+#: ../../../src/catalogui/createremotedlgs.cpp:1089
+msgid "Test"
+msgstr "Тест"
+
+#: ../../../src/catalogui/createremotedlgs.cpp:965
+msgid " "
+msgstr " "
+
+#: ../../../src/catalogui/createremotedlgs.cpp:1159
+#: ../../../src/catalogui/createremotedlgs.cpp:1233
+#: ../../../src/catalogui/createremotedlgs.cpp:1304
 msgid "none"
 msgstr "нет"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:702
+#: ../../../src/catalogui/createremotedlgs.cpp:1193
 msgid "Bands:"
 msgstr "Каналы:"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:709
+#: ../../../src/catalogui/createremotedlgs.cpp:1200
 msgid "Red"
 msgstr "Красный"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:719
+#: ../../../src/catalogui/createremotedlgs.cpp:1210
 msgid "Green"
 msgstr "Зеленый"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:729
+#: ../../../src/catalogui/createremotedlgs.cpp:1220
 msgid "Blue"
 msgstr "Синий"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:739
+#: ../../../src/catalogui/createremotedlgs.cpp:1230
 msgid "Alpha (opt.)"
 msgstr "Альфа (опц.)"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:749
+#: ../../../src/catalogui/createremotedlgs.cpp:1240
 msgid "Auto crop"
 msgstr "Автоматическая обрезка"
 
-#: ../../../src/catalogui/createremotedlgs.cpp:876
+#: ../../../src/catalogui/createremotedlgs.cpp:1367
 msgid "Get feature count"
 msgstr "Получение количества записей"
 
@@ -768,27 +823,15 @@ msgstr "Менеджер"
 
 #: ../../../src/catalogui/gxcatalogui.cpp:113
 #: ../../../src/catalogui/gxcatalogui.cpp:150
-#: ../../../src/catalogui/gxngwconnui.cpp:434
+#: ../../../src/catalogui/gxngwconnui.cpp:471
 msgid "Move"
 msgstr "Переместить"
 
 #: ../../../src/catalogui/gxcatalogui.cpp:114
-#: ../../../src/catalogui/gxngwconnui.cpp:435
+#: ../../../src/catalogui/gxngwconnui.cpp:472
 #, c-format
 msgid "%s %ld objects (files)"
 msgstr "%s %ld объектов (файлов)"
-
-#: ../../../src/catalogui/gxcatalogui.cpp:117
-#: ../../../src/catalogui/gxngwconnui.cpp:438
-#: ../../../src/catalogui/gxngwconnui.cpp:1388
-#: ../../../src/catalogui/gxremoteconnui.cpp:387
-#: ../../../src/catalogui/processing.cpp:648
-#: ../../../src/catalogui/processing.cpp:692
-#: ../../../src/catalogui/processing.cpp:725
-#: ../../../src/catalogui/processing.cpp:758
-#: ../../../src/catalogui/processing.cpp:832
-msgid "Begin operation..."
-msgstr "Начать операцию..."
 
 #: ../../../src/catalogui/gxcatalogui.cpp:125
 #, c-format
@@ -797,7 +840,7 @@ msgstr "%s %ld объект (файл) из %ld"
 
 #: ../../../src/catalogui/gxcatalogui.cpp:150
 #: ../../../src/catalogui/gxcatalogui.cpp:168
-#: ../../../src/catalogui/gxngwconnui.cpp:502
+#: ../../../src/catalogui/gxngwconnui.cpp:531
 #, c-format
 msgid "%s failed. Path: %s"
 msgstr "%s не удалось. Путь: %s"
@@ -907,67 +950,67 @@ msgid "Geography View"
 msgstr "Вид географии"
 
 #: ../../../src/catalogui/gxmldatasetui.cpp:145
-#: ../../../src/catalogui/gxngwconnui.cpp:459
+#: ../../../src/catalogui/gxngwconnui.cpp:494
 #: ../../../src/catalogui/gxssdatasetui.cpp:142
 #, c-format
 msgid "Operation '%s' failed!"
 msgstr "Операция '%s' не удалась!"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:199
+#: ../../../src/catalogui/gxngwconnui.cpp:192
 #: ../../../src/catalogui/gxremoteconnui.cpp:118
 #: ../../../src/catalogui/remoteconndlgs.cpp:1629
 msgid "Connect failed!"
 msgstr "Подключение не удалось!"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:211
-#: ../../../src/catalogui/gxngwconnui.cpp:228
+#: ../../../src/catalogui/gxngwconnui.cpp:205
+#: ../../../src/catalogui/gxngwconnui.cpp:229
 msgid "Resources"
 msgstr "Ресурсы"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:448
-#: ../../../src/catalogui/gxngwconnui.cpp:491
-#: ../../../src/catalogui/gxngwconnui.cpp:548
+#: ../../../src/catalogui/gxngwconnui.cpp:483
+#: ../../../src/catalogui/gxngwconnui.cpp:521
+#: ../../../src/catalogui/gxngwconnui.cpp:568
 #, c-format
 msgid "%s %ld object (resource) from %ld"
 msgstr "%s %ld объект (файл) из %ld"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:540
+#: ../../../src/catalogui/gxngwconnui.cpp:562
 msgid "The type PostgisLayer is unsupported"
 msgstr "Тип слоя PostGIS не поддерживается"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:565
+#: ../../../src/catalogui/gxngwconnui.cpp:585
 msgid "Failed to get PostGIS Dataset"
 msgstr "Не удалось получить источник данных PostGIS"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:573
+#: ../../../src/catalogui/gxngwconnui.cpp:592
 msgid "Failed to create PostGIS Layer"
 msgstr "Не удалось создать таблицу PostGIS"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:589
+#: ../../../src/catalogui/gxngwconnui.cpp:606
 msgid "The type FileBucket is unsupported"
 msgstr "Тип набора файлов не поддерживается"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:623
+#: ../../../src/catalogui/gxngwconnui.cpp:631
 msgid "Upload selected items"
 msgstr "Загрузить выбранный(е) элемент(ы)"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:736
+#: ../../../src/catalogui/gxngwconnui.cpp:728
 #, c-format
 msgid "The archived file '%s' cannot be added to file set"
 msgstr "Архив '%s' не может быть добавлен в набор файлов"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:795
+#: ../../../src/catalogui/gxngwconnui.cpp:800
 msgid "Dataset type is not supported. Feature Class expected."
 msgstr ""
 "Тип источника данных не поддерживается. Ожидается класс пространственных "
 "объектов"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:805
-#: ../../../src/catalogui/gxngwconnui.cpp:1129
+#: ../../../src/catalogui/gxngwconnui.cpp:808
+#: ../../../src/catalogui/gxngwconnui.cpp:1158
 msgid "cURL initialize failed."
 msgstr "Ошибка инициализации cURL."
 
-#: ../../../src/catalogui/gxngwconnui.cpp:813
+#: ../../../src/catalogui/gxngwconnui.cpp:815
 msgid "Prepare feature class"
 msgstr "Подготовка векторного слоя"
 
@@ -975,85 +1018,81 @@ msgstr "Подготовка векторного слоя"
 msgid "Input spatial reference is not defined!"
 msgstr "Входная система координат не определена"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:831
+#: ../../../src/catalogui/gxngwconnui.cpp:829
 msgid "Error read dataset definition"
 msgstr "Ошибка чтения описания данных"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:846
+#: ../../../src/catalogui/gxngwconnui.cpp:842
 msgid "Geometry collection is not supported!"
 msgstr "Коллекция геометрий не поддерживается"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:858
-#, c-format
-msgid "Force geometry field to %s"
-msgstr "Преобразование типа геометрии в %s"
-
-#: ../../../src/catalogui/gxngwconnui.cpp:892
+#: ../../../src/catalogui/gxngwconnui.cpp:886
 #, c-format
 msgid "Rename field '%s' to '%s'"
 msgstr "Переименование поля '%s' в '%s'"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:912
-#: ../../../src/catalogui/gxngwconnui.cpp:1226
+#: ../../../src/catalogui/gxngwconnui.cpp:906
+#: ../../../src/catalogui/gxngwconnui.cpp:1250
 msgid "Upload file"
 msgstr "Загрузка файла"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:930
-#: ../../../src/catalogui/gxngwconnui.cpp:970
-#: ../../../src/catalogui/gxngwconnui.cpp:992
-#: ../../../src/catalogui/gxngwconnui.cpp:1243
-#: ../../../src/catalogui/gxngwconnui.cpp:1278
-#: ../../../src/catalogui/gxngwconnui.cpp:1305
+#: ../../../src/catalogui/gxngwconnui.cpp:923
+#: ../../../src/catalogui/gxngwconnui.cpp:961
+#: ../../../src/catalogui/gxngwconnui.cpp:988
+#: ../../../src/catalogui/gxngwconnui.cpp:1265
+#: ../../../src/catalogui/gxngwconnui.cpp:1296
+#: ../../../src/catalogui/gxngwconnui.cpp:1322
 msgid "Unexpected error"
 msgstr "Неожиданная ошибка"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:939
-#: ../../../src/catalogui/gxngwconnui.cpp:1251
+#: ../../../src/catalogui/gxngwconnui.cpp:932
+#: ../../../src/catalogui/gxngwconnui.cpp:1271
 msgid "Create NGW layer"
 msgstr "Создать слой NGW"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:985
-#: ../../../src/catalogui/gxngwconnui.cpp:1298
+#: ../../../src/catalogui/gxngwconnui.cpp:982
+#: ../../../src/catalogui/gxngwconnui.cpp:1316
 #, c-format
 msgid "Error code %ld"
 msgstr "Код ошибки %ld"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1009
-#: ../../../src/catalogui/gxngwconnui.cpp:1322
+#: ../../../src/catalogui/gxngwconnui.cpp:1002
+#: ../../../src/catalogui/gxngwconnui.cpp:1336
 msgid "Geoprocessing requered to get this functionality."
 msgstr "Необходим модуль геопроцессинга для данной функциональности"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1069
+#: ../../../src/catalogui/gxngwconnui.cpp:1093
 #, c-format
 msgid "Zip file '%s' create failed!"
 msgstr "Не удалось создать архив Zip '%s'!"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1080
+#: ../../../src/catalogui/gxngwconnui.cpp:1105
 msgid "Compress file"
 msgstr "Сжатие файла"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1119
+#: ../../../src/catalogui/gxngwconnui.cpp:1150
 msgid "Dataset type is not supported. Raster expected."
 msgstr "Тип источника данных не поддерживается. Ожидается изображение"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1137
+#: ../../../src/catalogui/gxngwconnui.cpp:1165
 msgid "Prepare GeoTiff file"
 msgstr "Подготовка файла GeoTiff"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1285
+#: ../../../src/catalogui/gxngwconnui.cpp:1302
 msgid "Create default layer style"
 msgstr "Создание стиля по-умолчанию"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1337
+#: ../../../src/catalogui/gxngwconnui.cpp:1351
+#: ../../../src/catalogui/gxngwconnui.cpp:1487
 msgid "Select input objects"
 msgstr "Выбрать входные объекты"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1388
+#: ../../../src/catalogui/gxngwconnui.cpp:1391
 #: ../../../src/catalogui/gxremoteconnui.cpp:387
 msgid "Import selected items"
 msgstr "Импортировать выбранный(е) элемент(ы)"
 
-#: ../../../src/catalogui/gxngwconnui.cpp:1530
+#: ../../../src/catalogui/gxngwconnui.cpp:1604
 msgid "NGW PostGIS Connection"
 msgstr "Подключение к PostGIS в NGW"
 
@@ -2121,7 +2160,11 @@ msgstr "Подробности"
 msgid "Create new Remote Database"
 msgstr "Создать новую БД"
 
-#: ../../../include/wxgis/catalogui/createremotedlgs.h:131
+#: ../../../include/wxgis/catalogui/createremotedlgs.h:87
+msgid "Reload spatial data"
+msgstr "Перегрузить геоданные"
+
+#: ../../../include/wxgis/catalogui/createremotedlgs.h:175
 msgid "Configure import datasets"
 msgstr "Конфигурирование входных источников данных"
 

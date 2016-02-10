@@ -790,6 +790,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxGISNetworkPropertyPage, IPropertyPage)
 
 BEGIN_EVENT_TABLE(wxGISNetworkPropertyPage, wxPanel)
     EVT_BUTTON(ID_OPENCACHEPATH, wxGISNetworkPropertyPage::OnOpenCachePath)
+    EVT_CHECKBOX(ID_M_USEPROXYCHECK, wxGISNetworkPropertyPage::OnUseProxyCheck)
 END_EVENT_TABLE()
 
 wxGISNetworkPropertyPage::wxGISNetworkPropertyPage(void)
@@ -825,6 +826,8 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
         m_sProxyAddress = wxEmptyString;
         m_nProxyPort = 0;
     }
+
+    m_bUseProxy = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), false);
     
     m_bSSLVerify = oConfig.ReadBool(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), true);
     m_nTimeout = oConfig.ReadInt(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), 1000);
@@ -886,11 +889,17 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     bMainSizer->Add(m_sslVerifyCheck, 0, wxALL | wxEXPAND, 5);
 
     wxStaticBoxSizer* sbSizer1;
-    sbSizer1 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Proxy")), wxHORIZONTAL);
+    sbSizer1 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Proxy")), wxVERTICAL);
+
+    m_pUseProxyCheck = new wxCheckBox(this, ID_M_USEPROXYCHECK, _("Use proxy"), wxDefaultPosition, wxDefaultSize, 0);
+    m_pUseProxyCheck->SetValidator(wxGenericValidator(&m_bUseProxy));
+    sbSizer1->Add(m_pUseProxyCheck, 0, wxALL | wxEXPAND, 5);
+
+    wxBoxSizer* bProxySizer = new wxBoxSizer(wxHORIZONTAL);
 
     m_staticText4 = new wxStaticText(this, wxID_ANY, _("Address"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText4->Wrap(-1);
-    sbSizer1->Add(m_staticText4, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+    bProxySizer->Add(m_staticText4, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
     wxString ipAddressFilter[11] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "." }; // authorized characters for IP Address
     wxArrayString arraystrIPAddress(11, ipAddressFilter);
@@ -901,11 +910,11 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     m_ProxyAddress = new wxTextCtrl(this, ID_M_PROXYADDRESS, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
     m_ProxyAddress->SetValidator(txtvldIPAddress);
 
-    sbSizer1->Add(m_ProxyAddress, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+    bProxySizer->Add(m_ProxyAddress, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
     m_staticText5 = new wxStaticText(this, wxID_ANY, _("port"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText5->Wrap(-1);
-    sbSizer1->Add(m_staticText5, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+    bProxySizer->Add(m_staticText5, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
     m_port = new wxTextCtrl(this, ID_M_PORT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
     wxIntegerValidator<int> vldPort = wxMakeIntegerValidator(&m_nProxyPort);
@@ -913,9 +922,22 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     vldPort.SetMax(65535);
     m_port->SetValidator(vldPort);
 
-    sbSizer1->Add(m_port, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+    bProxySizer->Add(m_port, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+
+    sbSizer1->Add(bProxySizer, 0, wxEXPAND, 5);
 
     bMainSizer->Add(sbSizer1, 0, wxEXPAND, 5);
+
+    if (m_bUseProxy)
+    {
+        m_ProxyAddress->Enable(true);
+        m_port->Enable(true);
+    }
+    else
+    {
+        m_ProxyAddress->Enable(false);
+        m_port->Enable(false);
+    }
 
     wxStaticBoxSizer* sbSizer2;
     sbSizer2 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("WMS")), wxVERTICAL);
@@ -990,8 +1012,24 @@ bool wxGISNetworkPropertyPage::Create(wxGISApplicationBase* application, wxWindo
     return true;
 }
 
+void wxGISNetworkPropertyPage::OnUseProxyCheck(wxCommandEvent& event)
+{
+    if (m_pUseProxyCheck->GetValue())
+    {
+        m_ProxyAddress->Enable(true);
+        m_port->Enable(true);
+    }
+    else
+    {
+        m_ProxyAddress->Enable(false);
+        m_port->Enable(false);
+    }
+}
+
 void wxGISNetworkPropertyPage::Apply(void)
 {
+    if (m_port->GetValue().IsEmpty())
+        m_port->SetValue(wxT("0"));
     if ( Validate() && TransferDataFromWindow() )
     {
         wxGISAppConfig oConfig = GetConfig();
@@ -1002,6 +1040,8 @@ void wxGISNetworkPropertyPage::Apply(void)
             oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxString::Format(wxT("%s:%d"), m_sProxyAddress.c_str(), m_nProxyPort));
         else
             oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/proxy"), wxString(wxT("")));
+
+        oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/proxy/use"), m_bUseProxy);
         oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/ssl_verify"), m_bSSLVerify);
         oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/timeout"), m_nTimeout);
         oConfig.Write(enumGISHKCU, wxT("wxGISCommon/curl/connect_timeout"), m_nConnectTimeout);
