@@ -22,6 +22,7 @@
 #include "wxgis/catalogui/gxobjdialog.h"
 #include "wxgis/catalog/gxdataset.h"
 #include "wxgis/datasource/table.h"
+#include "wxgis/datasource/featuredataset.h"
 #include "wxgis/framework/dataobject.h"
 #include "wxgis/catalogui/droptarget.h"
 #include "wxgis/catalogui/gxcontdialog.h"
@@ -1305,9 +1306,17 @@ void wxGISDTSpatRef::OnOpen(wxCommandEvent& event)
     if(dlg.ShowModalOpen() == wxID_OK)
     {
 		wxString sPath = dlg.GetFullName();
-
-		m_pParam->SetAltered(true);
-		m_pParam->SetValue(wxVariant(sPath, wxT("path")));        
+        wxGxCatalogBase* pCatalog = GetGxCatalog();
+        wxGxObject* pGxObj = pCatalog->FindGxObject(sPath);
+        wxGxPrjFileUI* pGxPrjFileUI = wxDynamicCast(pGxObj, wxGxPrjFileUI);
+        if (pGxPrjFileUI)
+        {
+            wxGISSpatialReference SpaRef = pGxPrjFileUI->GetSpatialReference();
+            wxString sDescription = SpaRef.ExportAsWKT();
+            m_pParam->SetAltered(true);
+            m_pParam->SetValue(wxVariant(sDescription, wxT("text")));
+        
+        }
     }
 }
 
@@ -1318,8 +1327,8 @@ bool wxGISDTSpatRef::Validate(void)
 		return m_pParam->IsValid();
 
 	m_pParam->SetHasBeenValidated(true);
-    wxString sPath = m_pParam->GetValue();
-    if(sPath.IsEmpty())
+    wxString sDescription = m_pParam->GetValue();
+    if (sDescription.IsEmpty())
     {
         m_pParam->SetAltered(false);
         if(m_pParam->GetParameterType() != enumGISGPParameterTypeRequired)
@@ -1336,24 +1345,18 @@ bool wxGISDTSpatRef::Validate(void)
         }
     }
 
-    wxGxCatalogBase* pCatalog = GetGxCatalog();
-    if(pCatalog)
+    wxGISSpatialReference oSpaRef(sDescription);
+    if (oSpaRef.IsOk())
+    {        
+        m_pParam->SetValid(true);
+        m_pParam->SetMessage(enumGISMessageOk);
+        return true;
+    }
+    else
     {
-        wxGxObject* pGxObj = pCatalog->FindGxObject(sPath);
-        wxGxPrjFileUI* pGxPrjFileUI = dynamic_cast<wxGxPrjFileUI*>(pGxObj);
-
-        if(pGxPrjFileUI)
-        {
-            m_pParam->SetValid(true);
-            m_pParam->SetMessage(enumGISMessageOk);
-            return true;
-        }
-        else
-        {
-            m_pParam->SetValid(false);
-            m_pParam->SetMessage(enumGISMessageError, _("Unsupported Spatial reference"));
-            return false;
-        }
+        m_pParam->SetValid(false);
+        m_pParam->SetMessage(enumGISMessageError, _("Unsupported Spatial reference"));
+        return false;
     }
     return true;
 }
@@ -1362,18 +1365,38 @@ void wxGISDTSpatRef::OnParamChanged(wxGISGPParamEvent& event)
 {
     if(event.GetId() == m_nParamIndex)
     {
-		wxGxCatalogBase* pCatalog = GetGxCatalog();
-		if(pCatalog)
-		{
-			wxGxObject* pGxObj = pCatalog->FindGxObject(event.GetParamValue());
-			wxGxPrjFileUI* pGxPrjFileUI = wxDynamicCast(pGxObj, wxGxPrjFileUI);
-		    if(pGxPrjFileUI)
-			{
-				wxGISSpatialReference SpaRef = pGxPrjFileUI->GetSpatialReference();
-				m_PathTextCtrl->ChangeValue( SpaRef.GetName() );
-			}
+        wxGISSpatialReference oSpaRef(event.GetParamValue());
+        if (oSpaRef.IsOk())
+        {
+			m_PathTextCtrl->ChangeValue( oSpaRef.GetName() );
 		}
         Validate();
+    }
+    else
+    {
+        //load srs from vector file
+        wxGISGPParameter* pParam = m_Params[event.GetId()];
+		
+		if(m_pParam->GetDependences().Index(pParam->GetName()) != wxNOT_FOUND)
+		{			
+			wxString sPath = pParam->GetValue();
+			wxGxCatalogBase* pCatalog = GetGxCatalog();
+			wxGxObject* pObj = pCatalog->FindGxObject(sPath);
+			wxGxDataset* pGxDSet = wxDynamicCast(pObj, wxGxDataset);
+			if(pGxDSet)
+			{
+                wxGISFeatureDataset* pDSet = wxDynamicCast(pGxDSet->GetDataset(false), wxGISFeatureDataset);
+				wxGISPointerHolder holder(pDSet);
+				if(pDSet)
+				{
+                    wxGISSpatialReference oSpaRef = pDSet->GetSpatialReference();
+                    if (oSpaRef.IsOk())
+                    {
+                        m_PathTextCtrl->ChangeValue(oSpaRef.GetName());
+                    }
+				}
+			}
+		}
     }
 }
 
@@ -1388,8 +1411,11 @@ bool wxGISDTSpatRef::OnDropObjects(wxCoord x, wxCoord y, const wxArrayString& Gx
 			wxGxPrjFileUI* pGxPrjFileUI = wxDynamicCast(pGxObj, wxGxPrjFileUI);
 		    if(pGxPrjFileUI)
 			{
-				wxGISSpatialReference SpaRef = pGxPrjFileUI->GetSpatialReference();
-				m_PathTextCtrl->ChangeValue( SpaRef.GetName() );
+				wxGISSpatialReference oSpaRef = pGxPrjFileUI->GetSpatialReference();
+				m_PathTextCtrl->ChangeValue( oSpaRef.GetName() );
+                wxString sDescription = oSpaRef.ExportAsWKT();
+                m_pParam->SetAltered(true);
+                m_pParam->SetValue(wxVariant(sDescription, wxT("text")));
 			}
 		}
     }
